@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: ankane/pgvector:v0.5.1-pg15  # pgvector가 포함된 이미지로 변경
+    environment:
+      POSTGRES_DB: sayu_db
+      POSTGRES_USER: sayu_user
+      POSTGRES_PASSWORD: your_secure_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:
