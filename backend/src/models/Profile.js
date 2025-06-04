@@ -1,5 +1,6 @@
 const { pool } = require('../config/database');
 const { v4: uuidv4 } = require('uuid');
+const CacheService = require('../services/cacheService');
 
 class ProfileModel {
   async create(profileData) {
@@ -54,13 +55,97 @@ class ProfileModel {
     ];
     
     const result = await pool.query(query, values);
-    return result.rows[0];
+    const profile = result.rows[0];
+    
+    // Cache the new profile and warm related caches
+    if (profile) {
+      await CacheService.setUserProfile(userId, profile, 7200); // 2 hours
+      await CacheService.warmUserCache(userId, profile);
+    }
+    
+    return profile;
   }
 
   async findByUserId(userId) {
+    // Try to get from cache first
+    const cached = await CacheService.getUserProfile(userId);
+    if (cached) {
+      return cached;
+    }
+    
+    // If not in cache, fetch from database
     const query = 'SELECT * FROM user_profiles WHERE user_id = $1 ORDER BY created_at DESC LIMIT 1';
     const result = await pool.query(query, [userId]);
+    const profile = result.rows[0];
+    
+    // Cache the result if found
+    if (profile) {
+      await CacheService.setUserProfile(userId, profile, 3600); // 1 hour
+    }
+    
+    return profile;
+  }
+
+  async updateProfile(userId, updates) {
+    // First get the current profile
+    const currentProfile = await this.findByUserId(userId);
+    if (!currentProfile) {
+      throw new Error('Profile not found');
+    }
+
+    // Build update query dynamically
+    const updateFields = [];
+    const values = [userId];
+    let paramIndex = 2;
+
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value !== undefined) {
+        const dbField = this.camelToSnake(key);
+        updateFields.push(`${dbField} = $${paramIndex}`);
+        values.push(typeof value === 'object' ? JSON.stringify(value) : value);
+        paramIndex++;
+      }
+    });
+
+    if (updateFields.length === 0) {
+      return currentProfile;
+    }
+
+    const query = `
+      UPDATE user_profiles 
+      SET ${updateFields.join(', ')}
+      WHERE user_id = $1
+      RETURNING *
+    `;
+
+    const result = await pool.query(query, values);
+    const updatedProfile = result.rows[0];
+
+    // Update cache
+    if (updatedProfile) {
+      await CacheService.setUserProfile(userId, updatedProfile, 3600);
+      // Clear related caches that might be affected
+      await CacheService.clearPattern(`recommendations:${userId}:*`);
+      await CacheService.clearPattern(`daily:${userId}:*`);
+    }
+
+    return updatedProfile;
+  }
+
+  async deleteProfile(userId) {
+    const query = 'DELETE FROM user_profiles WHERE user_id = $1 RETURNING *';
+    const result = await pool.query(query, [userId]);
+    
+    // Clear all related caches
+    await CacheService.invalidateUserProfile(userId);
+    await CacheService.clearPattern(`*:${userId}:*`);
+    
     return result.rows[0];
+  }
+
+  // Helper method to convert camelCase to snake_case
+  camelToSnake(str) {
+    return str.replace(/([A-Z])/g, '_$1').toLowerCase();
   }
 }
 

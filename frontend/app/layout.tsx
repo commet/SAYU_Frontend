@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import '../globals-personalized.css'
 import { AuthProvider } from '@/hooks/useAuth'
+import { ThemeProvider } from '@/hooks/usePersonalizedTheme'
 import { Toaster } from 'react-hot-toast'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -20,19 +22,31 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          {children}
-          <Toaster 
-            position="bottom-center"
-            toastOptions={{
-              style: {
-                background: '#1a1a1a',
-                color: '#fff',
-                borderRadius: '8px',
-              },
-            }}
-          />
+          <ThemeProvider>
+            {children}
+            <PersonalizedToaster />
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>
   )
+}
+
+// Personalized toaster that adapts to user theme
+function PersonalizedToaster() {
+  return (
+    <Toaster 
+      position="bottom-center"
+      toastOptions={{
+        style: {
+          background: 'var(--color-surface)',
+          color: 'var(--color-text)',
+          borderRadius: 'var(--layout-borderRadius)',
+          border: '1px solid var(--color-border)',
+          boxShadow: 'var(--layout-shadows)',
+        },
+        duration: 4000,
+      }}
+    />
+  );
 }

@@ -32,10 +32,19 @@ BAL_MIX  - Balanced Mixed          (material_detail + calm_mood)
 ### Step 1: Get AI Generation Prompts
 
 **Endpoint**: `GET /api/image-generation/batch-prompts`
-**Headers**: `x-admin-key: your-admin-key`
+**Headers**: `Authorization: Bearer <admin-jwt-token>`
 
 ```bash
-curl -H "x-admin-key: your-admin-key" \
+# First, create an admin user
+node src/scripts/createAdmin.js admin@sayu.com your-secure-password
+
+# Login to get admin token
+curl -X POST http://localhost:3001/api/auth/login \
+     -H "Content-Type: application/json" \
+     -d '{"email":"admin@sayu.com","password":"your-secure-password"}'
+
+# Use the token to access admin endpoints
+curl -H "Authorization: Bearer <your-admin-token>" \
      http://localhost:3001/api/image-generation/batch-prompts
 ```
 

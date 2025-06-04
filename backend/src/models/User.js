@@ -10,7 +10,8 @@ class UserModel {
       nickname,
       age,
       location,
-      personalManifesto
+      personalManifesto,
+      role = 'user'
     } = userData;
     
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -19,9 +20,9 @@ class UserModel {
     const query = `
       INSERT INTO users (
         id, email, password_hash, nickname, age, location,
-        personal_manifesto, agency_level, aesthetic_journey_stage
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-      RETURNING id, email, nickname, agency_level, created_at
+        personal_manifesto, agency_level, aesthetic_journey_stage, role
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      RETURNING id, email, nickname, agency_level, role, created_at
     `;
     
     const values = [
@@ -33,7 +34,8 @@ class UserModel {
       location ? JSON.stringify(location) : null,
       personalManifesto,
       'explorer',
-      'discovering'
+      'discovering',
+      role
     ];
     
     const result = await pool.query(query, values);
@@ -54,6 +56,15 @@ class UserModel {
       WHERE u.id = $1
     `;
     const result = await pool.query(query, [id]);
+    return result.rows[0];
+  }
+
+  async updateRole(userId, role) {
+    const query = `
+      UPDATE users SET role = $2 WHERE id = $1
+      RETURNING id, email, role
+    `;
+    const result = await pool.query(query, [userId, role]);
     return result.rows[0];
   }
 }

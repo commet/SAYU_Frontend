@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { useAchievements } from '@/hooks/useAchievements';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 
 export default function ArtworkQuizPage() {
   const router = useRouter();
+  const { trackQuizCompleted } = useAchievements();
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState<any>(null);
   const [progress, setProgress] = useState(0);
@@ -78,7 +80,9 @@ export default function ArtworkQuizPage() {
         setCurrentQuestion(data.question);
         setQuestionNumber(data.currentQuestion);
       } else if (data.complete) {
-        // Quiz complete
+        // Quiz complete - track achievement
+        trackQuizCompleted();
+        
         if (data.profileGenerated) {
           toast.success('Profile generated!');
           router.push('/profile');

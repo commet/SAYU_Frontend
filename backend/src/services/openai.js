@@ -1,11 +1,29 @@
 const { OpenAI } = require('openai');
+const CacheService = require('./cacheService');
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
 class AIService {
+  // Model selection based on task complexity
+  getModel(taskType) {
+    const modelMap = {
+      'quiz-analysis': 'gpt-4-turbo-preview',  // Complex psychological analysis
+      'curator-chat': 'gpt-3.5-turbo',         // Simple conversation
+      'artwork-description': 'gpt-3.5-turbo',  // Basic descriptions
+      'recommendation': 'gpt-3.5-turbo',       // Simple recommendations
+      'reflection': 'gpt-3.5-turbo'            // Simple reflections
+    };
+    return modelMap[taskType] || 'gpt-3.5-turbo';
+  }
   async analyzeQuizResponses(responses) {
+    // Check cache first
+    const cached = await CacheService.getQuizAnalysis(responses);
+    if (cached) {
+      return cached.analysis;
+    }
+
     const prompt = `
     Analyze these art preference responses to create a comprehensive psychological and philosophical profile.
     
@@ -29,7 +47,7 @@ class AIService {
     
     try {
       const completion = await openai.chat.completions.create({
-        model: "gpt-4-turbo-preview",
+        model: this.getModel('quiz-analysis'),
         messages: [
           {
             role: "system",
@@ -41,11 +59,16 @@ class AIService {
         response_format: { type: "json_object" }
       });
       
-      return JSON.parse(completion.choices[0].message.content);
+      const analysis = JSON.parse(completion.choices[0].message.content);
+      
+      // Cache the result for 1 hour (quiz responses are deterministic)
+      await CacheService.setQuizAnalysis(responses, analysis, 3600);
+      
+      return analysis;
     } catch (error) {
       console.error('AI analysis error:', error);
       // Return mock data for testing without OpenAI
-      return {
+      const mockAnalysis = {
         typeCode: "GAEF",
         archetypeName: "Contemplative Explorer",
         description: "You seek deep meaning in solitary art experiences",
@@ -60,6 +83,10 @@ class AIService {
           depth: "deep"
         }
       };
+      
+      // Cache mock data too
+      await CacheService.setQuizAnalysis(responses, mockAnalysis, 1800);
+      return mockAnalysis;
     }
   }
 
@@ -112,6 +139,13 @@ class AIService {
   }
 
   async curatorChat(userId, message, context) {
+    // Check cache for similar conversations
+    const cacheKey = { userId, message: message.toLowerCase().trim(), profile: context.profile?.typeCode };
+    const cached = await CacheService.getAIResponse(message, cacheKey);
+    if (cached) {
+      return cached.response;
+    }
+
     const systemPrompt = `
     You are SAYU's personal art curator - warm, insightful, and deeply attuned to emotional connections with art.
     
@@ -126,16 +160,16 @@ class AIService {
     
     try {
       const completion = await openai.chat.completions.create({
-        model: "gpt-4-turbo-preview",
+        model: this.getModel('curator-chat'),
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: message }
         ],
         temperature: 0.85,
-        max_tokens: 500
+        max_tokens: 400  // Reduced for cost savings
       });
       
-      return {
+      const response = {
         text: completion.choices[0].message.content,
         suggestions: [
           "Tell me more about what draws you to this",
@@ -143,12 +177,21 @@ class AIService {
           "How does this connect to my journey?"
         ]
       };
+
+      // Cache for 30 minutes (conversations can be reused for similar queries)
+      await CacheService.setAIResponse(message, cacheKey, response, 1800);
+      
+      return response;
     } catch (error) {
       console.error('Curator chat error:', error);
-      return {
+      const fallbackResponse = {
         text: "I'd love to explore art with you. What kind of emotions or experiences are you hoping to discover through art today?",
         suggestions: ["Tell me about your mood", "Show me calming artworks", "What is my art personality?"]
       };
+
+      // Cache fallback too
+      await CacheService.setAIResponse(message, cacheKey, fallbackResponse, 900);
+      return fallbackResponse;
     }
   }
 }

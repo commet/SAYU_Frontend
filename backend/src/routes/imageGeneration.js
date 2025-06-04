@@ -1,18 +1,8 @@
 const router = require('express').Router();
 const ProfileImageMappingService = require('../services/profileImageMapping');
-const authMiddleware = require('../middleware/auth');
+const { adminMiddleware } = require('../middleware/auth');
 const fs = require('fs').promises;
 const path = require('path');
-
-// Admin-only middleware (you might want to add proper admin authentication)
-const adminMiddleware = (req, res, next) => {
-  // For now, just checking for a specific header
-  // In production, implement proper admin authentication
-  if (req.headers['x-admin-key'] !== process.env.ADMIN_KEY) {
-    return res.status(403).json({ error: 'Admin access required' });
-  }
-  next();
-};
 
 // Get all 128 profile combinations
 router.get('/combinations', adminMiddleware, (req, res) => {

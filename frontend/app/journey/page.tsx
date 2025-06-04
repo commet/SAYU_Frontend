@@ -3,13 +3,28 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import { usePersonalizedTheme } from '@/hooks/usePersonalizedTheme';
+import { useAchievements } from '@/hooks/useAchievements';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Palette, Heart, TrendingUp } from 'lucide-react';
+import { ThemeIndicator } from '@/components/ui/theme-showcase';
+import { 
+  PersonalizedCard,
+  PersonalizedButton,
+  PersonalizedContainer,
+  PersonalizedHeader,
+  PersonalizedGrid,
+  PersonalizedLoading
+} from '@/components/ui/personalized-components';
+import { Sparkles, Palette, Heart, TrendingUp, Eye, MessageCircle, Calendar, BarChart3, Archive } from 'lucide-react';
+import { DailyRecommendationCard } from '@/components/ui/daily-recommendation';
+import { WeeklyInsightsCard } from '@/components/ui/weekly-insights';
 
 export default function JourneyPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
+  const { theme, isLoading: themeLoading } = usePersonalizedTheme();
+  const { trackDailyLogin, trackExplorationDay } = useAchievements();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -17,180 +32,282 @@ export default function JourneyPage() {
     }
   }, [user, loading, router]);
 
-  if (loading || !user) {
+  // Track daily login and exploration
+  useEffect(() => {
+    if (user) {
+      trackDailyLogin();
+      trackExplorationDay();
+    }
+  }, [user, trackDailyLogin, trackExplorationDay]);
+
+  if (loading || !user || themeLoading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-white">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center">
+        <PersonalizedLoading text="Preparing your personalized journey..." />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black">
+    <div 
+      className="min-h-screen theme-animated-element"
+      style={{ backgroundColor: theme?.colors.background }}
+    >
       {/* Header */}
-      <header className="p-6 border-b border-gray-800">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-white">Your Aesthetic Journey</h1>
-          <div className="flex items-center gap-4">
-            <span className="text-gray-400">Welcome, {user.nickname}</span>
-            <Button
-              variant="ghost"
-              onClick={() => router.push('/profile')}
-              className="text-white hover:text-purple-400"
-            >
-              View Profile
-            </Button>
+      <header 
+        className="p-6 border-b backdrop-blur-sm"
+        style={{ 
+          backgroundColor: `${theme?.colors.surface}ee`,
+          borderColor: theme?.colors.border
+        }}
+      >
+        <PersonalizedContainer>
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              <ThemeIndicator />
+              <h1 
+                className="text-2xl font-bold"
+                style={{ color: theme?.colors.text }}
+              >
+                Your Aesthetic Journey
+              </h1>
+            </div>
+            <div className="flex items-center gap-4">
+              <span style={{ color: theme?.colors.textSecondary }}>
+                Welcome, {user.nickname}
+              </span>
+              <PersonalizedButton 
+                variant="ghost"
+                onClick={() => router.push('/profile')}
+              >
+                View Profile
+              </PersonalizedButton>
+            </div>
           </div>
-        </div>
+        </PersonalizedContainer>
       </header>
 
       {/* Main Content */}
-      <main className="p-6 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <main className="p-6">
+        <PersonalizedContainer>
+          {/* Hero Section */}
+          <PersonalizedHeader 
+            title="Your Aesthetic Journey"
+            subtitle={`Welcome back, ${user.nickname}! Continue exploring your unique aesthetic personality.`}
+            gradient={true}
+          />
+
           {/* Stats Cards */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gray-900/50 backdrop-blur-lg rounded-2xl p-6 border border-gray-800"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <Sparkles className="w-8 h-8 text-purple-400" />
-              <span className="text-2xl font-bold text-white">
-                {user.typeCode || 'N/A'}
-              </span>
-            </div>
-            <h3 className="text-gray-400">Type Code</h3>
-          </motion.div>
+          <PersonalizedGrid columns={4} gap="md" className="mb-12">
+            <PersonalizedCard>
+              <div className="flex items-center justify-between mb-4">
+                <Sparkles 
+                  className="w-8 h-8" 
+                  style={{ color: theme?.colors.accent }}
+                />
+                <span 
+                  className="text-2xl font-bold"
+                  style={{ color: theme?.colors.text }}
+                >
+                  {user.typeCode || 'N/A'}
+                </span>
+              </div>
+              <h3 style={{ color: theme?.colors.textSecondary }}>Type Code</h3>
+            </PersonalizedCard>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-gray-900/50 backdrop-blur-lg rounded-2xl p-6 border border-gray-800"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <Palette className="w-8 h-8 text-pink-400" />
-              <span className="text-2xl font-bold text-white capitalize">
-                {user.agencyLevel}
-              </span>
-            </div>
-            <h3 className="text-gray-400">Agency Level</h3>
-          </motion.div>
+            <PersonalizedCard>
+              <div className="flex items-center justify-between mb-4">
+                <Palette 
+                  className="w-8 h-8" 
+                  style={{ color: theme?.colors.secondary }}
+                />
+                <span 
+                  className="text-2xl font-bold capitalize"
+                  style={{ color: theme?.colors.text }}
+                >
+                  {user.agencyLevel || 'Explorer'}
+                </span>
+              </div>
+              <h3 style={{ color: theme?.colors.textSecondary }}>Agency Level</h3>
+            </PersonalizedCard>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-gray-900/50 backdrop-blur-lg rounded-2xl p-6 border border-gray-800"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <Heart className="w-8 h-8 text-red-400" />
-              <span className="text-2xl font-bold text-white capitalize">
-                {user.journeyStage}
-              </span>
-            </div>
-            <h3 className="text-gray-400">Journey Stage</h3>
-          </motion.div>
+            <PersonalizedCard>
+              <div className="flex items-center justify-between mb-4">
+                <Heart 
+                  className="w-8 h-8" 
+                  style={{ color: theme?.colors.primary }}
+                />
+                <span 
+                  className="text-2xl font-bold capitalize"
+                  style={{ color: theme?.colors.text }}
+                >
+                  {user.journeyStage || 'Beginning'}
+                </span>
+              </div>
+              <h3 style={{ color: theme?.colors.textSecondary }}>Journey Stage</h3>
+            </PersonalizedCard>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-gray-900/50 backdrop-blur-lg rounded-2xl p-6 border border-gray-800"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <TrendingUp className="w-8 h-8 text-blue-400" />
-              <span className="text-2xl font-bold text-white">
-                {user.hasProfile ? 'Complete' : 'In Progress'}
-              </span>
-            </div>
-            <h3 className="text-gray-400">Profile Status</h3>
-          </motion.div>
-        </div>
+            <PersonalizedCard>
+              <div className="flex items-center justify-between mb-4">
+                <TrendingUp 
+                  className="w-8 h-8" 
+                  style={{ color: theme?.colors.accent }}
+                />
+                <span 
+                  className="text-2xl font-bold"
+                  style={{ color: theme?.colors.text }}
+                >
+                  {user.hasProfile ? 'Complete' : 'In Progress'}
+                </span>
+              </div>
+              <h3 style={{ color: theme?.colors.textSecondary }}>Profile Status</h3>
+            </PersonalizedCard>
+          </PersonalizedGrid>
 
-        {/* Action Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {!user.hasProfile && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 rounded-3xl p-8 border border-purple-500/20"
-            >
-              <h2 className="text-2xl font-bold text-white mb-4">
-                Complete Your Profile
-              </h2>
-              <p className="text-gray-300 mb-6">
-                Discover your unique aesthetic personality through our guided quiz experience.
-              </p>
-              <Button
-                onClick={() => router.push('/quiz')}
-                className="bg-white text-black hover:bg-gray-200"
-              >
-                Start Quiz
-              </Button>
-            </motion.div>
-          )}
+          {/* Daily Recommendation & Weekly Insights */}
+          <PersonalizedGrid columns={2} gap="lg" className="mb-8">
+            <DailyRecommendationCard />
+            <WeeklyInsightsCard />
+          </PersonalizedGrid>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
-            className="bg-gradient-to-br from-blue-900/50 to-cyan-900/50 rounded-3xl p-8 border border-blue-500/20"
-          >
-            <h2 className="text-2xl font-bold text-white mb-4">
-              Explore Gallery
-            </h2>
-            <p className="text-gray-300 mb-6">
-              Browse curated artworks matched to your aesthetic preferences.
-            </p>
-            <Button
-              onClick={() => router.push('/gallery')}
-              className="bg-white text-black hover:bg-gray-200"
-            >
-              View Gallery
-            </Button>
-          </motion.div>
+          {/* Action Cards */}
+          <PersonalizedGrid columns={2} gap="md">
+            {!user.hasProfile && (
+              <PersonalizedCard gradient hover>
+                <div className="p-4">
+                  <h2 className="text-2xl font-bold text-white mb-4">
+                    Complete Your Profile
+                  </h2>
+                  <p className="text-white/90 mb-6">
+                    Discover your unique aesthetic personality through our guided quiz experience.
+                  </p>
+                  <PersonalizedButton
+                    variant="secondary"
+                    onClick={() => router.push('/quiz')}
+                  >
+                    Start Quiz
+                  </PersonalizedButton>
+                </div>
+              </PersonalizedCard>
+            )}
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3 }}
-            className="bg-gradient-to-br from-amber-900/50 to-red-900/50 rounded-3xl p-8 border border-amber-500/20"
-          >
-            <h2 className="text-2xl font-bold text-white mb-4">
-              AI Curator Chat
-            </h2>
-            <p className="text-gray-300 mb-6">
-              Have a conversation with your personal AI art curator.
-            </p>
-            <Button
-              onClick={() => router.push('/agent')}
-              className="bg-white text-black hover:bg-gray-200"
-            >
-              Start Chat
-            </Button>
-          </motion.div>
+            <PersonalizedCard hover>
+              <div className="p-4">
+                <div className="flex items-center mb-4">
+                  <Eye 
+                    className="w-8 h-8 mr-3" 
+                    style={{ color: theme?.colors.accent }}
+                  />
+                  <h2 
+                    className="text-2xl font-bold"
+                    style={{ color: theme?.colors.text }}
+                  >
+                    Explore Gallery
+                  </h2>
+                </div>
+                <p 
+                  className="mb-6"
+                  style={{ color: theme?.colors.textSecondary }}
+                >
+                  Browse curated artworks matched to your aesthetic preferences.
+                </p>
+                <PersonalizedButton
+                  variant="primary"
+                  onClick={() => router.push('/gallery')}
+                >
+                  View Gallery
+                </PersonalizedButton>
+              </div>
+            </PersonalizedCard>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4 }}
-            className="bg-gradient-to-br from-green-900/50 to-teal-900/50 rounded-3xl p-8 border border-green-500/20"
-          >
-            <h2 className="text-2xl font-bold text-white mb-4">
-              Community
-            </h2>
-            <p className="text-gray-300 mb-6">
-              Connect with others who share your aesthetic sensibilities.
-            </p>
-            <Button
-              onClick={() => router.push('/community')}
-              className="bg-white text-black hover:bg-gray-200"
-            >
-              Join Community
-            </Button>
-          </motion.div>
-        </div>
+            <PersonalizedCard hover>
+              <div className="p-4">
+                <div className="flex items-center mb-4">
+                  <MessageCircle 
+                    className="w-8 h-8 mr-3" 
+                    style={{ color: theme?.colors.secondary }}
+                  />
+                  <h2 
+                    className="text-2xl font-bold"
+                    style={{ color: theme?.colors.text }}
+                  >
+                    AI Curator
+                  </h2>
+                </div>
+                <p 
+                  className="mb-6"
+                  style={{ color: theme?.colors.textSecondary }}
+                >
+                  Chat with your personalized art curator for insights and recommendations.
+                </p>
+                <PersonalizedButton
+                  variant="outline"
+                  onClick={() => router.push('/agent')}
+                >
+                  Start Chat
+                </PersonalizedButton>
+              </div>
+            </PersonalizedCard>
+
+            <PersonalizedCard hover>
+              <div className="p-4">
+                <div className="flex items-center mb-4">
+                  <Archive 
+                    className="w-8 h-8 mr-3" 
+                    style={{ color: theme?.colors.accent }}
+                  />
+                  <h2 
+                    className="text-2xl font-bold"
+                    style={{ color: theme?.colors.text }}
+                  >
+                    Exhibition Archive
+                  </h2>
+                </div>
+                <p 
+                  className="mb-6"
+                  style={{ color: theme?.colors.textSecondary }}
+                >
+                  Capture your museum visits and artwork impressions in real-time.
+                </p>
+                <PersonalizedButton
+                  variant="secondary"
+                  onClick={() => router.push('/archive')}
+                >
+                  Start Archiving
+                </PersonalizedButton>
+              </div>
+            </PersonalizedCard>
+
+            <PersonalizedCard hover>
+              <div className="p-4">
+                <div className="flex items-center mb-4">
+                  <BarChart3 
+                    className="w-8 h-8 mr-3" 
+                    style={{ color: theme?.colors.primary }}
+                  />
+                  <h2 
+                    className="text-2xl font-bold"
+                    style={{ color: theme?.colors.text }}
+                  >
+                    Analytics
+                  </h2>
+                </div>
+                <p 
+                  className="mb-6"
+                  style={{ color: theme?.colors.textSecondary }}
+                >
+                  Track your art exploration journey and aesthetic evolution.
+                </p>
+                <PersonalizedButton
+                  variant="ghost"
+                  onClick={() => router.push('/profile')}
+                >
+                  View Insights
+                </PersonalizedButton>
+              </div>
+            </PersonalizedCard>
+          </PersonalizedGrid>
+        </PersonalizedContainer>
       </main>
     </div>
   );

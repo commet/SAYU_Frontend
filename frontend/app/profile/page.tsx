@@ -4,8 +4,15 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import { usePersonalizedTheme } from '@/hooks/usePersonalizedTheme';
+import { useAchievements } from '@/hooks/useAchievements';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Palette, Heart, Brain, Eye, Zap } from 'lucide-react';
+import { ThemeShowcase, ThemeIndicator } from '@/components/ui/theme-showcase';
+import { ThemePreviewDemo, CurrentThemeInfo } from '@/components/ui/theme-preview';
+import { AchievementStats } from '@/components/achievements/AchievementStats';
+import { AchievementProgress } from '@/components/achievements/AchievementProgress';
+import { AchievementBadge } from '@/components/achievements/AchievementBadge';
+import { Sparkles, Palette, Heart, Brain, Eye, Zap, ArrowLeft, Trophy, Award } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 // Dimensional comparison component
@@ -138,8 +145,10 @@ interface ProfileData {
 export default function ProfilePage() {
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
+  const { achievements, stats, userProgress, loading: achievementsLoading } = useAchievements();
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'profile' | 'achievements'>('profile');
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -218,13 +227,34 @@ export default function ProfilePage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h2 className="text-5xl md:text-7xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              {profile.archetype_name}
-            </span>
-          </h2>
+          <div className="flex items-center justify-center mb-4">
+            <ThemeIndicator />
+            <h2 className="text-5xl md:text-7xl font-bold ml-4">
+              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                {profile.archetype_name}
+              </span>
+            </h2>
+          </div>
           <p className="text-xl text-gray-300 mb-6">{profile.archetype_description}</p>
           <div className="text-3xl font-mono text-purple-400 mb-8">{profile.type_code}</div>
+        </motion.div>
+
+        {/* Personalized Theme Showcase */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-12 max-w-6xl mx-auto"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <ThemeShowcase />
+            </div>
+            <div className="space-y-4">
+              <CurrentThemeInfo />
+              <ThemePreviewDemo />
+            </div>
+          </div>
         </motion.div>
 
         {/* Profile Image */}
@@ -269,6 +299,49 @@ export default function ProfilePage() {
           </div>
         </motion.div>
 
+        {/* Tab Navigation */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="flex justify-center mb-8"
+        >
+          <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-1 border border-gray-700">
+            <div className="flex gap-1">
+              <button
+                onClick={() => setActiveTab('profile')}
+                className={`px-6 py-3 rounded-lg transition-all ${
+                  activeTab === 'profile'
+                    ? 'bg-purple-600 text-white'
+                    : 'text-gray-400 hover:text-white hover:bg-gray-800'
+                }`}
+              >
+                <Eye className="w-4 h-4 inline mr-2" />
+                Profile Details
+              </button>
+              <button
+                onClick={() => setActiveTab('achievements')}
+                className={`px-6 py-3 rounded-lg transition-all ${
+                  activeTab === 'achievements'
+                    ? 'bg-purple-600 text-white'
+                    : 'text-gray-400 hover:text-white hover:bg-gray-800'
+                }`}
+              >
+                <Trophy className="w-4 h-4 inline mr-2" />
+                Achievements
+                {stats && stats.total_achievements > 0 && (
+                  <span className="ml-2 bg-purple-500 text-white text-xs px-2 py-1 rounded-full">
+                    {stats.total_achievements}
+                  </span>
+                )}
+              </button>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Tab Content */}
+        {activeTab === 'profile' && (
+          <>
         {/* Dimensional Analysis */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -383,13 +456,68 @@ export default function ProfilePage() {
             </div>
           </div>
         </motion.div>
+          </>
+        )}
+
+        {activeTab === 'achievements' && (
+          <div className="space-y-8">
+            {/* Achievement Stats */}
+            {stats && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <AchievementStats stats={stats} />
+              </motion.div>
+            )}
+
+            {/* Recent Achievements */}
+            {stats && stats.recent_achievements && stats.recent_achievements.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700"
+              >
+                <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                  <Award className="w-5 h-5 text-yellow-400" />
+                  Recent Achievements
+                </h3>
+                <div className="flex gap-4 overflow-x-auto pb-4">
+                  {stats.recent_achievements.map((achievement) => (
+                    <div key={achievement.id} className="flex-shrink-0">
+                      <AchievementBadge achievement={{...achievement, unlocked: true}} size="lg" showDetails />
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Achievement Progress */}
+            {!achievementsLoading && Object.keys(achievements).length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <AchievementProgress achievements={achievements} userProgress={userProgress || undefined} />
+              </motion.div>
+            )}
+
+            {achievementsLoading && (
+              <div className="text-center py-12">
+                <div className="text-white">Loading achievements...</div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Actions */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
-          className="flex flex-wrap justify-center gap-4"
+          className="flex flex-wrap justify-center gap-4 mt-12"
         >
           <Button
             onClick={() => router.push('/gallery')}
