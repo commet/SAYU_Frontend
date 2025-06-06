@@ -7,6 +7,8 @@ export interface User {
   hasProfile: boolean;
   typeCode?: string;
   archetypeName?: string;
+  accessToken?: string;
+  refreshToken?: string;
 }
 
 export interface Profile {

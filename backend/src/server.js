@@ -1,7 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const compression = require('compression');
 const rateLimit = require('express-rate-limit');
+const session = require('express-session');
+const passport = require('passport');
 require('dotenv').config();
 
 // Initialize Sentry FIRST, before any other imports
@@ -26,8 +29,13 @@ const {
 const { connectDatabase } = require('./config/database');
 const { connectRedis } = require('./config/redis');
 
+// Initialize Passport
+require('./config/passport');
+
 // Import routes
 const authRoutes = require('./routes/auth');
+const oauthRoutes = require('./routes/oauth');
+const emailRoutes = require('./routes/email');
 const quizRoutes = require('./routes/quiz');
 const profileRoutes = require('./routes/profile');
 const recommendationRoutes = require('./routes/recommendations');
@@ -40,6 +48,11 @@ const adminRoutes = require('./routes/admin');
 const achievementRoutes = require('./routes/achievements');
 const archiveRoutes = require('./routes/archive');
 const reportsRoutes = require('./routes/reports');
+const communityRoutes = require('./routes/community');
+const socialShareRoutes = require('./routes/socialShare');
+const artistPortalRoutes = require('./routes/artistPortal');
+const museumsRoutes = require('./routes/museums');
+const reservationsRoutes = require('./routes/reservations');
 
 const app = express();
 
@@ -47,6 +60,7 @@ const app = express();
 app.set('trust proxy', 1);
 
 // Middleware
+app.use(compression()); // Add gzip compression
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -65,6 +79,27 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+
+// Session configuration for OAuth
+app.use(session({
+  secret: process.env.SESSION_SECRET || (() => { 
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('SESSION_SECRET environment variable is required in production');
+    }
+    return 'sayu-dev-secret-only-for-development';
+  })(),
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
+
+// Initialize Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Request context and logging middleware (early in chain)
 app.use(requestContext);
@@ -114,6 +149,8 @@ app.use(userContext);
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/auth', oauthRoutes); // OAuth routes under auth path
+app.use('/api/email', emailRoutes);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/recommendations', recommendationRoutes);
@@ -126,6 +163,11 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/achievements', achievementRoutes);
 app.use('/api/archive', archiveRoutes);
 app.use('/api/reports', reportsRoutes);
+app.use('/api/community', communityRoutes);
+app.use('/api/social-share', socialShareRoutes);
+app.use('/api/artist-portal', artistPortalRoutes);
+app.use('/api/museums', museumsRoutes);
+app.use('/api/reservations', reservationsRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -166,6 +208,12 @@ async function startServer() {
     await connectDatabase();
     await connectRedis();
     log.info('Database connections established');
+    
+    // Initialize email automation (only in production or when explicitly enabled)
+    if (process.env.NODE_ENV === 'production' || process.env.ENABLE_EMAIL_AUTOMATION === 'true') {
+      require('./services/emailAutomation');
+      log.info('Email automation initialized');
+    }
     
     app.listen(PORT, () => {
       log.info('SAYU server started successfully', {

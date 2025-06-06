@@ -1,5 +1,6 @@
 const { log } = require('../config/logger');
 const { captureException } = require('../config/sentry');
+const alertingService = require('../services/alertingService');
 
 // Enhanced error handler middleware with structured logging
 const errorHandler = (err, req, res, next) => {
@@ -74,6 +75,18 @@ const errorHandler = (err, req, res, next) => {
   // Add request ID if available
   if (req.id) {
     response.requestId = req.id;
+  }
+
+  // Send alerts for critical errors
+  if (statusCode >= 500) {
+    alertingService.sendApplicationAlert('database_error', err, {
+      endpoint: `${req.method} ${req.originalUrl}`,
+      userId: req.userId,
+      ip: req.ip,
+      statusCode
+    }).catch(alertErr => {
+      log('error', 'Failed to send error alert', { error: alertErr.message });
+    });
   }
 
   res.status(statusCode).json(response);

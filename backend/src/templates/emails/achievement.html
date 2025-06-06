@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievement Unlocked!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: radial-gradient(circle at center, #ffd700, #ffb347);
+            color: #333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #ffd700, #ff6b35);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        .achievement-badge {
+            font-size: 64px;
+            margin-bottom: 15px;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        .achievement-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .achievement-subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+        .sparkles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+                radial-gradient(2px 2px at 40px 70px, #fff, transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 130px 80px, #fff, transparent),
+                radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+            animation: sparkle 3s ease-in-out infinite;
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        .content {
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .congratulations {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        .achievement-details {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 5px solid #ffd700;
+        }
+        .achievement-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .achievement-description {
+            font-size: 16px;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .achievement-icon-large {
+            font-size: 48px;
+            margin: 15px 0;
+        }
+        .progress-section {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        .progress-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        .achievement-count {
+            font-size: 32px;
+            font-weight: bold;
+            color: #8B5CF6;
+            margin-bottom: 5px;
+        }
+        .achievement-count-label {
+            font-size: 14px;
+            color: #718096;
+        }
+        .next-achievements {
+            text-align: left;
+            margin: 25px 0;
+        }
+        .next-achievement-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .next-achievement-item:last-child {
+            border-bottom: none;
+        }
+        .next-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        .next-text {
+            flex: 1;
+        }
+        .next-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 3px;
+        }
+        .next-desc {
+            font-size: 14px;
+            color: #718096;
+        }
+        .cta-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 0 10px 10px 0;
+            transition: transform 0.2s;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        .share-section {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        .share-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .share-text {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 15px;
+        }
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .share-button {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #4a5568;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .footer {
+            background: #2d3748;
+            color: #a0aec0;
+            padding: 25px;
+            text-align: center;
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            .header {
+                padding: 30px 20px;
+            }
+            .content {
+                padding: 30px 20px;
+            }
+            .achievement-badge {
+                font-size: 48px;
+            }
+            .achievement-title {
+                font-size: 24px;
+            }
+            .share-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="sparkles"></div>
+            <div class="achievement-badge">🏆</div>
+            <div class="achievement-title">Achievement Unlocked!</div>
+            <div class="achievement-subtitle">You're making incredible progress!</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="congratulations">
+                Congratulations, {{userName}}! 🎉
+            </div>
+            
+            <!-- Achievement Details -->
+            <div class="achievement-details">
+                <div class="achievement-icon-large">{{achievementIcon}}</div>
+                <div class="achievement-name">{{achievementName}}</div>
+                <div class="achievement-description">{{achievementDescription}}</div>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <div class="progress-title">Your Achievement Collection</div>
+                <div class="achievement-count">{{totalAchievements}}</div>
+                <div class="achievement-count-label">Total Achievements Earned</div>
+            </div>
+
+            <p style="color: #4a5568; line-height: 1.6;">
+                This achievement recognizes your dedication to exploring and understanding art. Each milestone you reach brings you closer to mastering your aesthetic journey as a {{userArchetype}}.
+            </p>
+
+            <!-- Next Achievements -->
+            <div class="next-achievements">
+                <div style="font-size: 16px; font-weight: 600; color: #2d3748; margin-bottom: 15px; text-align: center;">
+                    🎯 Your Next Challenges
+                </div>
+                
+                <div class="next-achievement-item">
+                    <div class="next-icon">💬</div>
+                    <div class="next-text">
+                        <div class="next-name">Art Conversationalist</div>
+                        <div class="next-desc">Have 10 meaningful chats with your AI curator</div>
+                    </div>
+                </div>
+                
+                <div class="next-achievement-item">
+                    <div class="next-icon">🌟</div>
+                    <div class="next-text">
+                        <div class="next-name">Aesthetic Explorer</div>
+                        <div class="next-desc">Discover artworks from 5 different time periods</div>
+                    </div>
+                </div>
+                
+                <div class="next-achievement-item">
+                    <div class="next-icon">📚</div>
+                    <div class="next-text">
+                        <div class="next-name">Archive Master</div>
+                        <div class="next-desc">Create your first exhibition archive report</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <a href="{{appUrl}}/profile" class="cta-button">
+                    🏆 View All Achievements
+                </a>
+                <a href="{{appUrl}}/gallery" class="cta-button">
+                    🎨 Continue Exploring
+                </a>
+            </div>
+
+            <!-- Share Section -->
+            <div class="share-section">
+                <div class="share-title">Share Your Achievement</div>
+                <div class="share-text">
+                    Let your friends know about your artistic journey progress!
+                </div>
+                <div class="share-buttons">
+                    <a href="#" class="share-button">Share on Twitter</a>
+                    <a href="#" class="share-button">Share on Facebook</a>
+                    <a href="#" class="share-button">Copy Link</a>
+                </div>
+            </div>
+
+            <p style="color: #718096; font-size: 14px; text-align: center; margin-top: 30px;">
+                Keep exploring, keep achieving. Your aesthetic journey is uniquely beautiful! ✨
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div>
+                © {{currentYear}} SAYU - Your Aesthetic Journey<br>
+                Celebrating every milestone with you 🎊
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <a href="{{appUrl}}/unsubscribe" style="color: #a0aec0;">Unsubscribe</a> |
+                <a href="{{appUrl}}/email-preferences" style="color: #a0aec0;">Email Preferences</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

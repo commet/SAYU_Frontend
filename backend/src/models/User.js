@@ -14,7 +14,7 @@ class UserModel {
       role = 'user'
     } = userData;
     
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
     const id = uuidv4();
     
     const query = `
@@ -40,6 +40,71 @@ class UserModel {
     
     const result = await pool.query(query, values);
     return result.rows[0];
+  }
+
+  async createOAuthUser(userData) {
+    const {
+      email,
+      displayName,
+      provider,
+      providerId,
+      profileImage
+    } = userData;
+    
+    const id = uuidv4();
+    
+    // Create user record
+    const userQuery = `
+      INSERT INTO users (
+        id, email, nickname, agency_level, aesthetic_journey_stage, role
+      ) VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *
+    `;
+    
+    const userValues = [
+      id,
+      email,
+      displayName || email.split('@')[0],
+      'explorer',
+      'discovering',
+      'user'
+    ];
+    
+    const userResult = await pool.query(userQuery, userValues);
+    const user = userResult.rows[0];
+    
+    // Create OAuth link
+    const oauthQuery = `
+      INSERT INTO user_oauth_accounts (
+        user_id, provider, provider_id, profile_image
+      ) VALUES ($1, $2, $3, $4)
+    `;
+    
+    await pool.query(oauthQuery, [id, provider, providerId, profileImage]);
+    
+    return user;
+  }
+
+  async findByOAuth(provider, providerId) {
+    const query = `
+      SELECT u.* FROM users u
+      JOIN user_oauth_accounts oa ON u.id = oa.user_id
+      WHERE oa.provider = $1 AND oa.provider_id = $2
+    `;
+    const result = await pool.query(query, [provider, providerId]);
+    return result.rows[0];
+  }
+
+  async linkOAuthAccount(userId, provider, providerId, profileImage = null) {
+    const query = `
+      INSERT INTO user_oauth_accounts (
+        user_id, provider, provider_id, profile_image
+      ) VALUES ($1, $2, $3, $4)
+      ON CONFLICT (user_id, provider) 
+      DO UPDATE SET provider_id = $3, profile_image = $4, updated_at = CURRENT_TIMESTAMP
+    `;
+    
+    await pool.query(query, [userId, provider, providerId, profileImage]);
   }
 
   async findByEmail(email) {

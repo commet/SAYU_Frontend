@@ -12,6 +12,9 @@ interface AuthContextType {
   logoutAll: () => Promise<void>;
   refreshToken: () => Promise<string | null>;
   loading: boolean;
+  setTokens: (accessToken: string, refreshToken: string) => void;
+  linkOAuthAccount: (provider: string) => Promise<void>;
+  unlinkOAuthAccount: (provider: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -207,8 +210,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     router.push('/');
   };
 
+  const setTokens = (accessToken: string, refreshToken: string) => {
+    localStorage.setItem('token', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    checkAuth();
+  };
+
+  const linkOAuthAccount = async (provider: string) => {
+    try {
+      const res = await apiCall(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/link/${provider}`, {
+        method: 'POST'
+      });
+      
+      const data = await res.json();
+      if (data.redirectUrl) {
+        window.location.href = data.redirectUrl;
+      }
+    } catch (error) {
+      toast.error(`Failed to link ${provider} account`);
+      throw error;
+    }
+  };
+
+  const unlinkOAuthAccount = async (provider: string) => {
+    try {
+      await apiCall(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/unlink/${provider}`, {
+        method: 'DELETE'
+      });
+      toast.success(`${provider} account unlinked successfully`);
+      await checkAuth(); // Refresh user data
+    } catch (error) {
+      toast.error(`Failed to unlink ${provider} account`);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, logoutAll, refreshToken, loading }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      login, 
+      register, 
+      logout, 
+      logoutAll, 
+      refreshToken, 
+      loading, 
+      setTokens,
+      linkOAuthAccount,
+      unlinkOAuthAccount
+    }}>
       {children}
     </AuthContext.Provider>
   );

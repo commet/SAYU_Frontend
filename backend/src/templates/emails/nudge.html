@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Art Journey Awaits</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            padding: 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="stars" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23stars)"/></svg>') repeat;
+            animation: twinkle 4s linear infinite;
+        }
+        @keyframes twinkle {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-20px) translateY(-20px); }
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        .header-message {
+            font-size: 18px;
+            position: relative;
+            z-index: 1;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .main-message {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .miss-you-section {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+            border-left: 4px solid #8B5CF6;
+        }
+        .miss-emoji {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .miss-text {
+            font-size: 16px;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .days-away {
+            font-size: 14px;
+            color: #718096;
+        }
+        .whats-new {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        .whats-new-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .new-feature {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .new-feature:last-child {
+            border-bottom: none;
+        }
+        .feature-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        .feature-content {
+            flex: 1;
+        }
+        .feature-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 3px;
+        }
+        .feature-desc {
+            font-size: 14px;
+            color: #718096;
+        }
+        .personal-touch {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .personal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .personal-desc {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        .cta-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 0 10px 10px 0;
+            transition: transform 0.2s;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        .secondary-cta {
+            background: transparent;
+            border: 2px solid #8B5CF6;
+            color: #8B5CF6;
+        }
+        .gentle-reminder {
+            font-size: 14px;
+            color: #718096;
+            text-align: center;
+            margin: 25px 0;
+            font-style: italic;
+        }
+        .footer {
+            background: #2d3748;
+            color: #a0aec0;
+            padding: 25px;
+            text-align: center;
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            .content {
+                padding: 30px 20px;
+            }
+            .cta-button {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">SAYU</div>
+            <div class="header-message">Your aesthetic journey is calling ✨</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="greeting">
+                We miss you, {{userName}}! 🎨
+            </div>
+            
+            <!-- Miss You Section -->
+            <div class="miss-you-section">
+                <div class="miss-emoji">🤗</div>
+                <div class="miss-text">
+                    It's been {{daysSinceLastVisit}} days since your last visit
+                </div>
+                <div class="days-away">
+                    Your aesthetic journey is patiently waiting for your return
+                </div>
+            </div>
+
+            <div class="main-message">
+                Art has a way of calling us back, doesn't it? Your personalized gallery has been quietly curating new discoveries, perfectly matched to your <strong>{{typeCode}}</strong> aesthetic personality.
+            </div>
+
+            <!-- What's New -->
+            <div class="whats-new">
+                <div class="whats-new-title">✨ What's New Since You've Been Away</div>
+                
+                <div class="new-feature">
+                    <div class="feature-icon">🎭</div>
+                    <div class="feature-content">
+                        <div class="feature-title">Fresh Art Recommendations</div>
+                        <div class="feature-desc">3 new artworks curated specifically for your taste</div>
+                    </div>
+                </div>
+                
+                <div class="new-feature">
+                    <div class="feature-icon">💬</div>
+                    <div class="feature-content">
+                        <div class="feature-title">AI Curator Updates</div>
+                        <div class="feature-desc">Your AI companion has new insights to share</div>
+                    </div>
+                </div>
+                
+                <div class="new-feature">
+                    <div class="feature-icon">🏆</div>
+                    <div class="feature-content">
+                        <div class="feature-title">New Achievements Available</div>
+                        <div class="feature-desc">Unlock rewards for continuing your journey</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal Touch -->
+            <div class="personal-touch">
+                <div class="personal-title">Your Aesthetic Story Continues</div>
+                <div class="personal-desc">
+                    Remember, your journey is uniquely yours. Every artwork you explore, every conversation with your AI curator, every moment of aesthetic discovery adds another chapter to your personal story of taste and appreciation.
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <a href="{{appUrl}}/gallery" class="cta-button">
+                    🎨 Explore New Art
+                </a>
+                <a href="{{appUrl}}/agent" class="cta-button secondary-cta">
+                    💬 Chat with AI Curator
+                </a>
+            </div>
+
+            <div class="gentle-reminder">
+                No pressure, just a gentle reminder that beauty awaits your return. 
+                Take your time – art is patient, and so are we. 💙
+            </div>
+
+            <div class="main-message">
+                Whenever you're ready to continue your aesthetic journey, we'll be here with open arms and fresh discoveries.
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <strong>Missing you,</strong><br>
+                <em>The SAYU Team</em>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div>
+                © {{currentYear}} SAYU - Your Aesthetic Journey<br>
+                Always here when you're ready to explore 🌟
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <a href="{{appUrl}}/unsubscribe" style="color: #a0aec0;">Unsubscribe</a> |
+                <a href="{{appUrl}}/email-preferences" style="color: #a0aec0;">Email Preferences</a> |
+                <a href="{{appUrl}}/pause-emails" style="color: #a0aec0;">Pause for 30 days</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

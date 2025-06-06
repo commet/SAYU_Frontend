@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
+import { SocialLoginButton } from '@/components/ui/social-login-button';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 export default function LoginPage() {
@@ -12,6 +14,22 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const error = searchParams.get('error');
+    if (error) {
+      const errorMessages: Record<string, string> = {
+        auth_failed: 'Authentication failed. Please try again.',
+        auth_error: 'An error occurred during authentication.',
+        missing_tokens: 'Authentication tokens missing.',
+        google_auth_failed: 'Google authentication failed.',
+        github_auth_failed: 'GitHub authentication failed.',
+        apple_auth_failed: 'Apple authentication failed.'
+      };
+      toast.error(errorMessages[error] || 'Authentication error');
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,6 +91,23 @@ export default function LoginPage() {
               {loading ? 'Logging in...' : 'Login'}
             </Button>
           </form>
+
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-700"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-gray-900/50 text-gray-400">Or continue with</span>
+              </div>
+            </div>
+
+            <div className="mt-6 space-y-3">
+              <SocialLoginButton provider="google" />
+              <SocialLoginButton provider="github" />
+              <SocialLoginButton provider="apple" />
+            </div>
+          </div>
           
           <p className="mt-6 text-center text-gray-400">
             Don't have an account?{' '}

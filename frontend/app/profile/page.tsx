@@ -12,7 +12,9 @@ import { ThemePreviewDemo, CurrentThemeInfo } from '@/components/ui/theme-previe
 import { AchievementStats } from '@/components/achievements/AchievementStats';
 import { AchievementProgress } from '@/components/achievements/AchievementProgress';
 import { AchievementBadge } from '@/components/achievements/AchievementBadge';
-import { Sparkles, Palette, Heart, Brain, Eye, Zap, ArrowLeft, Trophy, Award } from 'lucide-react';
+import { OAuthAccountManager } from '@/components/ui/oauth-account-manager';
+import { ProfileCelebration } from '@/components/onboarding/ProfileCelebration';
+import { Sparkles, Palette, Heart, Brain, Eye, Zap, ArrowLeft, Trophy, Award, Shield } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 // Dimensional comparison component
@@ -512,6 +514,20 @@ export default function ProfilePage() {
           </div>
         )}
 
+        {/* Account Security */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="bg-gray-900/50 backdrop-blur-lg rounded-2xl p-8 shadow-xl border border-gray-800 mt-8"
+        >
+          <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+            <Shield className="w-6 h-6 text-purple-400" />
+            Account Security
+          </h3>
+          <OAuthAccountManager />
+        </motion.div>
+
         {/* Actions */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -543,6 +559,8 @@ export default function ProfilePage() {
           </Button>
         </motion.div>
       </main>
+
+      {profile && <ProfileCelebration profile={profile} />}
     </div>
   );
 }

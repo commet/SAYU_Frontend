@@ -1,12 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { useOnboarding } from '@/contexts/OnboardingContext';
+import { WelcomeModal } from '@/components/onboarding/WelcomeModal';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function QuizIntroPage() {
   const router = useRouter();
+  const { user } = useAuth();
+  const { showWelcomeModal, setShowWelcomeModal } = useOnboarding();
   const [selectedType, setSelectedType] = useState<'exhibition' | 'artwork' | null>(null);
 
   const startQuiz = () => {
@@ -80,6 +85,12 @@ export default function QuizIntroPage() {
           </Button>
         </div>
       </motion.div>
+
+      <WelcomeModal 
+        isOpen={showWelcomeModal}
+        onClose={() => setShowWelcomeModal(false)}
+        userName={user?.nickname}
+      />
     </div>
   );
 }

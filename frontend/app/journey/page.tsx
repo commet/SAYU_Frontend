@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { usePersonalizedTheme } from '@/hooks/usePersonalizedTheme';
 import { useAchievements } from '@/hooks/useAchievements';
+import { useOnboarding } from '@/contexts/OnboardingContext';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ThemeIndicator } from '@/components/ui/theme-showcase';
@@ -19,12 +20,15 @@ import {
 import { Sparkles, Palette, Heart, TrendingUp, Eye, MessageCircle, Calendar, BarChart3, Archive } from 'lucide-react';
 import { DailyRecommendationCard } from '@/components/ui/daily-recommendation';
 import { WeeklyInsightsCard } from '@/components/ui/weekly-insights';
+import { OnboardingChecklist } from '@/components/onboarding/OnboardingChecklist';
+import { JourneyTour } from '@/components/onboarding/JourneyTour';
 
 export default function JourneyPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
   const { theme, isLoading: themeLoading } = usePersonalizedTheme();
   const { trackDailyLogin, trackExplorationDay } = useAchievements();
+  const { isNewUser } = useOnboarding();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -98,7 +102,7 @@ export default function JourneyPage() {
           />
 
           {/* Stats Cards */}
-          <PersonalizedGrid columns={4} gap="md" className="mb-12">
+          <PersonalizedGrid columns={4} gap="md" className="mb-12" data-tour="profile-stats">
             <PersonalizedCard>
               <div className="flex items-center justify-between mb-4">
                 <Sparkles 
@@ -166,8 +170,12 @@ export default function JourneyPage() {
 
           {/* Daily Recommendation & Weekly Insights */}
           <PersonalizedGrid columns={2} gap="lg" className="mb-8">
-            <DailyRecommendationCard />
-            <WeeklyInsightsCard />
+            <div data-tour="daily-recommendation">
+              <DailyRecommendationCard />
+            </div>
+            <div data-tour="weekly-insights">
+              <WeeklyInsightsCard />
+            </div>
           </PersonalizedGrid>
 
           {/* Action Cards */}
@@ -220,7 +228,7 @@ export default function JourneyPage() {
               </div>
             </PersonalizedCard>
 
-            <PersonalizedCard hover>
+            <PersonalizedCard hover data-tour="ai-curator">
               <div className="p-4">
                 <div className="flex items-center mb-4">
                   <MessageCircle 
@@ -278,7 +286,7 @@ export default function JourneyPage() {
               </div>
             </PersonalizedCard>
 
-            <PersonalizedCard hover>
+            <PersonalizedCard hover data-tour="achievements">
               <div className="p-4">
                 <div className="flex items-center mb-4">
                   <BarChart3 
@@ -309,6 +317,10 @@ export default function JourneyPage() {
           </PersonalizedGrid>
         </PersonalizedContainer>
       </main>
+
+      {/* Onboarding Components */}
+      {isNewUser && <OnboardingChecklist />}
+      <JourneyTour />
     </div>
   );
 }

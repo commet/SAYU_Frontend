@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { useAchievements } from '@/hooks/useAchievements';
+import { QuizTooltips, QuizHelpButton } from '@/components/onboarding/QuizTooltips';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -169,6 +170,9 @@ export default function ExhibitionQuizPage() {
           Back to Quiz Selection
         </Button>
       </div>
+
+      <QuizTooltips currentQuestionType="exhibition" />
+      <QuizHelpButton />
     </div>
   );
 }

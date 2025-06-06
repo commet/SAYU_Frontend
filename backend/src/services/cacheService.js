@@ -258,15 +258,28 @@ class CacheService {
     }
   }
 
-  // Clear specific cache patterns
+  // Clear specific cache patterns (using SCAN instead of KEYS for better performance)
   async clearPattern(pattern) {
     try {
-      const keys = await redisClient().keys(pattern);
-      if (keys.length > 0) {
-        await redisClient().del(keys);
-        return keys.length;
-      }
-      return 0;
+      let cursor = 0;
+      let deletedCount = 0;
+      
+      do {
+        const result = await redisClient().scan(cursor, {
+          MATCH: pattern,
+          COUNT: 100
+        });
+        
+        cursor = result.cursor;
+        const keys = result.keys;
+        
+        if (keys.length > 0) {
+          await redisClient().del(keys);
+          deletedCount += keys.length;
+        }
+      } while (cursor !== 0);
+      
+      return deletedCount;
     } catch (error) {
       console.error('Clear pattern error:', error);
       return 0;

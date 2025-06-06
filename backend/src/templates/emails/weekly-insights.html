@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Weekly Aesthetic Insights</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #f8fafc;
+            color: #333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .greeting {
+            font-size: 18px;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        .stat-card {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #8B5CF6;
+        }
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #8B5CF6;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #4a5568;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .featured-artwork {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .artwork-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .artwork-desc {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        .recommendations {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        .recommendations-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        .recommendation-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .recommendation-item:last-child {
+            border-bottom: none;
+        }
+        .rec-emoji {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        .rec-text {
+            flex: 1;
+            font-size: 14px;
+            color: #4a5568;
+        }
+        .cta-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            margin: 0 10px 10px 0;
+        }
+        .footer {
+            background: #2d3748;
+            color: #a0aec0;
+            padding: 25px;
+            text-align: center;
+            font-size: 12px;
+        }
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .cta-button {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">SAYU</div>
+            <div class="header-title">Your Weekly Insights</div>
+            <div class="header-subtitle">{{weekRange}}</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="greeting">
+                Hello {{userName}}, 👋
+            </div>
+            
+            <p style="color: #4a5568; line-height: 1.6;">
+                Your aesthetic journey continues to evolve! Here's a summary of your week exploring art as a <strong>{{archetypeName}} ({{typeCode}})</strong>.
+            </p>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">{{artworksViewed}}</div>
+                    <div class="stat-label">Artworks Viewed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{timeSpent}}</div>
+                    <div class="stat-label">Minutes Exploring</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{newDiscoveries}}</div>
+                    <div class="stat-label">New Discoveries</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{conversationsCount}}</div>
+                    <div class="stat-label">AI Conversations</div>
+                </div>
+            </div>
+
+            <!-- Featured Artwork -->
+            {{#if topArtwork}}
+            <div class="featured-artwork">
+                <div class="artwork-title">🌟 Your Week's Favorite</div>
+                <div style="font-size: 16px; margin: 10px 0;">
+                    <strong>{{topArtwork.title}}</strong> by {{topArtwork.artist}}
+                </div>
+                <div class="artwork-desc">
+                    You spent the most time appreciating this piece, perfectly aligned with your {{typeCode}} aesthetic preferences.
+                </div>
+            </div>
+            {{/if}}
+
+            <!-- Personalized Recommendations -->
+            <div class="recommendations">
+                <div class="recommendations-title">✨ This Week's Recommendations</div>
+                
+                {{#each personalizedRecommendations}}
+                <div class="recommendation-item">
+                    <div class="rec-emoji">{{this.emoji}}</div>
+                    <div class="rec-text">{{this.text}}</div>
+                </div>
+                {{/each}}
+            </div>
+
+            <p style="color: #4a5568; line-height: 1.6; font-size: 14px;">
+                <strong>Your Aesthetic Evolution:</strong> Your engagement patterns show a deepening appreciation for {{topCategory}} artworks, particularly those with {{dominantCharacteristic}} characteristics. This aligns beautifully with your {{archetypeName}} personality.
+            </p>
+
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <a href="{{appUrl}}/gallery" class="cta-button">
+                    🎨 Explore New Art
+                </a>
+                <a href="{{appUrl}}/agent" class="cta-button">
+                    💬 Chat with AI Curator
+                </a>
+                <a href="{{appUrl}}/profile" class="cta-button">
+                    📊 View Full Analytics
+                </a>
+            </div>
+
+            <p style="color: #718096; font-size: 14px; text-align: center; margin-top: 30px;">
+                Keep exploring, keep discovering. Your aesthetic journey is uniquely yours! 🌟
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div>
+                © {{currentYear}} SAYU - Your Aesthetic Journey<br>
+                Made with ❤️ for art lovers like you
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <a href="{{appUrl}}/unsubscribe" style="color: #a0aec0;">Unsubscribe</a> |
+                <a href="{{appUrl}}/email-preferences" style="color: #a0aec0;">Email Preferences</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

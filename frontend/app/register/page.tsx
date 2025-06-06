@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
+import { SocialLoginButton } from '@/components/ui/social-login-button';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 
@@ -119,6 +120,23 @@ export default function RegisterPage() {
               {loading ? 'Creating Account...' : 'Start Your Journey'}
             </Button>
           </form>
+
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-700"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-gray-900/50 text-gray-400">Or continue with</span>
+              </div>
+            </div>
+
+            <div className="mt-6 space-y-3">
+              <SocialLoginButton provider="google" />
+              <SocialLoginButton provider="github" />
+              <SocialLoginButton provider="apple" />
+            </div>
+          </div>
           
           <p className="mt-6 text-center text-gray-400">
             Already have an account?{' '}
