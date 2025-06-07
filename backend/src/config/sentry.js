@@ -15,15 +15,7 @@ function initSentry() {
       integrations: [
         nodeProfilingIntegration(),
         
-        // HTTP integration for tracing
-        // new Sentry.Integrations.Http({ tracing: true }),
         
-        // Express integration
-        // new Sentry.Integrations.Express({ app: undefined }), // Will be set later
-        
-        // Redis integration if available
-        ...(process.env.REDIS_URL ? [new Sentry.Integrations.Redis()] : []),
-      ],
       
       // Release tracking
       release: process.env.npm_package_version || '1.0.0',
