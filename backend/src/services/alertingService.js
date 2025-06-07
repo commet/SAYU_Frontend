@@ -29,7 +29,7 @@ class AlertingService {
 
   async initializeEmailTransporter() {
     if (!process.env.ALERT_EMAIL_HOST) {
-      log('warn', 'Email alerting not configured - missing ALERT_EMAIL_HOST');
+      console.warn('Email alerting not configured - missing ALERT_EMAIL_HOST');
       return;
     }
 
@@ -43,7 +43,7 @@ class AlertingService {
       }
     });
 
-    log('info', 'Email alerting initialized');
+    console.info('Email alerting initialized');
   }
 
   // Main alert method
@@ -53,7 +53,7 @@ class AlertingService {
       
       // Check cooldown
       if (await this.isInCooldown(alertKey, level)) {
-        log('debug', `Alert skipped due to cooldown: ${title}`);
+        console.debug(`Alert skipped due to cooldown: ${title}`);
         return false;
       }
 
@@ -79,7 +79,7 @@ class AlertingService {
 
       return true;
     } catch (error) {
-      log('error', 'Failed to send alert', { error: error.message, title });
+      console.error('Failed to send alert', { error: error.message, title });
       return false;
     }
   }
@@ -130,7 +130,7 @@ class AlertingService {
       }
 
     } catch (error) {
-      log('error', 'Performance monitoring check failed', { error: error.message });
+      console.error('Performance monitoring check failed', { error: error.message });
     }
   }
 
@@ -219,7 +219,7 @@ class AlertingService {
 
       return true;
     } catch (error) {
-      log('error', 'Failed to send email alert', { error: error.message });
+      console.error('Failed to send email alert', { error: error.message });
       return false;
     }
   }
@@ -298,7 +298,7 @@ class AlertingService {
 
   // Log alert
   async logAlert(alert) {
-    log(alert.level === 'critical' ? 'error' : alert.level, 
+    console[alert.level === 'critical' ? 'error' : alert.level](
         `ALERT: ${alert.title}`, 
         { 
           message: alert.message, 
@@ -317,7 +317,7 @@ class AlertingService {
         });
       }
     } catch (error) {
-      log('error', 'Failed to send Sentry alert', { error: error.message });
+      console.error('Failed to send Sentry alert', { error: error.message });
     }
   }
 
@@ -341,7 +341,7 @@ class AlertingService {
       const cooldownPeriod = this.cooldowns[level] || this.cooldowns.info;
       await redisClient().setEx(alertKey, cooldownPeriod, Date.now().toString());
     } catch (error) {
-      log('error', 'Failed to set alert cooldown', { error: error.message });
+      console.error('Failed to set alert cooldown', { error: error.message });
     }
   }
 
@@ -373,7 +373,7 @@ class AlertingService {
       }
 
     } catch (error) {
-      log('error', 'Failed to gather metrics', { error: error.message });
+      console.error('Failed to gather metrics', { error: error.message });
     }
 
     return metrics;

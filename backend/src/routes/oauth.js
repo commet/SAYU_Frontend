@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('../config/passport');
 const { generateTokens } = require('../services/tokenService');
-const logger = require('../utils/logger');
+const { logger } = require("../config/logger");
 
 const router = express.Router();
 

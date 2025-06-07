@@ -4,7 +4,7 @@ const auth = require('../middleware/auth');
 const { pool } = require('../config/database');
 const emailService = require('../services/emailService');
 const emailAutomation = require('../services/emailAutomation');
-const logger = require('../utils/logger');
+const { logger } = require("../config/logger");
 const crypto = require('crypto');
 
 const router = express.Router();

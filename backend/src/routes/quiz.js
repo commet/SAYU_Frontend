@@ -15,7 +15,10 @@ const { body } = require('express-validator');
 router.use(securityHeaders);
 router.use(sanitizeInput);
 router.use(requestSizeLimiter('5mb')); // Quiz data can be larger
-router.use(authMiddleware);
+
+// For demo purposes, make quiz accessible without authentication
+// In production, uncomment the line below:
+// router.use(authMiddleware);
 
 // Quiz start validation
 const quizStartValidation = [

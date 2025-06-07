@@ -297,3 +297,6 @@ module.exports = {
   log,
   requestLogger
 };
+
+// Add a default export for convenience
+module.exports.default = logger;

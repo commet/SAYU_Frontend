@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const authMiddleware = require('../middleware/auth');
 const artistPortalService = require('../services/artistPortalService');
-const logger = require('../utils/logger');
+const { logger } = require("../config/logger");
 
 router.use(authMiddleware);
 

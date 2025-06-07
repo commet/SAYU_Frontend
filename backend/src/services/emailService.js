@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 const path = require('path');
 const fs = require('fs').promises;
-const logger = require('../utils/logger');
+const { logError } = require('../utils/logger');
 
 class EmailService {
   constructor() {
@@ -37,9 +37,9 @@ class EmailService {
 
       // Verify connection
       await this.transporter.verify();
-      logger.info('Email service initialized successfully');
+      console.info('Email service initialized successfully');
     } catch (error) {
-      logger.error('Email service initialization failed:', error);
+      logError(error, { context: 'Email service initialization failed' });
     }
   }
 
@@ -48,7 +48,7 @@ class EmailService {
       const templatePath = path.join(__dirname, '../templates/emails', `${templateName}.html`);
       return await fs.readFile(templatePath, 'utf8');
     } catch (error) {
-      logger.error(`Failed to load email template ${templateName}:`, error);
+      logError(error, { context: `Failed to load email template ${templateName}` });
       throw new Error(`Email template ${templateName} not found`);
     }
   }
@@ -95,13 +95,13 @@ class EmailService {
       
       // Log preview URL for development
       if (process.env.NODE_ENV !== 'production') {
-        logger.info('Email preview URL:', nodemailer.getTestMessageUrl(result));
+        console.info('Email preview URL:', nodemailer.getTestMessageUrl(result));
       }
 
-      logger.info(`Email sent successfully to ${to}: ${subject}`);
+      console.info(`Email sent successfully to ${to}: ${subject}`);
       return result;
     } catch (error) {
-      logger.error('Failed to send email:', error);
+      logError(error, { context: 'Failed to send email' });
       throw error;
     }
   }

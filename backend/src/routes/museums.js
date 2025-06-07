@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const authMiddleware = require('../middleware/auth');
 const museumAPIService = require('../services/museumAPIService');
-const logger = require('../utils/logger');
+const { logger } = require("../config/logger");
 
 // Public routes (no auth required)
 router.get('/search', async (req, res) => {

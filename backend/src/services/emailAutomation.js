@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const { pool } = require('../config/database');
 const emailService = require('./emailService');
-const logger = require('../utils/logger');
+const { logger } = require("../config/logger");
 
 class EmailAutomationService {
   constructor() {

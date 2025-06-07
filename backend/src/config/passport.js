@@ -3,7 +3,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
 const AppleStrategy = require('passport-apple').Strategy;
 const User = require('../models/User');
-const logger = require('../utils/logger');
+const { logger } = require('./logger');
 
 // Serialize and deserialize user
 passport.serializeUser((user, done) => {
