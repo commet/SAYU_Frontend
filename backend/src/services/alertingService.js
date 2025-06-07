@@ -1,7 +1,8 @@
 const nodemailer = require('nodemailer');
 const { log } = require('../config/logger');
 const { redisClient } = require('../config/redis');
-const { captureException } = require('../config/sentry');
+// Sentry disabled for deployment
+// const { captureException } = require('../config/sentry');
 
 class AlertingService {
   constructor() {
@@ -307,14 +308,15 @@ class AlertingService {
         });
   }
 
-  // Send to Sentry
+  // Send to Sentry - disabled for deployment
   async sendSentryAlert(alert) {
     try {
       if (alert.level === 'critical') {
-        captureException(new Error(alert.message), {
-          tags: { alertType: 'system', level: alert.level },
-          extra: { title: alert.title, metadata: alert.metadata }
-        });
+        // captureException(new Error(alert.message), {
+        //   tags: { alertType: 'system', level: alert.level },
+        //   extra: { title: alert.title, metadata: alert.metadata }
+        // });
+        log.error('Critical alert (Sentry disabled)', { alert });
       }
     } catch (error) {
       console.error('Failed to send Sentry alert', { error: error.message });

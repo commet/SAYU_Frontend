@@ -13,10 +13,8 @@ function initSentry() {
       profilesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0,
       
       integrations: [
-        nodeProfilingIntegration(),
-        
-        
-      
+        nodeProfilingIntegration()
+      ],
       // Release tracking
       release: process.env.npm_package_version || '1.0.0',
       

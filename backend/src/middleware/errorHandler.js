@@ -1,5 +1,6 @@
 const { log } = require('../config/logger');
-const { captureException } = require('../config/sentry');
+// Sentry disabled for deployment
+// const { captureException } = require('../config/sentry');
 const alertingService = require('../services/alertingService');
 
 // Enhanced error handler middleware with structured logging

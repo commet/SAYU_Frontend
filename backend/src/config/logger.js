@@ -1,7 +1,8 @@
 const winston = require('winston');
 const DailyRotateFile = require('winston-daily-rotate-file');
 const path = require('path');
-const { captureException } = require('./sentry');
+// Sentry disabled for deployment
+// const { captureException } = require('./sentry');
 
 // Create logs directory if it doesn't exist
 const logsDir = path.join(__dirname, '../../logs');
@@ -154,11 +155,11 @@ const log = {
         stack: error.stack
       };
       
-      // Send error to Sentry
-      captureException(error, {
-        tags: { component: 'logger' },
-        extra: { originalMessage: message, ...meta }
-      });
+      // Send error to Sentry - disabled for deployment
+      // captureException(error, {
+      //   tags: { component: 'logger' },
+      //   extra: { originalMessage: message, ...meta }
+      // });
     }
     
     logger.error(message, logMeta);

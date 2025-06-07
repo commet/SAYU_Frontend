@@ -8,7 +8,8 @@ const passport = require('passport');
 require('dotenv').config();
 
 // Initialize Sentry FIRST, before any other imports
-// // const { initSentry } = // require('./config/sentry');
+// Sentry completely disabled for deployment
+// const { initSentry } = require('./config/sentry');
 // initSentry();
 
 // Import other modules after Sentry
@@ -193,7 +194,7 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 // Start server
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 async function startServer() {
   try {
@@ -215,7 +216,7 @@ async function startServer() {
       log.info('Email automation initialized');
     }
     
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       log.info('SAYU server started successfully', {
         port: PORT,
         environment: process.env.NODE_ENV || 'development',

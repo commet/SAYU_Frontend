@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
-const { addRequestContext } = require('../config/sentry');
+// Sentry disabled for deployment
+// const { addRequestContext } = require('../config/sentry');
 const { log } = require('../config/logger');
 
 // Add request context for logging and tracing
@@ -24,7 +25,7 @@ const requestContext = (req, res, next) => {
   };
 
   // Add context to Sentry scope
-  addRequestContext(req);
+  // addRequestContext(req); // Sentry disabled
 
   // Log request start
   log.debug('Request started', {

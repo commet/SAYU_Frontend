@@ -1,0 +1,289 @@
+/* Personalized Theme CSS Variables & Base Styles */
+
+:root {
+  /* Default theme variables - will be overridden by theme system */
+  --color-primary: hsl(220, 90%, 60%);
+  --color-secondary: hsl(190, 80%, 55%);
+  --color-accent: hsl(160, 75%, 50%);
+  --color-background: hsl(0, 0%, 98%);
+  --color-surface: hsl(0, 0%, 100%);
+  --color-muted: hsl(0, 0%, 96%);
+  --color-text: hsl(0, 0%, 5%);
+  --color-textSecondary: hsl(0, 0%, 40%);
+  --color-border: hsl(0, 0%, 92%);
+  --color-gradient: linear-gradient(135deg, hsl(220, 90%, 60%), hsl(190, 80%, 55%));
+
+  /* Typography variables */
+  --font-headingFont: "SF Pro Display", "Helvetica Neue", sans-serif;
+  --font-bodyFont: "SF Pro Text", "Helvetica", sans-serif;
+  --font-headingWeight: 700;
+  --font-bodyWeight: 400;
+  --font-letterSpacing: -0.01em;
+  --font-lineHeight: 1.5;
+
+  /* Layout variables */
+  --layout-borderRadius: 12px;
+  --layout-spacing: 1.5rem;
+  --layout-cardPadding: 2rem;
+  --layout-maxWidth: 1200px;
+  --layout-shadows: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+  /* Animation variables */
+  --animation-duration: 0.3s;
+  --animation-easing: ease;
+  --animation-hoverScale: 1.05;
+  --animation-entranceAnimation: fadeIn;
+}
+
+/* Apply personalized styles to core elements */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-bodyFont);
+  font-weight: var(--font-bodyWeight);
+  line-height: var(--font-lineHeight);
+  letter-spacing: var(--font-letterSpacing);
+  transition: background-color var(--animation-duration) var(--animation-easing),
+              color var(--animation-duration) var(--animation-easing);
+}
+
+/* Headings with personalized typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headingFont);
+  font-weight: var(--font-headingWeight);
+  letter-spacing: var(--font-letterSpacing);
+  color: var(--color-text);
+}
+
+/* Personalized card styles */
+.personalized-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--layout-borderRadius);
+  padding: var(--layout-cardPadding);
+  box-shadow: var(--layout-shadows);
+  transition: all var(--animation-duration) var(--animation-easing);
+}
+
+.personalized-card:hover {
+  transform: scale(var(--animation-hoverScale));
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Personalized button styles */
+.personalized-button {
+  background: var(--color-gradient);
+  color: white;
+  border: none;
+  border-radius: var(--layout-borderRadius);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-bodyFont);
+  font-weight: 500;
+  transition: all var(--animation-duration) var(--animation-easing);
+  cursor: pointer;
+}
+
+.personalized-button:hover {
+  transform: scale(var(--animation-hoverScale));
+  filter: brightness(1.1);
+}
+
+.personalized-button:active {
+  transform: scale(0.98);
+}
+
+/* Personalized input styles */
+.personalized-input {
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--layout-borderRadius);
+  padding: 0.75rem 1rem;
+  font-family: var(--font-bodyFont);
+  color: var(--color-text);
+  transition: all var(--animation-duration) var(--animation-easing);
+}
+
+.personalized-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(var(--color-primary), 0.1);
+}
+
+/* Personalized container */
+.personalized-container {
+  max-width: var(--layout-maxWidth);
+  margin: 0 auto;
+  padding: var(--layout-spacing);
+}
+
+/* Theme-specific entrance animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Apply entrance animations based on theme */
+.theme-animated-element {
+  animation: var(--animation-entranceAnimation) var(--animation-duration) var(--animation-easing);
+}
+
+/* Theme-specific overrides */
+
+/* Abstract themes - flowing, dynamic */
+[class*="theme-A"] {
+  --experimental-blur: blur(0.5px);
+}
+
+[class*="theme-A"] .personalized-card {
+  backdrop-filter: var(--experimental-blur);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Emotional themes - warmer, more expressive */
+[class*="theme-"][class*="E"] {
+  --pulse-animation: pulse 2s infinite;
+}
+
+[class*="theme-"][class*="E"] .personalized-button {
+  animation: var(--pulse-animation);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Modern themes - clean, minimal */
+.theme-\w+\w+\w+M {
+  --grid-background: 
+    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px);
+  --grid-size: 20px;
+}
+
+.theme-\w+\w+\w+M body {
+  background-image: var(--grid-background);
+  background-size: var(--grid-size) var(--grid-size);
+}
+
+/* Classical themes - elegant, traditional */
+.theme-\w+\w+\w+T .personalized-card {
+  border-width: 2px;
+  border-style: solid;
+}
+
+.theme-\w+\w+\w+T h1, 
+.theme-\w+\w+\w+T h2 {
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 0.3em;
+  text-decoration-thickness: 2px;
+}
+
+/* Responsive adjustments for personalized themes */
+@media (max-width: 768px) {
+  :root {
+    --layout-spacing: 1rem;
+    --layout-cardPadding: 1.5rem;
+    --font-letterSpacing: 0em;
+  }
+  
+  .personalized-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .personalized-button:hover {
+    transform: scale(1.02);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --animation-duration: 0.01ms;
+    --animation-hoverScale: 1;
+  }
+  
+  .theme-animated-element {
+    animation: none;
+  }
+  
+  .personalized-card:hover,
+  .personalized-button:hover {
+    transform: none;
+  }
+}
+
+/* Dark theme overrides for accessibility */
+@media (prefers-color-scheme: dark) {
+  .theme-realistic,
+  .theme-analytical {
+    --color-background: hsl(0, 0%, 8%);
+    --color-surface: hsl(0, 0%, 12%);
+    --color-text: hsl(0, 0%, 95%);
+    --color-textSecondary: hsl(0, 0%, 70%);
+    --color-border: hsl(0, 0%, 20%);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-border: currentColor;
+    --layout-shadows: none;
+  }
+  
+  .personalized-card {
+    border-width: 2px;
+  }
+}
