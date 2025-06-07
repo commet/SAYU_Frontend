@@ -8,7 +8,7 @@ const passport = require('passport');
 require('dotenv').config();
 
 // Initialize Sentry FIRST, before any other imports
-const { initSentry } = require('./config/sentry');
+const { initSentry } = // require('./config/sentry');
 initSentry();
 
 // Import other modules after Sentry
