@@ -1,10 +1,5 @@
 import type { NextConfig } from "next";
 
-// Bundle analyzer
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
-
 const nextConfig: NextConfig = {
   // Disable ESLint during production builds
   eslint: {
@@ -81,4 +76,18 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withBundleAnalyzer(nextConfig);
+// Only use bundle analyzer in development
+let finalConfig = nextConfig;
+
+if (process.env.NODE_ENV !== 'production' && process.env.ANALYZE === 'true') {
+  try {
+    const withBundleAnalyzer = require('@next/bundle-analyzer')({
+      enabled: true,
+    });
+    finalConfig = withBundleAnalyzer(nextConfig);
+  } catch (e) {
+    console.warn('Bundle analyzer not available:', e);
+  }
+}
+
+export default finalConfig;

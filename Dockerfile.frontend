@@ -6,8 +6,8 @@ WORKDIR /app
 # Copy frontend package files
 COPY frontend/package*.json ./
 
-# Install ALL dependencies (including dev) for build
-RUN npm ci
+# Clean npm cache and install ALL dependencies (including dev) for build
+RUN npm cache clean --force && npm ci
 
 # Copy all frontend files
 COPY frontend/ ./
@@ -16,6 +16,13 @@ COPY frontend/ ./
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 ENV NEXT_DISABLE_ESLINT_PLUGIN=true
+ENV SKIP_ENV_VALIDATION=true
+
+# Set placeholder API URL for build time
+ENV NEXT_PUBLIC_API_URL=http://localhost:5000
+ENV NEXTAUTH_URL=http://localhost:3000
+ENV NEXTAUTH_SECRET=build-time-secret
+
 RUN npm run build
 
 # Remove dev dependencies
