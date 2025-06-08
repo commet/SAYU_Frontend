@@ -3,14 +3,14 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy frontend package files
+COPY frontend/package*.json ./
 
 # Install ALL dependencies (including dev) for build
 RUN npm ci
 
 # Copy all frontend files
-COPY . .
+COPY frontend/ ./
 
 # Build the Next.js app
 ENV NEXT_TELEMETRY_DISABLED=1
