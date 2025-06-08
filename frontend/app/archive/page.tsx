@@ -84,7 +84,7 @@ export default function ArchivePage() {
       });
       
       const results = await Promise.all(artworkPromises);
-      const validArtworks = results.filter((artwork): artwork is ArchivedArtwork => artwork !== null);
+      const validArtworks = results.filter((artwork) => artwork !== null) as ArchivedArtwork[];
       
       setArtworks(validArtworks);
     } catch (error) {
