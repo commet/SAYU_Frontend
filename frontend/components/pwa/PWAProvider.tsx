@@ -90,36 +90,44 @@ export function PWAProvider({ children }: PWAProviderProps) {
   }, [isInstalled]);
 
   useEffect(() => {
-    // Register service worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .then(registration => {
-          setSWRegistration(registration);
-          console.log('SW registered:', registration);
-
-          // Check for updates
-          registration.addEventListener('updatefound', () => {
-            const newWorker = registration.installing;
-            if (newWorker) {
-              newWorker.addEventListener('statechange', () => {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  setIsUpdateAvailable(true);
-                }
-              });
-            }
-          });
-
-          // Listen for messages from service worker
-          navigator.serviceWorker.addEventListener('message', event => {
-            if (event.data?.type === 'SW_UPDATE_AVAILABLE') {
-              setIsUpdateAvailable(true);
-            }
-          });
+    // Register service worker with delay to ensure page is ready
+    const registerSW = () => {
+      if ('serviceWorker' in navigator && typeof window !== 'undefined') {
+        navigator.serviceWorker.register('/sw.js', {
+          scope: '/'
         })
-        .catch(error => {
-          console.error('SW registration failed:', error);
-        });
-    }
+          .then(registration => {
+            setSWRegistration(registration);
+            console.log('SW registered successfully:', registration.scope);
+
+            // Check for updates
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              if (newWorker) {
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    setIsUpdateAvailable(true);
+                  }
+                });
+              }
+            });
+
+            // Listen for messages from service worker
+            navigator.serviceWorker.addEventListener('message', event => {
+              if (event.data?.type === 'SW_UPDATE_AVAILABLE') {
+                setIsUpdateAvailable(true);
+              }
+            });
+          })
+          .catch(error => {
+            console.warn('SW registration failed (this is normal in development):', error.message);
+          });
+      }
+    };
+
+    // Add a small delay to ensure the page is fully loaded
+    const timer = setTimeout(registerSW, 1000);
+    return () => clearTimeout(timer);
   }, []);
 
   const install = async () => {

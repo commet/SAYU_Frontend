@@ -1,0 +1,297 @@
+/* Gallery-inspired Color Palette and Typography System */
+
+:root {
+  /* Off-white backgrounds reminiscent of museum walls */
+  --gallery-background: #FAFAF8;
+  --gallery-surface: #FFFFFF;
+  --gallery-surface-elevated: #FCFCFB;
+  
+  /* Deep charcoal for text */
+  --gallery-text-primary: #1A1A1A;
+  --gallery-text-secondary: #4A4A4A;
+  --gallery-text-muted: #7A7A7A;
+  
+  /* Muted accent colors */
+  --gallery-accent-primary: #2C2C2C; /* Near black for primary actions */
+  --gallery-accent-secondary: #E5E5E1; /* Light gray for secondary elements */
+  --gallery-accent-burgundy: #8B3A3A; /* Museum burgundy for special highlights */
+  --gallery-accent-gold: #B8860B; /* Gallery gold for premium features */
+  
+  /* Subtle borders and dividers */
+  --gallery-border: #E8E8E6;
+  --gallery-border-light: #F0F0EE;
+  
+  /* Shadow definitions for depth */
+  --gallery-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+  --gallery-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --gallery-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --gallery-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.10);
+  
+  /* Typography scale */
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Type scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  
+  /* Spacing scale */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+  --spacing-4xl: 6rem;
+  
+  /* Border radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slower: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark mode palette */
+.dark {
+  --gallery-background: #0A0A0A;
+  --gallery-surface: #141414;
+  --gallery-surface-elevated: #1F1F1F;
+  
+  --gallery-text-primary: #FAFAF8;
+  --gallery-text-secondary: #CACAC6;
+  --gallery-text-muted: #8A8A86;
+  
+  --gallery-accent-primary: #FAFAF8;
+  --gallery-accent-secondary: #2A2A2A;
+  --gallery-accent-burgundy: #A85454;
+  --gallery-accent-gold: #D4A017;
+  
+  --gallery-border: #2A2A2A;
+  --gallery-border-light: #1F1F1F;
+  
+  --gallery-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --gallery-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --gallery-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --gallery-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+/* Typography Classes */
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.font-body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: -0.011em;
+}
+
+/* Gallery-specific utility classes */
+.gallery-card {
+  background: var(--gallery-surface);
+  border: 1px solid var(--gallery-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--gallery-shadow-sm);
+  transition: all var(--transition-base);
+}
+
+.gallery-card:hover {
+  box-shadow: var(--gallery-shadow-md);
+  transform: translateY(-2px);
+}
+
+.gallery-button-primary {
+  background: var(--gallery-accent-primary);
+  color: var(--gallery-background);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all var(--transition-base);
+}
+
+.gallery-button-primary:hover {
+  background: var(--gallery-text-secondary);
+  transform: translateY(-1px);
+}
+
+.gallery-button-secondary {
+  background: transparent;
+  color: var(--gallery-text-primary);
+  border: 1px solid var(--gallery-border);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all var(--transition-base);
+}
+
+.gallery-button-secondary:hover {
+  background: var(--gallery-accent-secondary);
+  border-color: var(--gallery-text-secondary);
+}
+
+/* Artwork frame effect */
+.artwork-frame {
+  position: relative;
+  background: var(--gallery-surface);
+  padding: var(--spacing-md);
+  border: 1px solid var(--gallery-border);
+  box-shadow: var(--gallery-shadow-lg);
+}
+
+.artwork-frame::before {
+  content: '';
+  position: absolute;
+  inset: var(--spacing-sm);
+  border: 2px solid var(--gallery-accent-gold);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.artwork-frame:hover::before {
+  opacity: 0.3;
+}
+
+/* Museum label style */
+.museum-label {
+  background: var(--gallery-surface-elevated);
+  padding: var(--spacing-md);
+  border-left: 3px solid var(--gallery-accent-burgundy);
+  font-family: var(--font-body);
+}
+
+.museum-label-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--gallery-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.museum-label-artist {
+  font-size: var(--text-sm);
+  color: var(--gallery-text-secondary);
+  font-weight: 500;
+}
+
+.museum-label-details {
+  font-size: var(--text-xs);
+  color: var(--gallery-text-muted);
+  margin-top: var(--spacing-xs);
+}
+
+/* Loading skeleton with gallery aesthetic */
+.gallery-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--gallery-accent-secondary) 0%,
+    var(--gallery-surface-elevated) 50%,
+    var(--gallery-accent-secondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: galleryShimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes galleryShimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Masonry grid layout */
+.masonry-grid {
+  column-count: 4;
+  column-gap: var(--spacing-lg);
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: var(--spacing-lg);
+}
+
+@media (max-width: 1024px) {
+  .masonry-grid {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 768px) {
+  .masonry-grid {
+    column-count: 2;
+    column-gap: var(--spacing-md);
+  }
+  
+  .masonry-item {
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .masonry-grid {
+    column-count: 1;
+  }
+}
+
+/* Smooth page transitions */
+.page-transition {
+  animation: pageEnter var(--transition-slower) ease-out;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gallery room transition effect */
+.gallery-room-transition {
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-room-transition::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--gallery-surface);
+  animation: roomSlide 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@keyframes roomSlide {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 0;
+  }
+  100% {
+    left: 100%;
+  }
+}

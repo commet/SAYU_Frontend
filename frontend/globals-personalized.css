@@ -181,21 +181,21 @@ h1, h2, h3, h4, h5, h6 {
 /* Theme-specific overrides */
 
 /* Abstract themes - flowing, dynamic */
-.theme-A\w+ {
+[class*="theme-A"] {
   --experimental-blur: blur(0.5px);
 }
 
-.theme-A\w+ .personalized-card {
+[class*="theme-A"] .personalized-card {
   backdrop-filter: var(--experimental-blur);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Emotional themes - warmer, more expressive */
-.theme-\w+E\w+ {
+[class*="theme-"][class*="E"] {
   --pulse-animation: pulse 2s infinite;
 }
 
-.theme-\w+E\w+ .personalized-button {
+[class*="theme-"][class*="E"] .personalized-button {
   animation: var(--pulse-animation);
 }
 

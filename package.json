@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "pm2": "^6.0.6"
+  },
+  "devDependencies": {
+    "@railway/cli": "^4.5.3"
   }
 }
