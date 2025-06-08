@@ -1,0 +1,25 @@
+# Railway Frontend Deployment Commands
+# Run these commands in your terminal
+
+# 1. Link to your existing project (select "valiant-nature")
+railway link
+
+# 2. After linking, check current service
+railway status
+
+# 3. Create a new service for frontend
+railway service create frontend
+
+# 4. Deploy the frontend
+railway up
+
+# 5. After deployment, get the frontend URL
+railway open
+
+# Environment variables to add in Railway dashboard:
+# - NEXT_PUBLIC_API_URL=https://valiant-nature-production.up.railway.app
+# - NEXTAUTH_URL=https://[YOUR-FRONTEND-URL].railway.app
+# - NEXTAUTH_SECRET=[generate-a-secure-secret]
+
+# To generate a secure secret, you can use:
+# openssl rand -base64 32
