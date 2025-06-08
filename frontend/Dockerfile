@@ -1,0 +1,28 @@
+# Frontend Dockerfile
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install ALL dependencies (including dev) for build
+RUN npm ci
+
+# Copy all frontend files
+COPY . .
+
+# Build the Next.js app
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
+ENV NEXT_DISABLE_ESLINT_PLUGIN=true
+RUN npm run build
+
+# Remove dev dependencies
+RUN npm prune --production
+
+# Expose port
+EXPOSE 3000
+
+# Start the application
+CMD ["npm", "start"]
