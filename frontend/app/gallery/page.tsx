@@ -1,6 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+export const dynamic = 'force-dynamic';
+
+import { useState, useEffect, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { usePersonalizedTheme, useThemeAwareAnimations, useThemeAwareLayout } from '@/hooks/usePersonalizedTheme';
@@ -43,7 +45,7 @@ const ART_CATEGORIES = [
   { id: 'contemporary', name: 'Contemporary', metDepartment: 21 }
 ];
 
-export default function GalleryPage() {
+function GalleryContent() {
   const { user, loading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -604,5 +606,20 @@ export default function GalleryPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function GalleryPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Eye className="w-12 h-12 mx-auto mb-4 animate-pulse text-purple-500" />
+          <p className="text-muted-foreground">Loading gallery...</p>
+        </div>
+      </div>
+    }>
+      <GalleryContent />
+    </Suspense>
   );
 }

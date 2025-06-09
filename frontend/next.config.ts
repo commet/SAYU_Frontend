@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   
+  // Reduce build optimization for Railway
+  poweredByHeader: false,
+  
   // PWA Configuration
   async headers() {
     return [
