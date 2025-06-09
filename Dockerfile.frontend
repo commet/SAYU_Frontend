@@ -23,7 +23,9 @@ ENV NEXT_PUBLIC_API_URL=http://localhost:5000
 ENV NEXTAUTH_URL=http://localhost:3000
 ENV NEXTAUTH_SECRET=build-time-secret
 
-RUN npm run build
+# Add verbose logging for debugging
+RUN npm list
+RUN npm run build --verbose || (echo "Build failed. Checking node version and dependencies..." && node --version && npm --version && npm list --depth=0 && exit 1)
 
 # Remove dev dependencies
 RUN npm prune --production

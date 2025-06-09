@@ -65,10 +65,11 @@ const nextConfig: NextConfig = {
   },
 
   // Experimental features for better PWA performance
-  experimental: {
-    optimizeCss: true,
-    scrollRestoration: true,
-  },
+  // Removed experimental features that might cause build issues
+  // experimental: {
+  //   optimizeCss: true,
+  //   scrollRestoration: true,
+  // },
 
   // Compiler optimizations
   compiler: {
