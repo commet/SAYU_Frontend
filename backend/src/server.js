@@ -38,6 +38,7 @@ const authRoutes = require('./routes/auth');
 const oauthRoutes = require('./routes/oauth');
 const emailRoutes = require('./routes/email');
 const quizRoutes = require('./routes/quiz');
+const sayuQuizRoutes = require('./routes/sayuQuizRoutes');
 const profileRoutes = require('./routes/profile');
 const recommendationRoutes = require('./routes/recommendations');
 const agentRoutes = require('./routes/agent');
@@ -153,6 +154,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/auth', oauthRoutes); // OAuth routes under auth path
 app.use('/api/email', emailRoutes);
 app.use('/api/quiz', quizRoutes);
+app.use('/api/sayu-quiz', sayuQuizRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/agent', agentRoutes);
