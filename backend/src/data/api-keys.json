@@ -1,0 +1,9 @@
+{
+  "sayu_test_key_123": {
+    "name": "Test Key",
+    "tier": "premium",
+    "dailyLimit": 1000,
+    "created": "2025-06-18T12:12:16.493Z",
+    "active": true
+  }
+}

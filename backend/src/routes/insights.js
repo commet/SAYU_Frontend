@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { authenticate } = require('../middleware/auth');
 const { BehavioralInsightsService } = require('../services/behavioralInsightsService');
-const { captureException } = require('../config/sentry');
+// const { captureException } = require('../config/sentry');
+const captureException = (error, context) => {
+  console.error('Insights error:', error.message, context);
+};
 
 // Track viewing behavior
 router.post('/track-viewing', authenticate, async (req, res, next) => {
