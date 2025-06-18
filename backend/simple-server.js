@@ -26,10 +26,18 @@ app.get('/', (req, res) => {
     service: 'SAYU API Server',
     version: '1.0.0',
     status: 'running',
+    lastUpdated: '2024-06-18T21:30:00Z', // 🔥 디버깅용 타임스탬프
+    environment: process.env.NODE_ENV || 'development',
+    port: PORT,
+    commit: '1afa006', // 🔥 최신 커밋 해시
     endpoints: {
       public: '/api/public/*',
-      docs: '/api-docs',
+      docs: '/api-docs', 
       health: '/api/health'
+    },
+    railway: {
+      deployed: true,
+      simpleServer: true // 🔥 simple-server.js 사용중임을 확인
     },
     message: 'Welcome to SAYU - Art Personality Analysis API'
   });
@@ -56,7 +64,25 @@ try {
   
   // 폴백 API
   app.get('/api/public/health', (req, res) => {
-    res.json({ status: 'ok', message: 'Fallback API active' });
+    res.json({ 
+      status: 'ok', 
+      message: 'Fallback API active',
+      timestamp: new Date().toISOString(),
+      server: 'simple-server.js'
+    });
+  });
+  
+  app.get('/api/public/personality-types', (req, res) => {
+    res.json({
+      success: true,
+      data: {
+        "VISIONARY": { description: "Big picture thinker" },
+        "EXPLORER": { description: "Adventurous spirit" },
+        "CURATOR": { description: "Thoughtful collector" },
+        "SOCIAL": { description: "Community-minded enthusiast" }
+      },
+      fallback: true
+    });
   });
 }
 
