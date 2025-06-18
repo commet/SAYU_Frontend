@@ -49,6 +49,7 @@ const imageGenerationRoutes = require('./routes/imageGeneration');
 const adminRoutes = require('./routes/admin');
 const achievementRoutes = require('./routes/achievements');
 const insightsRoutes = require('./routes/insights');
+const publicApiRoutes = require('./routes/public-api');
 const archiveRoutes = require('./routes/archive');
 const reportsRoutes = require('./routes/reports');
 const communityRoutes = require('./routes/community');
@@ -166,6 +167,7 @@ app.use('/api/image-generation', imageGenerationRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/achievements', achievementRoutes);
 app.use('/api/insights', insightsRoutes);
+app.use('/api/public', publicApiRoutes); // 🔥 공개 API 추가
 app.use('/api/archive', archiveRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/community', communityRoutes);
