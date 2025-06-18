@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build",
-    "start": "cd backend && npm start",
-    "postinstall": "cd backend && npm install"
+    "build": "cd backend && npm ci",
+    "start": "cd backend && node simple-server.js",
+    "postinstall": "cd backend && npm ci"
   },
   "dependencies": {
-    "pm2": "^6.0.6"
+    "pm2": "^6.0.6",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "express-rate-limit": "^7.1.0"
   },
   "devDependencies": {
     "@railway/cli": "^4.5.3"
