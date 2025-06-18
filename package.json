@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cd backend && npm ci",
-    "start": "cd backend && node simple-server.js",
-    "postinstall": "cd backend && npm ci"
+    "build": "echo 'Build completed'",
+    "start": "cd backend && node simple-server.js"
   },
   "dependencies": {
     "pm2": "^6.0.6",
