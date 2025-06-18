@@ -21,6 +21,27 @@ const apiKeyLimiter = rateLimit({
 
 // ==================== 무료 공개 API ====================
 
+// 0. 헬스 체크 (무료)
+router.get('/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    service: 'SAYU Public API',
+    version: '1.0.0',
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      free: [
+        'GET /personality-types',
+        'POST /analyze-basic',
+        'GET /health'
+      ],
+      premium: [
+        'POST /analyze',
+        'POST /recommend'
+      ]
+    }
+  });
+});
+
 // 1. 성격 유형 목록 (무료)
 router.get('/personality-types', publicApiLimiter, (req, res) => {
   const types = {
@@ -86,6 +107,8 @@ router.post('/analyze-basic', publicApiLimiter, (req, res) => {
 // ==================== API 키 필요 ====================
 
 // API 키 미들웨어
+const apiKeyService = require('../services/apiKeyService');
+
 const requireApiKey = async (req, res, next) => {
   const apiKey = req.headers['x-api-key'];
   
@@ -96,17 +119,22 @@ const requireApiKey = async (req, res, next) => {
     });
   }
 
-  // TODO: 실제 API 키 검증 로직
-  // const isValid = await validateApiKey(apiKey);
-  const isValid = apiKey.startsWith('sayu_'); // 임시 검증
+  const validation = await apiKeyService.validateAPIKey(apiKey);
   
-  if (!isValid) {
+  if (!validation.valid) {
     return res.status(401).json({
-      error: "Invalid API key"
+      error: "Invalid API key",
+      reason: validation.reason
     });
   }
 
   req.apiKey = apiKey;
+  req.apiKeyData = validation.keyData;
+  req.remainingRequests = validation.remainingToday;
+  
+  // 사용량 추적
+  await apiKeyService.trackUsage(apiKey, req.path);
+  
   next();
 };
 
@@ -178,16 +206,33 @@ function analyzeBasic(responses) {
 }
 
 async function performFullAnalysis(responses, userId) {
-  // 기존 SAYU 분석 로직 활용
-  // TODO: 실제 분석 로직 연결
-  return {
-    type: "VISIONARY",
-    confidence: 85,
-    traits: ["innovative", "abstract-thinking", "future-focused"],
-    preferences: ["contemporary", "digital-art", "installations"],
-    recommendations: ["Museum of Modern Art", "Digital Art Center"],
-    insights: "You appreciate art that challenges conventional boundaries"
-  };
+  try {
+    // 기존 SAYU 퀴즈 서비스 활용
+    const { sayuQuizService } = require('../services/sayuQuizService');
+    
+    // 응답을 SAYU 퀴즈 형식으로 변환
+    const quizResponses = responses.map((response, index) => ({
+      questionId: index + 1,
+      answer: response,
+      timeSpent: 30 // 기본값
+    }));
+    
+    // SAYU 분석 수행
+    const analysis = await sayuQuizService.analyzeResponses(quizResponses);
+    
+    return {
+      type: analysis.personalityType || "VISIONARY",
+      confidence: analysis.confidence || 75,
+      traits: analysis.traits || ["innovative", "abstract-thinking", "future-focused"],
+      preferences: analysis.artPreferences || ["contemporary", "digital-art", "installations"],
+      recommendations: analysis.recommendations || ["Museum of Modern Art", "Digital Art Center"],
+      insights: analysis.insights || "You appreciate art that challenges conventional boundaries"
+    };
+  } catch (error) {
+    console.error('Analysis error:', error);
+    // 폴백 분석
+    return analyzeBasic(responses);
+  }
 }
 
 async function generateRecommendations(personalityType, preferences) {
@@ -203,8 +248,8 @@ async function generateRecommendations(personalityType, preferences) {
 }
 
 async function getRemainingRequests(apiKey) {
-  // TODO: 실제 사용량 추적
-  return 950; // 1000 - 50 used
+  const validation = await apiKeyService.validateAPIKey(apiKey);
+  return validation.valid ? validation.remainingToday : 0;
 }
 
 module.exports = router;

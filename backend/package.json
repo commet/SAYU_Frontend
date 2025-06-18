@@ -12,9 +12,11 @@
     "db:indexes": "psql $DATABASE_URL -f migrations/performance-indexes.sql",
     "email:setup": "node scripts/setupEmailSystem.js",
     "monitoring:start": "node src/scripts/monitoringSetup.js",
-    "monitoring:health": "node -e \"require('./src/services/alertingService').healthCheck().then(h => console.log(JSON.stringify(h, null, 2)))\""
+    "monitoring:health": "node -e \"require('./src/services/alertingService').healthCheck().then(h => console.log(JSON.stringify(h, null, 2)))\"",
+    "mcp:start": "node src/mcp-server.js"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.3",
     "@sentry/node": "^9.26.0",
     "@sentry/profiling-node": "^9.26.0",
     "@types/nodemailer": "^6.4.17",
