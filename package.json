@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "cd frontend && npm install && npm run build",
-    "start": "cd frontend && npm start"
+    "start": "cd backend && npm start"
   },
   "dependencies": {
     "pm2": "^6.0.6"
