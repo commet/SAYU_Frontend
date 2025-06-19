@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "echo 'Build completed'",
-    "start": "cd backend && node simple-server.js"
+    "start": "cd backend && node sayu-living-server.js"
   },
   "dependencies": {
     "pm2": "^6.0.6",
