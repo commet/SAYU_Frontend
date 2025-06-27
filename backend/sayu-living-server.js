@@ -61,6 +61,85 @@ app.get('/', (req, res) => {
   });
 });
 
+// 퀴즈 API
+app.post('/api/quiz/start', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Quiz started successfully',
+    sessionId: `quiz_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    currentQuestion: {
+      id: 'twilight_doors',
+      type: 'visual_choice',
+      narrative: {
+        ko: '황혼의 미술관. 두 개의 문이 있다.',
+        en: 'Museum at twilight. Two doors await.'
+      },
+      choices: [
+        {
+          id: 'A',
+          visual: {
+            gradient: ['#FF6B6B', '#4ECDC4', '#FFE66D'],
+            animation: 'pulse_warm',
+            icon: 'users'
+          },
+          hover_text: '소리가 들린다',
+          weight: { S: 3, E: 1 }
+        },
+        {
+          id: 'B',
+          visual: {
+            gradient: ['#2E86AB', '#A23B72', '#F18F01'],
+            animation: 'shimmer_cool',
+            icon: 'moon'
+          },
+          hover_text: '고요가 부른다',
+          weight: { L: 3, M: 1 }
+        }
+      ]
+    }
+  });
+});
+
+app.post('/api/quiz/answer', (req, res) => {
+  const { sessionId, questionId, choiceId } = req.body;
+  
+  res.json({
+    success: true,
+    message: 'Answer recorded',
+    sessionId,
+    nextQuestion: {
+      id: 'gallery_mood',
+      type: 'visual_choice', 
+      narrative: {
+        ko: '신비한 갤러리에서 당신의 감정이 작품과 공명합니다.',
+        en: 'In the mysterious gallery, your emotions resonate with the artwork.'
+      },
+      choices: [
+        {
+          id: 'A',
+          visual: {
+            gradient: ['#FF6B6B', '#FF8E53'],
+            animation: 'flame_dance',
+            icon: 'fire'
+          },
+          hover_text: '강렬한 붉은 작품',
+          weight: { E: 2, F: 1 }
+        },
+        {
+          id: 'B', 
+          visual: {
+            gradient: ['#4ECDC4', '#44A08D'],
+            animation: 'water_flow',
+            icon: 'waves'
+          },
+          hover_text: '차분한 푸른 작품',
+          weight: { L: 2, C: 1 }
+        }
+      ]
+    }
+  });
+});
+
 // 헬스 체크
 app.get('/api/health', (req, res) => {
   res.json({
