@@ -49,16 +49,21 @@ export default function QuizComponent() {
   const startQuiz = async () => {
     try {
       setLoading(true);
+      console.log('Starting quiz with API URL:', process.env.NEXT_PUBLIC_API_URL);
       const response = await api.quiz.start({ language });
+      console.log('Quiz start response:', response);
       
       if (response.success) {
         setSessionId(response.sessionId);
         setCurrentQuestion(response.currentQuestion);
         setProgress(response.progress);
+      } else {
+        console.error('Quiz start failed:', response);
+        alert('퀴즈 시작에 실패했습니다: ' + (response.message || '알 수 없는 오류'));
       }
     } catch (error) {
       console.error('Failed to start quiz:', error);
-      alert('퀴즈를 시작할 수 없습니다. 다시 시도해주세요.');
+      alert('퀴즈를 시작할 수 없습니다. 네트워크를 확인해주세요.');
     } finally {
       setLoading(false);
     }
@@ -115,11 +120,15 @@ export default function QuizComponent() {
   if (loading || !currentQuestion) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="w-16 h-16 border-4 border-white border-t-transparent rounded-full"
-        />
+        <div className="text-center">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="w-16 h-16 border-4 border-white border-t-transparent rounded-full mx-auto mb-4"
+          />
+          <p className="text-white text-lg">퀴즈를 준비하고 있습니다...</p>
+          <p className="text-white/60 text-sm mt-2">잠시만 기다려주세요</p>
+        </div>
       </div>
     );
   }
