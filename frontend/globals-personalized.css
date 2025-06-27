@@ -205,26 +205,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Modern themes - clean, minimal */
-.theme-\w+\w+\w+M {
+[class*="theme-"][class$="M"] {
   --grid-background: 
     linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px);
   --grid-size: 20px;
 }
 
-.theme-\w+\w+\w+M body {
+[class*="theme-"][class$="M"] body {
   background-image: var(--grid-background);
   background-size: var(--grid-size) var(--grid-size);
 }
 
 /* Classical themes - elegant, traditional */
-.theme-\w+\w+\w+T .personalized-card {
+[class*="theme-"][class$="T"] .personalized-card {
   border-width: 2px;
   border-style: solid;
 }
 
-.theme-\w+\w+\w+T h1, 
-.theme-\w+\w+\w+T h2 {
+[class*="theme-"][class$="T"] h1, 
+[class*="theme-"][class$="T"] h2 {
   text-decoration: underline;
   text-decoration-color: var(--color-accent);
   text-underline-offset: 0.3em;

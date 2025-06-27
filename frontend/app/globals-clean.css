@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #FAFAF8;
+    color: #2C2C2C;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+}
+
+@layer components {
+  /* SAYU 갤러리 카드 */
+  .sayu-card {
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid #E7E5E4;
+    padding: 1.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .sayu-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* SAYU 버튼 */
+  .sayu-button {
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .sayu-button-primary {
+    background: linear-gradient(135deg, #FBB040, #F15A5A);
+    color: white;
+  }
+  
+  .sayu-button-primary:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+  }
+  
+  .sayu-button-secondary {
+    background-color: transparent;
+    border: 2px solid #E7E5E4;
+    color: #2C2C2C;
+  }
+  
+  .sayu-button-secondary:hover {
+    background-color: #F5F5F4;
+    border-color: #FBB040;
+  }
+  
+  /* SAYU 입력 필드 */
+  .sayu-input {
+    background-color: white;
+    border: 2px solid #E7E5E4;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    font-family: 'Inter', sans-serif;
+    color: #2C2C2C;
+    transition: all 0.3s ease;
+  }
+  
+  .sayu-input:focus {
+    outline: none;
+    border-color: #FBB040;
+    box-shadow: 0 0 0 3px rgba(251, 176, 64, 0.1);
+  }
+}

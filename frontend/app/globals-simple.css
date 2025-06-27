@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #FAFAF8;
+  color: #2C2C2C;
+  font-family: 'Inter', sans-serif;
+}
+
+.test-style {
+  background: linear-gradient(135deg, #FBB040, #F15A5A);
+  color: white;
+  padding: 1rem;
+  border-radius: 12px;
+}

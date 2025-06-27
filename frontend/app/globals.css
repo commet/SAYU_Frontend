@@ -70,7 +70,8 @@
   }
   
   body {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     -webkit-font-smoothing: antialiased;
@@ -87,49 +88,84 @@
 @layer components {
   /* Gallery Card Component */
   .gallery-card {
-    @apply bg-card rounded-lg border shadow-sm transition-all duration-300;
+    background-color: hsl(var(--card));
+    border-radius: 0.5rem;
+    border: 1px solid hsl(var(--border));
     box-shadow: var(--gallery-shadow-sm);
+    transition: all 0.3s ease;
   }
   
   .gallery-card:hover {
-    @apply -translate-y-0.5;
+    transform: translateY(-2px);
     box-shadow: var(--gallery-shadow-md);
   }
   
   /* Artwork Frame Effect */
   .artwork-frame {
-    @apply relative bg-card p-3 border rounded-lg overflow-hidden;
+    position: relative;
+    background-color: hsl(var(--card));
+    padding: 0.75rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    overflow: hidden;
     box-shadow: var(--gallery-shadow-lg);
   }
   
   .artwork-frame::before {
     content: '';
-    @apply absolute inset-2 border-2 opacity-0 transition-opacity duration-300;
-    border-color: hsl(var(--gallery-gold));
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    border: 2px solid hsl(var(--gallery-gold));
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
   
   .artwork-frame:hover::before {
-    @apply opacity-30;
+    opacity: 0.3;
   }
   
   /* Museum Label Style */
   .museum-label {
-    @apply bg-card p-4 border-l-4 rounded-r-lg;
-    border-left-color: hsl(var(--accent));
+    background-color: hsl(var(--card));
+    padding: 1rem;
+    border-left: 4px solid hsl(var(--accent));
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
   }
   
   /* Gallery Button Styles */
   .gallery-button {
-    @apply px-6 py-3 font-medium rounded-md transition-all duration-300;
-    @apply hover:-translate-y-0.5 hover:shadow-md;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+  }
+  
+  .gallery-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
   
   .gallery-button-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+  
+  .gallery-button-primary:hover {
+    background-color: hsl(var(--primary) / 0.9);
   }
   
   .gallery-button-secondary {
-    @apply bg-transparent border text-foreground hover:bg-secondary;
+    background-color: transparent;
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--foreground));
+  }
+  
+  .gallery-button-secondary:hover {
+    background-color: hsl(var(--secondary));
   }
   
   /* Masonry Grid */

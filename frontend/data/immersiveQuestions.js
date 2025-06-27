@@ -49,8 +49,7 @@ export const immersiveQuestions = [
           animation: 'float',
           icon: 'heart'
         },
-        hover_text: '색과 형태의 지
-',
+        hover_text: '색과 형태의 지',
         weight: { A: 3, F: 1 }
       },
       {

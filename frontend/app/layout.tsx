@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
-import '../globals-personalized.css'
+import './globals-emergency.css'
 import { AuthProvider } from '@/hooks/useAuth'
 import { ThemeProvider } from '@/hooks/usePersonalizedTheme'
 import { OnboardingProvider } from '@/contexts/OnboardingContext'

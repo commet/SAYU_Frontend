@@ -43,20 +43,20 @@ export default function DemoPage() {
   };
 
   return (
-    <div className=\"min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900\">
-      <div className=\"container mx-auto px-4 py-8\">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+      <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className=\"text-center mb-8\">
-          <h1 className=\"text-4xl font-bold text-white mb-4\">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-white mb-4">
             🎨 SAYU Living Identity Demo
           </h1>
-          <p className=\"text-xl text-purple-200\">
+          <p className="text-xl text-purple-200">
             Experience the evolving art personality system
           </p>
         </div>
 
         {/* Demo Navigation */}
-        <div className=\"flex flex-wrap justify-center gap-4 mb-8\">
+        <div className="flex flex-wrap justify-center gap-4 mb-8">
           {demos.map((demo) => (
             <motion.button
               key={demo.id}
@@ -69,19 +69,19 @@ export default function DemoPage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className=\"text-lg mb-1\">{demo.name}</div>
-              <div className=\"text-sm opacity-80\">{demo.description}</div>
+              <div className="text-lg mb-1">{demo.name}</div>
+              <div className="text-sm opacity-80">{demo.description}</div>
             </motion.button>
           ))}
         </div>
 
         {/* Current Identity Display */}
-        <div className=\"text-center mb-8\">
-          <div className=\"inline-block bg-white/10 rounded-lg px-6 py-3 backdrop-blur-sm\">
-            <span className=\"text-white/80\">Current Identity: </span>
-            <span className=\"text-xl font-bold text-white\">{userIdentity.type}</span>
-            <span className=\"text-white/80 ml-4\">Stage: {userIdentity.evolutionStage}</span>
-            <span className=\"text-white/80 ml-4\">Points: {userIdentity.evolutionPoints}</span>
+        <div className="text-center mb-8">
+          <div className="inline-block bg-white/10 rounded-lg px-6 py-3 backdrop-blur-sm">
+            <span className="text-white/80">Current Identity: </span>
+            <span className="text-xl font-bold text-white">{userIdentity.type}</span>
+            <span className="text-white/80 ml-4">Stage: {userIdentity.evolutionStage}</span>
+            <span className="text-white/80 ml-4">Points: {userIdentity.evolutionPoints}</span>
           </div>
         </div>
 
@@ -91,11 +91,11 @@ export default function DemoPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className=\"max-w-6xl mx-auto\"
+          className="max-w-6xl mx-auto"
         >
           {activeDemo === 'quiz' && (
-            <div className=\"bg-white/5 rounded-2xl p-8 backdrop-blur-sm\">
-              <h2 className=\"text-2xl font-bold text-white mb-6 text-center\">
+            <div className="bg-white/5 rounded-2xl p-8 backdrop-blur-sm">
+              <h2 className="text-2xl font-bold text-white mb-6 text-center">
                 Immersive Art Personality Quiz
               </h2>
               <ImmersiveQuiz onComplete={handleQuizComplete} />
@@ -103,11 +103,11 @@ export default function DemoPage() {
           )}
 
           {activeDemo === 'card' && (
-            <div className=\"bg-white/5 rounded-2xl p-8 backdrop-blur-sm\">
-              <h2 className=\"text-2xl font-bold text-white mb-6 text-center\">
+            <div className="bg-white/5 rounded-2xl p-8 backdrop-blur-sm">
+              <h2 className="text-2xl font-bold text-white mb-6 text-center">
                 Living Identity Card
               </h2>
-              <div className=\"flex justify-center\">
+              <div className="flex justify-center">
                 <IdentityCard
                   identity={userIdentity}
                   evolutionStage={userIdentity.evolutionStage}
@@ -136,8 +136,8 @@ export default function DemoPage() {
           )}
 
           {activeDemo === 'village' && (
-            <div className=\"bg-white/5 rounded-2xl overflow-hidden backdrop-blur-sm\">
-              <h2 className=\"text-2xl font-bold text-white p-8 text-center\">
+            <div className="bg-white/5 rounded-2xl overflow-hidden backdrop-blur-sm">
+              <h2 className="text-2xl font-bold text-white p-8 text-center">
                 Village Community System
               </h2>
               <VillageHome 
@@ -148,20 +148,20 @@ export default function DemoPage() {
           )}
 
           {activeDemo === 'tokens' && (
-            <div className=\"bg-white/5 rounded-2xl p-8 backdrop-blur-sm\">
-              <h2 className=\"text-2xl font-bold text-white mb-6 text-center\">
+            <div className="bg-white/5 rounded-2xl p-8 backdrop-blur-sm">
+              <h2 className="text-2xl font-bold text-white mb-6 text-center">
                 Quiz Token Economy
               </h2>
               <TokenSystem 
-                userId=\"demo-user\"
+                userId="demo-user"
                 onTokenUpdate={handleTokenUpdate}
               />
             </div>
           )}
 
           {activeDemo === 'exchange' && (
-            <div className=\"bg-white/5 rounded-2xl p-8 backdrop-blur-sm\">
-              <h2 className=\"text-2xl font-bold text-white mb-6 text-center\">
+            <div className="bg-white/5 rounded-2xl p-8 backdrop-blur-sm">
+              <h2 className="text-2xl font-bold text-white mb-6 text-center">
                 Card Exchange System
               </h2>
               <CardExchange
@@ -175,10 +175,10 @@ export default function DemoPage() {
         </motion.div>
 
         {/* Instructions */}
-        <div className=\"mt-12 text-center\">
-          <div className=\"bg-white/10 rounded-lg p-6 backdrop-blur-sm max-w-2xl mx-auto\">
-            <h3 className=\"text-lg font-bold text-white mb-3\">💡 Demo Instructions</h3>
-            <div className=\"text-purple-200 space-y-2\">
+        <div className="mt-12 text-center">
+          <div className="bg-white/10 rounded-lg p-6 backdrop-blur-sm max-w-2xl mx-auto">
+            <h3 className="text-lg font-bold text-white mb-3">💡 Demo Instructions</h3>
+            <div className="text-purple-200 space-y-2">
               <p>• Start with the <strong>Quiz</strong> to set your identity</p>
               <p>• View your <strong>Identity Card</strong> and customize it</p>
               <p>• Explore your <strong>Village</strong> community</p>

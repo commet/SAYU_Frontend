@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* SAYU Emergency Design Fix */
+body {
+  background: linear-gradient(135deg, #FBB040 0%, #F15A5A 100%);
+  color: #2C2C2C;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* 긴급 버튼 스타일 */
+.sayu-button, button {
+  background: linear-gradient(45deg, #FF6B6B, #4ECDC4, #FFE66D);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.sayu-button:hover, button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+/* 긴급 카드 스타일 */
+.card, .sayu-card, div[class*="card"] {
+  background: rgba(255,255,255,0.95);
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 1rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  border: 3px solid #FFE66D;
+}
+
+/* 퀴즈 스타일 강제 적용 */
+.quiz-container {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 25px;
+  padding: 3rem;
+  margin: 2rem 0;
+}
+
+.quiz-option {
+  background: rgba(255,255,255,0.9);
+  border: 2px solid #4ECDC4;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quiz-option:hover {
+  background: #4ECDC4;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* 텍스트 강제 스타일링 */
+h1, h2, h3 {
+  color: #2C2C2C;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 모든 요소에 최소한의 스타일 보장 */
+* {
+  transition: all 0.3s ease;
+}
+
+/* 강제 색상 적용 */
+.bg-background { background: linear-gradient(135deg, #FBB040, #F15A5A) !important; }
+.text-foreground { color: #2C2C2C !important; }
