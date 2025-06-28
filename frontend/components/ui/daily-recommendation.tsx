@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar, Sparkles, Heart, Eye, ArrowRight, RefreshCw } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import toast from 'react-hot-toast';
+import Image from 'next/image';
 
 interface DailyRecommendation {
   date: string;
@@ -234,14 +235,16 @@ export function DailyRecommendationCard() {
         <div className="aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg mb-4 animate-pulse" />
       ) : featuredArtwork ? (
         <div className="relative group mb-4">
-          <div className="aspect-video rounded-lg overflow-hidden">
-            <img
+          <div className="aspect-video rounded-lg overflow-hidden relative">
+            <Image
               src={featuredArtwork.imageUrl}
               alt={featuredArtwork.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
               onClick={handleView}
               onError={(e) => {
-                e.currentTarget.src = '/images/placeholder-artwork.jpg';
+                e.currentTarget.src = '/images/placeholder-artwork.svg';
               }}
             />
           </div>

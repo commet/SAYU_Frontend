@@ -4,6 +4,7 @@ import { motion, useAnimation, PanInfo } from 'framer-motion';
 import { useState, useRef } from 'react';
 import { Heart, X, Info } from 'phosphor-react';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 interface SwipeCardProps {
   artwork: {
@@ -117,12 +118,14 @@ export function SwipeCard({
       <div className="relative bg-card rounded-2xl shadow-xl overflow-hidden h-[600px]">
         {/* Image */}
         <div className="relative h-4/5 overflow-hidden">
-          <img
+          <Image
             src={artwork.imageUrl}
             alt={artwork.title}
-            className="w-full h-full object-cover"
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover"
             onError={(e) => {
-              e.currentTarget.src = '/images/placeholder-artwork.jpg';
+              e.currentTarget.src = '/images/placeholder-artwork.svg';
             }}
           />
           
