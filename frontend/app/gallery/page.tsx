@@ -10,6 +10,7 @@ import { useAchievements } from '@/hooks/useAchievements';
 import { Button } from '@/components/ui/button';
 import { Heart, ArrowLeft, Shuffle, ExternalLink, Eye, UserPlus } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 import toast from 'react-hot-toast';
 
 interface Artwork {
@@ -174,6 +175,16 @@ function GalleryContent() {
             const response = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`);
             const artwork = await response.json();
             
+            // Debug: Log the first artwork to check image URLs
+            if (i === 0 && id === batch[0]) {
+              console.log('🖼️ Sample artwork data:', {
+                title: artwork.title,
+                primaryImage: artwork.primaryImage,
+                primaryImageSmall: artwork.primaryImageSmall,
+                isPublicDomain: artwork.isPublicDomain
+              });
+            }
+            
             // COMPLIANCE: Only include public domain artworks (CC0 license)
             if (artwork.primaryImage && 
                 artwork.title && 
@@ -211,6 +222,11 @@ function GalleryContent() {
         if (i + batchSize < objectIDs.length) {
           await new Promise(resolve => setTimeout(resolve, 200));
         }
+      }
+      
+      console.log(`📊 Gallery loaded: ${validArtworks.length} artworks`);
+      if (validArtworks.length > 0) {
+        console.log('🎨 First artwork:', validArtworks[0]);
       }
       
       setArtworks(validArtworks);
@@ -485,8 +501,10 @@ function GalleryContent() {
                       src={artwork.imageUrl}
                       alt={artwork.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      onLoad={() => console.log('✅ Image loaded:', artwork.title)}
                       onError={(e) => {
-                        e.currentTarget.src = '/images/placeholder-artwork.jpg';
+                        console.error('❌ Image failed to load:', artwork.imageUrl);
+                        e.currentTarget.src = '/images/placeholder-artwork.svg';
                       }}
                     />
                     
@@ -623,3 +641,5 @@ export default function GalleryPage() {
     </Suspense>
   );
 }
+
+export default GalleryPage;
