@@ -12,7 +12,7 @@ export default function QuizIntroPage() {
   const router = useRouter();
   const { user } = useAuth();
   const { showWelcomeModal, setShowWelcomeModal } = useOnboarding();
-  const [selectedType, setSelectedType] = useState<'exhibition' | 'artwork' | null>(null);
+  const [selectedType, setSelectedType] = useState<'exhibition' | 'artwork' | 'scenario' | null>(null);
 
   const startQuiz = () => {
     if (selectedType) {
@@ -71,6 +71,24 @@ export default function QuizIntroPage() {
               </h3>
               <p className="text-gray-400">
                 What kind of artworks resonate with you?
+              </p>
+            </motion.div>
+            
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setSelectedType('scenario')}
+              className={`p-6 rounded-2xl cursor-pointer transition-all ${
+                selectedType === 'scenario' 
+                  ? 'bg-purple-600/30 border-2 border-purple-500' 
+                  : 'bg-gray-800/50 border-2 border-transparent hover:border-purple-500/50'
+              }`}
+            >
+              <h3 className="text-xl font-semibold mb-2">
+                🎨 Museum Journey (Scenario)
+              </h3>
+              <p className="text-gray-400">
+                Experience a virtual museum visit with immersive scenarios
               </p>
             </motion.div>
           </div>
