@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { getTranslatedText, getColorCodes, getArtEmoji } from '@/lib/artTranslations';
 import { getArtworkRecommendations } from '@/lib/artworkRecommendations';
 import PersonalityIcon from '@/components/PersonalityIcon';
+import IDCard from '@/components/IDCard';
 
 interface PersonalityResult {
   personalityType: string;
@@ -22,6 +23,7 @@ interface PersonalityResult {
   };
   confidence?: number;
   scores?: Record<string, number>;
+  isScenarioQuiz?: boolean;
 }
 
 function ResultsContent() {
@@ -31,6 +33,7 @@ function ResultsContent() {
   const [language, setLanguage] = useState<'en' | 'ko'>('ko');
   const [loading, setLoading] = useState(true);
   const [detailedData, setDetailedData] = useState<any>(null);
+  const [showIDCard, setShowIDCard] = useState(false);
 
   useEffect(() => {
     const loadResultData = async () => {
@@ -47,6 +50,12 @@ function ResultsContent() {
         } else {
           router.push('/quiz');
           return;
+        }
+        
+        // Check if this is from scenario quiz
+        const quizType = searchParams.get('quizType') || localStorage.getItem('lastQuizType');
+        if (quizType === 'scenario') {
+          currentResult.isScenarioQuiz = true;
         }
         
         setResult(currentResult);
@@ -199,6 +208,43 @@ function ResultsContent() {
               </div>
             )}
           </div>
+
+          {/* Philosophical Message for Scenario Quiz */}
+          {result.isScenarioQuiz && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-8 mb-8 border border-purple-300/30"
+            >
+              <div className="text-center">
+                <h3 className="text-2xl font-bold mb-4 flex items-center justify-center gap-2">
+                  <span className="text-3xl">🌊</span>
+                  {language === 'ko' ? '당신의 미술 취향은 여정입니다' : 'Your Art Taste is a Journey'}
+                </h3>
+                <div className="space-y-4 text-lg leading-relaxed text-white/90">
+                  <p>
+                    {language === 'ko' 
+                      ? 'MBTI와 달리, 당신의 미술 취향은 고정되어 있지 않습니다. 그것은 당신과 함께 성장하고, 진화하며, 새로운 경험과 감정에 따라 변화합니다.'
+                      : 'Unlike MBTI, your art taste is not fixed. It grows with you, evolves, and transforms with new experiences and emotions.'
+                    }
+                  </p>
+                  <p className="text-purple-200">
+                    {language === 'ko'
+                      ? '오늘의 ' + result.personalityType + '는 내일의 다른 모습으로 변할 수 있습니다. 이것이 예술의 아름다움입니다 - 끊임없이 변화하는 당신을 반영합니다.'
+                      : "Today's " + result.personalityType + " may transform into something different tomorrow. That's the beauty of art - it reflects your ever-changing self."
+                    }
+                  </p>
+                  <p className="font-semibold text-pink-200">
+                    {language === 'ko'
+                      ? '🎨 예술과 함께하는 당신의 여정을 즐기세요. 각 순간이 새로운 발견입니다.'
+                      : '🎨 Enjoy your journey with art. Every moment is a new discovery.'
+                    }
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
 
           {/* Strengths */}
           {displayData?.strengths?.[language] && (
@@ -459,6 +505,15 @@ function ResultsContent() {
               결과 공유하기 📤
             </button>
             
+            {result.isScenarioQuiz && (
+              <button
+                onClick={() => setShowIDCard(true)}
+                className="px-8 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl font-bold text-lg hover:scale-105 transition-all"
+              >
+                ID 카드 발급받기 🪪
+              </button>
+            )}
+            
             <Link
               href="/agent"
               className="px-8 py-4 bg-white/20 backdrop-blur-sm rounded-2xl font-bold text-lg hover:bg-white/30 transition-all text-center"
@@ -486,6 +541,24 @@ function ResultsContent() {
           </motion.div>
         </motion.div>
       </div>
+      
+      {/* ID Card Modal */}
+      {showIDCard && (
+        <IDCard
+          personalityType={result.personalityType}
+          userName="SAYU Explorer"
+          joinDate={new Date()}
+          stats={{
+            exhibitionsVisited: 5,
+            artworksViewed: 42,
+            hoursSpent: 12
+          }}
+          level={1}
+          badges={['초보 감상가', '시나리오 퀴즈 완료', '예술 탐험가']}
+          language={language}
+          onClose={() => setShowIDCard(false)}
+        />
+      )}
     </div>
   );
 }

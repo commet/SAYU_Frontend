@@ -13,7 +13,9 @@ import {
   Menu,
   X,
   Calendar,
-  Building2
+  Building2,
+  Archive,
+  GalleryVerticalEnd
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -29,6 +31,18 @@ const navigationItems = [
     label: 'Quiz', 
     icon: Palette,
     description: 'Discover your aesthetic personality'
+  },
+  { 
+    href: '/exhibitions', 
+    label: 'Exhibitions', 
+    icon: GalleryVerticalEnd,
+    description: 'Browse current exhibitions'
+  },
+  { 
+    href: '/exhibition-archive', 
+    label: 'Archive', 
+    icon: Archive,
+    description: 'Your exhibition insights'
   },
   { 
     href: '/gallery', 
