@@ -1,0 +1,15 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🔍 Pre-commit 체크 실행 중..."
+
+# package-lock.json 변경 확인
+if git diff --cached --name-only | grep -q "package\.json"; then
+    if ! git diff --cached --name-only | grep -q "package-lock\.json"; then
+        echo "⚠️  package.json이 변경되었지만 package-lock.json이 포함되지 않았습니다!"
+        echo "npm install을 실행하고 package-lock.json도 커밋해주세요."
+        exit 1
+    fi
+fi
+
+echo "✅ Pre-commit 체크 완료!"
