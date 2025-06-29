@@ -643,5 +643,3 @@ export default function GalleryPage() {
     </Suspense>
   );
 }
-
-export default GalleryPage;
