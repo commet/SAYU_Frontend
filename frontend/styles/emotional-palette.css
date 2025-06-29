@@ -1,0 +1,304 @@
+/* 🎨 SAYU Emotional Color Palette - Personal Art Journey */
+
+@layer base {
+  :root {
+    /* 🌅 Journey Dawn - Starting Colors */
+    --journey-dawn-cream: 39 43% 94%; /* #FAF7ED - Warm invitation */
+    --journey-dawn-peach: 14 68% 92%; /* #FCE4DD - Gentle awakening */
+    --journey-dawn-blush: 351 65% 94%; /* #FAE8EC - Soft curiosity */
+    
+    /* 🌸 Discovery Mid - Exploration Colors */
+    --journey-lavender: 271 36% 93%; /* #F0EAF8 - Contemplative */
+    --journey-dusty-rose: 355 33% 84%; /* #E6C8D1 - Emotional depth */
+    --journey-mauve: 300 14% 84%; /* #DDD0DC - Introspective */
+    
+    /* 🌆 Revelation Dusk - Discovery Colors */
+    --journey-amber: 30 65% 58%; /* #D4A04A - Golden insight */
+    --journey-twilight: 217 50% 58%; /* #5E85CC - Deep understanding */
+    --journey-midnight: 234 43% 37%; /* #364B75 - Personal truth */
+    
+    /* 🏛️ Gallery Whites - Space Colors */
+    --gallery-white: 40 29% 97%; /* #FDFCFA - Museum warmth */
+    --gallery-pearl: 60 9% 96%; /* #FAF9F6 - Soft walls */
+    --gallery-mist: 0 0% 98%; /* #FAFAFA - Breathing space */
+    
+    /* 💭 Personality Accents - Dynamic per Type */
+    --personality-primary: var(--journey-dawn-peach);
+    --personality-secondary: var(--journey-lavender);
+    --personality-accent: var(--journey-amber);
+    
+    /* 🌊 Emotional Gradients */
+    --gradient-dawn: linear-gradient(135deg, hsl(var(--journey-dawn-cream)) 0%, hsl(var(--journey-dawn-peach)) 100%);
+    --gradient-exploration: linear-gradient(135deg, hsl(var(--journey-lavender)) 0%, hsl(var(--journey-dusty-rose)) 100%);
+    --gradient-revelation: linear-gradient(135deg, hsl(var(--journey-amber)) 0%, hsl(var(--journey-twilight)) 100%);
+    
+    /* 🎭 Mood Shadows - Soft and inviting */
+    --shadow-whisper: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --shadow-gentle: 0 4px 16px rgba(0, 0, 0, 0.06);
+    --shadow-embrace: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --shadow-dream: 0 16px 48px rgba(0, 0, 0, 0.10);
+    
+    /* 📖 Typography Weights for Emotion */
+    --font-whisper: 300;
+    --font-gentle: 400;
+    --font-confident: 500;
+    --font-bold: 600;
+    
+    /* ⏱️ Animation Timings - Contemplative */
+    --ease-enter: cubic-bezier(0.390, 0.575, 0.565, 1.000);
+    --ease-exit: cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    --ease-breath: cubic-bezier(0.445, 0.050, 0.550, 0.950);
+    
+    /* 📏 Spacing for Breathing */
+    --space-whisper: 0.5rem;
+    --space-gentle: 1rem;
+    --space-breath: 2rem;
+    --space-generous: 3rem;
+    --space-luxurious: 5rem;
+  }
+  
+  /* 🌙 Dark Mode - Gallery at Night */
+  .dark {
+    --journey-dawn-cream: 39 23% 15%; /* Dark cream */
+    --journey-dawn-peach: 14 38% 20%; /* Deep peach */
+    --journey-dawn-blush: 351 25% 18%; /* Night blush */
+    
+    --journey-lavender: 271 16% 25%; /* Deep lavender */
+    --journey-dusty-rose: 355 13% 30%; /* Midnight rose */
+    --journey-mauve: 300 10% 28%; /* Shadow mauve */
+    
+    --journey-amber: 30 45% 45%; /* Muted gold */
+    --journey-twilight: 217 30% 35%; /* Deep blue */
+    --journey-midnight: 234 23% 20%; /* True midnight */
+    
+    --gallery-white: 40 9% 12%; /* Gallery darkness */
+    --gallery-pearl: 60 5% 14%; /* Shadow pearl */
+    --gallery-mist: 0 0% 10%; /* Night mist */
+    
+    --shadow-whisper: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-gentle: 0 4px 16px rgba(0, 0, 0, 0.3);
+    --shadow-embrace: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-dream: 0 16px 48px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* 🎨 Personality-Based Color Themes */
+[data-personality="LAEF"] {
+  --personality-primary: var(--journey-lavender);
+  --personality-secondary: var(--journey-dawn-blush);
+  --personality-accent: var(--journey-twilight);
+}
+
+[data-personality="LAEC"] {
+  --personality-primary: var(--journey-dusty-rose);
+  --personality-secondary: var(--journey-mauve);
+  --personality-accent: var(--journey-amber);
+}
+
+[data-personality="LAMF"] {
+  --personality-primary: var(--journey-dawn-cream);
+  --personality-secondary: var(--journey-lavender);
+  --personality-accent: var(--journey-midnight);
+}
+
+[data-personality="LAMC"] {
+  --personality-primary: var(--gallery-pearl);
+  --personality-secondary: var(--journey-mauve);
+  --personality-accent: var(--journey-twilight);
+}
+
+[data-personality="SAEF"] {
+  --personality-primary: var(--journey-dawn-peach);
+  --personality-secondary: var(--journey-dusty-rose);
+  --personality-accent: var(--journey-amber);
+}
+
+[data-personality="SAEC"] {
+  --personality-primary: var(--journey-dusty-rose);
+  --personality-secondary: var(--journey-dawn-blush);
+  --personality-accent: var(--journey-twilight);
+}
+
+[data-personality="SAMF"] {
+  --personality-primary: var(--journey-dawn-cream);
+  --personality-secondary: var(--journey-dawn-peach);
+  --personality-accent: var(--journey-midnight);
+}
+
+[data-personality="SAMC"] {
+  --personality-primary: var(--gallery-white);
+  --personality-secondary: var(--journey-lavender);
+  --personality-accent: var(--journey-amber);
+}
+
+[data-personality="LREF"] {
+  --personality-primary: var(--journey-dawn-blush);
+  --personality-secondary: var(--gallery-pearl);
+  --personality-accent: var(--journey-dusty-rose);
+}
+
+[data-personality="LREC"] {
+  --personality-primary: var(--journey-mauve);
+  --personality-secondary: var(--journey-dusty-rose);
+  --personality-accent: var(--journey-amber);
+}
+
+[data-personality="LRMF"] {
+  --personality-primary: var(--gallery-mist);
+  --personality-secondary: var(--journey-dawn-cream);
+  --personality-accent: var(--journey-midnight);
+}
+
+[data-personality="LRMC"] {
+  --personality-primary: var(--gallery-white);
+  --personality-secondary: var(--gallery-pearl);
+  --personality-accent: var(--journey-twilight);
+}
+
+[data-personality="SREF"] {
+  --personality-primary: var(--journey-dawn-peach);
+  --personality-secondary: var(--journey-dawn-blush);
+  --personality-accent: var(--journey-dusty-rose);
+}
+
+[data-personality="SREC"] {
+  --personality-primary: var(--journey-dusty-rose);
+  --personality-secondary: var(--journey-mauve);
+  --personality-accent: var(--journey-amber);
+}
+
+[data-personality="SRMF"] {
+  --personality-primary: var(--journey-dawn-cream);
+  --personality-secondary: var(--gallery-pearl);
+  --personality-accent: var(--journey-midnight);
+}
+
+[data-personality="SRMC"] {
+  --personality-primary: var(--gallery-white);
+  --personality-secondary: var(--journey-lavender);
+  --personality-accent: var(--journey-twilight);
+}
+
+/* 🌸 Emotional Utility Classes */
+.gradient-dawn {
+  background: var(--gradient-dawn);
+}
+
+.gradient-exploration {
+  background: var(--gradient-exploration);
+}
+
+.gradient-revelation {
+  background: var(--gradient-revelation);
+}
+
+.text-whisper {
+  font-weight: var(--font-whisper);
+  letter-spacing: 0.025em;
+}
+
+.text-gentle {
+  font-weight: var(--font-gentle);
+  line-height: 1.7;
+}
+
+.shadow-whisper {
+  box-shadow: var(--shadow-whisper);
+}
+
+.shadow-gentle {
+  box-shadow: var(--shadow-gentle);
+}
+
+.shadow-embrace {
+  box-shadow: var(--shadow-embrace);
+}
+
+.shadow-dream {
+  box-shadow: var(--shadow-dream);
+}
+
+/* 🎭 Breathing Animations */
+@keyframes gentle-breath {
+  0%, 100% { 
+    opacity: 0.8; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.02);
+  }
+}
+
+@keyframes soft-float {
+  0%, 100% { 
+    transform: translateY(0px);
+  }
+  50% { 
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes warm-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(212, 160, 74, 0);
+  }
+  50% { 
+    box-shadow: 0 0 0 10px rgba(212, 160, 74, 0.1);
+  }
+}
+
+.animate-breath {
+  animation: gentle-breath 4s var(--ease-breath) infinite;
+}
+
+.animate-float {
+  animation: soft-float 6s var(--ease-breath) infinite;
+}
+
+.animate-pulse-warm {
+  animation: warm-pulse 2s var(--ease-breath) infinite;
+}
+
+/* 🌊 Page Transitions */
+.page-transition-enter {
+  animation: page-gentle-enter 0.8s var(--ease-enter) forwards;
+}
+
+@keyframes page-gentle-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 🖼️ Gallery Room Transitions */
+.gallery-transition {
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-transition::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    hsl(var(--gallery-white)) 50%, 
+    transparent 100%
+  );
+  animation: gallery-sweep 1s var(--ease-enter) forwards;
+}
+
+@keyframes gallery-sweep {
+  0% { left: -100%; }
+  50% { left: 0; }
+  100% { left: 100%; }
+}
