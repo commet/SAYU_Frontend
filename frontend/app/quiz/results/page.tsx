@@ -9,7 +9,9 @@ import { getArtworkRecommendations } from '@/lib/artworkRecommendations';
 import { calculatePersonalityFromSimulation } from '@/lib/simulationDesign';
 import { getExhibitionRecommendation } from '@/lib/exhibitionRecommendations';
 import PersonalityIcon from '@/components/PersonalityIcon';
-import IDCard from '@/components/IDCard';
+import IDCardNew from '@/components/IDCardNew';
+import SocialLoginModal from '@/components/SocialLoginModal';
+import { useSession } from 'next-auth/react';
 
 interface PersonalityResult {
   personalityType: string;
@@ -35,6 +37,8 @@ function ResultsContent() {
   const [loading, setLoading] = useState(true);
   const [detailedData, setDetailedData] = useState<any>(null);
   const [showIDCard, setShowIDCard] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const { data: session } = useSession();
 
   useEffect(() => {
     const loadResultData = async () => {
@@ -434,9 +438,11 @@ function ResultsContent() {
       
       {/* ID Card Modal */}
       {showIDCard && (
-        <IDCard
+        <IDCardNew
           personalityType={result.personalityType}
-          userName="SAYU Explorer"
+          userName={session?.user?.name || 'SAYU Explorer'}
+          userHandle={session?.user?.email ? `@${session.user.email.split('@')[0]}` : '@sayu_user'}
+          profileImage={session?.user?.image || undefined}
           joinDate={new Date()}
           stats={{
             exhibitionsVisited: 5,
@@ -447,8 +453,25 @@ function ResultsContent() {
           badges={['초보 감상가', '시나리오 퀴즈 완료', '예술 탐험가']}
           language={language}
           onClose={() => setShowIDCard(false)}
+          onShareClick={() => {
+            if (!session) {
+              setShowIDCard(false);
+              setShowLoginModal(true);
+            }
+          }}
         />
       )}
+      
+      {/* Social Login Modal */}
+      <SocialLoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onSuccess={() => {
+          setShowLoginModal(false);
+          setShowIDCard(true);
+        }}
+        language={language}
+      />
     </div>
   );
 }
