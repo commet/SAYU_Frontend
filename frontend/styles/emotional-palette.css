@@ -1,7 +1,6 @@
 /* 🎨 SAYU Emotional Color Palette - Personal Art Journey */
 
-@layer base {
-  :root {
+:root {
     /* 🌅 Journey Dawn - Starting Colors */
     --journey-dawn-cream: 39 43% 94%; /* #FAF7ED - Warm invitation */
     --journey-dawn-peach: 14 68% 92%; /* #FCE4DD - Gentle awakening */
@@ -55,10 +54,10 @@
     --space-breath: 2rem;
     --space-generous: 3rem;
     --space-luxurious: 5rem;
-  }
-  
-  /* 🌙 Dark Mode - Gallery at Night */
-  .dark {
+}
+
+/* 🌙 Dark Mode - Gallery at Night */
+.dark {
     --journey-dawn-cream: 39 23% 15%; /* Dark cream */
     --journey-dawn-peach: 14 38% 20%; /* Deep peach */
     --journey-dawn-blush: 351 25% 18%; /* Night blush */
@@ -79,7 +78,6 @@
     --shadow-gentle: 0 4px 16px rgba(0, 0, 0, 0.3);
     --shadow-embrace: 0 8px 32px rgba(0, 0, 0, 0.4);
     --shadow-dream: 0 16px 48px rgba(0, 0, 0, 0.5);
-  }
 }
 
 /* 🎨 Personality-Based Color Themes */
