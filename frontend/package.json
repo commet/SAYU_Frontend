@@ -10,7 +10,10 @@
     "start": "next start",
     "start:standalone": "node .next/standalone/server.js",
     "lint": "next lint",
-    "analyze": "cross-env ANALYZE=true next build"
+    "analyze": "cross-env ANALYZE=true next build",
+    "sync": "git pull origin main && npm ci",
+    "save": "git add -A && git commit -m",
+    "deploy": "git push origin main"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
