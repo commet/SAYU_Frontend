@@ -24,14 +24,15 @@ interface PersonalityResult {
     };
   };
   confidence?: number;
+  scores?: Record<string, number>;
   isScenarioQuiz?: boolean;
 }
 
 function ResultsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [language, setLanguage] = useState<'en' | 'ko'>('ko');
   const [result, setResult] = useState<PersonalityResult | null>(null);
+  const [language, setLanguage] = useState<'en' | 'ko'>('ko');
   const [loading, setLoading] = useState(true);
   const [detailedData, setDetailedData] = useState<any>(null);
   const [showIDCard, setShowIDCard] = useState(false);
@@ -74,9 +75,13 @@ function ResultsContent() {
           const response = await fetch(`/api/personality-types?type=${currentResult.personalityType}`);
           const data = await response.json();
           
+          console.log('API Response:', data); // Debug log
+          
           if (data.success) {
+            // Handle different response structures from backend
             let personalityData = null;
             
+            // Try different possible data structures
             if (data.data) {
               personalityData = data.data.personalityData || data.data.personality || data.data;
             } else if (data.personalityData) {
@@ -85,6 +90,7 @@ function ResultsContent() {
               personalityData = data.personality;
             }
             
+            // If still no data, create from the result itself
             if (!personalityData && data.type) {
               personalityData = {
                 code: data.type,
@@ -96,6 +102,7 @@ function ResultsContent() {
             }
             
             setDetailedData(personalityData);
+            console.log('Detailed Data Set:', personalityData); // Debug log
           }
         }
       } catch (error) {
@@ -148,9 +155,11 @@ function ResultsContent() {
     );
   }
 
+  // Use detailed data if available, otherwise fallback to basic result
   const displayData = detailedData || result.personality;
+  
+  // Get artwork recommendations for this personality type
   const artworkRecommendations = getArtworkRecommendations(result.personalityType);
-  const exhibitionRecommendation = getExhibitionRecommendation(result.personalityType);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white">
@@ -173,6 +182,7 @@ function ResultsContent() {
         >
           {/* Personality Type Badge */}
           <div className="text-center mb-12">
+            {/* Personality Icon */}
             <div className="flex justify-center mb-6">
               <PersonalityIcon type={result.personalityType} size="large" animated={true} />
             </div>
@@ -206,6 +216,7 @@ function ResultsContent() {
               }
             </p>
 
+            {/* Confidence Score */}
             {result.confidence && (
               <div className="mt-6">
                 <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-6 py-3">
@@ -216,171 +227,13 @@ function ResultsContent() {
             )}
           </div>
 
-          {/* Representative Artwork */}
-          {artworkRecommendations && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-8"
-            >
-              <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                <span className="text-3xl">🖼️</span>
-                {language === 'ko' ? '당신을 위한 대표 작품' : 'Representative Artwork for You'}
-              </h3>
-              
-              <div className="grid md:grid-cols-2 gap-8">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.6 }}
-                  className="relative group"
-                >
-                  <div className="relative overflow-hidden rounded-xl shadow-2xl">
-                    <img
-                      src={artworkRecommendations.representativeWork.image}
-                      alt={artworkRecommendations.representativeWork.title}
-                      className="w-full h-auto object-cover transform transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-                </motion.div>
-                
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.7 }}
-                  className="flex flex-col justify-center"
-                >
-                  <h4 className="text-3xl font-bold mb-2">
-                    {artworkRecommendations.representativeWork.title}
-                  </h4>
-                  <p className="text-xl text-white/80 mb-1">
-                    {artworkRecommendations.representativeWork.artist}
-                  </p>
-                  <p className="text-lg text-white/60 mb-4">
-                    {artworkRecommendations.representativeWork.year} • {artworkRecommendations.representativeWork.museum}
-                  </p>
-                  <p className="text-lg text-white/90 leading-relaxed mb-4">
-                    {artworkRecommendations.representativeWork.description[language]}
-                  </p>
-                  
-                  {/* Recommendation Reason */}
-                  {artworkRecommendations.representativeWork.recommendationReason && (
-                    <div className="bg-purple-500/20 rounded-lg p-4 mt-4">
-                      <p className="font-semibold mb-2">
-                        {language === 'ko' ? '이 작품을 추천하는 이유:' : 'Why this artwork is recommended:'}
-                      </p>
-                      <p className="text-white/90">
-                        {artworkRecommendations.representativeWork.recommendationReason[language]}
-                      </p>
-                    </div>
-                  )}
-                </motion.div>
-              </div>
-            </motion.div>
-          )}
-
-          {/* Recommended Exhibition */}
-          {exhibitionRecommendation && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-8"
-            >
-              <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                <span className="text-3xl">📅</span>
-                {language === 'ko' ? '추천 전시' : 'Recommended Exhibition'}
-              </h3>
-              
-              <div className="grid md:grid-cols-2 gap-8">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.9 }}
-                  className="relative group"
-                >
-                  <div className="relative overflow-hidden rounded-xl shadow-2xl bg-gradient-to-br from-purple-600/50 to-pink-600/50 h-64 flex items-center justify-center">
-                    <span className="text-6xl">🏛️</span>
-                  </div>
-                </motion.div>
-                
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.0 }}
-                  className="flex flex-col justify-center"
-                >
-                  <h4 className="text-2xl font-bold mb-2">
-                    {exhibitionRecommendation.title[language]}
-                  </h4>
-                  <p className="text-lg text-white/80 mb-1">
-                    {exhibitionRecommendation.museum[language]}
-                  </p>
-                  <p className="text-lg text-white/60 mb-4">
-                    {exhibitionRecommendation.period[language]}
-                  </p>
-                  
-                  {/* Exhibition Recommendation Reason */}
-                  <div className="bg-pink-500/20 rounded-lg p-4">
-                    <p className="font-semibold mb-2">
-                      {language === 'ko' ? '이 전시를 추천하는 이유:' : 'Why this exhibition is recommended:'}
-                    </p>
-                    <p className="text-white/90">
-                      {exhibitionRecommendation.recommendationReason[language]}
-                    </p>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          )}
-
-          {/* Action Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1 }}
-            className="flex flex-col md:flex-row gap-4 justify-center mb-16"
-          >
-            <button
-              onClick={shareResult}
-              className="px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 rounded-2xl font-bold text-lg hover:scale-105 transition-all"
-            >
-              {language === 'ko' ? '결과 공유하기 📤' : 'Share Results 📤'}
-            </button>
-            
-            {result.isScenarioQuiz && (
-              <button
-                onClick={() => setShowIDCard(true)}
-                className="px-8 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl font-bold text-lg hover:scale-105 transition-all"
-              >
-                {language === 'ko' ? 'ID 카드 발급받기 🪪' : 'Get ID Card 🪪'}
-              </button>
-            )}
-            
-            <Link
-              href="/agent"
-              className="px-8 py-4 bg-white/20 backdrop-blur-sm rounded-2xl font-bold text-lg hover:bg-white/30 transition-all text-center"
-            >
-              {language === 'ko' ? 'AI 큐레이터 만나기 🧭' : 'Meet AI Curator 🧭'}
-            </Link>
-            
-            <Link
-              href="/quiz"
-              className="px-8 py-4 bg-white/10 backdrop-blur-sm rounded-2xl font-bold text-lg hover:bg-white/20 transition-all text-center"
-            >
-              {language === 'ko' ? '퀴즈 다시하기 🔄' : 'Retake Quiz 🔄'}
-            </Link>
-          </motion.div>
-
-          {/* Philosophical Message for Scenario Quiz - Moved to Bottom */}
+          {/* Philosophical Message for Scenario Quiz */}
           {result.isScenarioQuiz && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2 }}
-              className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-8 border border-purple-300/30"
+              transition={{ delay: 0.4 }}
+              className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-8 mb-8 border border-purple-300/30"
             >
               <div className="text-center">
                 <h3 className="text-2xl font-bold mb-4 flex items-center justify-center gap-2">
@@ -411,18 +264,298 @@ function ResultsContent() {
             </motion.div>
           )}
 
+          {/* Strengths */}
+          {displayData?.strengths?.[language] && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-8"
+            >
+              <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                <span className="text-3xl">💪</span>
+                당신의 강점
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {displayData.strengths[language].map((strength, index) => (
+                  <motion.div 
+                    key={index} 
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.6 + index * 0.1 }}
+                    className="flex items-center gap-3 bg-white/5 rounded-lg p-3"
+                  >
+                    <span className="text-2xl">✨</span>
+                    <span className="text-lg font-medium">{strength}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Art DNA */}
+          {displayData?.artPreferences && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-8"
+            >
+              <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                <span className="text-3xl">🎨</span>
+                당신의 예술 DNA
+              </h3>
+              
+              <div className="space-y-6">
+                {displayData.artPreferences.movements && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8 }}
+                  >
+                    <h4 className="text-lg font-semibold mb-3 text-pink-300 flex items-center gap-2">
+                      <span className="text-xl">🏛️</span>
+                      선호 사조
+                    </h4>
+                    <div className="flex flex-wrap gap-3">
+                      {displayData.artPreferences.movements.map((movement, index) => {
+                        const translatedMovement = getTranslatedText('movements', movement, language);
+                        const emoji = getArtEmoji('movements', movement);
+                        return (
+                          <motion.span 
+                            key={index}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.9 + index * 0.1 }}
+                            className="bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-300/30 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2"
+                          >
+                            <span>{emoji}</span>
+                            {translatedMovement}
+                          </motion.span>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+
+                {displayData.artPreferences.colors && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.0 }}
+                  >
+                    <h4 className="text-lg font-semibold mb-3 text-blue-300 flex items-center gap-2">
+                      <span className="text-xl">🎨</span>
+                      색상 팔레트
+                    </h4>
+                    <div className="flex flex-wrap gap-3">
+                      {displayData.artPreferences.colors.map((color, index) => {
+                        const translatedColor = getTranslatedText('colors', color, language);
+                        const colorCodes = getColorCodes(color);
+                        return (
+                          <motion.span 
+                            key={index}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 1.1 + index * 0.1 }}
+                            className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-300/30 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2"
+                          >
+                            <div className="flex gap-1">
+                              {colorCodes.slice(0, 3).map((colorCode, i) => (
+                                <div
+                                  key={i}
+                                  className="w-3 h-3 rounded-full border border-white/30"
+                                  style={{ backgroundColor: colorCode }}
+                                />
+                              ))}
+                            </div>
+                            {translatedColor}
+                          </motion.span>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+
+                {displayData.artPreferences.themes && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.2 }}
+                  >
+                    <h4 className="text-lg font-semibold mb-3 text-purple-300 flex items-center gap-2">
+                      <span className="text-xl">💭</span>
+                      관심 주제
+                    </h4>
+                    <div className="flex flex-wrap gap-3">
+                      {displayData.artPreferences.themes.map((theme, index) => {
+                        const translatedTheme = getTranslatedText('themes', theme, language);
+                        const emoji = getArtEmoji('themes', theme);
+                        return (
+                          <motion.span 
+                            key={index}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 1.3 + index * 0.1 }}
+                            className="bg-gradient-to-r from-purple-500/20 to-indigo-500/20 border border-purple-300/30 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2"
+                          >
+                            <span>{emoji}</span>
+                            {translatedTheme}
+                          </motion.span>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Representative Artwork */}
+          {artworkRecommendations && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9 }}
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-8"
+            >
+              <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                <span className="text-3xl">🖼️</span>
+                당신을 위한 대표 작품
+              </h3>
+              
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Main Artwork */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1.0 }}
+                  className="relative group"
+                >
+                  <div className="relative overflow-hidden rounded-xl shadow-2xl">
+                    <img
+                      src={artworkRecommendations.representativeWork.image}
+                      alt={artworkRecommendations.representativeWork.title}
+                      className="w-full h-auto object-cover transform transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+                </motion.div>
+                
+                {/* Artwork Info */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1.1 }}
+                  className="flex flex-col justify-center"
+                >
+                  <h4 className="text-3xl font-bold mb-2">
+                    {artworkRecommendations.representativeWork.title}
+                  </h4>
+                  <p className="text-xl text-white/80 mb-1">
+                    {artworkRecommendations.representativeWork.artist}
+                  </p>
+                  <p className="text-lg text-white/60 mb-4">
+                    {artworkRecommendations.representativeWork.year} • {artworkRecommendations.representativeWork.museum}
+                  </p>
+                  <p className="text-lg text-white/90 leading-relaxed">
+                    {artworkRecommendations.representativeWork.description[language]}
+                  </p>
+                  
+                  {/* Additional Works Preview */}
+                  {artworkRecommendations.additionalWorks && artworkRecommendations.additionalWorks.length > 0 && (
+                    <div className="mt-6">
+                      <p className="text-sm text-white/60 mb-3">다른 추천 작품들:</p>
+                      <div className="flex gap-3">
+                        {artworkRecommendations.additionalWorks.slice(0, 3).map((work, index) => (
+                          <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 1.2 + index * 0.1 }}
+                            className="relative w-20 h-20 overflow-hidden rounded-lg shadow-lg group cursor-pointer"
+                          >
+                            <img
+                              src={work.image}
+                              alt={work.title}
+                              className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-110"
+                            />
+                            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                              <span className="text-xs text-white text-center px-1">{work.title}</span>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Default Message if no detailed data */}
+          {!displayData && !artworkRecommendations && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-8"
+            >
+              <h3 className="text-2xl font-bold mb-4">✨ 분석 완료</h3>
+              <p className="text-lg text-white/80">
+                당신만의 독특한 미적 감각을 바탕으로 개인화된 예술 경험을 제공합니다.
+                더 상세한 분석을 위해 다른 기능들을 탐험해보세요!
+              </p>
+            </motion.div>
+          )}
+
+          {/* Action Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="flex flex-col md:flex-row gap-4 justify-center"
+          >
+            <button
+              onClick={shareResult}
+              className="px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 rounded-2xl font-bold text-lg hover:scale-105 transition-all"
+            >
+              결과 공유하기 📤
+            </button>
+            
+            {result.isScenarioQuiz && (
+              <button
+                onClick={() => setShowIDCard(true)}
+                className="px-8 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl font-bold text-lg hover:scale-105 transition-all"
+              >
+                ID 카드 발급받기 🪪
+              </button>
+            )}
+            
+            <Link
+              href="/agent"
+              className="px-8 py-4 bg-white/20 backdrop-blur-sm rounded-2xl font-bold text-lg hover:bg-white/30 transition-all text-center"
+            >
+              AI 큐레이터 만나기 🧭
+            </Link>
+            
+            <Link
+              href="/quiz"
+              className="px-8 py-4 bg-white/10 backdrop-blur-sm rounded-2xl font-bold text-lg hover:bg-white/20 transition-all text-center"
+            >
+              퀴즈 다시하기 🔄
+            </Link>
+          </motion.div>
+
           {/* Future Features Teaser */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.3 }}
+            transition={{ delay: 1 }}
             className="text-center mt-16 text-white/60"
           >
             <p className="text-lg mb-2">🚀 Coming Soon</p>
-            <p>{language === 'ko' 
-              ? '상세 분석 • 빌리지 커뮤니티 • 토큰 이코노미 • 갤러리 투어'
-              : 'Detailed Analysis • Village Community • Token Economy • Gallery Tours'
-            }</p>
+            <p>상세 분석 • 빌리지 커뮤니티 • 토큰 이코노미 • 갤러리 투어</p>
           </motion.div>
         </motion.div>
       </div>
