@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { EmotionalCard, ArtworkCard, EmotionalButton } from '@/components/emotional/EmotionalCard';
@@ -15,7 +15,7 @@ interface QuizResults {
   completedAt: string;
 }
 
-export default function ResultsPage() {
+function ResultsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [results, setResults] = useState<QuizResults | null>(null);
@@ -261,5 +261,22 @@ export default function ResultsPage() {
         </motion.div>
       </section>
     </div>
+  );
+}
+
+export default function ResultsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen gradient-revelation flex items-center justify-center">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+        >
+          <Sparkles className="w-12 h-12 text-white/50" />
+        </motion.div>
+      </div>
+    }>
+      <ResultsContent />
+    </Suspense>
   );
 }
