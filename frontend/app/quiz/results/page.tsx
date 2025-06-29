@@ -222,25 +222,25 @@ function ResultsContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-8"
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-10 mb-12"
             >
-              <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              <h3 className="text-xl md:text-2xl font-bold mb-8 flex items-center gap-2">
                 <span className="text-3xl">🖼️</span>
                 {language === 'ko' ? '당신을 위한 대표 작품' : 'Representative Artwork for You'}
               </h3>
               
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid lg:grid-cols-2 gap-12">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.6 }}
-                  className="relative group"
+                  className="relative group w-full"
                 >
-                  <div className="relative overflow-hidden rounded-xl shadow-2xl">
+                  <div className="relative overflow-hidden rounded-xl shadow-2xl aspect-[4/5]">
                     <img
                       src={artworkRecommendations.representativeWork.image}
                       alt={artworkRecommendations.representativeWork.title}
-                      className="w-full h-auto object-cover transform transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
@@ -252,22 +252,22 @@ function ResultsContent() {
                   transition={{ delay: 0.7 }}
                   className="flex flex-col justify-center"
                 >
-                  <h4 className="text-3xl font-bold mb-2">
+                  <h4 className="text-2xl md:text-3xl font-bold mb-3">
                     {artworkRecommendations.representativeWork.title}
                   </h4>
-                  <p className="text-xl text-white/80 mb-1">
+                  <p className="text-lg md:text-xl text-white/80 mb-2">
                     {artworkRecommendations.representativeWork.artist}
                   </p>
-                  <p className="text-lg text-white/60 mb-4">
-                    {artworkRecommendations.representativeWork.year} • {artworkRecommendations.representativeWork.museum}
+                  <p className="text-base md:text-lg text-white/60 mb-6">
+                    <span className="whitespace-nowrap">{artworkRecommendations.representativeWork.year}</span> • <span className="whitespace-nowrap">{artworkRecommendations.representativeWork.museum}</span>
                   </p>
-                  <p className="text-lg text-white/90 leading-relaxed mb-4">
+                  <p className="text-base md:text-lg text-white/90 leading-relaxed mb-6">
                     {artworkRecommendations.representativeWork.description[language]}
                   </p>
                   
                   {/* Recommendation Reason */}
                   {artworkRecommendations.representativeWork.recommendationReason && (
-                    <div className="bg-purple-500/20 rounded-lg p-4 mt-4">
+                    <div className="bg-purple-500/20 rounded-xl p-6 mt-6">
                       <p className="font-semibold mb-2">
                         {language === 'ko' ? '이 작품을 추천하는 이유:' : 'Why this artwork is recommended:'}
                       </p>
@@ -287,22 +287,27 @@ function ResultsContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-8"
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-10 mb-12"
             >
-              <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              <h3 className="text-xl md:text-2xl font-bold mb-8 flex items-center gap-2">
                 <span className="text-3xl">📅</span>
                 {language === 'ko' ? '추천 전시' : 'Recommended Exhibition'}
               </h3>
               
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid lg:grid-cols-2 gap-12">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.9 }}
-                  className="relative group"
+                  className="relative group w-full"
                 >
-                  <div className="relative overflow-hidden rounded-xl shadow-2xl bg-gradient-to-br from-purple-600/50 to-pink-600/50 h-64 flex items-center justify-center">
-                    <span className="text-6xl">🏛️</span>
+                  <div className="relative overflow-hidden rounded-xl shadow-2xl aspect-[4/5]">
+                    <img
+                      src={exhibitionRecommendation.image}
+                      alt={exhibitionRecommendation.title[language]}
+                      className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                 </motion.div>
                 
@@ -312,18 +317,18 @@ function ResultsContent() {
                   transition={{ delay: 1.0 }}
                   className="flex flex-col justify-center"
                 >
-                  <h4 className="text-2xl font-bold mb-2">
+                  <h4 className="text-xl md:text-2xl font-bold mb-3">
                     {exhibitionRecommendation.title[language]}
                   </h4>
-                  <p className="text-lg text-white/80 mb-1">
+                  <p className="text-base md:text-lg text-white/80 mb-2">
                     {exhibitionRecommendation.museum[language]}
                   </p>
-                  <p className="text-lg text-white/60 mb-4">
-                    {exhibitionRecommendation.period[language]}
+                  <p className="text-base md:text-lg text-white/60 mb-6">
+                    <span className="whitespace-nowrap">{exhibitionRecommendation.period[language]}</span>
                   </p>
                   
                   {/* Exhibition Recommendation Reason */}
-                  <div className="bg-pink-500/20 rounded-lg p-4">
+                  <div className="bg-pink-500/20 rounded-xl p-6 mt-6">
                     <p className="font-semibold mb-2">
                       {language === 'ko' ? '이 전시를 추천하는 이유:' : 'Why this exhibition is recommended:'}
                     </p>
@@ -341,7 +346,7 @@ function ResultsContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1 }}
-            className="flex flex-col md:flex-row gap-4 justify-center mb-16"
+            className="flex flex-col md:flex-row gap-4 justify-center mb-20"
           >
             <button
               onClick={shareResult}
@@ -383,27 +388,27 @@ function ResultsContent() {
               className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-8 border border-purple-300/30"
             >
               <div className="text-center">
-                <h3 className="text-2xl font-bold mb-4 flex items-center justify-center gap-2">
-                  <span className="text-3xl">🌊</span>
-                  {language === 'ko' ? '당신의 미술 취향은 여정입니다' : 'Your Art Taste is a Journey'}
+                <h3 className="text-2xl font-bold mb-6 flex items-center justify-center gap-2">
+                  <span className="text-3xl">✨</span>
+                  {language === 'ko' ? '당신의 예술 여정' : 'Your Art Journey'}
                 </h3>
-                <div className="space-y-4 text-lg leading-relaxed text-white/90">
-                  <p>
+                <div className="space-y-4 text-lg leading-relaxed text-white/90 text-center">
+                  <p className="text-xl font-medium">
                     {language === 'ko' 
-                      ? 'MBTI와 달리, 당신의 미술 취향은 고정되어 있지 않습니다. 그것은 당신과 함께 성장하고, 진화하며, 새로운 경험과 감정에 따라 변화합니다.'
-                      : 'Unlike MBTI, your art taste is not fixed. It grows with you, evolves, and transforms with new experiences and emotions.'
+                      ? '예술은 고정된 취향이 아닌 살아있는 경험입니다.'
+                      : 'Art is not a fixed taste but a living experience.'
                     }
                   </p>
                   <p className="text-purple-200">
                     {language === 'ko'
-                      ? '오늘의 ' + result.personalityType + '는 내일의 다른 모습으로 변할 수 있습니다. 이것이 예술의 아름다움입니다 - 끊임없이 변화하는 당신을 반영합니다.'
-                      : "Today's " + result.personalityType + " may transform into something different tomorrow. That's the beauty of art - it reflects your ever-changing self."
+                      ? '오늘의 ' + result.personalityType + '는 내일 새로운 모습으로 진화할 거예요.'
+                      : "Today's " + result.personalityType + " will evolve into something new tomorrow."
                     }
                   </p>
-                  <p className="font-semibold text-pink-200">
+                  <p className="font-semibold text-pink-200 text-2xl mt-6">
                     {language === 'ko'
-                      ? '🎨 예술과 함께하는 당신의 여정을 즐기세요. 각 순간이 새로운 발견입니다.'
-                      : '🎨 Enjoy your journey with art. Every moment is a new discovery.'
+                      ? '매 순간이 새로운 발견입니다 🎨'
+                      : 'Every moment is a new discovery 🎨'
                     }
                   </p>
                 </div>
