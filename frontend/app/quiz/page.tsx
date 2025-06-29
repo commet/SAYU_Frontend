@@ -12,12 +12,10 @@ export default function QuizIntroPage() {
   const router = useRouter();
   const { user } = useAuth();
   const { showWelcomeModal, setShowWelcomeModal } = useOnboarding();
-  const [selectedType, setSelectedType] = useState<'exhibition' | 'artwork' | 'scenario' | null>(null);
+  const [language, setLanguage] = useState<'ko' | 'en'>('ko');
 
   const startQuiz = () => {
-    if (selectedType) {
-      router.push(`/quiz/${selectedType}`);
-    }
+    router.push('/quiz/scenario');
   };
 
   return (
@@ -27,79 +25,68 @@ export default function QuizIntroPage() {
         animate={{ opacity: 1, scale: 1 }}
         className="max-w-2xl w-full"
       >
-        <div className="bg-black/50 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-purple-500/20">
+        <div className="bg-black/50 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-purple-500/20 relative">
+          {/* Language Toggle */}
+          <div className="absolute top-4 right-4">
+            <button
+              onClick={() => setLanguage(language === 'ko' ? 'en' : 'ko')}
+              className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-all text-white"
+            >
+              {language === 'ko' ? 'English' : '한국어'}
+            </button>
+          </div>
+
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 text-center">
-            Discover Your Aesthetic Soul
+            {language === 'ko' ? '당신의 미적 영혼을 발견하세요' : 'Discover Your Aesthetic Soul'}
           </h1>
           
           <p className="text-gray-300 text-lg mb-8 text-center">
-            Through a series of questions about how you experience art, 
-            we'll reveal your unique aesthetic personality.
+            {language === 'ko' 
+              ? '가상의 미술관 여행을 통해 당신만의 독특한 미적 성향을 발견해보세요.'
+              : 'Through a virtual museum journey, discover your unique aesthetic personality.'
+            }
           </p>
           
-          <div className="space-y-4 mb-8">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setSelectedType('exhibition')}
-              className={`p-6 rounded-2xl cursor-pointer transition-all ${
-                selectedType === 'exhibition' 
-                  ? 'bg-purple-600/30 border-2 border-purple-500' 
-                  : 'bg-gray-800/50 border-2 border-transparent hover:border-purple-500/50'
-              }`}
-            >
-              <h3 className="text-xl font-semibold text-white mb-2">
-                Exhibition Experience
-              </h3>
-              <p className="text-gray-400">
-                How do you prefer to experience art exhibitions?
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 backdrop-blur-sm rounded-2xl p-8 mb-8 border border-purple-500/30"
+          >
+            <div className="text-center">
+              <h2 className="text-2xl font-bold mb-4 flex items-center justify-center gap-3">
+                <span className="text-4xl">🎨</span>
+                {language === 'ko' ? '미술관 여행' : 'Museum Journey'}
+              </h2>
+              <p className="text-gray-300 text-lg mb-4">
+                {language === 'ko'
+                  ? '8개의 시나리오를 통해 가상의 미술관을 여행하며 당신의 예술적 성향을 발견합니다.'
+                  : 'Travel through a virtual museum with 8 immersive scenarios to discover your artistic personality.'
+                }
               </p>
-            </motion.div>
-            
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setSelectedType('artwork')}
-              className={`p-6 rounded-2xl cursor-pointer transition-all ${
-                selectedType === 'artwork' 
-                  ? 'bg-purple-600/30 border-2 border-purple-500' 
-                  : 'bg-gray-800/50 border-2 border-transparent hover:border-purple-500/50'
-              }`}
-            >
-              <h3 className="text-xl font-semibold text-white mb-2">
-                Artwork Preferences
-              </h3>
-              <p className="text-gray-400">
-                What kind of artworks resonate with you?
-              </p>
-            </motion.div>
-            
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setSelectedType('scenario')}
-              className={`p-6 rounded-2xl cursor-pointer transition-all ${
-                selectedType === 'scenario' 
-                  ? 'bg-purple-600/30 border-2 border-purple-500' 
-                  : 'bg-gray-800/50 border-2 border-transparent hover:border-purple-500/50'
-              }`}
-            >
-              <h3 className="text-xl font-semibold mb-2">
-                🎨 Museum Journey (Scenario)
-              </h3>
-              <p className="text-gray-400">
-                Experience a virtual museum visit with immersive scenarios
-              </p>
-            </motion.div>
-          </div>
+              <div className="grid grid-cols-2 gap-4 mt-6">
+                <div className="bg-white/5 rounded-lg p-4">
+                  <span className="text-2xl mb-2 block">⏱️</span>
+                  <p className="text-sm text-gray-400">
+                    {language === 'ko' ? '약 5-7분 소요' : '5-7 minutes'}
+                  </p>
+                </div>
+                <div className="bg-white/5 rounded-lg p-4">
+                  <span className="text-2xl mb-2 block">🖼️</span>
+                  <p className="text-sm text-gray-400">
+                    {language === 'ko' ? '8개의 상황' : '8 scenarios'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
           
           <Button
             onClick={startQuiz}
-            disabled={!selectedType}
             className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
             size="lg"
           >
-            Begin the Journey
+            {language === 'ko' ? '여행 시작하기' : 'Begin the Journey'}
           </Button>
         </div>
       </motion.div>
