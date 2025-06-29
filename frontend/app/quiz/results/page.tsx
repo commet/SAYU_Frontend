@@ -6,6 +6,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getTranslatedText, getColorCodes, getArtEmoji } from '@/lib/artTranslations';
 import { getArtworkRecommendations } from '@/lib/artworkRecommendations';
+import { calculatePersonalityFromSimulation } from '@/lib/simulationDesign';
 import PersonalityIcon from '@/components/PersonalityIcon';
 import IDCard from '@/components/IDCard';
 
@@ -53,9 +54,17 @@ function ResultsContent() {
         }
         
         // Check if this is from scenario quiz
-        const quizType = searchParams.get('quizType') || localStorage.getItem('lastQuizType');
+        const quizType = searchParams.get('type') || searchParams.get('quizType') || localStorage.getItem('lastQuizType');
         if (quizType === 'scenario') {
           currentResult.isScenarioQuiz = true;
+          
+          // Calculate personality from scenario responses
+          const scenarioResponses = localStorage.getItem('scenarioResponses');
+          if (scenarioResponses) {
+            const responses = JSON.parse(scenarioResponses);
+            const { type } = calculatePersonalityFromSimulation(responses);
+            currentResult.personalityType = type;
+          }
         }
         
         setResult(currentResult);
@@ -191,11 +200,19 @@ function ResultsContent() {
             </motion.div>
 
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {displayData?.name?.[language] || `${result.personalityType} 성향`}
+              {displayData?.name?.[language] || (result.isScenarioQuiz 
+                ? (language === 'ko' ? '당신의 예술적 성향' : 'Your Artistic Personality')
+                : `${result.personalityType} 성향`)
+              }
             </h2>
 
             <p className="text-xl text-white/80 max-w-2xl mx-auto">
-              {displayData?.description?.[language] || '당신의 독특한 미적 성향을 발견했습니다!'}
+              {displayData?.description?.[language] || (result.isScenarioQuiz
+                ? (language === 'ko' 
+                  ? '시나리오를 통해 발견한 당신만의 예술적 취향과 성향입니다.' 
+                  : 'Your unique artistic taste discovered through scenarios.')
+                : '당신의 독특한 미적 성향을 발견했습니다!')
+              }
             </p>
 
             {/* Confidence Score */}

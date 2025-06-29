@@ -1,0 +1,41 @@
+name: Auto Fix and Deploy
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [vercel-build-failed]
+
+jobs:
+  auto-fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Check Build Errors
+        id: check-errors
+        run: |
+          npm ci
+          npm run build 2>&1 | tee build.log || true
+          
+      - name: Fix Missing Dependencies
+        if: contains(steps.check-errors.outputs.*, 'Module not found')
+        run: |
+          # Extract missing modules and install them
+          grep "Module not found" build.log | grep -oP "Can't resolve '\K[^']+" | sort -u | while read module; do
+            echo "Installing missing module: $module"
+            npm install "$module"
+          done
+          
+      - name: Commit and Push Fixes
+        if: steps.check-errors.outcome == 'failure'
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add package.json package-lock.json
+          git commit -m "fix: Auto-install missing dependencies" || exit 0
+          git push
