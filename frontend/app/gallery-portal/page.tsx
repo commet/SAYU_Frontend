@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { EmotionalButton, EmotionalCard } from '@/components/emotional/EmotionalCard';
 import { Upload, Calendar, Users, MapPin, Check, ArrowRight } from 'lucide-react';
 import '@/styles/emotional-palette.css';
