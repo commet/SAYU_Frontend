@@ -1,0 +1,30 @@
+{
+  "backgrounds": {
+    "city-view": "https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=1920&h=1080&fit=crop",
+    "museum-entrance": "https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=1920&h=1080&fit=crop",
+    "gallery-space": "https://images.unsplash.com/photo-1572947650440-e8a97ef053b2?w=1920&h=1080&fit=crop",
+    "viewing-art": "https://images.unsplash.com/photo-1536924940846-227afb31e2a5?w=1920&h=1080&fit=crop",
+    "special-moment": "https://images.unsplash.com/photo-1513038630932-13873b1a7f29?w=1920&h=1080&fit=crop",
+    "museum-cafe": "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1920&h=1080&fit=crop",
+    "museum-shop": "https://images.unsplash.com/photo-1481277542470-605612bd2d61?w=1920&h=1080&fit=crop",
+    "sunset-street": "https://images.unsplash.com/photo-1470219556762-1771e7f9427d?w=1920&h=1080&fit=crop"
+  },
+  "choices": {
+    "modern-museum": "https://images.unsplash.com/photo-1565367505395-4a0b3de92301?w=800&h=600&fit=crop",
+    "classical-museum": "https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=800&h=600&fit=crop",
+    "alone-viewing": "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=800&h=600&fit=crop",
+    "docent-tour": "https://images.unsplash.com/photo-1568306281853-4704b3a3ac1c?w=800&h=600&fit=crop",
+    "emotion": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop",
+    "meaning": "https://images.unsplash.com/photo-1507643179773-3e975d7ac515?w=800&h=600&fit=crop",
+    "flow": "https://images.unsplash.com/photo-1502481851512-e9e2529bfbf9?w=800&h=600&fit=crop",
+    "systematic": "https://images.unsplash.com/photo-1568827999250-3f6afff96e66?w=800&h=600&fit=crop",
+    "abstract-art": "https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&h=600&fit=crop",
+    "portrait-art": "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&h=600&fit=crop",
+    "writing-journal": "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=600&fit=crop",
+    "sharing-phone": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop",
+    "art-postcard": "https://images.unsplash.com/photo-1575995872537-3793d29d972c?w=800&h=600&fit=crop",
+    "art-book": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&h=600&fit=crop",
+    "emotional-memory": "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&h=600&fit=crop",
+    "new-perspective": "https://images.unsplash.com/photo-1493612276216-ee3925520721?w=800&h=600&fit=crop"
+  }
+}
