@@ -16,6 +16,11 @@ export default function ScenarioQuizPage() {
   const [loading, setLoading] = useState(false);
 
   const question = narrativeQuestions[currentStage];
+  
+  // Early return if question is not available (SSR safety)
+  if (!question) {
+    return <div>Loading...</div>;
+  }
 
   const handleChoice = (choiceId: string) => {
     // Find the choice object with weights
@@ -26,26 +31,19 @@ export default function ScenarioQuizPage() {
       weight: selectedChoice?.weight || {}
     };
     
-    console.log('Selected choice:', selectedChoice);
-    console.log('Response data:', responseData);
-    
     const newResponses = [...responses, responseData];
     setResponses(newResponses);
-    
-    console.log('All responses so far:', newResponses);
 
     if (currentStage < narrativeQuestions.length - 1) {
       setCurrentStage(currentStage + 1);
     } else {
       // Quiz complete
-      console.log('Quiz complete, saving responses:', newResponses);
       localStorage.setItem('scenarioResponses', JSON.stringify(newResponses));
       router.push('/quiz/results?type=scenario');
     }
   };
 
   const getBackgroundImage = () => {
-    console.log('Current question ID:', question.id);
     // Use more reliable image sources with auto format and quality optimization
     const backgrounds: { [number: number]: string } = {
       1: 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?auto=format&fit=crop&w=1920&h=1080&q=80', // Gallery entrance - oak doors opening
@@ -65,17 +63,17 @@ export default function ScenarioQuizPage() {
       15: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1920&h=1080&q=80'  // Outside - transformation
     };
     const bgImage = backgrounds[question.id] || backgrounds[1];
-    console.log('Selected background image:', bgImage);
     
-    // Preload the image to ensure it loads properly
-    const img = new Image();
-    img.src = bgImage;
+    // Preload the image to ensure it loads properly (client-side only)
+    if (typeof window !== 'undefined') {
+      const img = new Image();
+      img.src = bgImage;
+    }
     
     return bgImage;
   };
 
   const getChoiceImage = (choiceId: string) => {
-    console.log('Getting choice image for:', choiceId);
     const choiceImages: { [key: string]: string } = {
       // Question 1 - entrance paths
       'solitary': 'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=800&h=600&fit=crop&q=80', // Quiet corridor in morning light
@@ -111,9 +109,7 @@ export default function ScenarioQuizPage() {
       'overlooked': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop&q=80',
       'celebrated': 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&h=600&fit=crop&q=80'
     };
-    const choiceImage = choiceImages[choiceId] || 'https://images.unsplash.com/photo-1565367505395-4a0b3de92301?w=800&h=600&fit=crop&q=80';
-    console.log('Selected choice image:', choiceImage);
-    return choiceImage;
+    return choiceImages[choiceId] || 'https://images.unsplash.com/photo-1565367505395-4a0b3de92301?w=800&h=600&fit=crop&q=80';
   };
 
   return (
