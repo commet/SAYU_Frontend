@@ -47,14 +47,14 @@ export default function ScenarioQuizPage() {
   const getBackgroundImage = () => {
     console.log('Current stage ID:', stage.id);
     const backgrounds: { [key: string]: string } = {
-      'city': 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1920&h=1080&fit=crop&q=80', // City skyline
-      'entrance': 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=1920&h=1080&fit=crop&q=80', // Museum entrance hall
-      'exhibition': 'https://images.unsplash.com/photo-1544967882-6abee0447b2b?w=1920&h=1080&fit=crop&q=80', // Gallery exhibition space
-      'viewing': 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=1920&h=1080&fit=crop&q=80', // People viewing art
-      'moment': 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=1920&h=1080&fit=crop&q=80', // Abstract art moment
-      'rest': 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1920&h=1080&fit=crop&q=80', // Museum cafe
-      'shop': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=1080&fit=crop&q=80', // Museum shop
-      'reflection': 'https://images.unsplash.com/photo-1470219556762-1771e7f9427d?w=1920&h=1080&fit=crop&q=80' // Reflective space
+      'city': 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1920&h=1080&fit=crop&q=80', // 도시 전경 - 미술관으로 향하는 느낌
+      'entrance': 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=1920&h=1080&fit=crop&q=80', // 미술관 입구 - 웅장하고 초대하는 느낌  
+      'exhibition': 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=1920&h=1080&fit=crop&q=80', // 갤러리 내부 - 거대한 작품이 걸린 공간
+      'viewing': 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=1920&h=1080&fit=crop&q=80', // 작품 감상 - 사람들이 여러 작품을 보는 모습
+      'moment': 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=1920&h=1080&fit=crop&q=80', // 특별한 순간 - 한 작품 앞에서 멈춘 순간
+      'rest': 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1920&h=1080&fit=crop&q=80', // 미술관 카페 - 아늑한 휴식 공간
+      'shop': 'https://images.unsplash.com/photo-1481277542470-605612bd2d61?w=1920&h=1080&fit=crop&q=80', // 아트샵 - 다양한 굿즈와 기념품들
+      'reflection': 'https://images.unsplash.com/photo-1470219556762-1771e7f9427d?w=1920&h=1080&fit=crop&q=80' // 집으로 가는 길 - 노을 지는 거리
     };
     const bgImage = backgrounds[stage.id] || backgrounds['city'];
     console.log('Selected background image:', bgImage);
@@ -62,25 +62,43 @@ export default function ScenarioQuizPage() {
   };
 
   const getChoiceImage = (choiceId: string) => {
+    console.log('Getting choice image for:', choiceId);
     const choiceImages: { [key: string]: string } = {
-      'modern': 'https://images.unsplash.com/photo-1565367505395-4a0b3de92301?w=800&h=600&fit=crop',
-      'classical': 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=800&h=600&fit=crop',
-      'alone': 'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=800&h=600&fit=crop',
-      'docent': 'https://images.unsplash.com/photo-1568306281853-4704b3a3ac1c?w=800&h=600&fit=crop',
-      'emotion': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop',
-      'meaning': 'https://images.unsplash.com/photo-1507643179773-3e975d7ac515?w=800&h=600&fit=crop',
-      'flow': 'https://images.unsplash.com/photo-1502481851512-e9e2529bfbf9?w=800&h=600&fit=crop',
-      'systematic': 'https://images.unsplash.com/photo-1568827999250-3f6afff96e66?w=800&h=600&fit=crop',
-      'abstract': 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&h=600&fit=crop',
-      'realistic': 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&h=600&fit=crop',
-      'journal': 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=600&fit=crop',
-      'share': 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop',
-      'postcard': 'https://images.unsplash.com/photo-1575995872537-3793d29d972c?w=800&h=600&fit=crop',
-      'book': 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&h=600&fit=crop',
-      'feeling': 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&h=600&fit=crop',
-      'insight': 'https://images.unsplash.com/photo-1493612276216-ee3925520721?w=800&h=600&fit=crop'
+      // 미술관 선택 (city stage)
+      'modern': 'https://images.unsplash.com/photo-1565367505395-4a0b3de92301?w=800&h=600&fit=crop&q=80', // 현대미술관 외관
+      'classical': 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=800&h=600&fit=crop&q=80', // 국립미술관 외관
+      
+      // 관람 방식 (entrance stage)  
+      'alone': 'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=800&h=600&fit=crop&q=80', // 혼자서 자유롭게
+      'docent': 'https://images.unsplash.com/photo-1568306281853-4704b3a3ac1c?w=800&h=600&fit=crop&q=80', // 도슨트 투어
+      
+      // 첫 감상 (exhibition stage)
+      'emotion': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&q=80', // 감정적 반응 - 아름다움
+      'meaning': 'https://images.unsplash.com/photo-1507643179773-3e975d7ac515?w=800&h=600&fit=crop&q=80', // 분석적 반응 - 의미 탐구
+      
+      // 감상 방식 (viewing stage)
+      'flow': 'https://images.unsplash.com/photo-1502481851512-e9e2529bfbf9?w=800&h=600&fit=crop&q=80', // 흐름따라 자유롭게
+      'systematic': 'https://images.unsplash.com/photo-1568827999250-3f6afff96e66?w=800&h=600&fit=crop&q=80', // 체계적으로 설명 읽기
+      
+      // 인상적인 작품 (moment stage)
+      'abstract': 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&h=600&fit=crop&q=80', // 추상적인 색채 작품
+      'realistic': 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&h=600&fit=crop&q=80', // 정교한 인물화
+      
+      // 휴식 중 공유 (rest stage)
+      'journal': 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=600&fit=crop&q=80', // 일기에 기록하기
+      'share': 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop&q=80', // SNS에 공유하기
+      
+      // 기념품 (shop stage)
+      'postcard': 'https://images.unsplash.com/photo-1575995872537-3793d29d972c?w=800&h=600&fit=crop&q=80', // 감동적인 작품 엽서
+      'book': 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&h=600&fit=crop&q=80', // 전시 도록
+      
+      // 마무리 (reflection stage)
+      'feeling': 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&h=600&fit=crop&q=80', // 작품이 준 감동
+      'insight': 'https://images.unsplash.com/photo-1493612276216-ee3925520721?w=800&h=600&fit=crop&q=80' // 새로운 관점
     };
-    return choiceImages[choiceId] || 'https://images.unsplash.com/photo-1565367505395-4a0b3de92301?w=800&h=600&fit=crop';
+    const choiceImage = choiceImages[choiceId] || choiceImages['modern'];
+    console.log('Selected choice image:', choiceImage);
+    return choiceImage;
   };
 
   return (
