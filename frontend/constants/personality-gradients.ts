@@ -1,120 +1,120 @@
 // SAYU 16개 성격 유형별 시그니처 그라데이션
 export const personalityGradients = {
-  // L(Leisurely) + A(Alone) 조합
+  // L(Lone Wolf) + A(Abstract) 조합 - 고독한 추상 탐험가들
   LAEF: {
-    name: "몽상가의 황혼",
-    nameEn: "Dreamer's Twilight",
+    name: "색채의 속삭임",
+    nameEn: "Color Whisperer",
     colors: ["#64FFDA", "#FFB9EE", "#7B61FF"],
     emotion: "ethereal, contemplative",
     description: "꿈결같은 파스텔톤의 부드러운 전환"
   },
-  LAES: {
-    name: "고독한 탐미주의자",
-    nameEn: "Solitary Aesthete", 
+  LAEC: {
+    name: "캔버스 철학자",
+    nameEn: "Canvas Philosopher", 
     colors: ["#667EEA", "#764BA2", "#F093FB"],
     emotion: "introspective, aesthetic",
     description: "깊이 있는 보라빛 명상"
   },
   LAMF: {
-    name: "느긋한 관찰자",
-    nameEn: "Relaxed Observer",
+    name: "개념 사냥꾼",
+    nameEn: "Concept Hunter",
     colors: ["#89F7FE", "#66A6FF", "#8E85FF"],
     emotion: "calm, observant",
     description: "차분한 푸른빛의 흐름"
   },
   LAMC: {
-    name: "사색하는 수집가",
-    nameEn: "Contemplative Collector",
+    name: "패턴 건축가",
+    nameEn: "Pattern Architect",
     colors: ["#A8EDEA", "#FED6E3", "#D299FF"],
     emotion: "thoughtful, organized",
     description: "정돈된 파스텔의 조화"
   },
 
-  // L(Leisurely) + R(Relationship) 조합
+  // L(Lone Wolf) + R(Realistic) 조합 - 고독한 현실 관찰자들
   LREF: {
-    name: "따뜻한 공감자",
-    nameEn: "Warm Empath",
+    name: "침묵의 시인",
+    nameEn: "Silent Poet",
     colors: ["#FFB088", "#FFD89D", "#FFEAA7"],
     emotion: "warm, connecting",
     description: "포근한 노을빛 감성"
   },
-  LRES: {
-    name: "우아한 사교가",
-    nameEn: "Elegant Socialite",
+  LREC: {
+    name: "질감의 예언자",
+    nameEn: "Texture Oracle",
     colors: ["#FFA0AC", "#FFDAC1", "#B5EAEA"],
     emotion: "graceful, social",
     description: "부드러운 코랄과 민트의 만남"
   },
   LRMF: {
-    name: "감성적 큐레이터",
-    nameEn: "Emotional Curator",
+    name: "진실 수집가",
+    nameEn: "Truth Collector",
     colors: ["#EE9CA7", "#FFDDE1", "#C3AED6"],
     emotion: "sensitive, selective",
     description: "로맨틱한 분홍빛 여정"
   },
   LRMC: {
-    name: "친근한 안내자",
-    nameEn: "Friendly Guide",
+    name: "기법의 현자",
+    nameEn: "Technique Sage",
     colors: ["#FCCB90", "#D57EEA", "#A8E6CF"],
     emotion: "approachable, helpful",
     description: "활기찬 파스텔 하모니"
   },
 
-  // S(Speedy) + A(Alone) 조합
+  // S(Social) + A(Abstract) 조합 - 사회적 추상 탐험가들
   SAEF: {
-    name: "독립적 개척자",
-    nameEn: "Independent Pioneer",
+    name: "감정 지휘자",
+    nameEn: "Emotion Conductor",
     colors: ["#FC466B", "#3F5EFB", "#42E695"],
     emotion: "dynamic, independent",
     description: "대담한 네온빛 대비"
   },
-  SAES: {
-    name: "예리한 비평가",
-    nameEn: "Sharp Critic",
+  SAEC: {
+    name: "느낌의 지도제작자",
+    nameEn: "Feeling Cartographer",
     colors: ["#434343", "#7F7FD5", "#91EAE4"],
     emotion: "analytical, precise",
     description: "차가운 도시의 새벽"
   },
   SAMF: {
-    name: "빠른 실험가",
-    nameEn: "Quick Experimenter",
+    name: "마음의 연금술사",
+    nameEn: "Mind Alchemist",
     colors: ["#FF6B6B", "#4ECDC4", "#45B7D1"],
     emotion: "experimental, agile",
     description: "활력 넘치는 삼원색"
   },
   SAMC: {
-    name: "효율적 전략가",
-    nameEn: "Efficient Strategist",
+    name: "이론 직조가",
+    nameEn: "Theory Weaver",
     colors: ["#636FA4", "#E8CBC0", "#92A8D1"],
     emotion: "strategic, systematic",
     description: "세련된 비즈니스 톤"
   },
 
-  // S(Speedy) + R(Relationship) 조합
+  // S(Social) + R(Realistic) 조합 - 사회적 현실 탐험가들
   SREF: {
-    name: "열정적 네트워커",
-    nameEn: "Passionate Networker",
+    name: "이야기 직조가",
+    nameEn: "Narrative Weaver",
     colors: ["#FF006E", "#FB5607", "#FFBE0B"],
     emotion: "energetic, connecting",
     description: "불타는 선셋 에너지"
   },
-  SRES: {
-    name: "활발한 인플루언서",
-    nameEn: "Vibrant Influencer",
+  SREC: {
+    name: "마음의 큐레이터",
+    nameEn: "Heart Curator",
     colors: ["#F72585", "#B5179E", "#7209B7"],
     emotion: "charismatic, trendy",
     description: "트렌디한 마젠타 웨이브"
   },
   SRMF: {
-    name: "다이나믹 퍼포머",
-    nameEn: "Dynamic Performer",
+    name: "문화 항해자",
+    nameEn: "Culture Voyager",
     colors: ["#FF4757", "#FFA502", "#05C46B"],
     emotion: "expressive, bold",
     description: "무대 위 스포트라이트"
   },
   SRMC: {
-    name: "체계적 리더",
-    nameEn: "Systematic Leader",
+    name: "갤러리 현자",
+    nameEn: "Gallery Sage",
     colors: ["#303952", "#546DE5", "#F5F3CE"],
     emotion: "authoritative, organized",
     description: "신뢰감 있는 네이비 그라데이션"

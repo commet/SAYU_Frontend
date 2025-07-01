@@ -1,13 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
 import PersonalArtMap from '@/components/artmap/PersonalArtMap';
 import ExhibitionRecord from '@/components/exhibition/ExhibitionRecord';
 import BadgeSystem from '@/components/gamification/BadgeSystem';
-import { Trophy, MapPin, BookOpen, Settings } from 'lucide-react';
+import { Trophy, MapPin, BookOpen, Settings, LogIn, Palette, Share2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { personalityDescriptions } from '@/data/personality-descriptions';
+import { personalityGradients, getGradientStyle } from '@/constants/personality-gradients';
+import ProfileSettingsModal from '@/components/profile/ProfileSettingsModal';
+import ProfileStats from '@/components/profile/ProfileStats';
+import ProfileShareCard from '@/components/profile/ProfileShareCard';
 
 // Mock data - in real app, would fetch from API
 const mockMuseums = [
@@ -122,28 +129,83 @@ const mockUserStats = {
   visitStreak: 5,
   totalVisits: 8,
   totalArtworks: 25,
-  totalPhotos: 12
+  totalPhotos: 12,
+  averageVisitDuration: 87,
+  favoriteArtStyle: 'Contemporary Abstract',
+  lastVisitDate: '2024-01-15'
 };
 
 export default function ProfilePage() {
   const { language } = useLanguage();
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState<'map' | 'records' | 'badges'>('map');
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<'map' | 'records' | 'badges' | 'share'>('map');
+  const [redirecting, setRedirecting] = useState(false);
+  const [userPersonalityType, setUserPersonalityType] = useState<string | null>(null);
+  const [showSettings, setShowSettings] = useState(false);
+  
+  // Load quiz results from localStorage
+  useEffect(() => {
+    const quizResults = localStorage.getItem('quizResults');
+    if (quizResults) {
+      const results = JSON.parse(quizResults);
+      setUserPersonalityType(results.personalityType);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!user && !redirecting) {
+      const timer = setTimeout(() => {
+        setRedirecting(true);
+        router.push('/login');
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [user, router, redirecting]);
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
+      <div className="min-h-screen flex items-center justify-center sayu-gradient-bg">
+        <motion.div 
+          className="text-center sayu-liquid-glass rounded-2xl p-8 max-w-md w-full mx-4"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <motion.div
+            className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-6"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          >
+            <LogIn className="w-10 h-10 text-white" />
+          </motion.div>
+          
           <h2 className="text-2xl font-bold mb-4">
             {language === 'ko' ? '로그인이 필요합니다' : 'Login Required'}
           </h2>
-          <p className="opacity-70">
+          <p className="opacity-70 mb-6">
             {language === 'ko' 
               ? '프로필을 보려면 로그인해주세요.' 
               : 'Please login to view your profile.'
             }
           </p>
-        </div>
+          
+          <div className="space-y-3">
+            <Button
+              onClick={() => router.push('/login')}
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+            >
+              {language === 'ko' ? '로그인하기' : 'Go to Login'}
+            </Button>
+            
+            <p className="text-sm opacity-60 mt-4">
+              {language === 'ko' 
+                ? '잠시 후 자동으로 로그인 페이지로 이동합니다...' 
+                : 'Redirecting to login page...'
+              }
+            </p>
+          </div>
+        </motion.div>
       </div>
     );
   }
@@ -167,6 +229,33 @@ export default function ProfilePage() {
                 <p className="text-sm opacity-70">
                   {language === 'ko' ? '레벨' : 'Level'} {mockUserStats.level} • {mockUserStats.totalPoints.toLocaleString()} {language === 'ko' ? '포인트' : 'points'}
                 </p>
+                
+                {/* Personality Type Display */}
+                {userPersonalityType && personalityDescriptions[userPersonalityType] && (
+                  <motion.div 
+                    className="mt-3 inline-flex items-center gap-2"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <div 
+                      className="px-3 py-1 rounded-full text-sm font-medium"
+                      style={{ 
+                        background: getGradientStyle(userPersonalityType as keyof typeof personalityGradients),
+                        color: 'white',
+                        textShadow: '0 1px 2px rgba(0,0,0,0.1)'
+                      }}
+                    >
+                      <span className="flex items-center gap-1">
+                        <Palette className="w-4 h-4" />
+                        {userPersonalityType}
+                      </span>
+                    </div>
+                    <span className="text-sm opacity-80">
+                      {personalityGradients[userPersonalityType as keyof typeof personalityGradients]?.name || personalityDescriptions[userPersonalityType].title}
+                    </span>
+                  </motion.div>
+                )}
               </div>
             </div>
             
@@ -174,18 +263,30 @@ export default function ProfilePage() {
               className="sayu-button p-2"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => setShowSettings(true)}
             >
               <Settings className="w-5 h-5" />
             </motion.button>
           </div>
         </motion.div>
 
+        {/* Quick Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-6"
+        >
+          <ProfileStats stats={mockUserStats} />
+        </motion.div>
+
         {/* Tab Navigation */}
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-2 mb-6 flex-wrap">
           {[
             { id: 'map' as const, icon: MapPin, label: { en: 'Art Map', ko: '아트맵' } },
             { id: 'records' as const, icon: BookOpen, label: { en: 'Records', ko: '기록' } },
-            { id: 'badges' as const, icon: Trophy, label: { en: 'Badges', ko: '배지' } }
+            { id: 'badges' as const, icon: Trophy, label: { en: 'Badges', ko: '배지' } },
+            { id: 'share' as const, icon: Share2, label: { en: 'Share', ko: '공유' } }
           ].map((tab) => (
             <motion.button
               key={tab.id}
@@ -248,8 +349,37 @@ export default function ProfilePage() {
               onBadgeClick={(badge) => console.log('Badge clicked:', badge)}
             />
           )}
+          
+          {activeTab === 'share' && (
+            <ProfileShareCard
+              userInfo={{
+                nickname: user.nickname,
+                email: user.email,
+                personalityType: userPersonalityType,
+                level: mockUserStats.level,
+                totalPoints: mockUserStats.totalPoints,
+                totalArtworks: mockUserStats.totalArtworks,
+                visitStreak: mockUserStats.visitStreak
+              }}
+            />
+          )}
         </motion.div>
       </div>
+      
+      {/* Settings Modal */}
+      <ProfileSettingsModal
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        userInfo={{
+          nickname: user.nickname,
+          email: user.email,
+          personalityType: userPersonalityType
+        }}
+        onUpdate={(updates) => {
+          // In real app, would update user state here
+          console.log('Profile updates:', updates);
+        }}
+      />
     </div>
   );
 }

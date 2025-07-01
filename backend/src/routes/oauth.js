@@ -2,6 +2,9 @@ const express = require('express');
 const passport = require('../config/passport');
 const { generateTokens } = require('../services/tokenService');
 const { logger } = require("../config/logger");
+const instagramAuth = require('../utils/instagramAuth');
+const User = require('../models/User');
+const crypto = require('crypto');
 
 const router = express.Router();
 
@@ -70,13 +73,76 @@ router.post('/apple/callback',
   (req, res) => handleOAuthCallback(req, res, 'apple')
 );
 
+// Instagram OAuth routes
+router.get('/instagram', (req, res) => {
+  const state = crypto.randomBytes(16).toString('hex');
+  req.session.oauthState = state;
+  const authUrl = instagramAuth.getAuthorizationUrl(state);
+  res.redirect(authUrl);
+});
+
+router.get('/instagram/callback', async (req, res) => {
+  try {
+    const { code, state, error } = req.query;
+    
+    if (error) {
+      logger.error('Instagram OAuth error:', error);
+      return res.redirect(`${process.env.FRONTEND_URL}/login?error=instagram_auth_failed`);
+    }
+    
+    // Verify state to prevent CSRF
+    if (state !== req.session.oauthState) {
+      logger.error('Instagram OAuth state mismatch');
+      return res.redirect(`${process.env.FRONTEND_URL}/login?error=auth_error`);
+    }
+    
+    // Exchange code for token
+    const tokenData = await instagramAuth.getAccessToken(code);
+    const { access_token: accessToken, user_id: instagramId } = tokenData;
+    
+    // Get user profile
+    const profile = await instagramAuth.getUserProfile(accessToken, instagramId);
+    
+    // Check if user exists
+    let user = await User.findByOAuth('instagram', instagramId);
+    
+    if (!user) {
+      // Instagram doesn't provide email, so we use username@instagram.local
+      const email = `${profile.username}@instagram.local`;
+      const existingUser = await User.findByEmail(email);
+      
+      if (existingUser) {
+        await User.linkOAuthAccount(existingUser.id, 'instagram', instagramId);
+        user = existingUser;
+      } else {
+        user = await User.createOAuthUser({
+          email: email,
+          displayName: profile.username,
+          provider: 'instagram',
+          providerId: instagramId,
+          profileImage: null // Instagram Basic Display API doesn't provide profile picture
+        });
+      }
+    }
+    
+    // Set req.user for handleOAuthCallback
+    req.user = user;
+    
+    // Use the common OAuth callback handler
+    handleOAuthCallback(req, res, 'instagram');
+  } catch (error) {
+    logger.error('Instagram OAuth callback error:', error);
+    res.redirect(`${process.env.FRONTEND_URL}/login?error=instagram_auth_failed`);
+  }
+});
+
 // Link OAuth account to existing user (requires authentication)
 router.post('/link/:provider', 
   require('../middleware/auth'),
   async (req, res) => {
     try {
       const { provider } = req.params;
-      const validProviders = ['google', 'github', 'apple'];
+      const validProviders = ['google', 'github', 'apple', 'instagram'];
       
       if (!validProviders.includes(provider)) {
         return res.status(400).json({ error: 'Invalid provider' });

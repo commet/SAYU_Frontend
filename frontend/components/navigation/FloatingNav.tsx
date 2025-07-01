@@ -7,6 +7,7 @@ import { Home, Sparkles, Users, User, Menu, X } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import { useAuth } from '@/hooks/useAuth';
+import toast from 'react-hot-toast';
 
 interface NavItem {
   icon: React.ReactNode;
@@ -40,7 +41,23 @@ export default function FloatingNav() {
 
   const handleNavClick = (item: NavItem) => {
     if (item.requiresAuth && !user) {
-      // Show login prompt
+      toast(language === 'ko' 
+        ? '로그인이 필요합니다' 
+        : 'Please login to access this feature', 
+        {
+          icon: '🔒',
+          style: {
+            background: 'rgba(147, 51, 234, 0.1)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(147, 51, 234, 0.2)',
+            color: '#fff',
+          },
+        }
+      );
+      setTimeout(() => {
+        router.push('/login');
+      }, 1000);
+      setIsOpen(false);
       return;
     }
     router.push(item.path);

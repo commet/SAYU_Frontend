@@ -4,6 +4,7 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const AppleStrategy = require('passport-apple').Strategy;
 const User = require('../models/User');
 const { logger } = require('./logger');
+const instagramAuth = require('../utils/instagramAuth');
 
 // Serialize and deserialize user
 passport.serializeUser((user, done) => {

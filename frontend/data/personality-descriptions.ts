@@ -29,8 +29,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Lone Wolf + Abstract + Emotional + Free-spirited
   LAEF: {
     type: 'LAEF',
-    title: 'The Intuitive Wanderer',
-    subtitle: 'Your soul speaks in colors and whispers',
+    title: 'The Color Whisperer',
+    subtitle: 'Dancing with abstract emotions in solitude',
     essence: 'You don\'t just see art, you feel it breathing. In the quiet moments between you and a canvas, entire universes unfold. Your journey through galleries is deeply personal - a meditation where each piece either resonates in your bones or passes by like a gentle breeze.',
     strengths: [
       {
@@ -98,8 +98,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Lone Wolf + Abstract + Emotional + Structured
   LAEC: {
     type: 'LAEC',
-    title: 'The Contemplative Scholar',
-    subtitle: 'Finding profound meaning in artistic silence',
+    title: 'The Canvas Philosopher',
+    subtitle: 'Architecting emotional depth through abstract forms',
     essence: 'You approach art like a poet approaches words - with reverence, patience, and deep attention. Your solitary gallery visits are research expeditions of the soul, where you systematically uncover layers of meaning while allowing yourself to be emotionally moved.',
     strengths: [
       {
@@ -167,8 +167,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Lone Wolf + Abstract + Logical + Free-spirited
   LAMF: {
     type: 'LAMF',
-    title: 'The Philosophical Drifter',
-    subtitle: 'Seeking truth through artistic wandering',
+    title: 'The Concept Hunter',
+    subtitle: 'Chasing ideas through abstract labyrinths',
     essence: 'You float through galleries like a philosopher through ideas - independently, curiously, following threads of meaning wherever they lead. Your approach is both intellectual and free-flowing, finding patterns and concepts in abstract forms while maintaining the flexibility to change course when inspiration strikes.',
     strengths: [
       {
@@ -236,8 +236,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Lone Wolf + Abstract + Logical + Structured
   LAMC: {
     type: 'LAMC',
-    title: 'The Systematic Theorist',
-    subtitle: 'Decoding the language of abstraction',
+    title: 'The Pattern Architect',
+    subtitle: 'Building bridges between chaos and order',
     essence: 'You approach abstract art like a scientist approaches the universe - with rigorous curiosity and systematic methodology. Your solitary museum visits are research sessions where you build comprehensive understanding of artistic movements, techniques, and theories.',
     strengths: [
       {
@@ -305,8 +305,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Social + Abstract + Emotional + Free-spirited
   SAEF: {
     type: 'SAEF',
-    title: 'The Expressive Connector',
-    subtitle: 'Sharing wonder with kindred spirits',
+    title: 'The Emotion Conductor',
+    subtitle: 'Orchestrating collective feelings through color',
     essence: 'Art is your social language - a way to connect deeply with others through shared emotional experiences. You see galleries as spaces for communion, where abstract works become conversation starters for exploring feelings, dreams, and the ineffable aspects of being human.',
     strengths: [
       {
@@ -374,8 +374,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Social + Abstract + Emotional + Structured
   SAEC: {
     type: 'SAEC',
-    title: 'The Empathetic Guide',
-    subtitle: 'Leading others through emotional landscapes',
+    title: 'The Feeling Cartographer',
+    subtitle: 'Mapping emotional territories for fellow travelers',
     essence: 'You have a gift for helping others understand and feel art deeply. Your structured approach to emotional experiences makes you a natural gallery companion, someone who can articulate why a piece moves you and guide others to their own discoveries.',
     strengths: [
       {
@@ -443,8 +443,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Social + Abstract + Logical + Free-spirited
   SAMF: {
     type: 'SAMF',
-    title: 'The Idea Catalyst',
-    subtitle: 'Sparking intellectual adventures together',
+    title: 'The Mind Alchemist',
+    subtitle: 'Transforming concepts into collective gold',
     essence: 'You transform galleries into think tanks, where abstract art becomes a springboard for fascinating discussions. Your free-flowing intellectual approach combined with social energy creates dynamic experiences where ideas bounce and evolve through collective exploration.',
     strengths: [
       {
@@ -512,8 +512,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Social + Abstract + Logical + Structured
   SAMC: {
     type: 'SAMC',
-    title: 'The Knowledge Architect',
-    subtitle: 'Building understanding through shared analysis',
+    title: 'The Theory Weaver',
+    subtitle: 'Spinning abstract wisdom into social fabric',
     essence: 'You orchestrate collective learning experiences in galleries, creating structured frameworks that help groups understand complex artistic concepts together. Your logical approach combined with social awareness makes abstract art accessible and engaging for diverse audiences.',
     strengths: [
       {
@@ -581,8 +581,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Lone Wolf + Realistic + Emotional + Free-spirited
   LREF: {
     type: 'LREF',
-    title: 'The Romantic Observer',
-    subtitle: 'Finding poetry in painted life',
+    title: 'The Silent Poet',
+    subtitle: 'Reading verses in brushstrokes and shadows',
     essence: 'You wander galleries seeking emotional truth in realistic depictions, drawn to works that capture the poetry of everyday moments. Your solitary appreciation allows you to form intimate connections with figurative art, finding personal meaning in painted narratives.',
     strengths: [
       {
@@ -650,8 +650,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Lone Wolf + Realistic + Emotional + Structured
   LREC: {
     type: 'LREC',
-    title: 'The Detail Devotee',
-    subtitle: 'Reading emotions in every brushstroke',
+    title: 'The Texture Oracle',
+    subtitle: 'Divining stories from surface and light',
     essence: 'You approach realistic art with the patience of a scholar and the heart of a poet. Your structured yet emotional approach allows you to systematically uncover the layers of feeling embedded in figurative works, building deep understanding through careful, solitary observation.',
     strengths: [
       {
@@ -719,8 +719,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Lone Wolf + Realistic + Logical + Free-spirited
   LRMF: {
     type: 'LRMF',
-    title: 'The Documentary Wanderer',
-    subtitle: 'Collecting visual truths freely',
+    title: 'The Truth Collector',
+    subtitle: 'Gathering fragments of human reality',
     essence: 'You drift through galleries like a visual anthropologist, drawn to realistic works that document human experience. Your logical eye combined with free-spirited exploration leads you to discover patterns and truths in figurative art, building your own understanding of the human condition.',
     strengths: [
       {
@@ -788,8 +788,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Lone Wolf + Realistic + Logical + Structured
   LRMC: {
     type: 'LRMC',
-    title: 'The Technical Master',
-    subtitle: 'Decoding mastery in solitude',
+    title: 'The Technique Sage',
+    subtitle: 'Meditating on the alchemy of craft',
     essence: 'You approach realistic art like a master studying under masters. Your systematic, logical approach to understanding technique and composition is pursued in focused solitude, where you can fully immerse yourself in analyzing the craft behind the creation.',
     strengths: [
       {
@@ -857,8 +857,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Social + Realistic + Emotional + Free-spirited
   SREF: {
     type: 'SREF',
-    title: 'The Story Sharer',
-    subtitle: 'Weaving human connections through art',
+    title: 'The Narrative Weaver',
+    subtitle: 'Spinning stories from shared gazes',
     essence: 'Art is your bridge to others\' hearts. You see every realistic painting as a story to share, an emotion to explore together. Your free-spirited approach to gallery visits often includes spontaneous connections with strangers, united by a shared moment of recognition in a painted face.',
     strengths: [
       {
@@ -926,8 +926,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Social + Realistic + Emotional + Structured
   SREC: {
     type: 'SREC',
-    title: 'The Emotional Curator',
-    subtitle: 'Orchestrating shared feeling through art',
+    title: 'The Heart Curator',
+    subtitle: 'Cultivating gardens of collective emotion',
     essence: 'You have a gift for guiding others through the emotional landscapes of realistic art. Your structured approach to sharing helps groups process complex feelings through figurative works, creating safe spaces for collective emotional exploration and understanding.',
     strengths: [
       {
@@ -995,8 +995,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Social + Realistic + Logical + Free-spirited
   SRMF: {
     type: 'SRMF',
-    title: 'The Cultural Explorer',
-    subtitle: 'Discovering society through shared observation',
+    title: 'The Culture Voyager',
+    subtitle: 'Navigating humanity through visual chronicles',
     essence: 'You turn gallery visits into cultural expeditions, using realistic art as a lens to explore and discuss human society with others. Your logical yet free-flowing approach creates dynamic group experiences where art becomes a springboard for understanding culture, history, and human nature.',
     strengths: [
       {
@@ -1064,8 +1064,8 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   // Social + Realistic + Logical + Structured
   SRMC: {
     type: 'SRMC',
-    title: 'The Exhibition Educator',
-    subtitle: 'Building collective understanding systematically',
+    title: 'The Gallery Sage',
+    subtitle: 'Illuminating paths through visual knowledge',
     essence: 'You transform galleries into classrooms where realistic art becomes a teaching tool. Your structured, logical approach combined with social awareness creates comprehensive learning experiences that help groups understand not just what they\'re seeing, but why it matters.',
     strengths: [
       {

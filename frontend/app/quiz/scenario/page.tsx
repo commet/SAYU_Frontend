@@ -32,38 +32,38 @@ export default function ScenarioQuizPage() {
 
   const getBackgroundImage = () => {
     const backgrounds: { [key: string]: string } = {
-      'city': 'city-view',
-      'entrance': 'museum-entrance',
-      'exhibition': 'gallery-space',
-      'viewing': 'viewing-art',
-      'moment': 'special-moment',
-      'rest': 'museum-cafe',
-      'shop': 'museum-shop',
-      'reflection': 'sunset-street'
+      'city': 'https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=1920&h=1080&fit=crop',
+      'entrance': 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=1920&h=1080&fit=crop',
+      'exhibition': 'https://images.unsplash.com/photo-1572947650440-e8a97ef053b2?w=1920&h=1080&fit=crop',
+      'viewing': 'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?w=1920&h=1080&fit=crop',
+      'moment': 'https://images.unsplash.com/photo-1513038630932-13873b1a7f29?w=1920&h=1080&fit=crop',
+      'rest': 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1920&h=1080&fit=crop',
+      'shop': 'https://images.unsplash.com/photo-1481277542470-605612bd2d61?w=1920&h=1080&fit=crop',
+      'reflection': 'https://images.unsplash.com/photo-1470219556762-1771e7f9427d?w=1920&h=1080&fit=crop'
     };
-    return backgrounds[stage.id] || 'city-view';
+    return backgrounds[stage.id] || 'https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=1920&h=1080&fit=crop';
   };
 
   const getChoiceImage = (choiceId: string) => {
     const choiceImages: { [key: string]: string } = {
-      'modern': 'modern-museum',
-      'classical': 'classical-museum',
-      'alone': 'alone-viewing',
-      'docent': 'docent-tour',
-      'emotion': 'emotional-response',
-      'meaning': 'analytical-response',
-      'flow': 'flow-viewing',
-      'systematic': 'reading-labels',
-      'abstract': 'abstract-art',
-      'realistic': 'portrait-art',
-      'journal': 'writing-journal',
-      'share': 'sharing-phone',
-      'postcard': 'art-postcard',
-      'book': 'art-book',
-      'feeling': 'emotional-memory',
-      'insight': 'new-perspective'
+      'modern': 'https://images.unsplash.com/photo-1565367505395-4a0b3de92301?w=800&h=600&fit=crop',
+      'classical': 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=800&h=600&fit=crop',
+      'alone': 'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=800&h=600&fit=crop',
+      'docent': 'https://images.unsplash.com/photo-1568306281853-4704b3a3ac1c?w=800&h=600&fit=crop',
+      'emotion': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop',
+      'meaning': 'https://images.unsplash.com/photo-1507643179773-3e975d7ac515?w=800&h=600&fit=crop',
+      'flow': 'https://images.unsplash.com/photo-1502481851512-e9e2529bfbf9?w=800&h=600&fit=crop',
+      'systematic': 'https://images.unsplash.com/photo-1568827999250-3f6afff96e66?w=800&h=600&fit=crop',
+      'abstract': 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&h=600&fit=crop',
+      'realistic': 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&h=600&fit=crop',
+      'journal': 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=600&fit=crop',
+      'share': 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop',
+      'postcard': 'https://images.unsplash.com/photo-1575995872537-3793d29d972c?w=800&h=600&fit=crop',
+      'book': 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&h=600&fit=crop',
+      'feeling': 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&h=600&fit=crop',
+      'insight': 'https://images.unsplash.com/photo-1493612276216-ee3925520721?w=800&h=600&fit=crop'
     };
-    return choiceImages[choiceId] || 'modern-museum';
+    return choiceImages[choiceId] || 'https://images.unsplash.com/photo-1565367505395-4a0b3de92301?w=800&h=600&fit=crop';
   };
 
   return (
@@ -71,17 +71,20 @@ export default function ScenarioQuizPage() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img 
-          src={`/api/museum-image?type=backgrounds&name=${getBackgroundImage()}`}
+          src={getBackgroundImage()}
           alt="Museum scene"
           className="w-full h-full object-cover"
           onError={(e) => {
-            e.currentTarget.src = '/api/placeholder-image?type=backgrounds&name=' + getBackgroundImage();
+            e.currentTarget.src = 'https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=1920&h=1080&fit=crop';
           }}
         />
         <div className="absolute inset-0 bg-black/40" />
       </div>
 
-      {/* Language Toggle removed - now in floating nav */}
+      {/* Language Toggle */}
+      <div className="absolute top-4 right-4 z-20">
+        <LanguageToggle variant="glass" />
+      </div>
 
       {/* Content */}
       <div className="relative z-10 h-screen flex flex-col p-4 md:p-8">
@@ -141,11 +144,11 @@ export default function ScenarioQuizPage() {
                   {/* Choice Image */}
                   <div className="aspect-video relative">
                     <img
-                      src={`/api/museum-image?type=choices&name=${getChoiceImage(choice.id)}`}
+                      src={getChoiceImage(choice.id)}
                       alt={choice.text}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        e.currentTarget.src = '/api/placeholder-image?type=choices&name=' + getChoiceImage(choice.id);
+                        e.currentTarget.src = 'https://images.unsplash.com/photo-1565367505395-4a0b3de92301?w=800&h=600&fit=crop';
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

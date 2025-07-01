@@ -20,6 +20,8 @@ import {
   SkipBack, SkipForward, Volume2, Map
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageToggle from '@/components/ui/LanguageToggle';
 import '@/styles/audio-guide.css';
 
 interface QuizResponse {
@@ -31,6 +33,7 @@ interface QuizResponse {
 
 export const AudioGuideQuiz: React.FC = () => {
   const router = useRouter();
+  const { language } = useLanguage();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [responses, setResponses] = useState<QuizResponse[]>([]);
   const [showEncouragement, setShowEncouragement] = useState(false);
@@ -150,6 +153,11 @@ export const AudioGuideQuiz: React.FC = () => {
   
   return (
     <div className="audio-guide-quiz-container">
+      {/* Language Toggle */}
+      <div className="absolute top-4 right-4 z-50">
+        <LanguageToggle variant="glass" />
+      </div>
+      
       {/* Audio Guide Device */}
       <motion.div 
         className="audio-guide-device"

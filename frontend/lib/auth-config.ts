@@ -5,7 +5,7 @@ export const authConfig = {
     authorizationUrl: 'https://api.instagram.com/oauth/authorize',
     tokenUrl: 'https://api.instagram.com/oauth/access_token',
     scope: 'user_profile,user_media',
-    redirectUri: `${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/auth/instagram/callback`
+    redirectUri: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/oauth/instagram/callback`
   },
   google: {
     clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '',
