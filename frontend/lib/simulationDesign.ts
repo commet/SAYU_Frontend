@@ -9,14 +9,13 @@ export const simulationFlow = {
   
   stages: [
     {
-      id: 1,
+      id: "city",
       name: "출발",
       name_en: "Departure",
       narrative: "주말 오후, 당신은 미술관을 방문하기로 결정했습니다.",
       narrative_en: "On a weekend afternoon, you've decided to visit an art museum.",
       question: "어떤 미술관을 방문하시겠습니까?",
       question_en: "Which museum would you like to visit?",
-      backgroundImage: "/images/simulation/city-view.jpg",
       choices: [
         {
           id: "modern",

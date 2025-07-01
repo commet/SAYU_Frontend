@@ -19,6 +19,9 @@
   transform: translateX(-50%) !important;
   z-index: 9999 !important;
   margin: 0 !important;
+  min-width: 400px !important;
+  max-width: 500px !important;
+  padding: 8px !important;
 }
 
 /* 2. 배경 이미지 강제 전체 화면 */
@@ -58,13 +61,9 @@
   align-items: center !important;
   justify-content: center !important;
   text-align: center !important;
-  padding: 14px 20px !important;
-  min-width: 80px !important;
-}
-
-.sayu-floating-nav {
-  min-width: 360px !important;
-  padding: 10px !important;
+  padding: 12px 18px !important;
+  min-width: 85px !important;
+  height: 60px !important;
 }
 
 /* 7. 반응형 강제 적용 */

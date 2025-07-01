@@ -18,30 +18,47 @@ export default function ScenarioQuizPage() {
   const stage = simulationFlow.stages[currentStage];
 
   const handleChoice = (choiceId: string) => {
-    const newResponses = [...responses, { stage: stage.id, choice: choiceId }];
+    // Find the choice object with weights
+    const selectedChoice = stage.choices.find(choice => choice.id === choiceId);
+    const responseData = { 
+      stage: stage.id, 
+      choice: choiceId,
+      weights: selectedChoice?.weights || {}
+    };
+    
+    console.log('Selected choice:', selectedChoice);
+    console.log('Response data:', responseData);
+    
+    const newResponses = [...responses, responseData];
     setResponses(newResponses);
+    
+    console.log('All responses so far:', newResponses);
 
     if (currentStage < simulationFlow.stages.length - 1) {
       setCurrentStage(currentStage + 1);
     } else {
       // Quiz complete
+      console.log('Quiz complete, saving responses:', newResponses);
       localStorage.setItem('scenarioResponses', JSON.stringify(newResponses));
       router.push('/quiz/results?type=scenario');
     }
   };
 
   const getBackgroundImage = () => {
+    console.log('Current stage ID:', stage.id);
     const backgrounds: { [key: string]: string } = {
-      'city': 'https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=1920&h=1080&fit=crop',
-      'entrance': 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=1920&h=1080&fit=crop',
-      'exhibition': 'https://images.unsplash.com/photo-1572947650440-e8a97ef053b2?w=1920&h=1080&fit=crop',
-      'viewing': 'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?w=1920&h=1080&fit=crop',
-      'moment': 'https://images.unsplash.com/photo-1513038630932-13873b1a7f29?w=1920&h=1080&fit=crop',
-      'rest': 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1920&h=1080&fit=crop',
-      'shop': 'https://images.unsplash.com/photo-1481277542470-605612bd2d61?w=1920&h=1080&fit=crop',
-      'reflection': 'https://images.unsplash.com/photo-1470219556762-1771e7f9427d?w=1920&h=1080&fit=crop'
+      'city': 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1920&h=1080&fit=crop&q=80', // City skyline
+      'entrance': 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=1920&h=1080&fit=crop&q=80', // Museum entrance hall
+      'exhibition': 'https://images.unsplash.com/photo-1544967882-6abee0447b2b?w=1920&h=1080&fit=crop&q=80', // Gallery exhibition space
+      'viewing': 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=1920&h=1080&fit=crop&q=80', // People viewing art
+      'moment': 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=1920&h=1080&fit=crop&q=80', // Abstract art moment
+      'rest': 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1920&h=1080&fit=crop&q=80', // Museum cafe
+      'shop': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=1080&fit=crop&q=80', // Museum shop
+      'reflection': 'https://images.unsplash.com/photo-1470219556762-1771e7f9427d?w=1920&h=1080&fit=crop&q=80' // Reflective space
     };
-    return backgrounds[stage.id] || 'https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=1920&h=1080&fit=crop';
+    const bgImage = backgrounds[stage.id] || backgrounds['city'];
+    console.log('Selected background image:', bgImage);
+    return bgImage;
   };
 
   const getChoiceImage = (choiceId: string) => {
@@ -125,13 +142,22 @@ export default function ScenarioQuizPage() {
             {/* Narrative */}
             <div className="sayu-quiz-card rounded-2xl p-6 md:p-8 mb-8 max-w-3xl w-full">
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                {language === 'ko' ? stage.name : stage.name_en}
+                {(() => {
+                  console.log('Language:', language, 'Stage name (ko):', stage.name, 'Stage name (en):', stage.name_en);
+                  return language === 'ko' ? stage.name : stage.name_en;
+                })()}
               </h2>
               <p className="text-white/90 text-lg leading-relaxed mb-6">
-                {language === 'ko' ? stage.narrative : stage.narrative_en}
+                {(() => {
+                  console.log('Narrative (ko):', stage.narrative, 'Narrative (en):', stage.narrative_en);
+                  return language === 'ko' ? stage.narrative : stage.narrative_en;
+                })()}
               </p>
               <p className="text-white text-xl font-semibold">
-                {language === 'ko' ? stage.question : stage.question_en}
+                {(() => {
+                  console.log('Question (ko):', stage.question, 'Question (en):', stage.question_en);
+                  return language === 'ko' ? stage.question : stage.question_en;
+                })()}
               </p>
             </div>
 
@@ -161,10 +187,16 @@ export default function ScenarioQuizPage() {
                   {/* Choice Text */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-left">
                     <h3 className="text-white text-xl md:text-2xl font-bold mb-2">
-                      {language === 'ko' ? choice.label : choice.label_en}
+                      {(() => {
+                        console.log(`Choice ${choice.id} - Label (ko):`, choice.label, 'Label (en):', choice.label_en);
+                        return language === 'ko' ? choice.label : choice.label_en;
+                      })()}
                     </h3>
                     <p className="text-white/80 text-sm md:text-base">
-                      {language === 'ko' ? choice.description : choice.description_en}
+                      {(() => {
+                        console.log(`Choice ${choice.id} - Description (ko):`, choice.description, 'Description (en):', choice.description_en);
+                        return language === 'ko' ? choice.description : choice.description_en;
+                      })()}
                     </p>
                   </div>
 
