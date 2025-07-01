@@ -1,12 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { AuthProvider } from '@/hooks/useAuth'
-import { ThemeProvider } from '@/hooks/usePersonalizedTheme'
-import { OnboardingProvider } from '@/contexts/OnboardingContext'
-import { PWAProvider } from '@/components/pwa/PWAProvider'
-import { Toaster } from 'react-hot-toast'
-import { SessionProvider } from 'next-auth/react'
+import { Providers } from './providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -54,38 +49,10 @@ export default function RootLayout({
         <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#8b5cf6" />
       </head>
       <body className={inter.className}>
-        <SessionProvider>
-          <PWAProvider>
-            <AuthProvider>
-              <ThemeProvider>
-                <OnboardingProvider>
-                  {children}
-                  <PersonalizedToaster />
-                </OnboardingProvider>
-              </ThemeProvider>
-            </AuthProvider>
-          </PWAProvider>
-        </SessionProvider>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   )
-}
-
-// Personalized toaster that adapts to user theme
-function PersonalizedToaster() {
-  return (
-    <Toaster 
-      position="bottom-center"
-      toastOptions={{
-        style: {
-          background: 'var(--color-surface)',
-          color: 'var(--color-text)',
-          borderRadius: 'var(--layout-borderRadius)',
-          border: '1px solid var(--color-border)',
-          boxShadow: 'var(--layout-shadows)',
-        },
-        duration: 4000,
-      }}
-    />
-  );
 }
