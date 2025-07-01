@@ -4,6 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import custom styles */
+@import '../styles/gradients.css';
+
 @layer base {
   :root {
     /* Gallery-inspired color palette */

@@ -9,9 +9,10 @@ import { getArtworkRecommendations } from '@/lib/artworkRecommendations';
 import { calculatePersonalityFromSimulation } from '@/lib/simulationDesign';
 import { getExhibitionRecommendation } from '@/lib/exhibitionRecommendations';
 import PersonalityIcon from '@/components/PersonalityIcon';
-import IDCardNew from '@/components/IDCardNew';
+import IDCardViral from '@/components/IDCardViral';
 import SocialLoginModal from '@/components/SocialLoginModal';
 import { useSession } from 'next-auth/react';
+import { personalityGradients, getGradientStyle } from '@/constants/personality-gradients';
 
 interface PersonalityResult {
   personalityType: string;
@@ -156,8 +157,24 @@ function ResultsContent() {
   const artworkRecommendations = getArtworkRecommendations(result.personalityType);
   const exhibitionRecommendation = getExhibitionRecommendation(result.personalityType);
 
+  // Get personality gradient
+  const gradientStyle = result.personalityType && personalityGradients[result.personalityType as keyof typeof personalityGradients] 
+    ? getGradientStyle(result.personalityType as keyof typeof personalityGradients, 135)
+    : 'linear-gradient(135deg, #667EEA, #764BA2, #F093FB)'; // fallback gradient
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white">
+    <div className="min-h-screen text-white relative overflow-hidden">
+      {/* Dynamic gradient background */}
+      <div 
+        className="absolute inset-0 opacity-80"
+        style={{ background: gradientStyle }}
+      />
+      
+      {/* Overlay for better readability */}
+      <div className="absolute inset-0 bg-black/20" />
+      
+      {/* Content */}
+      <div className="relative z-10">
       {/* Language Toggle */}
       <div className="absolute top-4 right-4 z-10">
         <button
@@ -187,17 +204,29 @@ function ResultsContent() {
               transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
               className="inline-block"
             >
-              <div className="bg-gradient-to-r from-pink-500 to-purple-500 rounded-full px-8 py-4 mb-6">
-                <h1 className="text-4xl md:text-5xl font-bold">
+              <div 
+                className="rounded-full px-8 py-4 mb-6 shadow-2xl relative overflow-hidden"
+                style={{ 
+                  background: result.personalityType && personalityGradients[result.personalityType as keyof typeof personalityGradients]
+                    ? getGradientStyle(result.personalityType as keyof typeof personalityGradients, 90)
+                    : 'linear-gradient(90deg, #667EEA, #764BA2)'
+                }}
+              >
+                {/* Shimmer effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] animate-[shimmer_3s_infinite]" />
+                <h1 className="text-4xl md:text-5xl font-bold relative">
                   {result.personalityType}
                 </h1>
               </div>
             </motion.div>
 
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {displayData?.name?.[language] || (result.isScenarioQuiz 
-                ? (language === 'ko' ? '당신의 예술적 성향' : 'Your Artistic Personality')
-                : `${result.personalityType} 성향`)
+              {displayData?.name?.[language] || 
+               (personalityGradients[result.personalityType as keyof typeof personalityGradients]
+                 ? personalityGradients[result.personalityType as keyof typeof personalityGradients][language === 'ko' ? 'name' : 'nameEn']
+                 : (result.isScenarioQuiz 
+                   ? (language === 'ko' ? '당신의 예술적 성향' : 'Your Artistic Personality')
+                   : `${result.personalityType} 성향`))
               }
             </h2>
 
@@ -435,10 +464,11 @@ function ResultsContent() {
           </motion.div>
         </motion.div>
       </div>
+      </div>{/* End of relative z-10 div */}
       
       {/* ID Card Modal */}
       {showIDCard && (
-        <IDCardNew
+        <IDCardViral
           personalityType={result.personalityType}
           userName={session?.user?.name || 'SAYU Explorer'}
           userHandle={session?.user?.email ? `@${session.user.email.split('@')[0]}` : '@sayu_user'}
@@ -449,6 +479,14 @@ function ResultsContent() {
             artworksViewed: 42,
             hoursSpent: 12
           }}
+          recentExhibitions={[
+            { name: '빛: 영감의 시작', venue: '국립현대미술관' },
+            { name: '올라퍼 엘리아슨', venue: '리움미술관' },
+            { name: '이우환: 무한의 만남', venue: '부산시립미술관' }
+          ]}
+          favoriteArtist={artworkRecommendations?.representativeWork?.artist}
+          nextExhibition={exhibitionRecommendation?.title?.[language]}
+          keywords={['예술애호가', '감성탐험가', '큐레이터의눈']}
           level={1}
           badges={['초보 감상가', '시나리오 퀴즈 완료', '예술 탐험가']}
           language={language}
