@@ -43,10 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
-        <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#8b5cf6" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png" />
       </head>
       <body className={inter.className}>
         <Providers>

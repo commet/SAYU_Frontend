@@ -39,7 +39,7 @@ export const simulationFlow = {
     },
     
     {
-      id: 2,
+      id: "entrance",
       name: "도착",
       name_en: "Arrival",
       narrative: "미술관에 도착했습니다. 입구에서 오늘의 전시를 확인합니다.",
@@ -70,7 +70,7 @@ export const simulationFlow = {
     },
     
     {
-      id: 3,
+      id: "exhibition",
       name: "첫 작품",
       name_en: "First Artwork",
       narrative: "전시장에 들어서자 거대한 작품이 당신을 맞이합니다.",
@@ -101,7 +101,7 @@ export const simulationFlow = {
     },
     
     {
-      id: 4,
+      id: "viewing",
       name: "감상 방식",
       name_en: "Viewing Style",
       narrative: "전시를 둘러보며 여러 작품을 만납니다.",
@@ -132,7 +132,7 @@ export const simulationFlow = {
     },
     
     {
-      id: 5,
+      id: "moment",
       name: "인상적인 작품",
       name_en: "Impressive Artwork",
       narrative: "한 작품 앞에서 발걸음이 멈춥니다.",
@@ -163,7 +163,7 @@ export const simulationFlow = {
     },
     
     {
-      id: 6,
+      id: "rest",
       name: "휴식",
       name_en: "Break",
       narrative: "잠시 미술관 카페에서 휴식을 취합니다.",
@@ -194,7 +194,7 @@ export const simulationFlow = {
     },
     
     {
-      id: 7,
+      id: "shop",
       name: "기념품",
       name_en: "Souvenir",
       narrative: "미술관을 나서기 전, 아트샵에 들렀습니다.",
@@ -225,7 +225,7 @@ export const simulationFlow = {
     },
     
     {
-      id: 8,
+      id: "reflection",
       name: "마무리",
       name_en: "Conclusion",
       narrative: "집으로 돌아가는 길, 오늘의 경험을 되돌아봅니다.",
