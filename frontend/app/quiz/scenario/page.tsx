@@ -81,18 +81,18 @@ export default function ScenarioQuizPage() {
         <div className="absolute inset-0 bg-black/40" />
       </div>
 
-      {/* Language Toggle */}
-      <div className="absolute top-4 right-4 z-20">
-        <LanguageToggle variant="glass" />
-      </div>
+      {/* Language Toggle removed - now in floating nav */}
 
       {/* Content */}
       <div className="relative z-10 h-screen flex flex-col p-4 md:p-8">
         {/* Progress Bar */}
         <div className="w-full max-w-4xl mx-auto mb-6">
-          <div className="bg-white/20 backdrop-blur-md rounded-full h-2">
+          <div className="glass rounded-full h-3 p-0.5">
             <motion.div
-              className="bg-white h-full rounded-full"
+              className="h-full rounded-full shimmer-animation"
+              style={{
+                background: 'linear-gradient(90deg, #818cf8, #c084fc, #f472b6)',
+              }}
               initial={{ width: 0 }}
               animate={{ width: `${((currentStage + 1) / simulationFlow.stages.length) * 100}%` }}
               transition={{ duration: 0.5 }}
@@ -116,7 +116,7 @@ export default function ScenarioQuizPage() {
             className="flex-1 flex flex-col justify-center items-center max-w-6xl mx-auto w-full"
           >
             {/* Narrative */}
-            <div className="bg-black/60 backdrop-blur-md rounded-2xl p-6 md:p-8 mb-8 max-w-3xl w-full">
+            <div className="glass-dark rounded-2xl p-6 md:p-8 mb-8 max-w-3xl w-full">
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
                 {stage[`name_${language}`] || stage.name}
               </h2>
@@ -136,7 +136,7 @@ export default function ScenarioQuizPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleChoice(choice.id)}
-                  className="relative group overflow-hidden rounded-2xl shadow-2xl bg-white/10 backdrop-blur-md"
+                  className="relative group overflow-hidden rounded-2xl shadow-2xl liquid-glass"
                 >
                   {/* Choice Image */}
                   <div className="aspect-video relative">

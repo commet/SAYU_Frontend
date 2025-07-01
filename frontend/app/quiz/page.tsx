@@ -30,11 +30,8 @@ export default function QuizIntroPage() {
         transition={{ duration: 0.8, ease: [0.390, 0.575, 0.565, 1.000] }}
         className="max-w-3xl w-full"
       >
-        <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-12 md:p-16 shadow-dream relative">
-          {/* Language Toggle */}
-          <div className="absolute top-4 right-4">
-            <LanguageToggle variant="minimal" className="text-[hsl(var(--journey-midnight))] border-[hsl(var(--journey-twilight))]/20 hover:bg-[hsl(var(--journey-twilight))]/10" />
-          </div>
+        <div className="apple-card bg-white/80 backdrop-blur-lg rounded-3xl p-12 md:p-16 shadow-dream relative">
+          {/* Language Toggle removed - now in floating nav */}
 
           <motion.div
             initial={{ opacity: 0 }}
@@ -74,8 +71,9 @@ export default function QuizIntroPage() {
               
               <div className="grid md:grid-cols-3 gap-6">
                 <motion.div 
-                  className="bg-[hsl(var(--journey-dawn-cream))] rounded-2xl p-6 shadow-gentle"
-                  whileHover={{ y: -4 }}
+                  className="liquid-glass rounded-2xl p-6"
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                 >
                   <div className="text-3xl mb-3">🌅</div>
@@ -91,8 +89,9 @@ export default function QuizIntroPage() {
                 </motion.div>
                 
                 <motion.div 
-                  className="bg-[hsl(var(--journey-lavender))] rounded-2xl p-6 shadow-gentle"
-                  whileHover={{ y: -4 }}
+                  className="liquid-glass rounded-2xl p-6"
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                 >
                   <div className="text-3xl mb-3">🎭</div>
@@ -108,8 +107,9 @@ export default function QuizIntroPage() {
                 </motion.div>
                 
                 <motion.div 
-                  className="bg-[hsl(var(--journey-dusty-rose))] rounded-2xl p-6 shadow-gentle"
-                  whileHover={{ y: -4 }}
+                  className="liquid-glass rounded-2xl p-6"
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                 >
                   <div className="text-3xl mb-3">✨</div>
@@ -127,7 +127,7 @@ export default function QuizIntroPage() {
             </div>
 
             {/* Journey Details */}
-            <div className="bg-white/50 rounded-2xl p-8 shadow-whisper">
+            <div className="liquid-glass rounded-2xl p-8">
               <div className="flex items-center justify-center gap-8 text-[hsl(var(--journey-twilight))]">
                 <div className="text-center">
                   <div className="text-3xl mb-2">🖼️</div>
@@ -157,15 +157,15 @@ export default function QuizIntroPage() {
             transition={{ delay: 0.7 }}
             className="text-center"
           >
-            <EmotionalButton
+            <motion.button
               onClick={startQuiz}
-              size="lg"
-              variant="primary"
-              className="px-12 py-4 text-lg"
+              className="apple-button px-12 py-4 text-lg font-semibold flex items-center gap-2 mx-auto"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <Sparkles className="w-5 h-5" />
               {language === 'ko' ? '나의 여정 시작하기' : 'Begin My Journey'}
-            </EmotionalButton>
+            </motion.button>
             
             <p className="mt-6 text-sm text-[hsl(var(--journey-twilight))] opacity-60">
               {language === 'ko' 

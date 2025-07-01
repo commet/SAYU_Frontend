@@ -50,7 +50,9 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <Providers>
-          {children}
+          <div className="min-h-screen relative">
+            {children}
+          </div>
         </Providers>
       </body>
     </html>

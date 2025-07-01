@@ -6,6 +6,7 @@
 
 /* Import custom styles */
 @import '../styles/gradients.css';
+@import '../styles/apple-design-system.css';
 
 @layer base {
   :root {

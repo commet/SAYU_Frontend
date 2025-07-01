@@ -81,7 +81,7 @@ export default function PersonalityTypeGrid({
   return (
     <div className="space-y-8">
       {/* Dimensions Breakdown */}
-      <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-8">
+      <div className="liquid-glass rounded-2xl p-6 md:p-8">
         <h3 className="text-2xl font-bold text-white mb-6">
           {language === 'ko' ? '당신의 성향 분석' : 'Your Personality Analysis'}
         </h3>
@@ -134,7 +134,7 @@ export default function PersonalityTypeGrid({
       </div>
       
       {/* All 16 Types Grid */}
-      <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-8">
+      <div className="liquid-glass rounded-2xl p-6 md:p-8">
         <h3 className="text-2xl font-bold text-white mb-6">
           {language === 'ko' ? '16가지 성격 유형' : 'All 16 Personality Types'}
         </h3>
@@ -149,14 +149,15 @@ export default function PersonalityTypeGrid({
                 key={type}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`relative rounded-lg p-3 text-center cursor-pointer transition-all ${
+                className={`relative rounded-lg p-3 text-center cursor-pointer transition-all glass ${
                   isCurrentType 
-                    ? 'ring-4 ring-white/50 shadow-lg' 
+                    ? 'ring-4 ring-white/50 shadow-lg scale-105' 
                     : 'hover:ring-2 hover:ring-white/30'
                 }`}
                 style={{
-                  background: `linear-gradient(135deg, ${gradient.colors.join(', ')})`,
-                  opacity: isCurrentType ? 1 : 0.7
+                  background: isCurrentType 
+                    ? `linear-gradient(135deg, ${gradient.colors.join(', ')})` 
+                    : `linear-gradient(135deg, ${gradient.colors.map(c => c + '40').join(', ')})`
                 }}
               >
                 <div className="text-white">

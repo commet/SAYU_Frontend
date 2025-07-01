@@ -101,7 +101,7 @@ export default function HomePage() {
             />
             
             <motion.button
-              className="enter-button"
+              className="enter-button apple-button pulse-glow-animation"
               onClick={() => setDoorsOpen(true)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -153,39 +153,52 @@ export default function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.4 + index * 0.1 }}
             >
-              <Card 
-                className={`room-card ${room.status === 'locked' ? 'locked' : ''}`}
+              <motion.div
+                className={`apple-card p-6 cursor-pointer ${room.status === 'locked' ? 'opacity-60' : ''}`}
                 onClick={() => handleRoomClick(room)}
+                whileHover={room.status !== 'locked' ? { scale: 1.02 } : {}}
+                whileTap={room.status !== 'locked' ? { scale: 0.98 } : {}}
               >
-                <div className="room-icon">{room.icon}</div>
-                <h3 className="room-name">{room.name}</h3>
-                <p className="room-description">{room.description}</p>
+                <div className="room-icon text-4xl mb-3 float-animation">{room.icon}</div>
+                <h3 className="room-name text-lg font-semibold mb-2">{room.name}</h3>
+                <p className="room-description text-sm opacity-70">{room.description}</p>
                 {room.status === 'locked' && (
-                  <Lock className="lock-icon" size={20} />
+                  <Lock className="lock-icon absolute top-4 right-4 opacity-50" size={20} />
                 )}
-              </Card>
+              </motion.div>
             </motion.div>
           ))}
         </motion.div>
 
         {/* Visitor Board */}
         <motion.div 
-          className="visitor-board"
+          className="visitor-board liquid-glass rounded-2xl p-6 mt-8 max-w-4xl mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.8 }}
         >
-          <div className="visitor-stat">
-            <Users className="w-5 h-5" />
-            <span>{language === 'ko' ? `현재 방문자: ${currentVisitors.toLocaleString()}` : `Current visitors: ${currentVisitors.toLocaleString()}`}</span>
-          </div>
-          <div className="visitor-stat">
-            <Sparkles className="w-5 h-5" />
-            <span>{language === 'ko' ? `오늘 발견된 유형: ${todayDiscoveries}` : `Types discovered today: ${todayDiscoveries}`}</span>
-          </div>
-          <div className="visitor-stat">
-            <Clock className="w-5 h-5" />
-            <span>{timeOfDay === 'night' ? 'Night at the Museum' : `${timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1)} hours`}</span>
+          <div className="flex flex-wrap justify-center gap-6">
+            <motion.div 
+              className="visitor-stat flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full"
+              whileHover={{ scale: 1.05 }}
+            >
+              <Users className="w-5 h-5 text-purple-600" />
+              <span className="font-medium">{language === 'ko' ? `현재 방문자: ${currentVisitors.toLocaleString()}` : `Current visitors: ${currentVisitors.toLocaleString()}`}</span>
+            </motion.div>
+            <motion.div 
+              className="visitor-stat flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full"
+              whileHover={{ scale: 1.05 }}
+            >
+              <Sparkles className="w-5 h-5 text-pink-600" />
+              <span className="font-medium">{language === 'ko' ? `오늘 발견된 유형: ${todayDiscoveries}` : `Types discovered today: ${todayDiscoveries}`}</span>
+            </motion.div>
+            <motion.div 
+              className="visitor-stat flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full"
+              whileHover={{ scale: 1.05 }}
+            >
+              <Clock className="w-5 h-5 text-blue-600" />
+              <span className="font-medium">{timeOfDay === 'night' ? 'Night at the Museum' : `${timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1)} hours`}</span>
+            </motion.div>
           </div>
         </motion.div>
 

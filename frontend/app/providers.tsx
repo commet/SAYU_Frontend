@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/hooks/usePersonalizedTheme';
 import { OnboardingProvider } from '@/contexts/OnboardingContext';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { PWAProvider } from '@/components/pwa/PWAProvider';
+import ClientLayout from '@/components/layouts/ClientLayout';
 import { Toaster } from 'react-hot-toast';
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -16,7 +17,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <LanguageProvider>
             <ThemeProvider>
               <OnboardingProvider>
-                {children}
+                <ClientLayout>
+                  {children}
+                </ClientLayout>
                 <PersonalizedToaster />
               </OnboardingProvider>
             </ThemeProvider>
