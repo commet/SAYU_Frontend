@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { simulationFlow } from '@/lib/simulationDesign';
+import { narrativeQuestions } from '@/data/narrative-quiz-questions';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import Image from 'next/image';
@@ -15,15 +15,15 @@ export default function ScenarioQuizPage() {
   const [responses, setResponses] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const stage = simulationFlow.stages[currentStage];
+  const question = narrativeQuestions[currentStage];
 
   const handleChoice = (choiceId: string) => {
     // Find the choice object with weights
-    const selectedChoice = stage.choices.find(choice => choice.id === choiceId);
+    const selectedChoice = question.options.find(option => option.id === choiceId);
     const responseData = { 
-      stage: stage.id, 
+      questionId: question.id, 
       choice: choiceId,
-      weights: selectedChoice?.weights || {}
+      weight: selectedChoice?.weight || {}
     };
     
     console.log('Selected choice:', selectedChoice);
@@ -34,7 +34,7 @@ export default function ScenarioQuizPage() {
     
     console.log('All responses so far:', newResponses);
 
-    if (currentStage < simulationFlow.stages.length - 1) {
+    if (currentStage < narrativeQuestions.length - 1) {
       setCurrentStage(currentStage + 1);
     } else {
       // Quiz complete
@@ -45,18 +45,25 @@ export default function ScenarioQuizPage() {
   };
 
   const getBackgroundImage = () => {
-    console.log('Current stage ID:', stage.id);
-    const backgrounds: { [key: string]: string } = {
-      'city': 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1920&h=1080&fit=crop&q=80', // 도시 전경 - 미술관으로 향하는 느낌
-      'entrance': 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=1920&h=1080&fit=crop&q=80', // 미술관 입구 - 웅장하고 초대하는 느낌  
-      'exhibition': 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=1920&h=1080&fit=crop&q=80', // 갤러리 내부 - 거대한 작품이 걸린 공간
-      'viewing': 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=1920&h=1080&fit=crop&q=80', // 작품 감상 - 사람들이 여러 작품을 보는 모습
-      'moment': 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=1920&h=1080&fit=crop&q=80', // 특별한 순간 - 한 작품 앞에서 멈춘 순간
-      'rest': 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1920&h=1080&fit=crop&q=80', // 미술관 카페 - 아늑한 휴식 공간
-      'shop': 'https://images.unsplash.com/photo-1481277542470-605612bd2d61?w=1920&h=1080&fit=crop&q=80', // 아트샵 - 다양한 굿즈와 기념품들
-      'reflection': 'https://images.unsplash.com/photo-1470219556762-1771e7f9427d?w=1920&h=1080&fit=crop&q=80' // 집으로 가는 길 - 노을 지는 거리
+    console.log('Current question ID:', question.id);
+    const backgrounds: { [number: number]: string } = {
+      1: 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=1920&h=1080&fit=crop&q=80', // Gallery entrance - oak doors opening
+      2: 'https://images.unsplash.com/photo-1544967882-6abee0447b2b?w=1920&h=1080&fit=crop&q=80', // Gallery interior - curator approaching
+      3: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=1920&h=1080&fit=crop&q=80', // First chamber - gallery space
+      4: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=1920&h=1080&fit=crop&q=80', // Painting that stops you
+      5: 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=1920&h=1080&fit=crop&q=80', // Sunlit alcove with story
+      6: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=1080&fit=crop&q=80', // Another visitor beside you
+      7: 'https://images.unsplash.com/photo-1481277542470-605612bd2d61?w=1920&h=1080&fit=crop&q=80', // Experimental installation
+      8: 'https://images.unsplash.com/photo-1570115864504-73dc2bf0b10e?w=1920&h=1080&fit=crop&q=80', // Ancient artifact room
+      9: 'https://images.unsplash.com/photo-1515405295579-ba7b45403062?w=1920&h=1080&fit=crop&q=80', // Contemporary vs classical wing
+      10: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1920&h=1080&fit=crop&q=80', // Overlooked corner
+      11: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=1920&h=1080&fit=crop&q=80', // Personal connection work
+      12: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1920&h=1080&fit=crop&q=80', // Gallery bench moment
+      13: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=1080&fit=crop&q=80', // Final revelation
+      14: 'https://images.unsplash.com/photo-1470219556762-1771e7f9427d?w=1920&h=1080&fit=crop&q=80', // Exit transition
+      15: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1920&h=1080&fit=crop&q=80'  // Outside - transformation
     };
-    const bgImage = backgrounds[stage.id] || backgrounds['city'];
+    const bgImage = backgrounds[question.id] || backgrounds[1];
     console.log('Selected background image:', bgImage);
     return bgImage;
   };
@@ -64,39 +71,41 @@ export default function ScenarioQuizPage() {
   const getChoiceImage = (choiceId: string) => {
     console.log('Getting choice image for:', choiceId);
     const choiceImages: { [key: string]: string } = {
-      // 미술관 선택 (city stage)
-      'modern': 'https://images.unsplash.com/photo-1565367505395-4a0b3de92301?w=800&h=600&fit=crop&q=80', // 현대미술관 외관
-      'classical': 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=800&h=600&fit=crop&q=80', // 국립미술관 외관
+      // Question 1 - entrance paths
+      'solitary': 'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=800&h=600&fit=crop&q=80', // Quiet corridor in morning light
+      'social': 'https://images.unsplash.com/photo-1568306281853-4704b3a3ac1c?w=800&h=600&fit=crop&q=80', // Bustling atrium with people
       
-      // 관람 방식 (entrance stage)  
-      'alone': 'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=800&h=600&fit=crop&q=80', // 혼자서 자유롭게
-      'docent': 'https://images.unsplash.com/photo-1568306281853-4704b3a3ac1c?w=800&h=600&fit=crop&q=80', // 도슨트 투어
+      // Question 2 - curator approach
+      'intuitive': 'https://images.unsplash.com/photo-1502481851512-e9e2529bfbf9?w=800&h=600&fit=crop&q=80', // Wandering freely
+      'structured': 'https://images.unsplash.com/photo-1568827999250-3f6afff96e66?w=800&h=600&fit=crop&q=80', // Learning exhibition design
       
-      // 첫 감상 (exhibition stage)
-      'emotion': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&q=80', // 감정적 반응 - 아름다움
-      'meaning': 'https://images.unsplash.com/photo-1507643179773-3e975d7ac515?w=800&h=600&fit=crop&q=80', // 분석적 반응 - 의미 탐구
+      // Question 3 - first chamber
+      'atmosphere': 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&h=600&fit=crop&q=80', // Emotional atmosphere
+      'details': 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&h=600&fit=crop&q=80', // Intricate brushwork
       
-      // 감상 방식 (viewing stage)
-      'flow': 'https://images.unsplash.com/photo-1502481851512-e9e2529bfbf9?w=800&h=600&fit=crop&q=80', // 흐름따라 자유롭게
-      'systematic': 'https://images.unsplash.com/photo-1568827999250-3f6afff96e66?w=800&h=600&fit=crop&q=80', // 체계적으로 설명 읽기
+      // Question 4 - painting stops you
+      'emotional': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&q=80', // Deep emotional response
+      'analytical': 'https://images.unsplash.com/photo-1507643179773-3e975d7ac515?w=800&h=600&fit=crop&q=80', // Decoding symbolic language
       
-      // 인상적인 작품 (moment stage)
-      'abstract': 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&h=600&fit=crop&q=80', // 추상적인 색채 작품
-      'realistic': 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&h=600&fit=crop&q=80', // 정교한 인물화
+      // Question 5 - temporal dance
+      'flowing': 'https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?w=800&h=600&fit=crop&q=80', // Intuitive flow
+      'methodical': 'https://images.unsplash.com/photo-1481277542470-605612bd2d61?w=800&h=600&fit=crop&q=80', // Systematic movement
       
-      // 휴식 중 공유 (rest stage)
-      'journal': 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=600&fit=crop&q=80', // 일기에 기록하기
-      'share': 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop&q=80', // SNS에 공유하기
+      // Question 6 - stranger presence
+      'preserve': 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&h=600&fit=crop&q=80', // Private communion
+      'share': 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop&q=80', // Shared wonder
       
-      // 기념품 (shop stage)
-      'postcard': 'https://images.unsplash.com/photo-1575995872537-3793d29d972c?w=800&h=600&fit=crop&q=80', // 감동적인 작품 엽서
-      'book': 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&h=600&fit=crop&q=80', // 전시 도록
+      // Question 7 - experimental installation
+      'immerse': 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&h=600&fit=crop&q=80', // Sensory experience
+      'analyze': 'https://images.unsplash.com/photo-1493612276216-ee3925520721?w=800&h=600&fit=crop&q=80', // Conceptual framework
       
-      // 마무리 (reflection stage)
-      'feeling': 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&h=600&fit=crop&q=80', // 작품이 준 감동
-      'insight': 'https://images.unsplash.com/photo-1493612276216-ee3925520721?w=800&h=600&fit=crop&q=80' // 새로운 관점
+      // Default fallback images for other choices
+      'ancient': 'https://images.unsplash.com/photo-1570115864504-73dc2bf0b10e?w=800&h=600&fit=crop&q=80',
+      'contemporary': 'https://images.unsplash.com/photo-1515405295579-ba7b45403062?w=800&h=600&fit=crop&q=80',
+      'overlooked': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop&q=80',
+      'celebrated': 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&h=600&fit=crop&q=80'
     };
-    const choiceImage = choiceImages[choiceId] || choiceImages['modern'];
+    const choiceImage = choiceImages[choiceId] || 'https://images.unsplash.com/photo-1565367505395-4a0b3de92301?w=800&h=600&fit=crop&q=80';
     console.log('Selected choice image:', choiceImage);
     return choiceImage;
   };
@@ -136,64 +145,59 @@ export default function ScenarioQuizPage() {
                 background: 'linear-gradient(90deg, #818cf8, #c084fc, #f472b6)',
               }}
               initial={{ width: 0 }}
-              animate={{ width: `${((currentStage + 1) / simulationFlow.stages.length) * 100}%` }}
+              animate={{ width: `${((currentStage + 1) / narrativeQuestions.length) * 100}%` }}
               transition={{ duration: 0.5 }}
             />
           </div>
           <p className="text-white/80 mt-2 text-sm">
             {language === 'ko' 
-              ? `${currentStage + 1}단계 / 총 ${simulationFlow.stages.length}단계`
-              : `Stage ${currentStage + 1} of ${simulationFlow.stages.length}`
+              ? `${currentStage + 1}단계 / 총 ${narrativeQuestions.length}단계`
+              : `Question ${currentStage + 1} of ${narrativeQuestions.length}`
             }
           </p>
         </div>
 
-        {/* Stage Content */}
+        {/* Question Content */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={stage.id}
+            key={question.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             className="flex-1 flex flex-col justify-center items-center max-w-6xl mx-auto w-full"
           >
-            {/* Narrative */}
+            {/* Narrative Setup */}
             <div className="sayu-quiz-card rounded-2xl p-6 md:p-8 mb-8 max-w-3xl w-full">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                {(() => {
-                  console.log('Language:', language, 'Stage name (ko):', stage.name, 'Stage name (en):', stage.name_en);
-                  return language === 'ko' ? stage.name : stage.name_en;
-                })()}
-              </h2>
-              <p className="text-white/90 text-lg leading-relaxed mb-6">
-                {(() => {
-                  console.log('Narrative (ko):', stage.narrative, 'Narrative (en):', stage.narrative_en);
-                  return language === 'ko' ? stage.narrative : stage.narrative_en;
-                })()}
-              </p>
-              <p className="text-white text-xl font-semibold">
-                {(() => {
-                  console.log('Question (ko):', stage.question, 'Question (en):', stage.question_en);
-                  return language === 'ko' ? stage.question : stage.question_en;
-                })()}
+              {question.narrative?.setup && (
+                <div className="text-white/80 text-base leading-relaxed mb-4 italic">
+                  {question.narrative.setup}
+                </div>
+              )}
+              {question.narrative?.transition && (
+                <div className="text-white/80 text-base leading-relaxed mb-4">
+                  {question.narrative.transition}
+                </div>
+              )}
+              <p className="text-white text-xl md:text-2xl font-semibold">
+                {question.question}
               </p>
             </div>
 
-            {/* Choices */}
+            {/* Options */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
-              {stage.choices.map((choice) => (
+              {question.options.map((option) => (
                 <motion.button
-                  key={choice.id}
+                  key={option.id}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => handleChoice(choice.id)}
+                  onClick={() => handleChoice(option.id)}
                   className="sayu-choice-button relative group overflow-hidden rounded-2xl shadow-2xl"
                 >
-                  {/* Choice Image */}
+                  {/* Option Image */}
                   <div className="aspect-video relative">
                     <img
-                      src={getChoiceImage(choice.id)}
-                      alt={choice.text}
+                      src={getChoiceImage(option.id)}
+                      alt={option.text}
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         e.currentTarget.src = 'https://images.unsplash.com/photo-1565367505395-4a0b3de92301?w=800&h=600&fit=crop';
@@ -202,20 +206,16 @@ export default function ScenarioQuizPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   </div>
 
-                  {/* Choice Text */}
+                  {/* Option Text */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-left">
                     <h3 className="text-white text-xl md:text-2xl font-bold mb-2">
-                      {(() => {
-                        console.log(`Choice ${choice.id} - Label (ko):`, choice.label, 'Label (en):', choice.label_en);
-                        return language === 'ko' ? choice.label : choice.label_en;
-                      })()}
+                      {option.text}
                     </h3>
-                    <p className="text-white/80 text-sm md:text-base">
-                      {(() => {
-                        console.log(`Choice ${choice.id} - Description (ko):`, choice.description, 'Description (en):', choice.description_en);
-                        return language === 'ko' ? choice.description : choice.description_en;
-                      })()}
-                    </p>
+                    {option.subtext && (
+                      <p className="text-white/80 text-sm md:text-base">
+                        {option.subtext}
+                      </p>
+                    )}
                   </div>
 
                   {/* Hover Effect */}
