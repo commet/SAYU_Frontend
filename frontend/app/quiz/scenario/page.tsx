@@ -46,25 +46,31 @@ export default function ScenarioQuizPage() {
 
   const getBackgroundImage = () => {
     console.log('Current question ID:', question.id);
+    // Use more reliable image sources with auto format and quality optimization
     const backgrounds: { [number: number]: string } = {
-      1: 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=1920&h=1080&fit=crop&q=80', // Gallery entrance - oak doors opening
-      2: 'https://images.unsplash.com/photo-1544967882-6abee0447b2b?w=1920&h=1080&fit=crop&q=80', // Gallery interior - curator approaching
-      3: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=1920&h=1080&fit=crop&q=80', // First chamber - gallery space
-      4: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=1920&h=1080&fit=crop&q=80', // Painting that stops you
-      5: 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=1920&h=1080&fit=crop&q=80', // Sunlit alcove with story
-      6: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=1080&fit=crop&q=80', // Another visitor beside you
-      7: 'https://images.unsplash.com/photo-1481277542470-605612bd2d61?w=1920&h=1080&fit=crop&q=80', // Experimental installation
-      8: 'https://images.unsplash.com/photo-1570115864504-73dc2bf0b10e?w=1920&h=1080&fit=crop&q=80', // Ancient artifact room
-      9: 'https://images.unsplash.com/photo-1515405295579-ba7b45403062?w=1920&h=1080&fit=crop&q=80', // Contemporary vs classical wing
-      10: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1920&h=1080&fit=crop&q=80', // Overlooked corner
-      11: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=1920&h=1080&fit=crop&q=80', // Personal connection work
-      12: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1920&h=1080&fit=crop&q=80', // Gallery bench moment
-      13: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=1080&fit=crop&q=80', // Final revelation
-      14: 'https://images.unsplash.com/photo-1470219556762-1771e7f9427d?w=1920&h=1080&fit=crop&q=80', // Exit transition
-      15: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1920&h=1080&fit=crop&q=80'  // Outside - transformation
+      1: 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?auto=format&fit=crop&w=1920&h=1080&q=80', // Gallery entrance - oak doors opening
+      2: 'https://images.unsplash.com/photo-1544967882-6abee0447b2b?auto=format&fit=crop&w=1920&h=1080&q=80', // Gallery interior - curator approaching
+      3: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=1920&h=1080&q=80', // First chamber - gallery space
+      4: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=1920&h=1080&q=80', // Painting that stops you
+      5: 'https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=1920&h=1080&q=80', // Sunlit alcove with story
+      6: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1920&h=1080&q=80', // Another visitor beside you
+      7: 'https://images.unsplash.com/photo-1481277542470-605612bd2d61?auto=format&fit=crop&w=1920&h=1080&q=80', // Experimental installation
+      8: 'https://images.unsplash.com/photo-1570115864504-73dc2bf0b10e?auto=format&fit=crop&w=1920&h=1080&q=80', // Ancient artifact room
+      9: 'https://images.unsplash.com/photo-1515405295579-ba7b45403062?auto=format&fit=crop&w=1920&h=1080&q=80', // Contemporary vs classical wing
+      10: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1920&h=1080&q=80', // Overlooked corner
+      11: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=1920&h=1080&q=80', // Personal connection work
+      12: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1920&h=1080&q=80', // Gallery bench moment
+      13: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1920&h=1080&q=80', // Final revelation
+      14: 'https://images.unsplash.com/photo-1470219556762-1771e7f9427d?auto=format&fit=crop&w=1920&h=1080&q=80', // Exit transition
+      15: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1920&h=1080&q=80'  // Outside - transformation
     };
     const bgImage = backgrounds[question.id] || backgrounds[1];
     console.log('Selected background image:', bgImage);
+    
+    // Preload the image to ensure it loads properly
+    const img = new Image();
+    img.src = bgImage;
+    
     return bgImage;
   };
 
@@ -111,16 +117,19 @@ export default function ScenarioQuizPage() {
   };
 
   return (
-    <div className="quiz-scenario-background" style={{ 
-      position: 'relative',
-      minHeight: '100vh',
-      overflow: 'hidden',
-      backgroundImage: `url(${getBackgroundImage()})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      backgroundAttachment: 'fixed'
-    }}>
+    <div 
+      className="quiz-scenario-background" 
+      style={{ 
+        position: 'relative',
+        minHeight: '100vh',
+        overflow: 'hidden',
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${getBackgroundImage()})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
       {/* Dark Overlay */}
       <div style={{ 
         position: 'absolute',
