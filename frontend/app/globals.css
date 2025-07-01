@@ -241,7 +241,7 @@
   
   /* Loading Skeleton */
   .skeleton {
-    @apply animate-pulse bg-muted;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     background: linear-gradient(
       90deg,
       hsl(var(--muted)) 0%,
@@ -269,17 +269,22 @@
   }
   
   ::-webkit-scrollbar-track {
-    @apply bg-secondary;
+    background-color: hsl(var(--secondary));
   }
   
   ::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground rounded-full;
-    @apply hover:bg-foreground/70;
+    background-color: hsl(var(--muted-foreground));
+    border-radius: 9999px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--foreground) / 0.7);
   }
   
   /* Focus Styles */
   *:focus-visible {
-    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+    outline: none;
+    box-shadow: 0 0 0 2px var(--background), 0 0 0 4px hsl(var(--ring));
   }
   
   /* Image Zoom Effect */
