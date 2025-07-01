@@ -47,12 +47,12 @@ export default function PersonalArtMap({ museums, userLocation, onMuseumClick }:
   };
 
   return (
-    <div className="relative w-full h-[600px] liquid-glass rounded-2xl overflow-hidden">
+    <div className="relative w-full h-[600px] sayu-liquid-glass rounded-2xl overflow-hidden">
       {/* Map Controls */}
       <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
         <motion.button
           onClick={() => setZoomLevel(Math.min(zoomLevel + 0.2, 2))}
-          className="apple-button p-2"
+          className="sayu-button p-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -61,7 +61,7 @@ export default function PersonalArtMap({ museums, userLocation, onMuseumClick }:
         
         <motion.button
           onClick={() => setZoomLevel(Math.max(zoomLevel - 0.2, 0.5))}
-          className="apple-button p-2"
+          className="sayu-button p-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -70,7 +70,7 @@ export default function PersonalArtMap({ museums, userLocation, onMuseumClick }:
         
         <motion.button
           onClick={() => setMapView(mapView === '2d' ? '3d' : '2d')}
-          className="apple-button p-2"
+          className="sayu-button p-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -79,7 +79,7 @@ export default function PersonalArtMap({ museums, userLocation, onMuseumClick }:
       </div>
 
       {/* Layer Controls */}
-      <div className="absolute top-4 left-4 z-20 glass rounded-xl p-3">
+      <div className="absolute top-4 left-4 z-20 sayu-liquid-glass rounded-xl p-3">
         <h3 className="text-sm font-medium mb-2">
           {language === 'ko' ? '레이어' : 'Layers'}
         </h3>
@@ -198,7 +198,7 @@ export default function PersonalArtMap({ museums, userLocation, onMuseumClick }:
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="absolute bottom-4 left-4 right-4 glass rounded-xl p-4"
+            className="absolute bottom-4 left-4 right-4 sayu-liquid-glass rounded-xl p-4"
           >
             <div className="flex justify-between items-start mb-2">
               <div>
@@ -233,7 +233,7 @@ export default function PersonalArtMap({ museums, userLocation, onMuseumClick }:
             
             <div className="flex gap-2">
               <motion.button
-                className="apple-button py-2 px-4 text-sm flex-1"
+                className="sayu-button sayu-button-primary py-2 px-4 text-sm flex-1"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -243,7 +243,7 @@ export default function PersonalArtMap({ museums, userLocation, onMuseumClick }:
               
               {selectedMuseum.type !== 'visited' && (
                 <motion.button
-                  className="apple-button py-2 px-4 text-sm"
+                  className="sayu-button py-2 px-4 text-sm"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -256,7 +256,7 @@ export default function PersonalArtMap({ museums, userLocation, onMuseumClick }:
       </AnimatePresence>
 
       {/* Map Legend */}
-      <div className="absolute bottom-4 right-4 glass rounded-lg p-3 text-xs">
+      <div className="absolute bottom-4 right-4 sayu-liquid-glass rounded-lg p-3 text-xs">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-green-500" />

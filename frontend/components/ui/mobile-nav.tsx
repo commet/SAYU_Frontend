@@ -113,9 +113,9 @@ export function MobileNav() {
   return (
     <>
       {/* Bottom Navigation Bar */}
-      <nav className="mobile-nav fixed bottom-0 left-0 right-0 z-40 lg:hidden">
-        <div className="bg-gray-900/95 backdrop-blur-lg border-t border-gray-800">
-          <div className="flex items-center justify-around px-2 py-2">
+      <nav className="mobile-nav fixed bottom-0 left-0 right-0 z-40 lg:hidden p-4">
+        <div className="sayu-bottom-nav mx-auto max-w-sm">
+          <div className="flex items-center justify-around px-4 py-3">
             {navigationItems.slice(0, 4).map((item) => {
               const Icon = item.icon;
               const active = isActive(item.href);
@@ -124,10 +124,10 @@ export function MobileNav() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${
+                  className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-all ${
                     active
-                      ? 'text-purple-400 bg-purple-500/10'
-                      : 'text-gray-400 hover:text-white'
+                      ? 'text-purple-600 bg-purple-500/10 scale-110'
+                      : 'text-gray-600 hover:text-purple-500 hover:scale-105'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
@@ -139,10 +139,10 @@ export function MobileNav() {
             {/* Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${
+              className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-all ${
                 isOpen
-                  ? 'text-purple-400 bg-purple-500/10'
-                  : 'text-gray-400 hover:text-white'
+                  ? 'text-purple-600 bg-purple-500/10 scale-110'
+                  : 'text-gray-600 hover:text-purple-500 hover:scale-105'
               }`}
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -170,7 +170,7 @@ export function MobileNav() {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="absolute bottom-0 left-0 right-0 bg-gray-900 rounded-t-3xl border-t border-gray-800 max-h-[80vh] overflow-y-auto"
+              className="absolute bottom-0 left-0 right-0 sayu-liquid-glass rounded-t-3xl max-h-[80vh] overflow-y-auto"
             >
               <div className="p-6">
                 {/* Header */}

@@ -60,7 +60,7 @@ export default function BadgeSystem({ badges, userStats, onBadgeClick }: BadgeSy
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="liquid-glass rounded-2xl p-6"
+        className="sayu-liquid-glass rounded-2xl p-6"
       >
         <div className="flex items-center justify-between mb-4">
           <div>
@@ -150,7 +150,7 @@ export default function BadgeSystem({ badges, userStats, onBadgeClick }: BadgeSy
             className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
               selectedCategory === category
                 ? 'bg-purple-500 text-white'
-                : 'glass hover:bg-white/20'
+                : 'sayu-liquid-glass hover:bg-white/20'
             }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -176,7 +176,7 @@ export default function BadgeSystem({ badges, userStats, onBadgeClick }: BadgeSy
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.05 }}
             onClick={() => onBadgeClick?.(badge)}
-            className={`relative apple-card p-4 cursor-pointer ${
+            className={`relative sayu-card p-4 cursor-pointer ${
               !badge.unlocked ? 'opacity-60 grayscale' : ''
             }`}
             whileHover={{ scale: 1.05 }}
@@ -249,7 +249,7 @@ export default function BadgeSystem({ badges, userStats, onBadgeClick }: BadgeSy
         animate={{ opacity: 0, y: 50 }}
         className="fixed bottom-20 left-1/2 transform -translate-x-1/2 z-50"
       >
-        <div className="liquid-glass rounded-2xl p-4 flex items-center gap-4 min-w-[300px]">
+        <div className="sayu-liquid-glass rounded-2xl p-4 flex items-center gap-4 min-w-[300px]">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center">
             <Trophy className="w-6 h-6 text-white" />
           </div>

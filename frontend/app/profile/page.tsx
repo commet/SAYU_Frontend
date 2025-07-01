@@ -149,13 +149,13 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen p-4">
+    <div className="min-h-screen sayu-gradient-bg p-4">
       <div className="max-w-7xl mx-auto">
         {/* Profile Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="liquid-glass rounded-2xl p-6 mb-6"
+          className="sayu-liquid-glass rounded-2xl p-6 mb-6"
         >
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
@@ -171,7 +171,7 @@ export default function ProfilePage() {
             </div>
             
             <motion.button
-              className="apple-button p-2"
+              className="sayu-button p-2"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -193,7 +193,7 @@ export default function ProfilePage() {
               className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all ${
                 activeTab === tab.id
                   ? 'bg-purple-500 text-white'
-                  : 'glass hover:bg-white/20'
+                  : 'sayu-liquid-glass hover:bg-white/20'
               }`}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}

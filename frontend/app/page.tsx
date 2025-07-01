@@ -77,7 +77,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className={`home-gallery-entrance ${timeOfDay}`}>
+    <div className={`home-gallery-entrance sayu-gradient-bg ${timeOfDay}`}>
       {/* Museum Doors Animation */}
       <AnimatePresence>
         {!doorsOpen && (
@@ -154,16 +154,18 @@ export default function HomePage() {
               transition={{ delay: 1.4 + index * 0.1 }}
             >
               <motion.div
-                className={`apple-card p-6 cursor-pointer ${room.status === 'locked' ? 'opacity-60' : ''}`}
+                className={`sayu-card cursor-pointer ${room.status === 'locked' ? 'opacity-60' : ''}`}
                 onClick={() => handleRoomClick(room)}
                 whileHover={room.status !== 'locked' ? { scale: 1.02 } : {}}
                 whileTap={room.status !== 'locked' ? { scale: 0.98 } : {}}
               >
-                <div className="room-icon text-4xl mb-3 float-animation">{room.icon}</div>
-                <h3 className="room-name text-lg font-semibold mb-2">{room.name}</h3>
-                <p className="room-description text-sm opacity-70">{room.description}</p>
+                <div className="sayu-icon-container mb-4">
+                  <span className="text-2xl">{room.icon}</span>
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{room.name}</h3>
+                <p className="text-sm opacity-70">{room.description}</p>
                 {room.status === 'locked' && (
-                  <Lock className="lock-icon absolute top-4 right-4 opacity-50" size={20} />
+                  <Lock className="absolute top-6 right-6 opacity-50" size={20} />
                 )}
               </motion.div>
             </motion.div>
@@ -172,7 +174,7 @@ export default function HomePage() {
 
         {/* Visitor Board */}
         <motion.div 
-          className="visitor-board liquid-glass rounded-2xl p-6 mt-8 max-w-4xl mx-auto"
+          className="sayu-liquid-glass rounded-2xl p-6 mt-8 max-w-4xl mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.8 }}

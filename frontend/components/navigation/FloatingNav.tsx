@@ -53,10 +53,7 @@ export default function FloatingNav() {
       <motion.div
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`floating-bar floating-bar-top liquid-glass ${scrolled ? 'backdrop-blur-xl' : ''}`}
-        style={{
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        }}
+        className={`sayu-floating-header sayu-liquid-glass ${scrolled ? 'backdrop-blur-xl' : ''}`}
       >
         <div className="flex items-center justify-between">
           <motion.div 
@@ -108,7 +105,7 @@ export default function FloatingNav() {
       <motion.nav
         initial={{ y: 100 }}
         animate={{ y: 0 }}
-        className="floating-bar floating-bar-bottom liquid-glass"
+        className="sayu-floating-nav"
       >
         <div className="flex items-center justify-around gap-2 px-2">
           {navItems.map((item, index) => {
@@ -120,16 +117,7 @@ export default function FloatingNav() {
                 key={item.path}
                 onClick={() => handleNavClick(item)}
                 disabled={isDisabled}
-                className={`
-                  relative flex flex-col items-center gap-1 px-4 py-2 rounded-xl
-                  transition-all duration-300
-                  ${isActive 
-                    ? 'text-purple-600 bg-purple-50/50' 
-                    : isDisabled 
-                      ? 'text-gray-400 opacity-50 cursor-not-allowed' 
-                      : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50/30'
-                  }
-                `}
+                className={`sayu-nav-item ${isActive ? 'active' : ''} ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                 whileHover={!isDisabled ? { scale: 1.05 } : {}}
                 whileTap={!isDisabled ? { scale: 0.95 } : {}}
                 initial={{ opacity: 0, y: 20 }}

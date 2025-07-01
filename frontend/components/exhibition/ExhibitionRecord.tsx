@@ -57,7 +57,7 @@ export default function ExhibitionRecord({ visit, onEdit, onShare }: ExhibitionR
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="apple-card p-6 mb-4"
+      className="sayu-card mb-4"
       whileHover={{ scale: 1.01 }}
     >
       {/* Header */}
@@ -159,7 +159,7 @@ export default function ExhibitionRecord({ visit, onEdit, onShare }: ExhibitionR
       <div className="flex gap-2">
         <motion.button
           onClick={() => setShowDetails(!showDetails)}
-          className="flex-1 apple-button py-2 text-sm"
+          className="flex-1 sayu-button sayu-button-primary py-2 text-sm"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -172,7 +172,7 @@ export default function ExhibitionRecord({ visit, onEdit, onShare }: ExhibitionR
         {onShare && (
           <motion.button
             onClick={onShare}
-            className="apple-button py-2 px-4 text-sm"
+            className="sayu-button py-2 px-4 text-sm"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >

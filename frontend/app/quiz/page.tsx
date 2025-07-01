@@ -23,14 +23,14 @@ export default function QuizIntroPage() {
   };
 
   return (
-    <div className="min-h-screen gradient-dawn flex items-center justify-center p-4">
+    <div className="min-h-screen sayu-gradient-bg flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.390, 0.575, 0.565, 1.000] }}
         className="max-w-3xl w-full"
       >
-        <div className="apple-card bg-white/80 backdrop-blur-lg rounded-3xl p-12 md:p-16 shadow-dream relative">
+        <div className="sayu-quiz-card">
           {/* Language Toggle removed - now in floating nav */}
 
           <motion.div
@@ -71,7 +71,7 @@ export default function QuizIntroPage() {
               
               <div className="grid md:grid-cols-3 gap-6">
                 <motion.div 
-                  className="liquid-glass rounded-2xl p-6"
+                  className="sayu-card p-6"
                   whileHover={{ y: -4, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
@@ -89,7 +89,7 @@ export default function QuizIntroPage() {
                 </motion.div>
                 
                 <motion.div 
-                  className="liquid-glass rounded-2xl p-6"
+                  className="sayu-card p-6"
                   whileHover={{ y: -4, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
@@ -107,7 +107,7 @@ export default function QuizIntroPage() {
                 </motion.div>
                 
                 <motion.div 
-                  className="liquid-glass rounded-2xl p-6"
+                  className="sayu-card p-6"
                   whileHover={{ y: -4, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
@@ -127,7 +127,7 @@ export default function QuizIntroPage() {
             </div>
 
             {/* Journey Details */}
-            <div className="liquid-glass rounded-2xl p-8">
+            <div className="sayu-liquid-glass rounded-2xl p-8">
               <div className="flex items-center justify-center gap-8 text-[hsl(var(--journey-twilight))]">
                 <div className="text-center">
                   <div className="text-3xl mb-2">🖼️</div>
@@ -159,7 +159,7 @@ export default function QuizIntroPage() {
           >
             <motion.button
               onClick={startQuiz}
-              className="apple-button px-12 py-4 text-lg font-semibold flex items-center gap-2 mx-auto"
+              className="sayu-button sayu-button-primary px-12 py-4 text-lg font-semibold flex items-center gap-2 mx-auto"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

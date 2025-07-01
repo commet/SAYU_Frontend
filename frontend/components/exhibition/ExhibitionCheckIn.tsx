@@ -60,7 +60,7 @@ export default function ExhibitionCheckIn({ exhibition, onCheckIn, onCancel }: C
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
-        className="w-full max-w-md liquid-glass rounded-2xl p-6 relative"
+        className="w-full max-w-md sayu-liquid-glass rounded-2xl p-6 relative"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -142,7 +142,7 @@ export default function ExhibitionCheckIn({ exhibition, onCheckIn, onCancel }: C
               <div className="flex gap-2">
                 <motion.button
                   onClick={() => setStep(2)}
-                  className="flex-1 apple-button py-3"
+                  className="flex-1 sayu-button sayu-button-primary py-3"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -212,7 +212,7 @@ export default function ExhibitionCheckIn({ exhibition, onCheckIn, onCancel }: C
                 </motion.button>
                 <motion.button
                   onClick={() => setStep(3)}
-                  className="flex-1 apple-button py-3"
+                  className="flex-1 sayu-button sayu-button-primary py-3"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -280,7 +280,7 @@ export default function ExhibitionCheckIn({ exhibition, onCheckIn, onCancel }: C
 
               <motion.button
                 onClick={handleCheckIn}
-                className="w-full apple-button py-3 font-semibold"
+                className="w-full sayu-button sayu-button-primary py-3 font-semibold"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >

@@ -67,7 +67,7 @@ export default function ScenarioQuizPage() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden sayu-gradient-bg">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img 
@@ -87,7 +87,7 @@ export default function ScenarioQuizPage() {
       <div className="relative z-10 h-screen flex flex-col p-4 md:p-8">
         {/* Progress Bar */}
         <div className="w-full max-w-4xl mx-auto mb-6">
-          <div className="glass rounded-full h-3 p-0.5">
+          <div className="sayu-liquid-glass rounded-full h-3 p-0.5">
             <motion.div
               className="h-full rounded-full shimmer-animation"
               style={{
@@ -116,7 +116,7 @@ export default function ScenarioQuizPage() {
             className="flex-1 flex flex-col justify-center items-center max-w-6xl mx-auto w-full"
           >
             {/* Narrative */}
-            <div className="glass-dark rounded-2xl p-6 md:p-8 mb-8 max-w-3xl w-full">
+            <div className="sayu-quiz-card rounded-2xl p-6 md:p-8 mb-8 max-w-3xl w-full">
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
                 {stage[`name_${language}`] || stage.name}
               </h2>
@@ -136,7 +136,7 @@ export default function ScenarioQuizPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleChoice(choice.id)}
-                  className="relative group overflow-hidden rounded-2xl shadow-2xl liquid-glass"
+                  className="sayu-choice-button relative group overflow-hidden rounded-2xl shadow-2xl"
                 >
                   {/* Choice Image */}
                   <div className="aspect-video relative">
