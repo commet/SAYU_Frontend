@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { narrativeQuestions } from '@/data/narrative-quiz-questions';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageToggle from '@/components/ui/LanguageToggle';
-import Image from 'next/image';
 
 export default function ScenarioQuizPage() {
   const router = useRouter();
@@ -14,11 +13,16 @@ export default function ScenarioQuizPage() {
   const [currentStage, setCurrentStage] = useState(0);
   const [responses, setResponses] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const question = narrativeQuestions[currentStage];
   
   // Early return if question is not available (SSR safety)
-  if (!question) {
+  if (!question || !mounted) {
     return <div>Loading...</div>;
   }
 
@@ -43,95 +47,88 @@ export default function ScenarioQuizPage() {
     }
   };
 
-  const getBackgroundImage = () => {
-    // Use more reliable image sources with auto format and quality optimization
-    const backgrounds: { [number: number]: string } = {
-      1: 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?auto=format&fit=crop&w=1920&h=1080&q=80', // Gallery entrance - oak doors opening
-      2: 'https://images.unsplash.com/photo-1544967882-6abee0447b2b?auto=format&fit=crop&w=1920&h=1080&q=80', // Gallery interior - curator approaching
-      3: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=1920&h=1080&q=80', // First chamber - gallery space
-      4: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=1920&h=1080&q=80', // Painting that stops you
-      5: 'https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=1920&h=1080&q=80', // Sunlit alcove with story
-      6: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1920&h=1080&q=80', // Another visitor beside you
-      7: 'https://images.unsplash.com/photo-1481277542470-605612bd2d61?auto=format&fit=crop&w=1920&h=1080&q=80', // Experimental installation
-      8: 'https://images.unsplash.com/photo-1570115864504-73dc2bf0b10e?auto=format&fit=crop&w=1920&h=1080&q=80', // Ancient artifact room
-      9: 'https://images.unsplash.com/photo-1515405295579-ba7b45403062?auto=format&fit=crop&w=1920&h=1080&q=80', // Contemporary vs classical wing
-      10: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1920&h=1080&q=80', // Overlooked corner
-      11: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=1920&h=1080&q=80', // Personal connection work
-      12: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1920&h=1080&q=80', // Gallery bench moment
-      13: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1920&h=1080&q=80', // Final revelation
-      14: 'https://images.unsplash.com/photo-1470219556762-1771e7f9427d?auto=format&fit=crop&w=1920&h=1080&q=80', // Exit transition
-      15: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1920&h=1080&q=80'  // Outside - transformation
+  const getBackgroundGradient = () => {
+    // Beautiful gradient backgrounds for each stage
+    const gradients: { [number: number]: string } = {
+      1: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)', // Deep blue - entrance
+      2: 'linear-gradient(135deg, #2c3e50 0%, #3498db 100%)', // Gallery blue
+      3: 'linear-gradient(135deg, #403b4a 0%, #e7e9bb 100%)', // Mystic purple
+      4: 'linear-gradient(135deg, #e53935 0%, #e35d5b 100%)', // Red passion
+      5: 'linear-gradient(135deg, #f2994a 0%, #f2c94c 100%)', // Warm sunset
+      6: 'linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%)', // Sky blue
+      7: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)', // Electric purple
+      8: 'linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%)', // Ancient gold
+      9: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', // Soft contrast
+      10: 'linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)', // Hidden corner
+      11: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', // Personal connection
+      12: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', // Reflection
+      13: 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)', // Revelation
+      14: 'linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%)', // Transition
+      15: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'  // Transformation
     };
-    const bgImage = backgrounds[question.id] || backgrounds[1];
-    
-    // Preload the image to ensure it loads properly (client-side only)
-    if (typeof window !== 'undefined') {
-      const img = new Image();
-      img.src = bgImage;
-    }
-    
-    return bgImage;
+    return gradients[question.id] || gradients[1];
   };
 
-  const getChoiceImage = (choiceId: string) => {
-    const choiceImages: { [key: string]: string } = {
+  const getChoiceGradient = (choiceId: string) => {
+    const choiceGradients: { [key: string]: string } = {
       // Question 1 - entrance paths
-      'solitary': 'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=800&h=600&fit=crop&q=80', // Quiet corridor in morning light
-      'social': 'https://images.unsplash.com/photo-1568306281853-4704b3a3ac1c?w=800&h=600&fit=crop&q=80', // Bustling atrium with people
+      'solitary': 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)', // Quiet blue
+      'social': 'linear-gradient(135deg, #f2994a 0%, #f2c94c 100%)', // Warm social
       
       // Question 2 - curator approach
-      'intuitive': 'https://images.unsplash.com/photo-1502481851512-e9e2529bfbf9?w=800&h=600&fit=crop&q=80', // Wandering freely
-      'structured': 'https://images.unsplash.com/photo-1568827999250-3f6afff96e66?w=800&h=600&fit=crop&q=80', // Learning exhibition design
+      'intuitive': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', // Creative purple
+      'structured': 'linear-gradient(135deg, #2c3e50 0%, #3498db 100%)', // Structured blue
       
       // Question 3 - first chamber
-      'atmosphere': 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&h=600&fit=crop&q=80', // Emotional atmosphere
-      'details': 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&h=600&fit=crop&q=80', // Intricate brushwork
+      'atmosphere': 'linear-gradient(135deg, #ee9ca7 0%, #ffdde1 100%)', // Soft emotional
+      'details': 'linear-gradient(135deg, #304352 0%, #d7d2cc 100%)', // Sharp detail
       
       // Question 4 - painting stops you
-      'emotional': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&q=80', // Deep emotional response
-      'analytical': 'https://images.unsplash.com/photo-1507643179773-3e975d7ac515?w=800&h=600&fit=crop&q=80', // Decoding symbolic language
+      'emotional': 'linear-gradient(135deg, #fc466b 0%, #3f5efb 100%)', // Deep feeling
+      'analytical': 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)', // Analytical green
       
       // Question 5 - temporal dance
-      'flowing': 'https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?w=800&h=600&fit=crop&q=80', // Intuitive flow
-      'methodical': 'https://images.unsplash.com/photo-1481277542470-605612bd2d61?w=800&h=600&fit=crop&q=80', // Systematic movement
+      'flowing': 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', // Fluid movement
+      'methodical': 'linear-gradient(135deg, #434343 0%, #000000 100%)', // Systematic dark
       
       // Question 6 - stranger presence
-      'preserve': 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&h=600&fit=crop&q=80', // Private communion
-      'share': 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop&q=80', // Shared wonder
+      'preserve': 'linear-gradient(135deg, #4568dc 0%, #b06ab3 100%)', // Private space
+      'share': 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', // Shared warmth
       
       // Question 7 - experimental installation
-      'immerse': 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&h=600&fit=crop&q=80', // Sensory experience
-      'analyze': 'https://images.unsplash.com/photo-1493612276216-ee3925520721?w=800&h=600&fit=crop&q=80', // Conceptual framework
+      'immerse': 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', // Sensory pink
+      'analyze': 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', // Analytical blue
       
-      // Default fallback images for other choices
-      'ancient': 'https://images.unsplash.com/photo-1570115864504-73dc2bf0b10e?w=800&h=600&fit=crop&q=80',
-      'contemporary': 'https://images.unsplash.com/photo-1515405295579-ba7b45403062?w=800&h=600&fit=crop&q=80',
-      'overlooked': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop&q=80',
-      'celebrated': 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&h=600&fit=crop&q=80'
+      // Default fallback gradients
+      'ancient': 'linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%)',
+      'contemporary': 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)',
+      'overlooked': 'linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)',
+      'celebrated': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
     };
-    return choiceImages[choiceId] || 'https://images.unsplash.com/photo-1565367505395-4a0b3de92301?w=800&h=600&fit=crop&q=80';
+    return choiceGradients[choiceId] || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
   };
 
   return (
     <div 
       className="quiz-scenario-background" 
       style={{ 
-        position: 'relative',
-        minHeight: '100vh',
-        overflow: 'hidden',
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${getBackgroundImage()})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed'
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100vw',
+        height: '100vh',
+        background: getBackgroundGradient(),
+        overflow: 'auto'
       }}
     >
-      {/* Dark Overlay */}
+      {/* Subtle texture overlay */}
       <div style={{ 
         position: 'absolute',
         inset: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-        zIndex: 1
+        background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 70%)',
+        pointerEvents: 'none'
       }} />
 
       {/* Language Toggle */}
@@ -140,7 +137,7 @@ export default function ScenarioQuizPage() {
       </div>
 
       {/* Content */}
-      <div className="quiz-content" style={{ position: 'relative', zIndex: 10, height: '100vh', display: 'flex', flexDirection: 'column', padding: '16px' }}>
+      <div className="quiz-content" style={{ position: 'relative', zIndex: 10, minHeight: '100vh', display: 'flex', flexDirection: 'column', padding: '16px' }}>
         {/* Progress Bar */}
         <div className="w-full max-w-4xl mx-auto mb-6">
           <div className="sayu-liquid-glass rounded-full h-3 p-0.5">
@@ -172,19 +169,25 @@ export default function ScenarioQuizPage() {
             className="flex-1 flex flex-col justify-center items-center max-w-6xl mx-auto w-full"
           >
             {/* Narrative Setup */}
-            <div className="sayu-quiz-card rounded-2xl p-6 md:p-8 mb-8 max-w-3xl w-full">
+            <div className="sayu-quiz-card rounded-2xl p-6 md:p-8 mb-8 max-w-3xl w-full backdrop-blur-md bg-white/10">
               {question.narrative?.setup && (
-                <div className="text-white/80 text-base leading-relaxed mb-4 italic">
-                  {question.narrative.setup}
+                <div className="text-white/90 text-base leading-relaxed mb-4 italic">
+                  {language === 'ko' && question.narrative.setup_ko 
+                    ? question.narrative.setup_ko 
+                    : question.narrative.setup}
                 </div>
               )}
               {question.narrative?.transition && (
-                <div className="text-white/80 text-base leading-relaxed mb-4">
-                  {question.narrative.transition}
+                <div className="text-white/90 text-base leading-relaxed mb-4">
+                  {language === 'ko' && question.narrative.transition_ko
+                    ? question.narrative.transition_ko
+                    : question.narrative.transition}
                 </div>
               )}
               <p className="text-white text-xl md:text-2xl font-semibold">
-                {question.question}
+                {language === 'ko' && question.question_ko 
+                  ? question.question_ko 
+                  : question.question}
               </p>
             </div>
 
@@ -196,29 +199,33 @@ export default function ScenarioQuizPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleChoice(option.id)}
-                  className="sayu-choice-button relative group overflow-hidden rounded-2xl shadow-2xl"
+                  className="sayu-choice-button relative group overflow-hidden rounded-2xl shadow-2xl backdrop-blur-sm"
+                  style={{
+                    background: getChoiceGradient(option.id),
+                    minHeight: '200px'
+                  }}
                 >
-                  {/* Option Image */}
-                  <div className="aspect-video relative">
-                    <img
-                      src={getChoiceImage(option.id)}
-                      alt={option.text}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.currentTarget.src = 'https://images.unsplash.com/photo-1565367505395-4a0b3de92301?w=800&h=600&fit=crop';
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  </div>
+                  {/* Subtle pattern overlay */}
+                  <div 
+                    className="absolute inset-0 opacity-10"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                      backgroundSize: '60px 60px'
+                    }}
+                  />
 
                   {/* Option Text */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-left">
                     <h3 className="text-white text-xl md:text-2xl font-bold mb-2">
-                      {option.text}
+                      {language === 'ko' && option.text_ko 
+                        ? option.text_ko 
+                        : option.text}
                     </h3>
                     {option.subtext && (
                       <p className="text-white/80 text-sm md:text-base">
-                        {option.subtext}
+                        {language === 'ko' && option.subtext_ko
+                          ? option.subtext_ko
+                          : option.subtext}
                       </p>
                     )}
                   </div>

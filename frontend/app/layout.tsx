@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'SAYU - Your Aesthetic Journey',
   description: 'Discover your unique aesthetic personality through art',
-  // manifest: '/manifest.json', // Temporarily disabled due to 401 error
+  manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -44,7 +44,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png" />
-        <link rel="manifest" href="/manifest.json" />
       </head>
       <body className={inter.className}>
         <Providers>

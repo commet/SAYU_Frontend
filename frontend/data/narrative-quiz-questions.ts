@@ -5,14 +5,19 @@ export interface NarrativeQuestion {
   act: 'curiosity' | 'exploration' | 'revelation';
   narrative: {
     setup: string;
+    setup_ko?: string;
     transition?: string;
+    transition_ko?: string;
     atmosphere?: string;
   };
   question: string;
+  question_ko?: string;
   options: Array<{
     id: string;
     text: string;
+    text_ko?: string;
     subtext?: string;
+    subtext_ko?: string;
     weight: Record<string, number>;
     narrative: string;
     emotional: string;
@@ -26,14 +31,18 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     act: 'curiosity',
     narrative: {
       setup: "You receive an invitation to a mysterious gallery opening. The envelope is sealed with burgundy wax, and inside, the card simply reads: 'Your presence is requested for a journey of discovery.'",
+      setup_ko: "신비로운 갤러리 오프닝 초대장을 받았습니다. 버건디색 밀랍으로 봉인된 봉투 안에는 '발견의 여정을 위해 당신을 초대합니다'라고 적혀 있습니다.",
       atmosphere: "anticipation"
     },
     question: "The heavy oak doors open before you. Two paths diverge in the entrance hall...",
+    question_ko: "무거운 참나무 문이 당신 앞에 열립니다. 입구 홀에서 두 갈래의 길이 나뉩니다...",
     options: [
       {
         id: 'solitary',
         text: "A quiet corridor bathed in morning light",
+        text_ko: "아침 햇살이 비추는 조용한 복도",
         subtext: "You can hear your own footsteps echoing softly",
+        subtext_ko: "당신의 발자국 소리가 부드럽게 메아리칩니다",
         weight: { L: 3 },
         narrative: "You choose solitude, drawn to the peaceful promise of undisturbed contemplation.",
         emotional: "introspective"
@@ -41,7 +50,9 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'social',
         text: "A bustling atrium with voices and laughter",
+        text_ko: "목소리와 웃음소리로 가득한 북적이는 아트리움",
         subtext: "Other visitors move in animated conversation",
+        subtext_ko: "다른 방문객들이 활기찬 대화를 나누며 움직입니다",
         weight: { S: 3 },
         narrative: "You're energized by the collective excitement, eager to share this journey.",
         emotional: "connected"
