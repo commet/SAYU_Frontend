@@ -1,0 +1,329 @@
+/* 🏛️ SAYU Museum Entrance Styles */
+
+/* Base container */
+.home-gallery-entrance {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: var(--gallery-white);
+}
+
+/* Time-based backgrounds */
+.home-gallery-entrance.morning {
+  background: linear-gradient(135deg, #fef3e2 0%, #f9e7d3 50%, #f4dcc4 100%);
+}
+
+.home-gallery-entrance.afternoon {
+  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 50%, #eeeeee 100%);
+}
+
+.home-gallery-entrance.evening {
+  background: linear-gradient(135deg, #f9e4d3 0%, #e8c4a0 50%, #d4a574 100%);
+}
+
+.home-gallery-entrance.night {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #1a252f 100%);
+}
+
+/* Museum doors */
+.entrance-doors {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.door {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    #f5e6d3 0%,    /* Aged wood top */
+    #d4a574 50%,   /* Museum door brown */
+    #8b6635 100%   /* Shadow */
+  );
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.2);
+}
+
+.door.left {
+  left: 0;
+  transform-origin: left center;
+  border-right: 2px solid #6b5d4f;
+}
+
+.door.right {
+  right: 0;
+  transform-origin: right center;
+  border-left: 2px solid #6b5d4f;
+}
+
+/* Door handle details */
+.door::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40px;
+  height: 80px;
+  background: linear-gradient(to bottom, #d4a574, #b8935f);
+  border-radius: 20px;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.door.left::before {
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+.door.right::before {
+  left: 20px;
+  transform: translateY(-50%);
+}
+
+/* Enter button */
+.enter-button {
+  position: relative;
+  z-index: 10;
+  padding: 20px 40px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #d4a574;
+  border-radius: 0;
+  color: #333;
+  font-size: 1.25rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.enter-button:hover {
+  background: #d4a574;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Gallery foyer */
+.gallery-foyer {
+  min-height: 100vh;
+  padding: 2rem;
+  position: relative;
+}
+
+/* Dynamic lighting overlay */
+.foyer-lighting {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  opacity: 0.3;
+}
+
+.foyer-lighting.morning {
+  background: radial-gradient(circle at 20% 50%, rgba(255, 223, 186, 0.6) 0%, transparent 60%);
+}
+
+.foyer-lighting.afternoon {
+  background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+}
+
+.foyer-lighting.evening {
+  background: radial-gradient(circle at 80% 50%, rgba(255, 183, 77, 0.5) 0%, transparent 60%);
+}
+
+.foyer-lighting.night {
+  background: radial-gradient(circle at 50% 50%, rgba(70, 130, 180, 0.3) 0%, transparent 80%);
+}
+
+/* Museum header */
+.foyer-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  position: relative;
+  z-index: 10;
+}
+
+.museum-title {
+  font-size: 5rem;
+  font-weight: 300;
+  letter-spacing: 0.5rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
+}
+
+.home-gallery-entrance.night .museum-title {
+  color: #f5f5f5;
+}
+
+.museum-tagline {
+  font-size: 1.25rem;
+  color: #666;
+  font-style: italic;
+}
+
+.home-gallery-entrance.night .museum-tagline {
+  color: #ccc;
+}
+
+/* Museum floor plan */
+.museum-floor-plan {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+  position: relative;
+  z-index: 10;
+}
+
+/* Room cards */
+.room-card {
+  background: rgba(255, 251, 235, 0.9);
+  border: 2px solid #d4a574;
+  border-radius: 0;
+  padding: 2.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.home-gallery-entrance.night .room-card {
+  background: rgba(52, 73, 94, 0.9);
+  border-color: #5a7a9a;
+  color: #f5f5f5;
+}
+
+.room-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #d4a574, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.room-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.room-card:hover::before {
+  opacity: 1;
+}
+
+.room-card.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.room-card.locked:hover {
+  transform: none;
+}
+
+.room-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.room-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.home-gallery-entrance.night .room-name {
+  color: #f5f5f5;
+}
+
+.room-description {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+.home-gallery-entrance.night .room-description {
+  color: #bbb;
+}
+
+.lock-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: #999;
+}
+
+/* Visitor board */
+.visitor-board {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.visitor-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.home-gallery-entrance.night .visitor-stat {
+  color: #ccc;
+}
+
+/* Time message */
+.time-message {
+  text-align: center;
+  font-style: italic;
+  color: #666;
+  font-size: 1.1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.home-gallery-entrance.night .time-message {
+  color: #aaa;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .museum-title {
+    font-size: 3rem;
+    letter-spacing: 0.2rem;
+  }
+  
+  .museum-floor-plan {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .visitor-board {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .room-card {
+    padding: 2rem;
+  }
+}

@@ -1,7 +1,7 @@
 'use client';
 
-import { NarrativeQuiz } from '@/components/quiz/NarrativeQuiz';
+import { AudioGuideQuiz } from '@/components/quiz/AudioGuideQuiz';
 
 export default function NarrativeQuizPage() {
-  return <NarrativeQuiz />;
+  return <AudioGuideQuiz />;
 }
