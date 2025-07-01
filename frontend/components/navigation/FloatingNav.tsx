@@ -71,6 +71,7 @@ export default function FloatingNav() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className={`sayu-floating-header sayu-liquid-glass ${scrolled ? 'backdrop-blur-xl' : ''}`}
+        style={{ zIndex: 1000 }}
       >
         <div className="flex items-center justify-between">
           <motion.div 
@@ -123,6 +124,7 @@ export default function FloatingNav() {
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         className="sayu-floating-nav"
+        style={{ zIndex: 1000 }}
       >
         <div className="flex items-center justify-around gap-2 px-2">
           {navItems.map((item, index) => {
@@ -157,7 +159,7 @@ export default function FloatingNav() {
                   )}
                 </AnimatePresence>
                 
-                <div className="relative">
+                <div className="relative flex items-center justify-center">
                   {item.icon}
                   {isActive && (
                     <motion.div
@@ -169,7 +171,7 @@ export default function FloatingNav() {
                   )}
                 </div>
                 
-                <span className="text-xs font-medium">
+                <span className="text-xs font-medium text-center">
                   {item.label[language]}
                 </span>
               </motion.button>
@@ -185,7 +187,7 @@ export default function FloatingNav() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 md:hidden"
+            className="fixed inset-0 z-[1100] md:hidden"
             onClick={() => setIsOpen(false)}
           >
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />

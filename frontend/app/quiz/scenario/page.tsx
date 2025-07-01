@@ -67,13 +67,14 @@ export default function ScenarioQuizPage() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden sayu-gradient-bg">
-      {/* Background Image */}
-      <div className="absolute inset-0">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Background Image - Full Screen */}
+      <div className="fixed inset-0 z-0">
         <img 
           src={getBackgroundImage()}
           alt="Museum scene"
           className="w-full h-full object-cover"
+          style={{ width: '100vw', height: '100vh', objectFit: 'cover' }}
           onError={(e) => {
             e.currentTarget.src = 'https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=1920&h=1080&fit=crop';
           }}

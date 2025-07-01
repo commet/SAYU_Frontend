@@ -178,6 +178,7 @@
   
   display: flex;
   gap: 4px;
+  z-index: 1000;
 }
 
 .sayu-nav-item {
@@ -192,8 +193,12 @@
   font-size: 14px;
   font-weight: 500;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
 }
 
 .sayu-nav-item.active {
@@ -444,9 +449,19 @@
     border-radius: 24px;
   }
   
-  .sayu-floating-header,
-  .sayu-floating-nav {
+  .sayu-floating-header {
     width: calc(100% - 20px);
+    left: 10px;
+    transform: translateX(0);
+  }
+  
+  .sayu-floating-header:hover {
+    transform: translateY(-2px);
+  }
+  
+  .sayu-floating-nav {
+    width: auto;
+    max-width: calc(100% - 20px);
   }
 }
 
@@ -491,6 +506,7 @@
     inset 0 1px 2px rgba(255, 255, 255, 0.9);
   position: relative;
   overflow: hidden;
+  z-index: 1000;
 }
 
 .sayu-bottom-nav::before {
