@@ -8,22 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'SAYU - Your Aesthetic Journey',
   description: 'Discover your unique aesthetic personality through art',
-  manifest: '/api/manifest',
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'default',
-    title: 'SAYU',
-  },
-  other: {
-    'mobile-web-app-capable': 'yes',
-    'apple-mobile-web-app-capable': 'yes',
-    'apple-mobile-web-app-status-bar-style': 'black-translucent',
-    'apple-mobile-web-app-title': 'SAYU',
-    'application-name': 'SAYU',
-    'msapplication-TileColor': '#8b5cf6',
-    'msapplication-config': '/browserconfig.xml',
-    'theme-color': '#8b5cf6',
-  },
+  // manifest removed due to Vercel 401 errors
 }
 
 export const viewport: Viewport = {
@@ -42,9 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png" />
-      </head>
+      {/* Removed head tag content due to 401 errors */}
       <body className={inter.className}>
         <Providers>
           <div className="min-h-screen relative">

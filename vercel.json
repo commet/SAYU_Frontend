@@ -12,10 +12,5 @@
     "env": {
       "SKIP_ENV_VALIDATION": "true"
     }
-  },
-  "functions": {
-    "app/api/**/*.js": {
-      "maxDuration": 30
-    }
   }
 }
