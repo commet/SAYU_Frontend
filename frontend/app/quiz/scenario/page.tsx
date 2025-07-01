@@ -67,7 +67,7 @@ export default function ScenarioQuizPage() {
   };
 
   return (
-    <div style={{ 
+    <div className="quiz-scenario-background" style={{ 
       position: 'relative',
       minHeight: '100vh',
       overflow: 'hidden',
@@ -86,12 +86,12 @@ export default function ScenarioQuizPage() {
       }} />
 
       {/* Language Toggle */}
-      <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 20 }}>
+      <div className="language-toggle" style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 20 }}>
         <LanguageToggle variant="glass" />
       </div>
 
       {/* Content */}
-      <div style={{ position: 'relative', zIndex: 10, height: '100vh', display: 'flex', flexDirection: 'column', padding: '16px' }}>
+      <div className="quiz-content" style={{ position: 'relative', zIndex: 10, height: '100vh', display: 'flex', flexDirection: 'column', padding: '16px' }}>
         {/* Progress Bar */}
         <div className="w-full max-w-4xl mx-auto mb-6">
           <div className="sayu-liquid-glass rounded-full h-3 p-0.5">

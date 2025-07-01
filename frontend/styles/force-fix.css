@@ -1,0 +1,86 @@
+/* FORCE FIX - 강제로 모든 스타일 오버라이드 */
+
+/* 1. 플로팅 네비게이션 강제 중앙 정렬 */
+.sayu-floating-header {
+  position: fixed !important;
+  top: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: calc(100% - 40px) !important;
+  max-width: 1200px !important;
+  z-index: 9999 !important;
+  margin: 0 !important;
+}
+
+.sayu-floating-nav {
+  position: fixed !important;
+  bottom: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 9999 !important;
+  margin: 0 !important;
+}
+
+/* 2. 배경 이미지 강제 전체 화면 */
+.quiz-scenario-background {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  z-index: -1 !important;
+}
+
+/* 3. 모든 배경 오버라이드 제거 */
+.sayu-gradient-bg {
+  background: none !important;
+}
+
+/* 4. 컨텐츠 z-index 강제 설정 */
+.quiz-content {
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+/* 5. 언어 토글 강제 표시 */
+.language-toggle {
+  position: absolute !important;
+  top: 16px !important;
+  right: 16px !important;
+  z-index: 999 !important;
+}
+
+/* 6. 네비게이션 항목들 중앙 정렬 */
+.sayu-nav-item {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 12px 16px !important;
+}
+
+/* 7. 반응형 강제 적용 */
+@media (max-width: 768px) {
+  .sayu-floating-header {
+    width: calc(100% - 20px) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+  
+  .sayu-floating-nav {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+}
+
+/* 8. 디버깅용 - 플로팅 요소들에 붉은 테두리 */
+.debug-floating {
+  border: 2px solid red !important;
+  background: rgba(255, 0, 0, 0.1) !important;
+}

@@ -70,7 +70,7 @@ export default function FloatingNav() {
       <motion.div
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`sayu-liquid-glass ${scrolled ? 'backdrop-blur-xl' : ''}`}
+        className={`sayu-liquid-glass sayu-floating-header ${scrolled ? 'backdrop-blur-xl' : ''}`}
         style={{ 
           position: 'fixed',
           top: '20px',
@@ -133,7 +133,7 @@ export default function FloatingNav() {
       <motion.nav
         initial={{ y: 100 }}
         animate={{ y: 0 }}
-        className="sayu-liquid-glass"
+        className="sayu-liquid-glass sayu-floating-nav"
         style={{ 
           position: 'fixed',
           bottom: '20px',

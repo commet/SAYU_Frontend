@@ -8,6 +8,7 @@
 @import '../styles/gradients.css';
 @import '../styles/apple-design-system.css';
 @import '../styles/sayu-design-system.css';
+@import '../styles/force-fix.css';
 
 @layer base {
   :root {
