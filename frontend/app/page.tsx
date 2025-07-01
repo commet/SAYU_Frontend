@@ -32,25 +32,25 @@ export default function HomePage() {
     {
       name: { en: 'Yayoi Kusama', ko: '쿠사마 야요이' },
       style: { en: 'Contemporary, Installation', ko: '현대미술, 설치미술' },
-      image: 'https://images.unsplash.com/photo-1611604548018-d56bbd596747?w=400&h=400&fit=crop',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Yayoi_Kusama_cropped_1_Yayoi_Kusama_201611.jpg/400px-Yayoi_Kusama_cropped_1_Yayoi_Kusama_201611.jpg',
       personality: ['SREF', 'SREC'] // 이야기 직조가, 마음의 큐레이터
     },
     {
       name: { en: 'Lee Ufan', ko: '이우환' },
       style: { en: 'Minimalism, Mono-ha', ko: '미니멀리즘, 모노하' },
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop',
+      image: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop&q=80',
       personality: ['LAMC', 'SAMF'] // 패턴 건축가, 마음의 연금술사
     },
     {
       name: { en: 'David Hockney', ko: '데이비드 호크니' },
       style: { en: 'Pop Art, Landscapes', ko: '팝아트, 풍경화' },
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/David_Hockney_-_Pop_Art_-_A_Bigger_Splash.jpg/400px-David_Hockney_-_Pop_Art_-_A_Bigger_Splash.jpg',
       personality: ['LREF', 'LREC'] // 침묵의 시인, 질감의 예언자
     },
     {
       name: { en: 'Nam June Paik', ko: '백남준' },
       style: { en: 'Video Art, New Media', ko: '비디오 아트, 뉴미디어' },
-      image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=400&h=400&fit=crop',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/TV_Buddha_by_Nam_June_Paik.jpg/400px-TV_Buddha_by_Nam_June_Paik.jpg',
       personality: ['SAEF', 'SREC'] // 감정 지휘자, 마음의 큐레이터
     }
   ];

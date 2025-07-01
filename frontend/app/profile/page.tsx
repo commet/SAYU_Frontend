@@ -15,6 +15,7 @@ import { personalityGradients, getGradientStyle } from '@/constants/personality-
 import ProfileSettingsModal from '@/components/profile/ProfileSettingsModal';
 import ProfileStats from '@/components/profile/ProfileStats';
 import ProfileShareCard from '@/components/profile/ProfileShareCard';
+import SocialLoginModal from '@/components/SocialLoginModal';
 
 // Mock data - in real app, would fetch from API
 const mockMuseums = [
@@ -143,6 +144,7 @@ export default function ProfilePage() {
   const [redirecting, setRedirecting] = useState(false);
   const [userPersonalityType, setUserPersonalityType] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   
   // Load quiz results from localStorage
   useEffect(() => {
@@ -155,13 +157,9 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!user && !redirecting) {
-      const timer = setTimeout(() => {
-        setRedirecting(true);
-        router.push('/login');
-      }, 2000);
-      return () => clearTimeout(timer);
+      setShowLoginModal(true);
     }
-  }, [user, router, redirecting]);
+  }, [user, redirecting]);
 
   if (!user) {
     return (
@@ -379,6 +377,20 @@ export default function ProfilePage() {
           // In real app, would update user state here
           console.log('Profile updates:', updates);
         }}
+      />
+
+      {/* Login Modal for unauthorized users */}
+      <SocialLoginModal
+        isOpen={showLoginModal}
+        onClose={() => {
+          setShowLoginModal(false);
+          router.push('/');
+        }}
+        onSuccess={() => {
+          setShowLoginModal(false);
+          window.location.reload();
+        }}
+        language={language}
       />
     </div>
   );

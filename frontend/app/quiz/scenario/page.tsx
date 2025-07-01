@@ -125,13 +125,13 @@ export default function ScenarioQuizPage() {
             {/* Narrative */}
             <div className="sayu-quiz-card rounded-2xl p-6 md:p-8 mb-8 max-w-3xl w-full">
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                {stage[`name_${language}`] || stage.name}
+                {language === 'ko' ? stage.name : stage.name_en}
               </h2>
               <p className="text-white/90 text-lg leading-relaxed mb-6">
-                {stage[`narrative_${language}`] || stage.narrative}
+                {language === 'ko' ? stage.narrative : stage.narrative_en}
               </p>
               <p className="text-white text-xl font-semibold">
-                {stage[`question_${language}`] || stage.question}
+                {language === 'ko' ? stage.question : stage.question_en}
               </p>
             </div>
 
@@ -161,10 +161,10 @@ export default function ScenarioQuizPage() {
                   {/* Choice Text */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-left">
                     <h3 className="text-white text-xl md:text-2xl font-bold mb-2">
-                      {choice[`label_${language}`] || choice.label}
+                      {language === 'ko' ? choice.label : choice.label_en}
                     </h3>
                     <p className="text-white/80 text-sm md:text-base">
-                      {choice[`description_${language}`] || choice.description}
+                      {language === 'ko' ? choice.description : choice.description_en}
                     </p>
                   </div>
 
