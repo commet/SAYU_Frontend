@@ -70,8 +70,18 @@ export default function FloatingNav() {
       <motion.div
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`sayu-floating-header sayu-liquid-glass ${scrolled ? 'backdrop-blur-xl' : ''}`}
-        style={{ zIndex: 1000 }}
+        className={`sayu-liquid-glass ${scrolled ? 'backdrop-blur-xl' : ''}`}
+        style={{ 
+          position: 'fixed',
+          top: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: 'calc(100% - 40px)',
+          maxWidth: '1200px',
+          padding: '12px 24px',
+          borderRadius: '20px',
+          zIndex: 1000
+        }}
       >
         <div className="flex items-center justify-between">
           <motion.div 
@@ -123,8 +133,22 @@ export default function FloatingNav() {
       <motion.nav
         initial={{ y: 100 }}
         animate={{ y: 0 }}
-        className="sayu-floating-nav"
-        style={{ zIndex: 1000 }}
+        className="sayu-liquid-glass"
+        style={{ 
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: 'rgba(255, 255, 255, 0.8)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          borderRadius: '30px',
+          padding: '8px',
+          border: '1px solid rgba(255, 255, 255, 0.4)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.6), inset 0 -1px 1px rgba(0, 0, 0, 0.05)',
+          display: 'flex',
+          gap: '4px',
+          zIndex: 1000
+        }}
       >
         <div className="flex items-center justify-around gap-2 px-2">
           {navItems.map((item, index) => {

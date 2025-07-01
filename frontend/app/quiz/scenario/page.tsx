@@ -67,28 +67,31 @@ export default function ScenarioQuizPage() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Background Image - Full Screen */}
-      <div className="fixed inset-0 z-0">
-        <img 
-          src={getBackgroundImage()}
-          alt="Museum scene"
-          className="w-full h-full object-cover"
-          style={{ width: '100vw', height: '100vh', objectFit: 'cover' }}
-          onError={(e) => {
-            e.currentTarget.src = 'https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=1920&h=1080&fit=crop';
-          }}
-        />
-        <div className="absolute inset-0 bg-black/40" />
-      </div>
+    <div style={{ 
+      position: 'relative',
+      minHeight: '100vh',
+      overflow: 'hidden',
+      backgroundImage: `url(${getBackgroundImage()})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundAttachment: 'fixed'
+    }}>
+      {/* Dark Overlay */}
+      <div style={{ 
+        position: 'absolute',
+        inset: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        zIndex: 1
+      }} />
 
       {/* Language Toggle */}
-      <div className="absolute top-4 right-4 z-20">
+      <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 20 }}>
         <LanguageToggle variant="glass" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 h-screen flex flex-col p-4 md:p-8">
+      <div style={{ position: 'relative', zIndex: 10, height: '100vh', display: 'flex', flexDirection: 'column', padding: '16px' }}>
         {/* Progress Bar */}
         <div className="w-full max-w-4xl mx-auto mb-6">
           <div className="sayu-liquid-glass rounded-full h-3 p-0.5">
@@ -158,10 +161,10 @@ export default function ScenarioQuizPage() {
                   {/* Choice Text */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-left">
                     <h3 className="text-white text-xl md:text-2xl font-bold mb-2">
-                      {choice[`text_${language}`] || choice.text}
+                      {choice[`label_${language}`] || choice.label}
                     </h3>
                     <p className="text-white/80 text-sm md:text-base">
-                      {choice[`description_${language}`] || choice.description || (language === 'ko' ? '이 선택지를 클릭하세요' : 'Click to choose this path')}
+                      {choice[`description_${language}`] || choice.description}
                     </p>
                   </div>
 
