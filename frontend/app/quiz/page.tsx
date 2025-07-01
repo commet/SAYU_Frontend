@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { WelcomeModal } from '@/components/onboarding/WelcomeModal';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageToggle from '@/components/ui/LanguageToggle';
 import { EmotionalButton } from '@/components/emotional/EmotionalCard';
 import { Sparkles, Heart, Compass } from 'lucide-react';
 import '@/styles/emotional-palette.css';
@@ -13,8 +15,8 @@ import '@/styles/emotional-palette.css';
 export default function QuizIntroPage() {
   const router = useRouter();
   const { user } = useAuth();
+  const { language } = useLanguage();
   const { showWelcomeModal, setShowWelcomeModal } = useOnboarding();
-  const [language, setLanguage] = useState<'ko' | 'en'>('ko');
 
   const startQuiz = () => {
     router.push('/quiz/narrative');
@@ -31,12 +33,7 @@ export default function QuizIntroPage() {
         <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-12 md:p-16 shadow-dream relative">
           {/* Language Toggle */}
           <div className="absolute top-4 right-4">
-            <button
-              onClick={() => setLanguage(language === 'ko' ? 'en' : 'ko')}
-              className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-all text-white"
-            >
-              {language === 'ko' ? 'English' : '한국어'}
-            </button>
+            <LanguageToggle variant="minimal" className="text-[hsl(var(--journey-midnight))] border-[hsl(var(--journey-twilight))]/20 hover:bg-[hsl(var(--journey-twilight))]/10" />
           </div>
 
           <motion.div

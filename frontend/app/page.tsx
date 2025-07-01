@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { MapPin, Clock, Users, Sparkles, ChevronRight, Lock } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageToggle from '@/components/ui/LanguageToggle';
 import '@/styles/emotional-palette.css';
 import '@/styles/museum-entrance.css';
 
@@ -21,6 +23,7 @@ interface Room {
 export default function HomePage() {
   const router = useRouter();
   const { user } = useAuth();
+  const { language } = useLanguage();
   const [timeOfDay, setTimeOfDay] = useState('');
   const [doorsOpen, setDoorsOpen] = useState(false);
   const [currentVisitors, setCurrentVisitors] = useState(1234);
@@ -36,32 +39,32 @@ export default function HomePage() {
 
   const rooms: Room[] = [
     {
-      name: 'Discover Your Type',
+      name: language === 'ko' ? '당신의 유형 발견하기' : 'Discover Your Type',
       icon: '🎭',
       path: '/quiz',
       status: 'available',
-      description: 'Begin your journey of self-discovery'
+      description: language === 'ko' ? '자기 발견의 여정을 시작하세요' : 'Begin your journey of self-discovery'
     },
     {
-      name: 'Gallery',
+      name: language === 'ko' ? '갤러리' : 'Gallery',
       icon: '🖼️',
       path: '/explore',
       status: user ? 'available' : 'locked',
-      description: 'Explore artworks matched to your soul'
+      description: language === 'ko' ? '당신의 영혼과 맞는 예술 작품을 탐험하세요' : 'Explore artworks matched to your soul'
     },
     {
-      name: 'Community Salon',
+      name: language === 'ko' ? '커뮤니티 살롱' : 'Community Salon',
       icon: '👥',
       path: '/community',
       status: user ? 'available' : 'locked',
-      description: 'Connect with kindred spirits'
+      description: language === 'ko' ? '비슷한 감성의 사람들과 연결하세요' : 'Connect with kindred spirits'
     },
     {
-      name: 'Your Collection',
+      name: language === 'ko' ? '나의 컬렉션' : 'Your Collection',
       icon: '📚',
       path: '/profile',
       status: user ? 'available' : 'locked',
-      description: 'Your personal art sanctuary'
+      description: language === 'ko' ? '당신만의 예술 성역' : 'Your personal art sanctuary'
     }
   ];
 
@@ -127,8 +130,13 @@ export default function HomePage() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 1 }}
         >
+          <div className="absolute top-4 right-4 z-50">
+            <LanguageToggle />
+          </div>
           <h1 className="museum-title">SAYU</h1>
-          <p className="museum-tagline">Your Personal Art Journey Awaits</p>
+          <p className="museum-tagline">
+            {language === 'ko' ? '당신만의 예술 여정이 기다립니다' : 'Your Personal Art Journey Awaits'}
+          </p>
         </motion.header>
 
         {/* Museum Floor Plan */}
@@ -169,11 +177,11 @@ export default function HomePage() {
         >
           <div className="visitor-stat">
             <Users className="w-5 h-5" />
-            <span>Current visitors: {currentVisitors.toLocaleString()}</span>
+            <span>{language === 'ko' ? `현재 방문자: ${currentVisitors.toLocaleString()}` : `Current visitors: ${currentVisitors.toLocaleString()}`}</span>
           </div>
           <div className="visitor-stat">
             <Sparkles className="w-5 h-5" />
-            <span>Types discovered today: {todayDiscoveries}</span>
+            <span>{language === 'ko' ? `오늘 발견된 유형: ${todayDiscoveries}` : `Types discovered today: ${todayDiscoveries}`}</span>
           </div>
           <div className="visitor-stat">
             <Clock className="w-5 h-5" />

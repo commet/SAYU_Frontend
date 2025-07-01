@@ -4,6 +4,7 @@ import { SessionProvider } from 'next-auth/react';
 import { AuthProvider } from '@/hooks/useAuth';
 import { ThemeProvider } from '@/hooks/usePersonalizedTheme';
 import { OnboardingProvider } from '@/contexts/OnboardingContext';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 import { PWAProvider } from '@/components/pwa/PWAProvider';
 import { Toaster } from 'react-hot-toast';
 
@@ -12,12 +13,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <SessionProvider>
       <PWAProvider>
         <AuthProvider>
-          <ThemeProvider>
-            <OnboardingProvider>
-              {children}
-              <PersonalizedToaster />
-            </OnboardingProvider>
-          </ThemeProvider>
+          <LanguageProvider>
+            <ThemeProvider>
+              <OnboardingProvider>
+                {children}
+                <PersonalizedToaster />
+              </OnboardingProvider>
+            </ThemeProvider>
+          </LanguageProvider>
         </AuthProvider>
       </PWAProvider>
     </SessionProvider>

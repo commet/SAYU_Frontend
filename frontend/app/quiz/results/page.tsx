@@ -8,7 +8,10 @@ import { getTranslatedText, getColorCodes, getArtEmoji } from '@/lib/artTranslat
 import { getArtworkRecommendations } from '@/lib/artworkRecommendations';
 import { calculatePersonalityFromSimulation } from '@/lib/simulationDesign';
 import { getExhibitionRecommendation } from '@/lib/exhibitionRecommendations';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageToggle from '@/components/ui/LanguageToggle';
 import PersonalityIcon from '@/components/PersonalityIcon';
+import PersonalityTypeGrid from '@/components/PersonalityTypeGrid';
 import IDCardViral from '@/components/IDCardViral';
 import SocialLoginModal from '@/components/SocialLoginModal';
 import { useSession } from 'next-auth/react';
@@ -33,7 +36,7 @@ interface PersonalityResult {
 function ResultsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [language, setLanguage] = useState<'en' | 'ko'>('ko');
+  const { language } = useLanguage();
   const [result, setResult] = useState<PersonalityResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [detailedData, setDetailedData] = useState<any>(null);
@@ -177,12 +180,7 @@ function ResultsContent() {
       <div className="relative z-10">
       {/* Language Toggle */}
       <div className="absolute top-4 right-4 z-10">
-        <button
-          onClick={() => setLanguage(language === 'en' ? 'ko' : 'en')}
-          className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-all"
-        >
-          {language === 'en' ? '한국어' : 'English'}
-        </button>
+        <LanguageToggle variant="glass" />
       </div>
 
       <div className="container mx-auto px-4 py-12 pt-20">
@@ -248,6 +246,16 @@ function ResultsContent() {
               </div>
             )}
           </div>
+
+          {/* Personality Type Analysis Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mb-12"
+          >
+            <PersonalityTypeGrid currentType={result.personalityType} />
+          </motion.div>
 
           {/* Representative Artwork */}
           {artworkRecommendations && (

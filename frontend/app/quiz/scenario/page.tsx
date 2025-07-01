@@ -4,10 +4,13 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { simulationFlow } from '@/lib/simulationDesign';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageToggle from '@/components/ui/LanguageToggle';
 import Image from 'next/image';
 
 export default function ScenarioQuizPage() {
   const router = useRouter();
+  const { language } = useLanguage();
   const [currentStage, setCurrentStage] = useState(0);
   const [responses, setResponses] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -78,6 +81,11 @@ export default function ScenarioQuizPage() {
         <div className="absolute inset-0 bg-black/40" />
       </div>
 
+      {/* Language Toggle */}
+      <div className="absolute top-4 right-4 z-20">
+        <LanguageToggle variant="glass" />
+      </div>
+
       {/* Content */}
       <div className="relative z-10 h-screen flex flex-col p-4 md:p-8">
         {/* Progress Bar */}
@@ -91,7 +99,10 @@ export default function ScenarioQuizPage() {
             />
           </div>
           <p className="text-white/80 mt-2 text-sm">
-            Stage {currentStage + 1} of {simulationFlow.stages.length}
+            {language === 'ko' 
+              ? `${currentStage + 1}단계 / 총 ${simulationFlow.stages.length}단계`
+              : `Stage ${currentStage + 1} of ${simulationFlow.stages.length}`
+            }
           </p>
         </div>
 
@@ -107,13 +118,13 @@ export default function ScenarioQuizPage() {
             {/* Narrative */}
             <div className="bg-black/60 backdrop-blur-md rounded-2xl p-6 md:p-8 mb-8 max-w-3xl w-full">
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                {stage.name}
+                {stage[`name_${language}`] || stage.name}
               </h2>
               <p className="text-white/90 text-lg leading-relaxed mb-6">
-                {stage.narrative}
+                {stage[`narrative_${language}`] || stage.narrative}
               </p>
               <p className="text-white text-xl font-semibold">
-                {stage.question}
+                {stage[`question_${language}`] || stage.question}
               </p>
             </div>
 
@@ -143,10 +154,10 @@ export default function ScenarioQuizPage() {
                   {/* Choice Text */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-left">
                     <h3 className="text-white text-xl md:text-2xl font-bold mb-2">
-                      {choice.text}
+                      {choice[`text_${language}`] || choice.text}
                     </h3>
                     <p className="text-white/80 text-sm md:text-base">
-                      {choice.description || 'Click to choose this path'}
+                      {choice[`description_${language}`] || choice.description || (language === 'ko' ? '이 선택지를 클릭하세요' : 'Click to choose this path')}
                     </p>
                   </div>
 
