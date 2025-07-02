@@ -102,6 +102,13 @@ export default function HomePage() {
       path: '/art-fair',
       status: 'available',
       description: language === 'ko' ? '빠르게 작품을 저장하고 정리하세요' : 'Quickly save and organize artworks'
+    },
+    {
+      name: language === 'ko' ? '전시 감상 기록' : 'Exhibition Record',
+      icon: '📝',
+      path: '/exhibition/record',
+      status: 'available',
+      description: language === 'ko' ? '전시 관람 경험을 아름답게 기록하세요' : 'Beautifully record your exhibition experience'
     }
   ];
 
