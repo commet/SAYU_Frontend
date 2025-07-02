@@ -217,7 +217,7 @@ function ResultsContent() {
           >
             <Sparkles className="w-12 h-12 mx-auto mb-4 text-[hsl(var(--personality-accent))]" />
             <h2 className="text-4xl font-serif mb-4 text-[hsl(var(--journey-midnight))]">
-              {language === 'ko' ? '이것은 갤러리를 넘어석니다' : 'This extends beyond galleries'}
+              {language === 'ko' ? '예술은 일상으로 흐릅니다' : 'This extends beyond galleries'}
             </h2>
             <p className="text-xl text-[hsl(var(--journey-twilight))] max-w-3xl mx-auto">
               {language === 'ko' && personality.lifeExtension_ko ? personality.lifeExtension_ko : personality.lifeExtension}
@@ -289,15 +289,26 @@ function ResultsContent() {
             <h3 className="text-2xl font-serif mb-8 text-[hsl(var(--journey-midnight))]">
               {language === 'ko' ? '당신을 기다리는 전시회' : 'Exhibitions waiting for you'}
             </h3>
-            <EmotionalButton
-              variant="primary"
-              size="lg"
-              personality={results.personalityType}
-              onClick={() => router.push('/exhibitions')}
-            >
-              <Map className="w-5 h-5" />
-              {language === 'ko' ? '나의 예술 지도 탐험하기' : 'Explore Your Art Map'}
-            </EmotionalButton>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <EmotionalButton
+                variant="primary"
+                size="lg"
+                personality={results.personalityType}
+                onClick={() => router.push('/exhibitions')}
+              >
+                <Map className="w-5 h-5" />
+                {language === 'ko' ? '나의 예술 지도 탐험하기' : 'Explore Your Art Map'}
+              </EmotionalButton>
+              <EmotionalButton
+                variant="secondary"
+                size="lg"
+                personality={results.personalityType}
+                onClick={() => router.push(`/compatibility?type1=${results.personalityType}`)}
+              >
+                <Heart className="w-5 h-5" />
+                {language === 'ko' ? '궁합 확인하기' : 'Check Chemistry'}
+              </EmotionalButton>
+            </div>
           </motion.div>
         </div>
       </section>

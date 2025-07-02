@@ -2,6 +2,7 @@ import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 import AppleProvider from 'next-auth/providers/apple';
+import DiscordProvider from 'next-auth/providers/discord';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 const providers = [
@@ -71,6 +72,15 @@ if (process.env.APPLE_CLIENT_ID && process.env.APPLE_CLIENT_SECRET) {
     AppleProvider({
       clientId: process.env.APPLE_CLIENT_ID,
       clientSecret: process.env.APPLE_CLIENT_SECRET,
+    })
+  );
+}
+
+if (process.env.DISCORD_CLIENT_ID && process.env.DISCORD_CLIENT_SECRET) {
+  providers.push(
+    DiscordProvider({
+      clientId: process.env.DISCORD_CLIENT_ID,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET,
     })
   );
 }
