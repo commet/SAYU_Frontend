@@ -18,7 +18,8 @@
     "analyze-code": "node scripts/analyze-codebase.js",
     "cleanup": "node scripts/cleanup-automation.js",
     "health-check": "npm run analyze-code && npm run lint",
-    "refactor": "npm run cleanup && npm run lint --fix && npm run build"
+    "refactor": "npm run cleanup && npm run lint --fix && npm run build",
+    "resize-animals": "node scripts/resize-animal-images.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
