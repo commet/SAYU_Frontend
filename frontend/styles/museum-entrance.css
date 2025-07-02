@@ -84,7 +84,69 @@
   transform: translateY(-50%);
 }
 
-/* Enter button */
+/* Modern Enter button */
+.enter-button-modern {
+  position: relative;
+  z-index: 10;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  isolation: isolate;
+}
+
+.enter-button-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 36px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 80px;
+  transition: all 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000);
+}
+
+.enter-button-modern:hover .enter-button-content {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.enter-button-text {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.enter-button-icon {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  opacity: 0.8;
+}
+
+.enter-button-glow {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.enter-button-modern:hover .enter-button-glow {
+  opacity: 1;
+}
+
+/* Legacy Enter button */
 .enter-button {
   position: relative;
   z-index: 10;

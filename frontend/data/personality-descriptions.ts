@@ -75,19 +75,32 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
       'Sensing moods in colors',
       'Needing space to breathe with art'
     ],
+    recognition_ko: [
+      '미술관의 몽상에 빠진',
+      '그림 속에서 친구를 찾는',
+      '색채 속에서 분위기를 느끼는',
+      '예술과 함께 숨 쉴 공간이 필요한'
+    ],
     lifeExtension: 'This way of experiencing beauty extends into how you choose your morning coffee spot (the one with the best light), the music that moves you (often wordless), and the cities that feel like home (those with hidden corners and artistic souls).',
+    lifeExtension_ko: '이런 아름다움을 경험하는 방식은 아침 커피를 마실 장소(가장 빛이 좋은 곳)를 고르는 방법, 당신을 움직이는 음악(종종 가사 없는), 그리고 집처럼 느껴지는 도시(숨겨진 모퉁이와 예술적 영혼을 가진)로 확장됩니다.',
     lifeAreas: [
       {
         title: 'In Relationships',
-        description: 'You seek depth over breadth, preferring few meaningful connections to many surface ones.'
+        title_ko: '관계에서',
+        description: 'You seek depth over breadth, preferring few meaningful connections to many surface ones.',
+        description_ko: '넓이보다 깊이를 추구하며, 많은 표면적 관계보다 소수의 의미 있는 연결을 선호합니다.'
       },
       {
         title: 'In Spaces',
-        description: 'You\'re drawn to places with soul - vintage bookshops, quiet cafes, rooms with stories.'
+        title_ko: '공간에서',
+        description: 'You\'re drawn to places with soul - vintage bookshops, quiet cafes, rooms with stories.',
+        description_ko: '영혼이 있는 장소에 끌립니다 - 빈티지 서점, 조용한 카페, 이야기가 있는 방들.'
       },
       {
         title: 'In Creativity',
-        description: 'Your creative process is intuitive and emotional, often surprising even yourself.'
+        title_ko: '창의성에서',
+        description: 'Your creative process is intuitive and emotional, often surprising even yourself.',
+        description_ko: '당신의 창작 과정은 직관적이고 감정적이며, 종종 스스로도 놀랄 정도입니다.'
       }
     ],
     recommendedArtists: [

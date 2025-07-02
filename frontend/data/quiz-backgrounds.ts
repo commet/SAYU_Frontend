@@ -15,7 +15,7 @@ export const backgroundProgression: Record<string, BackgroundPhase> = {
     questions: [1, 2],
     backgrounds: [
       '/images/backgrounds/museum-entrance-columns-warm-afternoon.jpg',
-      '/images/backgrounds/baroque-entrance-arch-golden-sunlight.jpg',
+      '/images/backgrounds/dual-viewing-portraits-synchronized-black.jpg',
       '/images/backgrounds/stone-gallery-entrance-solitary-figure.jpg'
     ],
     ambiance: 'anticipation',
@@ -29,9 +29,10 @@ export const backgroundProgression: Record<string, BackgroundPhase> = {
     questions: [3, 4, 5, 6, 7],
     backgrounds: [
       '/images/backgrounds/minimal-white-gallery-photography-bright.jpg',
-      '/images/backgrounds/classic-gallery-warm-lighting-seating.jpg',
+      '/images/backgrounds/dark-gallery-diverse-artworks-contemplative.jpg',
       '/images/backgrounds/warm-corner-gallery-solitary-contemplation.jpg',
-      '/images/backgrounds/solitary-viewing-minimal-white-meditative.jpg'
+      '/images/backgrounds/solitary-viewing-minimal-white-meditative.jpg',
+      '/images/backgrounds/outdoor-screening-pink-plaza-community.jpg'
     ],
     ambiance: 'exploration',
     overlay: {

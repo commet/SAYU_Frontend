@@ -67,11 +67,14 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       atmosphere: "wonder"
     },
     question: "A curator in a velvet jacket approaches. Their eyes hold centuries of art wisdom...",
+    question_ko: "벨벳 재킷을 입은 큐레이터가 다가옵니다. 그들의 눈빛에는 수 세기의 예술적 지혜가 담겨 있습니다...",
     options: [
       {
         id: 'intuitive',
         text: "Please, let me wander and discover on my own",
+        text_ko: "자유롭게 돌아다니며 스스로 발견하고 싶어요",
         subtext: "You prefer to let the art speak directly to your soul",
+        subtext_ko: "예술이 당신의 영혼에 직접 말하기를 원합니다",
         weight: { F: 3 },
         narrative: "The curator nods knowingly, 'Some journeys are meant to be unguided.'",
         emotional: "free"
@@ -79,7 +82,9 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'structured',
         text: "I'd love to hear about the exhibition's design",
+        text_ko: "전시 구성에 대해 듣고 싶습니다",
         subtext: "You appreciate understanding the curator's vision",
+        subtext_ko: "큐레이터의 비전을 이해하는 것을 소중히 여깁니다",
         weight: { C: 3 },
         narrative: "Their face lights up as they begin to share the careful choreography of the collection.",
         emotional: "grounded"
@@ -94,11 +99,14 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       atmosphere: "threshold"
     },
     question: "The gallery's first chamber reveals itself. What captures your attention?",
+    question_ko: "갤러리의 첫 번째 전시실이 모습을 드러냅니다. 무엇이 당신의 시선을 사로잡나요?",
     options: [
       {
         id: 'atmosphere',
         text: "The room's emotional atmosphere washes over me",
+        text_ko: "공간의 감정적인 분위기가 나를 감싸안습니다",
         subtext: "Colors and light create an almost tangible mood",
+        subtext_ko: "색채와 빛이 거의 만질 수 있을 듯한 분위기를 만들어냅니다",
         weight: { A: 3, E: 1 },
         narrative: "You breathe deeply, letting the space's energy fill your lungs and lift your spirit.",
         emotional: "absorbed"
@@ -106,7 +114,9 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'details',
         text: "A specific painting's intricate brushwork draws me close",
+        text_ko: "특정 작품의 섬세한 붓터치가 나를 가까이 끌어당깁니다",
         subtext: "You notice techniques and textures others might miss",
+        subtext_ko: "다른 사람들이 놓칠 수 있는 기법과 질감을 알아차립니다",
         weight: { R: 3, M: 1 },
         narrative: "Your eyes trace each deliberate stroke, marveling at the artist's technical mastery.",
         emotional: "focused"
@@ -123,11 +133,14 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       atmosphere: "immersion"
     },
     question: "A painting stops you in your tracks. It's as if it was waiting for you...",
+    question_ko: "한 그림이 당신의 발걸음을 멈춥니다. 마치 당신을 기다리고 있었던 것처럼...",
     options: [
       {
         id: 'emotional',
         text: "Tears threaten to form - it touches something deep",
+        text_ko: "눈물이 맺히려 합니다 - 무언가 깊은 곳을 건드립니다",
         subtext: "The artwork resonates with an unnamed feeling",
+        subtext_ko: "작품이 이름 붙일 수 없는 감정과 공명합니다",
         weight: { E: 3, A: 1 },
         narrative: "You stand transfixed, feeling seen by something that has no eyes.",
         emotional: "moved"
@@ -135,7 +148,9 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'analytical',
         text: "You step back to decode its symbolic language",
+        text_ko: "한 걸음 물러서서 상징적 언어를 해독합니다",
         subtext: "There's meaning here to be uncovered",
+        subtext_ko: "여기엔 발견해야 할 의미가 있습니다",
         weight: { M: 3, R: 1 },
         narrative: "Your mind becomes a key, unlocking layers of intentional meaning.",
         emotional: "enlightened"
@@ -150,11 +165,14 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       atmosphere: "discovery"
     },
     question: "Time has become elastic. How do you navigate this temporal gallery dance?",
+    question_ko: "시간이 유연해졌습니다. 이 시간의 갤러리 춤을 어떻게 헤쳐나가시겠습니까?",
     options: [
       {
         id: 'flowing',
         text: "Let intuition guide me from piece to piece",
+        text_ko: "직관이 작품에서 작품으로 나를 이끌게 합니다",
         subtext: "Each artwork calls to the next in an organic flow",
+        subtext_ko: "각 작품이 자연스러운 흐름으로 다음 작품을 부릅니다",
         weight: { F: 3, A: 1 },
         narrative: "You become a leaf on an artistic stream, trusting the current completely.",
         emotional: "surrendered"
@@ -162,7 +180,9 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'methodical',
         text: "Move systematically through each room",
+        text_ko: "각 방을 체계적으로 이동합니다",
         subtext: "Ensuring no masterpiece goes unseen",
+        subtext_ko: "어떤 걸작도 놓치지 않도록 합니다",
         weight: { C: 3, R: 1 },
         narrative: "Your careful progression reveals the curator's hidden narrative arc.",
         emotional: "complete"
@@ -177,20 +197,25 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       atmosphere: "connection"
     },
     question: "A stranger's presence enters your artistic bubble. The moment asks for a choice...",
+    question_ko: "낯선 이의 존재가 당신의 예술적 공간에 들어옵니다. 순간이 선택을 요구합니다...",
     options: [
       {
         id: 'preserve',
         text: "You maintain your private communion with the art",
+        text_ko: "작품과의 사적인 교감을 지켜냅니다",
         subtext: "Some experiences are too personal to share",
-        weight: { L: 3, E: 1 },
+        subtext_ko: "어떤 경험은 나누기에 너무 개인적입니다",
+        weight: { L: 2 },
         narrative: "You close your eyes briefly, holding the moment like a secret.",
         emotional: "protected"
       },
       {
         id: 'share',
         text: "You exchange a knowing glance and begin to speak",
+        text_ko: "서로를 이해하는 눈빛을 나누고 대화를 시작합니다",
         subtext: "Shared wonder doubles the joy",
-        weight: { S: 3, M: 1 },
+        subtext_ko: "함께 나누는 경이로움은 기쁨을 배가시킵니다",
+        weight: { S: 2 },
         narrative: "Your perspectives interweave, creating a richer tapestry of understanding.",
         emotional: "expanded"
       }
@@ -204,11 +229,14 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       atmosphere: "depth"
     },
     question: "An experimental installation challenges your perception. How do you engage?",
+    question_ko: "실험적인 설치 작품이 당신의 인식에 도전합니다. 어떻게 마주하시겠습니까?",
     options: [
       {
         id: 'immerse',
         text: "Surrender to the sensory experience",
+        text_ko: "감각적 경험에 몸을 맡깁니다",
         subtext: "Let it wash over you without trying to understand",
+        subtext_ko: "이해하려 하지 않고 그대로 받아들입니다",
         weight: { A: 3, F: 1 },
         narrative: "You become part of the artwork, your presence completing its purpose.",
         emotional: "transformed"
@@ -216,7 +244,9 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'analyze',
         text: "Circle it slowly, understanding its construction",
+        text_ko: "천천히 둘러보며 구조를 파악합니다",
         subtext: "Appreciating the artist's technical achievement",
+        subtext_ko: "작가의 기술적 성취를 음미합니다",
         weight: { R: 3, C: 1 },
         narrative: "Each angle reveals new insights into the artist's methodical genius.",
         emotional: "impressed"
@@ -299,7 +329,9 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'structured',
         text: "A deeper appreciation for artistic craft and intention",
+        text_ko: "예술적 기법과 의도에 대한 더 깊은 이해",
         subtext: "Each piece now speaks in a language you understand",
+        subtext_ko: "이제 각 작품이 당신이 이해하는 언어로 말을 겁니다",
         weight: { C: 3, R: 1, S: 1 },
         narrative: "You write: 'I leave with eyes that see not just beauty, but the hands that shaped it.'",
         emotional: "enriched"
@@ -506,4 +538,17 @@ export const encouragingFeedback = [
   "You're writing your own story through these halls.",
   "Your authentic responses are creating something beautiful.",
   "This is your masterpiece of self-discovery."
+];
+
+export const encouragingFeedback_ko = [
+  "당신만의 독특한 시각이 아름답게 드러나고 있습니다.",
+  "예술을 경험하는 잘못된 방법은 없습니다 - 당신이 그걸 증명하고 있어요.",
+  "당신의 예술적 영혼이 빛나기 시작합니다.",
+  "각각의 선택이 당신이 누구인지 그려내고 있습니다.",
+  "단순히 예술을 보는 것이 아니라 - 자신을 발견하고 있습니다.",
+  "당신의 여정은 캔버스 위의 지문처럼 독특합니다.",
+  "갤러리가 당신의 존재에 반응하는 것 같습니다.",
+  "이 공간에서 당신만의 이야기를 써내려가고 있습니다.",
+  "당신의 진솔한 반응들이 아름다운 무언가를 만들어내고 있습니다.",
+  "이것은 자기 발견의 걸작입니다."
 ];

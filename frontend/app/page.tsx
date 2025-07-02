@@ -148,13 +148,27 @@ export default function HomePage() {
             />
             
             <motion.button
-              className="enter-button apple-button pulse-glow-animation"
+              className="enter-button-modern"
               onClick={() => setDoorsOpen(true)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
             >
-              <span className="text-2xl font-serif">Enter SAYU</span>
-              <ChevronRight className="w-6 h-6 ml-2" />
+              <div className="enter-button-content">
+                <span className="enter-button-text">
+                  {language === 'ko' ? 'SAYU 입장하기' : 'Enter SAYU'}
+                </span>
+                <motion.div 
+                  className="enter-button-icon"
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </motion.div>
+              </div>
+              <div className="enter-button-glow" />
             </motion.button>
           </motion.div>
         )}

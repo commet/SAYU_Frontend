@@ -7,6 +7,7 @@ import {
   narrativeQuestions, 
   getPersonalizedTransition,
   encouragingFeedback,
+  encouragingFeedback_ko,
   type NarrativeQuestion
 } from '@/data/narrative-quiz-questions';
 import { 
@@ -93,7 +94,8 @@ export const AudioGuideQuiz: React.FC = () => {
 
     // Show encouraging feedback
     if (currentQuestion % 3 === 2) {
-      const message = encouragingFeedback[Math.floor(Math.random() * encouragingFeedback.length)];
+      const feedbackArray = language === 'ko' ? encouragingFeedback_ko : encouragingFeedback;
+      const message = feedbackArray[Math.floor(Math.random() * feedbackArray.length)];
       setEncouragementMessage(message);
       setShowEncouragement(true);
       setTimeout(() => setShowEncouragement(false), 3000);

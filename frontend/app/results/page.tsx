@@ -131,7 +131,9 @@ function ResultsContent() {
             transition={{ delay: 1 }}
             className="mb-12"
           >
-            <h2 className="text-3xl font-serif mb-6">You might recognize yourself in...</h2>
+            <h2 className="text-3xl font-serif mb-6">
+              {language === 'ko' ? '당신은 이런 모습을 발견할 수 있습니다...' : 'You might recognize yourself in...'}
+            </h2>
             <div className="flex flex-wrap justify-center gap-4">
               {personality.recognition.map((item: string, index: number) => (
                 <motion.span
@@ -141,7 +143,7 @@ function ResultsContent() {
                   transition={{ delay: 1.2 + index * 0.1 }}
                   className="px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full"
                 >
-                  {item}
+                  {language === 'ko' && personality.recognition_ko ? personality.recognition_ko[index] : item}
                 </motion.span>
               ))}
             </div>
@@ -160,10 +162,10 @@ function ResultsContent() {
           >
             <Sparkles className="w-12 h-12 mx-auto mb-4 text-[hsl(var(--personality-accent))]" />
             <h2 className="text-4xl font-serif mb-4 text-[hsl(var(--journey-midnight))]">
-              This extends beyond galleries
+              {language === 'ko' ? '이것은 갤러리를 넘어석니다' : 'This extends beyond galleries'}
             </h2>
             <p className="text-xl text-[hsl(var(--journey-twilight))] max-w-3xl mx-auto">
-              {personality.lifeExtension}
+              {language === 'ko' && personality.lifeExtension_ko ? personality.lifeExtension_ko : personality.lifeExtension}
             </p>
           </motion.div>
 
@@ -176,8 +178,12 @@ function ResultsContent() {
                 personality={results.personalityType}
                 className="p-8"
               >
-                <h3 className="text-xl font-medium mb-3">{area.title}</h3>
-                <p className="opacity-80">{area.description}</p>
+                <h3 className="text-xl font-medium mb-3">
+                  {language === 'ko' && area.title_ko ? area.title_ko : area.title}
+                </h3>
+                <p className="opacity-80">
+                  {language === 'ko' && area.description_ko ? area.description_ko : area.description}
+                </p>
               </EmotionalCard>
             ))}
           </div>
@@ -195,10 +201,10 @@ function ResultsContent() {
           >
             <Palette className="w-12 h-12 mx-auto mb-4 text-[hsl(var(--personality-accent))]" />
             <h2 className="text-4xl font-serif mb-4 text-[hsl(var(--journey-midnight))]">
-              Artists who speak your language
+              {language === 'ko' ? '당신의 언어로 말하는 예술가들' : 'Artists who speak your language'}
             </h2>
             <p className="text-xl text-[hsl(var(--journey-twilight))]">
-              Based on your unique way of experiencing art
+              {language === 'ko' ? '당신만의 독특한 예술 경험 방식에 기반하여' : 'Based on your unique way of experiencing art'}
             </p>
           </motion.div>
 
@@ -226,7 +232,7 @@ function ResultsContent() {
             className="text-center"
           >
             <h3 className="text-2xl font-serif mb-8 text-[hsl(var(--journey-midnight))]">
-              Exhibitions waiting for you
+              {language === 'ko' ? '당신을 기다리는 전시회' : 'Exhibitions waiting for you'}
             </h3>
             <EmotionalButton
               variant="primary"
@@ -235,7 +241,7 @@ function ResultsContent() {
               onClick={() => router.push('/exhibitions')}
             >
               <Map className="w-5 h-5" />
-              Explore Your Art Map
+              {language === 'ko' ? '나의 예술 지도 탐험하기' : 'Explore Your Art Map'}
             </EmotionalButton>
           </motion.div>
         </div>
@@ -249,10 +255,13 @@ function ResultsContent() {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl font-serif mb-6 text-[hsl(var(--journey-midnight))]">
-            Share your artistic soul
+            {language === 'ko' ? '당신의 예술적 영혼을 공유하세요' : 'Share your artistic soul'}
           </h2>
           <p className="text-lg mb-8 text-[hsl(var(--journey-twilight))] max-w-2xl mx-auto">
-            Let others discover their own journey, or find kindred spirits who see the world as you do
+            {language === 'ko' 
+              ? '다른 사람들이 자신만의 여정을 발견하도록 돕거나, 당신처럼 세상을 보는 비슷한 영혼을 찾아보세요' 
+              : 'Let others discover their own journey, or find kindred spirits who see the world as you do'
+            }
           </p>
           <div className="flex justify-center gap-4">
             <EmotionalButton
@@ -261,7 +270,7 @@ function ResultsContent() {
               personality={results.personalityType}
             >
               <Share2 className="w-5 h-5" />
-              Share Your Type
+              {language === 'ko' ? '내 유형 공유하기' : 'Share Your Type'}
             </EmotionalButton>
             <EmotionalButton
               variant="ghost"
@@ -269,7 +278,7 @@ function ResultsContent() {
               personality={results.personalityType}
             >
               <BookOpen className="w-5 h-5" />
-              Find Your Tribe
+              {language === 'ko' ? '나의 부족 찾기' : 'Find Your Tribe'}
             </EmotionalButton>
           </div>
         </motion.div>
