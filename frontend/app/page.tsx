@@ -95,6 +95,13 @@ export default function HomePage() {
       path: '/profile',
       status: user ? 'available' : 'locked',
       description: language === 'ko' ? '당신만의 예술 성역' : 'Your personal art sanctuary'
+    },
+    {
+      name: language === 'ko' ? '아트페어 모드' : 'Art Fair Mode',
+      icon: '🎨',
+      path: '/art-fair',
+      status: 'available',
+      description: language === 'ko' ? '빠르게 작품을 저장하고 정리하세요' : 'Quickly save and organize artworks'
     }
   ];
 
