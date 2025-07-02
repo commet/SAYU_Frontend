@@ -48,6 +48,8 @@ const analyticsRoutes = require('./routes/analytics');
 const imageGenerationRoutes = require('./routes/imageGeneration');
 const adminRoutes = require('./routes/admin');
 const achievementRoutes = require('./routes/achievements');
+const gamificationRoutes = require('./routes/gamification');
+const evaluationRoutes = require('./routes/evaluation');
 const insightsRoutes = require('./routes/insights');
 const publicApiRoutes = require('./routes/public-api');
 const archiveRoutes = require('./routes/archive');
@@ -175,6 +177,8 @@ app.use('/api/social-share', socialShareRoutes);
 app.use('/api/artist-portal', artistPortalRoutes);
 app.use('/api/museums', museumsRoutes);
 app.use('/api/reservations', reservationsRoutes);
+app.use('/api/gamification', gamificationRoutes);
+app.use('/api/evaluations', evaluationRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
