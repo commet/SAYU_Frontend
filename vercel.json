@@ -1,15 +1,9 @@
 {
-  "buildCommand": "cd frontend && npm run build",
+  "buildCommand": "cd frontend && npm run build:vercel",
   "outputDirectory": "frontend/.next",
-  "framework": "nextjs",
   "installCommand": "cd frontend && npm install",
-  "devCommand": "cd frontend && npm run dev",
   "env": {
-    "NEXT_PUBLIC_API_URL": "https://valiant-nature-production.up.railway.app"
-  },
-  "build": {
-    "env": {
-      "SKIP_ENV_VALIDATION": "true"
-    }
+    "NEXT_PUBLIC_API_URL": "https://valiant-nature-production.up.railway.app",
+    "SKIP_ENV_VALIDATION": "true"
   }
 }
