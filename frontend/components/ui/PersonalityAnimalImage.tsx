@@ -32,6 +32,15 @@ export function PersonalityAnimalImage({
   const { width, height } = sizeMap[size];
   const imagePath = animal[variant];
   
+  // 디버깅용 로그
+  console.log('PersonalityAnimalImage:', {
+    animalType: animal.type,
+    variant,
+    imagePath,
+    imageError,
+    hasImagePath: !!imagePath
+  });
+
   // 이미지가 없거나 로드 에러가 있으면 이모지 폴백 표시
   if (!imagePath || imageError) {
     if (!showFallback) return null;
@@ -47,15 +56,19 @@ export function PersonalityAnimalImage({
         >
           {animal.emoji}
         </span>
+        {/* 디버깅 정보 표시 */}
+        <div className="absolute -bottom-8 left-0 right-0 text-xs text-center text-red-500">
+          {!imagePath ? 'No path' : 'Load error'}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className={`relative overflow-hidden rounded-full ${className}`} style={{ width, height }}>
+    <div className={`relative overflow-hidden rounded-lg ${className}`} style={{ width, height }}>
       {isLoading && (
         <div 
-          className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse rounded-full flex items-center justify-center"
+          className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse rounded-lg flex items-center justify-center"
         >
           <span className="text-gray-400" style={{ fontSize: width * 0.2 }}>
             {animal.emoji}
@@ -68,9 +81,15 @@ export function PersonalityAnimalImage({
         alt={`${animal.animal_ko} 캐릭터`}
         width={width}
         height={height}
-        className="object-cover rounded-full"
+        className="object-contain rounded-lg"
         onLoad={() => setIsLoading(false)}
-        onError={() => {
+        onError={(e) => {
+          console.error('Image load error:', {
+            animalType: animal.type,
+            variant,
+            imagePath,
+            error: e
+          });
           setImageError(true);
           setIsLoading(false);
         }}

@@ -31,7 +31,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '고독한 방랑자',
       '숨겨진 의미를 보는'
     ],
-    image: '/images/personality-animals/fox-laef.png',
+    image: '/images/personality-animals/main/fox-laef.png',
     avatar: '/images/personality-animals/avatars/fox-laef-avatar.png',
     illustration: '/images/personality-animals/illustrations/fox-laef-full.png'
   },
