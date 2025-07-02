@@ -274,7 +274,14 @@ export const AudioGuideQuiz: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
                 >
-                  {language === 'ko' && question.question_ko ? question.question_ko : question.question}
+                  {(language === 'ko' && question.question_ko ? question.question_ko : question.question)
+                    .split('\n')
+                    .map((line, index) => (
+                      <React.Fragment key={index}>
+                        {line}
+                        {index < (language === 'ko' && question.question_ko ? question.question_ko : question.question).split('\n').length - 1 && <br />}
+                      </React.Fragment>
+                    ))}
                 </motion.h2>
 
                 {/* Choice Labels as Museum Plaques */}
