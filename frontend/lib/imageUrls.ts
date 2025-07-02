@@ -1,34 +1,34 @@
-// Direct image URLs for museum simulation
-// Using Unsplash and stable image sources
+// Local image paths for museum simulation
+// Optimized for reliable loading and performance
 
 export const museumImages = {
   backgrounds: {
-    'city-view': 'https://images.unsplash.com/photo-1569163139394-de4798aa62ea?w=1920&h=1080&fit=crop&q=80',
-    'museum-entrance': 'https://images.unsplash.com/photo-1565034946487-077786996e27?w=1920&h=1080&fit=crop&q=80',
-    'gallery-space': 'https://images.unsplash.com/photo-1572947650440-e8a97ef053b2?w=1920&h=1080&fit=crop&q=80',
-    'viewing-art': 'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?w=1920&h=1080&fit=crop&q=80',
-    'special-moment': 'https://images.unsplash.com/photo-1544967082-d9d25d867d66?w=1920&h=1080&fit=crop&q=80',
-    'museum-cafe': 'https://images.unsplash.com/photo-1559305616-3f99cd43e353?w=1920&h=1080&fit=crop&q=80',
-    'museum-shop': 'https://images.unsplash.com/photo-1569105002844-dc5012fda999?w=1920&h=1080&fit=crop&q=80',
-    'sunset-street': 'https://images.unsplash.com/photo-1470219556762-1771e7f9427d?w=1920&h=1080&fit=crop&q=80'
+    'city-view': '/images/backgrounds/canal-bridges-sunset-urban-beauty.jpg',
+    'museum-entrance': '/images/backgrounds/museum-entrance-columns-warm-afternoon.jpg',
+    'gallery-space': '/images/backgrounds/classic-gallery-warm-lighting-seating.jpg',
+    'viewing-art': '/images/backgrounds/solitary-viewing-minimal-white-meditative.jpg',
+    'special-moment': '/images/backgrounds/solitary-contemplation-turquoise-wall-portrait.jpg',
+    'museum-cafe': '/images/backgrounds/bright-cafe-paper-lanterns-social-space.jpg',
+    'museum-shop': '/images/backgrounds/green-wall-photography-interactive-viewing.jpg',
+    'sunset-street': '/images/backgrounds/canal-bridges-sunset-urban-beauty.jpg'
   },
   choices: {
-    'modern-museum': 'https://images.unsplash.com/photo-1575223970966-76ae61ee7838?w=800&h=600&fit=crop&q=80',
-    'classical-museum': 'https://images.unsplash.com/photo-1499781350541-7783f6c6a0c8?w=800&h=600&fit=crop&q=80',
-    'alone-viewing': 'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=800&h=600&fit=crop&q=80',
-    'docent-tour': 'https://images.unsplash.com/photo-1568827999250-3f6afff96e66?w=800&h=600&fit=crop&q=80',
-    'emotional-response': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&q=80',
-    'analytical-response': 'https://images.unsplash.com/photo-1565716875607-76e76a88ac71?w=800&h=600&fit=crop&q=80',
-    'flow-viewing': 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=800&h=600&fit=crop&q=80',
-    'reading-labels': 'https://images.unsplash.com/photo-1580847097346-72d80f164702?w=800&h=600&fit=crop&q=80',
-    'abstract-art': 'https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=800&h=600&fit=crop&q=80',
-    'portrait-art': 'https://images.unsplash.com/photo-1566132127697-4524fea60007?w=800&h=600&fit=crop&q=80',
-    'writing-journal': 'https://images.unsplash.com/photo-1517842645767-c639042777db?w=800&h=600&fit=crop&q=80',
-    'sharing-phone': 'https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=800&h=600&fit=crop&q=80',
-    'art-postcard': 'https://images.unsplash.com/photo-1584448141569-133f57996e00?w=800&h=600&fit=crop&q=80',
-    'art-book': 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop&q=80',
-    'emotional-memory': 'https://images.unsplash.com/photo-1576504677598-1ff6e8395b08?w=800&h=600&fit=crop&q=80',
-    'new-perspective': 'https://images.unsplash.com/photo-1545989253-02cc26577f88?w=800&h=600&fit=crop&q=80'
+    'modern-museum': '/images/backgrounds/contemporary-gallery-motion-blur-minimal.jpg',
+    'classical-museum': '/images/backgrounds/baroque-gallery-ornate-arches-historical.jpg',
+    'alone-viewing': '/images/backgrounds/solitary-viewing-minimal-white-meditative.jpg',
+    'docent-tour': '/images/backgrounds/family-viewing-corner-gallery-intimate.jpg',
+    'emotional-response': '/images/backgrounds/eyes-closed-peaceful-classical-portraits.jpg',
+    'analytical-response': '/images/backgrounds/pandemic-era-white-gallery-masked-visitors.jpg',
+    'flow-viewing': '/images/backgrounds/minimal-staircase-light-transition-space.jpg',
+    'reading-labels': '/images/backgrounds/intimate-viewing-impressionist-patterned-visitors.jpg',
+    'abstract-art': '/images/backgrounds/contemporary-abstract-mixed-media-textured.jpg',
+    'portrait-art': '/images/backgrounds/classical-gallery-floor-sitting-contemplation.jpg',
+    'writing-journal': '/images/backgrounds/sketching-visitor-red-chair-classical.jpg',
+    'sharing-phone': '/images/backgrounds/visitor-photographing-contemporary-warm-alcove.jpg',
+    'art-postcard': '/images/backgrounds/minimal-white-wall-single-flower-painting.jpg',
+    'art-book': '/images/backgrounds/yellow-gallery-mixed-media-playful.jpg',
+    'emotional-memory': '/images/backgrounds/warm-corner-gallery-solitary-contemplation.jpg',
+    'new-perspective': '/images/backgrounds/modern-gallery-purple-infinity-child.jpg'
   }
 };
 

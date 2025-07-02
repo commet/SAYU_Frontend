@@ -14,9 +14,9 @@ export const backgroundProgression: Record<string, BackgroundPhase> = {
   phase1_outside: {
     questions: [1, 2],
     backgrounds: [
-      '/images/backgrounds/museum-exterior-dawn.jpg',
-      '/images/backgrounds/gallery-entrance-warm.jpg',
-      '/images/backgrounds/museum-steps-morning.jpg'
+      '/images/backgrounds/museum-entrance-columns-warm-afternoon.jpg',
+      '/images/backgrounds/baroque-entrance-arch-golden-sunlight.jpg',
+      '/images/backgrounds/stone-gallery-entrance-solitary-figure.jpg'
     ],
     ambiance: 'anticipation',
     overlay: {
@@ -28,10 +28,10 @@ export const backgroundProgression: Record<string, BackgroundPhase> = {
   phase2_inside: {
     questions: [3, 4, 5, 6, 7],
     backgrounds: [
-      '/images/backgrounds/gallery-interior-minimal.jpg',
-      '/images/backgrounds/exhibition-hall-natural-light.jpg',
-      '/images/backgrounds/intimate-gallery-corner.jpg',
-      '/images/backgrounds/white-cube-space.jpg'
+      '/images/backgrounds/minimal-white-gallery-photography-bright.jpg',
+      '/images/backgrounds/classic-gallery-warm-lighting-seating.jpg',
+      '/images/backgrounds/warm-corner-gallery-solitary-contemplation.jpg',
+      '/images/backgrounds/solitary-viewing-minimal-white-meditative.jpg'
     ],
     ambiance: 'exploration',
     overlay: {
@@ -43,10 +43,10 @@ export const backgroundProgression: Record<string, BackgroundPhase> = {
   phase3_deeper: {
     questions: [8, 9, 10, 11],
     backgrounds: [
-      '/images/backgrounds/contemporary-wing.jpg',
-      '/images/backgrounds/installation-room.jpg',
-      '/images/backgrounds/sculpture-garden.jpg',
-      '/images/backgrounds/video-art-space.jpg'
+      '/images/backgrounds/contemporary-gallery-motion-blur-minimal.jpg',
+      '/images/backgrounds/immersive-lantern-installation-dark-dreamlike.jpg',
+      '/images/backgrounds/monumental-metal-sculpture-industrial-scale.jpg',
+      '/images/backgrounds/neon-corridor-gradient-light-installation.jpg'
     ],
     ambiance: 'immersion',
     overlay: {
@@ -58,9 +58,9 @@ export const backgroundProgression: Record<string, BackgroundPhase> = {
   phase4_transition: {
     questions: [12, 13],
     backgrounds: [
-      '/images/backgrounds/museum-shop-cozy.jpg',
-      '/images/backgrounds/gallery-bookstore.jpg',
-      '/images/backgrounds/gift-shop-artistic.jpg'
+      '/images/backgrounds/green-wall-photography-interactive-viewing.jpg',
+      '/images/backgrounds/imagine-art-here-sign-possibility.jpg',
+      '/images/backgrounds/hidden-kiosk-ivy-wall-secret-spot.jpg'
     ],
     ambiance: 'reflection',
     overlay: {
@@ -72,9 +72,9 @@ export const backgroundProgression: Record<string, BackgroundPhase> = {
   phase5_departure: {
     questions: [14, 15],
     backgrounds: [
-      '/images/backgrounds/museum-cafe-sunset.jpg',
-      '/images/backgrounds/city-street-evening.jpg',
-      '/images/backgrounds/gallery-exit-twilight.jpg'
+      '/images/backgrounds/bright-cafe-paper-lanterns-social-space.jpg',
+      '/images/backgrounds/canal-bridges-sunset-urban-beauty.jpg',
+      '/images/backgrounds/outdoor-screening-pink-plaza-community.jpg'
     ],
     ambiance: 'integration',
     overlay: {
