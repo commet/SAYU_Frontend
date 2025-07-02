@@ -131,15 +131,15 @@ function ResultsContent() {
                 <div className="opacity-70">
                   {results.personalityType[2] === 'E' 
                     ? (language === 'ko' ? '감정적' : 'Emotional') 
-                    : (language === 'ko' ? '사유적' : 'Mental')}
+                    : (language === 'ko' ? '의미추구' : 'Meaning')}
                 </div>
               </div>
               <div className="text-center">
                 <div className="font-mono text-2xl font-bold mb-1">{results.personalityType[3]}</div>
                 <div className="opacity-70">
                   {results.personalityType[3] === 'F' 
-                    ? (language === 'ko' ? '자유로운' : 'Free') 
-                    : (language === 'ko' ? '신중한' : 'Careful')}
+                    ? (language === 'ko' ? '흐름따라' : 'Flow') 
+                    : (language === 'ko' ? '체계적' : 'Constructive')}
                 </div>
               </div>
             </div>

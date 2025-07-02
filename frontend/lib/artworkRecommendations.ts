@@ -14,7 +14,7 @@ export const personalityArtworks = {
         ko: "자연의 꿈같은 인상, 홀로 사색하기에 완벽한 작품"
       },
       recommendationReason: {
-        en: "As someone who values solitude and abstract beauty, Monet's ethereal water lilies offer endless depths for your emotional and imaginative exploration. The flowing, dreamlike quality mirrors your free-spirited nature.",
+        en: "As someone who values solitude and abstract beauty, Monet's ethereal water lilies offer endless depths for your emotional and imaginative exploration. The flowing, dreamlike quality mirrors your flow-oriented nature.",
         ko: "고독과 추상적 아름다움을 중시하는 당신에게 모네의 몽환적인 수련은 감정적이고 상상력 넘치는 탐구를 위한 무한한 깊이를 제공합니다. 흐르는 듯한 꿈같은 특질이 당신의 자유로운 영혼과 닮아있습니다."
       },
       museum: "Art Institute of Chicago"
@@ -45,7 +45,7 @@ export const personalityArtworks = {
         ko: "색채와 형태의 체계적 탐구와 감정적 깊이"
       },
       recommendationReason: {
-        en: "Your analytical mind and emotional depth find perfect expression in Kandinsky's structured yet passionate compositions. The balance between careful planning and intuitive expression reflects your unique personality.",
+        en: "Your analytical mind and emotional depth find perfect expression in Kandinsky's structured yet passionate compositions. The balance between constructive planning and intuitive expression reflects your unique personality.",
         ko: "당신의 분석적 사고와 감정적 깊이는 칸딘스키의 구조적이면서도 열정적인 구성에서 완벽한 표현을 찾습니다. 신중한 계획과 직관적 표현 사이의 균형이 당신의 독특한 성격을 반영합니다."
       },
       museum: "Solomon R. Guggenheim Museum"
@@ -187,7 +187,7 @@ export const personalityArtworks = {
         ko: "깊은 연구와 분석을 요구하는 세심한 디테일"
       },
       recommendationReason: {
-        en: "Your love for detailed research finds endless satisfaction in van Eyck's incredibly precise work. Every symbol and reflection rewards careful study, perfectly matching your methodical approach to uncovering hidden meanings in realistic art.",
+        en: "Your love for detailed research finds endless satisfaction in van Eyck's incredibly precise work. Every symbol and reflection rewards constructive study, perfectly matching your methodical approach to uncovering hidden meanings in realistic art.",
         ko: "세밀한 연구에 대한 당신의 사랑은 반 에이크의 놀랍도록 정확한 작품에서 끝없는 만족을 찾습니다. 모든 상징과 반사는 신중한 연구에 보상을 주며, 사실적 예술에서 숨겨진 의미를 발견하는 당신의 체계적인 접근과 완벽하게 일치합니다."
       },
       museum: "National Gallery, London"

@@ -51,12 +51,21 @@ export const AudioGuideQuiz: React.FC = () => {
   const progress = ((currentQuestion + 1) / narrativeQuestions.length) * 100;
   const audioGuideNumber = String(currentQuestion + 1).padStart(3, '0');
 
-  // Gallery room based on question phase
-  const galleryRoom = {
-    'curiosity': 'Entrance Hall',
-    'exploration': 'Main Gallery',
-    'revelation': 'Reflection Room'
-  }[question.act];
+  // Gallery room based on question phase and number
+  const getGalleryRoom = () => {
+    if (currentQuestion >= 10 && currentQuestion <= 11) {
+      return language === 'ko' ? '아트샵' : 'Museum Shop';
+    } else if (currentQuestion >= 12 && currentQuestion <= 14) {
+      return language === 'ko' ? '일상 속에서' : 'In Daily Life';
+    } else {
+      return {
+        'curiosity': language === 'ko' ? '입구 홀' : 'Entrance Hall',
+        'exploration': language === 'ko' ? '메인 갤러리' : 'Main Gallery',
+        'revelation': language === 'ko' ? '성찰의 방' : 'Reflection Room'
+      }[question.act];
+    }
+  };
+  const galleryRoom = getGalleryRoom();
 
   const handleGoBack = () => {
     if (currentQuestion > 0) {
@@ -330,7 +339,27 @@ export const AudioGuideQuiz: React.FC = () => {
                     animate={{ opacity: 0.5 }}
                     transition={{ delay: 0.9 }}
                   >
-                    <p>Gallery atmosphere: {question.narrative.atmosphere}</p>
+                    <p>
+                      {language === 'ko' ? '갤러리 분위기: ' : 'Gallery atmosphere: '}
+                      {language === 'ko' ? 
+                        {
+                          'anticipation': '기대감',
+                          'wonder': '경이로움',
+                          'threshold': '문턱',
+                          'immersion': '몰입',
+                          'discovery': '발견',
+                          'connection': '연결',
+                          'depth': '깊이',
+                          'transformation': '변화',
+                          'reflection': '성찰',
+                          'curiosity': '호기심',
+                          'decision': '결정',
+                          'memory': '기억',
+                          'integration': '통합'
+                        }[question.narrative.atmosphere] || question.narrative.atmosphere
+                        : question.narrative.atmosphere
+                      }
+                    </p>
                   </motion.div>
                 )}
               </motion.div>
@@ -356,19 +385,23 @@ export const AudioGuideQuiz: React.FC = () => {
               exit={{ scale: 0.8 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <h3>Gallery Journey Map</h3>
+              <h3>{language === 'ko' ? '갤러리 여정 지도' : 'Gallery Journey Map'}</h3>
               <div className="map-rooms">
-                <div className={`map-room ${question.act === 'curiosity' ? 'active' : ''}`}>
+                <div className={`map-room ${currentQuestion >= 0 && currentQuestion <= 4 ? 'active' : ''}`}>
                   <span className="room-number">1-5</span>
-                  <span className="room-name">Entrance Hall</span>
+                  <span className="room-name">{language === 'ko' ? '입구 홀' : 'Entrance Hall'}</span>
                 </div>
-                <div className={`map-room ${question.act === 'exploration' ? 'active' : ''}`}>
+                <div className={`map-room ${currentQuestion >= 5 && currentQuestion <= 9 ? 'active' : ''}`}>
                   <span className="room-number">6-10</span>
-                  <span className="room-name">Main Gallery</span>
+                  <span className="room-name">{language === 'ko' ? '메인 갤러리' : 'Main Gallery'}</span>
                 </div>
-                <div className={`map-room ${question.act === 'revelation' ? 'active' : ''}`}>
-                  <span className="room-number">11-15</span>
-                  <span className="room-name">Reflection Room</span>
+                <div className={`map-room ${currentQuestion >= 10 && currentQuestion <= 11 ? 'active' : ''}`}>
+                  <span className="room-number">11-12</span>
+                  <span className="room-name">{language === 'ko' ? '아트샵' : 'Museum Shop'}</span>
+                </div>
+                <div className={`map-room ${currentQuestion >= 12 && currentQuestion <= 14 ? 'active' : ''}`}>
+                  <span className="room-number">13-15</span>
+                  <span className="room-name">{language === 'ko' ? '일상 속에서' : 'In Daily Life'}</span>
                 </div>
               </div>
               <p className="current-location">You are here: Stop {currentQuestion + 1}</p>

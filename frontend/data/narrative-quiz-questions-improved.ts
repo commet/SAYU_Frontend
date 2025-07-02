@@ -1,4 +1,5 @@
 // 🎨 SAYU Narrative Quiz - A Personal Gallery Journey
+// 개선된 한글 번역 버전
 
 export interface NarrativeQuestion {
   id: number;
@@ -142,18 +143,18 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         id: 'emotional',
         text: "Tears threaten to form - it touches something deep",
         text_ko: "눈시울이 뜨거워집니다 - 마음 깊은 곳을 건드렸어요",
-        subtext: "The artwork speaks directly to your heart",
-        subtext_ko: "작품이 당신의 마음에 직접 말을 겁니다",
+        subtext: "The artwork resonates with an unnamed feeling",
+        subtext_ko: "이름 붙일 수 없는 감정이 작품과 공명합니다",
         weight: { E: 3, A: 1 },
         narrative: "You stand transfixed, feeling seen by something that has no eyes.",
         emotional: "moved"
       },
       {
         id: 'analytical',
-        text: "You search for the story and message within",
-        text_ko: "작품 속 이야기와 메시지를 찾아봅니다",
-        subtext: "Every brushstroke has intention to decode",
-        subtext_ko: "모든 붓터치에는 해독할 의도가 담겨 있습니다",
+        text: "You step back to decode its symbolic language",
+        text_ko: "한 걸음 물러서서 작품의 상징을 읽어냅니다",
+        subtext: "There's meaning here to be uncovered",
+        subtext_ko: "여기엔 발견해야 할 의미가 숨어 있습니다",
         weight: { M: 3, R: 1 },
         narrative: "Your mind becomes a key, unlocking layers of intentional meaning.",
         emotional: "enlightened"
@@ -385,12 +386,12 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       },
       {
         id: 'technique',
-        text: "The deeper meanings in their work",
-        text_ko: "작품 속 깊은 의미들",
-        subtext: "What messages they embedded in their art",
-        subtext_ko: "예술에 담긴 메시지와 상징",
+        text: "Their methods and innovations",
+        text_ko: "작가의 기법과 혁신",
+        subtext: "How they pushed boundaries of their medium",
+        subtext_ko: "매체의 한계를 어떻게 넓혔는지",
         weight: { M: 2, R: 1 },
-        narrative: "You're drawn to uncover the stories and symbols within each piece.",
+        narrative: "You're fascinated by the mastery and craft behind creation.",
         emotional: "appreciative"
       }
     ]
@@ -410,8 +411,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         id: 'contemporary',
         text: "Emerging Voices: New perspectives in art",
         text_ko: "신진 작가전: 예술의 새로운 시각",
-        subtext: "Fresh explorations, flowing with creative currents",
-        subtext_ko: "창의적 흐름을 따라가는 신선한 탐구",
+        subtext: "Fresh, experimental, challenging conventions",
+        subtext_ko: "신선하고 실험적이며 관습에 도전하는",
         weight: { F: 2, A: 1 },
         narrative: "You're drawn to the cutting edge, where art is still being defined.",
         emotional: "adventurous"
@@ -420,8 +421,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         id: 'classical',
         text: "Masters Revisited: Timeless beauty revealed",
         text_ko: "거장 재조명: 시대를 초월한 아름다움",
-        subtext: "Structured excellence, enduring foundations",
-        subtext_ko: "체계적 우수성과 지속적인 기반",
+        subtext: "Proven greatness, historical significance",
+        subtext_ko: "검증된 위대함과 역사적 의미",
         weight: { C: 2, R: 1 },
         narrative: "You seek the wisdom and beauty that has stood the test of time.",
         emotional: "reverent"
@@ -509,8 +510,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         id: 'seeker',
         text: "An eternal seeker of new experiences",
         text_ko: "끊임없이 새로운 경험을 찾는 탐구자",
-        subtext: "Following the flow of artistic discovery",
-        subtext_ko: "예술적 발견의 흐름을 따라가는",
+        subtext: "Always searching for the next revelation",
+        subtext_ko: "항상 다음 발견을 기대하는",
         weight: { F: 2, S: 1, A: 1 },
         narrative: "Your artistic journey has just begun - infinite discoveries await.",
         emotional: "excited"
@@ -519,8 +520,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         id: 'cultivator',
         text: "A patient cultivator of deep appreciation",
         text_ko: "깊은 감상을 천천히 가꾸는 사람",
-        subtext: "Constructing enduring frameworks of understanding",
-        subtext_ko: "이해의 지속적인 체계를 구축하는",
+        subtext: "Building lasting relationships with art",
+        subtext_ko: "예술과 오래 지속되는 관계를 만드는",
         weight: { C: 2, L: 1, R: 1 },
         narrative: "You'll return to favorites, finding new depths each time.",
         emotional: "grounded"
@@ -529,70 +530,6 @@ export const narrativeQuestions: NarrativeQuestion[] = [
   }
 ];
 
-// Personalized transitions based on previous choices
-export const getPersonalizedTransition = (
-  fromQuestion: number,
-  toQuestion: number,
-  previousChoice: string
-): string => {
-  const transitions: Record<string, string> = {
-    'solitary-2': "In your chosen solitude, each step echoes with purpose...",
-    'social-2': "Energized by the crowd's enthusiasm, you move forward...",
-    'intuitive-3': "Trusting your instincts, you drift toward a doorway that seems to call...",
-    'structured-3': "Following the curator's suggested path, you approach the first chamber...",
-    'atmosphere-4': "Still wrapped in that emotional atmosphere, you float deeper into the gallery...",
-    'details-4': "Your attention to detail rewards you as you discover more treasures...",
-    'emotional-5': "Your heart still resonating from that encounter, you continue...",
-    'analytical-5': "Your mind buzzing with insights, you seek the next puzzle...",
-    'flowing-6': "Your intuitive journey brings an unexpected companion...",
-    'methodical-6': "Your systematic exploration is noticed by another careful observer...",
-    'preserve-7': "In your protected bubble of experience, you encounter something new...",
-    'share-7': "Enriched by shared perspectives, you both discover something challenging...",
-    'immerse-8': "Still tingling from that sensory experience, you reach the final space...",
-    'analyze-8': "Your technical appreciation has prepared you for this culmination...",
-    'abstract-9': "Seeing your emotional truth reflected, you understand your journey...",
-    'concrete-9': "Your structured soul recognized, the path becomes clear...",
-    'connection-10': "With emotions now given form and name, one gesture remains...",
-    'understanding-10': "Armed with new frameworks of beauty, you approach the end...",
-    'fluid-11': "Your free spirit guides you toward the museum shop's treasures...",
-    'structured-11': "Your systematic journey leads you to the gift shop's curated collection...",
-    'life-story-12': "In the shop, you seek pieces that tell human stories...",
-    'technique-12': "Among the merchandise, you appreciate the craft on display...",
-    'contemporary-13': "Leaving the museum, you carry fresh perspectives into your personal space...",
-    'classical-13': "Taking timeless beauty with you, you envision it in your home...",
-    'emotional-abstract-14': "In daily life, your fluid artistic soul finds beauty everywhere...",
-    'meaningful-concrete-14': "Your everyday world becomes enriched with purpose and meaning...",
-    'essential-15': "At home, you realize art has become inseparable from your life...",
-    'sanctuary-15': "In your personal sanctuary, the artistic journey finds its home..."
-  };
-
-  const key = `${previousChoice}-${toQuestion}`;
-  return transitions[key] || "You continue your journey through the gallery...";
-};
-
-// Encouraging feedback messages
-export const encouragingFeedback = [
-  "Your unique perspective is revealing itself beautifully.",
-  "There's no wrong way to experience art - you're proving that.",
-  "Your artistic soul is beginning to shine through.",
-  "Each choice paints another stroke of who you are.",
-  "You're not just viewing art - you're discovering yourself.",
-  "Your journey is as unique as a fingerprint on canvas.",
-  "The gallery seems to be responding to your presence.",
-  "You're writing your own story through these halls.",
-  "Your authentic responses are creating something beautiful.",
-  "This is your masterpiece of self-discovery."
-];
-
-export const encouragingFeedback_ko = [
-  "당신만의 독특한 시각이 아름답게 드러나고 있습니다.",
-  "예술을 경험하는 잘못된 방법은 없습니다 - 당신이 그걸 증명하고 있어요.",
-  "당신의 예술적 영혼이 빛나기 시작합니다.",
-  "각각의 선택이 당신이 누구인지 그려내고 있습니다.",
-  "단순히 예술을 보는 것이 아니라 - 자신을 발견하고 있습니다.",
-  "당신의 여정은 캔버스 위의 지문처럼 독특합니다.",
-  "갤러리가 당신의 존재에 반응하는 것 같습니다.",
-  "이 공간에서 당신만의 이야기를 써내려가고 있습니다.",
-  "당신의 진솔한 반응들이 아름다운 무언가를 만들어내고 있습니다.",
-  "이것은 자기 발견의 걸작입니다."
-];
+// 가중치 조정 제안:
+// Q6의 경우 L:2로 줄여서 한 번의 선택으로 너무 강하게 분류되지 않도록 함
+// 전체적으로 3점 가중치를 주요 특성에만 부여하고, 보조 특성은 1-2점으로 조정

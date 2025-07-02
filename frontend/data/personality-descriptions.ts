@@ -37,7 +37,7 @@ export interface PersonalityDescription {
 }
 
 export const personalityDescriptions: Record<string, PersonalityDescription> = {
-  // Lone Wolf + Abstract + Emotional + Free-spirited
+  // Lone Wolf + Abstract + Emotional + Flow-oriented
   LAEF: {
     type: 'LAEF',
     title: 'The Color Whisperer',
@@ -165,7 +165,7 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
       },
       {
         title: 'In Collecting',
-        description: 'Whether books, music, or memories, you curate carefully and meaningfully.'
+        description: 'Whether books, music, or memories, you curate constructively and meaningfully.'
       },
       {
         title: 'In Reflection',
@@ -197,7 +197,7 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
     ]
   },
 
-  // Lone Wolf + Abstract + Logical + Free-spirited
+  // Lone Wolf + Abstract + Logical + Flow-oriented
   LAMF: {
     type: 'LAMF',
     title: 'The Concept Hunter',
@@ -335,7 +335,7 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
     ]
   },
 
-  // Social + Abstract + Emotional + Free-spirited
+  // Social + Abstract + Emotional + Flow-oriented
   SAEF: {
     type: 'SAEF',
     title: 'The Emotion Conductor',
@@ -473,7 +473,7 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
     ]
   },
 
-  // Social + Abstract + Logical + Free-spirited
+  // Social + Abstract + Logical + Flow-oriented
   SAMF: {
     type: 'SAMF',
     title: 'The Mind Alchemist',
@@ -611,7 +611,7 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
     ]
   },
 
-  // Lone Wolf + Realistic + Emotional + Free-spirited
+  // Lone Wolf + Realistic + Emotional + Flow-oriented
   LREF: {
     type: 'LREF',
     title: 'The Silent Poet',
@@ -685,7 +685,7 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
     type: 'LREC',
     title: 'The Texture Oracle',
     subtitle: 'Divining stories from surface and light',
-    essence: 'You approach realistic art with the patience of a scholar and the heart of a poet. Your structured yet emotional approach allows you to systematically uncover the layers of feeling embedded in figurative works, building deep understanding through careful, solitary observation.',
+    essence: 'You approach realistic art with the patience of a scholar and the heart of a poet. Your structured yet emotional approach allows you to systematically uncover the layers of feeling embedded in figurative works, building deep understanding through constructive, solitary observation.',
     strengths: [
       {
         icon: '🔍',
@@ -721,7 +721,7 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
       },
       {
         title: 'In Connection',
-        description: 'You form deep bonds through careful attention.'
+        description: 'You form deep bonds through constructive attention.'
       }
     ],
     recommendedArtists: [
@@ -749,12 +749,12 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
     ]
   },
 
-  // Lone Wolf + Realistic + Logical + Free-spirited
+  // Lone Wolf + Realistic + Logical + Flow-oriented
   LRMF: {
     type: 'LRMF',
     title: 'The Truth Collector',
     subtitle: 'Gathering fragments of human reality',
-    essence: 'You drift through galleries like a visual anthropologist, drawn to realistic works that document human experience. Your logical eye combined with free-spirited exploration leads you to discover patterns and truths in figurative art, building your own understanding of the human condition.',
+    essence: 'You drift through galleries like a visual anthropologist, drawn to realistic works that document human experience. Your logical eye combined with flow-oriented exploration leads you to discover patterns and truths in figurative art, building your own understanding of the human condition.',
     strengths: [
       {
         icon: '📸',
@@ -887,12 +887,12 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
     ]
   },
 
-  // Social + Realistic + Emotional + Free-spirited
+  // Social + Realistic + Emotional + Flow-oriented
   SREF: {
     type: 'SREF',
     title: 'The Narrative Weaver',
     subtitle: 'Spinning stories from shared gazes',
-    essence: 'Art is your bridge to others\' hearts. You see every realistic painting as a story to share, an emotion to explore together. Your free-spirited approach to gallery visits often includes spontaneous connections with strangers, united by a shared moment of recognition in a painted face.',
+    essence: 'Art is your bridge to others\' hearts. You see every realistic painting as a story to share, an emotion to explore together. Your flow-oriented approach to gallery visits often includes spontaneous connections with strangers, united by a shared moment of recognition in a painted face.',
     strengths: [
       {
         icon: '💕',
@@ -1025,7 +1025,7 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
     ]
   },
 
-  // Social + Realistic + Logical + Free-spirited
+  // Social + Realistic + Logical + Flow-oriented
   SRMF: {
     type: 'SRMF',
     title: 'The Culture Voyager',

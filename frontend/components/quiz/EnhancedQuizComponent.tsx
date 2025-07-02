@@ -98,7 +98,7 @@ const personalityTypes: Record<string, PersonalityType> = {
     description: "A lone thinker who deconstructs art through structured analysis",
     scene: {
       environment: "Minimalist white cube spaces",
-      behavior: "Careful examination of each piece in order",
+      behavior: "Constructive examination of each piece in order",
       visualMotif: "Grid systems and analytical overlays",
       avatar: "Focused individual with measuring gaze"
     },
