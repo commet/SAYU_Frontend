@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
 
   // Image optimization for PWA
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
