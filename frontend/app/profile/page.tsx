@@ -15,7 +15,9 @@ import { personalityGradients, getGradientStyle } from '@/constants/personality-
 import ProfileSettingsModal from '@/components/profile/ProfileSettingsModal';
 import ProfileStats from '@/components/profile/ProfileStats';
 import ProfileShareCard from '@/components/profile/ProfileShareCard';
+import ProfileIDCard from '@/components/profile/ProfileIDCard';
 import SocialLoginModal from '@/components/SocialLoginModal';
+import { useGamification } from '@/hooks/useGamification';
 
 // Mock data - in real app, would fetch from API
 const mockMuseums = [
@@ -140,11 +142,13 @@ export default function ProfilePage() {
   const { language } = useLanguage();
   const { user } = useAuth();
   const router = useRouter();
+  const { userPoints } = useGamification();
   const [activeTab, setActiveTab] = useState<'map' | 'records' | 'badges' | 'share'>('map');
   const [redirecting, setRedirecting] = useState(false);
   const [userPersonalityType, setUserPersonalityType] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showIDCard, setShowIDCard] = useState(false);
   
   // Load quiz results from localStorage
   useEffect(() => {
@@ -257,14 +261,26 @@ export default function ProfilePage() {
               </div>
             </div>
             
-            <motion.button
-              className="sayu-button p-2"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setShowSettings(true)}
-            >
-              <Settings className="w-5 h-5" />
-            </motion.button>
+            <div className="flex gap-2">
+              <motion.button
+                className="sayu-button p-2"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowIDCard(true)}
+                title={language === 'ko' ? 'ID 카드 보기' : 'View ID Card'}
+              >
+                <Trophy className="w-5 h-5" />
+              </motion.button>
+              <motion.button
+                className="sayu-button p-2"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowSettings(true)}
+                title={language === 'ko' ? '설정' : 'Settings'}
+              >
+                <Settings className="w-5 h-5" />
+              </motion.button>
+            </div>
           </div>
         </motion.div>
 
@@ -378,6 +394,45 @@ export default function ProfilePage() {
           console.log('Profile updates:', updates);
         }}
       />
+
+      {/* Profile ID Card Modal */}
+      {showIDCard && userPersonalityType && (
+        <ProfileIDCard
+          personalityType={userPersonalityType}
+          userName={user.nickname || user.email || 'SAYU Explorer'}
+          userLevel={userPoints?.level || mockUserStats.level}
+          userPoints={userPoints?.totalPoints || mockUserStats.totalPoints}
+          stats={{
+            exhibitionsVisited: userPoints?.exhibitionHistory?.length || mockUserStats.totalVisits,
+            achievementsUnlocked: userPoints?.achievements?.filter(a => a.unlockedAt).length || mockBadges.filter(b => b.unlocked).length,
+            companionsMetCount: 0 // This would come from evaluation system
+          }}
+          recentExhibitions={
+            userPoints?.exhibitionHistory?.slice(0, 3).map(visit => ({
+              name: visit.exhibitionName,
+              date: new Date(visit.visitDate).toLocaleDateString()
+            })) || mockExhibitionRecords.slice(0, 3).map(record => ({
+              name: record.exhibition,
+              date: record.visitDate
+            }))
+          }
+          plannedExhibitions={[
+            { name: '모네의 정원: 빛과 색의 향연', venue: '국립현대미술관' },
+            { name: 'Van Gogh Alive Experience', venue: 'DDP 디자인랩' },
+            { name: '디지털 아트 페스티벌', venue: '롯데월드타워' }
+          ]}
+          topAchievements={
+            userPoints?.achievements?.filter(a => a.unlockedAt).slice(0, 3).map(achievement => ({
+              name: language === 'ko' ? achievement.name_ko : achievement.name,
+              icon: achievement.icon
+            })) || mockBadges.filter(b => b.unlocked).slice(0, 3).map(badge => ({
+              name: language === 'ko' ? badge.name.ko : badge.name.en,
+              icon: '🏆'
+            }))
+          }
+          onClose={() => setShowIDCard(false)}
+        />
+      )}
 
       {/* Login Modal for unauthorized users */}
       <SocialLoginModal

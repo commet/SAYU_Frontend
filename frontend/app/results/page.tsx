@@ -4,11 +4,14 @@ import { useEffect, useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { EmotionalCard, ArtworkCard, EmotionalButton } from '@/components/emotional/EmotionalCard';
-import { Heart, Sparkles, Map, Share2, BookOpen, Palette } from 'lucide-react';
+import { Heart, Sparkles, Map, Share2, BookOpen, Palette, User } from 'lucide-react';
 import '@/styles/emotional-palette.css';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useGamification } from '@/hooks/useGamification';
 import LanguageToggle from '@/components/ui/LanguageToggle';
+import ShareModal from '@/components/share/ShareModal';
+import ProfileIDCard from '@/components/profile/ProfileIDCard';
 
 interface QuizResults {
   personalityType: string;
@@ -21,9 +24,11 @@ function ResultsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { language } = useLanguage();
+  const { userPoints, loading: gamificationLoading } = useGamification();
   const [results, setResults] = useState<QuizResults | null>(null);
   const [personality, setPersonality] = useState<any>(null);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showProfileCard, setShowProfileCard] = useState(false);
 
   useEffect(() => {
     const storedResults = localStorage.getItem('quizResults');
@@ -53,8 +58,11 @@ function ResultsContent() {
   }
 
   const shareResult = () => {
-    // Implementation for sharing
     setShowShareModal(true);
+  };
+
+  const showProfile = () => {
+    setShowProfileCard(true);
   };
 
   return (
@@ -329,7 +337,7 @@ function ResultsContent() {
               : 'Let others discover their own journey, or find kindred spirits who see the world as you do'
             }
           </p>
-          <div className="flex justify-center gap-4">
+          <div className="flex justify-center gap-4 flex-wrap">
             <EmotionalButton
               variant="primary"
               onClick={shareResult}
@@ -337,6 +345,14 @@ function ResultsContent() {
             >
               <Share2 className="w-5 h-5" />
               {language === 'ko' ? '내 유형 공유하기' : 'Share Your Type'}
+            </EmotionalButton>
+            <EmotionalButton
+              variant="secondary"
+              onClick={showProfile}
+              personality={results.personalityType}
+            >
+              <User className="w-5 h-5" />
+              {language === 'ko' ? '프로필 카드' : 'Profile Card'}
             </EmotionalButton>
             <EmotionalButton
               variant="ghost"
@@ -349,6 +365,46 @@ function ResultsContent() {
           </div>
         </motion.div>
       </section>
+
+      {/* Share Modal */}
+      <ShareModal
+        personalityType={results.personalityType}
+        userName="SAYU Explorer"
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+      />
+
+      {/* Profile ID Card */}
+      {showProfileCard && (
+        <ProfileIDCard
+          personalityType={results.personalityType}
+          userName="SAYU Explorer"
+          userLevel={userPoints?.level || 1}
+          userPoints={userPoints?.totalPoints || 0}
+          stats={{
+            exhibitionsVisited: userPoints?.exhibitionHistory?.length || 0,
+            achievementsUnlocked: userPoints?.achievements?.filter(a => a.unlockedAt).length || 0,
+            companionsMetCount: 0 // This would come from evaluation system
+          }}
+          recentExhibitions={
+            userPoints?.exhibitionHistory?.slice(0, 3).map(visit => ({
+              name: visit.exhibitionName,
+              date: new Date(visit.visitDate).toLocaleDateString()
+            })) || []
+          }
+          plannedExhibitions={[
+            { name: '모네의 정원', venue: '국립현대미술관' },
+            { name: 'Van Gogh Alive', venue: 'DDP' }
+          ]}
+          topAchievements={
+            userPoints?.achievements?.filter(a => a.unlockedAt).slice(0, 3).map(achievement => ({
+              name: language === 'ko' ? achievement.name_ko : achievement.name,
+              icon: achievement.icon
+            })) || []
+          }
+          onClose={() => setShowProfileCard(false)}
+        />
+      )}
     </div>
   );
 }
