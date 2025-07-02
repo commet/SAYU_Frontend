@@ -23,14 +23,14 @@ export default function QuizIntroPage() {
   };
 
   return (
-    <div className="min-h-screen sayu-gradient-bg flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-[hsl(var(--gallery-pearl))] via-[hsl(var(--gallery-white))] to-[hsl(var(--journey-dawn-cream))] flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.390, 0.575, 0.565, 1.000] }}
         className="max-w-3xl w-full"
       >
-        <div className="sayu-quiz-card">
+        <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-12 max-w-4xl mx-auto">
           {/* Language Toggle removed - now in floating nav */}
 
           <motion.div
@@ -41,19 +41,26 @@ export default function QuizIntroPage() {
           >
             <Heart className="w-16 h-16 mx-auto mb-6 text-[hsl(var(--journey-dusty-rose))]" />
             
-            <h1 className="text-4xl md:text-6xl font-serif mb-6 text-[hsl(var(--journey-midnight))] leading-tight">
+            <h1 className="text-3xl md:text-5xl font-serif mb-6 text-[hsl(var(--journey-midnight))] leading-tight">
               {language === 'ko' 
-                ? '당신만의 예술 여정이\n시작됩니다' 
-                : 'Your Personal\nArt Journey Awaits'
+                ? '당신만의 예술 여정이 시작됩니다' 
+                : 'Your Personal Art Journey Awaits'
               }
             </h1>
             
-            <p className="text-xl text-[hsl(var(--journey-twilight))] opacity-80 leading-relaxed max-w-xl mx-auto">
-              {language === 'ko' 
-                ? '이것은 테스트가 아닙니다. 당신이 아름다움을 경험하는 고유한 방식을 발견하는 여정입니다.'
-                : 'This isn\'t a test. It\'s a journey to discover your unique way of experiencing beauty.'
-              }
-            </p>
+            <div className="text-xl text-[hsl(var(--journey-twilight))] opacity-80 leading-relaxed max-w-xl mx-auto">
+              {language === 'ko' ? (
+                <>
+                  <p>이것은 테스트가 아닙니다.</p>
+                  <p>당신이 아름다움을 경험하는 고유한 방식을 발견하는 여정입니다.</p>
+                </>
+              ) : (
+                <>
+                  <p>This isn't a test.</p>
+                  <p>It's a journey to discover your unique way of experiencing beauty.</p>
+                </>
+              )}
+            </div>
           </motion.div>
           
           <motion.div
@@ -80,12 +87,12 @@ export default function QuizIntroPage() {
                   <h3 className="font-medium mb-2 text-[hsl(var(--journey-midnight))]">
                     {language === 'ko' ? '당신의 관람 스타일' : 'Your Viewing Style'}
                   </h3>
-                  <p className="text-sm text-[hsl(var(--journey-twilight))] opacity-70">
+                  <div className="text-sm text-[hsl(var(--journey-twilight))] opacity-70 whitespace-pre-line">
                     {language === 'ko' 
-                      ? '혼자 조용히, 또는 함께 나누며' 
-                      : 'Solitary contemplation or shared discovery'
+                      ? '혼자 조용히,\n또는 함께 나누며' 
+                      : 'Solitary contemplation\nor shared discovery'
                     }
-                  </p>
+                  </div>
                 </motion.div>
                 
                 <motion.div 
@@ -98,12 +105,12 @@ export default function QuizIntroPage() {
                   <h3 className="font-medium mb-2 text-[hsl(var(--journey-midnight))]">
                     {language === 'ko' ? '당신의 감상 방식' : 'Your Perception Style'}
                   </h3>
-                  <p className="text-sm text-[hsl(var(--journey-twilight))] opacity-70">
+                  <div className="text-sm text-[hsl(var(--journey-twilight))] opacity-70 whitespace-pre-line">
                     {language === 'ko' 
-                      ? '감정적 몰입 또는 분석적 이해' 
-                      : 'Emotional immersion or analytical understanding'
+                      ? '감정적 몰입\n또는 분석적 이해' 
+                      : 'Emotional immersion\nor analytical understanding'
                     }
-                  </p>
+                  </div>
                 </motion.div>
                 
                 <motion.div 
@@ -132,7 +139,7 @@ export default function QuizIntroPage() {
                 <div className="text-center">
                   <div className="text-3xl mb-2">🖼️</div>
                   <p className="text-sm font-medium">
-                    {language === 'ko' ? '10개의 순간' : '10 Moments'}
+                    {language === 'ko' ? '15개의 순간' : '15 Moments'}
                   </p>
                 </div>
                 <div className="text-center">
@@ -159,7 +166,7 @@ export default function QuizIntroPage() {
           >
             <motion.button
               onClick={startQuiz}
-              className="sayu-button sayu-button-primary px-12 py-4 text-lg font-semibold flex items-center gap-2 mx-auto"
+              className="bg-[hsl(var(--journey-twilight))] hover:bg-[hsl(var(--journey-midnight))] text-white px-12 py-4 text-lg font-semibold rounded-full flex items-center gap-2 mx-auto transition-all duration-300 shadow-lg hover:shadow-xl"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
