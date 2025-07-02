@@ -109,6 +109,13 @@ export default function HomePage() {
       path: '/exhibition/record',
       status: 'available',
       description: language === 'ko' ? '전시 관람 경험을 아름답게 기록하세요' : 'Beautifully record your exhibition experience'
+    },
+    {
+      name: language === 'ko' ? '작가 발견하기' : 'Discover Artists',
+      icon: '👨‍🎨',
+      path: '/artists',
+      status: 'available',
+      description: language === 'ko' ? '다양한 시대의 작가들을 만나보세요' : 'Explore artists from different eras'
     }
   ];
 

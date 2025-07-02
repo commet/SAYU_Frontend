@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 import { Heart, Sparkles, ArrowRight, MessageCircle, Lightbulb } from 'lucide-react';
@@ -11,7 +11,7 @@ import { getChemistry, getChemistryScore } from '@/data/personality-chemistry';
 import { EmotionalCard, EmotionalButton } from '@/components/emotional/EmotionalCard';
 import '@/styles/emotional-palette.css';
 
-export default function CompatibilityPage() {
+function CompatibilityContent() {
   const { language } = useLanguage();
   const searchParams = useSearchParams();
   const [type1, setType1] = useState<string>('');
@@ -308,5 +308,24 @@ export default function CompatibilityPage() {
         )}
       </div>
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[hsl(var(--gallery-pearl))] via-[hsl(var(--gallery-white))] to-[hsl(var(--journey-dawn-cream))] flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[hsl(var(--journey-twilight))] mx-auto mb-4"></div>
+        <p className="text-[hsl(var(--journey-twilight))]">Loading...</p>
+      </div>
+    </div>
+  );
+}
+
+export default function CompatibilityPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <CompatibilityContent />
+    </Suspense>
   );
 }

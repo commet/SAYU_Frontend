@@ -14,7 +14,11 @@
     "sync": "git pull origin main && npm ci",
     "save": "git add -A && git commit -m",
     "deploy": "git push origin main",
-    "validate-translations": "node scripts/validate-translations.js"
+    "validate-translations": "node scripts/validate-translations.js",
+    "analyze-code": "node scripts/analyze-codebase.js",
+    "cleanup": "node scripts/cleanup-automation.js",
+    "health-check": "npm run analyze-code && npm run lint",
+    "refactor": "npm run cleanup && npm run lint --fix && npm run build"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
