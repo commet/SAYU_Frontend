@@ -41,40 +41,40 @@ export const backgroundProgression: Record<string, BackgroundPhase> = {
   },
   
   phase3_deeper: {
-    questions: [8, 9, 10, 11],
+    questions: [8, 9, 10],
     backgrounds: [
       '/images/backgrounds/contemporary-gallery-motion-blur-minimal.jpg',
       '/images/backgrounds/immersive-lantern-installation-dark-dreamlike.jpg',
       '/images/backgrounds/monumental-metal-sculpture-industrial-scale.jpg',
       '/images/backgrounds/neon-corridor-gradient-light-installation.jpg'
     ],
-    ambiance: 'immersion',
+    ambiance: 'revelation',
     overlay: {
       color: 'from-[hsl(var(--journey-amber)/0.3)] to-[hsl(var(--journey-twilight)/0.4)]',
       opacity: 0.4
     }
   },
   
-  phase4_transition: {
-    questions: [12, 13],
+  phase4_shop: {
+    questions: [11, 12],
     backgrounds: [
       '/images/backgrounds/green-wall-photography-interactive-viewing.jpg',
-      '/images/backgrounds/imagine-art-here-sign-possibility.jpg',
+      '/images/backgrounds/yellow-gallery-mixed-media-playful.jpg',
       '/images/backgrounds/hidden-kiosk-ivy-wall-secret-spot.jpg'
     ],
-    ambiance: 'reflection',
+    ambiance: 'selection',
     overlay: {
       color: 'from-[hsl(var(--journey-mauve)/0.3)] to-[hsl(var(--journey-dusty-rose)/0.4)]',
       opacity: 0.35
     }
   },
   
-  phase5_departure: {
-    questions: [14, 15],
+  phase5_personal: {
+    questions: [13, 14, 15],
     backgrounds: [
-      '/images/backgrounds/bright-cafe-paper-lanterns-social-space.jpg',
-      '/images/backgrounds/canal-bridges-sunset-urban-beauty.jpg',
-      '/images/backgrounds/outdoor-screening-pink-plaza-community.jpg'
+      '/images/backgrounds/home-studio-abstract-art-warm-vintage.jpg',
+      '/images/backgrounds/midcentury-modern-living-green-cozy.jpg',
+      '/images/backgrounds/home-stairway-family-photos-guitar-warm.jpg'
     ],
     ambiance: 'integration',
     overlay: {
@@ -103,8 +103,8 @@ export const fallbackGradients = {
   phase1_outside: 'bg-gradient-to-br from-[hsl(var(--journey-dawn-cream))] via-[hsl(var(--journey-dawn-peach))] to-[hsl(var(--journey-dawn-blush))]',
   phase2_inside: 'bg-gradient-to-br from-[hsl(var(--journey-lavender))] via-[hsl(var(--gallery-white))] to-[hsl(var(--journey-dusty-rose))]',
   phase3_deeper: 'bg-gradient-to-br from-[hsl(var(--journey-amber))] via-[hsl(var(--journey-dusty-rose))] to-[hsl(var(--journey-mauve))]',
-  phase4_transition: 'bg-gradient-to-br from-[hsl(var(--journey-mauve))] via-[hsl(var(--gallery-pearl))] to-[hsl(var(--journey-lavender))]',
-  phase5_departure: 'bg-gradient-to-br from-[hsl(var(--journey-twilight))] via-[hsl(var(--journey-amber))] to-[hsl(var(--journey-midnight))]'
+  phase4_shop: 'bg-gradient-to-br from-[hsl(var(--journey-mauve))] via-[hsl(var(--gallery-pearl))] to-[hsl(var(--journey-lavender))]',
+  phase5_personal: 'bg-gradient-to-br from-[hsl(var(--journey-twilight))] via-[hsl(var(--journey-amber))] to-[hsl(var(--journey-midnight))]'
 };
 
 // Unsplash collection IDs for dynamic backgrounds (if using API)

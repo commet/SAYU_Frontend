@@ -202,15 +202,22 @@ export const NarrativeQuiz: React.FC = () => {
         </div>
       </nav>
 
-      {/* Act Indicator */}
+      {/* Act and Location Indicator */}
       <motion.div
         className="fixed top-20 left-8 text-white/60 text-sm font-medium"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        Act {currentAct === 'curiosity' ? 'I' : currentAct === 'exploration' ? 'II' : 'III'}: 
-        {' '}{currentAct.charAt(0).toUpperCase() + currentAct.slice(1)}
+        <div>Act {currentAct === 'curiosity' ? 'I' : currentAct === 'exploration' ? 'II' : 'III'}: 
+        {' '}{currentAct.charAt(0).toUpperCase() + currentAct.slice(1)}</div>
+        <div className="text-xs mt-1 text-white/40">
+          {currentQuestion <= 1 ? 'Museum Entrance' : 
+           currentQuestion <= 6 ? 'Main Gallery' :
+           currentQuestion <= 9 ? 'Reflection Room' :
+           currentQuestion <= 11 ? 'Museum Shop' :
+           'Personal Space'}
+        </div>
       </motion.div>
 
       {/* Main Content */}

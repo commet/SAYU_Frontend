@@ -312,7 +312,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     id: 11,
     act: 'exploration',
     narrative: {
-      transition: "In the contemporary wing, you encounter an artist statement on the wall.",
+      transition: "As you wander toward the museum shop, artistic merchandise catches your eye.",
+      transition_ko: "뮤지엄 샵으로 향하던 중, 예술 상품들이 눈길을 끕니다.",
       atmosphere: "curiosity"
     },
     question: "What draws you most to understanding an artist?",
@@ -339,7 +340,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     id: 12,
     act: 'exploration',
     narrative: {
-      transition: "You pause before choosing between two exhibitions.",
+      transition: "In the gift shop, you contemplate which artistic memory to take with you.",
+      transition_ko: "기념품 가게에서 어떤 예술적 기억을 가져갈지 고민합니다.",
       atmosphere: "decision"
     },
     question: "Which exhibition calls to you more strongly?",
@@ -366,10 +368,12 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     id: 13,
     act: 'revelation',
     narrative: {
-      transition: "In the museum gift shop, you're drawn to take something home.",
+      transition: "Back in your personal space, you imagine how art could transform your daily environment.",
+      transition_ko: "당신의 개인 공간으로 돌아와, 예술이 일상 환경을 어떻게 변화시킬 수 있을지 상상합니다.",
       atmosphere: "memory"
     },
     question: "What kind of art would you want in your personal space?",
+    question_ko: "당신의 개인 공간에 어떤 예술 작품을 두고 싶나요?",
     options: [
       {
         id: 'emotional-abstract',
@@ -393,10 +397,12 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     id: 14,
     act: 'revelation',
     narrative: {
-      transition: "As you step outside, the city looks different somehow.",
+      transition: "In your daily life, you notice artistic beauty in unexpected places.",
+      transition_ko: "일상 생활 속에서 예상치 못한 곳에서 예술적 아름다움을 발견합니다.",
       atmosphere: "integration"
     },
     question: "How does art fit into your everyday life?",
+    question_ko: "예술은 당신의 일상에 어떻게 스며들어 있나요?",
     options: [
       {
         id: 'essential',
@@ -420,10 +426,12 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     id: 15,
     act: 'revelation',
     narrative: {
-      transition: "Walking away, you realize this journey has changed something fundamental.",
+      transition: "At home, reflecting on your journey, you realize this experience has changed something fundamental.",
+      transition_ko: "집에서 여정을 되돌아보며, 이 경험이 근본적인 무언가를 바꿨다는 것을 깨닫습니다.",
       atmosphere: "transformation"
     },
     question: "What kind of art lover have you discovered yourself to be?",
+    question_ko: "당신은 어떤 예술 애호가임을 발견했나요?",
     options: [
       {
         id: 'seeker',
@@ -470,16 +478,16 @@ export const getPersonalizedTransition = (
     'concrete-9': "Your structured soul recognized, the path becomes clear...",
     'connection-10': "With emotions now given form and name, one gesture remains...",
     'understanding-10': "Armed with new frameworks of beauty, you approach the end...",
-    'fluid-11': "Your free spirit leads you to explore more corners of this vast world...",
-    'structured-11': "Your systematic approach reveals new layers to explore...",
-    'life-story-12': "Understanding the human element, you seek more connections...",
-    'technique-12': "Appreciating the craft, you look for more innovation...",
-    'contemporary-13': "The fresh perspectives have opened your eyes to new possibilities...",
-    'classical-13': "The timeless beauty has grounded you in artistic tradition...",
-    'emotional-abstract-14': "Your choice reflects the fluid nature of your artistic soul...",
-    'meaningful-concrete-14': "Your selection shows how you value clarity and purpose...",
-    'essential-15': "Art as life itself - this understanding transforms everything...",
-    'sanctuary-15': "Art as sacred space - this recognition completes your journey..."
+    'fluid-11': "Your free spirit guides you toward the museum shop's treasures...",
+    'structured-11': "Your systematic journey leads you to the gift shop's curated collection...",
+    'life-story-12': "In the shop, you seek pieces that tell human stories...",
+    'technique-12': "Among the merchandise, you appreciate the craft on display...",
+    'contemporary-13': "Leaving the museum, you carry fresh perspectives into your personal space...",
+    'classical-13': "Taking timeless beauty with you, you envision it in your home...",
+    'emotional-abstract-14': "In daily life, your fluid artistic soul finds beauty everywhere...",
+    'meaningful-concrete-14': "Your everyday world becomes enriched with purpose and meaning...",
+    'essential-15': "At home, you realize art has become inseparable from your life...",
+    'sanctuary-15': "In your personal sanctuary, the artistic journey finds its home..."
   };
 
   const key = `${previousChoice}-${toQuestion}`;
