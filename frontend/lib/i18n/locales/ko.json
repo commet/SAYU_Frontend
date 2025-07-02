@@ -1,0 +1,90 @@
+{
+  "common": {
+    "welcome": "환영합니다",
+    "login": "로그인",
+    "logout": "로그아웃", 
+    "register": "회원가입",
+    "save": "저장",
+    "cancel": "취소",
+    "edit": "수정",
+    "delete": "삭제",
+    "share": "공유",
+    "home": "홈",
+    "discover": "발견",
+    "community": "커뮤니티",
+    "profile": "프로필",
+    "enterSAYU": "SAYU 입장하기",
+    "loading": "로딩 중..."
+  },
+  
+  "auth": {
+    "email": "이메일",
+    "password": "비밀번호",
+    "nickname": "닉네임",
+    "loginTitle": "로그인",
+    "registerTitle": "회원가입",
+    "forgotPassword": "비밀번호를 잊으셨나요?",
+    "alreadyHaveAccount": "이미 계정이 있으신가요?",
+    "dontHaveAccount": "계정이 없으신가요?",
+    "loginError": "로그인에 실패했습니다",
+    "registerError": "회원가입에 실패했습니다",
+    "loginRequired": "로그인이 필요합니다"
+  },
+  
+  "quiz": {
+    "title": "당신만의 예술 여정이 시작됩니다",
+    "subtitle": "이것은 테스트가 아닙니다. 당신이 아름다움을 경험하는 고유한 방식을 발견하는 여정입니다.",
+    "startButton": "나의 여정 시작하기",
+    "progress": "{{current}}단계 / 총 {{total}}단계",
+    "whatYouDiscover": "무엇을 발견하게 될까요?",
+    "viewingStyle": "당신의 관람 스타일",
+    "viewingStyleDesc": "혼자 조용히, 또는 함께 나누며",
+    "perceptionStyle": "당신의 감상 방식", 
+    "perceptionStyleDesc": "감정적 몰입 또는 분석적 이해",
+    "artLanguage": "당신의 예술 언어",
+    "artLanguageDesc": "당신에게 말을 거는 작품들",
+    "moments": "{{count}}개의 순간",
+    "journey": "{{minutes}}분의 여정",
+    "deepDiscovery": "깊은 자기 발견",
+    "noRightAnswer": "정답은 없습니다. 오직 당신의 진실한 마음만이 있을 뿐입니다."
+  },
+  
+  "results": {
+    "youAre": "당신은",
+    "recognizeYourself": "당신은 이런 모습을 발견할 수 있습니다...",
+    "extendsBeyond": "이것은 갤러리를 넘어섭니다",
+    "artistsForYou": "당신의 언어로 말하는 예술가들",
+    "basedOnYourWay": "당신만의 독특한 예술 경험 방식에 기반하여",
+    "exhibitionsWaiting": "당신을 기다리는 전시회",
+    "exploreArtMap": "나의 예술 지도 탐험하기",
+    "shareArtisticSoul": "당신의 예술적 영혼을 공유하세요",
+    "shareDescription": "다른 사람들이 자신만의 여정을 발견하도록 돕거나, 당신처럼 세상을 보는 비슷한 영혼을 찾아보세요",
+    "shareYourType": "내 유형 공유하기",
+    "findYourTribe": "나의 부족 찾기"
+  },
+  
+  "home": {
+    "yourJourneyAwaits": "당신만의 예술 여정이 기다립니다",
+    "discoverType": "당신의 유형 발견하기",
+    "discoverTypeDesc": "자기 발견의 여정을 시작하세요",
+    "gallery": "갤러리",
+    "galleryDesc": "당신의 영혼과 맞는 예술 작품을 탐험하세요",
+    "communitySalon": "커뮤니티 살롱",
+    "communitySalonDesc": "비슷한 감성의 사람들과 연결하세요",
+    "yourCollection": "나의 컬렉션",
+    "yourCollectionDesc": "당신만의 예술 성역"
+  },
+  
+  "personality": {
+    "colorWhisperer": "색채의 속삭임",
+    "canvasPhilosopher": "캔버스의 철학자",
+    "conceptHunter": "개념 사냥꾼",
+    "patternBuilder": "패턴 건축가"
+  },
+  
+  "errors": {
+    "somethingWrong": "문제가 발생했습니다",
+    "tryAgain": "다시 시도해주세요",
+    "notFound": "찾을 수 없습니다"
+  }
+}

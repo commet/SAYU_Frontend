@@ -13,7 +13,8 @@
     "analyze": "cross-env ANALYZE=true next build",
     "sync": "git pull origin main && npm ci",
     "save": "git add -A && git commit -m",
-    "deploy": "git push origin main"
+    "deploy": "git push origin main",
+    "validate-translations": "node scripts/validate-translations.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -31,6 +32,7 @@
     "critters": "^0.0.25",
     "framer-motion": "^12.15.0",
     "html2canvas": "^1.4.1",
+    "i18next": "^25.3.0",
     "jspdf": "^3.0.1",
     "lucide-react": "^0.511.0",
     "next": "15.3.3",
@@ -42,6 +44,7 @@
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
+    "react-i18next": "^15.5.3",
     "react-intersection-observer": "^9.16.0",
     "react-qr-code": "^2.0.16",
     "recharts": "^2.15.3",

@@ -1,0 +1,90 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "share": "Share",
+    "home": "Home",
+    "discover": "Discover",
+    "community": "Community",
+    "profile": "Profile",
+    "enterSAYU": "Enter SAYU",
+    "loading": "Loading..."
+  },
+  
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "nickname": "Nickname",
+    "loginTitle": "Login",
+    "registerTitle": "Register",
+    "forgotPassword": "Forgot password?",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "loginError": "Login failed",
+    "registerError": "Registration failed",
+    "loginRequired": "Please login to access this feature"
+  },
+  
+  "quiz": {
+    "title": "Your Personal Art Journey Awaits",
+    "subtitle": "This isn't a test. It's a journey to discover your unique way of experiencing beauty.",
+    "startButton": "Begin My Journey",
+    "progress": "Question {{current}} of {{total}}",
+    "whatYouDiscover": "What You'll Discover",
+    "viewingStyle": "Your Viewing Style",
+    "viewingStyleDesc": "Solitary contemplation or shared discovery",
+    "perceptionStyle": "Your Perception Style",
+    "perceptionStyleDesc": "Emotional immersion or analytical understanding",
+    "artLanguage": "Your Art Language",
+    "artLanguageDesc": "The artworks that speak to you",
+    "moments": "{{count}} Moments",
+    "journey": "{{minutes}} min journey",
+    "deepDiscovery": "Deep self-discovery",
+    "noRightAnswer": "There are no right answers. Only your authentic self."
+  },
+  
+  "results": {
+    "youAre": "You are",
+    "recognizeYourself": "You might recognize yourself in...",
+    "extendsBeyond": "This extends beyond galleries",
+    "artistsForYou": "Artists who speak your language",
+    "basedOnYourWay": "Based on your unique way of experiencing art",
+    "exhibitionsWaiting": "Exhibitions waiting for you",
+    "exploreArtMap": "Explore Your Art Map",
+    "shareArtisticSoul": "Share your artistic soul",
+    "shareDescription": "Let others discover their own journey, or find kindred spirits who see the world as you do",
+    "shareYourType": "Share Your Type",
+    "findYourTribe": "Find Your Tribe"
+  },
+  
+  "home": {
+    "yourJourneyAwaits": "Your Personal Art Journey Awaits",
+    "discoverType": "Discover Your Type",
+    "discoverTypeDesc": "Begin your journey of self-discovery",
+    "gallery": "Gallery",
+    "galleryDesc": "Explore artworks matched to your soul",
+    "communitySalon": "Community Salon",
+    "communitySalonDesc": "Connect with kindred spirits",
+    "yourCollection": "Your Collection",
+    "yourCollectionDesc": "Your personal art sanctuary"
+  },
+  
+  "personality": {
+    "colorWhisperer": "The Color Whisperer",
+    "canvasPhilosopher": "The Canvas Philosopher",
+    "conceptHunter": "The Concept Hunter",
+    "patternBuilder": "The Pattern Builder"
+  },
+  
+  "errors": {
+    "somethingWrong": "Something went wrong",
+    "tryAgain": "Please try again",
+    "notFound": "Not found"
+  }
+}
