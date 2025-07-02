@@ -8,6 +8,9 @@ export interface PersonalityAnimal {
   emoji: string;
   characteristics: string[];
   characteristics_ko: string[];
+  image?: string;          // 캐릭터 이미지 경로
+  avatar?: string;         // 작은 아바타 이미지
+  illustration?: string;   // 상세 일러스트
 }
 
 export const personalityAnimals: Record<string, PersonalityAnimal> = {
@@ -27,7 +30,10 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '감정적으로 직관적인',
       '고독한 방랑자',
       '숨겨진 의미를 보는'
-    ]
+    ],
+    image: '/images/personality-animals/fox-laef.png',
+    avatar: '/images/personality-animals/avatars/fox-laef-avatar.png',
+    illustration: '/images/personality-animals/illustrations/fox-laef-full.png'
   },
   LAEC: {
     type: 'LAEC',
@@ -45,7 +51,10 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '감정의 깊이를 지닌',
       '체계적인 우아함',
       '아름다움을 큐레이팅하는'
-    ]
+    ],
+    image: '/images/personality-animals/main/swan-laec.png',
+    avatar: '/images/personality-animals/avatars/swan-laec-avatar.png',
+    illustration: '/images/personality-animals/illustrations/swan-laec-full.png'
   },
   LAMF: {
     type: 'LAMF',

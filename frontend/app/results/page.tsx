@@ -7,6 +7,8 @@ import { EmotionalCard, ArtworkCard, EmotionalButton } from '@/components/emotio
 import { Heart, Sparkles, Map, Share2, BookOpen, Palette, User } from 'lucide-react';
 import '@/styles/emotional-palette.css';
 import { personalityDescriptions } from '@/data/personality-descriptions';
+import { getAnimalByType } from '@/data/personality-animals';
+import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useGamification } from '@/hooks/useGamification';
 import LanguageToggle from '@/components/ui/LanguageToggle';
@@ -27,6 +29,7 @@ function ResultsContent() {
   const { userPoints, loading: gamificationLoading } = useGamification();
   const [results, setResults] = useState<QuizResults | null>(null);
   const [personality, setPersonality] = useState<any>(null);
+  const [animalCharacter, setAnimalCharacter] = useState<any>(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showProfileCard, setShowProfileCard] = useState(false);
 
@@ -38,7 +41,10 @@ function ResultsContent() {
       
       const type = searchParams.get('type') || parsed.personalityType;
       const personalityData = personalityDescriptions[type];
+      const animalData = getAnimalByType(type);
+      
       setPersonality(personalityData);
+      setAnimalCharacter(animalData);
     } else {
       router.push('/quiz');
     }
@@ -96,6 +102,35 @@ function ResultsContent() {
             <p className="text-2xl opacity-90 italic mb-6">
               {language === 'ko' && personality.subtitle_ko ? personality.subtitle_ko : personality.subtitle}
             </p>
+            {/* Animal Character */}
+            {animalCharacter && (
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.6, type: "spring" }}
+                className="mb-8"
+              >
+                <PersonalityAnimalImage 
+                  animal={animalCharacter}
+                  variant="illustration"
+                  size="xl"
+                  className="mx-auto shadow-2xl"
+                />
+                <div className="mt-4 text-center">
+                  <p className="text-lg opacity-90">
+                    {language === 'ko' ? animalCharacter.animal_ko : animalCharacter.animal}
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-2 mt-2">
+                    {(language === 'ko' ? animalCharacter.characteristics_ko : animalCharacter.characteristics).map((trait: string, index: number) => (
+                      <span key={index} className="text-xs px-3 py-1 bg-white/20 rounded-full">
+                        {trait}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
             {/* Personality Type Code */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <span className="text-sm opacity-70">

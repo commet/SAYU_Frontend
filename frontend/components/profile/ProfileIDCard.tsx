@@ -7,6 +7,7 @@ import { RotateCcw, Download, Share2, Trophy, MapPin, Palette, Zap, X } from 'lu
 import { useLanguage } from '@/contexts/LanguageContext';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { personalityAnimals } from '@/data/personality-animals';
+import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
 import { personalityGradients, getGradientStyle } from '@/constants/personality-gradients';
 import '@/styles/profile-card.css';
 
@@ -162,7 +163,18 @@ export default function ProfileIDCard({
               <div className="relative h-full p-6 text-white">
                 {/* Header */}
                 <div className="text-center mb-6">
-                  <div className="text-5xl mb-3">{animal?.emoji}</div>
+                  {animal ? (
+                    <div className="mb-3">
+                      <PersonalityAnimalImage 
+                        animal={animal}
+                        variant="avatar"
+                        size="lg"
+                        className="mx-auto border-4 border-white/30"
+                      />
+                    </div>
+                  ) : (
+                    <div className="text-5xl mb-3">{animal?.emoji}</div>
+                  )}
                   <h2 className="text-2xl font-bold mb-1">{userName}</h2>
                   <div className="flex items-center justify-center gap-2 text-sm opacity-90">
                     <Trophy className="w-4 h-4" />
