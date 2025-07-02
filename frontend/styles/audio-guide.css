@@ -163,6 +163,30 @@
   justify-content: center;
   padding: 2rem;
   transition: background 1s ease;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Fallback gradients for different phases */
+.gallery-room-experience.phase-phase1_outside {
+  background: linear-gradient(135deg, #ffeaa7 0%, #dfe6e9 100%);
+}
+
+.gallery-room-experience.phase-phase2_inside {
+  background: linear-gradient(135deg, #a29bfe 0%, #74b9ff 100%);
+}
+
+.gallery-room-experience.phase-phase3_deeper {
+  background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+}
+
+.gallery-room-experience.phase-phase4_shop {
+  background: linear-gradient(135deg, #fab1a0 0%, #ff7675 100%);
+}
+
+.gallery-room-experience.phase-phase5_personal {
+  background: linear-gradient(135deg, #636e72 0%, #2d3436 100%);
 }
 
 .gallery-overlay {
@@ -188,6 +212,7 @@
     0 20px 60px rgba(0, 0, 0, 0.2),
     inset 0 0 0 2px rgba(212, 165, 116, 0.3);
   position: relative;
+  text-align: center;
 }
 
 @media (max-width: 768px) {

@@ -7,6 +7,8 @@ import { EmotionalCard, ArtworkCard, EmotionalButton } from '@/components/emotio
 import { Heart, Sparkles, Map, Share2, BookOpen, Palette } from 'lucide-react';
 import '@/styles/emotional-palette.css';
 import { personalityDescriptions } from '@/data/personality-descriptions';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageToggle from '@/components/ui/LanguageToggle';
 
 interface QuizResults {
   personalityType: string;
@@ -18,6 +20,7 @@ interface QuizResults {
 function ResultsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { language } = useLanguage();
   const [results, setResults] = useState<QuizResults | null>(null);
   const [personality, setPersonality] = useState<any>(null);
   const [showShareModal, setShowShareModal] = useState(false);
@@ -56,6 +59,11 @@ function ResultsContent() {
 
   return (
     <div className="min-h-screen gradient-revelation" data-personality={results.personalityType}>
+      {/* Language Toggle */}
+      <div className="absolute top-4 right-4 z-50">
+        <LanguageToggle variant="glass" />
+      </div>
+      
       {/* Hero Section - About You */}
       <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
         <motion.div
@@ -71,12 +79,14 @@ function ResultsContent() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="mb-12"
           >
-            <p className="text-xl mb-4 opacity-80">You are</p>
+            <p className="text-xl mb-4 opacity-80">
+              {language === 'ko' ? '당신은' : 'You are'}
+            </p>
             <h1 className="text-5xl md:text-7xl font-serif mb-6">
-              {personality.title}
+              {language === 'ko' && personality.title_ko ? personality.title_ko : personality.title}
             </h1>
             <p className="text-2xl opacity-90 italic">
-              {personality.subtitle}
+              {language === 'ko' && personality.subtitle_ko ? personality.subtitle_ko : personality.subtitle}
             </p>
           </motion.div>
 
@@ -89,7 +99,7 @@ function ResultsContent() {
           >
             <Heart className="w-12 h-12 mx-auto mb-6 text-white/80" />
             <p className="text-xl leading-relaxed mb-8">
-              {personality.essence}
+              {language === 'ko' && personality.essence_ko ? personality.essence_ko : personality.essence}
             </p>
             
             {/* Your Strengths */}
@@ -103,8 +113,12 @@ function ResultsContent() {
                   className="bg-white/5 rounded-2xl p-6"
                 >
                   <div className="text-3xl mb-3">{strength.icon}</div>
-                  <h3 className="font-medium mb-2">{strength.title}</h3>
-                  <p className="text-sm opacity-80">{strength.description}</p>
+                  <h3 className="font-medium mb-2">
+                    {language === 'ko' && strength.title_ko ? strength.title_ko : strength.title}
+                  </h3>
+                  <p className="text-sm opacity-80">
+                    {language === 'ko' && strength.description_ko ? strength.description_ko : strength.description}
+                  </p>
                 </motion.div>
               ))}
             </div>

@@ -3,25 +3,36 @@
 export interface PersonalityDescription {
   type: string;
   title: string;
+  title_ko?: string;
   subtitle: string;
+  subtitle_ko?: string;
   essence: string;
+  essence_ko?: string;
   strengths: Array<{
     icon: string;
     title: string;
+    title_ko?: string;
     description: string;
+    description_ko?: string;
   }>;
   recognition: string[];
+  recognition_ko?: string[];
   lifeExtension: string;
+  lifeExtension_ko?: string;
   lifeAreas: Array<{
     title: string;
+    title_ko?: string;
     description: string;
+    description_ko?: string;
   }>;
   recommendedArtists: Array<{
     name: string;
     period: string;
     image: string;
     whyYouConnect: string;
+    whyYouConnect_ko?: string;
     emotionalTag: string;
+    emotionalTag_ko?: string;
   }>;
 }
 
@@ -30,23 +41,32 @@ export const personalityDescriptions: Record<string, PersonalityDescription> = {
   LAEF: {
     type: 'LAEF',
     title: 'The Color Whisperer',
+    title_ko: '색채의 속삭임',
     subtitle: 'Dancing with abstract emotions in solitude',
+    subtitle_ko: '고독 속에서 추상적 감정과 춤추는',
     essence: 'You don\'t just see art, you feel it breathing. In the quiet moments between you and a canvas, entire universes unfold. Your journey through galleries is deeply personal - a meditation where each piece either resonates in your bones or passes by like a gentle breeze.',
+    essence_ko: '당신은 예술을 단순히 보는 것이 아니라 숨 쉬는 것을 느낍니다. 캔버스와 당신 사이의 고요한 순간에 전 우주가 펼쳐집니다. 갤러리를 통한 당신의 여정은 깊이 개인적인 것입니다 - 각 작품이 당신의 뼈 속에서 울리거나 부드러운 산들바람처럼 지나가는 명상.',
     strengths: [
       {
         icon: '🌙',
         title: 'Emotional Depth',
-        description: 'You feel art in layers others might miss'
+        title_ko: '감정의 깊이',
+        description: 'You feel art in layers others might miss',
+        description_ko: '다른 사람들이 놓칠 수 있는 층들에서 예술을 느낍니다'
       },
       {
         icon: '🍃',
         title: 'Intuitive Navigation',
-        description: 'You trust your instincts to guide you to meaningful encounters'
+        title_ko: '직관적 탐색',
+        description: 'You trust your instincts to guide you to meaningful encounters',
+        description_ko: '의미 있는 만남으로 인도하는 본능을 신뢰합니다'
       },
       {
         icon: '💫',
         title: 'Present Moment Awareness',
-        description: 'You can lose yourself completely in a single brushstroke'
+        title_ko: '현재 순간의 인식',
+        description: 'You can lose yourself completely in a single brushstroke',
+        description_ko: '한 번의 붓터치에 완전히 빠져들 수 있습니다'
       }
     ],
     recognition: [

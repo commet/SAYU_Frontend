@@ -210,9 +210,16 @@ export const AudioGuideQuiz: React.FC = () => {
       {/* Gallery Room Experience */}
       <div className={cn(
         "gallery-room-experience",
-        `phase-${phase}`,
-        fallbackGradients[phase]
-      )}>
+        `phase-${phase}`
+      )}
+      style={{
+        backgroundImage: backgroundData.backgrounds && backgroundData.backgrounds.length > 0
+          ? `url(${backgroundData.backgrounds[currentQuestion % backgroundData.backgrounds.length]})`
+          : undefined,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}>
         {/* Gradient Overlay */}
         <div className={cn(
           "gallery-overlay",
@@ -250,7 +257,11 @@ export const AudioGuideQuiz: React.FC = () => {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.4 }}
                   >
-                    {getTransitionText()}
+                    {language === 'ko' && question.narrative.setup_ko ? 
+                      (currentQuestion === 0 ? question.narrative.setup_ko : 
+                       question.narrative.transition_ko || getTransitionText()) :
+                      getTransitionText()
+                    }
                   </motion.p>
                 )}
 
@@ -261,7 +272,7 @@ export const AudioGuideQuiz: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
                 >
-                  {question.question}
+                  {language === 'ko' && question.question_ko ? question.question_ko : question.question}
                 </motion.h2>
 
                 {/* Choice Labels as Museum Plaques */}
@@ -287,9 +298,11 @@ export const AudioGuideQuiz: React.FC = () => {
                           <span className="label-indicator">Tap to select</span>
                         </div>
                         <div className="label-content">
-                          <h4>{option.text}</h4>
+                          <h4>{language === 'ko' && option.text_ko ? option.text_ko : option.text}</h4>
                           {option.subtext && (
-                            <p className="label-subtext">{option.subtext}</p>
+                            <p className="label-subtext">
+                              {language === 'ko' && option.subtext_ko ? option.subtext_ko : option.subtext}
+                            </p>
                           )}
                         </div>
                         <div className="label-footer">
