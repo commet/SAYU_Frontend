@@ -34,8 +34,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       setup_ko: "신비로운 갤러리 오프닝 초대장을 받았습니다. 버건디색 밀랍으로 봉인된 봉투 안에는 '발견의 여정을 위해 당신을 초대합니다'라고 적혀 있습니다.",
       atmosphere: "anticipation"
     },
-    question: "The heavy oak doors open before you. Two paths diverge in the entrance hall...",
-    question_ko: "무거운 참나무 문이 당신 앞에 열립니다. 입구 홀에서 두 갈래의 길이 나뉩니다...",
+    question: "The heavy oak doors open before you.\nTwo paths diverge in the entrance hall...",
+    question_ko: "무거운 참나무 문이 당신 앞에 열립니다.\n입구 홀에서 두 갈래의 길이 나뉩니다...",
     options: [
       {
         id: 'solitary',
@@ -66,8 +66,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       transition: "As you move deeper into the gallery, the walls seem to breathe with artistic energy.",
       atmosphere: "wonder"
     },
-    question: "A curator in a velvet jacket approaches. Their eyes hold centuries of art wisdom...",
-    question_ko: "벨벳 재킷을 입은 큐레이터가 다가옵니다. 그들의 눈빛에는 수 세기의 예술적 지혜가 담겨 있습니다...",
+    question: "A curator in a velvet jacket approaches.\nTheir eyes hold centuries of art wisdom...",
+    question_ko: "벨벳 재킷을 입은 큐레이터가 다가옵니다.\n그들의 눈빛에는 수 세기의 예술적 지혜가 담겨 있습니다...",
     options: [
       {
         id: 'intuitive',
@@ -98,8 +98,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       transition: "The first room beckons. As you cross the threshold, the atmosphere shifts palpably.",
       atmosphere: "threshold"
     },
-    question: "The gallery's first chamber reveals itself. What captures your attention?",
-    question_ko: "갤러리의 첫 번째 전시실이 모습을 드러냅니다. 무엇이 당신의 시선을 사로잡나요?",
+    question: "The gallery's first chamber reveals itself.\nWhat captures your attention?",
+    question_ko: "갤러리의 첫 번째 전시실이 모습을 드러냅니다.\n무엇이 당신의 시선을 사로잡나요?",
     options: [
       {
         id: 'atmosphere',
@@ -132,8 +132,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       transition: "Time seems to slow as you find your rhythm in the gallery's flow.",
       atmosphere: "immersion"
     },
-    question: "A painting stops you in your tracks. It's as if it was waiting for you...",
-    question_ko: "한 그림이 당신의 발걸음을 멈춥니다. 마치 당신을 기다리고 있었던 것처럼...",
+    question: "A painting stops you in your tracks.\nIt's as if it was waiting for you...",
+    question_ko: "한 그림이 당신의 발걸음을 멈춥니다.\n마치 당신을 기다리고 있었던 것처럼...",
     options: [
       {
         id: 'emotional',
@@ -164,8 +164,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       transition: "In a sunlit alcove, you discover a series of works that seem to tell a story.",
       atmosphere: "discovery"
     },
-    question: "Time has become elastic. How do you navigate this temporal gallery dance?",
-    question_ko: "시간이 유연해졌습니다. 이 시간의 갤러리 춤을 어떻게 헤쳐나가시겠습니까?",
+    question: "Time has become elastic.\nHow do you navigate this temporal gallery dance?",
+    question_ko: "시간이 유연해졌습니다.\n이 시간의 갤러리 춤을 어떻게 헤쳐나가시겠습니까?",
     options: [
       {
         id: 'flowing',
@@ -196,8 +196,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       transition: "Another visitor stands beside you, drawn to the same magnetic piece.",
       atmosphere: "connection"
     },
-    question: "A stranger's presence enters your artistic bubble. The moment asks for a choice...",
-    question_ko: "낯선 이의 존재가 당신의 예술적 공간에 들어옵니다. 순간이 선택을 요구합니다...",
+    question: "A stranger's presence enters your artistic bubble.\nThe moment asks for a choice...",
+    question_ko: "낯선 이의 존재가 당신의 예술적 공간에 들어옵니다.\n순간이 선택을 요구합니다...",
     options: [
       {
         id: 'preserve',
@@ -228,8 +228,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       transition: "The gallery seems to be revealing itself to you, layer by layer.",
       atmosphere: "depth"
     },
-    question: "An experimental installation challenges your perception. How do you engage?",
-    question_ko: "실험적인 설치 작품이 당신의 인식에 도전합니다. 어떻게 마주하시겠습니까?",
+    question: "An experimental installation challenges your perception.\nHow do you engage?",
+    question_ko: "실험적인 설치 작품이 당신의 인식에 도전합니다.\n어떻게 마주하시겠습니까?",
     options: [
       {
         id: 'immerse',

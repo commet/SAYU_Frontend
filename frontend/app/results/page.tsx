@@ -85,9 +85,64 @@ function ResultsContent() {
             <h1 className="text-5xl md:text-7xl font-serif mb-6">
               {language === 'ko' && personality.title_ko ? personality.title_ko : personality.title}
             </h1>
-            <p className="text-2xl opacity-90 italic">
+            <p className="text-2xl opacity-90 italic mb-6">
               {language === 'ko' && personality.subtitle_ko ? personality.subtitle_ko : personality.subtitle}
             </p>
+            {/* Personality Type Code */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
+              <span className="text-sm opacity-70">
+                {language === 'ko' ? '유형 코드' : 'Type Code'}:
+              </span>
+              <span className="font-mono font-bold text-lg">
+                {results.personalityType}
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Personality Code Breakdown */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 mb-8 max-w-2xl mx-auto"
+          >
+            <h3 className="text-lg font-medium mb-4 opacity-90">
+              {language === 'ko' ? '당신의 예술 감상 스타일' : 'Your Art Appreciation Style'}
+            </h3>
+            <div className="grid grid-cols-4 gap-4 text-sm">
+              <div className="text-center">
+                <div className="font-mono text-2xl font-bold mb-1">{results.personalityType[0]}</div>
+                <div className="opacity-70">
+                  {results.personalityType[0] === 'L' 
+                    ? (language === 'ko' ? '고독한' : 'Lone') 
+                    : (language === 'ko' ? '사교적' : 'Social')}
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="font-mono text-2xl font-bold mb-1">{results.personalityType[1]}</div>
+                <div className="opacity-70">
+                  {results.personalityType[1] === 'A' 
+                    ? (language === 'ko' ? '추상' : 'Abstract') 
+                    : (language === 'ko' ? '구상' : 'Representational')}
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="font-mono text-2xl font-bold mb-1">{results.personalityType[2]}</div>
+                <div className="opacity-70">
+                  {results.personalityType[2] === 'E' 
+                    ? (language === 'ko' ? '감정적' : 'Emotional') 
+                    : (language === 'ko' ? '사유적' : 'Mental')}
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="font-mono text-2xl font-bold mb-1">{results.personalityType[3]}</div>
+                <div className="opacity-70">
+                  {results.personalityType[3] === 'F' 
+                    ? (language === 'ko' ? '자유로운' : 'Free') 
+                    : (language === 'ko' ? '신중한' : 'Careful')}
+                </div>
+              </div>
+            </div>
           </motion.div>
 
           {/* Core Essence */}
