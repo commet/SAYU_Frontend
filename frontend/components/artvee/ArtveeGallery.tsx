@@ -32,13 +32,13 @@ export function ArtveeGallery({ personalityType, className }: ArtveeGalleryProps
       try {
         setLoading(true);
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/artvee/random/${personalityType}/12`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/artvee/personality/${personalityType}?limit=12`
         );
         
         if (!response.ok) throw new Error('Failed to fetch artworks');
         
         const data = await response.json();
-        setArtworks(data.artworks);
+        setArtworks(data.data || []);
       } catch (error) {
         console.error('Error fetching artworks:', error);
       } finally {
@@ -90,7 +90,7 @@ export function ArtveeGallery({ personalityType, className }: ArtveeGalleryProps
                 </div>
               ) : (
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_API_URL}${artwork.thumbnailUrl}`}
+                  src={artwork.thumbnailUrl.startsWith('http') ? artwork.thumbnailUrl : `${process.env.NEXT_PUBLIC_API_URL}${artwork.thumbnailUrl}`}
                   alt={artwork.title}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -138,7 +138,7 @@ export function ArtveeGallery({ personalityType, className }: ArtveeGalleryProps
               <div className="lg:w-2/3 relative bg-gray-100">
                 <div className="relative aspect-[4/3] lg:aspect-auto lg:h-full">
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_API_URL}${selectedArtwork.imageUrl}`}
+                    src={selectedArtwork.imageUrl.startsWith('http') ? selectedArtwork.imageUrl : `${process.env.NEXT_PUBLIC_API_URL}${selectedArtwork.imageUrl}`}
                     alt={selectedArtwork.title}
                     fill
                     className="object-contain"

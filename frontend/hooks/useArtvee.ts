@@ -12,6 +12,10 @@ interface Artwork {
   period?: string;
   url: string;
   sayuType?: string;
+  imageUrl?: string;
+  thumbnailUrl?: string;
+  cdnUrl?: string;
+  cdnThumbnailUrl?: string;
   imageUrls?: {
     thumbnail: string;
     medium: string;
@@ -31,7 +35,7 @@ interface ArtworkResponse {
 
 // 성격 유형별 작품 가져오기
 export function usePersonalityArtworks(sayuType: string, limit = 10) {
-  return useQuery<{ success: boolean; artworks: Artwork[]; personalityType: string; total: number }>({
+  return useQuery<{ success: boolean; data: Artwork[]; personality_type: string; count: number }>({
     queryKey: ['artvee', 'personality', sayuType, limit],
     queryFn: async () => {
       const response = await axios.get(
@@ -72,10 +76,10 @@ export function useQuizArtworks(personalityType: string) {
       const response = await axios.get(
         `${API_URL}/api/artvee/personality/${personalityType}`,
         {
-          params: { limit: 6 }
+          params: { limit: 6, usageType: 'personality_result' }
         }
       );
-      return response.data.artworks || [];
+      return response.data.data || [];
     },
     staleTime: 10 * 60 * 1000,
     cacheTime: 60 * 60 * 1000,
