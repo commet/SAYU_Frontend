@@ -1,5 +1,8 @@
 # 🎨 동물 캐릭터 이미지 추가 가이드
 
+> **IMPORTANT**: This guide follows the authoritative definitions in `/SAYU_TYPE_DEFINITIONS.md`. 
+> Always refer to that document for the correct animal mappings.
+
 ## 📁 파일 구조
 
 이미지들을 다음 구조로 `public/images/personality-animals/` 폴더에 넣어주세요:
@@ -30,21 +33,21 @@ frontend/public/images/personality-animals/
 | 유형 | 동물 | 파일명 접두사 |
 |------|------|---------------|
 | LAEF | Fox (여우) | `fox-laef` |
-| LAEC | Swan (백조) | `swan-laec` |
+| LAEC | Cat (고양이) | `cat-laec` |
 | LAMF | Owl (올빼미) | `owl-lamf` |
-| LAMC | Elephant (코끼리) | `elephant-lamc` |
-| LREF | Deer (사슴) | `deer-lref` |
-| LREC | Cat (고양이) | `cat-lrec` |
-| LRMF | Wolf (늑대) | `wolf-lrmf` |
-| LRMC | Bear (곰) | `bear-lrmc` |
-| SAEF | Rabbit (토끼) | `rabbit-saef` |
-| SAEC | Dolphin (돌고래) | `dolphin-saec` |
-| SAMF | Butterfly (나비) | `butterfly-samf` |
-| SAMC | Bee (벌) | `bee-samc` |
-| SREF | Penguin (펭귄) | `penguin-sref` |
-| SREC | Parrot (앵무새) | `parrot-srec` |
-| SRMF | Eagle (독수리) | `eagle-srmf` |
-| SRMC | Lion (사자) | `lion-srmc` |
+| LAMC | Turtle (거북이) | `turtle-lamc` |
+| LREF | Chameleon (카멜레온) | `chameleon-lref` |
+| LREC | Hedgehog (고슴도치) | `hedgehog-lrec` |
+| LRMF | Octopus (문어) | `octopus-lrmf` |
+| LRMC | Beaver (비버) | `beaver-lrmc` |
+| SAEF | Butterfly (나비) | `butterfly-saef` |
+| SAEC | Penguin (펭귄) | `penguin-saec` |
+| SAMF | Parrot (앵무새) | `parrot-samf` |
+| SAMC | Deer (사슴) | `deer-samc` |
+| SREF | Dog (강아지) | `dog-sref` |
+| SREC | Duck (오리) | `duck-srec` |
+| SRMF | Elephant (코끼리) | `elephant-srmf` |
+| SRMC | Eagle (독수리) | `eagle-srmc` |
 
 ## 📐 이미지 규격
 

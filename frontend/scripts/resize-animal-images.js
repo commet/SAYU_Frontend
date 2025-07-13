@@ -35,21 +35,21 @@ class AnimalImageProcessor {
 
     this.animalMapping = {
       '1. LAEF (Fox)': 'fox-laef',
-      '2. LAEC (Cat)': 'swan-laec',  // 백조로 변경 예정
+      '2. LAEC (Cat)': 'cat-laec',
       '3. LAMF (Owl)': 'owl-lamf',
-      '4. LAMC (Turtle)': 'elephant-lamc',  // 코끼리로 변경 예정
-      '5. LREF (Chameleon)': 'deer-lref',  // 사슴으로 변경 예정
-      '6. LREC (Hedgehog)': 'cat-lrec',
-      '7. LRMF (Octopus)': 'wolf-lrmf',  // 늑대로 변경 예정
-      '8. LRMC (Beaver)': 'bear-lrmc',  // 곰으로 변경 예정
-      '9. SAEF (Butterfly)': 'rabbit-saef',  // 토끼로 변경 예정
-      '10. SAEC (Penguin)': 'dolphin-saec',  // 돌고래로 변경 예정
-      '11. SAMF (Parrot)': 'butterfly-samf',
-      '12. SAMC (Deer)': 'bee-samc',  // 벌로 변경 예정
-      '13. SREF (Dog)': 'penguin-sref',
-      '14. SREC (Duck)': 'parrot-srec',
-      '15. SRMF (Elephant)': 'eagle-srmf',
-      '16. SRMC (Eagle)': 'lion-srmc'
+      '4. LAMC (Turtle)': 'turtle-lamc',
+      '5. LREF (Chameleon)': 'chameleon-lref',
+      '6. LREC (Hedgehog)': 'hedgehog-lrec',
+      '7. LRMF (Octopus)': 'octopus-lrmf',
+      '8. LRMC (Beaver)': 'beaver-lrmc',
+      '9. SAEF (Butterfly)': 'butterfly-saef',
+      '10. SAEC (Penguin)': 'penguin-saec',
+      '11. SAMF (Parrot)': 'parrot-samf',
+      '12. SAMC (Deer)': 'deer-samc',
+      '13. SREF (Dog)': 'dog-sref',
+      '14. SREC (Duck)': 'duck-srec',
+      '15. SRMF (Elephant)': 'elephant-srmf',
+      '16. SRMC (Eagle)': 'eagle-srmc'
     };
   }
 

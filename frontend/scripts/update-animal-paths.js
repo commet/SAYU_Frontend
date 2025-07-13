@@ -4,23 +4,24 @@ const fs = require('fs');
 const path = require('path');
 
 // 실제 생성된 파일명에 기반한 매핑
+// Based on /SAYU_TYPE_DEFINITIONS.md
 const animalFileMapping = {
   'LAEF': 'fox-laef',
-  'LAEC': 'swan-laec', 
+  'LAEC': 'cat-laec', 
   'LAMF': 'owl-lamf',
-  'LAMC': 'elephant-lamc',
-  'LREF': 'deer-lref',
-  'LREC': 'cat-lrec',
-  'LRMF': 'wolf-lrmf',
-  'LRMC': 'bear-lrmc',
-  'SAEF': 'rabbit-saef',
-  'SAEC': 'dolphin-saec',
-  'SAMF': 'butterfly-samf',
-  'SAMC': 'bee-samc',
-  'SREF': 'penguin-sref',
-  'SREC': 'parrot-srec',
-  'SRMF': 'eagle-srmf',
-  'SRMC': 'lion-srmc'
+  'LAMC': 'turtle-lamc',
+  'LREF': 'chameleon-lref',
+  'LREC': 'hedgehog-lrec',
+  'LRMF': 'octopus-lrmf',
+  'LRMC': 'beaver-lrmc',
+  'SAEF': 'butterfly-saef',
+  'SAEC': 'penguin-saec',
+  'SAMF': 'parrot-samf',
+  'SAMC': 'deer-samc',
+  'SREF': 'dog-sref',
+  'SREC': 'duck-srec',
+  'SRMF': 'elephant-srmf',
+  'SRMC': 'eagle-srmc'
 };
 
 function updateAnimalPaths() {
