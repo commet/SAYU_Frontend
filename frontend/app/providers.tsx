@@ -1,6 +1,7 @@
 'use client';
 
 import { SessionProvider } from 'next-auth/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '@/hooks/useAuth';
 import { ThemeProvider } from '@/hooks/usePersonalizedTheme';
 import { OnboardingProvider } from '@/contexts/OnboardingContext';
@@ -10,24 +11,36 @@ import { LanguageProvider } from '@/contexts/LanguageContext';
 import { PWAProvider } from '@/components/pwa/PWAProvider';
 import ClientLayout from '@/components/layouts/ClientLayout';
 import { Toaster } from 'react-hot-toast';
+import { useState } from 'react';
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 60 * 1000, // 1 minute
+        refetchOnWindowFocus: false,
+      },
+    },
+  }));
+
   return (
     <SessionProvider>
-      <PWAProvider>
-        <AuthProvider>
-          <LanguageProvider>
-            <ThemeProvider>
-              <OnboardingProvider>
-                <ClientLayout>
-                  {children}
-                </ClientLayout>
-                <PersonalizedToaster />
-              </OnboardingProvider>
-            </ThemeProvider>
-          </LanguageProvider>
-        </AuthProvider>
-      </PWAProvider>
+      <QueryClientProvider client={queryClient}>
+        <PWAProvider>
+          <AuthProvider>
+            <LanguageProvider>
+              <ThemeProvider>
+                <OnboardingProvider>
+                  <ClientLayout>
+                    {children}
+                  </ClientLayout>
+                  <PersonalizedToaster />
+                </OnboardingProvider>
+              </ThemeProvider>
+            </LanguageProvider>
+          </AuthProvider>
+        </PWAProvider>
+      </QueryClientProvider>
     </SessionProvider>
   );
 }

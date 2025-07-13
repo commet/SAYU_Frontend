@@ -10,7 +10,7 @@ import { personalityDescriptions } from '@/data/personality-descriptions';
 import { getAnimalByType } from '@/data/personality-animals';
 import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useGamification } from '@/hooks/useGamification';
+import { useGamificationDashboard } from '@/hooks/useGamification';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import ShareModal from '@/components/share/ShareModal';
 import ProfileIDCard from '@/components/profile/ProfileIDCard';
@@ -26,7 +26,7 @@ function ResultsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { language } = useLanguage();
-  const { userPoints, loading: gamificationLoading } = useGamification();
+  const { dashboard: gamificationData, isLoading: gamificationLoading } = useGamificationDashboard();
   const [results, setResults] = useState<QuizResults | null>(null);
   const [personality, setPersonality] = useState<any>(null);
   const [animalCharacter, setAnimalCharacter] = useState<any>(null);
@@ -414,15 +414,15 @@ function ResultsContent() {
         <ProfileIDCard
           personalityType={results.personalityType}
           userName="SAYU Explorer"
-          userLevel={userPoints?.level || 1}
-          userPoints={userPoints?.totalPoints || 0}
+          userLevel={gamificationData?.level || 1}
+          userPoints={gamificationData?.totalPoints || 0}
           stats={{
-            exhibitionsVisited: userPoints?.exhibitionHistory?.length || 0,
-            achievementsUnlocked: userPoints?.achievements?.filter(a => a.unlockedAt).length || 0,
+            exhibitionsVisited: gamificationData?.exhibitionHistory?.length || 0,
+            achievementsUnlocked: gamificationData?.achievements?.filter(a => a.earnedAt).length || 0,
             companionsMetCount: 0 // This would come from evaluation system
           }}
           recentExhibitions={
-            userPoints?.exhibitionHistory?.slice(0, 3).map(visit => ({
+            gamificationData?.recentExhibitions?.slice(0, 3).map(visit => ({
               name: visit.exhibitionName,
               date: new Date(visit.visitDate).toLocaleDateString()
             })) || []
@@ -432,8 +432,8 @@ function ResultsContent() {
             { name: 'Van Gogh Alive', venue: 'DDP' }
           ]}
           topAchievements={
-            userPoints?.achievements?.filter(a => a.unlockedAt).slice(0, 3).map(achievement => ({
-              name: language === 'ko' ? achievement.name_ko : achievement.name,
+            gamificationData?.achievements?.filter(a => a.earnedAt).slice(0, 3).map(achievement => ({
+              name: language === 'ko' ? achievement.nameKo : achievement.name,
               icon: achievement.icon
             })) || []
           }

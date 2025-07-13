@@ -2,7 +2,7 @@
 // 동반자 평가 시스템 데이터베이스 모델
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../config/sequelize');
 
 // 동반자 평가
 const CompanionEvaluation = sequelize.define('CompanionEvaluation', {
@@ -272,20 +272,27 @@ const UserCompanionTitle = sequelize.define('UserCompanionTitle', {
   ]
 });
 
-// 관계 설정
-CompanionEvaluation.belongsTo(sequelize.models.ExhibitionVisit, { foreignKey: 'exhibitionVisitId' });
-CompanionEvaluation.belongsTo(sequelize.models.User, { foreignKey: 'evaluatorId', as: 'evaluator' });
-CompanionEvaluation.belongsTo(sequelize.models.User, { foreignKey: 'evaluatedId', as: 'evaluated' });
+// 관계 설정 함수 (나중에 호출)
+const initializeAssociations = () => {
+  // TODO: Sequelize 모델이 준비되면 관계 설정
+  // const { User } = require('./User');
+  // const { ExhibitionVisit } = require('./Gamification');
+  
+  // CompanionEvaluation.belongsTo(ExhibitionVisit, { foreignKey: 'exhibitionVisitId' });
+  // CompanionEvaluation.belongsTo(User, { foreignKey: 'evaluatorId', as: 'evaluator' });
+  // CompanionEvaluation.belongsTo(User, { foreignKey: 'evaluatedId', as: 'evaluated' });
 
-EvaluationSummary.belongsTo(sequelize.models.User, { foreignKey: 'userId' });
-EvaluationSummary.hasMany(UserCompanionTitle, { foreignKey: 'userId', as: 'titles' });
+  // EvaluationSummary.belongsTo(User, { foreignKey: 'userId' });
+  // EvaluationSummary.hasMany(UserCompanionTitle, { foreignKey: 'userId', as: 'titles' });
 
-UserCompanionTitle.belongsTo(sequelize.models.User, { foreignKey: 'userId' });
-UserCompanionTitle.belongsTo(CompanionTitle, { foreignKey: 'titleId' });
+  // UserCompanionTitle.belongsTo(User, { foreignKey: 'userId' });
+  // UserCompanionTitle.belongsTo(CompanionTitle, { foreignKey: 'titleId' });
+};
 
 module.exports = {
   CompanionEvaluation,
   EvaluationSummary,
   CompanionTitle,
-  UserCompanionTitle
+  UserCompanionTitle,
+  initializeAssociations
 };

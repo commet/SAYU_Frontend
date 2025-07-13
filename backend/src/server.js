@@ -7,6 +7,10 @@ const session = require('express-session');
 const passport = require('passport');
 require('dotenv').config();
 
+// Validate environment variables
+const { validateEnv } = require('./utils/validateEnv');
+validateEnv();
+
 // Initialize Sentry FIRST, before any other imports
 // Sentry completely disabled for deployment
 // const { initSentry } = require('./config/sentry');
@@ -29,6 +33,7 @@ const {
 
 const { connectDatabase } = require('./config/database');
 const { connectRedis } = require('./config/redis');
+const { hybridDatabaseMiddleware } = require('./middleware/hybridDatabase');
 
 // Initialize Passport
 require('./config/passport');
@@ -59,6 +64,10 @@ const socialShareRoutes = require('./routes/socialShare');
 const artistPortalRoutes = require('./routes/artistPortal');
 const museumsRoutes = require('./routes/museums');
 const reservationsRoutes = require('./routes/reservations');
+const artProfileRoutes = require('./routes/artProfileRoutes');
+const aiRecommendationRoutes = require('./routes/aiRecommendationRoutes');
+const exhibitionCalendarRoutes = require('./routes/exhibitionCalendarRoutes');
+const artveeRoutes = require('./routes/artveeRoutes');
 
 const app = express();
 
@@ -113,6 +122,9 @@ app.use(enhancedRequestLogger);
 app.use(performanceMonitor);
 app.use(securityContext);
 
+// Add hybrid database middleware
+app.use(hybridDatabaseMiddleware);
+
 // Body parsing with size limits
 app.use(express.json({ 
   limit: '10mb',
@@ -153,6 +165,21 @@ app.use('/api/', limiter);
 // User context middleware (after auth middleware in routes)
 app.use(userContext);
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  const { hybridDB } = require('./config/hybridDatabase');
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development',
+    services: {
+      database: 'connected',
+      supabase: hybridDB?.supabase ? 'connected' : 'disconnected',
+      redis: 'optional'
+    }
+  });
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/auth', oauthRoutes); // OAuth routes under auth path
@@ -179,6 +206,10 @@ app.use('/api/museums', museumsRoutes);
 app.use('/api/reservations', reservationsRoutes);
 app.use('/api/gamification', gamificationRoutes);
 app.use('/api/evaluations', evaluationRoutes);
+app.use('/api/art-profile', artProfileRoutes);
+app.use('/api/ai-recommendations', aiRecommendationRoutes);
+app.use('/api/calendar', exhibitionCalendarRoutes);
+app.use('/api/artvee', artveeRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -217,7 +248,7 @@ async function startServer() {
     // Connect to databases
     log.info('Connecting to databases...');
     await connectDatabase();
-    await connectRedis();
+    // Redis is optional - services handle their own connections
     log.info('Database connections established');
     
     // Initialize email automation (only in production or when explicitly enabled)

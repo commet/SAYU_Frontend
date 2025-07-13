@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Target, Zap, TrendingUp, ChevronRight, Star } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useGamification } from '@/hooks/useGamification';
+import { useGamificationDashboard } from '@/hooks/useGamification';
 import { PointsDisplay } from '@/components/gamification/PointsDisplay';
 import { MissionCard } from '@/components/gamification/MissionCard';
 import { AchievementBadge } from '@/components/gamification/AchievementBadge';
@@ -16,10 +16,10 @@ type TabType = 'overview' | 'missions' | 'achievements' | 'history' | 'evaluatio
 
 export default function GamificationPage() {
   const { language } = useLanguage();
-  const { userPoints, loading, error, updateMissionProgress, evaluationSummary } = useGamification();
+  const { dashboard, isLoading, error } = useGamificationDashboard();
   const [activeTab, setActiveTab] = useState<TabType>('overview');
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -32,7 +32,7 @@ export default function GamificationPage() {
     );
   }
 
-  if (error || !userPoints) {
+  if (error || !dashboard) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -52,8 +52,8 @@ export default function GamificationPage() {
     { id: 'evaluations' as TabType, label: language === 'ko' ? '평가' : 'Evaluations', icon: Star }
   ];
 
-  const activeMissions = userPoints.missions.filter(m => !m.completed);
-  const completedMissions = userPoints.missions.filter(m => m.completed);
+  const activeMissions = dashboard.challenges?.filter(c => c.status === 'active') || [];
+  const completedMissions = dashboard.challenges?.filter(c => c.status === 'completed') || [];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-pink-50">
@@ -72,7 +72,7 @@ export default function GamificationPage() {
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Points Display */}
         <div className="mb-8">
-          <PointsDisplay userPoints={userPoints} />
+          <PointsDisplay userPoints={dashboard} />
         </div>
 
         {/* Tabs */}
@@ -110,7 +110,7 @@ export default function GamificationPage() {
                 <div className="bg-white rounded-xl p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
                     <Target className="w-8 h-8 text-blue-500" />
-                    <span className="text-2xl font-bold">{activeMissions.length}</span>
+                    <span className="text-2xl font-bold">{dashboard.stats?.activeChallenges || 0}</span>
                   </div>
                   <p className="text-gray-600">
                     {language === 'ko' ? '활성 미션' : 'Active Missions'}
@@ -120,7 +120,7 @@ export default function GamificationPage() {
                   <div className="flex items-center justify-between mb-4">
                     <Zap className="w-8 h-8 text-amber-500" />
                     <span className="text-2xl font-bold">
-                      {userPoints.achievements.filter(a => a.unlockedAt).length}
+                      {dashboard.achievements?.filter(a => a.earnedAt).length || 0}
                     </span>
                   </div>
                   <p className="text-gray-600">
@@ -131,7 +131,7 @@ export default function GamificationPage() {
                   <div className="flex items-center justify-between mb-4">
                     <Trophy className="w-8 h-8 text-green-500" />
                     <span className="text-2xl font-bold">
-                      {userPoints.exhibitionHistory.length}
+                      {dashboard.stats?.totalExhibitions || 0}
                     </span>
                   </div>
                   <p className="text-gray-600">
@@ -145,23 +145,20 @@ export default function GamificationPage() {
                 <h3 className="text-lg font-bold mb-4">
                   {language === 'ko' ? '최근 활동' : 'Recent Activity'}
                 </h3>
-                {userPoints.exhibitionHistory.length > 0 ? (
+                {dashboard.recentActivities && dashboard.recentActivities.length > 0 ? (
                   <div className="space-y-3">
-                    {userPoints.exhibitionHistory.slice(0, 5).map(visit => (
-                      <div key={visit.id} className="flex items-center justify-between py-2 border-b last:border-0">
+                    {dashboard.recentActivities.slice(0, 5).map((activity: any) => (
+                      <div key={activity.id} className="flex items-center justify-between py-2 border-b last:border-0">
                         <div>
-                          <p className="font-medium">{visit.exhibitionName}</p>
+                          <p className="font-medium">{activity.description}</p>
                           <p className="text-sm text-gray-600">
-                            {new Date(visit.visitDate).toLocaleDateString()}
+                            {new Date(activity.createdAt).toLocaleDateString()}
                           </p>
                         </div>
                         <div className="text-right">
                           <p className="font-medium text-amber-600">
-                            +{visit.pointsEarned} {language === 'ko' ? '포인트' : 'points'}
+                            +{activity.points} {language === 'ko' ? '포인트' : 'points'}
                           </p>
-                          {visit.companionType && (
-                            <p className="text-sm text-gray-600">{visit.companionType}</p>
-                          )}
                         </div>
                       </div>
                     ))}
@@ -191,7 +188,7 @@ export default function GamificationPage() {
                       <MissionCard
                         key={mission.id}
                         mission={mission}
-                        onComplete={() => updateMissionProgress(mission.id, mission.target)}
+                        onComplete={() => console.log('Complete mission:', mission.id)}
                       />
                     ))}
                   </div>
@@ -227,10 +224,8 @@ export default function GamificationPage() {
           {activeTab === 'achievements' && (
             <div className="space-y-6">
               {['exploration', 'social', 'knowledge', 'special'].map(category => {
-                const categoryAchievements = achievements.filter(a => a.category === category as any);
-                const unlockedCount = categoryAchievements.filter(a => 
-                  userPoints.achievements.some(ua => ua.id === a.id && ua.unlockedAt)
-                ).length;
+                const categoryAchievements = dashboard.achievements?.filter(a => a.category === category) || [];
+                const unlockedCount = categoryAchievements.filter(a => a.earnedAt).length;
 
                 return (
                   <div key={category} className="bg-white rounded-xl p-6 shadow-sm">
@@ -245,15 +240,15 @@ export default function GamificationPage() {
                     </h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                       {categoryAchievements.map(achievement => {
-                        const userAchievement = userPoints.achievements.find(ua => ua.id === achievement.id);
+                        const userAchievement = categoryAchievements.find(a => a.id === achievement.id);
                         return (
                           <AchievementBadge
                             key={achievement.id}
                             achievement={{
                               ...achievement,
-                              unlockedAt: userAchievement?.unlockedAt
+                              earnedAt: userAchievement?.earnedAt
                             }}
-                            unlocked={!!userAchievement?.unlockedAt}
+                            unlocked={!!userAchievement?.earnedAt}
                             size="small"
                           />
                         );
@@ -270,9 +265,9 @@ export default function GamificationPage() {
               <h3 className="text-lg font-bold mb-4">
                 {language === 'ko' ? '전시 방문 기록' : 'Exhibition History'}
               </h3>
-              {userPoints.exhibitionHistory.length > 0 ? (
+              {dashboard.recentExhibitions && dashboard.recentExhibitions.length > 0 ? (
                 <div className="space-y-4">
-                  {userPoints.exhibitionHistory.map(visit => (
+                  {dashboard.recentExhibitions.map((visit: any) => (
                     <div key={visit.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
@@ -340,8 +335,8 @@ export default function GamificationPage() {
           {activeTab === 'evaluations' && (
             <div className="space-y-6">
               {/* Evaluation Summary */}
-              {evaluationSummary && (
-                <EvaluationSummaryCard summary={evaluationSummary} />
+              {dashboard.evaluationStats && (
+                <EvaluationSummaryCard summary={dashboard.evaluationStats} />
               )}
 
               {/* Pending Evaluations */}

@@ -1,8 +1,17 @@
 const { Pool } = require('pg');
 
+// SSL configuration for production
+const sslConfig = process.env.NODE_ENV === 'production' 
+  ? {
+      rejectUnauthorized: process.env.DATABASE_SSL_REJECT_UNAUTHORIZED !== 'false',
+      // Railway PostgreSQL uses self-signed certificates
+      // Set DATABASE_SSL_REJECT_UNAUTHORIZED=false in production if needed
+    }
+  : false;
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  ssl: sslConfig,
   max: 20,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,

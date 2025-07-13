@@ -3,9 +3,11 @@
 
 const express = require('express');
 const router = express.Router();
-const gamificationService = require('../services/gamificationService');
-const { authenticate } = require('../middleware/auth');
+const { getGamificationService } = require('../services/gamificationService');
+const authenticate = require('../middleware/auth');
 const { body, validationResult } = require('express-validator');
+
+const gamificationService = getGamificationService();
 
 // 사용자 포인트 정보 조회
 router.get('/points', authenticate, async (req, res) => {

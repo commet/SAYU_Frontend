@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { authenticate } = require('../middleware/auth');
+const authenticate = require('../middleware/auth');
 const { BehavioralInsightsService } = require('../services/behavioralInsightsService');
 // const { captureException } = require('../config/sentry');
 const captureException = (error, context) => {

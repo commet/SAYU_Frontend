@@ -4,7 +4,7 @@
 const express = require('express');
 const router = express.Router();
 const evaluationService = require('../services/evaluationService');
-const { authenticate } = require('../middleware/auth');
+const authenticate = require('../middleware/auth');
 const { body, param, validationResult } = require('express-validator');
 
 // 동반자 평가 제출

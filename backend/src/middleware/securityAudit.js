@@ -1,5 +1,11 @@
-const { redisClient } = require('../config/redis');
 const validator = require('validator');
+let redisClient = null;
+try {
+  const redisModule = require('../config/redis');
+  redisClient = redisModule.getRedisClient || redisModule.redisClient;
+} catch (error) {
+  // Redis is optional
+}
 
 class SecurityAuditService {
   constructor() {
@@ -127,21 +133,34 @@ class SecurityAuditService {
 
   // Rate limiting check
   async checkRateLimit(ip, endpoint) {
-    const key = `rate_limit:${ip}:${endpoint}`;
-    const current = await redisClient().incr(key);
-    
-    if (current === 1) {
-      await redisClient().expire(key, 60); // 1 minute window
-    }
-
     const limit = this.getRateLimitForEndpoint(endpoint);
     
-    return {
-      exceeded: current > limit,
-      current,
-      limit,
-      resetTime: Date.now() + 60000
-    };
+    if (!redisClient || typeof redisClient !== 'function') {
+      return { exceeded: false, current: 0, limit, resetTime: Date.now() + 60000 };
+    }
+    
+    try {
+      const redis = redisClient();
+      if (!redis) {
+        return { exceeded: false, current: 0, limit, resetTime: Date.now() + 60000 };
+      }
+      
+      const key = `rate_limit:${ip}:${endpoint}`;
+      const current = await redis.incr(key);
+      
+      if (current === 1) {
+        await redis.expire(key, 60); // 1 minute window
+      }
+      
+      return {
+        exceeded: current > limit,
+        current,
+        limit,
+        resetTime: Date.now() + 60000
+      };
+    } catch (error) {
+      return { exceeded: false, current: 0, limit, resetTime: Date.now() + 60000 };
+    }
   }
 
   // Get rate limit based on endpoint
@@ -218,14 +237,23 @@ class SecurityAuditService {
       ...data
     };
 
-    // Store in Redis for real-time monitoring
-    const key = `security_events:${eventType}:${Date.now()}`;
-    await redisClient().setEx(key, 86400, JSON.stringify(logEntry)); // 24 hour retention
+    // Store in Redis for real-time monitoring (if available)
+    if (redisClient && typeof redisClient === 'function') {
+      try {
+        const redis = redisClient();
+        if (redis) {
+          const key = `security_events:${eventType}:${Date.now()}`;
+          await redis.setEx(key, 86400, JSON.stringify(logEntry)); // 24 hour retention
 
-    // Also maintain a rolling count of events by type
-    const countKey = `security_count:${eventType}:${Math.floor(Date.now() / 3600000)}`; // Hourly buckets
-    await redisClient().incr(countKey);
-    await redisClient().expire(countKey, 86400);
+          // Also maintain a rolling count of events by type
+          const countKey = `security_count:${eventType}:${Math.floor(Date.now() / 3600000)}`; // Hourly buckets
+          await redis.incr(countKey);
+          await redis.expire(countKey, 86400);
+        }
+      } catch (error) {
+        // Continue without Redis
+      }
+    }
 
     console.log(`Security Event [${eventType}]:`, logEntry);
   }
@@ -236,8 +264,17 @@ class SecurityAuditService {
     const importantEndpoints = ['/api/auth/', '/api/quiz/', '/api/agent/'];
     
     if (importantEndpoints.some(endpoint => auditData.url.includes(endpoint))) {
-      const key = `request_log:${auditData.timestamp}`;
-      await redisClient().setEx(key, 3600, JSON.stringify(auditData)); // 1 hour retention
+      if (redisClient && typeof redisClient === 'function') {
+        try {
+          const redis = redisClient();
+          if (redis) {
+            const key = `request_log:${auditData.timestamp}`;
+            await redis.setEx(key, 3600, JSON.stringify(auditData)); // 1 hour retention
+          }
+        } catch (error) {
+          // Continue without Redis
+        }
+      }
     }
   }
 
@@ -271,17 +308,26 @@ class SecurityAuditService {
     const stats = {};
     const eventTypes = ['SUSPICIOUS_URL', 'SUSPICIOUS_PAYLOAD', 'REQUEST_BLOCKED', 'POTENTIAL_BOT'];
     
-    for (const eventType of eventTypes) {
-      const pattern = `security_count:${eventType}:*`;
-      const keys = await redisClient().keys(pattern);
-      let total = 0;
-      
-      for (const key of keys) {
-        const count = await redisClient().get(key);
-        total += parseInt(count || 0);
+    if (redisClient && typeof redisClient === 'function') {
+      try {
+        const redis = redisClient();
+        if (redis) {
+          for (const eventType of eventTypes) {
+            const pattern = `security_count:${eventType}:*`;
+            const keys = await redis.keys(pattern);
+            let total = 0;
+            
+            for (const key of keys) {
+              const count = await redis.get(key);
+              total += parseInt(count || 0);
+            }
+            
+            stats[eventType] = total;
+          }
+        }
+      } catch (error) {
+        // Return empty stats if Redis is not available
       }
-      
-      stats[eventType] = total;
     }
     
     return stats;
@@ -290,7 +336,16 @@ class SecurityAuditService {
   async addToBlacklist(ip, reason = 'Manual block') {
     if (validator.isIP(ip)) {
       this.ipBlacklist.add(ip);
-      await redisClient().setEx(`blacklist:${ip}`, 86400 * 7, reason); // 7 days
+      if (redisClient && typeof redisClient === 'function') {
+        try {
+          const redis = redisClient();
+          if (redis) {
+            await redis.setEx(`blacklist:${ip}`, 86400 * 7, reason); // 7 days
+          }
+        } catch (error) {
+          // Continue without Redis
+        }
+      }
       await this.logSecurityEvent('IP_BLACKLISTED', { ip, reason });
       return true;
     }
@@ -299,23 +354,42 @@ class SecurityAuditService {
 
   async removeFromBlacklist(ip) {
     this.ipBlacklist.delete(ip);
-    await redisClient().del(`blacklist:${ip}`);
+    if (redisClient && typeof redisClient === 'function') {
+      try {
+        const redis = redisClient();
+        if (redis) {
+          await redis.del(`blacklist:${ip}`);
+        }
+      } catch (error) {
+        // Continue without Redis
+      }
+    }
     await this.logSecurityEvent('IP_UNBLACKLISTED', { ip });
     return true;
   }
 
   async getRecentSecurityEvents(limit = 100) {
-    const pattern = 'security_events:*';
-    const keys = await redisClient().keys(pattern);
     const events = [];
     
-    // Sort keys by timestamp (newest first)
-    keys.sort().reverse();
-    
-    for (const key of keys.slice(0, limit)) {
-      const event = await redisClient().get(key);
-      if (event) {
-        events.push(JSON.parse(event));
+    if (redisClient && typeof redisClient === 'function') {
+      try {
+        const redis = redisClient();
+        if (redis) {
+          const pattern = 'security_events:*';
+          const keys = await redis.keys(pattern);
+          
+          // Sort keys by timestamp (newest first)
+          keys.sort().reverse();
+          
+          for (const key of keys.slice(0, limit)) {
+            const event = await redis.get(key);
+            if (event) {
+              events.push(JSON.parse(event));
+            }
+          }
+        }
+      } catch (error) {
+        // Return empty events if Redis is not available
       }
     }
     

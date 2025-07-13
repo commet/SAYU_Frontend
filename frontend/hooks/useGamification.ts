@@ -1,297 +1,349 @@
-// 🎨 SAYU Gamification Hook
-// 게임화 시스템 상태 관리 및 API 통신
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { gamificationAPI } from '@/lib/gamification-api';
+import type { 
+  UserGamificationStats, 
+  ExhibitionSession,
+  Title,
+  Challenge,
+  LeaderboardEntry
+} from '@/lib/gamification-api';
+import toast from 'react-hot-toast';
+import confetti from 'canvas-confetti';
 
-import { useState, useEffect, useCallback } from 'react';
-import { useSession } from 'next-auth/react';
-import { toast } from 'react-hot-toast';
-import { 
-  UserPoints, 
-  Achievement, 
-  Mission, 
-  PointActivityType,
-  ExhibitionVisit 
-} from '@/types/gamification';
-import { calculateProgress } from '@/data/levels';
-import { achievements } from '@/data/achievements';
-import { createMissionFromTemplate, getDailyMissions, getWeeklyMissions } from '@/data/missions';
+// Query Keys
+const QUERY_KEYS = {
+  dashboard: ['gamification', 'dashboard'],
+  titles: ['gamification', 'titles'],
+  challenges: (status: string) => ['gamification', 'challenges', status],
+  leaderboard: (type: string) => ['gamification', 'leaderboard', type],
+  currentSession: ['gamification', 'currentSession'],
+  userStats: (userId?: string) => ['gamification', 'stats', userId],
+  weeklyProgress: ['gamification', 'weeklyProgress'],
+  activities: ['gamification', 'activities']
+};
 
-interface UseGamificationReturn {
-  userPoints: UserPoints | null;
-  loading: boolean;
-  error: string | null;
-  addPoints: (activity: PointActivityType, metadata?: any) => Promise<void>;
-  checkAchievement: (achievementId: string) => Promise<void>;
-  updateMissionProgress: (missionId: string, progress: number) => Promise<void>;
-  recordExhibitionVisit: (visit: Omit<ExhibitionVisit, 'id' | 'pointsEarned'>) => Promise<void>;
-  refreshData: () => Promise<void>;
-  evaluationSummary?: any; // Mock evaluation summary for demo
-}
+// Hook: 대시보드 데이터
+export function useGamificationDashboard() {
+  const queryClient = useQueryClient();
 
-export function useGamification(): UseGamificationReturn {
-  const { data: session } = useSession();
-  const [userPoints, setUserPoints] = useState<UserPoints | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data, isLoading, error } = useQuery({
+    queryKey: QUERY_KEYS.dashboard,
+    queryFn: () => gamificationAPI.getDashboard(),
+    staleTime: 30000, // 30초
+    refetchInterval: 60000 // 1분마다 갱신
+  });
 
-  // 사용자 포인트 데이터 가져오기
-  const fetchUserPoints = useCallback(async () => {
-    if (!session?.user?.id) {
-      setLoading(false);
-      return;
-    }
-
-    try {
-      setLoading(true);
-      const response = await fetch('/api/gamification/points', {
-        headers: {
-          'Authorization': `Bearer ${session.accessToken}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch user points');
-      }
-
-      const data = await response.json();
-      
-      // 없으면 초기화
-      if (!data) {
-        const initialData = await initializeUserPoints(session.user.id);
-        setUserPoints(initialData);
-      } else {
-        setUserPoints(data);
-      }
-    } catch (err) {
-      console.error('Error fetching user points:', err);
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoading(false);
-    }
-  }, [session]);
-
-  // 초기 데이터 로드
+  // SSE 구독 (프로덕션 환경에서만 활성화)
   useEffect(() => {
-    fetchUserPoints();
-  }, [fetchUserPoints]);
-
-  // 포인트 추가
-  const addPoints = async (activity: PointActivityType, metadata?: any) => {
-    if (!session?.user?.id) {
-      toast.error('Please login to earn points');
+    // 개발 환경에서는 SSE 비활성화
+    if (process.env.NODE_ENV === 'development') {
       return;
     }
 
-    try {
-      const response = await fetch('/api/gamification/points/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.accessToken}`
-        },
-        body: JSON.stringify({
-          activity,
-          metadata
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to add points');
-      }
-
-      const data = await response.json();
-      
-      // 포인트 추가 성공 토스트
-      toast.success(`+${data.pointsEarned} points!`);
-      
-      // 레벨업 체크
-      if (data.leveledUp) {
-        toast.success(`🎉 Level ${data.newLevel} reached!`, {
-          duration: 5000
+    const unsubscribe = gamificationAPI.subscribeToUpdates((update) => {
+      // 실시간 업데이트 처리
+      if (update.type === 'pointsEarned') {
+        queryClient.setQueryData(QUERY_KEYS.dashboard, (old: any) => ({
+          ...old,
+          data: {
+            ...old?.data,
+            currentPoints: old?.data?.currentPoints + update.points,
+            totalPoints: old?.data?.totalPoints + update.points
+          }
+        }));
+      } else if (update.type === 'levelUp') {
+        // 레벨업 축하
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
         });
+        toast.success(`🎉 레벨업! 이제 Lv.${update.newLevel}입니다!`);
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.dashboard });
+      } else if (update.type === 'titleEarned') {
+        toast.success(`🏆 새로운 칭호 획득: ${update.titleName}`);
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.titles });
       }
-      
-      // 상태 업데이트
-      await fetchUserPoints();
-    } catch (err) {
-      console.error('Error adding points:', err);
-      toast.error('Failed to add points');
-    }
-  };
+    });
 
-  // 업적 달성 체크
-  const checkAchievement = async (achievementId: string) => {
-    if (!session?.user?.id || !userPoints) return;
-
-    // 이미 달성한 업적인지 확인
-    if (userPoints.achievements.some(a => a.id === achievementId && a.unlockedAt)) {
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/gamification/achievements/unlock', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.accessToken}`
-        },
-        body: JSON.stringify({ achievementId })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to unlock achievement');
-      }
-
-      const achievement = achievements.find(a => a.id === achievementId);
-      if (achievement) {
-        toast.success(`🏆 Achievement unlocked: ${achievement.name}!`, {
-          duration: 5000
-        });
-      }
-
-      await fetchUserPoints();
-    } catch (err) {
-      console.error('Error unlocking achievement:', err);
-    }
-  };
-
-  // 미션 진행도 업데이트
-  const updateMissionProgress = async (missionId: string, progress: number) => {
-    if (!session?.user?.id) return;
-
-    try {
-      const response = await fetch('/api/gamification/missions/progress', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.accessToken}`
-        },
-        body: JSON.stringify({ missionId, progress })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update mission progress');
-      }
-
-      const data = await response.json();
-      
-      if (data.completed) {
-        toast.success(`✅ Mission completed: +${data.pointsEarned} points!`);
-      }
-
-      await fetchUserPoints();
-    } catch (err) {
-      console.error('Error updating mission:', err);
-    }
-  };
-
-  // 전시 방문 기록
-  const recordExhibitionVisit = async (
-    visit: Omit<ExhibitionVisit, 'id' | 'pointsEarned'>
-  ) => {
-    if (!session?.user?.id) return;
-
-    try {
-      const response = await fetch('/api/gamification/exhibitions/visit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.accessToken}`
-        },
-        body: JSON.stringify(visit)
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to record exhibition visit');
-      }
-
-      const data = await response.json();
-      toast.success(`Exhibition visited: +${data.pointsEarned} points!`);
-
-      await fetchUserPoints();
-    } catch (err) {
-      console.error('Error recording visit:', err);
-      toast.error('Failed to record exhibition visit');
-    }
-  };
-
-  // 데이터 새로고침
-  const refreshData = async () => {
-    await fetchUserPoints();
-  };
-
-  // Mock evaluation summary for demo
-  const evaluationSummary = {
-    userId: session?.user?.id || 'mock',
-    personalityType: 'LAEF',
-    averageRatings: {
-      exhibitionEngagement: 4.5,
-      communication: 4.2,
-      paceMatching: 4.0,
-      newPerspectives: 4.8,
-      overallSatisfaction: 4.4
-    },
-    totalEvaluations: 12,
-    wouldGoAgainPercentage: 83,
-    chemistryStats: {
-      'SRMC': { count: 3, averageRating: 4.5, wouldGoAgainCount: 3 },
-      'LAMC': { count: 2, averageRating: 4.2, wouldGoAgainCount: 1 },
-      'SAEF': { count: 4, averageRating: 4.6, wouldGoAgainCount: 4 }
-    },
-    receivedHighlights: [
-      '예술에 대한 깊은 통찰력을 공유해줘서 좋았어요',
-      '함께 있으면 전시가 더 재미있어요',
-      '새로운 관점을 많이 배웠습니다'
-    ],
-    receivedImprovements: [
-      '조금 더 천천히 관람하면 좋을 것 같아요',
-      '다른 사람 의견도 더 들어주세요'
-    ],
-    earnedTitles: [{
-      id: 'insight_provider',
-      name: 'Insight Provider',
-      name_ko: '인사이트 제공자',
-      description: 'Consistently provides new perspectives',
-      description_ko: '지속적으로 새로운 관점 제공',
-      icon: '💡',
-      requirement: 'Average rating > 4.5',
-      earnedAt: new Date()
-    }]
-  };
+    return unsubscribe;
+  }, [queryClient]);
 
   return {
-    userPoints,
-    loading,
-    error,
-    addPoints,
-    checkAchievement,
-    updateMissionProgress,
-    recordExhibitionVisit,
-    refreshData,
-    evaluationSummary
+    dashboard: data?.data,
+    isLoading,
+    error
   };
 }
 
-// 사용자 포인트 초기화 (신규 사용자)
-async function initializeUserPoints(userId: string): Promise<UserPoints> {
-  const dailyMissions = getDailyMissions().slice(0, 3).map(template => 
-    createMissionFromTemplate(template, userId)
-  );
-  
-  const weeklyMissions = getWeeklyMissions().slice(0, 2).map(template => 
-    createMissionFromTemplate(template, userId)
-  );
+// Hook: 전시 세션 관리
+export function useExhibitionSession() {
+  const queryClient = useQueryClient();
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // 현재 세션 조회
+  const { data: currentSession } = useQuery({
+    queryKey: QUERY_KEYS.currentSession,
+    queryFn: () => gamificationAPI.getCurrentSession(),
+    refetchInterval: 10000 // 10초마다 확인
+  });
+
+  // 세션 시작
+  const startSession = useMutation({
+    mutationFn: gamificationAPI.startExhibition,
+    onSuccess: (data) => {
+      toast.success('전시 관람을 시작합니다! 🎨');
+      queryClient.setQueryData(QUERY_KEYS.currentSession, data);
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.dashboard });
+      
+      // 로컬 스토리지 백업
+      localStorage.setItem('activeSession', JSON.stringify(data.data));
+    },
+    onError: () => {
+      toast.error('관람 시작에 실패했습니다');
+    }
+  });
+
+  // 세션 종료
+  const endSession = useMutation({
+    mutationFn: gamificationAPI.endExhibition,
+    onSuccess: (data) => {
+      const duration = data.data.duration;
+      const points = data.data.pointsEarned;
+      
+      toast.success(`관람을 완료했습니다! 🎉\n관람 시간: ${duration}분\n+${points} 포인트 획득!`);
+      
+      queryClient.setQueryData(QUERY_KEYS.currentSession, null);
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.dashboard });
+      
+      // 로컬 스토리지 정리
+      localStorage.removeItem('activeSession');
+    },
+    onError: () => {
+      toast.error('관람 종료 처리에 실패했습니다');
+    }
+  });
+
+  // 타이머 업데이트
+  useEffect(() => {
+    if (currentSession?.data) {
+      const startTime = new Date(currentSession.data.startTime).getTime();
+      
+      const updateElapsed = () => {
+        setElapsedTime(Date.now() - startTime);
+      };
+      
+      updateElapsed();
+      intervalRef.current = setInterval(updateElapsed, 1000);
+      
+      return () => {
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+        }
+      };
+    } else {
+      setElapsedTime(0);
+    }
+  }, [currentSession]);
+
+  // 앱 재시작 시 세션 복구
+  useEffect(() => {
+    const savedSession = localStorage.getItem('activeSession');
+    if (savedSession && !currentSession?.data) {
+      try {
+        const session = JSON.parse(savedSession);
+        queryClient.setQueryData(QUERY_KEYS.currentSession, { data: session });
+      } catch (error) {
+        localStorage.removeItem('activeSession');
+      }
+    }
+  }, []);
 
   return {
-    userId,
-    totalPoints: 0,
-    level: 1,
-    levelName: 'Art Curious',
-    levelName_ko: '예술 입문자',
-    nextLevelPoints: 100,
-    achievements: [],
-    missions: [...dailyMissions, ...weeklyMissions],
-    exhibitionHistory: [],
-    createdAt: new Date(),
-    updatedAt: new Date()
+    currentSession: currentSession?.data,
+    isActive: !!currentSession?.data,
+    elapsedTime,
+    startSession: startSession.mutate,
+    endSession: endSession.mutate,
+    isStarting: startSession.isPending,
+    isEnding: endSession.isPending
   };
 }
+
+// Hook: 칭호 관리
+export function useTitles() {
+  const queryClient = useQueryClient();
+
+  const { data, isLoading } = useQuery({
+    queryKey: QUERY_KEYS.titles,
+    queryFn: () => gamificationAPI.getTitles()
+  });
+
+  const setMainTitle = useMutation({
+    mutationFn: gamificationAPI.setMainTitle,
+    onSuccess: (_, titleId) => {
+      toast.success('메인 칭호가 변경되었습니다');
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.titles });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.dashboard });
+    },
+    onError: () => {
+      toast.error('칭호 변경에 실패했습니다');
+    }
+  });
+
+  return {
+    titles: data?.data as Title[],
+    isLoading,
+    setMainTitle: setMainTitle.mutate,
+    isSettingTitle: setMainTitle.isPending
+  };
+}
+
+// Hook: 도전 과제
+export function useChallenges(status: 'active' | 'completed' | 'all' = 'active') {
+  const { data, isLoading } = useQuery({
+    queryKey: QUERY_KEYS.challenges(status),
+    queryFn: () => gamificationAPI.getChallenges(status),
+    staleTime: 60000 // 1분
+  });
+
+  return {
+    challenges: data?.data as Challenge[],
+    isLoading
+  };
+}
+
+// Hook: 리더보드
+export function useLeaderboard(type: 'weekly' | 'monthly' | 'all-time' = 'weekly') {
+  const { data, isLoading } = useQuery({
+    queryKey: QUERY_KEYS.leaderboard(type),
+    queryFn: () => gamificationAPI.getLeaderboard(type),
+    staleTime: 300000 // 5분
+  });
+
+  return {
+    leaderboard: data?.data?.leaderboard as LeaderboardEntry[],
+    userRank: data?.data?.userRank,
+    isLoading
+  };
+}
+
+// Hook: 포인트 획득
+export function useEarnPoints() {
+  const queryClient = useQueryClient();
+
+  const earnPoints = useMutation({
+    mutationFn: ({ activity, metadata }: { activity: string; metadata?: any }) =>
+      gamificationAPI.earnPoints(activity, metadata),
+    onSuccess: (data) => {
+      const points = data.data.pointsEarned;
+      
+      // 포인트 획득 애니메이션
+      if (points > 0) {
+        toast.success(`+${points} 포인트 획득!`, {
+          icon: '✨',
+          duration: 2000
+        });
+      }
+      
+      // 캐시 업데이트
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.dashboard });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.activities });
+    }
+  });
+
+  return {
+    earnPoints: earnPoints.mutate,
+    isEarning: earnPoints.isPending
+  };
+}
+
+// Hook: 공유 카드 생성
+export function useShareCard() {
+  const [shareData, setShareData] = useState<{
+    imageUrl: string;
+    shareData: any;
+  } | null>(null);
+
+  const generateCard = useMutation({
+    mutationFn: ({ type, data }: { type: 'monthly' | 'achievement' | 'level-up'; data?: any }) =>
+      gamificationAPI.generateShareCard(type, data),
+    onSuccess: (data) => {
+      setShareData(data.data);
+    },
+    onError: () => {
+      toast.error('공유 카드 생성에 실패했습니다');
+    }
+  });
+
+  const share = useCallback(async () => {
+    if (!shareData) return;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: shareData.shareData.title,
+          text: shareData.shareData.description,
+          url: shareData.imageUrl
+        });
+      } catch (error) {
+        console.log('Share cancelled');
+      }
+    } else {
+      // 클립보드에 복사
+      navigator.clipboard.writeText(shareData.imageUrl);
+      toast.success('링크가 복사되었습니다');
+    }
+  }, [shareData]);
+
+  return {
+    generateCard: generateCard.mutate,
+    isGenerating: generateCard.isPending,
+    shareData,
+    share
+  };
+}
+
+// Hook: 주간 진행도
+export function useWeeklyProgress() {
+  const { data, isLoading } = useQuery({
+    queryKey: QUERY_KEYS.weeklyProgress,
+    queryFn: () => gamificationAPI.getWeeklyProgress(),
+    staleTime: 3600000 // 1시간
+  });
+
+  return {
+    weeklyProgress: data?.data,
+    isLoading
+  };
+}
+
+// Utility: 시간 포맷팅
+export function formatDuration(milliseconds: number): string {
+  const totalSeconds = Math.floor(milliseconds / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  if (hours > 0) {
+    return `${hours}시간 ${minutes}분`;
+  } else if (minutes > 0) {
+    return `${minutes}분 ${seconds}초`;
+  } else {
+    return `${seconds}초`;
+  }
+}
+
+// Utility: 레벨 정보 가져오기
+export function getLevelInfo(level: number) {
+  if (level <= 10) return { name: '첫 발걸음', icon: '🌱', color: '#E8E8E8' };
+  if (level <= 25) return { name: '호기심 가득', icon: '👀', color: '#A8D8EA' };
+  if (level <= 50) return { name: '눈뜨는 중', icon: '✨', color: '#AA96DA' };
+  if (level <= 75) return { name: '감성 충만', icon: '🌸', color: '#FCBAD3' };
+  return { name: '예술혼', icon: '🎨', color: '#FFFFD2' };
+}
+
+// Default export for backward compatibility
+export { useGamificationDashboard as useGamification };

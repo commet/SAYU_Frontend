@@ -1,0 +1,723 @@
+{
+  "metadata": {
+    "total": 119,
+    "collectedAt": "2025-07-13T03:39:21.810Z",
+    "strategy": "diverse selection"
+  },
+  "urls": [
+    {
+      "url": "https://artvee.com/dl/portrait-exhibition-copley-hall-boston-march-2nd-to-23rd/",
+      "lastmod": "2025-02-20T01:19:29+00:00",
+      "sitemap": "product-sitemap290.xml",
+      "artworkId": "portrait-exhibition-copley-hall-boston-march-2nd-to-23rd"
+    },
+    {
+      "url": "https://artvee.com/dl/portrait-einer-jungen-frau-2/",
+      "lastmod": "2024-11-16T04:05:17+00:00",
+      "sitemap": "product-sitemap200.xml",
+      "artworkId": "portrait-einer-jungen-frau-2"
+    },
+    {
+      "url": "https://artvee.com/dl/portrait-of-olga-sardegna-daverio/",
+      "lastmod": "2024-11-16T04:05:17+00:00",
+      "sitemap": "product-sitemap200.xml",
+      "artworkId": "portrait-of-olga-sardegna-daverio"
+    },
+    {
+      "url": "https://artvee.com/dl/portrait-of-jakub-baracz/",
+      "lastmod": "2024-11-16T04:05:18+00:00",
+      "sitemap": "product-sitemap200.xml",
+      "artworkId": "portrait-of-jakub-baracz"
+    },
+    {
+      "url": "https://artvee.com/dl/portrait-of-leon-bilinski/",
+      "lastmod": "2024-11-16T04:05:18+00:00",
+      "sitemap": "product-sitemap200.xml",
+      "artworkId": "portrait-of-leon-bilinski"
+    },
+    {
+      "url": "https://artvee.com/dl/portrait-of-mikolaj-brzeski/",
+      "lastmod": "2024-11-16T04:05:18+00:00",
+      "sitemap": "product-sitemap200.xml",
+      "artworkId": "portrait-of-mikolaj-brzeski"
+    },
+    {
+      "url": "https://artvee.com/dl/portrait-of-mrs-falinska-artists-grandmother/",
+      "lastmod": "2024-11-16T04:05:18+00:00",
+      "sitemap": "product-sitemap200.xml",
+      "artworkId": "portrait-of-mrs-falinska-artists-grandmother"
+    },
+    {
+      "url": "https://artvee.com/dl/portrait-of-the-artists-sister-3/",
+      "lastmod": "2024-11-16T04:05:18+00:00",
+      "sitemap": "product-sitemap200.xml",
+      "artworkId": "portrait-of-the-artists-sister-3"
+    },
+    {
+      "url": "https://artvee.com/dl/portrait-of-wanda-kossuth/",
+      "lastmod": "2024-11-16T04:05:18+00:00",
+      "sitemap": "product-sitemap200.xml",
+      "artworkId": "portrait-of-wanda-kossuth"
+    },
+    {
+      "url": "https://artvee.com/dl/self-portrait-427/",
+      "lastmod": "2024-11-16T04:05:18+00:00",
+      "sitemap": "product-sitemap200.xml",
+      "artworkId": "self-portrait-427"
+    },
+    {
+      "url": "https://artvee.com/dl/self-portrait-428/",
+      "lastmod": "2024-11-16T04:05:18+00:00",
+      "sitemap": "product-sitemap200.xml",
+      "artworkId": "self-portrait-428"
+    },
+    {
+      "url": "https://artvee.com/dl/portrait-of-commodore-philip-carrigan-johnson-jr/",
+      "lastmod": "2024-11-16T04:05:18+00:00",
+      "sitemap": "product-sitemap200.xml",
+      "artworkId": "portrait-of-commodore-philip-carrigan-johnson-jr"
+    },
+    {
+      "url": "https://artvee.com/dl/portrait-of-a-lady-200/",
+      "lastmod": "2024-11-16T04:05:19+00:00",
+      "sitemap": "product-sitemap200.xml",
+      "artworkId": "portrait-of-a-lady-200"
+    },
+    {
+      "url": "https://artvee.com/dl/portrait-of-a-man-270/",
+      "lastmod": "2024-11-16T04:05:19+00:00",
+      "sitemap": "product-sitemap200.xml",
+      "artworkId": "portrait-of-a-man-270"
+    },
+    {
+      "url": "https://artvee.com/dl/portrait-of-a-woman-213/",
+      "lastmod": "2024-11-16T04:05:19+00:00",
+      "sitemap": "product-sitemap200.xml",
+      "artworkId": "portrait-of-a-woman-213"
+    },
+    {
+      "url": "https://artvee.com/dl/self-portrait-743/",
+      "lastmod": "2024-11-15T18:50:09+00:00",
+      "sitemap": "product-sitemap50.xml",
+      "artworkId": "self-portrait-743"
+    },
+    {
+      "url": "https://artvee.com/dl/norwegian-landscape-5/",
+      "lastmod": "2024-11-15T18:50:09+00:00",
+      "sitemap": "product-sitemap50.xml",
+      "artworkId": "norwegian-landscape-5"
+    },
+    {
+      "url": "https://artvee.com/dl/landscape-with-houses-8/",
+      "lastmod": "2024-11-15T17:05:34+00:00",
+      "sitemap": "product-sitemap1.xml",
+      "artworkId": "landscape-with-houses-8"
+    },
+    {
+      "url": "https://artvee.com/dl/abstract-with-rose/",
+      "lastmod": "2024-11-15T17:05:34+00:00",
+      "sitemap": "product-sitemap1.xml",
+      "artworkId": "abstract-with-rose"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolen-de-zeemeeuw-westzaandam/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolen-de-zeemeeuw-westzaandam"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolen-het-leven-oostzaandam/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolen-het-leven-oostzaandam"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolen-het-oude-honingvat-oostzijderveld/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolen-het-oude-honingvat-oostzijderveld"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolen-het-windei/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolen-het-windei"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolen-het-zwarte-kalf-aan-de-kalverpoel-met-l-op-de-achtergrond-vijf-andere-molens/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolen-het-zwarte-kalf-aan-de-kalverpoel-met-l-op-de-achtergrond-vijf-andere-molens"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolen-later-pelmolen-sint-willibrordus-oostzijde-aan-t-kalf-gesloopt-1938/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolen-later-pelmolen-sint-willibrordus-oostzijde-aan-t-kalf-gesloopt-1938"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolens-de-os-en-de-windhond-kalverringdijk/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolens-de-os-en-de-windhond-kalverringdijk"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-pelmolen-de-groene-boer/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-pelmolen-de-groene-boer"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-pelmolen-de-grootvorst/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-pelmolen-de-grootvorst"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-pelmolen-de-hondeman/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-pelmolen-de-hondeman"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-pelmolen-de-rosbaaijer-oostzijderveld/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-pelmolen-de-rosbaaijer-oostzijderveld"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-speelmolentje-de-windhond-met-boothuis-en-mosterdmolen-de-huisman/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-speelmolentje-de-windhond-met-boothuis-en-mosterdmolen-de-huisman"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-verfmolen-het-oosterkattegat/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-verfmolen-het-oosterkattegat"
+    },
+    {
+      "url": "https://artvee.com/dl/mosterdmolentje-de-veldbloem-met-twee-meisjes-ervoor/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "mosterdmolentje-de-veldbloem-met-twee-meisjes-ervoor"
+    },
+    {
+      "url": "https://artvee.com/dl/oliemolen-de-herder-te-jisp/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "oliemolen-de-herder-te-jisp"
+    },
+    {
+      "url": "https://artvee.com/dl/oliemolen-de-kat-aan-de-kalverringdijk/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "oliemolen-de-kat-aan-de-kalverringdijk"
+    },
+    {
+      "url": "https://artvee.com/dl/oliemolen-de-kat-aan-de-kalverringdijk-gezien-van-de-noordkant/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "oliemolen-de-kat-aan-de-kalverringdijk-gezien-van-de-noordkant"
+    },
+    {
+      "url": "https://artvee.com/dl/oliemolen-de-kat-aan-de-kalverringdijk-2/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "oliemolen-de-kat-aan-de-kalverringdijk-2"
+    },
+    {
+      "url": "https://artvee.com/dl/oliemolen-de-kerkuil-aan-de-zaan-met-drie-molens-op-de-achtergrond-de-kerkuil-stond-binnendijks-tegenover-de-wormerveerderkerk-afgebroken-ca-1892/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "oliemolen-de-kerkuil-aan-de-zaan-met-drie-molens-op-de-achtergrond-de-kerkuil-stond-binnendijks-tegenover-de-wormerveerderkerk-afgebroken-ca-1892"
+    },
+    {
+      "url": "https://artvee.com/dl/oliemolen-de-koperslager-aan-de-zaandijkerweg/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "oliemolen-de-koperslager-aan-de-zaandijkerweg"
+    },
+    {
+      "url": "https://artvee.com/dl/oliemolen-de-koperslager-en-het-vette-schaap-aan-het-zaandijkerwegje/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "oliemolen-de-koperslager-en-het-vette-schaap-aan-het-zaandijkerwegje"
+    },
+    {
+      "url": "https://artvee.com/dl/oliemolen-de-poelsnip-aan-t-kalf/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "oliemolen-de-poelsnip-aan-t-kalf"
+    },
+    {
+      "url": "https://artvee.com/dl/oliemolen-de-spattert-of-de-spatter-te-wormer-binnendijks-aan-de-wormerdijk-of-ringdijk-aan-de-zaan-aan-de-oostzijde-van-de-in-1889-gebouwde-zaanbrug/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "oliemolen-de-spattert-of-de-spatter-te-wormer-binnendijks-aan-de-wormerdijk-of-ringdijk-aan-de-zaan-aan-de-oostzijde-van-de-in-1889-gebouwde-zaanbrug"
+    },
+    {
+      "url": "https://artvee.com/dl/oliemolen-de-zoeker-met-schuur-hijskraan-en-stilletje/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "oliemolen-de-zoeker-met-schuur-hijskraan-en-stilletje"
+    },
+    {
+      "url": "https://artvee.com/dl/oliemolen-de-zoeker-versierd-ter-gelegenheid-van-de-bevrijding-mei-1945/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "oliemolen-de-zoeker-versierd-ter-gelegenheid-van-de-bevrijding-mei-1945"
+    },
+    {
+      "url": "https://artvee.com/dl/oliemolen-de-zoeker/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "oliemolen-de-zoeker"
+    },
+    {
+      "url": "https://artvee.com/dl/oliemolen-het-jonge-big-met-stilletje-boven-het-water-op-de-achtergrond-links-een-kerk/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "oliemolen-het-jonge-big-met-stilletje-boven-het-water-op-de-achtergrond-links-een-kerk"
+    },
+    {
+      "url": "https://artvee.com/dl/oliemolen-het-vette-schaap-met-schuren/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "oliemolen-het-vette-schaap-met-schuren"
+    },
+    {
+      "url": "https://artvee.com/dl/op-de-voorgrond-rechts-doppenmolen-de-prolpot-aan-de-hemmes-op-de-achtergrond-links-twee-andere-molens/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "op-de-voorgrond-rechts-doppenmolen-de-prolpot-aan-de-hemmes-op-de-achtergrond-links-twee-andere-molens"
+    },
+    {
+      "url": "https://artvee.com/dl/papierfabriek-de-eendracht-voorzijde-1888-stond-aan-de-westzijde-van-het-zaandammerpad-aan-de-westerveersloot/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "papierfabriek-de-eendracht-voorzijde-1888-stond-aan-de-westzijde-van-het-zaandammerpad-aan-de-westerveersloot"
+    },
+    {
+      "url": "https://artvee.com/dl/papiermolen-de-bijenkorf-en-verfmolen-de-valk-met-op-de-achtergrond-een-derde-molen/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "papiermolen-de-bijenkorf-en-verfmolen-de-valk-met-op-de-achtergrond-een-derde-molen"
+    },
+    {
+      "url": "https://artvee.com/dl/papiermolen-de-eendracht-aan-de-westzijde-van-het-zaandammerpad-wormer/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "papiermolen-de-eendracht-aan-de-westzijde-van-het-zaandammerpad-wormer"
+    },
+    {
+      "url": "https://artvee.com/dl/papiermolen-de-eendracht-achterzijde-met-links-twee-schoorsteenpijpen/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "papiermolen-de-eendracht-achterzijde-met-links-twee-schoorsteenpijpen"
+    },
+    {
+      "url": "https://artvee.com/dl/papiermolen-de-schoolmeester-aan-het-guispad-nu-guisweg-28-met-rechts-een-ophaalbrug/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "papiermolen-de-schoolmeester-aan-het-guispad-nu-guisweg-28-met-rechts-een-ophaalbrug"
+    },
+    {
+      "url": "https://artvee.com/dl/papiermolen-het-fortuin/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "papiermolen-het-fortuin"
+    },
+    {
+      "url": "https://artvee.com/dl/untitled-418/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "untitled-418"
+    },
+    {
+      "url": "https://artvee.com/dl/verf-en-cementmolen-de-beer-aan-de-wormerdijk-aan-de-zaan-buitendijks-naast-het-zuiderveer/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "verf-en-cementmolen-de-beer-aan-de-wormerdijk-aan-de-zaan-buitendijks-naast-het-zuiderveer"
+    },
+    {
+      "url": "https://artvee.com/dl/verfmolen-de-kuiper-of-de-jonge-kuiper-stond-aan-de-engewormerringsloot-noordzijde-op-de-oosthoek-van-de-karnsloot/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "verfmolen-de-kuiper-of-de-jonge-kuiper-stond-aan-de-engewormerringsloot-noordzijde-op-de-oosthoek-van-de-karnsloot"
+    },
+    {
+      "url": "https://artvee.com/dl/verfmolen-de-rob-aan-de-oostzijde-van-de-westerveersloot-hoek-diksloot-verbrand-1888/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "verfmolen-de-rob-aan-de-oostzijde-van-de-westerveersloot-hoek-diksloot-verbrand-1888"
+    },
+    {
+      "url": "https://artvee.com/dl/verfmolen-de-snijder-ook-jan-snijdersmolen-stond-aan-de-overzijde-van-de-nieuwe-vaart-hoek-kokersloot/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "verfmolen-de-snijder-ook-jan-snijdersmolen-stond-aan-de-overzijde-van-de-nieuwe-vaart-hoek-kokersloot"
+    },
+    {
+      "url": "https://artvee.com/dl/verfmolen-de-uil-of-het-uilke-bij-de-middentil-aan-de-oostzijde-van-de-uilsloot-vroeger-arissloot-genaamd/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "verfmolen-de-uil-of-het-uilke-bij-de-middentil-aan-de-oostzijde-van-de-uilsloot-vroeger-arissloot-genaamd"
+    },
+    {
+      "url": "https://artvee.com/dl/watermolen-de-schaalsmeer-gesloopt-1926-stond-in-de-schaalsmeerpolder-op-de-achtergrond-de-beschuittoren-van-wormer/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "watermolen-de-schaalsmeer-gesloopt-1926-stond-in-de-schaalsmeerpolder-op-de-achtergrond-de-beschuittoren-van-wormer"
+    },
+    {
+      "url": "https://artvee.com/dl/watermolen-het-leven-zaandijkerwegje-met-over-het-water-een-houten-loopbrug-op-de-achtergrond-fabrieksgebouwen/",
+      "lastmod": "2025-07-05T19:18:54+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "watermolen-het-leven-zaandijkerwegje-met-over-het-water-een-houten-loopbrug-op-de-achtergrond-fabrieksgebouwen"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-de-blauwe-adelaar/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-de-blauwe-adelaar"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-de-kikkert-aan-de-noorddijk/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-de-kikkert-aan-de-noorddijk"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-de-palmboom/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-de-palmboom"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-guispad-en-papiermolen-de-schoolmeester-1931-nu-guisweg-28-westzaan/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-guispad-en-papiermolen-de-schoolmeester-1931-nu-guisweg-28-westzaan"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-houtzaagmolen-het-klaverblad/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-houtzaagmolen-het-klaverblad"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-oliemolen-later-pelmolen-het-vool-of-het-jonge-vool-zaandijkerwegje-in-1930-verbrand/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-oliemolen-later-pelmolen-het-vool-of-het-jonge-vool-zaandijkerwegje-in-1930-verbrand"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-oliemolen-de-boerin-aan-de-noorddijk-1900-gesloopt/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-oliemolen-de-boerin-aan-de-noorddijk-1900-gesloopt"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-oliemolen-de-kraai-of-de-bonte-kraai-aan-de-noorddijk-gesloopt-1885-oliemolen-de-witte-bijl-aan-de-noorddijk-tussen-de-bonte-kraai-en-de-kikkert/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-oliemolen-de-kraai-of-de-bonte-kraai-aan-de-noorddijk-gesloopt-1885-oliemolen-de-witte-bijl-aan-de-noorddijk-tussen-de-bonte-kraai-en-de-kikkert"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-oliemolen-de-nachtegaal-aan-het-karnemelkspad/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-oliemolen-de-nachtegaal-aan-het-karnemelkspad"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-oliemolen-de-simson-of-de-samson-aan-het-zaandijkerwegje/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-oliemolen-de-simson-of-de-samson-aan-het-zaandijkerwegje"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-oliemolen-de-vlijt-zaandijkerwegje-te-wormerveer-gesloopt-1879/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-oliemolen-de-vlijt-zaandijkerwegje-te-wormerveer-gesloopt-1879"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-oliemolen-de-wildeman-of-de-rode-wildeman-aan-het-zaandijkerwegje-gesloopt-1879/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-oliemolen-de-wildeman-of-de-rode-wildeman-aan-het-zaandijkerwegje-gesloopt-1879"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-oliemolen-het-witte-paard-aan-het-zaandijkerwegje-1893-gesloopt/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-oliemolen-het-witte-paard-aan-het-zaandijkerwegje-1893-gesloopt"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-olimolen-de-vrijheid-aan-de-noorddijk-gesloopt-1896/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-olimolen-de-vrijheid-aan-de-noorddijk-gesloopt-1896"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-papiermolen-de-kaarsenmaker/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-papiermolen-de-kaarsenmaker"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-pelmolen-de-elzenboom/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-pelmolen-de-elzenboom"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-pelmolen-de-jonge-kuiper/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-pelmolen-de-jonge-kuiper"
+    },
+    {
+      "url": "https://artvee.com/dl/molen-4/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molen-4"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-de-ruiter-en-de-kleine-poort/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-de-ruiter-en-de-kleine-poort"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-blauwselmolen-de-huisvrouw-blauwepad/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-blauwselmolen-de-huisvrouw-blauwepad"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-de-kogmeeuw-de-poelsnip-de-zeemeeuw-en-de-oude-zwan-aan-t-kalf/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-de-kogmeeuw-de-poelsnip-de-zeemeeuw-en-de-oude-zwan-aan-t-kalf"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-de-krijthengst-westzaandam/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-de-krijthengst-westzaandam"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-de-krijthengst/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-de-krijthengst"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-de-noordervaldeursloot-oostzaandam-de-sluiswachter-ook-wel-rooie-molen-het-kaar-de-kwak-de-duinmaaijer-de-zeef/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-de-noordervaldeursloot-oostzaandam-de-sluiswachter-ook-wel-rooie-molen-het-kaar-de-kwak-de-duinmaaijer-de-zeef"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-de-ooievaar-de-windhond-de-gans-aan-de-kalverringdijk/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-de-ooievaar-de-windhond-de-gans-aan-de-kalverringdijk"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-de-ooievaar-de-windhond-de-gans-kalverringdijk/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-de-ooievaar-de-windhond-de-gans-kalverringdijk"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-de-sint-pieter-westzaandam/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-de-sint-pieter-westzaandam"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-houtzaagmolen-de-bonte-arend/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-houtzaagmolen-de-bonte-arend"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-houtzaagmolen-de-gebroeders/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-houtzaagmolen-de-gebroeders"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-houtzaagmolen-de-grauwe-beer-westzaandam-gesloopt-1893/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-houtzaagmolen-de-grauwe-beer-westzaandam-gesloopt-1893"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-houtzaagmolen-de-groenlandsche-visscherij-westzaandam-gesloopt-1893/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-houtzaagmolen-de-groenlandsche-visscherij-westzaandam-gesloopt-1893"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-houtzaagmolen-de-haan-westzaandam/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-houtzaagmolen-de-haan-westzaandam"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-houtzaagmolen-de-haan/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-houtzaagmolen-de-haan"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-houtzaagmolen-de-huisvrouw-kalverveld/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-houtzaagmolen-de-huisvrouw-kalverveld"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-houtzaagmolen-de-kikker-badhuisweg/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-houtzaagmolen-de-kikker-badhuisweg"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-houtzaagmolen-de-smit-paltrok/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-houtzaagmolen-de-smit-paltrok"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-houtzaagmolen-de-smit-en-de-vriendschap/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-houtzaagmolen-de-smit-en-de-vriendschap"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-houtzaagmolen-de-vechter-oostzijderveld/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-houtzaagmolen-de-vechter-oostzijderveld"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-houtzaagmolen-het-jonge-schaap-westzaandam/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-houtzaagmolen-het-jonge-schaap-westzaandam"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-industriecomplex-oliemolen-de-bonte-hen-aan-de-kalverringdijk-op-de-achtergrond-r-fabriek-met-schoorsteen/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-industriecomplex-oliemolen-de-bonte-hen-aan-de-kalverringdijk-op-de-achtergrond-r-fabriek-met-schoorsteen"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-kover-molen-oostzaandam/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-kover-molen-oostzaandam"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-langs-de-zaan-l-speelmolentje-r-mosterdmolen-de-huisman/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-langs-de-zaan-l-speelmolentje-r-mosterdmolen-de-huisman"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-meelmolen-de-koker/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-meelmolen-de-koker"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-molen-de-duinjager-oostzijderveld/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-molen-de-duinjager-oostzijderveld"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-molen-de-kaar-de-kwak-de-afra-en-de-hondeman/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-molen-de-kaar-de-kwak-de-afra-en-de-hondeman"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-molen-de-zaadzaaier-aan-de-hemmes/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-molen-de-zaadzaaier-aan-de-hemmes"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-molengroep-aan-de-kalverpoel/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-molengroep-aan-de-kalverpoel"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-molens-aan-de-zaan-met-rechts-een-fabriek-met-rokende-schoorsteen/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-molens-aan-de-zaan-met-rechts-een-fabriek-met-rokende-schoorsteen"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolen-de-bonte-hen-kalverringdijk/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolen-de-bonte-hen-kalverringdijk"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolen-de-katuil-oostzaandam/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolen-de-katuil-oostzaandam"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolen-de-kogmeeuw-aan-de-poel-bij-het-kalf-zaandam/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolen-de-kogmeeuw-aan-de-poel-bij-het-kalf-zaandam"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolen-de-kwak-oostzijderveld/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolen-de-kwak-oostzijderveld"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolen-de-matsman-verbrand-in-1903/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolen-de-matsman-verbrand-in-1903"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolen-de-olievos-aan-de-papenpadsloot-gesloopt-1878/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolen-de-olievos-aan-de-papenpadsloot-gesloopt-1878"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolen-de-oude-zwan-aan-de-kalverpoel/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolen-de-oude-zwan-aan-de-kalverpoel"
+    },
+    {
+      "url": "https://artvee.com/dl/molens-oliemolen-de-poelsnip-in-bruidstooi/",
+      "lastmod": "2025-07-05T19:18:55+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "molens-oliemolen-de-poelsnip-in-bruidstooi"
+    },
+    {
+      "url": "https://artvee.com/dl/cement-en-trasmolen-de-rietvink-aan-de-zaan-buitendijks-bij-het-zuiderveer-afgebroken-1879/",
+      "lastmod": "2025-07-05T19:18:56+00:00",
+      "sitemap": "product-sitemap339.xml",
+      "artworkId": "cement-en-trasmolen-de-rietvink-aan-de-zaan-buitendijks-bij-het-zuiderveer-afgebroken-1879"
+    }
+  ]
+}

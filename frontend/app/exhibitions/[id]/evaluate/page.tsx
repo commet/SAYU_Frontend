@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useGamification } from '@/hooks/useGamification';
+import { useEarnPoints } from '@/hooks/useGamification';
 import { CompanionEvaluationForm } from '@/components/evaluation/CompanionEvaluationForm';
 import { calculateExhibitionPointsWithEvaluation, calculateEvaluatorPoints } from '@/lib/evaluation-points-calculator';
 import { toast } from 'react-hot-toast';
@@ -16,7 +16,7 @@ export default function ExhibitionEvaluatePage() {
   const params = useParams();
   const router = useRouter();
   const { language } = useLanguage();
-  const { addPoints } = useGamification();
+  const { earnPoints, isEarning } = useEarnPoints();
   const [evaluationSubmitted, setEvaluationSubmitted] = useState(false);
   const [pointsEarned, setPointsEarned] = useState(0);
 
@@ -51,10 +51,13 @@ export default function ExhibitionEvaluatePage() {
       // const response = await fetch('/api/evaluations', { ... });
 
       // Add points to user account
-      await addPoints('exhibition_review', {
-        exhibitionId: exhibitionData.id,
-        evaluationQuality: evaluation,
-        pointsBreakdown: evaluationResult.breakdown
+      await earnPoints({
+        activity: 'exhibition_review',
+        metadata: {
+          exhibitionId: exhibitionData.id,
+          evaluationQuality: evaluation,
+          pointsBreakdown: evaluationResult.breakdown
+        }
       });
 
       setEvaluationSubmitted(true);

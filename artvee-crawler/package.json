@@ -1,0 +1,21 @@
+{
+  "name": "sayu-artvee-crawler",
+  "version": "1.0.0",
+  "description": "Artvee artwork crawler for SAYU platform",
+  "main": "crawler.js",
+  "scripts": {
+    "start": "node crawler.js",
+    "test": "node test-crawler.js",
+    "collect-urls": "node collect-urls.js",
+    "download-images": "node download-images.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "cheerio": "^1.0.0-rc.12",
+    "csv-writer": "^1.6.0",
+    "puppeteer": "^21.6.1",
+    "xml2js": "^0.6.2",
+    "dotenv": "^16.3.1",
+    "p-limit": "^3.1.0"
+  }
+}

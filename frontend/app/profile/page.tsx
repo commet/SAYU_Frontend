@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
+import { followAPI } from '@/lib/follow-api';
 import PersonalArtMap from '@/components/artmap/PersonalArtMap';
 import ExhibitionRecord from '@/components/exhibition/ExhibitionRecord';
 import BadgeSystem from '@/components/gamification/BadgeSystem';
@@ -17,7 +18,7 @@ import ProfileStats from '@/components/profile/ProfileStats';
 import ProfileShareCard from '@/components/profile/ProfileShareCard';
 import ProfileIDCard from '@/components/profile/ProfileIDCard';
 import SocialLoginModal from '@/components/SocialLoginModal';
-import { useGamification } from '@/hooks/useGamification';
+import { useGamificationDashboard } from '@/hooks/useGamification';
 
 // Mock data - in real app, would fetch from API
 const mockMuseums = [
@@ -135,20 +136,24 @@ const mockUserStats = {
   totalPhotos: 12,
   averageVisitDuration: 87,
   favoriteArtStyle: 'Contemporary Abstract',
-  lastVisitDate: '2024-01-15'
+  lastVisitDate: '2024-01-15',
+  followerCount: 0,
+  followingCount: 0
 };
 
 export default function ProfilePage() {
   const { language } = useLanguage();
   const { user } = useAuth();
   const router = useRouter();
-  const { userPoints } = useGamification();
+  const { dashboard } = useGamificationDashboard();
+  const userPoints = dashboard?.currentPoints || 0;
   const [activeTab, setActiveTab] = useState<'map' | 'records' | 'badges' | 'share'>('map');
   const [redirecting, setRedirecting] = useState(false);
   const [userPersonalityType, setUserPersonalityType] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showIDCard, setShowIDCard] = useState(false);
+  const [followStats, setFollowStats] = useState({ followerCount: 0, followingCount: 0 });
   
   // Load quiz results from localStorage
   useEffect(() => {
@@ -164,6 +169,25 @@ export default function ProfilePage() {
       setShowLoginModal(true);
     }
   }, [user, redirecting]);
+
+  // Load follow stats
+  useEffect(() => {
+    if (user?.id) {
+      loadFollowStats();
+    }
+  }, [user]);
+
+  const loadFollowStats = async () => {
+    try {
+      const stats = await followAPI.getFollowStats(user!.id);
+      setFollowStats({
+        followerCount: stats.followerCount,
+        followingCount: stats.followingCount
+      });
+    } catch (error) {
+      console.error('Failed to load follow stats:', error);
+    }
+  };
 
   if (!user) {
     return (
@@ -291,7 +315,14 @@ export default function ProfilePage() {
           transition={{ delay: 0.2 }}
           className="mb-6"
         >
-          <ProfileStats stats={mockUserStats} />
+          <ProfileStats 
+            stats={{
+              ...mockUserStats,
+              followerCount: followStats.followerCount,
+              followingCount: followStats.followingCount
+            }} 
+            userId={user?.id}
+          />
         </motion.div>
 
         {/* Tab Navigation */}
