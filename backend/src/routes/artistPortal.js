@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const authMiddleware = require('../middleware/auth');
+const { adminMiddleware: requireAdmin } = require('../middleware/auth');
 const artistPortalService = require('../services/artistPortalService');
 const { logger } = require("../config/logger");
 
@@ -176,22 +177,6 @@ router.get('/exhibitions', async (req, res) => {
 });
 
 // Admin Routes (require admin role)
-const requireAdmin = async (req, res, next) => {
-  try {
-    const { pool } = require('../config/database');
-    const userQuery = 'SELECT role FROM users WHERE id = $1';
-    const userResult = await pool.query(userQuery, [req.userId]);
-    
-    if (userResult.rows[0]?.role !== 'admin') {
-      return res.status(403).json({ error: 'Admin access required' });
-    }
-    
-    next();
-  } catch (error) {
-    logger.error('Failed to check admin role:', error);
-    res.status(500).json({ error: 'Failed to verify permissions' });
-  }
-};
 
 router.get('/admin/submissions/pending', requireAdmin, async (req, res) => {
   try {

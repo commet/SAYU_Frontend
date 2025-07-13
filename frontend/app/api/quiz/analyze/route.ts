@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+import { API_CONFIG, getApiUrl } from '@/config/api';
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,7 +14,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     // Forward request to backend
-    const response = await fetch(`${API_URL}/api/quiz/analyze`, {
+    const response = await fetch(getApiUrl(API_CONFIG.endpoints.quiz.analyze), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

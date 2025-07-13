@@ -1,3 +1,5 @@
+import { getOAuthRedirectUri } from '@/config/api';
+
 export const authConfig = {
   instagram: {
     clientId: process.env.NEXT_PUBLIC_INSTAGRAM_CLIENT_ID || '',
@@ -5,7 +7,7 @@ export const authConfig = {
     authorizationUrl: 'https://api.instagram.com/oauth/authorize',
     tokenUrl: 'https://api.instagram.com/oauth/access_token',
     scope: 'user_profile,user_media',
-    redirectUri: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/oauth/instagram/callback`
+    redirectUri: getOAuthRedirectUri('instagram')
   },
   google: {
     clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '',

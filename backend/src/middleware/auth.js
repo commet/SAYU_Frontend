@@ -1,7 +1,15 @@
 const jwt = require('jsonwebtoken');
 const TokenService = require('../services/tokenService');
+const { verifySupabaseToken, requireAdmin: supabaseRequireAdmin } = require('./supabaseAuth');
+const { isSupabaseConfigured } = require('../config/supabase');
 
 const authMiddleware = async (req, res, next) => {
+  // If Supabase is configured, use Supabase auth
+  if (isSupabaseConfigured()) {
+    return verifySupabaseToken(req, res, next);
+  }
+
+  // Fallback to existing JWT auth
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1];
 
@@ -35,6 +43,17 @@ const authMiddleware = async (req, res, next) => {
 };
 
 const adminMiddleware = async (req, res, next) => {
+  // If Supabase is configured, use Supabase auth
+  if (isSupabaseConfigured()) {
+    // First verify the token
+    await verifySupabaseToken(req, res, async () => {
+      // Then check if admin
+      await supabaseRequireAdmin(req, res, next);
+    });
+    return;
+  }
+
+  // Fallback to existing JWT auth
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1];
 

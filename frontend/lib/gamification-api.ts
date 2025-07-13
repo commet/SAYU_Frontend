@@ -1,7 +1,6 @@
-import { apiClient } from '@/lib/api-client';
+import { API_CONFIG } from '@/config/api';
 
-// Types
-export interface UserGamificationStats {
+export interface DashboardStats {
   level: number;
   levelName: string;
   currentPoints: number;
@@ -10,8 +9,11 @@ export interface UserGamificationStats {
   weeklyStreak: number;
   totalExhibitions: number;
   averageDuration: number;
-  mainTitle: string | null;
-  rank?: number;
+  mainTitle: string;
+  recentAchievements: Achievement[];
+  upcomingChallenges: Challenge[];
+  leaderboardRank?: number;
+  friendsActivity?: FriendActivity[];
 }
 
 export interface Achievement {
@@ -25,182 +27,155 @@ export interface Achievement {
 
 export interface Challenge {
   id: string;
-  name: string;
+  title: string;
   description: string;
   progress: number;
   target: number;
   reward: number;
   expiresAt: Date;
-  status: 'active' | 'completed' | 'expired';
 }
 
-export interface ExhibitionSession {
-  id: string;
-  exhibitionId: string;
-  exhibitionName: string;
-  startTime: Date;
-  endTime?: Date;
-  duration?: number;
-}
-
-export interface Title {
-  id: string;
-  name: string;
-  nameKo: string;
-  description: string;
-  icon: string;
-  rarity: string;
-  earned: boolean;
-  earnedAt?: Date;
-  progress?: number;
-  requirement?: number;
-  isMain?: boolean;
-}
-
-export interface LeaderboardEntry {
-  rank: number;
+export interface FriendActivity {
   userId: string;
-  username: string;
-  profileImage?: string;
-  level: number;
-  points: number;
-  isCurrentUser?: boolean;
+  userName: string;
+  action: string;
+  timestamp: Date;
 }
 
-export interface ActivityLog {
-  id: string;
-  activityType: string;
-  pointsEarned: number;
-  metadata: any;
-  createdAt: Date;
-}
-
-// API Client
 class GamificationAPI {
-  private basePath = '/gamification';
-
-  // Dashboard
-  async getDashboard() {
-    return apiClient.get(`${this.basePath}/dashboard`);
+  private getAuthHeaders(): HeadersInit {
+    const token = localStorage.getItem('token');
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': token ? `Bearer ${token}` : '',
+    };
   }
 
-  // Points
-  async earnPoints(activity: string, metadata?: any) {
-    return apiClient.post(`${this.basePath}/earn-points`, {
-      activity,
-      metadata
+  async getDashboardStats(): Promise<DashboardStats> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/dashboard`, {
+      headers: this.getAuthHeaders(),
     });
-  }
 
-  // Exhibition Sessions
-  async startExhibition(data: {
-    exhibitionId: string;
-    exhibitionName: string;
-    location?: { lat: number; lng: number; venue?: string };
-  }) {
-    return apiClient.post(`${this.basePath}/exhibition/start`, data);
-  }
-
-  async endExhibition(sessionId: string) {
-    return apiClient.post(`${this.basePath}/exhibition/end`, { sessionId });
-  }
-
-  async getCurrentSession() {
-    return apiClient.get(`${this.basePath}/exhibition/current`);
-  }
-
-  // Titles
-  async getTitles() {
-    return apiClient.get(`${this.basePath}/titles`);
-  }
-
-  async setMainTitle(titleId: string) {
-    return apiClient.put(`${this.basePath}/titles/main`, { titleId });
-  }
-
-  // Challenges
-  async getChallenges(status: 'active' | 'completed' | 'all' = 'active') {
-    return apiClient.get(`${this.basePath}/challenges?status=${status}`);
-  }
-
-  // Leaderboard
-  async getLeaderboard(type: 'weekly' | 'monthly' | 'all-time' = 'weekly', limit = 50) {
-    return apiClient.get(`${this.basePath}/leaderboard?type=${type}&limit=${limit}`);
-  }
-
-  async getFriendsLeaderboard() {
-    return apiClient.get(`${this.basePath}/leaderboard/friends`);
-  }
-
-  // Stats
-  async getUserStats(userId?: string) {
-    const path = userId 
-      ? `${this.basePath}/stats/${userId}`
-      : `${this.basePath}/stats`;
-    return apiClient.get(path);
-  }
-
-  // Activity History
-  async getActivityHistory(options: {
-    limit?: number;
-    offset?: number;
-    type?: string;
-  } = {}) {
-    const params = new URLSearchParams();
-    if (options.limit) params.append('limit', options.limit.toString());
-    if (options.offset) params.append('offset', options.offset.toString());
-    if (options.type) params.append('type', options.type);
-    
-    return apiClient.get(`${this.basePath}/activities?${params}`);
-  }
-
-  // Weekly Progress
-  async getWeeklyProgress() {
-    return apiClient.get(`${this.basePath}/weekly-progress`);
-  }
-
-  // Level Info
-  async getLevelInfo() {
-    return apiClient.get(`${this.basePath}/levels`);
-  }
-
-  // Events
-  async getActiveEvents() {
-    return apiClient.get(`${this.basePath}/events`);
-  }
-
-  // Share Card
-  async generateShareCard(type: 'monthly' | 'achievement' | 'level-up', data?: any) {
-    return apiClient.post(`${this.basePath}/share-card`, { type, data });
-  }
-
-  // SSE Stream
-  subscribeToUpdates(onMessage: (data: any) => void) {
-    try {
-      const eventSource = new EventSource(
-        `${process.env.NEXT_PUBLIC_API_URL}${this.basePath}/stream`,
-        { withCredentials: true }
-      );
-
-      eventSource.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data);
-          onMessage(data);
-        } catch (error) {
-          console.error('Failed to parse SSE message:', error);
-        }
-      };
-
-      eventSource.onerror = (error) => {
-        console.warn('SSE connection failed - real-time updates disabled');
-        eventSource.close();
-      };
-
-      return () => eventSource.close();
-    } catch (error) {
-      console.warn('SSE not supported or connection failed');
-      return () => {}; // Return empty cleanup function
+    if (!response.ok) {
+      throw new Error('Failed to fetch dashboard stats');
     }
+
+    const data = await response.json();
+    
+    // Convert date strings to Date objects
+    return {
+      ...data,
+      recentAchievements: data.recentAchievements.map((a: any) => ({
+        ...a,
+        earnedAt: new Date(a.earnedAt)
+      })),
+      upcomingChallenges: data.upcomingChallenges.map((c: any) => ({
+        ...c,
+        expiresAt: new Date(c.expiresAt)
+      })),
+      friendsActivity: data.friendsActivity?.map((f: any) => ({
+        ...f,
+        timestamp: new Date(f.timestamp)
+      }))
+    };
+  }
+
+  async getUserAchievements(): Promise<Achievement[]> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/achievements`, {
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch achievements');
+    }
+
+    const data = await response.json();
+    return data.map((a: any) => ({
+      ...a,
+      earnedAt: new Date(a.earnedAt)
+    }));
+  }
+
+  async getChallenges(): Promise<Challenge[]> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/challenges`, {
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch challenges');
+    }
+
+    const data = await response.json();
+    return data.map((c: any) => ({
+      ...c,
+      expiresAt: new Date(c.expiresAt)
+    }));
+  }
+
+  async getLeaderboard(timeframe: 'daily' | 'weekly' | 'monthly' | 'all'): Promise<{
+    rank: number;
+    total: number;
+    topUsers: Array<{
+      rank: number;
+      userId: string;
+      userName: string;
+      points: number;
+      level: number;
+    }>;
+  }> {
+    const response = await fetch(
+      `${API_CONFIG.baseUrl}/api/gamification/leaderboard?timeframe=${timeframe}`,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch leaderboard');
+    }
+
+    return response.json();
+  }
+
+  async claimChallenge(challengeId: string): Promise<{
+    success: boolean;
+    pointsEarned: number;
+    newAchievements?: Achievement[];
+  }> {
+    const response = await fetch(
+      `${API_CONFIG.baseUrl}/api/gamification/challenges/${challengeId}/claim`,
+      {
+        method: 'POST',
+        headers: this.getAuthHeaders(),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to claim challenge');
+    }
+
+    return response.json();
+  }
+
+  async updateExhibitionProgress(exhibitionId: string, duration: number): Promise<{
+    pointsEarned: number;
+    newLevel?: number;
+    newAchievements?: Achievement[];
+  }> {
+    const response = await fetch(
+      `${API_CONFIG.baseUrl}/api/gamification/exhibitions/${exhibitionId}/progress`,
+      {
+        method: 'POST',
+        headers: this.getAuthHeaders(),
+        body: JSON.stringify({ duration }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to update exhibition progress');
+    }
+
+    return response.json();
   }
 }
 

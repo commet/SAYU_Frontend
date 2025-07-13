@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { API_CONFIG, getApiUrl } from '@/config/api';
 
 interface ArtworkData {
   title: string;
@@ -56,8 +57,7 @@ export default function ArtworkImage({
     }
     
     // 로컬 개발용 - 나중에 실제 CDN URL로 교체
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-    return `${baseUrl}/api/artvee/images/${artveeId}?size=${size}`;
+    return getApiUrl(API_CONFIG.endpoints.artvee.images(artveeId)) + `?size=${size}`;
   };
 
   const imageConfig = IMAGE_SIZES[size];

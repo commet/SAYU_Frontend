@@ -7,48 +7,9 @@ import { useRouter } from 'next/navigation';
 import ProfileLevel from './ProfileLevel';
 import TitleBadges from './TitleBadges';
 import ExhibitionMode from './ExhibitionMode';
+import { gamificationAPI, type DashboardStats, type Achievement, type Challenge, type FriendActivity } from '@/lib/gamification-api';
 
-interface DashboardStats {
-  level: number;
-  levelName: string;
-  currentPoints: number;
-  totalPoints: number;
-  nextLevelPoints: number;
-  weeklyStreak: number;
-  totalExhibitions: number;
-  averageDuration: number;
-  mainTitle: string;
-  recentAchievements: Achievement[];
-  upcomingChallenges: Challenge[];
-  leaderboardRank?: number;
-  friendsActivity?: FriendActivity[];
-}
-
-interface Achievement {
-  id: string;
-  title: string;
-  description: string;
-  earnedAt: Date;
-  points: number;
-  rarity: 'common' | 'rare' | 'epic' | 'legendary';
-}
-
-interface Challenge {
-  id: string;
-  title: string;
-  description: string;
-  progress: number;
-  target: number;
-  reward: number;
-  expiresAt: Date;
-}
-
-interface FriendActivity {
-  userId: string;
-  userName: string;
-  action: string;
-  timestamp: Date;
-}
+// Types are now imported from gamification-api
 
 export default function GamificationDashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -85,50 +46,56 @@ export default function GamificationDashboard() {
   }, []);
 
   const fetchDashboardStats = async () => {
-    // TODO: 실제 API 호출
-    const mockStats: DashboardStats = {
-      level: 27,
-      levelName: "눈뜨는 중",
-      currentPoints: 2750,
-      totalPoints: 12750,
-      nextLevelPoints: 3000,
-      weeklyStreak: 5,
-      totalExhibitions: 42,
-      averageDuration: 95,
-      mainTitle: "느긋한 산책자",
-      recentAchievements: [
-        {
-          id: '1',
-          title: 'K-아트 서포터',
-          description: '한국 작가전 10회 달성',
-          earnedAt: new Date(),
-          points: 500,
-          rarity: 'rare'
-        }
-      ],
-      upcomingChallenges: [
-        {
-          id: '1',
-          title: '주말 미술관 정복',
-          description: '이번 주말 2개 이상 전시 관람',
-          progress: 1,
-          target: 2,
-          reward: 200,
-          expiresAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
-        }
-      ],
-      leaderboardRank: 127,
-      friendsActivity: [
-        {
-          userId: '1',
-          userName: '아트러버123',
-          action: '《모네와 친구들》 전시 관람 완료',
-          timestamp: new Date(Date.now() - 3600000)
-        }
-      ]
-    };
-    
-    setStats(mockStats);
+    try {
+      const stats = await gamificationAPI.getDashboardStats();
+      setStats(stats);
+    } catch (error) {
+      console.error('Failed to fetch dashboard stats:', error);
+      // Fallback to mock data if API fails
+      const mockStats: DashboardStats = {
+        level: 27,
+        levelName: "눈뜨는 중",
+        currentPoints: 2750,
+        totalPoints: 12750,
+        nextLevelPoints: 3000,
+        weeklyStreak: 5,
+        totalExhibitions: 42,
+        averageDuration: 95,
+        mainTitle: "느긋한 산책자",
+        recentAchievements: [
+          {
+            id: '1',
+            title: 'K-아트 서포터',
+            description: '한국 작가전 10회 달성',
+            earnedAt: new Date(),
+            points: 500,
+            rarity: 'rare'
+          }
+        ],
+        upcomingChallenges: [
+          {
+            id: '1',
+            title: '주말 미술관 정복',
+            description: '이번 주말 2개 이상 전시 관람',
+            progress: 1,
+            target: 2,
+            reward: 200,
+            expiresAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
+          }
+        ],
+        leaderboardRank: 127,
+        friendsActivity: [
+          {
+            userId: '1',
+            userName: '아트러버123',
+            action: '《모네와 친구들》 전시 관람 완료',
+            timestamp: new Date(Date.now() - 3600000)
+          }
+        ]
+      };
+      
+      setStats(mockStats);
+    }
   };
 
   const handleLevelUp = (data: any) => {

@@ -15,53 +15,8 @@ interface ArtworkRecommendationsProps {
 export default function ArtworkRecommendations({ personalityType }: ArtworkRecommendationsProps) {
   const { language } = useLanguage();
   
-  // Mock data for now since API is not working
-  const mockArtworks = [
-    {
-      artveeId: 'self-portrait-27',
-      title: 'Self-Portrait (1889)',
-      artist: 'Vincent van Gogh',
-      url: 'https://artvee.com/dl/self-portrait-27/',
-      sayuType: personalityType
-    },
-    {
-      artveeId: 'noanoa-pl-41',
-      title: 'Noanoa Pl.41',
-      artist: 'Paul Gauguin',
-      url: 'https://artvee.com/dl/noanoa-pl-41/',
-      sayuType: personalityType
-    },
-    {
-      artveeId: 'self-portrait-in-moonlight',
-      title: 'Self-Portrait in Moonlight (1904–1906)',
-      artist: 'Edvard Munch',
-      url: 'https://artvee.com/dl/self-portrait-in-moonlight/',
-      sayuType: personalityType
-    },
-    {
-      artveeId: 'woman-at-window',
-      title: 'Woman at a Window (1822)',
-      artist: 'Caspar David Friedrich',
-      url: 'https://artvee.com/dl/woman-at-window/',
-      sayuType: personalityType
-    },
-    {
-      artveeId: 'la-mousme',
-      title: 'La Mousme (1888)',
-      artist: 'Vincent van Gogh',
-      url: 'https://artvee.com/dl/la-mousme/',
-      sayuType: personalityType
-    },
-    {
-      artveeId: 'madame-roulin',
-      title: 'Madame Roulin Rocking the Cradle (1889)',
-      artist: 'Vincent van Gogh',
-      url: 'https://artvee.com/dl/madame-roulin-rocking-the-cradle-la-berceuse/',
-      sayuType: personalityType
-    }
-  ];
-  
-  const { data: artworks = mockArtworks, isLoading = false, error } = { data: mockArtworks, isLoading: false, error: null };
+  // Use real API data
+  const { data: artworks = [], isLoading, error } = useQuizArtworks(personalityType);
 
   if (error) {
     return (

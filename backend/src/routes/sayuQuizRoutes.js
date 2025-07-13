@@ -4,6 +4,8 @@
 const express = require('express');
 const router = express.Router();
 const SAYUQuizService = require('../services/sayuQuizService');
+const sayuQuizController = require('../controllers/sayuQuizController');
+const authMiddleware = require('../middleware/auth');
 
 // Initialize quiz service
 const quizService = new SAYUQuizService();
@@ -11,12 +13,18 @@ const quizService = new SAYUQuizService();
 // ==================== ENDPOINTS ====================
 
 /**
- * POST /api/quiz/start
- * Initialize a new quiz session
+ * POST /api/sayu-quiz/start
+ * Initialize a new quiz session with authentication
  */
-router.post('/start', async (req, res) => {
+router.post('/start', authMiddleware, sayuQuizController.startSAYUQuiz.bind(sayuQuizController));
+
+/**
+ * POST /api/sayu-quiz/start-public
+ * Initialize a new quiz session without authentication (for public access)
+ */
+router.post('/start-public', async (req, res) => {
   try {
-    const { userId, language = 'en' } = req.body;
+    const { userId, language = 'ko' } = req.body;
     
     // Create new session using service
     const session = quizService.createSession(userId, language);
@@ -46,10 +54,16 @@ router.post('/start', async (req, res) => {
 });
 
 /**
- * POST /api/quiz/answer
- * Submit an answer and get next question or result
+ * POST /api/sayu-quiz/answer
+ * Submit an answer and get next question or result with authentication
  */
-router.post('/answer', async (req, res) => {
+router.post('/answer', authMiddleware, sayuQuizController.submitSAYUAnswer.bind(sayuQuizController));
+
+/**
+ * POST /api/sayu-quiz/answer-public
+ * Submit an answer for public session
+ */
+router.post('/answer-public', async (req, res) => {
   try {
     const { sessionId, questionId, answerId, timeSpent } = req.body;
     
@@ -189,10 +203,22 @@ router.post('/share', async (req, res) => {
 });
 
 /**
- * GET /api/quiz/types
- * Get all personality type information
+ * POST /api/sayu-quiz/complete
+ * Complete quiz and generate profile (authenticated)
  */
-router.get('/types', async (req, res) => {
+router.post('/complete', authMiddleware, sayuQuizController.completeSAYUQuiz.bind(sayuQuizController));
+
+/**
+ * GET /api/sayu-quiz/types
+ * Get all personality type information with SAYU enhancements
+ */
+router.get('/types', sayuQuizController.getSAYUTypes.bind(sayuQuizController));
+
+/**
+ * GET /api/sayu-quiz/types-public
+ * Get all personality type information (public)
+ */
+router.get('/types-public', async (req, res) => {
   try {
     const { language = 'en' } = req.query;
     
@@ -213,10 +239,16 @@ router.get('/types', async (req, res) => {
 });
 
 /**
- * POST /api/quiz/compare
- * Compare two personality types
+ * GET /api/sayu-quiz/compare
+ * Compare two personality types with SAYU enhancements
  */
-router.post('/compare', async (req, res) => {
+router.get('/compare', sayuQuizController.compareTypes.bind(sayuQuizController));
+
+/**
+ * POST /api/sayu-quiz/compare-public
+ * Compare two personality types (public)
+ */
+router.post('/compare-public', async (req, res) => {
   try {
     const { type1, type2, language = 'en' } = req.body;
     

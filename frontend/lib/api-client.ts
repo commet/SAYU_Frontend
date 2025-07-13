@@ -1,5 +1,7 @@
 // API Client for SAYU Frontend
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+import { API_CONFIG } from '@/config/api';
+
+const API_BASE_URL = API_CONFIG.baseUrl;
 
 class ApiClient {
   private baseURL: string;

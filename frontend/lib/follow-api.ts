@@ -1,6 +1,7 @@
 import { FollowUser, FollowListResponse, FollowStats } from '@/types/follow';
+import { API_CONFIG } from '@/config/api';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_BASE_URL = API_CONFIG.baseUrl;
 
 class FollowAPI {
   private getAuthHeaders(): HeadersInit {

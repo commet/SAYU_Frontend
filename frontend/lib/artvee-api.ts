@@ -3,6 +3,8 @@
  * SAYU 플랫폼에서 Artvee 작품을 사용하기 위한 API
  */
 
+import { API_CONFIG, getApiUrl } from '@/config/api';
+
 interface ArtveeArtwork {
   id: string;
   title: string;
@@ -49,8 +51,8 @@ interface PersonalityDistribution {
 class ArtveeAPI {
   private baseUrl: string;
 
-  constructor(baseUrl: string = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001') {
-    this.baseUrl = `${baseUrl}/api/artvee`;
+  constructor() {
+    this.baseUrl = getApiUrl(API_CONFIG.endpoints.artvee.base);
   }
 
   /**
