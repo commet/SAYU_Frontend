@@ -74,181 +74,238 @@ function ResultsContent() {
   };
 
   return (
-    <div className="min-h-screen gradient-revelation" data-personality={results.personalityType}>
-      {/* Language Toggle */}
-      <div className="absolute top-4 right-4 z-50">
-        <LanguageToggle variant="glass" />
-      </div>
+    <div className="min-h-screen bg-off-white" data-personality={results.personalityType}>
+      {/* Navigation Header */}
+      <header className="bg-white border-b border-light-gray sticky top-0 z-50">
+        <div className="max-w-4xl mx-auto px-lg py-md flex justify-between items-center">
+          <h1 className="font-display text-xl font-medium text-black">
+            {language === 'ko' ? '성격 결과' : 'Your Results'}
+          </h1>
+          <LanguageToggle />
+        </div>
+      </header>
       
-      {/* Hero Section - About You */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
+      {/* Hero Section - Clean and Focused */}
+      <section className="max-w-4xl mx-auto px-lg py-3xl">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.390, 0.575, 0.565, 1.000] }}
-          className="max-w-4xl w-full text-center text-white"
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="text-center"
         >
-          {/* Personality Title */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="mb-12"
-          >
-            <p className="text-xl mb-4 opacity-80">
-              {language === 'ko' ? '당신은' : 'You are'}
-            </p>
-            <h1 className="text-5xl md:text-7xl font-serif mb-6">
-              {language === 'ko' && personality.title_ko ? personality.title_ko : personality.title}
-            </h1>
-            <p className="text-2xl opacity-90 italic mb-6">
-              {language === 'ko' && personality.subtitle_ko ? personality.subtitle_ko : personality.subtitle}
-            </p>
-            {/* Animal Character */}
-            {animalCharacter && (
-              <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.6, type: "spring" }}
-                className="mb-8"
-              >
-                <PersonalityAnimalImage 
-                  animal={animalCharacter}
-                  variant="illustration"
-                  size="xl"
-                  className="mx-auto shadow-2xl"
-                />
-                <div className="mt-4 text-center">
-                  <p className="text-lg opacity-90">
+          {/* Main Result */}
+          <div className="bg-white rounded-xl p-3xl border border-gray shadow-gentle mb-2xl">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+            >
+              <p className="font-body text-dark-gray text-lg mb-sm">
+                {language === 'ko' ? '당신은' : 'You are'}
+              </p>
+              
+              <h1 className="font-display text-3xl md:text-4xl font-medium text-black mb-md leading-tight">
+                {language === 'ko' && personality.title_ko ? personality.title_ko : personality.title}
+              </h1>
+              
+              <p className="font-body text-xl text-dark-gray mb-xl leading-normal">
+                {language === 'ko' && personality.subtitle_ko ? personality.subtitle_ko : personality.subtitle}
+              </p>
+
+              {/* Animal Character - Simplified */}
+              {animalCharacter && (
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                  className="mb-xl"
+                >
+                  <PersonalityAnimalImage 
+                    animal={animalCharacter}
+                    variant="illustration"
+                    size="lg"
+                    className="mx-auto mb-md"
+                  />
+                  <h3 className="font-display text-xl text-black mb-sm">
                     {language === 'ko' ? animalCharacter.animal_ko : animalCharacter.animal}
-                  </p>
-                  <div className="flex flex-wrap justify-center gap-2 mt-2">
-                    {(language === 'ko' ? animalCharacter.characteristics_ko : animalCharacter.characteristics).map((trait: string, index: number) => (
-                      <span key={index} className="text-xs px-3 py-1 bg-white/20 rounded-full">
+                  </h3>
+                  <div className="flex flex-wrap justify-center gap-xs">
+                    {(language === 'ko' ? animalCharacter.characteristics_ko : animalCharacter.characteristics)
+                      .slice(0, 3) // 처음 3개만 표시
+                      .map((trait: string, index: number) => (
+                      <span key={index} className="font-body text-xs px-md py-xs bg-off-white text-dark-gray rounded-full border border-light-gray">
                         {trait}
                       </span>
                     ))}
                   </div>
-                </div>
-              </motion.div>
-            )}
+                </motion.div>
+              )}
 
-            {/* Personality Type Code */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
-              <span className="text-sm opacity-70">
-                {language === 'ko' ? '유형 코드' : 'Type Code'}:
-              </span>
-              <span className="font-mono font-bold text-lg">
-                {results.personalityType}
-              </span>
-            </div>
-          </motion.div>
+              {/* Type Code - Minimal */}
+              <div className="inline-flex items-center gap-sm px-lg py-md bg-off-white rounded-lg border border-light-gray">
+                <span className="font-body text-sm text-dark-gray">
+                  {language === 'ko' ? '유형 코드' : 'Type'}:
+                </span>
+                <span className="font-mono font-semibold text-lg text-black">
+                  {results.personalityType}
+                </span>
+              </div>
+            </motion.div>
+          </div>
 
-          {/* Personality Code Breakdown */}
+          {/* Action Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 mb-8 max-w-2xl mx-auto"
+            className="flex flex-wrap justify-center gap-md mb-3xl"
           >
-            <h3 className="text-lg font-medium mb-4 opacity-90">
-              {language === 'ko' ? '당신의 예술 감상 스타일' : 'Your Art Appreciation Style'}
-            </h3>
-            <div className="grid grid-cols-4 gap-4 text-sm">
-              <div className="text-center">
-                <div className="font-mono text-2xl font-bold mb-1">{results.personalityType[0]}</div>
-                <div className="opacity-70">
-                  {results.personalityType[0] === 'L' 
-                    ? (language === 'ko' ? '고독한' : 'Lone') 
-                    : (language === 'ko' ? '사교적' : 'Social')}
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="font-mono text-2xl font-bold mb-1">{results.personalityType[1]}</div>
-                <div className="opacity-70">
-                  {results.personalityType[1] === 'A' 
-                    ? (language === 'ko' ? '추상' : 'Abstract') 
-                    : (language === 'ko' ? '구상' : 'Representational')}
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="font-mono text-2xl font-bold mb-1">{results.personalityType[2]}</div>
-                <div className="opacity-70">
-                  {results.personalityType[2] === 'E' 
-                    ? (language === 'ko' ? '감정적' : 'Emotional') 
-                    : (language === 'ko' ? '의미추구' : 'Meaning')}
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="font-mono text-2xl font-bold mb-1">{results.personalityType[3]}</div>
-                <div className="opacity-70">
-                  {results.personalityType[3] === 'F' 
-                    ? (language === 'ko' ? '흐름따라' : 'Flow') 
-                    : (language === 'ko' ? '체계적' : 'Constructive')}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Core Essence */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="bg-white/10 backdrop-blur-md rounded-3xl p-10 mb-12"
-          >
-            <Heart className="w-12 h-12 mx-auto mb-6 text-white/80" />
-            <p className="text-xl leading-relaxed mb-8">
-              {language === 'ko' && personality.essence_ko ? personality.essence_ko : personality.essence}
-            </p>
-            
-            {/* Your Strengths */}
-            <div className="grid md:grid-cols-3 gap-6 mt-8">
-              {personality.strengths.map((strength: any, index: number) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 + index * 0.1 }}
-                  className="bg-white/5 rounded-2xl p-6"
-                >
-                  <div className="text-3xl mb-3">{strength.icon}</div>
-                  <h3 className="font-medium mb-2">
-                    {language === 'ko' && strength.title_ko ? strength.title_ko : strength.title}
-                  </h3>
-                  <p className="text-sm opacity-80">
-                    {language === 'ko' && strength.description_ko ? strength.description_ko : strength.description}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Recognition */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1 }}
-            className="mb-12"
-          >
-            <h2 className="text-3xl font-serif mb-6">
-              {language === 'ko' ? '당신은 이런 모습을 발견할 수 있습니다...' : 'You might recognize yourself in...'}
-            </h2>
-            <div className="flex flex-wrap justify-center gap-4">
-              {personality.recognition.map((item: string, index: number) => (
-                <motion.span
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.2 + index * 0.1 }}
-                  className="px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full"
-                >
-                  {language === 'ko' && personality.recognition_ko ? personality.recognition_ko[index] : item}
-                </motion.span>
-              ))}
-            </div>
+            <button
+              onClick={shareResult}
+              className="flex items-center gap-xs px-lg py-md bg-primary text-white rounded-md hover:bg-primary-dark transition-colors duration-base font-medium"
+            >
+              <Share2 size={16} />
+              {language === 'ko' ? '결과 공유하기' : 'Share Results'}
+            </button>
+            <button
+              onClick={showProfile}
+              className="flex items-center gap-xs px-lg py-md bg-off-white text-black border border-gray rounded-md hover:bg-light-gray transition-colors duration-base font-medium"
+            >
+              <User size={16} />
+              {language === 'ko' ? 'ID 카드 보기' : 'View ID Card'}
+            </button>
           </motion.div>
         </motion.div>
+      </section>
+
+      {/* Content Sections */}
+      <div className="max-w-4xl mx-auto px-lg pb-3xl space-y-3xl">
+        
+        {/* Art Style Breakdown */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="bg-white rounded-xl p-xl border border-gray shadow-gentle"
+        >
+          <h2 className="font-display text-2xl font-medium text-black mb-xl text-center">
+            {language === 'ko' ? '당신의 예술 감상 스타일' : 'Your Art Appreciation Style'}
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-lg">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-off-white rounded-lg flex items-center justify-center mb-md mx-auto">
+                <span className="font-mono text-2xl font-bold text-primary">{results.personalityType[0]}</span>
+              </div>
+              <p className="font-body text-sm text-dark-gray">
+                {results.personalityType[0] === 'L' 
+                  ? (language === 'ko' ? '개인적 감상' : 'Personal') 
+                  : (language === 'ko' ? '사회적 감상' : 'Social')}
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-off-white rounded-lg flex items-center justify-center mb-md mx-auto">
+                <span className="font-mono text-2xl font-bold text-primary">{results.personalityType[1]}</span>
+              </div>
+              <p className="font-body text-sm text-dark-gray">
+                {results.personalityType[1] === 'A' 
+                  ? (language === 'ko' ? '추상적' : 'Abstract') 
+                  : (language === 'ko' ? '구체적' : 'Realistic')}
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-off-white rounded-lg flex items-center justify-center mb-md mx-auto">
+                <span className="font-mono text-2xl font-bold text-primary">{results.personalityType[2]}</span>
+              </div>
+              <p className="font-body text-sm text-dark-gray">
+                {results.personalityType[2] === 'E' 
+                  ? (language === 'ko' ? '감정 중심' : 'Emotional') 
+                  : (language === 'ko' ? '의미 추구' : 'Meaningful')}
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-off-white rounded-lg flex items-center justify-center mb-md mx-auto">
+                <span className="font-mono text-2xl font-bold text-primary">{results.personalityType[3]}</span>
+              </div>
+              <p className="font-body text-sm text-dark-gray">
+                {results.personalityType[3] === 'F' 
+                  ? (language === 'ko' ? '자유로운' : 'Flexible') 
+                  : (language === 'ko' ? '체계적' : 'Structured')}
+              </p>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Core Essence */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="bg-white rounded-xl p-xl border border-gray shadow-gentle text-center"
+        >
+          <Heart className="w-12 h-12 mx-auto mb-lg text-primary" />
+          <h2 className="font-display text-2xl font-medium text-black mb-lg">
+            {language === 'ko' ? '당신의 본질' : 'Your Essence'}
+          </h2>
+          <p className="font-body text-lg text-dark-gray leading-relaxed max-w-2xl mx-auto">
+            {language === 'ko' && personality.essence_ko ? personality.essence_ko : personality.essence}
+          </p>
+        </motion.section>
+        
+        {/* Your Strengths */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="bg-white rounded-xl p-xl border border-gray shadow-gentle"
+        >
+          <h2 className="font-display text-2xl font-medium text-black mb-xl text-center">
+            {language === 'ko' ? '당신의 강점' : 'Your Strengths'}
+          </h2>
+          <div className="grid md:grid-cols-3 gap-lg">
+            {personality.strengths.map((strength: any, index: number) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9 + index * 0.1 }}
+                className="text-center p-lg"
+              >
+                <div className="text-4xl mb-md">{strength.icon}</div>
+                <h3 className="font-display text-lg font-medium text-black mb-sm">
+                  {language === 'ko' && strength.title_ko ? strength.title_ko : strength.title}
+                </h3>
+                <p className="font-body text-sm text-dark-gray leading-normal">
+                  {language === 'ko' && strength.description_ko ? strength.description_ko : strength.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Recognition */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9 }}
+          className="bg-white rounded-xl p-xl border border-gray shadow-gentle"
+        >
+          <h2 className="font-display text-2xl font-medium text-black mb-xl text-center">
+            {language === 'ko' ? '이런 모습에서 자신을 발견할 수 있어요' : 'You might recognize yourself in...'}
+          </h2>
+          <div className="flex flex-wrap justify-center gap-xs">
+            {personality.recognition.map((item: string, index: number) => (
+              <motion.span
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.0 + index * 0.05 }}
+                className="px-md py-xs bg-off-white text-dark-gray rounded-full border border-light-gray font-body text-sm"
+              >
+                {language === 'ko' && personality.recognition_ko ? personality.recognition_ko[index] : item}
+              </motion.span>
+              ))}
+          </div>
+        </motion.section>
       </section>
 
       {/* How This Extends to Life */}

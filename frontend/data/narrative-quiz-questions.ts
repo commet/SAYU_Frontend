@@ -210,7 +210,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "작품과의 조용한 대화를 이어갑니다",
         subtext: "Some experiences are too personal to share",
         subtext_ko: "너무 개인적인 순간은 나누기 어렵습니다",
-        weight: { L: 2, E: 1 },
+        weight: { L: 2, M: 1 },
         narrative: "You close your eyes briefly, holding the moment like a secret.",
         emotional: "protected"
       },
@@ -220,7 +220,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "눈빛을 나누고 대화를 시작합니다",
         subtext: "Shared wonder doubles the joy",
         subtext_ko: "함께 느끼는 감동은 배가 됩니다",
-        weight: { S: 2, M: 1 },
+        weight: { S: 2, E: 1 },
         narrative: "Your perspectives interweave, creating a richer tapestry of understanding.",
         emotional: "expanded"
       }
@@ -278,7 +278,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "소용돌이치는 색채와 감정이 보입니다",
         subtext: "Your reflection is pure feeling and energy",
         subtext_ko: "순수한 느낌과 에너지가 반사됩니다",
-        weight: { A: 3, E: 2 },
+        weight: { A: 4, E: 2 },
         narrative: "The mirror shows your inner landscape - beautiful, complex, ever-changing.",
         emotional: "recognized"
       },
@@ -379,7 +379,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "작가의 개인적 여정과 고민",
         subtext: "How their life shaped their vision",
         subtext_ko: "삶이 어떻게 시각을 형성했는지",
-        weight: { E: 2, S: 1 },
+        weight: { E: 2, A: 1 },
         narrative: "You believe art is inseparable from the human story behind it.",
         emotional: "empathetic"
       },
@@ -389,7 +389,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "작품 속 깊은 의미들",
         subtext: "What messages they embedded in their art",
         subtext_ko: "예술에 담긴 메시지와 상징",
-        weight: { M: 2, R: 1 },
+        weight: { M: 2, R: 2 },
         narrative: "You're drawn to uncover the stories and symbols within each piece.",
         emotional: "appreciative"
       }
@@ -412,7 +412,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "신진 작가전: 예술의 새로운 시각",
         subtext: "Fresh explorations, flowing with creative currents",
         subtext_ko: "창의적 흐름을 따라가는 신선한 탐구",
-        weight: { F: 2, A: 1 },
+        weight: { F: 2, S: 1 },
         narrative: "You're drawn to the cutting edge, where art is still being defined.",
         emotional: "adventurous"
       },
@@ -422,7 +422,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "거장 재조명: 시대를 초월한 아름다움",
         subtext: "Structured excellence, enduring foundations",
         subtext_ko: "체계적 우수성과 지속적인 기반",
-        weight: { C: 2, R: 1 },
+        weight: { C: 2, L: 1 },
         narrative: "You seek the wisdom and beauty that has stood the test of time.",
         emotional: "reverent"
       }
@@ -445,7 +445,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "감정을 불러일으키는 작품",
         subtext: "A piece that changes meaning with your mood",
         subtext_ko: "기분에 따라 의미가 달라지는 작품",
-        weight: { A: 2, E: 2 },
+        weight: { A: 2, F: 1 },
         narrative: "You want art that converses with your emotional states.",
         emotional: "resonant"
       },
@@ -455,7 +455,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "명확한 이야기나 메시지가 있는 작품",
         subtext: "A piece that speaks to specific ideas",
         subtext_ko: "특정한 생각을 전달하는 작품",
-        weight: { R: 2, M: 2 },
+        weight: { R: 2, C: 1 },
         narrative: "You want art that enriches your understanding of the world.",
         emotional: "thoughtful"
       }
@@ -478,7 +478,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "모든 것을 바라보는 렌즈입니다",
         subtext: "Beauty and meaning are everywhere",
         subtext_ko: "아름다움과 의미는 어디에나 있습니다",
-        weight: { A: 1, E: 1, F: 1 },
+        weight: { A: 1, E: 2 },
         narrative: "Art isn't separate from life - it IS life, seen clearly.",
         emotional: "integrated"
       },
@@ -488,7 +488,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "나만의 도피처이자 안식처입니다",
         subtext: "A special realm I visit for renewal",
         subtext_ko: "재충전을 위해 찾는 특별한 영역입니다",
-        weight: { L: 1, C: 1, M: 1 },
+        weight: { R: 1, M: 2 },
         narrative: "Art is your sacred space, distinct from daily routine.",
         emotional: "renewed"
       }

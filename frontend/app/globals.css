@@ -4,11 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import custom styles */
-@import '../styles/gradients.css';
-@import '../styles/apple-design-system.css';
+/* Import design tokens first */
+@import '../styles/design-tokens.css';
+@import '../styles/emotional-palette.css';
+
+/* Import component styles */
 @import '../styles/sayu-design-system.css';
-@import '../styles/force-fix.css';
 
 @layer base {
   :root {

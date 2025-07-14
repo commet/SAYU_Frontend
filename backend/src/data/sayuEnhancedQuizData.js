@@ -1,6 +1,8 @@
 // SAYU Art Personality Quiz Data Structure
 // Backend: /backend/src/data/sayuEnhancedQuizData.js
 
+const { SAYU_TYPES, validateSAYUType } = require('../../../shared/SAYUTypeDefinitions');
+
 const sayuEnhancedQuizData = {
   title: "SAYU Art Personality Assessment",
   description: "Discover your unique art viewing personality through an immersive gallery journey",
@@ -910,12 +912,17 @@ const sayuEnhancedQuizData = {
     },
     
     determineType: function(dimensions) {
-      return (
+      const typeCode = (
         (dimensions.L > dimensions.S ? 'L' : 'S') +
         (dimensions.A > dimensions.R ? 'A' : 'R') +
         (dimensions.E > dimensions.M ? 'E' : 'M') +
         (dimensions.F > dimensions.C ? 'F' : 'C')
       );
+      
+      // Validate the generated type code
+      validateSAYUType(typeCode);
+      
+      return typeCode;
     },
     
     calculateConfidence: function(dimensions) {

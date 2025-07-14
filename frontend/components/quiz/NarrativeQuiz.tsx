@@ -110,12 +110,47 @@ export const NarrativeQuiz: React.FC = () => {
   };
 
   const completeQuiz = (allResponses: QuizResponse[], finalScores: typeof personalityScores) => {
-    // Calculate personality type
+    // Helper function to resolve ties by comparing average weights
+    const resolveTie = (trait1: string, trait2: string, score1: number, score2: number) => {
+      if (score1 !== score2) {
+        return score1 > score2 ? trait1 : trait2;
+      }
+      
+      // Calculate average weight per selection for each trait
+      let trait1Total = 0;
+      let trait1Count = 0;
+      let trait2Total = 0;
+      let trait2Count = 0;
+      
+      allResponses.forEach(response => {
+        if (response.weight[trait1] > 0) {
+          trait1Total += response.weight[trait1];
+          trait1Count++;
+        }
+        if (response.weight[trait2] > 0) {
+          trait2Total += response.weight[trait2];
+          trait2Count++;
+        }
+      });
+      
+      // Compare average weights (intensity of preference)
+      const trait1Avg = trait1Count > 0 ? trait1Total / trait1Count : 0;
+      const trait2Avg = trait2Count > 0 ? trait2Total / trait2Count : 0;
+      
+      if (trait1Avg !== trait2Avg) {
+        return trait1Avg > trait2Avg ? trait1 : trait2;
+      }
+      
+      // Final fallback: first trait (extremely rare case)
+      return trait1;
+    };
+
+    // Calculate personality type with tie resolution
     const type = [
-      finalScores.L > finalScores.S ? 'L' : 'S',
-      finalScores.A > finalScores.R ? 'A' : 'R',
-      finalScores.E > finalScores.M ? 'E' : 'M',
-      finalScores.F > finalScores.C ? 'F' : 'C'
+      resolveTie('L', 'S', finalScores.L, finalScores.S),
+      resolveTie('A', 'R', finalScores.A, finalScores.R),
+      resolveTie('E', 'M', finalScores.E, finalScores.M),
+      resolveTie('F', 'C', finalScores.F, finalScores.C)
     ].join('');
 
     // Store results
@@ -149,177 +184,144 @@ export const NarrativeQuiz: React.FC = () => {
   const backgroundData = getBackgroundForQuestion(currentQuestion + 1);
   
   return (
-    <div className={cn(
-      "min-h-screen transition-all duration-1000 relative overflow-hidden",
-      fallbackGradients[phase]
-    )}>
-      {/* Background Image Layer (when implemented) */}
-      {backgroundImage && (
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${backgroundImage})` }}
-        />
-      )}
-      
-      {/* Gradient Overlay */}
-      <div className={cn(
-        "absolute inset-0 bg-gradient-to-br",
-        backgroundData.overlay.color
-      )} style={{ opacity: backgroundData.overlay.opacity }} />
+    <div className="min-h-screen bg-off-white relative">
+      {/* Subtle background with personality color */}
+      <div 
+        className="absolute inset-0 opacity-10 transition-all duration-slow"
+        style={{ 
+          background: `var(--personality-primary, var(--primary))` 
+        }} 
+      />
 
-      {/* Navigation Bar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 p-4 backdrop-blur-sm bg-white/5">
-        <div className="flex justify-between items-center max-w-6xl mx-auto">
+      {/* Navigation Bar - Minimalist Design */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-moderate border-b border-light-gray">
+        <div className="flex justify-between items-center max-w-4xl mx-auto px-lg py-md">
           {/* Back button */}
           <button
             onClick={handleGoBack}
-            className="flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
+            className="flex items-center gap-sm text-sm text-dark-gray hover:text-black transition-colors duration-base"
           >
             <ArrowLeft size={16} />
-            {currentQuestion > 0 ? 'Previous' : 'Back to Intro'}
+            <span className="font-medium">
+              {currentQuestion > 0 ? 'Previous' : 'Back'}
+            </span>
           </button>
           
-          {/* Progress dots */}
-          <div className="flex gap-1">
-            {[...Array(narrativeQuestions.length)].map((_, i) => (
-              <div
-                key={i}
-                className={cn(
-                  "w-1.5 h-1.5 rounded-full transition-all duration-300",
-                  i <= currentQuestion ? 'bg-white/70 w-2' : 'bg-white/30'
-                )}
+          {/* Progress indicator - Simple line */}
+          <div className="flex items-center gap-xs">
+            <div className="w-32 h-1 bg-light-gray rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-primary transition-all duration-slow ease-out rounded-full"
+                style={{ width: `${progress}%` }}
               />
-            ))}
+            </div>
+            <span className="text-xs text-dark-gray font-medium min-w-fit">
+              {currentQuestion + 1} / {narrativeQuestions.length}
+            </span>
           </div>
           
           {/* Exit button */}
           <button
             onClick={handleExitQuiz}
-            className="text-sm text-white/70 hover:text-white transition-colors"
+            className="p-xs text-dark-gray hover:text-black transition-colors duration-base"
           >
             <Home size={16} />
           </button>
         </div>
       </nav>
 
-      {/* Act and Location Indicator */}
+      {/* Act indicator - Minimal and elegant */}
       <motion.div
-        className="fixed top-20 left-8 text-white/60 text-sm font-medium"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
+        className="fixed top-24 left-lg text-dark-gray text-sm font-medium z-40"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.3, duration: 0.6 }}
       >
-        <div>Act {currentAct === 'curiosity' ? 'I' : currentAct === 'exploration' ? 'II' : 'III'}: 
-        {' '}{currentAct.charAt(0).toUpperCase() + currentAct.slice(1)}</div>
-        <div className="text-xs mt-1 text-white/40">
-          {currentQuestion <= 1 ? 'Museum Entrance' : 
-           currentQuestion <= 6 ? 'Main Gallery' :
-           currentQuestion <= 9 ? 'Reflection Room' :
-           currentQuestion <= 11 ? 'Museum Shop' :
-           'Personal Space'}
+        <div className="font-display">
+          {currentAct === 'curiosity' ? 'Curiosity' : 
+           currentAct === 'exploration' ? 'Exploration' : 'Revelation'}
         </div>
       </motion.div>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-20 flex items-center justify-center min-h-screen">
+      {/* Main Content - Clean and focused */}
+      <div className="flex items-center justify-center min-h-screen pt-20 pb-xl">
         <AnimatePresence mode="wait">
           {!isTransitioning && (
             <motion.div
               key={currentQuestion}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -30 }}
-              transition={{ duration: 0.8, ease: [0.390, 0.575, 0.565, 1.000] }}
-              className="max-w-4xl w-full"
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="max-w-3xl w-full px-lg"
             >
               {/* Narrative Setup */}
               {(question.narrative.setup || question.narrative.transition) && (
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                  className="text-white/80 text-lg mb-8 text-center italic leading-relaxed"
+                  transition={{ delay: 0.2 }}
+                  className="text-dark-gray text-lg mb-xl text-center font-body leading-relaxed"
                 >
                   {getTransitionText()}
                 </motion.p>
               )}
 
               {/* Question */}
-              <motion.h2
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5 }}
-                className="text-3xl md:text-4xl font-serif text-white text-center mb-12 leading-relaxed"
+              <motion.h1
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="text-2xl md:text-3xl font-display font-medium text-black text-center mb-2xl leading-tight"
               >
                 {question.question}
-              </motion.h2>
+              </motion.h1>
 
               {/* Options */}
-              <div className="grid md:grid-cols-2 gap-6 mt-12">
+              <div className="grid gap-md max-w-2xl mx-auto">
                 {question.options.map((option, index) => (
                   <motion.div
                     key={option.id}
-                    initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.7 + index * 0.1 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 + index * 0.1 }}
                   >
                     <button
                       onClick={() => handleChoice(option.id)}
                       className={cn(
-                        "w-full p-8 rounded-2xl",
-                        "bg-white/10 backdrop-blur-md",
-                        "border border-white/20",
-                        "hover:bg-white/20 hover:border-white/30",
-                        "transition-all duration-500",
-                        "text-left group",
-                        "shadow-gentle hover:shadow-embrace"
+                        "w-full p-lg rounded-lg text-left",
+                        "bg-white border border-gray",
+                        "hover:bg-off-white hover:border-primary/30 hover:shadow-gentle",
+                        "transition-all duration-base ease-out",
+                        "group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                       )}
                     >
-                      <h3 className="text-xl font-medium text-white mb-2 group-hover:translate-x-1 transition-transform">
+                      <h3 className="font-body font-medium text-lg text-black mb-xs leading-tight">
                         {option.text}
                       </h3>
                       {option.subtext && (
-                        <p className="text-white/60 text-sm italic">
+                        <p className="text-dark-gray text-sm leading-normal">
                           {option.subtext}
                         </p>
                       )}
-                      
-                      {/* Hover indicator */}
-                      <div className="mt-4 flex items-center text-white/40 group-hover:text-white/60 transition-colors">
-                        <span className="text-xs mr-2">Choose this path</span>
-                        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </div>
                     </button>
                   </motion.div>
                 ))}
               </div>
-
-              {/* Atmosphere indicator */}
-              {question.narrative.atmosphere && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.3 }}
-                  transition={{ delay: 1 }}
-                  className="text-center mt-12 text-white/40 text-sm"
-                >
-                  <Sparkles className="w-4 h-4 inline mr-2" />
-                  The gallery whispers: {question.narrative.atmosphere}
-                </motion.div>
-              )}
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      {/* Gallery sweep transition effect */}
+      {/* Simple transition overlay */}
       <AnimatePresence>
         {isTransitioning && (
           <motion.div
-            initial={{ x: '-100%' }}
-            animate={{ x: '100%' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1, ease: [0.65, 0, 0.35, 1] }}
-            className="fixed inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-white/60 backdrop-blur-subtle z-30"
           />
         )}
       </AnimatePresence>
@@ -331,37 +333,41 @@ export const NarrativeQuiz: React.FC = () => {
         isVisible={showEncouragement}
       />
       
-      {/* Exit Confirmation Modal */}
+      {/* Exit Confirmation Modal - Clean and Simple */}
       <AnimatePresence>
         {showExitConfirm && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/40 backdrop-blur-moderate z-modal flex items-center justify-center p-lg"
             onClick={() => setShowExitConfirm(false)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl p-8 max-w-md w-full shadow-dream"
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-lg p-xl max-w-md w-full shadow-emphasis"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="text-2xl font-serif mb-4 text-[hsl(var(--journey-midnight))]">Leave your journey?</h3>
-              <p className="text-[hsl(var(--journey-twilight))] mb-6">Your progress will be lost. Are you sure you want to exit?</p>
-              <div className="flex gap-4">
-                <button
-                  onClick={() => router.push('/')}
-                  className="flex-1 px-6 py-3 bg-[hsl(var(--journey-dusty-rose))] text-white rounded-full hover:brightness-110 transition-all"
-                >
-                  Yes, exit
-                </button>
+              <h3 className="font-display text-xl font-medium mb-sm text-black">
+                Leave your journey?
+              </h3>
+              <p className="font-body text-dark-gray mb-xl leading-normal">
+                Your progress will be lost. Are you sure you want to exit?
+              </p>
+              <div className="flex gap-md">
                 <button
                   onClick={() => setShowExitConfirm(false)}
-                  className="flex-1 px-6 py-3 border-2 border-[hsl(var(--journey-dusty-rose))] text-[hsl(var(--journey-dusty-rose))] rounded-full hover:bg-[hsl(var(--journey-dusty-rose)/0.1)] transition-all"
+                  className="flex-1 px-lg py-md bg-off-white text-black border border-gray rounded-md hover:bg-light-gray transition-colors duration-base font-medium"
                 >
-                  Continue journey
+                  Continue
+                </button>
+                <button
+                  onClick={() => router.push('/')}
+                  className="flex-1 px-lg py-md bg-primary text-white rounded-md hover:bg-primary-dark transition-colors duration-base font-medium"
+                >
+                  Exit
                 </button>
               </div>
             </motion.div>

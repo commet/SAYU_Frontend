@@ -2,6 +2,7 @@
 // Backend: /backend/src/services/sayuQuizService.js
 
 const { sayuEnhancedQuizData } = require('../data/sayuEnhancedQuizData');
+const { SAYU_TYPES, validateSAYUType } = require('../../../shared/SAYUTypeDefinitions');
 
 class SAYUQuizService {
   constructor() {
@@ -117,6 +118,14 @@ class SAYUQuizService {
       (dimensions.A > dimensions.R ? 'A' : 'R') +
       (dimensions.E > dimensions.M ? 'E' : 'M') +
       (dimensions.F > dimensions.C ? 'F' : 'C');
+    
+    // Validate type code using central definitions
+    validateSAYUType(typeCode);
+    
+    // Validate type code
+    if (!validateSAYUType(typeCode)) {
+      throw new Error(`Invalid SAYU type: ${typeCode}`);
+    }
     
     const personalityType = sayuEnhancedQuizData.personalityTypes[typeCode];
     
@@ -415,12 +424,13 @@ class SAYUQuizService {
 
   // Compare two personality types
   comparePersonalityTypes(type1Code, type2Code, language = 'en') {
-    const type1 = sayuEnhancedQuizData.personalityTypes[type1Code];
-    const type2 = sayuEnhancedQuizData.personalityTypes[type2Code];
-    
-    if (!type1 || !type2) {
+    // Validate both type codes using central definition
+    if (!validateSAYUType(type1Code) || !validateSAYUType(type2Code)) {
       throw new Error('Invalid personality type codes');
     }
+    
+    const type1 = sayuEnhancedQuizData.personalityTypes[type1Code];
+    const type2 = sayuEnhancedQuizData.personalityTypes[type2Code];
     
     // Find common and different axes
     const axes = ['L/S', 'A/R', 'E/M', 'F/C'];

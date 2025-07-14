@@ -4,26 +4,34 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background",
+  // Base styles - Timeless Elegance 철학 반영
+  "inline-flex items-center justify-center font-medium transition-all duration-base ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed ring-offset-background",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "underline-offset-4 hover:underline text-primary",
+        // Primary - 주요 액션 (5% 사용)
+        primary: "bg-primary text-white hover:bg-primary-dark active:bg-primary-dark shadow-gentle hover:shadow-moderate",
+        
+        // Secondary - 보조 액션 (20% 사용)  
+        secondary: "bg-off-white text-black border border-gray hover:bg-light-gray active:bg-gray shadow-subtle hover:shadow-gentle",
+        
+        // Ghost - 최소 강조 (75% 사용)
+        ghost: "text-dark-gray hover:bg-off-white hover:text-black active:bg-light-gray",
+        
+        // Legacy support
+        destructive: "bg-error text-white hover:bg-error/90",
+        outline: "border border-gray text-dark-gray hover:bg-off-white hover:text-black",
+        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-10 py-2 px-4",
-        sm: "h-9 px-3 rounded-md",
-        lg: "h-11 px-8 rounded-md",
-        icon: "h-10 w-10",
+        sm: "h-8 px-md text-sm rounded-sm",         // 32px height
+        default: "h-10 px-md text-base rounded-md", // 40px height  
+        lg: "h-12 px-lg text-lg rounded-lg",        // 48px height
+        icon: "h-10 w-10 rounded-md",               // Square icon
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "primary",
       size: "default",
     },
   }

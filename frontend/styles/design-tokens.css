@@ -1,0 +1,250 @@
+/* 🎨 SAYU Design Tokens - Timeless Elegance System */
+
+:root {
+  /* =========================
+     COLOR FOUNDATION
+     95% 회색조 + 5% accent
+     ========================= */
+  
+  /* Base Colors - 95% 사용 */
+  --white: #FFFFFF;
+  --off-white: #FAFAFA;
+  --light-gray: #F5F5F5;
+  --gray: #E0E0E0;
+  --dark-gray: #616161;
+  --black: #212121;
+  
+  /* Primary Color - 5% 사용 */
+  --primary: #6B5B95;          /* 차분한 보라 - 예술과 심리의 만남 */
+  --primary-light: #8B7BAB;
+  --primary-dark: #4B3B75;
+  
+  /* Semantic Colors */
+  --success: #4CAF50;
+  --error: #F44336;
+  --warning: #FF9800;
+  
+  /* =========================
+     TYPOGRAPHY SCALE
+     명확한 위계 구조
+     ========================= */
+  
+  /* Font Families */
+  --font-display: 'Playfair Display', 'Noto Serif KR', serif;   /* 품격 있는 제목 */
+  --font-body: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Inter', sans-serif;  /* 가독성 최우선 */
+  
+  /* Font Sizes - 단순한 스케일 */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.5rem;      /* 24px */
+  --text-2xl: 2rem;       /* 32px */
+  --text-3xl: 2.5rem;     /* 40px */
+  
+  /* Font Weights */
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* Line Heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+  
+  /* =========================
+     SPACING SYSTEM
+     8px 그리드 기반
+     ========================= */
+  
+  --space-xs: 0.5rem;     /* 8px */
+  --space-sm: 1rem;       /* 16px */
+  --space-md: 1.5rem;     /* 24px */
+  --space-lg: 2rem;       /* 32px */
+  --space-xl: 3rem;       /* 48px */
+  --space-2xl: 4rem;      /* 64px */
+  --space-3xl: 6rem;      /* 96px */
+  
+  /* Container Widths */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  
+  /* =========================
+     SHADOWS & DEPTH
+     미술관의 섬세한 그림자
+     ========================= */
+  
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-gentle: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-moderate: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-emphasis: 0 16px 40px rgba(0, 0, 0, 0.16);
+  
+  /* =========================
+     BORDER RADIUS
+     부드럽고 일관된 곡선
+     ========================= */
+  
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  
+  /* =========================
+     TRANSITIONS & ANIMATIONS
+     차분하고 세련된 움직임
+     ========================= */
+  
+  --transition-fast: 150ms ease-out;
+  --transition-base: 300ms ease-out;
+  --transition-slow: 500ms ease-out;
+  
+  /* Easing Functions */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-gallery: cubic-bezier(0.39, 0.575, 0.565, 1);
+  
+  /* =========================
+     GLASS EFFECTS
+     미니멀한 glassmorphism
+     ========================= */
+  
+  --glass-subtle: rgba(255, 255, 255, 0.05);
+  --glass-moderate: rgba(255, 255, 255, 0.1);
+  --glass-strong: rgba(255, 255, 255, 0.2);
+  
+  --blur-subtle: blur(4px);
+  --blur-moderate: blur(8px);
+  --blur-strong: blur(16px);
+  
+  /* =========================
+     Z-INDEX LAYERS
+     명확한 레이어 관리
+     ========================= */
+  
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-tooltip: 50;
+}
+
+/* =========================
+   DARK MODE ADAPTATIONS
+   갤러리의 밤
+   ========================= */
+
+.dark {
+  --white: #0A0A0A;
+  --off-white: #121212;
+  --light-gray: #1A1A1A;
+  --gray: #2A2A2A;
+  --dark-gray: #A0A0A0;
+  --black: #FFFFFF;
+  
+  --primary: #8B7BAB;
+  --primary-light: #A395C7;
+  --primary-dark: #6B5B95;
+  
+  /* Dark mode shadows are deeper */
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-gentle: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-moderate: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-emphasis: 0 16px 40px rgba(0, 0, 0, 0.6);
+  
+  /* Glass effects in dark mode */
+  --glass-subtle: rgba(255, 255, 255, 0.03);
+  --glass-moderate: rgba(255, 255, 255, 0.08);
+  --glass-strong: rgba(255, 255, 255, 0.15);
+}
+
+/* =========================
+   UTILITY CLASSES
+   자주 사용되는 조합들
+   ========================= */
+
+.glass-card {
+  background: var(--glass-moderate);
+  backdrop-filter: var(--blur-moderate);
+  border: 1px solid var(--glass-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-gentle);
+}
+
+.gallery-transition {
+  transition: all var(--transition-base) var(--ease-gallery);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.focus-ring {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* =========================
+   COMPONENT TOKENS
+   특정 컴포넌트용 토큰
+   ========================= */
+
+/* Button Tokens */
+--button-height-sm: 32px;
+--button-height-md: 40px;
+--button-height-lg: 48px;
+--button-padding-x: var(--space-md);
+--button-border-radius: var(--radius-md);
+
+/* Card Tokens */
+--card-padding: var(--space-lg);
+--card-border-radius: var(--radius-lg);
+--card-background: var(--white);
+--card-border: var(--light-gray);
+
+/* Input Tokens */
+--input-height: 44px;
+--input-padding-x: var(--space-md);
+--input-border-radius: var(--radius-md);
+--input-border: var(--gray);
+--input-focus-border: var(--primary);
+
+/* =========================
+   RESPONSIVE BREAKPOINTS
+   모바일 우선 접근
+   ========================= */
+
+@custom-media --mobile (width >= 320px);
+@custom-media --tablet (width >= 768px);
+@custom-media --desktop (width >= 1200px);
+
+/* =========================
+   ACCESSIBILITY TOKENS
+   접근성 우선 설계
+   ========================= */
+
+--focus-ring: 0 0 0 2px var(--primary);
+--min-touch-target: 44px;
+--text-contrast-ratio: 4.5;  /* WCAG AA 준수 */
+
+/* =========================
+   BRAND HARMONY
+   emotional-palette.css와 연동
+   ========================= */
+
+/* Journey Colors Import */
+--journey-primary: var(--primary);
+--journey-background: var(--off-white);
+--journey-surface: var(--white);
+--journey-text: var(--black);
+--journey-muted: var(--dark-gray);
+
+/* Personality Colors는 emotional-palette.css에서 관리 */
+/* 이 파일은 기본 시스템 토큰만 담당 */
