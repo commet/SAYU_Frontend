@@ -1,4 +1,4 @@
-const db = require('../config/database');
+const { pool } = require('../config/database');
 const Redis = require('ioredis');
 const { log } = require('../config/logger');
 const puppeteer = require('puppeteer');
@@ -38,7 +38,8 @@ class ArtveeService extends EventEmitter {
         log.info('Artvee service initialized without Redis (cache disabled)');
       }
       
-      await this.initializeBrowser();
+      // Skip browser initialization for basic queries
+      // await this.initializeBrowser();
     } catch (error) {
       log.error('Artvee service initialization failed:', error);
       this.redis = null;
@@ -310,7 +311,7 @@ class ArtveeService extends EventEmitter {
         LIMIT 1000
       `;
 
-      const result = await db.query(artworksQuery);
+      const result = await pool.query(artworksQuery);
       const artworks = result.rows;
 
       log.info(`Processing ${artworks.length} artworks for personality mapping`);
@@ -321,7 +322,7 @@ class ArtveeService extends EventEmitter {
         const usageTags = this.generateUsageTags(artwork);
 
         // 데이터베이스 업데이트
-        await db.query(`
+        await pool.query(`
           UPDATE artvee_artworks 
           SET personality_tags = $1, emotion_tags = $2, usage_tags = $3, updated_at = NOW()
           WHERE id = $4
@@ -504,7 +505,7 @@ class ArtveeService extends EventEmitter {
         artworkData.description
       ];
 
-      const result = await db.query(query, values);
+      const result = await pool.query(query, values);
       log.info(`Artwork saved: ${artworkData.title}`);
 
       return result.rows[0];
@@ -521,7 +522,7 @@ class ArtveeService extends EventEmitter {
     try {
       let query = `
         SELECT * FROM artvee_artworks
-        WHERE $1 = ANY(personality_tags)
+        WHERE sayu_type = $1
       `;
       
       const queryParams = [personalityType];
@@ -542,7 +543,7 @@ class ArtveeService extends EventEmitter {
       query += ` ORDER BY RANDOM() LIMIT $${paramCount + 1}`;
       queryParams.push(limit);
 
-      const result = await db.query(query, queryParams);
+      const result = await pool.query(query, queryParams);
       return result.rows;
     } catch (error) {
       log.error('Personality artworks query error:', error);
@@ -699,7 +700,7 @@ class ArtveeService extends EventEmitter {
       if (artworks.length > 0) {
         const primaryArtworks = artworks.slice(0, 5).map(a => a.id);
         
-        await db.query(`
+        await pool.query(`
           INSERT INTO personality_artwork_mapping (personality_type, primary_artworks, created_at)
           VALUES ($1, $2, NOW())
           ON CONFLICT (personality_type)

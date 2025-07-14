@@ -1,5 +1,295 @@
 'use client';
 
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Palette, Grid3X3, Heart, Bookmark, User, Filter, Search } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import ArtworkActions from '@/components/ui/ArtworkActions';
+import ArtworkAttribution from '@/components/ui/ArtworkAttribution';
+import { useLanguage } from '@/contexts/LanguageContext';
+
+// Mock data - 실제로는 API에서 가져올 데이터
+const mockArtworks = [
+  {
+    artveeId: 'self-portrait-27',
+    title: 'Self-Portrait (1889)',
+    artist: 'Vincent van Gogh',
+    url: 'https://artvee.com/dl/self-portrait-27/',
+    sayuType: 'LAEF',
+    isLiked: true,
+    isArchived: true
+  },
+  {
+    artveeId: 'noanoa-pl-41',
+    title: 'Noanoa Pl.41',
+    artist: 'Paul Gauguin',
+    url: 'https://artvee.com/dl/noanoa-pl-41/',
+    sayuType: 'LAEF',
+    isLiked: false,
+    isArchived: true
+  },
+  {
+    artveeId: 'woman-at-window',
+    title: 'Woman at a Window (1822)',
+    artist: 'Caspar David Friedrich',
+    url: 'https://artvee.com/dl/woman-at-window/',
+    sayuType: 'LAEF',
+    isLiked: true,
+    isArchived: false
+  },
+  {
+    artveeId: 'la-mousme',
+    title: 'La Mousme (1888)',
+    artist: 'Vincent van Gogh',
+    url: 'https://artvee.com/dl/la-mousme/',
+    sayuType: 'LAEF',
+    isLiked: true,
+    isArchived: true
+  }
+];
+
+const mockFollowingArtists = [
+  { name: 'Vincent van Gogh', artworkCount: 15, isFollowing: true },
+  { name: 'Paul Gauguin', artworkCount: 8, isFollowing: true },
+  { name: 'Caspar David Friedrich', artworkCount: 3, isFollowing: true }
+];
+
+export default function PersonalGallery() {
+  const { language } = useLanguage();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterArtist, setFilterArtist] = useState('');
+  const [activeTab, setActiveTab] = useState('archived');
+
+  const likedArtworks = mockArtworks.filter(artwork => artwork.isLiked);
+  const archivedArtworks = mockArtworks.filter(artwork => artwork.isArchived);
+
+  const filteredArtworks = (artworks: typeof mockArtworks) => {
+    return artworks.filter(artwork => {
+      const matchesSearch = artwork.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           artwork.artist.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesArtist = !filterArtist || artwork.artist === filterArtist;
+      return matchesSearch && matchesArtist;
+    });
+  };
+
+  const uniqueArtists = [...new Set(mockArtworks.map(a => a.artist))].sort();
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* 헤더 */}
+      <div className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-10">
+        <div className="max-w-6xl mx-auto px-4 py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Palette className="w-8 h-8 text-purple-600" />
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  {language === 'ko' ? '내 갤러리' : 'My Gallery'}
+                </h1>
+                <p className="text-gray-600 text-sm">
+                  {language === 'ko' ? '나만의 예술 컬렉션' : 'Your personal art collection'}
+                </p>
+              </div>
+            </div>
+            
+            {/* 검색 및 필터 */}
+            <div className="flex gap-3">
+              <div className="relative">
+                <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <Input
+                  placeholder={language === 'ko' ? '작품 또는 작가 검색...' : 'Search artworks or artists...'}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 w-64"
+                />
+              </div>
+              <Select value={filterArtist} onValueChange={setFilterArtist}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder={language === 'ko' ? '작가 필터' : 'Filter by artist'} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">{language === 'ko' ? '모든 작가' : 'All artists'}</SelectItem>
+                  {uniqueArtists.map(artist => (
+                    <SelectItem key={artist} value={artist}>{artist}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          {/* 탭 메뉴 */}
+          <TabsList className="grid w-full max-w-md grid-cols-3">
+            <TabsTrigger value="archived" className="flex items-center gap-2">
+              <Bookmark className="w-4 h-4" />
+              {language === 'ko' ? '보관함' : 'Archived'}
+              <span className="ml-1 text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full">
+                {archivedArtworks.length}
+              </span>
+            </TabsTrigger>
+            <TabsTrigger value="liked" className="flex items-center gap-2">
+              <Heart className="w-4 h-4" />
+              {language === 'ko' ? '좋아요' : 'Liked'}
+              <span className="ml-1 text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full">
+                {likedArtworks.length}
+              </span>
+            </TabsTrigger>
+            <TabsTrigger value="following" className="flex items-center gap-2">
+              <User className="w-4 h-4" />
+              {language === 'ko' ? '팔로잉' : 'Following'}
+              <span className="ml-1 text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full">
+                {mockFollowingArtists.length}
+              </span>
+            </TabsTrigger>
+          </TabsList>
+
+          {/* 보관함 탭 */}
+          <TabsContent value="archived" className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-gray-900">
+                {language === 'ko' ? '보관된 작품' : 'Archived Artworks'}
+              </h2>
+              <p className="text-sm text-gray-500">
+                {filteredArtworks(archivedArtworks).length}개의 작품
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {filteredArtworks(archivedArtworks).map((artwork, index) => (
+                <motion.div
+                  key={artwork.artveeId}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="group"
+                >
+                  <div className="relative overflow-hidden rounded-lg bg-white shadow-md hover:shadow-xl transition-all duration-300">
+                    <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                      <div className="text-center p-4">
+                        <Palette className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                        <p className="text-sm text-gray-500 font-medium">{artwork.title}</p>
+                        <p className="text-xs text-gray-400 mt-1">{artwork.artist}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <ArtworkActions artwork={artwork} className="[&>*]:!bg-white/20 [&>*]:!text-white [&>*]:backdrop-blur-sm [&>*]:rounded-full [&>*]:hover:!bg-white/30" />
+                    </div>
+                  </div>
+                  
+                  <div className="mt-3">
+                    <h3 className="font-semibold text-gray-900 text-sm line-clamp-2">
+                      {artwork.title}
+                    </h3>
+                    <p className="text-gray-600 text-xs mt-1">{artwork.artist}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </TabsContent>
+
+          {/* 좋아요 탭 */}
+          <TabsContent value="liked" className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-gray-900">
+                {language === 'ko' ? '좋아요한 작품' : 'Liked Artworks'}
+              </h2>
+              <p className="text-sm text-gray-500">
+                {filteredArtworks(likedArtworks).length}개의 작품
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {filteredArtworks(likedArtworks).map((artwork, index) => (
+                <motion.div
+                  key={artwork.artveeId}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="group"
+                >
+                  <div className="relative overflow-hidden rounded-lg bg-white shadow-md hover:shadow-xl transition-all duration-300">
+                    <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                      <div className="text-center p-4">
+                        <Palette className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                        <p className="text-sm text-gray-500 font-medium">{artwork.title}</p>
+                        <p className="text-xs text-gray-400 mt-1">{artwork.artist}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <ArtworkActions artwork={artwork} className="[&>*]:!bg-white/20 [&>*]:!text-white [&>*]:backdrop-blur-sm [&>*]:rounded-full [&>*]:hover:!bg-white/30" />
+                    </div>
+                  </div>
+                  
+                  <div className="mt-3">
+                    <h3 className="font-semibold text-gray-900 text-sm line-clamp-2">
+                      {artwork.title}
+                    </h3>
+                    <p className="text-gray-600 text-xs mt-1">{artwork.artist}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </TabsContent>
+
+          {/* 팔로잉 탭 */}
+          <TabsContent value="following" className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-gray-900">
+                {language === 'ko' ? '팔로우하는 작가' : 'Following Artists'}
+              </h2>
+              <p className="text-sm text-gray-500">
+                {mockFollowingArtists.length}명의 작가
+              </p>
+            </div>
+            
+            <div className="grid gap-4">
+              {mockFollowingArtists.map((artist, index) => (
+                <motion.div
+                  key={artist.name}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-white rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center">
+                        <User className="w-6 h-6 text-purple-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900">{artist.name}</h3>
+                        <p className="text-sm text-gray-500">
+                          {artist.artworkCount}개의 작품
+                        </p>
+                      </div>
+                    </div>
+                    <Button variant="outline" size="sm">
+                      {language === 'ko' ? '언팔로우' : 'Unfollow'}
+                    </Button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
+        
+        {/* 저작권 표시 */}
+        <div className="mt-12 pt-8 border-t">
+          <ArtworkAttribution className="text-center" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect, Suspense } from 'react';

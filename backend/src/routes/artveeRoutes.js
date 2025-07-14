@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
+const fs = require('fs').promises;
 const authenticateToken = require('../middleware/auth');
 const optionalAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -12,7 +14,7 @@ const optionalAuth = (req, res, next) => {
 };
 const validateRequest = require('../middleware/validateRequest');
 const { body, query, param } = require('express-validator');
-const artveeService = require('../services/artveeService');
+const { pool } = require('../config/database');
 
 // 성격 유형별 아트웍 조회 (로그인 선택)
 router.get('/personality/:type',
@@ -29,26 +31,45 @@ router.get('/personality/:type',
       const { type } = req.params;
       const { limit, usageType, emotionFilter } = req.query;
 
-      const artworks = await artveeService.getArtworksForPersonality(
-        type,
-        {
-          limit: parseInt(limit),
-          usageType,
-          emotionFilter
-        }
-      );
+      // 직접 데이터베이스 쿼리
+      let query = `
+        SELECT artvee_id, title, artist, url, sayu_type
+        FROM artvee_artworks
+        WHERE sayu_type = $1
+      `;
+      
+      const queryParams = [type];
+      let paramCount = 1;
 
-      // 사용 기록 (로그인한 경우)
+      if (usageType) {
+        paramCount++;
+        query += ` AND $${paramCount} = ANY(usage_tags)`;
+        queryParams.push(usageType);
+      }
+
+      if (emotionFilter) {
+        paramCount++;
+        query += ` AND $${paramCount} = ANY(emotion_tags)`;
+        queryParams.push(emotionFilter);
+      }
+
+      query += ` ORDER BY RANDOM() LIMIT $${paramCount + 1}`;
+      queryParams.push(parseInt(limit) || 10);
+
+      const result = await pool.query(query, queryParams);
+      const artworks = result.rows;
+
+      // 사용 기록 (로그인한 경우) - TODO: Implement logArtworkUsage
       if (req.user) {
-        artworks.forEach(artwork => {
-          artveeService.logArtworkUsage(
-            artwork.id,
-            'personality_browsing',
-            req.user.id,
-            req.sessionID,
-            { personalityType: type }
-          );
-        });
+        // artworks.forEach(artwork => {
+        //   artveeService.logArtworkUsage(
+        //     artwork.id,
+        //     'personality_browsing',
+        //     req.user.id,
+        //     req.sessionID,
+        //     { personalityType: type }
+        //   );
+        // });
       }
 
       res.json({
@@ -505,6 +526,172 @@ router.post('/mapping/update',
         success: false,
         error: 'Failed to update personality mappings'
       });
+    }
+  }
+);
+
+// ===== 이미지 서빙 엔드포인트 =====
+
+// 이미지 캐시 설정
+const IMAGE_CACHE_DURATION = 60 * 60 * 24 * 7; // 1주일
+
+// Artvee 이미지 서빙
+router.get('/images/:artveeId',
+  [
+    param('artveeId').isString(),
+    query('size').optional().isIn(['thumbnail', 'medium', 'full']).default('medium')
+  ],
+  validateRequest,
+  async (req, res) => {
+    try {
+      const { artveeId } = req.params;
+      const { size } = req.query;
+
+      // 이미지 경로 구성
+      const imageDir = path.join(__dirname, '../../../../artvee-crawler/images', 
+        size === 'thumbnail' ? 'thumbnails' : size);
+      const imagePath = path.join(imageDir, `${artveeId}.jpg`);
+
+      // 파일 존재 확인
+      try {
+        await fs.access(imagePath);
+      } catch (error) {
+        // 이미지가 없으면 플레이스홀더 반환
+        const placeholderPath = path.join(__dirname, '../../public/placeholder-artwork.jpg');
+        return res.status(404).sendFile(placeholderPath);
+      }
+
+      // 캐시 헤더 설정
+      res.set({
+        'Cache-Control': `public, max-age=${IMAGE_CACHE_DURATION}`,
+        'Content-Type': 'image/jpeg'
+      });
+
+      // 이미지 전송
+      res.sendFile(imagePath);
+    } catch (error) {
+      console.error('Error serving image:', error);
+      res.status(500).json({ error: 'Failed to serve image' });
+    }
+  }
+);
+
+// 작품 메타데이터와 이미지 URL 함께 반환
+router.get('/artworks/:artveeId',
+  [
+    param('artveeId').isString()
+  ],
+  validateRequest,
+  async (req, res) => {
+    try {
+      const { artveeId } = req.params;
+      
+      // 메타데이터 파일 읽기
+      const metadataPath = path.join(__dirname, '../../../../artvee-crawler/images/metadata', `${artveeId}.json`);
+      
+      let metadata = {};
+      try {
+        const metadataContent = await fs.readFile(metadataPath, 'utf8');
+        metadata = JSON.parse(metadataContent);
+      } catch (error) {
+        // 메타데이터가 없으면 데이터 파일에서 찾기
+        const dataPath = path.join(__dirname, '../../../../artvee-crawler/data/famous-artists-artworks.json');
+        try {
+          const data = await fs.readFile(dataPath, 'utf8');
+          const artworks = JSON.parse(data);
+          const artwork = artworks.find(a => a.artveeId === artveeId);
+          if (artwork) {
+            metadata = artwork;
+          }
+        } catch (e) {
+          // 기본값 사용
+          metadata = {
+            artveeId,
+            title: 'Unknown Artwork',
+            artist: 'Unknown Artist'
+          };
+        }
+      }
+
+      // 이미지 URL 생성
+      const baseUrl = process.env.API_URL || `http://localhost:${process.env.PORT || 3001}`;
+      const imageUrls = {
+        thumbnail: `${baseUrl}/api/artvee/images/${artveeId}?size=thumbnail`,
+        medium: `${baseUrl}/api/artvee/images/${artveeId}?size=medium`,
+        full: `${baseUrl}/api/artvee/images/${artveeId}?size=full`
+      };
+
+      res.json({
+        ...metadata,
+        imageUrls
+      });
+    } catch (error) {
+      console.error('Error fetching artwork:', error);
+      res.status(500).json({ error: 'Failed to fetch artwork' });
+    }
+  }
+);
+
+// 로컬 데이터 기반 성격 유형별 작품 목록
+router.get('/personalities/:sayuType/artworks',
+  [
+    param('sayuType').isString(),
+    query('page').optional().isInt({ min: 1 }).default(1),
+    query('limit').optional().isInt({ min: 1, max: 50 }).default(20)
+  ],
+  validateRequest,
+  async (req, res) => {
+    try {
+      const { sayuType } = req.params;
+      const { page, limit } = req.query;
+
+      // 데이터 파일 읽기
+      const famousArtworksPath = path.join(__dirname, '../../../../artvee-crawler/data/famous-artists-artworks.json');
+      const bulkArtworksPath = path.join(__dirname, '../../../../artvee-crawler/data/bulk-artworks.json');
+
+      const [famousData, bulkData] = await Promise.all([
+        fs.readFile(famousArtworksPath, 'utf8').then(JSON.parse).catch(() => []),
+        fs.readFile(bulkArtworksPath, 'utf8').then(JSON.parse).catch(() => [])
+      ]);
+
+      // 성격 유형에 맞는 작품 필터링
+      const filteredArtworks = famousData.filter(artwork => artwork.sayuType === sayuType);
+      
+      // 성격 유형이 명시되지 않은 bulk 작품들 중 일부 추가 (다양성을 위해)
+      const additionalArtworks = bulkData
+        .filter(artwork => !artwork.sayuType || artwork.sayuType === 'Unknown')
+        .slice(0, 50); // 최대 50개까지만
+
+      const allArtworks = [...filteredArtworks, ...additionalArtworks];
+
+      // 페이지네이션
+      const startIndex = (parseInt(page) - 1) * parseInt(limit);
+      const endIndex = startIndex + parseInt(limit);
+      const paginatedArtworks = allArtworks.slice(startIndex, endIndex);
+
+      // 이미지 URL 추가
+      const baseUrl = process.env.API_URL || `http://localhost:${process.env.PORT || 3001}`;
+      const artworksWithUrls = paginatedArtworks.map(artwork => ({
+        ...artwork,
+        imageUrls: {
+          thumbnail: `${baseUrl}/api/artvee/images/${artwork.artveeId}?size=thumbnail`,
+          medium: `${baseUrl}/api/artvee/images/${artwork.artveeId}?size=medium`,
+          full: `${baseUrl}/api/artvee/images/${artwork.artveeId}?size=full`
+        }
+      }));
+
+      res.json({
+        artworks: artworksWithUrls,
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          total: allArtworks.length,
+          totalPages: Math.ceil(allArtworks.length / parseInt(limit))
+        }
+      });
+    } catch (error) {
+      console.error('Error fetching personality artworks:', error);
+      res.status(500).json({ error: 'Failed to fetch artworks' });
     }
   }
 );

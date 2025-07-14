@@ -14,6 +14,7 @@ import { useGamificationDashboard } from '@/hooks/useGamification';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import ShareModal from '@/components/share/ShareModal';
 import ProfileIDCard from '@/components/profile/ProfileIDCard';
+import ArtworkRecommendations from '@/components/results/ArtworkRecommendations';
 
 interface QuizResults {
   personalityType: string;
@@ -355,6 +356,9 @@ function ResultsContent() {
           </motion.div>
         </div>
       </section>
+
+      {/* Artwork Recommendations */}
+      <ArtworkRecommendations personalityType={results.personalityType} />
 
       {/* Share Your Journey */}
       <section className="py-20 px-4 text-center bg-[hsl(var(--gallery-pearl))]">

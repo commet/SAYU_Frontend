@@ -143,6 +143,11 @@ Thumbs.db
 # vercel
 .vercel
 
+# Artvee crawler images (too large for git)
+artvee-crawler/images/
+artvee-crawler/data/test-crawl-result.json
+artvee-crawler/test-page.html
+
 # PWA files
 **/public/sw.js
 **/public/workbox-*.js

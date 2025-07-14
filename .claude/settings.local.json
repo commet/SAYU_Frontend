@@ -12,7 +12,8 @@
       "Bash(sed:*)",
       "Bash(npm install:*)",
       "Bash(pkill:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(taskkill:*)"
     ],
     "deny": []
   }
