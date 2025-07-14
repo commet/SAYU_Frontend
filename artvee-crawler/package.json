@@ -7,7 +7,9 @@
     "start": "node crawler.js",
     "test": "node test-crawler.js",
     "collect-urls": "node collect-urls.js",
-    "download-images": "node download-images.js"
+    "download-images": "node download-images.js",
+    "upload": "node upload-to-cloudinary.js",
+    "download-aws": "node download-images-aws.js"
   },
   "dependencies": {
     "axios": "^1.6.2",
