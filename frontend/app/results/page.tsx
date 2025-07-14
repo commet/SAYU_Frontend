@@ -15,6 +15,7 @@ import LanguageToggle from '@/components/ui/LanguageToggle';
 import ShareModal from '@/components/share/ShareModal';
 import ProfileIDCard from '@/components/profile/ProfileIDCard';
 import ArtworkRecommendations from '@/components/results/ArtworkRecommendations';
+import { ArtveeGallery } from '@/components/artvee/ArtveeGallery';
 
 interface QuizResults {
   personalityType: string;
@@ -322,6 +323,19 @@ function ResultsContent() {
               />
             ))}
           </div>
+
+          {/* Artvee Gallery Section */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-16"
+          >
+            <h3 className="text-2xl font-serif mb-8 text-center text-[hsl(var(--journey-midnight))]">
+              {language === 'ko' ? '당신의 성격과 어울리는 작품들' : 'Artworks that match your personality'}
+            </h3>
+            <ArtveeGallery personalityType={results.personalityType} />
+          </motion.div>
 
           {/* Current Exhibitions */}
           <motion.div

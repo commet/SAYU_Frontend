@@ -68,6 +68,7 @@ const artProfileRoutes = require('./routes/artProfileRoutes');
 const aiRecommendationRoutes = require('./routes/aiRecommendationRoutes');
 const exhibitionCalendarRoutes = require('./routes/exhibitionCalendarRoutes');
 const artveeRoutes = require('./routes/artveeRoutes');
+const artveeImageServer = require('./routes/artveeImageServer');
 
 const app = express();
 
@@ -210,6 +211,7 @@ app.use('/api/art-profile', artProfileRoutes);
 app.use('/api/ai-recommendations', aiRecommendationRoutes);
 app.use('/api/calendar', exhibitionCalendarRoutes);
 app.use('/api/artvee', artveeRoutes);
+app.use('/api/artvee', artveeImageServer);
 
 // Health check
 app.get('/api/health', (req, res) => {
