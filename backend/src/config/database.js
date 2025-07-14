@@ -1,13 +1,15 @@
 const { Pool } = require('pg');
 
-// SSL configuration for production
-const sslConfig = process.env.NODE_ENV === 'production' 
+// SSL configuration for Railway PostgreSQL
+const sslConfig = process.env.DATABASE_URL?.includes('railway') 
   ? {
-      rejectUnauthorized: process.env.DATABASE_SSL_REJECT_UNAUTHORIZED !== 'false',
-      // Railway PostgreSQL uses self-signed certificates
-      // Set DATABASE_SSL_REJECT_UNAUTHORIZED=false in production if needed
+      rejectUnauthorized: false, // Railway uses self-signed certificates
     }
-  : false;
+  : process.env.NODE_ENV === 'production' 
+    ? {
+        rejectUnauthorized: process.env.DATABASE_SSL_REJECT_UNAUTHORIZED !== 'false',
+      }
+    : false;
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

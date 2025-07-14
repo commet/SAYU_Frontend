@@ -231,6 +231,11 @@ class AIRecommendationService {
       recommendation_type: 'collaborative',
       recommendation_reason: `비슷한 취향의 ${row.similar_user_visits}명이 방문한 전시예요`
     }));
+    
+    } catch (error) {
+      log.error('Collaborative recommendations failed', { userId, error: error.message });
+      return [];
+    }
   }
 
   // 지식 기반 추천
