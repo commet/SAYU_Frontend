@@ -1,5 +1,5 @@
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+// Dynamic imports for better bundle splitting
+// Libraries will only load when PDF export is actually used
 
 interface Insight {
   id: string;
@@ -30,6 +30,8 @@ const emotions: Record<string, { emoji: string; name: string }> = {
 };
 
 export const exportExhibitionToPDF = async (exhibition: Exhibition, language: 'ko' | 'en' = 'ko') => {
+  // Dynamic import to reduce initial bundle size
+  const { default: jsPDF } = await import('jspdf');
   const pdf = new jsPDF('p', 'mm', 'a4');
   const pageWidth = pdf.internal.pageSize.getWidth();
   const pageHeight = pdf.internal.pageSize.getHeight();
@@ -123,6 +125,8 @@ export const exportAllExhibitionsToPDF = async (language: 'ko' | 'en' = 'ko') =>
     }))
   }));
 
+  // Dynamic import to reduce initial bundle size
+  const { default: jsPDF } = await import('jspdf');
   const pdf = new jsPDF('p', 'mm', 'a4');
   const pageWidth = pdf.internal.pageSize.getWidth();
   const pageHeight = pdf.internal.pageSize.getHeight();

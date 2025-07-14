@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, Upload, Sparkles, Share2, Download, X } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -16,6 +16,7 @@ export default function ArtProfileGenerator() {
   const { language } = useLanguage();
   const { user } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
   
   const [step, setStep] = useState<'upload' | 'style' | 'generating' | 'result'>('upload');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -25,6 +26,15 @@ export default function ArtProfileGenerator() {
   const [generatedResult, setGeneratedResult] = useState<ArtProfileResult | null>(null);
   const [generationProgress, setGenerationProgress] = useState(0);
   const [userCredits, setUserCredits] = useState(3); // 월 3회 무료
+
+  // Cleanup interval on unmount to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
+    };
+  }, []);
 
   const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -74,10 +84,13 @@ export default function ArtProfileGenerator() {
       const base64Image = await artProfileAPI.imageToBase64(new File([resizedImage], selectedImage.name));
 
       // 프로그레스 시뮬레이션
-      const progressInterval = setInterval(() => {
+      progressIntervalRef.current = setInterval(() => {
         setGenerationProgress(prev => {
           if (prev >= 90) {
-            clearInterval(progressInterval);
+            if (progressIntervalRef.current) {
+              clearInterval(progressIntervalRef.current);
+              progressIntervalRef.current = null;
+            }
             return 90;
           }
           return prev + 10;
@@ -91,7 +104,10 @@ export default function ArtProfileGenerator() {
         styleId: selectedStyle.id,
       });
 
-      clearInterval(progressInterval);
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+        progressIntervalRef.current = null;
+      }
       setGenerationProgress(100);
       
       setTimeout(() => {

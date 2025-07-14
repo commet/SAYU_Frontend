@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { personalityGradients } from '@/constants/personality-gradients';
+import { SAYUTypeCode, validateSAYUType } from '../../shared/SAYUTypeDefinitions';
 
 interface PersonalityDimension {
   name: { en: string; ko: string };
@@ -13,7 +14,7 @@ interface PersonalityDimension {
 }
 
 interface PersonalityTypeGridProps {
-  currentType: string;
+  currentType: SAYUTypeCode;
   dimensions?: PersonalityDimension[];
 }
 
@@ -141,7 +142,11 @@ export default function PersonalityTypeGrid({
         
         <div className="grid grid-cols-4 gap-3">
           {allTypes.map((type) => {
-            const gradient = personalityGradients[type as keyof typeof personalityGradients];
+            if (!validateSAYUType(type)) {
+              console.warn(`Invalid SAYU type encountered: ${type}`);
+              return null;
+            }
+            const gradient = personalityGradients[type as SAYUTypeCode];
             const isCurrentType = type === currentType;
             
             return (

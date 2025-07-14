@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email - SAYU</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .tagline {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .icon-container {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 40px;
+        }
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        .main-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 25px;
+        }
+        .verification-code {
+            background: #f7fafc;
+            border: 2px dashed #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: #8B5CF6;
+            letter-spacing: 2px;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 20px 0;
+            transition: transform 0.2s;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        .alternative-text {
+            font-size: 14px;
+            color: #718096;
+            margin-top: 20px;
+        }
+        .alternative-link {
+            color: #8B5CF6;
+            text-decoration: none;
+            word-break: break-all;
+            font-size: 12px;
+        }
+        .security-notice {
+            background: #f7fafc;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #4a5568;
+            text-align: left;
+        }
+        .security-notice strong {
+            color: #2d3748;
+        }
+        .footer {
+            background: #2d3748;
+            color: #a0aec0;
+            padding: 30px;
+            text-align: center;
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+            }
+            .header, .content, .footer {
+                padding: 20px;
+            }
+            .greeting {
+                font-size: 20px;
+            }
+            .verification-code {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">SAYU</div>
+            <div class="tagline">Your Aesthetic Journey</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="icon-container">✉️</div>
+            
+            <div class="greeting">Verify Your Email Address</div>
+            
+            <div class="main-text">
+                Hi {{userName}},<br><br>
+                Thank you for joining SAYU! To complete your registration and ensure the security of your account, please verify your email address.
+            </div>
+
+            <a href="{{verificationUrl}}" class="cta-button">
+                Verify Email Address
+            </a>
+
+            <div class="alternative-text">
+                Or copy and paste this link into your browser:
+            </div>
+            <div style="margin-top: 10px;">
+                <a href="{{verificationUrl}}" class="alternative-link">{{verificationUrl}}</a>
+            </div>
+
+            <div class="security-notice">
+                <strong>🔒 Security Notice:</strong><br>
+                • This link will expire in 24 hours<br>
+                • If you didn't create a SAYU account, please ignore this email<br>
+                • Never share this verification link with anyone
+            </div>
+
+            <div class="main-text">
+                Once verified, you'll have full access to:<br>
+                • Your personalized aesthetic assessment<br>
+                • AI-curated art recommendations<br>
+                • Weekly insights about your art journey<br>
+                • Community features and more!
+            </div>
+
+            <div class="main-text" style="margin-top: 40px;">
+                Need help? Just reply to this email or visit our <a href="{{appUrl}}/help" style="color: #8B5CF6;">help center</a>.
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div>
+                © {{currentYear}} SAYU. All rights reserved.
+            </div>
+            
+            <div style="margin-top: 15px; font-size: 12px;">
+                This is an automated message. Please do not reply directly to this email.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

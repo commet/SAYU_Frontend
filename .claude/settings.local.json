@@ -13,7 +13,9 @@
       "Bash(npm install:*)",
       "Bash(pkill:*)",
       "Bash(npm run build:*)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Bash(npm run:*)",
+      "Bash(timeout:*)"
     ],
     "deny": []
   }

@@ -9,6 +9,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { reflectionsAPI, type CreateReflectionData } from '@/lib/reflections-api';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { VoiceRecorder } from '@/components/audio/VoiceRecorder';
 
 interface ReflectionFormProps {
   exhibitionId?: string;
@@ -58,6 +59,7 @@ export default function ReflectionForm({
   const [tags, setTags] = useState<string[]>([]);
   const [customTag, setCustomTag] = useState('');
   const [isPublic, setIsPublic] = useState(false);
+  const [voiceNoteBlob, setVoiceNoteBlob] = useState<Blob | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,9 +90,20 @@ export default function ReflectionForm({
         is_public: isPublic
       };
 
-      await reflectionsAPI.createReflection(data);
+      const reflection = await reflectionsAPI.createReflection(data);
       
-      toast.success(language === 'ko' ? '성찰이 저장되었습니다!' : 'Reflection saved!');
+      // Upload voice note if exists
+      if (voiceNoteBlob && reflection.id) {
+        try {
+          await reflectionsAPI.uploadVoiceNote(reflection.id, voiceNoteBlob);
+          toast.success(language === 'ko' ? '음성 메모가 포함된 성찰이 저장되었습니다!' : 'Reflection with voice note saved!');
+        } catch (voiceError) {
+          console.error('Error uploading voice note:', voiceError);
+          toast.error(language === 'ko' ? '음성 메모 업로드 실패 (성찰은 저장됨)' : 'Failed to upload voice note (reflection saved)');
+        }
+      } else {
+        toast.success(language === 'ko' ? '성찰이 저장되었습니다!' : 'Reflection saved!');
+      }
       
       if (onComplete) {
         onComplete();
@@ -321,6 +334,24 @@ export default function ReflectionForm({
             </div>
           </div>
         </details>
+
+        {/* Voice Note */}
+        <div className="space-y-2">
+          <label className="text-sm font-medium flex items-center gap-2">
+            <Mic className="w-4 h-4" />
+            {language === 'ko' ? '음성 메모' : 'Voice Note'}
+          </label>
+          <p className="text-sm text-muted-foreground">
+            {language === 'ko' 
+              ? '전시 관람 소감을 음성으로 남겨보세요 (최대 3분)'
+              : 'Record your thoughts about the exhibition (max 3 minutes)'
+            }
+          </p>
+          <VoiceRecorder 
+            onRecordingComplete={(blob) => setVoiceNoteBlob(blob)}
+            maxDuration={180}
+          />
+        </div>
 
         {/* Tags */}
         <div className="space-y-2">

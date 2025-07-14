@@ -19,9 +19,12 @@ const nextConfig: NextConfig = {
   
   // Simplified headers - removed PWA configuration due to 401 errors
 
-  // Image optimization for PWA
+  // Enhanced image optimization
   images: {
-    unoptimized: true,
+    // Enable Next.js image optimization
+    unoptimized: false,
+    
+    // Remote patterns for external images
     remotePatterns: [
       {
         protocol: 'https',
@@ -39,10 +42,27 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'www.rijksmuseum.nl',
       },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
     ],
+    
+    // Modern image formats (WebP/AVIF for better compression)
     formats: ['image/webp', 'image/avif'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    
+    // Responsive device sizes
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    
+    // Default quality is handled at component level
+    
+    // Image cache optimization
+    minimumCacheTTL: 86400, // 24 hours
   },
 
   // Experimental features for better PWA performance

@@ -1,5 +1,7 @@
 // 🎨 SAYU Personality Descriptions - Personal Art Journey Types
 
+import { SAYUTypeCode } from '@/shared/SAYUTypeDefinitions';
+
 export interface PersonalityDescription {
   type: string;
   title: string;
@@ -36,7 +38,11 @@ export interface PersonalityDescription {
   }>;
 }
 
-export const personalityDescriptions: Record<string, PersonalityDescription> = {
+/**
+ * IMPORTANT: This file uses the centralized SAYU type definitions from shared/SAYUTypeDefinitions.ts
+ * Do not create duplicate type definitions here - always use the imported types.
+ */
+export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescription> = {
   // Lone Wolf + Abstract + Emotional + Flow-oriented
   LAEF: {
     type: 'LAEF',

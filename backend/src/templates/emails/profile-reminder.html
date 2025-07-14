@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Aesthetic Journey - SAYU</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .tagline {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .icon-container {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10B981, #3B82F6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 40px;
+        }
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .main-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 25px;
+        }
+        .progress-bar {
+            background: #e2e8f0;
+            border-radius: 20px;
+            height: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #8B5CF6, #EC4899);
+            height: 100%;
+            width: 25%;
+            border-radius: 20px;
+            transition: width 0.3s ease;
+        }
+        .progress-text {
+            font-size: 14px;
+            color: #718096;
+            text-align: center;
+            margin-top: 5px;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #10B981, #3B82F6);
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 20px 0;
+            transition: transform 0.2s;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        .benefits {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .benefit-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #10B981, #3B82F6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 14px;
+        }
+        .benefit-text {
+            flex: 1;
+            font-size: 14px;
+            color: #065f46;
+        }
+        .social-proof {
+            background: #f7fafc;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-style: italic;
+            color: #4a5568;
+        }
+        .testimonial {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .testimonial-author {
+            font-size: 14px;
+            color: #718096;
+        }
+        .days-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #F59E0B, #EF4444);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .footer {
+            background: #2d3748;
+            color: #a0aec0;
+            padding: 30px;
+            text-align: center;
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+            }
+            .header, .content, .footer {
+                padding: 20px;
+            }
+            .greeting {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">SAYU</div>
+            <div class="tagline">Your Aesthetic Journey</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="icon-container">🧭</div>
+            
+            <div class="greeting">
+                Complete Your Aesthetic Journey
+                <span class="days-badge">Day {{daysRegistered}}</span>
+            </div>
+            
+            <div class="main-text">
+                Hi {{userName}},<br><br>
+                You've been part of the SAYU community for {{daysRegistered}} days now, but you haven't completed your aesthetic personality assessment yet. You're missing out on a truly personalized art discovery experience!
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="progress-text">Profile 25% Complete</div>
+
+            <div class="benefits">
+                <div class="benefit-item">
+                    <div class="benefit-icon">🎨</div>
+                    <div class="benefit-text">
+                        <strong>Discover Your Aesthetic Type:</strong> Unlock one of 128 unique personality profiles
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">🤖</div>
+                    <div class="benefit-text">
+                        <strong>AI Art Curator:</strong> Get personalized recommendations from our AI that knows your taste
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">📊</div>
+                    <div class="benefit-text">
+                        <strong>Weekly Insights:</strong> Track your aesthetic evolution and discover new preferences
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">🌟</div>
+                    <div class="benefit-text">
+                        <strong>Custom Experience:</strong> Your interface adapts to reflect your unique aesthetic
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="{{appUrl}}/quiz" class="cta-button">
+                    Take the Quiz Now (10 mins)
+                </a>
+            </div>
+
+            <div class="social-proof">
+                <div class="testimonial">
+                    "The assessment was so accurate! I discovered artworks I never knew I loved, and the AI curator feels like it really gets my taste."
+                </div>
+                <div class="testimonial-author">- Sarah K., verified user</div>
+            </div>
+
+            <div class="main-text">
+                The assessment takes just 10 minutes and uses scientifically-backed methods to understand your aesthetic preferences. Over 10,000 users have discovered their art personality through SAYU.
+            </div>
+
+            <div class="main-text">
+                <strong>Why complete your profile?</strong><br>
+                • Unlock personalized art recommendations<br>
+                • Join a community of like-minded art enthusiasts<br>
+                • Track your aesthetic journey over time<br>
+                • Get weekly insights about your taste evolution
+            </div>
+
+            <div class="main-text" style="margin-top: 40px;">
+                Questions? Reply to this email or visit our <a href="{{appUrl}}/help" style="color: #8B5CF6;">help center</a>. We're here to help!
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div>
+                © {{currentYear}} SAYU. All rights reserved.
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <a href="{{appUrl}}/unsubscribe?email={{userEmail}}" style="color: #a0aec0; font-size: 12px;">
+                    Unsubscribe from profile reminders
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

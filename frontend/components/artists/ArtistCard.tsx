@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, memo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, ExternalLink, Calendar, MapPin, Palette } from 'lucide-react';
 import { Artist, ArtistColorPalette } from '@/types/artist';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 interface ArtistCardProps {
   artist: Artist;
@@ -15,7 +16,7 @@ interface ArtistCardProps {
   isLoading?: boolean;
 }
 
-export function ArtistCard({ 
+export const ArtistCard = memo(function ArtistCard({ 
   artist, 
   colorPalette, 
   onFollow, 
@@ -25,7 +26,7 @@ export function ArtistCard({
   const { language } = useLanguage();
   const [isFollowing, setIsFollowing] = useState(artist.isFollowing || false);
 
-  const handleFollowClick = async () => {
+  const handleFollowClick = useCallback(async () => {
     if (isFollowing) {
       onUnfollow?.(artist.id);
       setIsFollowing(false);
@@ -33,7 +34,7 @@ export function ArtistCard({
       onFollow?.(artist.id);
       setIsFollowing(true);
     }
-  };
+  }, [isFollowing, onFollow, onUnfollow, artist.id]);
 
   const displayName = language === 'ko' && artist.nameKo ? artist.nameKo : artist.name;
   const displayBio = language === 'ko' && artist.bioKo ? artist.bioKo : artist.bio;
@@ -79,11 +80,16 @@ export function ArtistCard({
     switch (artist.copyrightStatus) {
       case 'public_domain':
         return artist.images?.portrait ? (
-          <img
-            src={artist.images.portrait}
-            alt={displayName}
-            className="w-full h-48 object-cover"
-          />
+          <div className="relative w-full h-48">
+            <Image
+              src={artist.images.portrait}
+              alt={displayName}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              priority={false}
+            />
+          </div>
         ) : (
           <div className="w-full h-48 bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
             <Palette className="w-12 h-12 text-gray-400" />
@@ -92,11 +98,14 @@ export function ArtistCard({
       
       case 'licensed':
         return artist.images?.portrait ? (
-          <div className="relative">
-            <img
+          <div className="relative w-full h-48">
+            <Image
               src={artist.images.portrait}
               alt={displayName}
-              className="w-full h-48 object-cover opacity-75"
+              fill
+              className="object-cover opacity-75"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              priority={false}
             />
             <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
               <span className="text-white/80 text-sm font-medium bg-black/50 px-2 py-1 rounded">
@@ -112,11 +121,16 @@ export function ArtistCard({
       
       case 'verified_artist':
         return artist.artistManaged?.profileImage ? (
-          <img
-            src={artist.artistManaged.profileImage}
-            alt={displayName}
-            className="w-full h-48 object-cover"
-          />
+          <div className="relative w-full h-48">
+            <Image
+              src={artist.artistManaged.profileImage}
+              alt={displayName}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              priority={false}
+            />
+          </div>
         ) : (
           <div className="w-full h-48 bg-gradient-to-br from-purple-900/30 to-purple-800/30 flex items-center justify-center">
             <Palette className="w-12 h-12 text-purple-400/60" />
@@ -261,4 +275,4 @@ export function ArtistCard({
       </div>
     </motion.div>
   );
-}
+});

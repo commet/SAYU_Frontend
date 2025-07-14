@@ -69,8 +69,8 @@ export async function GET(request: NextRequest) {
   const name = searchParams.get('name') || '';
   
   // First try stable images
-  const stableImage = stableImages[type]?.[name];
-  let imageUrlToTry = stableImage?.primary || unsplashImages[type]?.[name];
+  const stableImage = type && name ? (stableImages as any)[type]?.[name] : undefined;
+  const imageUrlToTry = stableImage?.primary || (type && name ? (unsplashImages as any)[type]?.[name] : undefined);
   
   if (!imageUrlToTry) {
     // Fallback to placeholder API
@@ -80,9 +80,9 @@ export async function GET(request: NextRequest) {
   // Try primary URL first, then fallback
   const urlsToTry = [
     stableImage?.primary,
-    unsplashImages[type]?.[name],
+    type && name ? (unsplashImages as any)[type]?.[name] : undefined,
     stableImage?.fallback
-  ].filter(Boolean);
+  ].filter(Boolean) as string[];
 
   for (const url of urlsToTry) {
     try {

@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Palette, Grid3X3, Heart, Bookmark, User, Filter, Search } from 'lucide-react';
+import { useState, useEffect, Suspense } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Palette, Grid3X3, Heart, Bookmark, User, Filter, Search, Loader2, ArrowLeft, Shuffle, ExternalLink, Eye, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,64 +10,70 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ArtworkActions from '@/components/ui/ArtworkActions';
 import ArtworkAttribution from '@/components/ui/ArtworkAttribution';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { galleryApi, Artwork, FollowingArtist } from '@/lib/gallery-api';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
+import toast from 'react-hot-toast';
 
-// Mock data - 실제로는 API에서 가져올 데이터
-const mockArtworks = [
-  {
-    artveeId: 'self-portrait-27',
-    title: 'Self-Portrait (1889)',
-    artist: 'Vincent van Gogh',
-    url: 'https://artvee.com/dl/self-portrait-27/',
-    sayuType: 'LAEF',
-    isLiked: true,
-    isArchived: true
-  },
-  {
-    artveeId: 'noanoa-pl-41',
-    title: 'Noanoa Pl.41',
-    artist: 'Paul Gauguin',
-    url: 'https://artvee.com/dl/noanoa-pl-41/',
-    sayuType: 'LAEF',
-    isLiked: false,
-    isArchived: true
-  },
-  {
-    artveeId: 'woman-at-window',
-    title: 'Woman at a Window (1822)',
-    artist: 'Caspar David Friedrich',
-    url: 'https://artvee.com/dl/woman-at-window/',
-    sayuType: 'LAEF',
-    isLiked: true,
-    isArchived: false
-  },
-  {
-    artveeId: 'la-mousme',
-    title: 'La Mousme (1888)',
-    artist: 'Vincent van Gogh',
-    url: 'https://artvee.com/dl/la-mousme/',
-    sayuType: 'LAEF',
-    isLiked: true,
-    isArchived: true
-  }
-];
+interface UserProfile {
+  id: string;
+  sayuType: string;
+  email: string;
+  name: string;
+  // Add other profile fields as needed
+}
 
-const mockFollowingArtists = [
-  { name: 'Vincent van Gogh', artworkCount: 15, isFollowing: true },
-  { name: 'Paul Gauguin', artworkCount: 8, isFollowing: true },
-  { name: 'Caspar David Friedrich', artworkCount: 3, isFollowing: true }
-];
-
-export default function PersonalGallery() {
+function PersonalGallery() {
   const { language } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterArtist, setFilterArtist] = useState('');
   const [activeTab, setActiveTab] = useState('archived');
+  const [artworks, setArtworks] = useState<Artwork[]>([]);
+  const [followingArtists, setFollowingArtists] = useState<FollowingArtist[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [stats, setStats] = useState<{
+    totalArtworks: number;
+    likedCount: number;
+    archivedCount: number;
+    byArtist: Record<string, number>;
+    bySayuType: Record<string, number>;
+  } | null>(null);
 
-  const likedArtworks = mockArtworks.filter(artwork => artwork.isLiked);
-  const archivedArtworks = mockArtworks.filter(artwork => artwork.isArchived);
+  // Load gallery data
+  useEffect(() => {
+    const loadGalleryData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // Load data in parallel
+        const [personalGalleryResponse, followingArtistsResponse, statsResponse] = await Promise.all([
+          galleryApi.getPersonalGallery({ limit: 100 }),
+          galleryApi.getFollowedArtists(),
+          galleryApi.getGalleryStats()
+        ]);
+        
+        setArtworks(personalGalleryResponse.artists || []);
+        setFollowingArtists(followingArtistsResponse);
+        setStats(statsResponse);
+      } catch (err) {
+        console.error('Failed to load gallery data:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load gallery data');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadGalleryData();
+  }, []);
 
-  const filteredArtworks = (artworks: typeof mockArtworks) => {
-    return artworks.filter(artwork => {
+  const likedArtworks = artworks.filter(artwork => artwork.isLiked);
+  const archivedArtworks = artworks.filter(artwork => artwork.isArchived);
+
+  const filteredArtworks = (artworksList: Artwork[]) => {
+    return artworksList.filter(artwork => {
       const matchesSearch = artwork.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            artwork.artist.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesArtist = !filterArtist || artwork.artist === filterArtist;
@@ -75,7 +81,84 @@ export default function PersonalGallery() {
     });
   };
 
-  const uniqueArtists = [...new Set(mockArtworks.map(a => a.artist))].sort();
+  const uniqueArtists = [...new Set(artworks.map(a => a.artist))].sort();
+
+  const handleLikeToggle = async (artworkId: string, isLiked: boolean) => {
+    try {
+      if (isLiked) {
+        await galleryApi.unlikeArtwork(artworkId);
+      } else {
+        await galleryApi.likeArtwork(artworkId);
+      }
+      
+      // Update local state
+      setArtworks(prev => prev.map(artwork => 
+        artwork.id === artworkId 
+          ? { ...artwork, isLiked: !isLiked }
+          : artwork
+      ));
+    } catch (error) {
+      console.error('Failed to toggle like:', error);
+    }
+  };
+
+  const handleArchiveToggle = async (artworkId: string, isArchived: boolean) => {
+    try {
+      if (isArchived) {
+        await galleryApi.unarchiveArtwork(artworkId);
+      } else {
+        await galleryApi.archiveArtwork(artworkId);
+      }
+      
+      // Update local state
+      setArtworks(prev => prev.map(artwork => 
+        artwork.id === artworkId 
+          ? { ...artwork, isArchived: !isArchived }
+          : artwork
+      ));
+    } catch (error) {
+      console.error('Failed to toggle archive:', error);
+    }
+  };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-purple-500" />
+          <p className="text-xl text-gray-600">
+            {language === 'ko' ? '갤러리를 불러오는 중...' : 'Loading gallery...'}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-red-500 mb-4">
+            <svg className="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold mb-2 text-gray-800">
+            {language === 'ko' ? '오류가 발생했습니다' : 'Error occurred'}
+          </h2>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition-colors"
+          >
+            {language === 'ko' ? '다시 시도' : 'Try again'}
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -290,20 +373,8 @@ export default function PersonalGallery() {
   );
 }
 
-export const dynamic = 'force-dynamic';
-
-import { useState, useEffect, Suspense } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '@/hooks/useAuth';
-import { usePersonalizedTheme, useThemeAwareAnimations, useThemeAwareLayout } from '@/hooks/usePersonalizedTheme';
-import { useAchievements } from '@/hooks/useAchievements';
-import { Button } from '@/components/ui/button';
-import { Heart, ArrowLeft, Shuffle, ExternalLink, Eye, UserPlus } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import Image from 'next/image';
-import toast from 'react-hot-toast';
-
-interface Artwork {
+// Interface definitions
+interface GalleryArtwork {
   id: string;
   title: string;
   artist: string;
@@ -341,11 +412,7 @@ function GalleryContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const isGuestMode = searchParams.get('guest') === 'true';
-  const { theme } = usePersonalizedTheme();
-  const animations = useThemeAwareAnimations();
-  const layout = useThemeAwareLayout();
-  const { trackArtworkViewed, trackArtworkLiked } = useAchievements();
-  const [artworks, setArtworks] = useState<Artwork[]>([]);
+  const [galleryArtworks, setGalleryArtworks] = useState<GalleryArtwork[]>([]);
   const [loading_artworks, setLoadingArtworks] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('paintings');
   const [likedArtworks, setLikedArtworks] = useState<Set<string>>(new Set());
@@ -437,7 +504,7 @@ function GalleryContent() {
         const { artworks: cached, timestamp } = JSON.parse(cachedArtworks);
         // Use cache if less than 1 hour old
         if (Date.now() - timestamp < 3600000) {
-          setArtworks(cached);
+          setGalleryArtworks(cached);
           return;
         }
       }
@@ -519,7 +586,7 @@ function GalleryContent() {
         console.log('🎨 First artwork:', validArtworks[0]);
       }
       
-      setArtworks(validArtworks);
+      setGalleryArtworks(validArtworks);
       
       // Cache the results
       localStorage.setItem(cacheKey, JSON.stringify({
@@ -644,7 +711,7 @@ function GalleryContent() {
 
   const shuffleArtworks = () => {
     const shuffled = [...artworks].sort(() => Math.random() - 0.5);
-    setArtworks(shuffled);
+    setGalleryArtworks(shuffled);
     toast.success('Gallery shuffled!');
   };
 

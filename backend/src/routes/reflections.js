@@ -3,6 +3,25 @@ const authMiddleware = require('../middleware/auth');
 const { getSupabaseAdmin } = require('../config/supabase');
 const { logger } = require('../config/logger');
 const { body, validationResult } = require('express-validator');
+const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
+
+// Configure multer for memory storage
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    // Accept audio files
+    const allowedMimes = ['audio/webm', 'audio/mp3', 'audio/mpeg', 'audio/wav', 'audio/mp4'];
+    if (allowedMimes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file type. Only audio files are allowed.'));
+    }
+  },
+});
 
 router.use(authMiddleware);
 
@@ -332,6 +351,126 @@ router.get('/stats/summary', async (req, res) => {
   } catch (error) {
     logger.error('Error fetching reflection stats:', error);
     res.status(500).json({ error: 'Failed to fetch reflection statistics' });
+  }
+});
+
+// Upload voice note for a reflection
+router.post('/:id/voice-note', upload.single('audio'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user?.id || req.userId;
+    const supabase = getSupabaseAdmin();
+
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database service unavailable' });
+    }
+
+    // Check ownership
+    const { data: existing } = await supabase
+      .from('reflections')
+      .select('user_id')
+      .eq('id', id)
+      .single();
+
+    if (!existing || existing.user_id !== userId) {
+      return res.status(403).json({ error: 'Access denied' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No audio file provided' });
+    }
+
+    // Upload to Cloudinary
+    const uploadResult = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          resource_type: 'video', // Cloudinary uses 'video' for audio files
+          folder: `sayu/voice-notes/${userId}`,
+          public_id: `reflection-${id}-${Date.now()}`,
+          format: 'mp3' // Convert to mp3 for better compatibility
+        },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+      uploadStream.end(req.file.buffer);
+    });
+
+    // Update reflection with voice note URL
+    const { data: reflection, error } = await supabase
+      .from('reflections')
+      .update({ voice_note_url: uploadResult.secure_url })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    res.json({ 
+      message: 'Voice note uploaded successfully',
+      voice_note_url: uploadResult.secure_url,
+      reflection 
+    });
+  } catch (error) {
+    logger.error('Error uploading voice note:', error);
+    res.status(500).json({ error: 'Failed to upload voice note' });
+  }
+});
+
+// Delete voice note from a reflection
+router.delete('/:id/voice-note', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user?.id || req.userId;
+    const supabase = getSupabaseAdmin();
+
+    if (!supabase) {
+      return res.status(503).json({ error: 'Database service unavailable' });
+    }
+
+    // Check ownership and get current voice note URL
+    const { data: existing } = await supabase
+      .from('reflections')
+      .select('user_id, voice_note_url')
+      .eq('id', id)
+      .single();
+
+    if (!existing || existing.user_id !== userId) {
+      return res.status(403).json({ error: 'Access denied' });
+    }
+
+    if (!existing.voice_note_url) {
+      return res.status(404).json({ error: 'No voice note found' });
+    }
+
+    // Extract public_id from Cloudinary URL for deletion
+    const urlParts = existing.voice_note_url.split('/');
+    const publicIdWithExtension = urlParts[urlParts.length - 1];
+    const publicId = publicIdWithExtension.split('.')[0];
+    const folder = urlParts.slice(-3, -1).join('/');
+
+    // Delete from Cloudinary
+    try {
+      await cloudinary.uploader.destroy(`${folder}/${publicId}`, {
+        resource_type: 'video'
+      });
+    } catch (cloudinaryError) {
+      logger.error('Error deleting from Cloudinary:', cloudinaryError);
+    }
+
+    // Update reflection to remove voice note URL
+    const { error } = await supabase
+      .from('reflections')
+      .update({ voice_note_url: null })
+      .eq('id', id);
+
+    if (error) throw error;
+
+    res.json({ message: 'Voice note deleted successfully' });
+  } catch (error) {
+    logger.error('Error deleting voice note:', error);
+    res.status(500).json({ error: 'Failed to delete voice note' });
   }
 });
 

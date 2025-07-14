@@ -441,8 +441,13 @@ class MuseumAPIService {
     }
 
     if (query) {
-      whereConditions.push(`(title ILIKE $${paramCount} OR artist_display_name ILIKE $${paramCount})`);
-      values.push(`%${query}%`);
+      // Use full-text search instead of ILIKE for better performance
+      whereConditions.push(`(
+        to_tsvector('english', COALESCE(title, '')) @@ plainto_tsquery('english', $${paramCount}) OR
+        to_tsvector('english', COALESCE(artist_display_name, '')) @@ plainto_tsquery('english', $${paramCount}) OR
+        artist_display_name % $${paramCount}
+      )`);
+      values.push(query);
       paramCount++;
     }
 

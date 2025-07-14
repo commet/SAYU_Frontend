@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We Miss You! - SAYU</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .tagline {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .icon-container {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 40px;
+        }
+        .greeting {
+            font-size: 28px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .main-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 25px;
+        }
+        .highlight-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #8B5CF6;
+            text-align: center;
+            margin: 30px 0;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            padding: 18px 40px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 25px 0;
+            transition: transform 0.2s;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        .whats-new {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        .whats-new-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .feature-text {
+            flex: 1;
+        }
+        .feature-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        .feature-desc {
+            color: #718096;
+            font-size: 14px;
+        }
+        .feature-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #10B981, #3B82F6);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        .stats-section {
+            background: linear-gradient(135deg, #f0f9ff, #fef3c7);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stats-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 15px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #8B5CF6;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+        .personal-touch {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+            text-align: center;
+            color: #991b1b;
+        }
+        .footer {
+            background: #2d3748;
+            color: #a0aec0;
+            padding: 30px;
+            text-align: center;
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+            }
+            .header, .content, .footer {
+                padding: 20px;
+            }
+            .greeting {
+                font-size: 24px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">SAYU</div>
+            <div class="tagline">Your Aesthetic Journey</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="icon-container">🎭</div>
+            
+            <div class="greeting">We Miss You!</div>
+            
+            <div class="main-text">
+                Hi {{userName}},<br><br>
+                It's been {{daysSinceLastVisit}} days since you last explored your aesthetic journey with SAYU. The art world has been waiting for your return, and we have some exciting new discoveries to share!
+            </div>
+
+            <div class="highlight-text">
+                "Art is not what you see, but what you make others see." - Edgar Degas
+            </div>
+
+            <div class="whats-new">
+                <div class="whats-new-title">🎨 What's New While You Were Away</div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">🤖</div>
+                    <div class="feature-text">
+                        <div class="feature-title">Enhanced AI Curator <span class="feature-tag">NEW</span></div>
+                        <div class="feature-desc">Our AI now provides deeper insights about why specific artworks match your aesthetic type</div>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">🏛️</div>
+                    <div class="feature-text">
+                        <div class="feature-title">New Museum Partnerships <span class="feature-tag">UPDATED</span></div>
+                        <div class="feature-desc">Access to exclusive collections from 5 new world-renowned museums</div>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">👥</div>
+                    <div class="feature-text">
+                        <div class="feature-title">Community Features <span class="feature-tag">BETA</span></div>
+                        <div class="feature-desc">Connect with others who share your aesthetic type and discover art together</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="stats-title">Your SAYU Community Has Grown!</div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">2,847</div>
+                        <div class="stat-label">New Artworks</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">156</div>
+                        <div class="stat-label">{{typeCode}} Types</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">15K+</div>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="{{appUrl}}/dashboard" class="cta-button">
+                    Welcome Back to SAYU ✨
+                </a>
+            </div>
+
+            <div class="personal-touch">
+                <strong>🎁 Special Welcome Back Offer</strong><br>
+                We've curated a special collection of artworks just for you based on your {{typeCode}} personality type. Plus, get access to our new AI conversation feature for free!
+            </div>
+
+            <div class="main-text">
+                Your aesthetic journey doesn't end – it evolves. Come back and see how your taste has grown, discover new artists, and let our AI curator surprise you with hidden gems that match your unique perspective.
+            </div>
+
+            <div class="main-text">
+                <strong>What you can do right now:</strong><br>
+                • Retake the quiz to see if your type has evolved<br>
+                • Explore new artworks in your personalized gallery<br>
+                • Chat with your AI curator about any artwork<br>
+                • Connect with other {{typeCode}} personality types
+            </div>
+
+            <div class="main-text" style="margin-top: 40px;">
+                We genuinely missed having you as part of our community. If there's anything we can do to improve your experience, just reply to this email.
+            </div>
+
+            <div class="main-text">
+                Welcome back,<br>
+                <strong>The SAYU Team</strong>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div>
+                © {{currentYear}} SAYU. All rights reserved.
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <a href="{{appUrl}}/unsubscribe?email={{userEmail}}" style="color: #a0aec0; font-size: 12px;">
+                    Unsubscribe from re-engagement emails
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

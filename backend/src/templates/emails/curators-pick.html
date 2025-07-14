@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This Month's Curator's Pick - SAYU</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .tagline {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .curator-badge {
+            background: linear-gradient(135deg, #F59E0B, #EF4444);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        .main-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 25px;
+        }
+        .artwork-showcase {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .artwork-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .artwork-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+        .artwork-artist {
+            font-size: 18px;
+            color: #8B5CF6;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        .artwork-period {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 20px;
+        }
+        .curator-message {
+            background: linear-gradient(135deg, #f0f9ff, #fef3c7);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 8px;
+            border-left: 4px solid #8B5CF6;
+        }
+        .curator-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .curator-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        .curator-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #1e40af;
+            font-style: italic;
+        }
+        .why-selected {
+            background: #f7fafc;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .why-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .why-text {
+            font-size: 14px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        .personality-match {
+            background: linear-gradient(135deg, #fef7f0, #f0fdf4);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            border: 1px solid #d1fae5;
+        }
+        .match-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #065f46;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .match-icon {
+            margin-right: 8px;
+        }
+        .match-description {
+            font-size: 14px;
+            color: #047857;
+            line-height: 1.6;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 25px 0;
+            transition: transform 0.2s;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        .explore-section {
+            background: #f8fafc;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        .explore-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .explore-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .explore-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .explore-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .explore-label {
+            font-size: 12px;
+            color: #718096;
+            font-weight: 600;
+        }
+        .footer {
+            background: #2d3748;
+            color: #a0aec0;
+            padding: 30px;
+            text-align: center;
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+            }
+            .header, .content, .footer {
+                padding: 20px;
+            }
+            .greeting {
+                font-size: 20px;
+            }
+            .artwork-showcase {
+                padding: 20px;
+            }
+            .artwork-title {
+                font-size: 20px;
+            }
+            .explore-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">SAYU</div>
+            <div class="tagline">Your Aesthetic Journey</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="curator-badge">🎨 CURATOR'S PICK</div>
+            
+            <div class="greeting">This Month's Selection for {{archetypeName}}s</div>
+            
+            <div class="main-text">
+                Hi {{userName}},<br><br>
+                Our AI curator has carefully selected a masterpiece that perfectly resonates with your {{archetypeName}} aesthetic personality. This month's pick combines artistic excellence with the visual elements that speak to your unique taste.
+            </div>
+
+            <div class="artwork-showcase">
+                <img src="{{artworkImage}}" alt="{{artworkTitle}}" class="artwork-image">
+                <div class="artwork-title">{{artworkTitle}}</div>
+                <div class="artwork-artist">by {{artistName}}</div>
+                <div class="artwork-period">{{artworkPeriod}}</div>
+            </div>
+
+            <div class="curator-message">
+                <div class="curator-title">
+                    <div class="curator-icon">🤖</div>
+                    Why Our AI Curator Selected This Piece
+                </div>
+                <div class="curator-text">
+                    "{{curatorMessage}}"
+                </div>
+            </div>
+
+            <div class="personality-match">
+                <div class="match-title">
+                    <span class="match-icon">🎯</span>
+                    Perfect Match for Your {{archetypeName}} Type
+                </div>
+                <div class="match-description">
+                    {{whySelected}}
+                </div>
+            </div>
+
+            <div class="why-selected">
+                <div class="why-title">🔍 Deep Dive Analysis</div>
+                <div class="why-text">
+                    This artwork exemplifies the visual harmony that {{archetypeName}}s are naturally drawn to. The composition, color palette, and emotional resonance align perfectly with your aesthetic preferences, making it not just beautiful to look at, but meaningful to experience.
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="{{appUrl}}/artwork/{{artworkId}}" class="cta-button">
+                    Explore This Artwork
+                </a>
+            </div>
+
+            <div class="explore-section">
+                <div class="explore-title">🌟 Discover More Like This</div>
+                <div class="explore-grid">
+                    <div class="explore-item">
+                        <div class="explore-icon">🎨</div>
+                        <div class="explore-label">Similar Artworks</div>
+                    </div>
+                    <div class="explore-item">
+                        <div class="explore-icon">👨‍🎨</div>
+                        <div class="explore-label">Artist Profile</div>
+                    </div>
+                    <div class="explore-item">
+                        <div class="explore-icon">🏛️</div>
+                        <div class="explore-label">Museum Collection</div>
+                    </div>
+                    <div class="explore-item">
+                        <div class="explore-icon">💬</div>
+                        <div class="explore-label">AI Discussion</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-text">
+                <strong>What makes this special:</strong><br>
+                • Hand-selected by AI trained on thousands of {{archetypeName}} preferences<br>
+                • Historically significant piece with rich cultural context<br>
+                • Perfect introduction to explore similar artistic styles<br>
+                • Connects you with other {{archetypeName}}s who appreciate this work
+            </div>
+
+            <div class="main-text">
+                Each month, our AI curator analyzes your viewing patterns, quiz responses, and interaction history to surface artworks that will genuinely resonate with your evolving aesthetic taste. This isn't just art recommendation—it's aesthetic discovery.
+            </div>
+
+            <div class="main-text" style="margin-top: 40px;">
+                What do you think of this month's selection? Reply to this email with your thoughts—we love hearing from our community!
+            </div>
+
+            <div class="main-text">
+                Happy exploring,<br>
+                <strong>Your SAYU Curator Team</strong>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div>
+                © {{currentYear}} SAYU. All rights reserved.
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <a href="{{appUrl}}/unsubscribe?email={{userEmail}}" style="color: #a0aec0; font-size: 12px;">
+                    Unsubscribe from curator's picks
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

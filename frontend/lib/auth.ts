@@ -89,7 +89,7 @@ export const authOptions: NextAuthOptions = {
   providers,
 
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account, profile }: { user: any; account: any; profile: any }) {
       if (account?.provider && account.provider !== 'credentials') {
         // Handle OAuth sign in
         try {
@@ -121,7 +121,7 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
 
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account }: { token: any; user: any; account: any }) {
       if (user) {
         token.id = user.id;
         token.accessToken = user.accessToken;

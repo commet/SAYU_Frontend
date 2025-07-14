@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Share2, Download, Copy, Check, Instagram, Facebook, Twitter } from 'lucide-react';
-import html2canvas from 'html2canvas';
+// html2canvas will be dynamically imported when download is triggered
 import { useLanguage } from '@/contexts/LanguageContext';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { personalityAnimals } from '@/data/personality-animals';
@@ -64,6 +64,8 @@ export default function ShareModal({
     if (!shareCardRef.current) return;
 
     try {
+      // Dynamic import to reduce initial bundle size
+      const { default: html2canvas } = await import('html2canvas');
       const canvas = await html2canvas(shareCardRef.current, {
         scale: 2,
         backgroundColor: null,

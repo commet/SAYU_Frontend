@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { personalityGradients } from '@/constants/personality-gradients';
+import { SAYUTypeCode, isValidSAYUType } from '@/shared/SAYUTypeDefinitions';
 
 export async function GET(request: NextRequest) {
   try {
@@ -8,9 +9,17 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type');
     
     if (type) {
+      // Validate the type
+      if (!isValidSAYUType(type)) {
+        return NextResponse.json({
+          success: false,
+          error: 'Invalid personality type'
+        }, { status: 400 });
+      }
+      
       // Return specific personality type
-      const personality = personalityDescriptions[type];
-      const gradient = personalityGradients[type];
+      const personality = personalityDescriptions[type as SAYUTypeCode];
+      const gradient = personalityGradients[type as SAYUTypeCode];
       
       if (!personality) {
         return NextResponse.json({
@@ -35,13 +44,13 @@ export async function GET(request: NextRequest) {
             lifeAreas: personality.lifeAreas,
             recommendedArtists: personality.recommendedArtists,
             colors: gradient?.colors || ['#8b5cf6', '#ec4899'],
-            gradientClass: gradient?.gradientClass || 'sayu-gradient-purple-pink'
+            // gradientClass is not available in the updated gradient type
           }
         }
       });
     } else {
       // Return all personality types
-      const allTypes = Object.keys(personalityDescriptions).map(key => {
+      const allTypes = (Object.keys(personalityDescriptions) as SAYUTypeCode[]).map(key => {
         const personality = personalityDescriptions[key];
         const gradient = personalityGradients[key];
         

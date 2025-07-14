@@ -196,6 +196,52 @@ class ReflectionsAPI {
     // For now, return a placeholder
     return URL.createObjectURL(file);
   }
+
+  // Upload voice note for a reflection
+  async uploadVoiceNote(reflectionId: string, audioBlob: Blob): Promise<{
+    message: string;
+    voice_note_url: string;
+    reflection: Reflection;
+  }> {
+    const formData = new FormData();
+    formData.append('audio', audioBlob, 'voice-note.webm');
+
+    const token = localStorage.getItem('token');
+    const response = await fetch(
+      `${API_CONFIG.baseUrl}/api/reflections/${reflectionId}/voice-note`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': token ? `Bearer ${token}` : '',
+        },
+        body: formData,
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to upload voice note');
+    }
+
+    return response.json();
+  }
+
+  // Delete voice note from a reflection
+  async deleteVoiceNote(reflectionId: string): Promise<{ message: string }> {
+    const response = await fetch(
+      `${API_CONFIG.baseUrl}/api/reflections/${reflectionId}/voice-note`,
+      {
+        method: 'DELETE',
+        headers: this.getAuthHeaders(),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to delete voice note');
+    }
+
+    return response.json();
+  }
 }
 
 export const reflectionsAPI = new ReflectionsAPI();

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, memo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, MapPin, Calendar, Clock, Star, Users } from 'lucide-react';
 import Image from 'next/image';
@@ -36,7 +36,7 @@ interface RecommendationCardProps {
   compact?: boolean;
 }
 
-export default function RecommendationCard({
+const RecommendationCard = memo(function RecommendationCard({
   recommendation,
   onLike,
   onBookmark,
@@ -46,21 +46,21 @@ export default function RecommendationCard({
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
-  const handleLike = (e: React.MouseEvent) => {
+  const handleLike = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setIsLiked(!isLiked);
     onLike?.(recommendation.id);
-  };
+  }, [isLiked, onLike, recommendation.id]);
 
-  const handleBookmark = (e: React.MouseEvent) => {
+  const handleBookmark = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setIsBookmarked(!isBookmarked);
     onBookmark?.(recommendation.id);
-  };
+  }, [isBookmarked, onBookmark, recommendation.id]);
 
-  const handleCardClick = () => {
+  const handleCardClick = useCallback(() => {
     onView?.(recommendation.id);
-  };
+  }, [onView, recommendation.id]);
 
   const getRecommendationTypeIcon = () => {
     switch (recommendation.recommendation_type) {
@@ -309,4 +309,6 @@ export default function RecommendationCard({
       </div>
     </motion.div>
   );
-}
+});
+
+export default RecommendationCard;

@@ -1,5 +1,7 @@
 // 🎨 SAYU Personality Animal Characters
 // 16가지 예술 성격 유형별 동물 캐릭터
+// 중앙 정의 파일 import
+import { SAYU_TYPES, getSAYUType, validateSAYUType } from '../../shared/SAYUTypeDefinitions';
 
 export interface PersonalityAnimal {
   type: string;
@@ -13,12 +15,20 @@ export interface PersonalityAnimal {
   illustration?: string;   // 상세 일러스트
 }
 
+// 중앙 정의에서 가져온 타입들을 사용하여 PersonalityAnimal 생성
+const createPersonalityAnimal = (typeCode: string, additionalData: Omit<PersonalityAnimal, 'type' | 'animal' | 'animal_ko' | 'emoji'>): PersonalityAnimal => {
+  const centralType = getSAYUType(typeCode);
+  return {
+    type: centralType.code,
+    animal: centralType.animal,
+    animal_ko: centralType.animal,
+    emoji: centralType.emoji,
+    ...additionalData
+  };
+};
+
 export const personalityAnimals: Record<string, PersonalityAnimal> = {
-  LAEF: {
-    type: 'LAEF',
-    animal: 'Fox',
-    animal_ko: '여우',
-    emoji: '🦊',
+  LAEF: createPersonalityAnimal('LAEF', {
     characteristics: [
       'Dreamy and mysterious',
       'Emotionally intuitive',
@@ -34,12 +44,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/fox-laef.png',
     avatar: '/images/personality-animals/avatars/fox-laef-avatar.png',
     illustration: '/images/personality-animals/illustrations/fox-laef-full.png'
-  },
-  LAEC: {
-    type: 'LAEC',
-    animal: 'Cat',
-    animal_ko: '고양이',
-    emoji: '🐱',
+  }),
+  LAEC: createPersonalityAnimal('LAEC', {
     characteristics: [
       'Elegant and refined',
       'Emotional depth',
@@ -55,12 +61,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/cat-laec.png',
     avatar: '/images/personality-animals/avatars/cat-laec-avatar.png',
     illustration: '/images/personality-animals/illustrations/cat-laec-full.png'
-  },
-  LAMF: {
-    type: 'LAMF',
-    animal: 'Owl',
-    animal_ko: '올빼미',
-    emoji: '🦉',
+  }),
+  LAMF: createPersonalityAnimal('LAMF', {
     characteristics: [
       'Wise and observant',
       'Intuitive insights',
@@ -76,12 +78,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/owl-lamf.png',
     avatar: '/images/personality-animals/avatars/owl-lamf-avatar.png',
     illustration: '/images/personality-animals/illustrations/owl-lamf-full.png'
-  },
-  LAMC: {
-    type: 'LAMC',
-    animal: 'Turtle',
-    animal_ko: '거북이',
-    emoji: '🐢',
+  }),
+  LAMC: createPersonalityAnimal('LAMC', {
     characteristics: [
       'Patient and thoughtful',
       'Systematic collector',
@@ -97,12 +95,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/turtle-lamc.png',
     avatar: '/images/personality-animals/avatars/turtle-lamc-avatar.png',
     illustration: '/images/personality-animals/illustrations/turtle-lamc-full.png'
-  },
-  LREF: {
-    type: 'LREF',
-    animal: 'Chameleon',
-    animal_ko: '카멜레온',
-    emoji: '🦎',
+  }),
+  LREF: createPersonalityAnimal('LREF', {
     characteristics: [
       'Adaptive observer',
       'Sensitive to colors',
@@ -118,12 +112,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/chameleon-lref.png',
     avatar: '/images/personality-animals/avatars/chameleon-lref-avatar.png',
     illustration: '/images/personality-animals/illustrations/chameleon-lref-full.png'
-  },
-  LREC: {
-    type: 'LREC',
-    animal: 'Hedgehog',
-    animal_ko: '고슴도치',
-    emoji: '🦔',
+  }),
+  LREC: createPersonalityAnimal('LREC', {
     characteristics: [
       'Gentle and delicate',
       'Emotionally aware',
@@ -139,12 +129,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/hedgehog-lrec.png',
     avatar: '/images/personality-animals/avatars/hedgehog-lrec-avatar.png',
     illustration: '/images/personality-animals/illustrations/hedgehog-lrec-full.png'
-  },
-  LRMF: {
-    type: 'LRMF',
-    animal: 'Octopus',
-    animal_ko: '문어',
-    emoji: '🐙',
+  }),
+  LRMF: createPersonalityAnimal('LRMF', {
     characteristics: [
       'Independent explorer',
       'Digital native',
@@ -160,12 +146,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/octopus-lrmf.png',
     avatar: '/images/personality-animals/avatars/octopus-lrmf-avatar.png',
     illustration: '/images/personality-animals/illustrations/octopus-lrmf-full.png'
-  },
-  LRMC: {
-    type: 'LRMC',
-    animal: 'Beaver',
-    animal_ko: '비버',
-    emoji: '🦫',
+  }),
+  LRMC: createPersonalityAnimal('LRMC', {
     characteristics: [
       'Methodical builder',
       'Knowledge architect',
@@ -181,12 +163,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/beaver-lrmc.png',
     avatar: '/images/personality-animals/avatars/beaver-lrmc-avatar.png',
     illustration: '/images/personality-animals/illustrations/beaver-lrmc-full.png'
-  },
-  SAEF: {
-    type: 'SAEF',
-    animal: 'Butterfly',
-    animal_ko: '나비',
-    emoji: '🦋',
+  }),
+  SAEF: createPersonalityAnimal('SAEF', {
     characteristics: [
       'Social and vibrant',
       'Emotion spreader',
@@ -202,12 +180,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/butterfly-saef.png',
     avatar: '/images/personality-animals/avatars/butterfly-saef-avatar.png',
     illustration: '/images/personality-animals/illustrations/butterfly-saef-full.png'
-  },
-  SAEC: {
-    type: 'SAEC',
-    animal: 'Penguin',
-    animal_ko: '펭귄',
-    emoji: '🐧',
+  }),
+  SAEC: createPersonalityAnimal('SAEC', {
     characteristics: [
       'Social organizer',
       'Art community builder',
@@ -223,12 +197,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/penguin-saec.png',
     avatar: '/images/personality-animals/avatars/penguin-saec-avatar.png',
     illustration: '/images/personality-animals/illustrations/penguin-saec-full.png'
-  },
-  SAMF: {
-    type: 'SAMF',
-    animal: 'Parrot',
-    animal_ko: '앵무새',
-    emoji: '🦜',
+  }),
+  SAMF: createPersonalityAnimal('SAMF', {
     characteristics: [
       'Inspiration speaker',
       'Idea sharer',
@@ -244,12 +214,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/parrot-samf.png',
     avatar: '/images/personality-animals/avatars/parrot-samf-avatar.png',
     illustration: '/images/personality-animals/illustrations/parrot-samf-full.png'
-  },
-  SAMC: {
-    type: 'SAMC',
-    animal: 'Deer',
-    animal_ko: '사슴',
-    emoji: '🦌',
+  }),
+  SAMC: createPersonalityAnimal('SAMC', {
     characteristics: [
       'Cultural architect',
       'Community organizer',
@@ -265,12 +231,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/deer-samc.png',
     avatar: '/images/personality-animals/avatars/deer-samc-avatar.png',
     illustration: '/images/personality-animals/illustrations/deer-samc-full.png'
-  },
-  SREF: {
-    type: 'SREF',
-    animal: 'Dog',
-    animal_ko: '강아지',
-    emoji: '🐕',
+  }),
+  SREF: createPersonalityAnimal('SREF', {
     characteristics: [
       'Enthusiastic viewer',
       'Loyal companion',
@@ -286,12 +248,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/dog-sref.png',
     avatar: '/images/personality-animals/avatars/dog-sref-avatar.png',
     illustration: '/images/personality-animals/illustrations/dog-sref-full.png'
-  },
-  SREC: {
-    type: 'SREC',
-    animal: 'Duck',
-    animal_ko: '오리',
-    emoji: '🦆',
+  }),
+  SREC: createPersonalityAnimal('SREC', {
     characteristics: [
       'Warm guide',
       'Nurturing presence',
@@ -307,12 +265,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/duck-srec.png',
     avatar: '/images/personality-animals/avatars/duck-srec-avatar.png',
     illustration: '/images/personality-animals/illustrations/duck-srec-full.png'
-  },
-  SRMF: {
-    type: 'SRMF',
-    animal: 'Elephant',
-    animal_ko: '코끼리',
-    emoji: '🐘',
+  }),
+  SRMF: createPersonalityAnimal('SRMF', {
     characteristics: [
       'Knowledge keeper',
       'Memory master',
@@ -328,12 +282,8 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/elephant-srmf.png',
     avatar: '/images/personality-animals/avatars/elephant-srmf-avatar.png',
     illustration: '/images/personality-animals/illustrations/elephant-srmf-full.png'
-  },
-  SRMC: {
-    type: 'SRMC',
-    animal: 'Eagle',
-    animal_ko: '독수리',
-    emoji: '🦅',
+  }),
+  SRMC: createPersonalityAnimal('SRMC', {
     characteristics: [
       'Systematic educator',
       'Overview master',
@@ -349,11 +299,16 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
     image: '/images/personality-animals/main/eagle-srmc.png',
     avatar: '/images/personality-animals/avatars/eagle-srmc-avatar.png',
     illustration: '/images/personality-animals/illustrations/eagle-srmc-full.png'
-  }
+  })
 };
 
 // Helper function to get animal by personality type
 export const getAnimalByType = (type: string): PersonalityAnimal | null => {
+  // Validate type using central definition
+  if (!validateSAYUType(type)) {
+    console.warn(`Invalid SAYU type: ${type}`);
+    return null;
+  }
   return personalityAnimals[type] || null;
 };
 

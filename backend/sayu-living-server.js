@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 
-// SAYU Living Identity Server - Railway 배포용
+// ⚠️ DEPRECATED: This file is deprecated and will be removed in future versions
+// Please use: npm run start:living
+// Or directly: node src/living-server-mode.js
+// 
+// SAYU Living Identity Server - Railway 배포용 (DEPRECATED)
 const express = require('express');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');

@@ -1,5 +1,18 @@
-// SAYU 16개 성격 유형별 시그니처 그라데이션
-export const personalityGradients = {
+import { SAYUTypeCode, SAYU_TYPES } from '@/shared/SAYUTypeDefinitions';
+
+/**
+ * SAYU 16개 성격 유형별 시그니처 그라데이션
+ * 
+ * IMPORTANT: This file uses the centralized SAYU type definitions from shared/SAYUTypeDefinitions.ts
+ * Do not create duplicate type definitions here - always use the imported types.
+ */
+export const personalityGradients: Record<SAYUTypeCode, {
+  name: string;
+  nameEn: string;
+  colors: string[];
+  emotion: string;
+  description: string;
+}> = {
   // L(Lone Wolf) + A(Abstract) 조합 - 고독한 추상 탐험가들
   LAEF: {
     name: "색채의 속삭임",
@@ -122,14 +135,14 @@ export const personalityGradients = {
 } as const;
 
 // 그라데이션 CSS 생성 헬퍼
-export const getGradientStyle = (type: keyof typeof personalityGradients, angle = 135) => {
+export const getGradientStyle = (type: SAYUTypeCode, angle = 135) => {
   const gradient = personalityGradients[type];
   return `linear-gradient(${angle}deg, ${gradient.colors.join(', ')})`;
 };
 
 // 다크모드 대응 그라데이션
 export const getAdaptiveGradient = (
-  type: keyof typeof personalityGradients, 
+  type: SAYUTypeCode, 
   isDark: boolean,
   opacity = 1
 ) => {

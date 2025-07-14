@@ -28,13 +28,13 @@ export default function DebugPage() {
     testImages.forEach(img => {
       fetch(`/api/museum-image?type=${img.type}&name=${img.name}`)
         .then(res => {
-          setImageTest(prev => ({
+          setImageTest((prev: any) => ({
             ...prev,
             [`${img.type}-${img.name}`]: res.ok ? 'OK' : `Error: ${res.status}`
           }));
         })
-        .catch(err => {
-          setImageTest(prev => ({
+        .catch((err: any) => {
+          setImageTest((prev: any) => ({
             ...prev,
             [`${img.type}-${img.name}`]: `Error: ${err.message}`
           }));
@@ -98,7 +98,7 @@ export default function DebugPage() {
               <div key={key} className="flex justify-between">
                 <span>{key}:</span>
                 <span className={status === 'OK' ? 'text-green-400' : 'text-red-400'}>
-                  {status}
+                  {status as string}
                 </span>
               </div>
             ))}

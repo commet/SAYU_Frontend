@@ -7,7 +7,18 @@ const session = require('express-session');
 const passport = require('passport');
 require('dotenv').config();
 
-// Validate environment variables
+// Check for SAYU_MODE to determine server configuration
+const SAYU_MODE = process.env.SAYU_MODE || 'full';
+console.log(`🔧 Server Mode: ${SAYU_MODE}`);
+
+// Simple living server mode for Railway deployment
+if (SAYU_MODE === 'living') {
+  console.log('🏃 Starting in Living Server Mode...');
+  require('./living-server-mode');
+  return;
+}
+
+// Validate environment variables for full server mode
 const { validateEnv } = require('./utils/validateEnv');
 validateEnv();
 
@@ -23,6 +34,7 @@ const {
   errorHandler, 
   notFoundHandler 
 } = require('./middleware/errorHandler');
+const { optimizeResponses } = require('./middleware/responseOptimization');
 const {
   requestContext,
   enhancedRequestLogger,
@@ -163,6 +175,9 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
+// Response optimization middleware
+app.use('/api/', optimizeResponses());
+
 // User context middleware (after auth middleware in routes)
 app.use(userContext);
 
@@ -213,22 +228,7 @@ app.use('/api/calendar', exhibitionCalendarRoutes);
 app.use('/api/artvee', artveeRoutes);
 app.use('/api/artvee', artveeImageServer);
 
-// Health check
-app.get('/api/health', (req, res) => {
-  const healthStatus = {
-    status: 'healthy', 
-    timestamp: new Date(),
-    version: '1.0.0',
-    environment: process.env.NODE_ENV || 'development'
-  };
-  
-  log.debug('Health check performed', {
-    requestId: req.id,
-    ip: req.ip
-  });
-  
-  res.json(healthStatus);
-});
+// Duplicate health check endpoint removed - using the comprehensive one above (lines 174-186)
 
 // 404 handler for unmatched routes
 app.use(notFoundHandler);

@@ -172,6 +172,7 @@ interface EmotionalButtonProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   personality?: string;
+  disabled?: boolean;
 }
 
 export const EmotionalButton: React.FC<EmotionalButtonProps> = ({
@@ -180,7 +181,8 @@ export const EmotionalButton: React.FC<EmotionalButtonProps> = ({
   variant = 'primary',
   size = 'md',
   className,
-  personality
+  personality,
+  disabled = false
 }) => {
   const sizeClasses = {
     sm: 'px-4 py-2 text-sm',
@@ -197,11 +199,13 @@ export const EmotionalButton: React.FC<EmotionalButtonProps> = ({
   return (
     <motion.button
       onClick={onClick}
-      whileHover={{ scale: 1.02, y: -2 }}
-      whileTap={{ scale: 0.98 }}
+      disabled={disabled}
+      whileHover={disabled ? {} : { scale: 1.02, y: -2 }}
+      whileTap={disabled ? {} : { scale: 0.98 }}
       className={cn(
         "rounded-full font-medium transition-all duration-300",
         "shadow-gentle hover:shadow-embrace",
+        disabled && "opacity-50 cursor-not-allowed",
         sizeClasses[size],
         variantClasses[variant],
         className

@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Share2, Download, Copy } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import html2canvas from 'html2canvas';
+// html2canvas will be dynamically imported when download is triggered
 import toast from 'react-hot-toast';
 import { personalityGradients, getGradientStyle } from '@/constants/personality-gradients';
 
@@ -28,6 +28,8 @@ export default function ProfileShareCard({ userInfo }: ProfileShareCardProps) {
     if (!cardRef.current) return;
 
     try {
+      // Dynamic import to reduce initial bundle size
+      const { default: html2canvas } = await import('html2canvas');
       const canvas = await html2canvas(cardRef.current, {
         backgroundColor: null,
         scale: 2,
