@@ -306,7 +306,7 @@ function ResultsContent() {
               ))}
           </div>
         </motion.section>
-      </section>
+      </div>
 
       {/* How This Extends to Life */}
       <section className="bg-[hsl(var(--gallery-white))] py-20 px-4">
