@@ -1,6 +1,7 @@
 const db = require('../config/database');
 const Redis = require('ioredis');
 const { log } = require('../config/logger');
+const vectorSimilarityService = require('./vectorSimilarityService');
 
 class AIRecommendationService {
   constructor() {
@@ -173,10 +174,26 @@ class AIRecommendationService {
     }));
   }
 
-  // 협업 필터링
+  // 협업 필터링 (Enhanced with Vector Similarity)
   async getCollaborativeRecommendations(userId, limit) {
-    // 유사한 사용자 찾기
-    const similarUsers = await this.findSimilarUsers(userId);
+    try {
+      // Try vector-based similarity first (more accurate)
+      const vectorUsers = await vectorSimilarityService.findSimilarUsers(userId, {
+        threshold: 0.7,
+        limit: 20
+      });
+      
+      // Fall back to traditional method if vector search fails
+      const similarUsers = vectorUsers.length > 0 
+        ? vectorUsers 
+        : await this.findSimilarUsers(userId);
+      
+      log.info('Collaborative filtering using vectors', {
+        userId,
+        vectorUsersFound: vectorUsers.length,
+        totalSimilarUsers: similarUsers.length,
+        method: vectorUsers.length > 0 ? 'vector_similarity' : 'traditional'
+      });
     
     if (similarUsers.length === 0) {
       return [];

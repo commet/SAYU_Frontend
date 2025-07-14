@@ -452,32 +452,37 @@ class MuseumAPIService {
     }
 
     if (artist) {
-      whereConditions.push(`artist_display_name ILIKE $${paramCount}`);
-      values.push(`%${artist}%`);
+      // Use trigram similarity for artist search (supports fuzzy matching)
+      whereConditions.push(`artist_display_name % $${paramCount}`);
+      values.push(artist);
       paramCount++;
     }
 
     if (medium) {
-      whereConditions.push(`medium ILIKE $${paramCount}`);
-      values.push(`%${medium}%`);
+      // Use case-insensitive exact matching for medium
+      whereConditions.push(`LOWER(medium) = LOWER($${paramCount})`);
+      values.push(medium);
       paramCount++;
     }
 
     if (culture) {
-      whereConditions.push(`culture ILIKE $${paramCount}`);
-      values.push(`%${culture}%`);
+      // Use trigram similarity for culture search
+      whereConditions.push(`culture % $${paramCount}`);
+      values.push(culture);
       paramCount++;
     }
 
     if (department) {
-      whereConditions.push(`department ILIKE $${paramCount}`);
-      values.push(`%${department}%`);
+      // Use case-insensitive exact matching for department
+      whereConditions.push(`LOWER(department) = LOWER($${paramCount})`);
+      values.push(department);
       paramCount++;
     }
 
     if (period) {
-      whereConditions.push(`period ILIKE $${paramCount}`);
-      values.push(`%${period}%`);
+      // Use trigram similarity for period search
+      whereConditions.push(`period % $${paramCount}`);
+      values.push(period);
       paramCount++;
     }
 
