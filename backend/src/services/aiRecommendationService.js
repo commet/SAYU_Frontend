@@ -220,8 +220,11 @@ class AIRecommendationService {
       LIMIT $3
     `;
 
+    // Extract user IDs based on the data structure (vector vs traditional)
+    const userIds = similarUsers.map(u => u.userId || u.user_id);
+    
     const result = await db.query(query, [
-      similarUsers.map(u => u.user_id),
+      userIds,
       userId,
       limit
     ]);
@@ -234,6 +237,37 @@ class AIRecommendationService {
     
     } catch (error) {
       log.error('Collaborative recommendations failed', { userId, error: error.message });
+      return [];
+    }
+  }
+
+  // Semantic Search (New Vector-Powered Feature)
+  async getSemanticRecommendations(query, userId, options = {}) {
+    const { limit = 10, threshold = 0.7 } = options;
+    
+    try {
+      // Use vector similarity service for semantic search
+      const semanticResults = await vectorSimilarityService.semanticSearch(query, {
+        limit,
+        threshold
+      });
+      
+      log.info('Semantic recommendations generated', {
+        userId,
+        query: query.substring(0, 50),
+        artworkResults: semanticResults.results.artworks.length
+      });
+      
+      return semanticResults.results.artworks.map(artwork => ({
+        ...artwork,
+        recommendation_type: 'semantic',
+        recommendation_reason: `Found through semantic search for "${query}"`,
+        similarity_score: artwork.similarityScore,
+        relevance: artwork.relevanceCategory
+      }));
+      
+    } catch (error) {
+      log.error('Semantic recommendations failed', error, { userId, query });
       return [];
     }
   }
