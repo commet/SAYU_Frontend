@@ -51,19 +51,7 @@ export default function FloatingNav() {
 
   const handleNavClick = (item: NavItem) => {
     if (item.requiresAuth && !user) {
-      toast(language === 'ko' 
-        ? '로그인이 필요합니다' 
-        : 'Please login to access this feature', 
-        {
-          icon: '🔒',
-          style: {
-            background: 'rgba(147, 51, 234, 0.1)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(147, 51, 234, 0.2)',
-            color: '#fff',
-          },
-        }
-      );
+      toast.error('Please login to access this feature');
       setTimeout(() => {
         router.push('/login');
       }, 1000);
