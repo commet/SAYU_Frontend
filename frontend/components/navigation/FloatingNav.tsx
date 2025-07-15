@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter, usePathname } from 'next/navigation';
 import { Home, Sparkles, Users, User, Menu, X } from 'lucide-react';
@@ -73,7 +73,7 @@ export default function FloatingNav() {
   };
 
   return (
-    <>
+    <div style={{ position: 'relative' }}>
       {/* Top Floating Bar */}
       <div className="fixed top-0 left-0 right-0 z-[1000] px-4 pt-4">
         <motion.div
@@ -158,6 +158,7 @@ export default function FloatingNav() {
           </div>
         </div>
       </motion.div>
+      </div>
 
       {/* Bottom Floating Navigation - Mobile Only */}
       <motion.nav
@@ -301,6 +302,6 @@ export default function FloatingNav() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }
