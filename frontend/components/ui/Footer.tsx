@@ -20,11 +20,23 @@ export function Footer() {
           {/* Links */}
           <div className="flex items-center space-x-6 text-sm">
             <Link 
+              href="/terms" 
+              className="text-gray-400 hover:text-purple-400 transition-colors"
+            >
+              {language === 'ko' ? '이용약관' : 'Terms'}
+            </Link>
+            <Link 
+              href="/privacy" 
+              className="text-gray-400 hover:text-purple-400 transition-colors"
+            >
+              {language === 'ko' ? '개인정보' : 'Privacy'}
+            </Link>
+            <Link 
               href="/copyright-policy" 
               className="flex items-center text-gray-400 hover:text-purple-400 transition-colors"
             >
               <Shield className="w-4 h-4 mr-2" />
-              {language === 'ko' ? '저작권 정책' : 'Copyright Policy'}
+              {language === 'ko' ? '저작권' : 'Copyright'}
             </Link>
             <Link 
               href="/artists" 

@@ -29,10 +29,22 @@ function CompatibilityContent() {
       setShowResult(true);
     } else {
       // Try to get user's type from localStorage
-      const storedResults = localStorage.getItem('quizResults');
-      if (storedResults) {
-        const parsed = JSON.parse(storedResults);
-        setType1(parsed.personalityType);
+      // Check multiple possible keys as different quiz components use different keys
+      const possibleKeys = ['quizResult', 'quizResults', 'sayu_quiz_result'];
+      for (const key of possibleKeys) {
+        const storedResults = localStorage.getItem(key);
+        if (storedResults) {
+          try {
+            const parsed = JSON.parse(storedResults);
+            const type = parsed.personalityType || parsed.type || parsed.personality_type;
+            if (type) {
+              setType1(type);
+              break;
+            }
+          } catch (e) {
+            console.error(`Error parsing ${key}:`, e);
+          }
+        }
       }
     }
   }, [searchParams]);
@@ -44,8 +56,8 @@ function CompatibilityContent() {
   };
 
   const chemistry = type1 && type2 ? getChemistry(type1, type2) : null;
-  const animal1 = getAnimalByType(type1);
-  const animal2 = getAnimalByType(type2);
+  const animal1 = type1 ? getAnimalByType(type1) : null;
+  const animal2 = type2 ? getAnimalByType(type2) : null;
   const score = chemistry ? getChemistryScore(chemistry.compatibility) : 0;
 
   return (
@@ -144,7 +156,7 @@ function CompatibilityContent() {
         ) : (
           /* Compatibility Result */
           <AnimatePresence>
-            {chemistry && animal1 && animal2 && (
+            {chemistry && animal1 && animal2 ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -302,6 +314,35 @@ function CompatibilityContent() {
                     {language === 'ko' ? '다른 궁합 보기' : 'Try Another Match'}
                   </EmotionalButton>
                 </motion.div>
+              </motion.div>
+            ) : (
+              // Error fallback when chemistry data is not found
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center"
+              >
+                <EmotionalCard className="p-8">
+                  <div className="text-6xl mb-4">🤔</div>
+                  <h2 className="text-2xl font-serif mb-4 text-[hsl(var(--journey-midnight))]">
+                    {language === 'ko' ? '궁합 데이터를 찾을 수 없습니다' : 'Chemistry data not found'}
+                  </h2>
+                  <p className="text-[hsl(var(--journey-twilight))] mb-6">
+                    {language === 'ko' 
+                      ? '선택한 성격 유형의 궁합 정보가 아직 준비되지 않았습니다.' 
+                      : 'The compatibility information for the selected personality types is not yet available.'}
+                  </p>
+                  <EmotionalButton
+                    variant="primary"
+                    onClick={() => {
+                      setShowResult(false);
+                      setType1('');
+                      setType2('');
+                    }}
+                  >
+                    {language === 'ko' ? '다시 선택하기' : 'Select Again'}
+                  </EmotionalButton>
+                </EmotionalCard>
               </motion.div>
             )}
           </AnimatePresence>

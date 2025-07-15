@@ -85,8 +85,8 @@ export default function IDCardViral({
         if (navigator.share && navigator.canShare({ files: [new File([blob], 'sayu-id-card.png', { type: 'image/png' })] })) {
           try {
             await navigator.share({
-              title: 'SAYU - 나의 예술 DNA',
-              text: `나는 ${gradient[language === 'ko' ? 'name' : 'nameEn']}! 당신의 예술 DNA는? #SAYU #예술DNA #${personalityType}`,
+              title: 'SAYU - 나의 예술 성격',
+              text: `나는 ${gradient[language === 'ko' ? 'name' : 'nameEn']}! 당신의 예술 성격은? #SAYU #예술성격 #${personalityType}`,
               files: [new File([blob], 'sayu-id-card.png', { type: 'image/png' })]
             });
           } catch (error) {
@@ -220,7 +220,7 @@ export default function IDCardViral({
                   >
                     SAYU
                   </motion.div>
-                  <div className="text-sm opacity-80 uppercase tracking-[0.3em]">Art DNA</div>
+                  <div className="text-sm opacity-80 uppercase tracking-[0.3em]">Art Soul</div>
                 </div>
 
                 {/* Profile Section */}
@@ -319,7 +319,7 @@ export default function IDCardViral({
                 <div className="flex items-center justify-between mb-8">
                   <div>
                     <div className="text-3xl font-bold">SAYU</div>
-                    <div className="text-xs opacity-80">Art DNA Report</div>
+                    <div className="text-xs opacity-80">Art Soul Report</div>
                   </div>
                   <div className="text-right">
                     <div className="text-4xl font-bold">{personalityType}</div>

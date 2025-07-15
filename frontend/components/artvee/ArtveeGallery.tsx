@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Loader2, Download, ExternalLink, Heart, Share2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Artwork {
   artveeId: string;
@@ -22,6 +23,7 @@ interface ArtveeGalleryProps {
 }
 
 export function ArtveeGallery({ personalityType, className }: ArtveeGalleryProps) {
+  const { language } = useLanguage();
   const [artworks, setArtworks] = useState<Artwork[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
@@ -66,7 +68,16 @@ export function ArtveeGallery({ personalityType, className }: ArtveeGalleryProps
   if (!artworks.length) {
     return (
       <div className="text-center py-12 text-muted-foreground">
-        No artworks found for your personality type.
+        <div className="max-w-md mx-auto">
+          <p className="text-lg mb-4">
+            {language === 'ko' ? '현재 맞춤형 작품을 준비 중입니다' : 'We\'re curating artworks just for you'}
+          </p>
+          <p className="text-sm opacity-80">
+            {language === 'ko' 
+              ? '더 많은 작품이 곧 추가될 예정입니다. 잠시만 기다려주세요!' 
+              : 'More artworks will be added soon. Please check back later!'}
+          </p>
+        </div>
       </div>
     );
   }

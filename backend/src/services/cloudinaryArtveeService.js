@@ -57,6 +57,12 @@ class CloudinaryArtveeService {
         );
       }
 
+      // 특정 유형의 작품이 없으면 랜덤으로 선택
+      if (filteredArtworks.length === 0) {
+        log.info(`No artworks found for personality type ${personalityType}, returning random artworks`);
+        filteredArtworks = allArtworks;
+      }
+
       // 랜덤 선택 및 제한
       const shuffled = filteredArtworks.sort(() => 0.5 - Math.random());
       const selected = shuffled.slice(0, limit);
@@ -217,7 +223,7 @@ class CloudinaryArtveeService {
       };
 
       // 성격 유형별 통계
-      const personalityTypes = ['LAEF', 'SRMC', 'GREF', 'CREF'];
+      const personalityTypes = ['LAEF', 'LAEC', 'LAMF', 'LAMC', 'LREF', 'LREC', 'LRMF', 'LRMC', 'SAEF', 'SAEC', 'SAMF', 'SAMC', 'SREF', 'SREC', 'SRMF', 'SRMC'];
       personalityTypes.forEach(type => {
         stats.byPersonalityType[type] = allArtworks.filter(a => a.sayuType === type).length;
       });

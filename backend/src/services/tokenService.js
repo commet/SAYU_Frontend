@@ -20,8 +20,20 @@ class TokenService {
 
   // Generate refresh token (long-lived, stored in Redis)
   async generateRefreshToken(userId) {
-    const refreshToken = crypto.randomBytes(64).toString('hex');
-    const tokenId = crypto.randomUUID();
+    // Use JWT for refresh tokens with additional security
+    const payload = {
+      userId,
+      tokenId: crypto.randomUUID(),
+      type: 'refresh'
+    };
+    
+    const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
+      expiresIn: this.refreshTokenExpiry,
+      issuer: 'sayu-app',
+      audience: 'sayu-refresh'
+    });
+    
+    const tokenId = payload.tokenId;
     
     const tokenData = {
       userId,
@@ -58,6 +70,18 @@ class TokenService {
 
   // Verify and use refresh token
   async verifyRefreshToken(refreshToken, userAgent, ipAddress) {
+    // First verify the JWT structure and signature
+    let decoded;
+    try {
+      decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, {
+        issuer: 'sayu-app',
+        audience: 'sayu-refresh'
+      });
+    } catch (error) {
+      throw new Error('Invalid refresh token signature');
+    }
+    
+    // Then check if it exists in Redis (for revocation)
     const key = this.getRefreshTokenKey(refreshToken);
     const tokenDataStr = await redisClient().get(key);
     
@@ -66,6 +90,11 @@ class TokenService {
     }
 
     const tokenData = JSON.parse(tokenDataStr);
+    
+    // Verify token data matches JWT payload
+    if (tokenData.userId !== decoded.userId || tokenData.tokenId !== decoded.tokenId) {
+      throw new Error('Token data mismatch');
+    }
     
     // Update last used timestamp and metadata
     tokenData.lastUsed = Date.now();
@@ -110,9 +139,14 @@ class TokenService {
 
   // Check if refresh token should be rotated
   shouldRotateRefreshToken(tokenData) {
-    const ageThreshold = 3 * 24 * 60 * 60 * 1000; // 3 days
-    const age = Date.now() - tokenData.createdAt;
-    return age > ageThreshold;
+    // Always rotate refresh tokens for maximum security
+    // This prevents token replay attacks and session hijacking
+    return true;
+    
+    // Alternative: Rotate after each use or time-based
+    // const ageThreshold = 24 * 60 * 60 * 1000; // 1 day (reduced from 3 days)
+    // const age = Date.now() - tokenData.createdAt;
+    // return age > ageThreshold;
   }
 
   // Revoke a specific refresh token

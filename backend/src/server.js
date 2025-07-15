@@ -103,7 +103,28 @@ app.use(helmet({
 }));
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (e.g., mobile apps or Postman)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'https://sayu.vercel.app',
+      'https://sayu-git-main-samsungs-projects.vercel.app'
+    ];
+    
+    // Check if the origin is in the allowed list or matches Railway/Vercel patterns
+    const isAllowed = allowedOrigins.includes(origin) ||
+                      origin.match(/^https:\/\/.*\.railway\.app$/) ||
+                      origin.match(/^https:\/\/.*\.vercel\.app$/);
+    
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
@@ -162,19 +183,43 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Security audit middleware (before rate limiting)
 app.use('/api/', securityAudit);
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 200, // Increased for better UX
-  message: { error: 'Too many requests, please try again later' },
-  standardHeaders: true,
-  legacyHeaders: false,
-  skip: (req) => {
-    // Skip rate limiting for health checks
-    return req.url === '/api/health';
-  }
-});
-app.use('/api/', limiter);
+// Enhanced security middleware
+const { 
+  apiLimiter, 
+  securityHeaders,
+  requestSizeValidator,
+  csrfProtection,
+  securityAuditLogger
+} = require('./middleware/securityEnhancements');
+
+// Apply enhanced security headers
+app.use(securityHeaders);
+
+// Request size validation (early in chain)
+app.use(requestSizeValidator);
+
+// Security audit logging
+app.use('/api/', securityAuditLogger);
+
+// CSRF protection for state-changing operations
+app.use('/api/', csrfProtection);
+
+// Improved rate limiting
+app.use('/api/', apiLimiter);
+
+// API monitoring and performance tracking
+const { 
+  performanceTracker, 
+  requestLogger, 
+  usageAnalytics,
+  getMetrics,
+  getHealthCheck
+} = require('./middleware/apiMonitoring');
+
+// Apply monitoring middleware
+app.use('/api/', performanceTracker);
+app.use('/api/', requestLogger);
+app.use('/api/', usageAnalytics);
 
 // Response optimization middleware
 app.use('/api/', optimizeResponses());
@@ -182,8 +227,14 @@ app.use('/api/', optimizeResponses());
 // User context middleware (after auth middleware in routes)
 app.use(userContext);
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
+// Enhanced health check endpoint with monitoring data
+app.get('/api/health', getHealthCheck);
+
+// API metrics endpoint (admin only)
+app.get('/api/metrics', require('./middleware/auth').adminMiddleware, getMetrics);
+
+// Basic health endpoint for load balancers
+app.get('/api/status', (req, res) => {
   const { hybridDB } = require('./config/hybridDatabase');
   res.json({
     status: 'ok',

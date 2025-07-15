@@ -303,7 +303,7 @@ function ResultsContent() {
             >
               <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
                 <span className="text-3xl">🎨</span>
-                당신의 예술 DNA
+                당신의 예술 성격
               </h3>
               
               <div className="space-y-6">

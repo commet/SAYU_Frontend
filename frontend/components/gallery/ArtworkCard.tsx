@@ -1,14 +1,17 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Heart, Eye, ShareNetwork, BookmarkSimple } from 'phosphor-react';
+import { Heart, Eye, ShareNetwork, BookmarkSimple, UserPlus } from 'phosphor-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ArtworkCardProps {
   id: string;
   title: string;
   artist: string;
+  artistId?: string;
   year: string;
   imageUrl: string;
   museum?: string;
@@ -16,17 +19,21 @@ interface ArtworkCardProps {
   isLiked?: boolean;
   isViewed?: boolean;
   isSaved?: boolean;
+  isFollowingArtist?: boolean;
   onLike?: (id: string) => void;
   onView?: (id: string) => void;
   onSave?: (id: string) => void;
   onShare?: (id: string) => void;
+  onFollowArtist?: (artistId: string, isFollowing: boolean) => void;
   variant?: 'default' | 'masonry' | 'minimal';
+  showFollowButton?: boolean;
 }
 
 export function ArtworkCard({
   id,
   title,
   artist,
+  artistId,
   year,
   imageUrl,
   museum,
@@ -34,14 +41,19 @@ export function ArtworkCard({
   isLiked = false,
   isViewed = false,
   isSaved = false,
+  isFollowingArtist = false,
   onLike,
   onView,
   onSave,
   onShare,
-  variant = 'default'
+  onFollowArtist,
+  variant = 'default',
+  showFollowButton = true
 }: ArtworkCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const router = useRouter();
+  const { language } = useLanguage();
 
   const handleClick = () => {
     if (onView) onView(id);
@@ -169,9 +181,40 @@ export function ArtworkCard({
             {title}
           </h3>
           
-          <p className="text-sm text-muted-foreground font-medium mb-0.5">
-            {artist}
-          </p>
+          <div className="flex items-center justify-between mb-0.5">
+            <div className="flex items-center gap-2">
+              <p 
+                className="text-sm text-muted-foreground font-medium hover:text-primary cursor-pointer transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (artistId) router.push(`/artists/${artistId}`);
+                }}
+              >
+                {artist}
+              </p>
+              {showFollowButton && artistId && onFollowArtist && (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onFollowArtist(artistId, isFollowingArtist);
+                  }}
+                  className={cn(
+                    "flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium transition-colors",
+                    isFollowingArtist
+                      ? "bg-primary/10 text-primary hover:bg-primary/20"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  )}
+                >
+                  <UserPlus size={12} weight={isFollowingArtist ? "fill" : "regular"} />
+                  {isFollowingArtist 
+                    ? (language === 'ko' ? '팔로잉' : 'Following')
+                    : (language === 'ko' ? '팔로우' : 'Follow')}
+                </motion.button>
+              )}
+            </div>
+          </div>
           
           <p className="text-xs text-muted-foreground">
             {year}

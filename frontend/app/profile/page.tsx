@@ -8,7 +8,7 @@ import { followAPI } from '@/lib/follow-api';
 import PersonalArtMap from '@/components/artmap/PersonalArtMap';
 import ExhibitionRecord from '@/components/exhibition/ExhibitionRecord';
 import BadgeSystem from '@/components/gamification/BadgeSystem';
-import { Trophy, MapPin, BookOpen, Settings, LogIn, Palette, Share2 } from 'lucide-react';
+import { Trophy, MapPin, BookOpen, Settings, LogIn, Palette, Share2, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { personalityDescriptions } from '@/data/personality-descriptions';
@@ -19,6 +19,7 @@ import ProfileShareCard from '@/components/profile/ProfileShareCard';
 import ProfileIDCard from '@/components/profile/ProfileIDCard';
 import SocialLoginModal from '@/components/SocialLoginModal';
 import { useGamificationDashboard } from '@/hooks/useGamification';
+import AIArtIdentitySection from '@/components/profile/AIArtIdentitySection';
 
 // Mock data - in real app, would fetch from API
 const mockMuseums = [
@@ -290,6 +291,15 @@ export default function ProfilePage() {
                 className="sayu-button p-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => router.push('/profile/art-profile')}
+                title={language === 'ko' ? 'AI 아트 프로필' : 'AI Art Profile'}
+              >
+                <Sparkles className="w-5 h-5" />
+              </motion.button>
+              <motion.button
+                className="sayu-button p-2"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => setShowIDCard(true)}
                 title={language === 'ko' ? 'ID 카드 보기' : 'View ID Card'}
               >
@@ -307,6 +317,12 @@ export default function ProfilePage() {
             </div>
           </div>
         </motion.div>
+
+        {/* AI Art Identity Section */}
+        <AIArtIdentitySection 
+          userId={user.id} 
+          personalityType={userPersonalityType} 
+        />
 
         {/* Quick Stats */}
         <motion.div

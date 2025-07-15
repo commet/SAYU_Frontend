@@ -11,11 +11,13 @@ import { getAnimalByType } from '@/data/personality-animals';
 import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useGamificationDashboard } from '@/hooks/useGamification';
+import { useAuth } from '@/hooks/useAuth';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import ShareModal from '@/components/share/ShareModal';
 import ProfileIDCard from '@/components/profile/ProfileIDCard';
 import ArtworkRecommendations from '@/components/results/ArtworkRecommendations';
 import { ArtveeGallery } from '@/components/artvee/ArtveeGallery';
+import FeedbackButton from '@/components/feedback/FeedbackButton';
 
 interface QuizResults {
   personalityType: string;
@@ -28,6 +30,7 @@ function ResultsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { language } = useLanguage();
+  const { user, loading: authLoading } = useAuth();
   const { dashboard: gamificationData, isLoading: gamificationLoading } = useGamificationDashboard();
   const [results, setResults] = useState<QuizResults | null>(null);
   const [personality, setPersonality] = useState<any>(null);
@@ -86,7 +89,7 @@ function ResultsContent() {
       </header>
       
       {/* Hero Section - Clean and Focused */}
-      <section className="max-w-4xl mx-auto px-lg py-3xl">
+      <section className="max-w-4xl mx-auto px-lg py-lg">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -94,7 +97,7 @@ function ResultsContent() {
           className="text-center"
         >
           {/* Main Result */}
-          <div className="bg-white rounded-xl p-3xl border border-gray shadow-gentle mb-2xl">
+          <div className="bg-white rounded-xl p-lg border border-gray shadow-gentle mb-lg">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -104,11 +107,11 @@ function ResultsContent() {
                 {language === 'ko' ? '당신은' : 'You are'}
               </p>
               
-              <h1 className="font-display text-3xl md:text-4xl font-medium text-black mb-md leading-tight">
+              <h1 className="font-display text-2xl md:text-3xl font-medium text-black mb-sm leading-tight">
                 {language === 'ko' && personality.title_ko ? personality.title_ko : personality.title}
               </h1>
               
-              <p className="font-body text-xl text-dark-gray mb-xl leading-normal">
+              <p className="font-body text-lg text-dark-gray mb-lg leading-normal">
                 {language === 'ko' && personality.subtitle_ko ? personality.subtitle_ko : personality.subtitle}
               </p>
 
@@ -118,22 +121,22 @@ function ResultsContent() {
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.4, duration: 0.6 }}
-                  className="mb-xl"
+                  className="mb-lg"
                 >
                   <PersonalityAnimalImage 
                     animal={animalCharacter}
                     variant="illustration"
-                    size="lg"
-                    className="mx-auto mb-md"
+                    size="sm"
+                    className="mx-auto mb-sm"
                   />
-                  <h3 className="font-display text-xl text-black mb-sm">
+                  <h3 className="font-display text-lg text-black mb-xs">
                     {language === 'ko' ? animalCharacter.animal_ko : animalCharacter.animal}
                   </h3>
                   <div className="flex flex-wrap justify-center gap-xs">
                     {(language === 'ko' ? animalCharacter.characteristics_ko : animalCharacter.characteristics)
                       .slice(0, 3) // 처음 3개만 표시
                       .map((trait: string, index: number) => (
-                      <span key={index} className="font-body text-xs px-md py-xs bg-off-white text-dark-gray rounded-full border border-light-gray">
+                      <span key={index} className="font-body text-xs px-sm py-xs bg-off-white text-dark-gray rounded-full border border-light-gray">
                         {trait}
                       </span>
                     ))}
@@ -141,14 +144,60 @@ function ResultsContent() {
                 </motion.div>
               )}
 
-              {/* Type Code - Minimal */}
-              <div className="inline-flex items-center gap-sm px-lg py-md bg-off-white rounded-lg border border-light-gray">
-                <span className="font-body text-sm text-dark-gray">
-                  {language === 'ko' ? '유형 코드' : 'Type'}:
-                </span>
-                <span className="font-mono font-semibold text-lg text-black">
-                  {results.personalityType}
-                </span>
+              {/* Type Code - Combined with Style Info */}
+              <div className="mt-lg p-lg bg-off-white rounded-lg border border-light-gray">
+                <div className="text-center mb-md">
+                  <h3 className="font-display text-lg font-medium text-black mb-sm">
+                    {language === 'ko' ? '당신의 예술 감상 스타일' : 'Your Art Appreciation Style'}
+                  </h3>
+                  <div className="flex items-center justify-center gap-sm mb-sm">
+                    <span className="font-body text-sm text-dark-gray">
+                      {language === 'ko' ? '유형 코드' : 'Type Code'}:
+                    </span>
+                    <span className="font-mono font-semibold text-xl text-black">
+                      {results.personalityType}
+                    </span>
+                  </div>
+                  <p className="text-sm text-dark-gray">
+                    {language === 'ko' ? '4가지 차원으로 분석한 당신만의 예술 감상 방식' : 'Your unique art appreciation approach analyzed through 4 dimensions'}
+                  </p>
+                </div>
+                
+                {/* Quick Style Preview */}
+                <div className="grid grid-cols-4 gap-xs text-center">
+                  <div className="text-xs">
+                    <span className="font-mono font-bold text-primary text-lg">{results.personalityType[0]}</span>
+                    <p className="text-dark-gray mt-xs font-medium">
+                      {results.personalityType[0] === 'L' 
+                        ? (language === 'ko' ? '개인적 (Lone)' : 'Lone') 
+                        : (language === 'ko' ? '사회적 (Social)' : 'Social')}
+                    </p>
+                  </div>
+                  <div className="text-xs">
+                    <span className="font-mono font-bold text-primary text-lg">{results.personalityType[1]}</span>
+                    <p className="text-dark-gray mt-xs font-medium">
+                      {results.personalityType[1] === 'A' 
+                        ? (language === 'ko' ? '추상적 (Abstract)' : 'Abstract') 
+                        : (language === 'ko' ? '현실적 (Realistic)' : 'Realistic')}
+                    </p>
+                  </div>
+                  <div className="text-xs">
+                    <span className="font-mono font-bold text-primary text-lg">{results.personalityType[2]}</span>
+                    <p className="text-dark-gray mt-xs font-medium">
+                      {results.personalityType[2] === 'E' 
+                        ? (language === 'ko' ? '감정적 (Emotional)' : 'Emotional') 
+                        : (language === 'ko' ? '의미적 (Meaningful)' : 'Meaningful')}
+                    </p>
+                  </div>
+                  <div className="text-xs">
+                    <span className="font-mono font-bold text-primary text-lg">{results.personalityType[3]}</span>
+                    <p className="text-dark-gray mt-xs font-medium">
+                      {results.personalityType[3] === 'F' 
+                        ? (language === 'ko' ? '자유로운 (Flexible)' : 'Flexible') 
+                        : (language === 'ko' ? '체계적 (Consistent)' : 'Consistent')}
+                    </p>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>
@@ -158,78 +207,209 @@ function ResultsContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="flex flex-wrap justify-center gap-md mb-3xl"
+            className="flex flex-wrap justify-center gap-sm mb-xl"
           >
             <button
               onClick={shareResult}
-              className="flex items-center gap-xs px-lg py-md bg-primary text-white rounded-md hover:bg-primary-dark transition-colors duration-base font-medium"
+              className="flex items-center gap-xs px-md py-sm bg-primary text-white rounded-md hover:bg-primary-dark transition-colors duration-base font-medium text-sm"
             >
-              <Share2 size={16} />
-              {language === 'ko' ? '결과 공유하기' : 'Share Results'}
+              <Share2 size={14} />
+              {language === 'ko' ? '결과 공유' : 'Share'}
             </button>
             <button
               onClick={showProfile}
-              className="flex items-center gap-xs px-lg py-md bg-off-white text-black border border-gray rounded-md hover:bg-light-gray transition-colors duration-base font-medium"
+              className="flex items-center gap-xs px-md py-sm bg-off-white text-black border border-gray rounded-md hover:bg-light-gray transition-colors duration-base font-medium text-sm"
             >
-              <User size={16} />
-              {language === 'ko' ? 'ID 카드 보기' : 'View ID Card'}
+              <User size={14} />
+              {language === 'ko' ? 'ID 카드' : 'ID Card'}
             </button>
           </motion.div>
         </motion.div>
       </section>
 
+      {/* AI Art Profile CTA Section */}
+      <section className="max-w-4xl mx-auto px-lg mb-lg">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.6 }}
+          className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-xl p-lg border border-purple-200 relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl -mr-24 -mt-24"></div>
+          <div className="relative">
+            <div className="flex items-center justify-between mb-md">
+              <div className="flex items-center gap-sm">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                  <Sparkles className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-display text-lg font-semibold text-black leading-snug">
+                    {language === 'ko' ? 'AI 아트 프로필' : 'AI Art Profile'}
+                  </h3>
+                  <p className="text-sm text-dark-gray mt-1 leading-relaxed">
+                    {language === 'ko' ? '당신의 성격을 AI 아트로 표현해보세요' : 'Express your personality through AI art'}
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <p className="text-sm text-dark-gray mb-md leading-relaxed">
+              {language === 'ko' 
+                ? `${results.personalityType} 성격 유형에 맞는 독특한 AI 아트를 생성해드립니다. 당신만의 예술적 정체성을 시각적으로 표현해보세요.`
+                : `Generate unique AI art tailored to your ${results.personalityType} personality type. Express your artistic identity visually.`}
+            </p>
+            
+            <button
+              onClick={() => router.push('/profile/art-profile')}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-lg py-sm rounded-md hover:from-purple-700 hover:to-pink-700 transition-all duration-base font-medium text-sm flex items-center gap-xs"
+            >
+              <Sparkles size={16} />
+              {language === 'ko' ? 'AI 아트 생성하기' : 'Generate AI Art'}
+            </button>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Guest User Registration CTA */}
+      {!authLoading && !user && (
+        <section className="max-w-4xl mx-auto px-lg mb-lg">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+            className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-xl p-lg border border-blue-200 relative overflow-hidden"
+          >
+            <div className="absolute top-0 left-0 w-48 h-48 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl -ml-24 -mt-24"></div>
+            <div className="relative">
+              <div className="flex items-center justify-between mb-md">
+                <div className="flex items-center gap-sm">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                    <User className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-lg font-semibold text-black leading-snug">
+                      {language === 'ko' ? '결과를 저장하고 더 많은 혜택을 받으세요!' : 'Save Your Results & Get More Benefits!'}
+                    </h3>
+                    <p className="text-sm text-dark-gray mt-1 leading-relaxed">
+                      {language === 'ko' ? '회원가입하면 무료로 더 많은 서비스를 이용하실 수 있습니다' : 'Sign up to access more free services'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="grid md:grid-cols-3 gap-sm mb-md">
+                <div className="text-center p-sm bg-white/50 rounded-lg">
+                  <div className="text-2xl mb-xs">🎨</div>
+                  <p className="text-xs text-dark-gray">
+                    {language === 'ko' ? '개인화된 작품 추천' : 'Personalized Art Recommendations'}
+                  </p>
+                </div>
+                <div className="text-center p-sm bg-white/50 rounded-lg">
+                  <div className="text-2xl mb-xs">📱</div>
+                  <p className="text-xs text-dark-gray">
+                    {language === 'ko' ? '결과 영구 저장' : 'Save Results Forever'}
+                  </p>
+                </div>
+                <div className="text-center p-sm bg-white/50 rounded-lg">
+                  <div className="text-2xl mb-xs">🌟</div>
+                  <p className="text-xs text-dark-gray">
+                    {language === 'ko' ? '전시회 맞춤 추천' : 'Curated Exhibition Recommendations'}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex gap-sm">
+                <button
+                  onClick={() => router.push('/register')}
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-lg py-sm rounded-md hover:from-blue-700 hover:to-purple-700 transition-all duration-base font-medium text-sm flex items-center justify-center gap-xs"
+                >
+                  <User size={16} />
+                  {language === 'ko' ? '무료 회원가입' : 'Sign Up Free'}
+                </button>
+                <button
+                  onClick={() => router.push('/login')}
+                  className="px-lg py-sm bg-white text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-all duration-base font-medium text-sm"
+                >
+                  {language === 'ko' ? '로그인' : 'Login'}
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </section>
+      )}
+
       {/* Content Sections */}
       <div className="max-w-4xl mx-auto px-lg pb-3xl space-y-3xl">
         
-        {/* Art Style Breakdown */}
+        {/* Art Style Breakdown - Enhanced */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
           className="bg-white rounded-xl p-xl border border-gray shadow-gentle"
         >
-          <h2 className="font-display text-2xl font-medium text-black mb-xl text-center">
+          <h2 className="font-display text-2xl font-medium text-black mb-lg text-center">
             {language === 'ko' ? '당신의 예술 감상 스타일' : 'Your Art Appreciation Style'}
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-lg">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-lg mb-lg">
             <div className="text-center">
-              <div className="w-16 h-16 bg-off-white rounded-lg flex items-center justify-center mb-md mx-auto">
+              <div className="w-16 h-16 bg-off-white rounded-lg flex items-center justify-center mb-sm mx-auto">
                 <span className="font-mono text-2xl font-bold text-primary">{results.personalityType[0]}</span>
               </div>
-              <p className="font-body text-sm text-dark-gray">
+              <h3 className="font-medium text-sm text-black mb-xs">
                 {results.personalityType[0] === 'L' 
-                  ? (language === 'ko' ? '개인적 감상' : 'Personal') 
-                  : (language === 'ko' ? '사회적 감상' : 'Social')}
+                  ? (language === 'ko' ? '개인적 감상 (Lone)' : 'Personal (Lone)') 
+                  : (language === 'ko' ? '사회적 감상 (Social)' : 'Social')}
+              </h3>
+              <p className="font-body text-xs text-dark-gray leading-relaxed">
+                {results.personalityType[0] === 'L' 
+                  ? (language === 'ko' ? '조용한 공간에서 작품과의 개인적 대화, 내적 성찰을 통한 깊은 감상' : 'Personal dialogue with artworks in quiet spaces, deep appreciation through inner reflection') 
+                  : (language === 'ko' ? '타인과의 토론과 공유를 통한 예술 경험, 집단적 감상과 다양한 관점 교류' : 'Artistic experiences through discussion and sharing, collective appreciation and diverse perspective exchange')}
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-off-white rounded-lg flex items-center justify-center mb-md mx-auto">
+              <div className="w-16 h-16 bg-off-white rounded-lg flex items-center justify-center mb-sm mx-auto">
                 <span className="font-mono text-2xl font-bold text-primary">{results.personalityType[1]}</span>
               </div>
-              <p className="font-body text-sm text-dark-gray">
+              <h3 className="font-medium text-sm text-black mb-xs">
                 {results.personalityType[1] === 'A' 
-                  ? (language === 'ko' ? '추상적' : 'Abstract') 
-                  : (language === 'ko' ? '구체적' : 'Realistic')}
+                  ? (language === 'ko' ? '추상적 (Abstract)' : 'Abstract') 
+                  : (language === 'ko' ? '현실적 (Realistic)' : 'Realistic')}
+              </h3>
+              <p className="font-body text-xs text-dark-gray leading-relaxed">
+                {results.personalityType[1] === 'A' 
+                  ? (language === 'ko' ? '색채와 형태의 추상적 조화, 내면의 감정을 표현하는 작품에 끌림' : 'Drawn to abstract harmony of color and form, works expressing inner emotions') 
+                  : (language === 'ko' ? '사실적 묘사와 정교한 기법, 구체적인 대상의 세밀한 표현에 주목' : 'Focus on realistic depiction and refined technique, detailed representation of concrete subjects')}
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-off-white rounded-lg flex items-center justify-center mb-md mx-auto">
+              <div className="w-16 h-16 bg-off-white rounded-lg flex items-center justify-center mb-sm mx-auto">
                 <span className="font-mono text-2xl font-bold text-primary">{results.personalityType[2]}</span>
               </div>
-              <p className="font-body text-sm text-dark-gray">
+              <h3 className="font-medium text-sm text-black mb-xs">
                 {results.personalityType[2] === 'E' 
-                  ? (language === 'ko' ? '감정 중심' : 'Emotional') 
-                  : (language === 'ko' ? '의미 추구' : 'Meaningful')}
+                  ? (language === 'ko' ? '감정적 (Emotional)' : 'Emotional') 
+                  : (language === 'ko' ? '의미적 (Meaningful)' : 'Meaningful')}
+              </h3>
+              <p className="font-body text-xs text-dark-gray leading-relaxed">
+                {results.personalityType[2] === 'E' 
+                  ? (language === 'ko' ? '순간적 감동과 미적 체험, 작품이 주는 즉각적 감정에 반응' : 'Immediate aesthetic experience and emotional impact, responding to artwork\'s instant emotional appeal') 
+                  : (language === 'ko' ? '작품의 역사적 맥락과 상징적 의미, 깊이 있는 해석과 분석 선호' : 'Historical context and symbolic meaning of artworks, preferring in-depth interpretation and analysis')}
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-off-white rounded-lg flex items-center justify-center mb-md mx-auto">
+              <div className="w-16 h-16 bg-off-white rounded-lg flex items-center justify-center mb-sm mx-auto">
                 <span className="font-mono text-2xl font-bold text-primary">{results.personalityType[3]}</span>
               </div>
-              <p className="font-body text-sm text-dark-gray">
+              <h3 className="font-medium text-sm text-black mb-xs">
                 {results.personalityType[3] === 'F' 
-                  ? (language === 'ko' ? '자유로운' : 'Flexible') 
-                  : (language === 'ko' ? '체계적' : 'Structured')}
+                  ? (language === 'ko' ? '자유로운 (Flexible)' : 'Flexible') 
+                  : (language === 'ko' ? '체계적 (Consistent)' : 'Consistent')}
+              </h3>
+              <p className="font-body text-xs text-dark-gray leading-relaxed">
+                {results.personalityType[3] === 'F' 
+                  ? (language === 'ko' ? '자유로운 관람 동선과 직관적 작품 선택, 다양한 장르의 실험적 탐구' : 'Free-flowing gallery movement and intuitive artwork selection, experimental exploration across genres') 
+                  : (language === 'ko' ? '체계적인 관람 계획과 일관된 미적 기준, 선호하는 스타일의 깊이 있는 연구' : 'Systematic viewing plans and consistent aesthetic criteria, in-depth study of preferred styles')}
               </p>
             </div>
           </div>
@@ -242,36 +422,36 @@ function ResultsContent() {
           transition={{ delay: 0.7 }}
           className="bg-white rounded-xl p-xl border border-gray shadow-gentle text-center"
         >
-          <Heart className="w-12 h-12 mx-auto mb-lg text-primary" />
-          <h2 className="font-display text-2xl font-medium text-black mb-lg">
-            {language === 'ko' ? '당신의 본질' : 'Your Essence'}
+          <Palette className="w-10 h-10 mx-auto mb-md text-primary" />
+          <h2 className="font-display text-xl font-medium text-black mb-md">
+            {language === 'ko' ? '당신의 예술적 특성' : 'Your Artistic Nature'}
           </h2>
-          <p className="font-body text-lg text-dark-gray leading-relaxed max-w-2xl mx-auto">
+          <p className="font-body text-base text-dark-gray leading-relaxed max-w-2xl mx-auto whitespace-pre-line">
             {language === 'ko' && personality.essence_ko ? personality.essence_ko : personality.essence}
           </p>
         </motion.section>
         
-        {/* Your Strengths */}
+        {/* Your Strengths & Growth Areas */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
           className="bg-white rounded-xl p-xl border border-gray shadow-gentle"
         >
-          <h2 className="font-display text-2xl font-medium text-black mb-xl text-center">
-            {language === 'ko' ? '당신의 강점' : 'Your Strengths'}
+          <h2 className="font-display text-2xl font-medium text-black mb-lg text-center">
+            {language === 'ko' ? '당신의 예술적 강점' : 'Your Artistic Strengths'}
           </h2>
-          <div className="grid md:grid-cols-3 gap-lg">
+          <div className="grid md:grid-cols-3 gap-lg mb-xl">
             {personality.strengths.map((strength: any, index: number) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 + index * 0.1 }}
-                className="text-center p-lg"
+                className="text-center p-lg bg-off-white rounded-lg"
               >
-                <div className="text-4xl mb-md">{strength.icon}</div>
-                <h3 className="font-display text-lg font-medium text-black mb-sm">
+                <div className="text-3xl mb-sm">{strength.icon}</div>
+                <h3 className="font-display text-base font-medium text-black mb-xs">
                   {language === 'ko' && strength.title_ko ? strength.title_ko : strength.title}
                 </h3>
                 <p className="font-body text-sm text-dark-gray leading-normal">
@@ -279,6 +459,33 @@ function ResultsContent() {
                 </p>
               </motion.div>
             ))}
+          </div>
+          
+          {/* Growth Areas */}
+          <div className="border-t border-light-gray pt-lg">
+            <h3 className="font-display text-lg font-medium text-black mb-md text-center">
+              {language === 'ko' ? '미술 감상 보완점' : 'Areas for Artistic Growth'}
+            </h3>
+            <div className="grid md:grid-cols-2 gap-md">
+              <div className="text-center p-md bg-yellow-50 rounded-lg">
+                <div className="text-xl mb-xs">🎭</div>
+                <h4 className="font-medium text-sm text-black mb-xs">
+                  {language === 'ko' ? '감정적 즉흥성 탐구' : 'Exploring Emotional Spontaneity'}
+                </h4>
+                <p className="text-xs text-dark-gray">
+                  {language === 'ko' ? '작품을 분석하기 전에 첫인상과 감정적 반응을 경험해보세요' : 'Experience first impressions and emotional reactions before analyzing artworks'}
+                </p>
+              </div>
+              <div className="text-center p-md bg-blue-50 rounded-lg">
+                <div className="text-xl mb-xs">🌊</div>
+                <h4 className="font-medium text-sm text-black mb-xs">
+                  {language === 'ko' ? '다양한 장르 도전' : 'Exploring Diverse Genres'}
+                </h4>
+                <p className="text-xs text-dark-gray">
+                  {language === 'ko' ? '체계적 접근과 함께 실험적이고 현대적인 작품도 탐험해보세요' : 'Along with systematic approaches, explore experimental and contemporary works'}
+                </p>
+              </div>
+            </div>
           </div>
         </motion.section>
 
@@ -289,20 +496,23 @@ function ResultsContent() {
           transition={{ delay: 0.9 }}
           className="bg-white rounded-xl p-xl border border-gray shadow-gentle"
         >
-          <h2 className="font-display text-2xl font-medium text-black mb-xl text-center">
-            {language === 'ko' ? '이런 모습에서 자신을 발견할 수 있어요' : 'You might recognize yourself in...'}
+          <h2 className="font-display text-xl font-medium text-black mb-lg text-center">
+            {language === 'ko' ? '미술관에서 이런 모습이 보이나요?' : 'Do you see yourself in the gallery?'}
           </h2>
-          <div className="flex flex-wrap justify-center gap-xs">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-sm">
             {personality.recognition.map((item: string, index: number) => (
-              <motion.span
+              <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1.0 + index * 0.05 }}
-                className="px-md py-xs bg-off-white text-dark-gray rounded-full border border-light-gray font-body text-sm"
+                className="text-center p-sm bg-off-white rounded-lg border border-light-gray"
               >
-                {language === 'ko' && personality.recognition_ko ? personality.recognition_ko[index] : item}
-              </motion.span>
+                <div className="text-lg mb-xs">🎨</div>
+                <p className="font-body text-xs text-dark-gray leading-tight">
+                  {language === 'ko' && personality.recognition_ko ? personality.recognition_ko[index] : item}
+                </p>
+              </motion.div>
               ))}
           </div>
         </motion.section>
@@ -318,27 +528,27 @@ function ResultsContent() {
             className="text-center mb-12"
           >
             <Sparkles className="w-12 h-12 mx-auto mb-4 text-[hsl(var(--personality-accent))]" />
-            <h2 className="text-4xl font-serif mb-4 text-[hsl(var(--journey-midnight))]">
-              {language === 'ko' ? '예술은 일상으로 흐릅니다' : 'This extends beyond galleries'}
+            <h2 className="text-3xl font-serif mb-4 text-[hsl(var(--journey-midnight))]">
+              {language === 'ko' ? '예술은 일상으로 흐릅니다' : 'Art flows into daily life'}
             </h2>
-            <p className="text-xl text-[hsl(var(--journey-twilight))] max-w-3xl mx-auto">
+            <p className="text-lg text-[hsl(var(--journey-twilight))] max-w-3xl mx-auto">
               {language === 'ko' && personality.lifeExtension_ko ? personality.lifeExtension_ko : personality.lifeExtension}
             </p>
           </motion.div>
 
           {/* Life Areas */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6">
             {personality.lifeAreas.map((area: any, index: number) => (
               <EmotionalCard
                 key={index}
                 delay={index * 0.1}
                 personality={results.personalityType}
-                className="p-8"
+                className="p-6"
               >
-                <h3 className="text-xl font-medium mb-3">
+                <h3 className="text-lg font-medium mb-2">
                   {language === 'ko' && area.title_ko ? area.title_ko : area.title}
                 </h3>
-                <p className="opacity-80">
+                <p className="opacity-80 text-sm">
                   {language === 'ko' && area.description_ko ? area.description_ko : area.description}
                 </p>
               </EmotionalCard>
@@ -470,7 +680,7 @@ function ResultsContent() {
               personality={results.personalityType}
             >
               <BookOpen className="w-5 h-5" />
-              {language === 'ko' ? '나의 부족 찾기' : 'Find Your Tribe'}
+              {language === 'ko' ? '커뮤니티 참여하기' : 'Join Community'}
             </EmotionalButton>
           </div>
         </motion.div>
@@ -515,6 +725,17 @@ function ResultsContent() {
           onClose={() => setShowProfileCard(false)}
         />
       )}
+
+      {/* Fixed Feedback Button */}
+      <FeedbackButton
+        position="fixed"
+        variant="primary"
+        contextData={{
+          page: 'results',
+          personalityType: results.personalityType,
+          feature: 'personality-results'
+        }}
+      />
     </div>
   );
 }

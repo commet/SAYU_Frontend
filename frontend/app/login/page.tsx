@@ -232,6 +232,8 @@ function LoginContent() {
           >
             <SocialLoginButton provider="google" />
             <SocialLoginButton provider="apple" />
+            <SocialLoginButton provider="instagram" />
+            <SocialLoginButton provider="kakao" />
           </motion.div>
 
           {/* Sign Up Link */}

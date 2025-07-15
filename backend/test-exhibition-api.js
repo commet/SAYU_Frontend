@@ -12,7 +12,12 @@ async function testExhibitionAPI() {
   try {
     // 1. Test GET /api/exhibitions
     console.log('\n1. Testing GET /api/exhibitions...');
-    const exhibitionsResponse = await axios.get(`${API_BASE_URL}/api/exhibitions?limit=5`);
+    const exhibitionsResponse = await axios.get(`${API_BASE_URL}/api/exhibitions?limit=5`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      decompress: false // Disable automatic decompression
+    });
     console.log(`✅ Status: ${exhibitionsResponse.status}`);
     console.log(`📊 Found ${exhibitionsResponse.data.data.length} exhibitions`);
     console.log(`📄 Pagination:`, exhibitionsResponse.data.pagination);
@@ -67,7 +72,13 @@ async function testExhibitionAPI() {
     if (error.response) {
       console.error('Response status:', error.response.status);
       console.error('Response data:', error.response.data);
+      console.error('Response headers:', error.response.headers);
+    } else if (error.request) {
+      console.error('Request was made but no response:', error.request);
+    } else {
+      console.error('Error config:', error.config);
     }
+    console.error('Full error:', error);
   }
 }
 

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'react-hot-toast';
 
 interface SocialLoginButtonProps {
-  provider: 'google' | 'github' | 'apple' | 'discord' | 'instagram';
+  provider: 'google' | 'github' | 'apple' | 'discord' | 'instagram' | 'kakao';
   mode?: 'login' | 'link';
 }
 
@@ -56,6 +56,15 @@ const providerConfig = {
       </svg>
     ),
     className: 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white'
+  },
+  kakao: {
+    name: 'Kakao',
+    icon: (
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2C6.477 2 2 5.655 2 10.144c0 2.908 1.876 5.456 4.7 6.897-.208.797-.755 2.891-.863 3.334-.132.545.199.538.418.391.173-.115 2.751-1.871 3.877-2.64C10.735 18.208 11.362 18.252 12 18.252c5.523 0 10-3.655 10-8.144S17.523 2 12 2zm-4.94 11.52c-.672 0-1.215-.543-1.215-1.214V9.102c0-.21.17-.38.38-.38h.46c.21 0 .38.17.38.38v2.824h1.995c.21 0 .38.17.38.38v.46c0 .21-.17.38-.38.38H7.06zm5.164 0c-.21 0-.38-.17-.38-.38v-.46c0-.21.17-.38.38-.38h.836V9.482h-.836c-.21 0-.38-.17-.38-.38v-.46c0-.21.17-.38.38-.38h2.912c.21 0 .38.17.38.38v.46c0 .21-.17.38-.38.38h-.836v2.824h.836c.21 0 .38.17.38.38v.46c0 .21-.17.38-.38.38h-2.912zm3.904-2.076l-1.292-2.104a.378.378 0 01.323-.573h.515c.134 0 .258.071.325.187l.86 1.487.86-1.487a.378.378 0 01.325-.187h.515a.378.378 0 01.323.573l-1.292 2.104v1.462c0 .21-.17.38-.38.38h-.46c-.21 0-.38-.17-.38-.38v-1.462z"/>
+      </svg>
+    ),
+    className: 'bg-[#FEE500] hover:bg-[#FDD835] text-[#191919]'
   }
 };
 

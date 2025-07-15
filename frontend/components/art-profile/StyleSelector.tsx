@@ -2,12 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Sparkles, Palette, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Sparkles, Palette } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { ArtStyle, predefinedStyles } from '@/types/art-profile';
 import { Button } from '@/components/ui/button';
 import { artProfileAPI } from '@/lib/art-profile-api';
 import { useAuth } from '@/hooks/useAuth';
+import { personalityStyleMapping, stylePersonalityTraits } from '@/data/personality-style-mapping';
+import StylePreviewGrid from './StylePreviewGrid';
 
 interface StyleSelectorProps {
   imagePreview: string;
@@ -30,20 +32,40 @@ export default function StyleSelector({
   const { user } = useAuth();
   const [recommendedStyles, setRecommendedStyles] = useState<ArtStyle[]>([]);
   const [activeTab, setActiveTab] = useState<'recommended' | 'all'>('recommended');
+  const [personalityType, setPersonalityType] = useState<string | null>(null);
 
   useEffect(() => {
     loadRecommendedStyles();
+    loadPersonalityType();
   }, [user]);
+
+  const loadPersonalityType = () => {
+    const quizResults = localStorage.getItem('quizResults');
+    if (quizResults) {
+      const results = JSON.parse(quizResults);
+      setPersonalityType(results.personalityType);
+    }
+  };
 
   const loadRecommendedStyles = async () => {
     if (!user) return;
     
     try {
+      // API 추천 시도
       const recommendations = await artProfileAPI.getRecommendedStyles(user.id);
       setRecommendedStyles(recommendations);
     } catch (error) {
-      // 에러 시 기본 추천 사용
-      setRecommendedStyles(predefinedStyles.slice(0, 3));
+      // 실패 시 성격 유형 기반 추천
+      if (personalityType && personalityStyleMapping[personalityType]) {
+        const mapping = personalityStyleMapping[personalityType];
+        const recommended = predefinedStyles.filter(style => 
+          mapping.recommendedStyles.includes(style.id)
+        );
+        setRecommendedStyles(recommended);
+      } else {
+        // 기본 추천
+        setRecommendedStyles(predefinedStyles.slice(0, 3));
+      }
     }
   };
 
@@ -140,137 +162,54 @@ export default function StyleSelector({
 
         {/* Recommended Styles */}
         {activeTab === 'recommended' && recommendedStyles.length > 0 && (
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <Sparkles className="w-4 h-4 text-purple-500" />
-              <span>
-                {language === 'ko' 
-                  ? '최근 관람하신 전시를 바탕으로 추천해드려요' 
-                  : 'Based on your recent exhibitions'
-                }
-              </span>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <Sparkles className="w-4 h-4 text-purple-500" />
+                <span>
+                  {language === 'ko' 
+                    ? '당신에게 맞는 스타일 추천' 
+                    : 'Styles recommended for you'
+                  }
+                </span>
+              </div>
+              
+              {personalityType && personalityStyleMapping[personalityType] && (
+                <p className="text-xs text-gray-500 pl-6">
+                  {personalityStyleMapping[personalityType].reason[language]}
+                </p>
+              )}
             </div>
             
-            {recommendedStyles.map((style) => (
-              <StyleCard
-                key={style.id}
-                style={style}
-                isSelected={selectedStyle?.id === style.id}
-                onSelect={() => onStyleSelect(style)}
-                language={language}
-                isRecommended
-              />
-            ))}
+            <StylePreviewGrid
+              selectedStyle={selectedStyle}
+              onStyleSelect={onStyleSelect}
+              styles={recommendedStyles}
+            />
           </div>
         )}
 
         {/* All Styles */}
         {activeTab === 'all' && (
-          <div className="space-y-3">
-            {predefinedStyles.map((style) => (
-              <StyleCard
-                key={style.id}
-                style={style}
-                isSelected={selectedStyle?.id === style.id}
-                onSelect={() => onStyleSelect(style)}
-                language={language}
-              />
-            ))}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <Palette className="w-4 h-4 text-purple-500" />
+              <span>
+                {language === 'ko' 
+                  ? '모든 스타일 보기' 
+                  : 'All available styles'
+                }
+              </span>
+            </div>
+            
+            <StylePreviewGrid
+              selectedStyle={selectedStyle}
+              onStyleSelect={onStyleSelect}
+              styles={predefinedStyles}
+            />
           </div>
         )}
       </motion.div>
     </div>
-  );
-}
-
-// Style Card Component
-function StyleCard({ 
-  style, 
-  isSelected, 
-  onSelect, 
-  language,
-  isRecommended = false 
-}: {
-  style: ArtStyle;
-  isSelected: boolean;
-  onSelect: () => void;
-  language: 'ko' | 'en';
-  isRecommended?: boolean;
-}) {
-  return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={onSelect}
-      className={`
-        cursor-pointer rounded-xl p-4 transition-all
-        ${isSelected 
-          ? 'sayu-liquid-glass border-2 border-purple-500 shadow-lg' 
-          : 'bg-white hover:shadow-md border-2 border-transparent'
-        }
-      `}
-    >
-      <div className="flex items-center gap-4">
-        {/* Style Preview */}
-        <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-          {style.sample ? (
-            <img 
-              src={style.sample} 
-              alt={style.name}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <Palette className="w-8 h-8 text-gray-400" />
-            </div>
-          )}
-        </div>
-
-        {/* Style Info */}
-        <div className="flex-1">
-          <div className="flex items-start justify-between">
-            <div>
-              <h4 className="font-semibold">
-                {language === 'ko' ? style.nameKo : style.name}
-              </h4>
-              <p className="text-sm text-gray-600 mt-1">
-                {language === 'ko' ? style.descriptionKo : style.description}
-              </p>
-              {style.artist && (
-                <p className="text-xs text-gray-500 mt-1">
-                  {style.artist} • {style.movement}
-                </p>
-              )}
-            </div>
-            
-            {isRecommended && (
-              <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
-                {language === 'ko' ? '추천' : 'Recommended'}
-              </span>
-            )}
-          </div>
-
-          {/* Color Palette Preview */}
-          {style.colorPalette && (
-            <div className="flex gap-1 mt-2">
-              {style.colorPalette.map((color, idx) => (
-                <div
-                  key={idx}
-                  className="w-6 h-6 rounded-full border border-gray-200"
-                  style={{ backgroundColor: color }}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Selection Indicator */}
-        <ChevronRight 
-          className={`w-5 h-5 transition-opacity ${
-            isSelected ? 'opacity-100 text-purple-600' : 'opacity-30'
-          }`}
-        />
-      </div>
-    </motion.div>
   );
 }

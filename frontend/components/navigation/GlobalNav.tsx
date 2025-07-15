@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Home, Palette, Users, User, MessageSquare, GalleryVerticalEnd } from 'lucide-react';
+import { Home, Palette, Users, User, MessageSquare, GalleryVerticalEnd, Settings } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
@@ -37,6 +37,23 @@ const navItems = [
   }
 ];
 
+const getNavItemsWithAdmin = (user: any) => {
+  const items = [...navItems];
+  
+  // 관리자인 경우 Admin 메뉴 추가
+  if (user?.role === 'admin') {
+    items.push({
+      href: '/admin',
+      icon: Settings,
+      label: { ko: '관리자', en: 'Admin' },
+      requireAuth: true,
+      adminOnly: true
+    });
+  }
+  
+  return items;
+};
+
 export default function GlobalNav() {
   const pathname = usePathname();
   const router = useRouter();
@@ -67,11 +84,13 @@ export default function GlobalNav() {
     router.push(item.href);
   };
 
+  const currentNavItems = getNavItemsWithAdmin(user);
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 md:top-0 md:bottom-auto">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-around md:justify-start md:space-x-8 h-16">
-          {navItems.map((item) => {
+          {currentNavItems.map((item) => {
             const isActive = pathname === item.href;
             const isLocked = item.requireAuth && !user;
             

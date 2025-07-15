@@ -7,10 +7,51 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+// 메모리 캐시 설정
+const cache = new Map();
+const CACHE_DURATION = 5 * 60 * 1000; // 5분
+
+function getCacheKey(req) {
+  const params = new URLSearchParams(req.query);
+  return `exhibitions:${params.toString()}`;
+}
+
+function getFromCache(key) {
+  const cached = cache.get(key);
+  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+    return cached.data;
+  }
+  return null;
+}
+
+function setCache(key, data) {
+  cache.set(key, {
+    data,
+    timestamp: Date.now()
+  });
+  
+  // 캐시 정리 (10분마다)
+  if (cache.size > 100) {
+    const now = Date.now();
+    for (const [key, value] of cache.entries()) {
+      if (now - value.timestamp > CACHE_DURATION * 2) {
+        cache.delete(key);
+      }
+    }
+  }
+}
+
 const exhibitionController = {
   // Get exhibitions with filters
   async getExhibitions(req, res) {
     try {
+      // 캐시 확인
+      const cacheKey = getCacheKey(req);
+      const cachedData = getFromCache(cacheKey);
+      if (cachedData) {
+        return res.json(cachedData);
+      }
+
       const { 
         page = 1, 
         limit = 20, 
@@ -83,7 +124,7 @@ const exhibitionController = {
         return acc;
       }, {}) || {};
 
-      res.json({
+      const response = {
         success: true,
         data: exhibitions,
         pagination: {
@@ -93,7 +134,12 @@ const exhibitionController = {
           pages: Math.ceil(count / limit)
         },
         stats
-      });
+      };
+
+      // 캐시에 저장
+      setCache(cacheKey, response);
+      
+      res.json(response);
 
     } catch (error) {
       console.error('Error in getExhibitions:', error);

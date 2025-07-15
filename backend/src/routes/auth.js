@@ -10,33 +10,41 @@ const {
   rateLimits 
 } = require('../middleware/validation');
 
+// Enhanced authentication security
+const { 
+  authLimiter, 
+  authSlowDown,
+  loginValidation,
+  registerValidation
+} = require('../middleware/securityEnhancements');
+
 // Apply security middleware to all routes
 router.use(securityHeaders);
 router.use(sanitizeInput);
 router.use(requestSizeLimiter('2mb')); // Auth requests shouldn't be large
 
-// Registration with strict rate limiting
+// Registration with enhanced strict rate limiting and brute force protection
 router.post('/register', 
-  rateLimits.strict, 
-  validationSchemas.userRegistration, 
-  handleValidationResult, 
+  authLimiter,
+  authSlowDown,
+  registerValidation,
   authController.register
 );
 
-// Login with moderate rate limiting
+// Login with enhanced rate limiting and brute force protection
 router.post('/login', 
-  rateLimits.moderate, 
-  validationSchemas.userLogin, 
-  handleValidationResult, 
+  authLimiter,
+  authSlowDown,
+  loginValidation, 
   authController.login
 );
 
 // Protected user info
 router.get('/me', authMiddleware, authController.getMe);
 
-// Token management with rate limiting
+// Token management with enhanced rate limiting
 router.post('/refresh', 
-  rateLimits.moderate, 
+  authLimiter,
   authController.refreshToken
 );
 

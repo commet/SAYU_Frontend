@@ -32,9 +32,31 @@ export default function ShareModal({
   const gradientStyle = getGradientStyle(personalityType);
 
   const shareUrl = `https://sayu.vercel.app/results?type=${personalityType}`;
-  const shareText = language === 'ko' 
-    ? `나는 ${personality?.title_ko || personality?.title} (${personalityType})입니다! 당신의 예술 성격은 무엇인가요?`
-    : `I'm ${personality?.title} (${personalityType})! What's your art personality?`;
+  
+  // Enhanced share text with personality description
+  const getShareText = () => {
+    if (language === 'ko') {
+      const title = personality?.title_ko || personality?.title || '미술 애호가';
+      const subtitle = personality?.subtitle_ko || personality?.subtitle || '';
+      const animalName = animal?.animal_ko || animal?.animal || '';
+      
+      return `🎨 나의 예술 성격: ${title} (${personalityType})
+${subtitle}
+내 동물 캐릭터는 ${animalName} ${animal?.emoji || ''}
+당신의 예술 성격도 발견해보세요!`;
+    } else {
+      const title = personality?.title || 'Art Lover';
+      const subtitle = personality?.subtitle || '';
+      const animalName = animal?.animal || '';
+      
+      return `🎨 My Art Personality: ${title} (${personalityType})
+${subtitle}
+My animal character is ${animalName} ${animal?.emoji || ''}
+Discover your art personality too!`;
+    }
+  };
+  
+  const shareText = getShareText();
 
   const handleCopyLink = async () => {
     try {
@@ -190,19 +212,49 @@ export default function ShareModal({
                   }`}
                   style={{ background: gradientStyle }}
                 >
-                  <div className="h-full p-6 text-white flex flex-col justify-center items-center text-center">
-                    <div className="text-4xl mb-4">{animal?.emoji}</div>
-                    <div className="font-mono text-2xl font-bold mb-2">{personalityType}</div>
-                    <div className="text-lg font-medium mb-4">
-                      {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
-                    </div>
-                    {shareFormat !== 'story' && (
-                      <div className="text-sm opacity-90 mb-4">
-                        {language === 'ko' ? '나의 예술 성격을 발견했어요!' : 'I discovered my art personality!'}
+                  <div className="h-full p-6 text-white flex flex-col justify-between">
+                    {/* Top Section */}
+                    <div className="text-center">
+                      <div className="text-5xl mb-3">{animal?.emoji}</div>
+                      <div className="text-xs uppercase tracking-wider opacity-80 mb-1">
+                        {language === 'ko' ? '나의 예술 성격' : 'My Art Personality'}
                       </div>
-                    )}
-                    <div className="text-xs opacity-70">
-                      SAYU • sayu.vercel.app
+                      <div className="font-mono text-2xl font-bold">{personalityType}</div>
+                    </div>
+                    
+                    {/* Middle Section */}
+                    <div className="text-center flex-1 flex flex-col justify-center">
+                      <div className="text-lg font-medium mb-2">
+                        {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
+                      </div>
+                      {shareFormat !== 'card' && (
+                        <div className="text-xs opacity-90 leading-relaxed px-2">
+                          {language === 'ko' && personality?.subtitle_ko 
+                            ? personality.subtitle_ko 
+                            : personality?.subtitle
+                          }
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Bottom Section */}
+                    <div className="text-center">
+                      {shareFormat === 'feed' && (
+                        <div className="text-sm opacity-90 mb-3">
+                          {language === 'ko' 
+                            ? `${animal?.animal_ko || ''}와 함께하는 예술 여정` 
+                            : `Art journey with ${animal?.animal || ''}`
+                          }
+                        </div>
+                      )}
+                      <div className="border-t border-white/20 pt-3">
+                        <div className="text-xs opacity-70">
+                          {language === 'ko' ? '당신의 예술 성격을 발견하세요' : 'Discover your art personality'}
+                        </div>
+                        <div className="text-xs font-medium mt-1">
+                          SAYU • sayu.vercel.app
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

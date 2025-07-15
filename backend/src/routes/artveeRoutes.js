@@ -18,7 +18,7 @@ const cloudinaryArtveeService = require('../services/cloudinaryArtveeService');
 router.get('/personality/:type',
   optionalAuth,
   [
-    param('type').isIn(['LAEF', 'SRMC', 'GREF', 'CREF']),
+    param('type').isIn(['LAEF', 'LAEC', 'LAMF', 'LAMC', 'LREF', 'LREC', 'LRMF', 'LRMC', 'SAEF', 'SAEC', 'SAMF', 'SAMC', 'SREF', 'SREC', 'SRMF', 'SRMC']),
     query('limit').optional().isInt({ min: 1, max: 50 }).default(10),
     query('usageType').optional().isString(),
     query('emotionFilter').optional().isString()
@@ -169,7 +169,7 @@ router.get('/stats',
 router.get('/quiz-backgrounds',
   optionalAuth,
   [
-    query('personalityType').optional().isIn(['LAEF', 'SRMC', 'GREF', 'CREF'])
+    query('personalityType').optional().isIn(['LAEF', 'LAEC', 'LAMF', 'LAMC', 'LREF', 'LREC', 'LRMF', 'LRMC', 'SAEF', 'SAEC', 'SAMF', 'SAMC', 'SREF', 'SREC', 'SRMF', 'SRMC'])
   ],
   validateRequest,
   async (req, res) => {
@@ -208,7 +208,7 @@ router.get('/quiz-backgrounds',
 router.get('/results/:personalityType',
   optionalAuth,
   [
-    param('personalityType').isIn(['LAEF', 'SRMC', 'GREF', 'CREF']),
+    param('personalityType').isIn(['LAEF', 'LAEC', 'LAMF', 'LAMC', 'LREF', 'LREC', 'LRMF', 'LRMC', 'SAEF', 'SAEC', 'SAMF', 'SAMC', 'SREF', 'SREC', 'SRMF', 'SRMC']),
     query('limit').optional().isInt({ min: 1, max: 20 }).default(6)
   ],
   validateRequest,

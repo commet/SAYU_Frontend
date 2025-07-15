@@ -13,6 +13,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import toast from 'react-hot-toast';
 import '@/styles/emotional-palette.css';
 import '@/styles/museum-entrance.css';
+import FeedbackButton from '@/components/feedback/FeedbackButton';
 
 interface Room {
   name: string;
@@ -457,7 +458,7 @@ export default function HomePage() {
           >
             <GlassCard className="inline-block p-12">
               <h3 className="text-3xl font-bold mb-4">
-                {language === 'ko' ? '당신의 예술 DNA를 발견하세요' : 'Discover Your Art DNA'}
+                {language === 'ko' ? '당신의 예술 성격을 발견하세요' : 'Discover Your Art Soul'}
               </h3>
               <p className="text-xl text-gray-600 mb-8 max-w-2xl">
                 {language === 'ko' 
@@ -474,6 +475,16 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
+
+      {/* Fixed Feedback Button */}
+      <FeedbackButton
+        position="fixed"
+        variant="primary"
+        contextData={{
+          page: 'home',
+          feature: 'landing-page'
+        }}
+      />
     </div>
   );
 }
