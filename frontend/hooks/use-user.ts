@@ -10,6 +10,12 @@ export function useUser() {
   const supabase = createClient()
 
   useEffect(() => {
+    // If supabase client is not available, just set loading to false
+    if (!supabase) {
+      setLoading(false)
+      return
+    }
+
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
