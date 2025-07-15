@@ -10,7 +10,7 @@ import { useAuth } from '@/hooks/useAuth';
 import toast from 'react-hot-toast';
 
 interface NavItem {
-  icon: React.ReactNode;
+  iconType: 'home' | 'sparkles' | 'users' | 'user';
   label: { en: string; ko: string };
   path: string;
   requiresAuth?: boolean;
@@ -18,17 +18,17 @@ interface NavItem {
 
 // 데스크탑 메뉴 (상단) - 모든 항목
 const desktopNavItems: NavItem[] = [
-  { icon: <Home className="w-5 h-5" />, label: { en: 'Home', ko: '홈' }, path: '/' },
-  { icon: <Sparkles className="w-5 h-5" />, label: { en: 'Discover', ko: '탐색' }, path: '/quiz' },
-  { icon: <Users className="w-5 h-5" />, label: { en: 'Community', ko: '커뮤니티' }, path: '/community', requiresAuth: true },
-  { icon: <User className="w-5 h-5" />, label: { en: 'Profile', ko: '프로필' }, path: '/profile', requiresAuth: true },
+  { iconType: 'home', label: { en: 'Home', ko: '홈' }, path: '/' },
+  { iconType: 'sparkles', label: { en: 'Discover', ko: '탐색' }, path: '/quiz' },
+  { iconType: 'users', label: { en: 'Community', ko: '커뮤니티' }, path: '/community', requiresAuth: true },
+  { iconType: 'user', label: { en: 'Profile', ko: '프로필' }, path: '/profile', requiresAuth: true },
 ];
 
 // 모바일 메뉴 (하단) - 중요한 3개만
 const mobileNavItems: NavItem[] = [
-  { icon: <Home className="w-5 h-5" />, label: { en: 'Home', ko: '홈' }, path: '/' },
-  { icon: <Sparkles className="w-5 h-5" />, label: { en: 'Quiz', ko: '퀴즈' }, path: '/quiz' },
-  { icon: <User className="w-5 h-5" />, label: { en: 'My', ko: '마이' }, path: '/profile', requiresAuth: true },
+  { iconType: 'home', label: { en: 'Home', ko: '홈' }, path: '/' },
+  { iconType: 'sparkles', label: { en: 'Quiz', ko: '퀴즈' }, path: '/quiz' },
+  { iconType: 'user', label: { en: 'My', ko: '마이' }, path: '/profile', requiresAuth: true },
 ];
 
 const navItems = desktopNavItems; // 모바일 메뉴 오버레이에서 사용
@@ -40,6 +40,16 @@ export default function FloatingNav() {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  
+  const getIcon = (iconType: string) => {
+    switch (iconType) {
+      case 'home': return <Home className="w-5 h-5" />;
+      case 'sparkles': return <Sparkles className="w-5 h-5" />;
+      case 'users': return <Users className="w-5 h-5" />;
+      case 'user': return <User className="w-5 h-5" />;
+      default: return null;
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -107,7 +117,7 @@ export default function FloatingNav() {
                   whileHover={!isDisabled ? { scale: 1.05 } : {}}
                   whileTap={!isDisabled ? { scale: 0.95 } : {}}
                 >
-                  {item.icon}
+                  {getIcon(item.iconType)}
                   <span className="font-medium">{item.label[language]}</span>
                 </motion.button>
               );
@@ -204,7 +214,7 @@ export default function FloatingNav() {
                 </AnimatePresence>
                 
                 <div className="relative flex items-center justify-center">
-                  {item.icon}
+                  {getIcon(item.iconType)}
                   {isActive && (
                     <motion.div
                       className="absolute -top-1 -right-1 w-2 h-2 bg-purple-600 rounded-full"
@@ -275,7 +285,7 @@ export default function FloatingNav() {
                         whileHover={!isDisabled ? { x: 4 } : {}}
                         whileTap={!isDisabled ? { scale: 0.98 } : {}}
                       >
-                        {item.icon}
+                        {getIcon(item.iconType)}
                         <span className="font-medium">{item.label[language]}</span>
                         {item.requiresAuth && !user && (
                           <span className="ml-auto text-xs text-gray-500">
