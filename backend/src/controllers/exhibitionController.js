@@ -1,51 +1,106 @@
-const ExhibitionModel = require('../models/exhibitionModel');
-const ExhibitionSubmissionModel = require('../models/exhibitionSubmissionModel');
-const VenueModel = require('../models/venueModel');
-const exhibitionCollectorService = require('../services/exhibitionCollectorService');
-const { pool } = require('../config/database');
+const { createClient } = require('@supabase/supabase-js');
+const { body, validationResult } = require('express-validator');
+
+// Supabase 클라이언트 초기화
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
 const exhibitionController = {
   // Get exhibitions with filters
   async getExhibitions(req, res) {
     try {
-      const {
-        page = 1,
-        limit = 20,
-        city,
-        country = 'KR',
+      const { 
+        page = 1, 
+        limit = 20, 
         status,
-        startDate,
-        endDate,
-        venueId,
+        city,
+        venue_id,
         search,
-        featured
+        sort = 'created_at',
+        order = 'desc'
       } = req.query;
 
-      const filters = {
-        city,
-        country,
-        status,
-        venueId,
-        search,
-        featured: featured === 'true' ? true : featured === 'false' ? false : undefined,
-        startDate,
-        endDate,
-        verificationStatus: 'verified' // Only show verified exhibitions
-      };
+      // 페이지네이션 설정
+      const offset = (page - 1) * limit;
 
-      const options = {
-        page: parseInt(page),
-        limit: parseInt(limit),
-        orderBy: 'start_date',
-        order: 'ASC'
-      };
+      // 기본 쿼리 빌더
+      let query = supabase
+        .from('exhibitions')
+        .select(`
+          *,
+          venues!inner(
+            id,
+            name,
+            name_en,
+            city,
+            country,
+            type,
+            website,
+            instagram
+          )
+        `, { count: 'exact' })
+        .range(offset, offset + limit - 1);
 
-      const result = await ExhibitionModel.find(filters, options);
+      // 필터링
+      if (status) {
+        query = query.eq('status', status);
+      }
 
-      res.json(result);
+      if (city) {
+        query = query.eq('venue_city', city);
+      }
+
+      if (venue_id) {
+        query = query.eq('venue_id', venue_id);
+      }
+
+      if (search) {
+        query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%,venue_name.ilike.%${search}%`);
+      }
+
+      // 정렬
+      query = query.order(sort, { ascending: order === 'asc' });
+
+      const { data: exhibitions, error, count } = await query;
+
+      if (error) {
+        console.error('Error fetching exhibitions:', error);
+        return res.status(500).json({ 
+          success: false, 
+          message: 'Failed to fetch exhibitions' 
+        });
+      }
+
+      // 통계 데이터 추가
+      const { data: statsData } = await supabase
+        .from('exhibitions')
+        .select('status');
+
+      const stats = statsData?.reduce((acc, ex) => {
+        acc[ex.status] = (acc[ex.status] || 0) + 1;
+        return acc;
+      }, {}) || {};
+
+      res.json({
+        success: true,
+        data: exhibitions,
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          total: count,
+          pages: Math.ceil(count / limit)
+        },
+        stats
+      });
+
     } catch (error) {
-      console.error('Get exhibitions error:', error);
-      res.status(500).json({ error: error.message });
+      console.error('Error in getExhibitions:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Internal server error' 
+      });
     }
   },
 
@@ -54,19 +109,50 @@ const exhibitionController = {
     try {
       const { id } = req.params;
 
-      const exhibition = await ExhibitionModel.findById(id);
+      const { data: exhibition, error } = await supabase
+        .from('exhibitions')
+        .select(`
+          *,
+          venues!inner(
+            id,
+            name,
+            name_en,
+            city,
+            country,
+            type,
+            website,
+            instagram,
+            address
+          )
+        `)
+        .eq('id', id)
+        .single();
 
-      if (!exhibition) {
-        return res.status(404).json({ error: 'Exhibition not found' });
+      if (error) {
+        console.error('Error fetching exhibition:', error);
+        return res.status(404).json({ 
+          success: false, 
+          message: 'Exhibition not found' 
+        });
       }
 
-      // Increment view count
-      await ExhibitionModel.incrementViewCount(id);
+      // 조회수 증가
+      await supabase
+        .from('exhibitions')
+        .update({ views: (exhibition.views || 0) + 1 })
+        .eq('id', id);
 
-      res.json(exhibition);
+      res.json({
+        success: true,
+        data: exhibition
+      });
+
     } catch (error) {
-      console.error('Get exhibition error:', error);
-      res.status(500).json({ error: error.message });
+      console.error('Error in getExhibition:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Internal server error' 
+      });
     }
   },
 
@@ -311,14 +397,286 @@ const exhibitionController = {
     try {
       const { city, country = 'KR', type, tier, search, limit = 50 } = req.query;
       
-      const filters = { city, country, type, tier, search };
-      const options = { limit: parseInt(limit) };
+      let query = supabase
+        .from('venues')
+        .select('*')
+        .eq('is_active', true)
+        .limit(parseInt(limit));
+
+      if (city) {
+        query = query.eq('city', city);
+      }
+
+      if (country) {
+        query = query.eq('country', country);
+      }
+
+      if (type) {
+        query = query.eq('type', type);
+      }
+
+      if (tier) {
+        query = query.eq('tier', tier);
+      }
+
+      if (search) {
+        query = query.or(`name.ilike.%${search}%,name_en.ilike.%${search}%`);
+      }
+
+      const { data: venues, error } = await query.order('name');
+
+      if (error) {
+        console.error('Error fetching venues:', error);
+        return res.status(500).json({ 
+          success: false, 
+          message: 'Failed to fetch venues' 
+        });
+      }
+
+      res.json({
+        success: true,
+        data: venues
+      });
       
-      const venues = await VenueModel.find(filters, options);
-      res.json(venues);
     } catch (error) {
       console.error('Get venues error:', error);
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ 
+        success: false, 
+        message: 'Internal server error' 
+      });
+    }
+  },
+
+  // 전시 좋아요/좋아요 취소
+  async likeExhibition(req, res) {
+    try {
+      const { id } = req.params;
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ 
+          success: false, 
+          message: 'Authentication required' 
+        });
+      }
+
+      // 이미 좋아요 했는지 확인
+      const { data: existingLike, error: checkError } = await supabase
+        .from('exhibition_likes')
+        .select('id')
+        .eq('exhibition_id', id)
+        .eq('user_id', userId)
+        .single();
+
+      if (checkError && checkError.code !== 'PGRST116') {
+        throw checkError;
+      }
+
+      if (existingLike) {
+        // 좋아요 취소
+        await supabase
+          .from('exhibition_likes')
+          .delete()
+          .eq('exhibition_id', id)
+          .eq('user_id', userId);
+
+        res.json({
+          success: true,
+          message: 'Like removed',
+          liked: false
+        });
+      } else {
+        // 좋아요 추가
+        await supabase
+          .from('exhibition_likes')
+          .insert({ exhibition_id: id, user_id: userId });
+
+        res.json({
+          success: true,
+          message: 'Like added',
+          liked: true
+        });
+      }
+
+    } catch (error) {
+      console.error('Error in likeExhibition:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Internal server error' 
+      });
+    }
+  },
+
+  // 전시 제출
+  async submitExhibition(req, res) {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ 
+          success: false, 
+          message: 'Authentication required' 
+        });
+      }
+
+      const {
+        title,
+        venue_name,
+        venue_city,
+        venue_country = 'KR',
+        start_date,
+        end_date,
+        description,
+        artists,
+        admission_fee,
+        source_url,
+        contact_info
+      } = req.body;
+
+      // 필수 필드 검증
+      if (!title || !venue_name || !venue_city || !start_date || !end_date || !source_url) {
+        return res.status(400).json({
+          success: false,
+          message: 'Missing required fields'
+        });
+      }
+
+      // 중복 제출 체크
+      const { data: existing, error: checkError } = await supabase
+        .from('exhibition_submissions')
+        .select('id')
+        .eq('title', title)
+        .eq('venue_name', venue_name)
+        .eq('start_date', start_date)
+        .eq('submitted_by', userId)
+        .single();
+
+      if (checkError && checkError.code !== 'PGRST116') {
+        throw checkError;
+      }
+
+      if (existing) {
+        return res.status(400).json({
+          success: false,
+          message: 'Exhibition already submitted'
+        });
+      }
+
+      // 제출 데이터 저장
+      const { data: submission, error: insertError } = await supabase
+        .from('exhibition_submissions')
+        .insert({
+          title,
+          venue_name,
+          venue_city,
+          venue_country,
+          start_date,
+          end_date,
+          description,
+          artists: artists || [],
+          admission_fee: admission_fee || 0,
+          source_url,
+          contact_info,
+          submitted_by: userId,
+          submission_status: 'pending'
+        })
+        .select()
+        .single();
+
+      if (insertError) {
+        throw insertError;
+      }
+
+      res.status(201).json({
+        success: true,
+        message: 'Exhibition submitted successfully',
+        data: submission
+      });
+
+    } catch (error) {
+      console.error('Error in submitExhibition:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Internal server error' 
+      });
+    }
+  },
+
+  // 도시별 전시 통계
+  async getCityStats(req, res) {
+    try {
+      const { data: exhibitions, error } = await supabase
+        .from('exhibitions')
+        .select('venue_city, status');
+
+      if (error) {
+        throw error;
+      }
+
+      const cityStats = exhibitions.reduce((acc, ex) => {
+        if (!acc[ex.venue_city]) {
+          acc[ex.venue_city] = {
+            total: 0,
+            ongoing: 0,
+            upcoming: 0,
+            ended: 0
+          };
+        }
+        acc[ex.venue_city].total++;
+        acc[ex.venue_city][ex.status]++;
+        return acc;
+      }, {});
+
+      res.json({
+        success: true,
+        data: cityStats
+      });
+
+    } catch (error) {
+      console.error('Error in getCityStats:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Internal server error' 
+      });
+    }
+  },
+
+  // 인기 전시 조회
+  async getPopularExhibitions(req, res) {
+    try {
+      const { limit = 10 } = req.query;
+
+      const { data: exhibitions, error } = await supabase
+        .from('exhibitions')
+        .select(`
+          *,
+          venues!inner(
+            id,
+            name,
+            name_en,
+            city,
+            country,
+            type
+          )
+        `)
+        .eq('status', 'ongoing')
+        .order('views', { ascending: false })
+        .limit(limit);
+
+      if (error) {
+        throw error;
+      }
+
+      res.json({
+        success: true,
+        data: exhibitions
+      });
+
+    } catch (error) {
+      console.error('Error in getPopularExhibitions:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Internal server error' 
+      });
     }
   }
 };

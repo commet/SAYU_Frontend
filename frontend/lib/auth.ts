@@ -87,13 +87,18 @@ if (process.env.DISCORD_CLIENT_ID && process.env.DISCORD_CLIENT_SECRET) {
 
 export const authOptions: NextAuthOptions = {
   providers,
-
+  secret: process.env.NEXTAUTH_SECRET || 'fallback-secret-key',
+  pages: {
+    signIn: '/login',
+    error: '/login',
+  },
   callbacks: {
     async signIn({ user, account, profile }: { user: any; account: any; profile: any }) {
       if (account?.provider && account.provider !== 'credentials') {
         // Handle OAuth sign in
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/${account.provider}/callback`, {
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+          const res = await fetch(`${apiUrl}/api/auth/${account.provider}/callback`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -139,16 +144,9 @@ export const authOptions: NextAuthOptions = {
       return session;
     }
   },
-
-  pages: {
-    signIn: '/login',
-    error: '/login',
-  },
-
+  
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
-
-  secret: process.env.NEXTAUTH_SECRET,
 };

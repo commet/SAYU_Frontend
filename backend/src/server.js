@@ -81,7 +81,7 @@ const aiRecommendationRoutes = require('./routes/aiRecommendationRoutes');
 const exhibitionCalendarRoutes = require('./routes/exhibitionCalendarRoutes');
 const artveeRoutes = require('./routes/artveeRoutes');
 const artveeImageServer = require('./routes/artveeImageServer');
-const exhibitionRoutes = require('../routes/exhibitionRoutes');
+const exhibitionRoutes = require('./routes/exhibitionRoutes');
 
 const app = express();
 

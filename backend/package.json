@@ -16,7 +16,9 @@
     "email:setup": "node scripts/setupEmailSystem.js",
     "monitoring:start": "node src/scripts/monitoringSetup.js",
     "monitoring:health": "node -e \"require('./src/services/alertingService').healthCheck().then(h => console.log(JSON.stringify(h, null, 2)))\"",
-    "mcp:start": "node src/mcp-server.js"
+    "mcp:start": "node src/mcp-server.js",
+    "cron:start": "node start-cron.js",
+    "cron:test": "node cron-exhibition-collection.js --run-now"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.3",
