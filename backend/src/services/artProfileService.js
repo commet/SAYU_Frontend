@@ -11,6 +11,7 @@ class ArtProfileService {
   constructor() {
     this.replicate = new Replicate({
       auth: process.env.REPLICATE_API_TOKEN,
+      useFileOutput: false  // 🚀 핵심 최적화: URL 직접 반환
     });
 
     // Cloudinary 설정
@@ -161,6 +162,163 @@ class ArtProfileService {
   }
 
   /**
+   * 재시도 로직이 포함된 Replicate API 호출
+   */
+  async generateWithRetry(styleConfig, originalImageUrl, styleId, customSettings = {}, maxRetries = 3) {
+    let lastError;
+    const startTime = Date.now();
+    
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const attemptStartTime = Date.now();
+        logger.info(`Attempt ${attempt}/${maxRetries} for style: ${styleId}`);
+        
+        let output;
+        if (styleId === 'pixel-art') {
+          // 픽셀 아트는 다른 모델 사용
+          output = await this.replicate.run(
+            styleConfig.model,
+            {
+              input: {
+                prompts: styleConfig.prompt,
+                ...styleConfig.settings
+              }
+            }
+          );
+        } else {
+          // SDXL 모델 사용 (NSFW 필터 우회를 위한 안전한 프롬프트)
+          const safePrompt = this.getSafePrompt(styleConfig.prompt, attempt);
+          
+          output = await this.replicate.run(
+            styleConfig.model,
+            {
+              input: {
+                prompt: safePrompt,
+                negative_prompt: `${styleConfig.negative_prompt}, nsfw, explicit, adult, inappropriate`,
+                image: originalImageUrl,
+                prompt_strength: 0.8,
+                num_outputs: 1,
+                guidance_scale: 7.5,
+                scheduler: "K_EULER",
+                num_inference_steps: 50,
+                seed: Math.floor(Math.random() * 1000000), // 다양성을 위한 랜덤 시드
+                ...customSettings
+              }
+            }
+          );
+        }
+
+        // 성공 시 결과 검증
+        if (output && Array.isArray(output) && output.length > 0 && output[0]) {
+          const attemptDuration = Date.now() - attemptStartTime;
+          const totalDuration = Date.now() - startTime;
+          
+          // 성능 메트릭 로깅
+          logger.info(`Successfully generated art profile on attempt ${attempt}`, {
+            styleId,
+            attempt,
+            attemptDuration,
+            totalDuration,
+            success: true
+          });
+          
+          // 성능 데이터 캐싱 (모니터링용)
+          await this.logPerformanceMetrics(styleId, {
+            attempts: attempt,
+            totalDuration,
+            success: true
+          });
+          
+          return output;
+        } else {
+          throw new Error('Invalid output format from Replicate API');
+        }
+        
+      } catch (error) {
+        lastError = error;
+        logger.warn(`Attempt ${attempt} failed for style ${styleId}: ${error.message}`);
+        
+        // NSFW 에러인 경우 다른 시드로 재시도
+        if (error.message.includes('NSFW') || error.message.includes('content detected')) {
+          logger.info(`NSFW detected, retrying with different seed...`);
+          continue;
+        }
+        
+        // 다른 에러인 경우 잠시 대기 후 재시도
+        if (attempt < maxRetries) {
+          const delay = Math.pow(2, attempt) * 1000; // 지수 백오프
+          logger.info(`Waiting ${delay}ms before retry...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
+    }
+    
+    // 모든 재시도 실패
+    const totalDuration = Date.now() - startTime;
+    
+    // 실패 메트릭 로깅
+    await this.logPerformanceMetrics(styleId, {
+      attempts: maxRetries,
+      totalDuration,
+      success: false,
+      error: lastError.message
+    });
+    
+    logger.error(`All ${maxRetries} attempts failed for style ${styleId}`, {
+      styleId,
+      maxRetries,
+      totalDuration,
+      lastError: lastError.message
+    });
+    
+    throw new Error(`Failed to generate art profile after ${maxRetries} attempts: ${lastError.message}`);
+  }
+
+  /**
+   * NSFW 필터 우회를 위한 안전한 프롬프트 생성
+   */
+  getSafePrompt(originalPrompt, attempt) {
+    const safeWords = [
+      'artistic portrait',
+      'professional headshot',
+      'creative artwork',
+      'stylized illustration',
+      'digital art piece'
+    ];
+    
+    const safeWord = safeWords[attempt % safeWords.length];
+    
+    return `${originalPrompt}, ${safeWord}, clean, appropriate, family-friendly`;
+  }
+
+  /**
+   * 성능 메트릭 로깅 (모니터링용)
+   */
+  async logPerformanceMetrics(styleId, metrics) {
+    try {
+      const key = `performance:${styleId}:${new Date().toISOString().split('T')[0]}`;
+      const data = {
+        timestamp: new Date().toISOString(),
+        styleId,
+        ...metrics
+      };
+      
+      // Redis에 성능 데이터 저장 (24시간 TTL)
+      await redis.lpush(key, JSON.stringify(data));
+      await redis.expire(key, 86400); // 24시간
+      
+      // 일일 통계 업데이트
+      const statsKey = `stats:art-profile:${new Date().toISOString().split('T')[0]}`;
+      await redis.hincrby(statsKey, `${styleId}:attempts`, metrics.attempts);
+      await redis.hincrby(statsKey, `${styleId}:${metrics.success ? 'success' : 'failure'}`, 1);
+      await redis.expire(statsKey, 86400 * 7); // 7일간 보관
+      
+    } catch (error) {
+      logger.warn('Failed to log performance metrics:', error.message);
+    }
+  }
+
+  /**
    * AI 아트 프로필 생성
    */
   async generateArtProfile(userId, base64Image, styleId, customSettings = {}) {
@@ -191,40 +349,10 @@ class ArtProfileService {
         throw new Error('Invalid style ID');
       }
 
-      // 6. Replicate API 호출
+      // 6. Replicate API 호출 (재시도 로직 포함)
       logger.info(`Generating art profile with style: ${styleId}`);
       
-      let output;
-      if (styleId === 'pixel-art') {
-        // 픽셀 아트는 다른 모델 사용
-        output = await this.replicate.run(
-          styleConfig.model,
-          {
-            input: {
-              prompts: styleConfig.prompt,
-              ...styleConfig.settings
-            }
-          }
-        );
-      } else {
-        // SDXL 모델 사용
-        output = await this.replicate.run(
-          styleConfig.model,
-          {
-            input: {
-              prompt: `${styleConfig.prompt}, portrait of a person`,
-              negative_prompt: styleConfig.negative_prompt,
-              image: originalImageUrl,
-              prompt_strength: 0.8,
-              num_outputs: 1,
-              guidance_scale: 7.5,
-              scheduler: "K_EULER",
-              num_inference_steps: 50,
-              ...customSettings
-            }
-          }
-        );
-      }
+      const output = await this.generateWithRetry(styleConfig, originalImageUrl, styleId, customSettings);
 
       // 7. 결과 이미지 Cloudinary에 저장
       const transformedImageUrl = output[0];
@@ -271,8 +399,56 @@ class ArtProfileService {
 
       return cacheData;
     } catch (error) {
-      logger.error('Error generating art profile:', error);
-      throw error;
+      // 상세한 에러 로깅 및 분류
+      const errorInfo = {
+        userId,
+        styleId,
+        error: error.message,
+        stack: error.stack,
+        timestamp: new Date().toISOString()
+      };
+      
+      logger.error('Error generating art profile:', errorInfo);
+      
+      // 에러 타입별 처리
+      if (error.message.includes('No credits remaining')) {
+        throw new Error('INSUFFICIENT_CREDITS');
+      } else if (error.message.includes('NSFW') || error.message.includes('content detected')) {
+        throw new Error('CONTENT_POLICY_VIOLATION');
+      } else if (error.message.includes('Invalid style ID')) {
+        throw new Error('INVALID_STYLE');
+      } else if (error.message.includes('Failed to generate art profile after')) {
+        throw new Error('GENERATION_FAILED');
+      } else {
+        throw new Error('UNKNOWN_ERROR');
+      }
+    }
+  }
+
+  /**
+   * 성능 통계 조회 (관리자용)
+   */
+  async getPerformanceStats(date = new Date().toISOString().split('T')[0]) {
+    try {
+      const statsKey = `stats:art-profile:${date}`;
+      const stats = await redis.hgetall(statsKey);
+      
+      const result = {};
+      Object.keys(this.styleModels).forEach(styleId => {
+        result[styleId] = {
+          attempts: parseInt(stats[`${styleId}:attempts`] || 0),
+          success: parseInt(stats[`${styleId}:success`] || 0),
+          failure: parseInt(stats[`${styleId}:failure`] || 0),
+          successRate: stats[`${styleId}:success`] && stats[`${styleId}:failure`] 
+            ? (parseInt(stats[`${styleId}:success`]) / (parseInt(stats[`${styleId}:success`]) + parseInt(stats[`${styleId}:failure`])) * 100).toFixed(2)
+            : 0
+        };
+      });
+      
+      return result;
+    } catch (error) {
+      logger.error('Failed to get performance stats:', error);
+      return {};
     }
   }
 

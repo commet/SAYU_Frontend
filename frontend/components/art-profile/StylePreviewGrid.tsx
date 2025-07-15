@@ -13,17 +13,17 @@ interface StylePreviewGridProps {
 }
 
 // 베이스 이미지 (동일한 인물 사진)
-const BASE_IMAGE_URL = '/samples/base-portrait.jpg';
+const BASE_IMAGE_URL = '/samples/base-portrait.png';
 
-// 각 스타일로 변환된 예시 이미지 URL (실제 AI 생성 이미지)
+// 각 스타일로 변환된 예시 이미지 URL (DALL-E 생성 고품질 이미지)
 const STYLE_PREVIEWS: Record<string, string> = {
-  'monet-impressionism': '/samples/preview-monet.jpg',
-  'picasso-cubism': '/samples/preview-picasso.jpg',
-  'vangogh-postimpressionism': '/samples/preview-vangogh.jpg',
-  'warhol-popart': '/samples/preview-warhol.jpg',
-  'pixel-art': '/samples/preview-pixel.jpg',
-  'korean-minhwa': '/samples/preview-minhwa.jpg',
-  'klimt-artnouveau': '/samples/preview-klimt.jpg',
+  'monet-impressionism': '/samples/preview-monet.png',
+  'picasso-cubism': '/samples/preview-picasso.png',
+  'vangogh-postimpressionism': '/samples/preview-vangogh.png',
+  'warhol-popart': '/samples/preview-warhol.png',
+  'pixel-art': '/samples/preview-pixel.png',
+  'korean-minhwa': '/samples/preview-minhwa.png',
+  'klimt-artnouveau': '/samples/preview-klimt.png',
   'mondrian-neoplasticism': '/samples/preview-mondrian.jpg'
 };
 
