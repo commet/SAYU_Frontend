@@ -160,7 +160,6 @@ export default function FloatingNav() {
           </div>
         </div>
       </motion.div>
-      </div>
 
       {/* Bottom Floating Navigation - Mobile Only */}
       <motion.nav
@@ -236,7 +235,6 @@ export default function FloatingNav() {
           })}
         </div>
       </motion.nav>
-      </div>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
