@@ -1,16 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { MapPin, Clock, Users, Sparkles, ChevronRight, Lock } from 'lucide-react';
+import { GlassCard, GlassCardHeader, GlassCardTitle, GlassCardDescription, GlassCardContent } from '@/components/ui/glass';
+import { GlassButton } from '@/components/ui/glass';
+import { MapPin, Clock, Users, Sparkles, ChevronRight, Lock, Palette, Heart, Compass } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
 import toast from 'react-hot-toast';
-import ModernEntrance from '@/components/entrance/ModernEntrance';
 import '@/styles/emotional-palette.css';
 import '@/styles/museum-entrance.css';
 
@@ -144,171 +144,336 @@ export default function HomePage() {
     router.push(room.path);
   };
 
+  const { scrollY } = useScroll();
+  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const heroScale = useTransform(scrollY, [0, 300], [1, 0.8]);
+
   return (
-    <div className={`home-gallery-entrance sayu-gradient-bg ${timeOfDay}`}>
-      {/* Modern Entrance */}
-      <ModernEntrance onEnter={() => setDoorsOpen(true)} isOpen={doorsOpen} />
+    <div className="min-h-screen overflow-hidden">
+      {/* Hero Section with Animated Gradient Background */}
+      <section className="relative min-h-screen flex items-center justify-center">
+        {/* Animated Gradient Background */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-hero animate-gradient-shift opacity-30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/50 to-white" />
+        </div>
 
-      {/* Main Gallery Foyer */}
-      <motion.div 
-        className="gallery-foyer"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: doorsOpen ? 1 : 0 }}
-        transition={{ delay: 0.5 }}
-      >
-        {/* Dynamic Lighting Overlay */}
-        <div className={`foyer-lighting ${timeOfDay}`} />
-
-        {/* Welcome Header */}
-        <motion.header 
-          className="foyer-header"
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 1 }}
-        >
-          <h1 className="museum-title">SAYU</h1>
-          <p className="museum-tagline">
-            {language === 'ko' ? '당신만의 예술 여정이 기다립니다' : 'Your Personal Art Journey Awaits'}
-          </p>
-        </motion.header>
-
-        {/* Museum Floor Plan */}
-        <motion.div 
-          className="museum-floor-plan"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 1.2 }}
-        >
-          {rooms.map((room, index) => (
+        {/* Floating Particles */}
+        <div className="absolute inset-0 -z-5">
+          {[...Array(6)].map((_, i) => (
             <motion.div
-              key={room.path}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.4 + index * 0.1 }}
-            >
-              <motion.div
-                className={`sayu-card cursor-pointer ${room.status === 'locked' ? 'opacity-60' : ''}`}
-                onClick={() => handleRoomClick(room)}
-                whileHover={room.status !== 'locked' ? { scale: 1.02 } : {}}
-                whileTap={room.status !== 'locked' ? { scale: 0.98 } : {}}
-              >
-                <div className="sayu-icon-container mb-4">
-                  <span className="text-2xl">{room.icon}</span>
-                </div>
-                <h3 className="text-lg font-semibold mb-2">{room.name}</h3>
-                <p className="text-sm opacity-70">{room.description}</p>
-                {room.status === 'locked' && (
-                  <Lock className="absolute top-6 right-6 opacity-50" size={20} />
-                )}
-              </motion.div>
-            </motion.div>
+              key={i}
+              className="absolute w-64 h-64 rounded-full"
+              style={{
+                background: `radial-gradient(circle, ${['rgba(26, 84, 144, 0.1)', 'rgba(230, 57, 70, 0.1)', 'rgba(241, 196, 15, 0.1)'][i % 3]} 0%, transparent 70%)`,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                x: [0, 100, 0],
+                y: [0, -100, 0],
+              }}
+              transition={{
+                duration: 20 + i * 5,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
           ))}
+        </div>
+
+        {/* Hero Content */}
+        <motion.div 
+          className="relative z-10 text-center px-4 max-w-6xl mx-auto"
+          style={{ opacity: heroOpacity, scale: heroScale }}
+        >
+          {/* Main Title */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <h1 className="text-7xl md:text-9xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent">
+              SAYU
+            </h1>
+            <p className="text-2xl md:text-3xl mb-8 text-gray-700">
+              {language === 'ko' ? '당신만의 예술 여정이 시작됩니다' : 'Your Personal Art Journey Begins'}
+            </p>
+          </motion.div>
+
+          {/* Hero Cards */}
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <GlassCard className="group cursor-pointer">
+              <div className="text-4xl mb-4">🎨</div>
+              <h3 className="text-xl font-semibold mb-2">
+                {language === 'ko' ? '성격 기반 큐레이션' : 'Personality-Based Curation'}
+              </h3>
+              <p className="text-gray-600">
+                {language === 'ko' ? 'MBTI로 발견하는 나만의 예술 취향' : 'Discover art that matches your MBTI'}
+              </p>
+            </GlassCard>
+
+            <GlassCard className="group cursor-pointer">
+              <div className="text-4xl mb-4">🖼️</div>
+              <h3 className="text-xl font-semibold mb-2">
+                {language === 'ko' ? '세계적인 컬렉션' : 'Global Collections'}
+              </h3>
+              <p className="text-gray-600">
+                {language === 'ko' ? 'MET, Rijksmuseum 등 명작 탐험' : 'Explore masterpieces from MET, Rijksmuseum'}
+              </p>
+            </GlassCard>
+
+            <GlassCard className="group cursor-pointer">
+              <div className="text-4xl mb-4">✨</div>
+              <h3 className="text-xl font-semibold mb-2">
+                {language === 'ko' ? 'AI 아트 프로필' : 'AI Art Profile'}
+              </h3>
+              <p className="text-gray-600">
+                {language === 'ko' ? '당신만의 독특한 예술 정체성 생성' : 'Generate your unique artistic identity'}
+              </p>
+            </GlassCard>
+          </motion.div>
+
+          {/* CTA Buttons */}
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <Link href="/quiz">
+              <GlassButton size="lg" variant="primary" className="group">
+                <Palette className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
+                {language === 'ko' ? '성향 테스트 시작하기' : 'Start Personality Test'}
+              </GlassButton>
+            </Link>
+            <Link href="/explore">
+              <GlassButton size="lg" variant="default">
+                <Compass className="mr-2 h-5 w-5" />
+                {language === 'ko' ? '갤러리 둘러보기' : 'Explore Gallery'}
+              </GlassButton>
+            </Link>
+          </motion.div>
         </motion.div>
 
-        {/* Visitor Board */}
+        {/* Scroll Indicator */}
         <motion.div 
-          className="sayu-liquid-glass rounded-2xl p-6 mt-8 max-w-4xl mx-auto"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8 }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
         >
-          <div className="flex flex-wrap justify-center gap-6">
-            <motion.div 
-              className="visitor-stat flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full"
-              whileHover={{ scale: 1.05 }}
-            >
-              <Users className="w-5 h-5 text-purple-600" />
-              <span className="font-medium">{language === 'ko' ? `현재 방문자: ${currentVisitors.toLocaleString()}` : `Current visitors: ${currentVisitors.toLocaleString()}`}</span>
-            </motion.div>
-            <motion.div 
-              className="visitor-stat flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full"
-              whileHover={{ scale: 1.05 }}
-            >
-              <Sparkles className="w-5 h-5 text-pink-600" />
-              <span className="font-medium">{language === 'ko' ? `오늘 발견된 유형: ${todayDiscoveries}` : `Types discovered today: ${todayDiscoveries}`}</span>
-            </motion.div>
-            <motion.div 
-              className="visitor-stat flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full"
-              whileHover={{ scale: 1.05 }}
-            >
-              <Clock className="w-5 h-5 text-blue-600" />
-              <span className="font-medium">{timeOfDay === 'night' ? 'Night at the Museum' : `${timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1)} hours`}</span>
-            </motion.div>
+          <div className="w-6 h-10 border-2 border-gray-400 rounded-full p-1">
+            <div className="w-1 h-3 bg-gray-400 rounded-full mx-auto animate-pulse" />
           </div>
         </motion.div>
+      </section>
 
-        {/* Time-based Welcome Message */}
-        <motion.div 
-          className="time-message"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-        >
-          {timeOfDay === 'morning' && <p>{language === 'ko' ? '아침 햇살과 함께 갤러리가 깨어납니다...' : 'The gallery awakens with morning light...'}</p>}
-          {timeOfDay === 'afternoon' && <p>{language === 'ko' ? '가장 활기찬 시간 - 갤러리가 에너지로 가득합니다' : 'Peak visiting hours - the gallery bustles with energy'}</p>}
-          {timeOfDay === 'evening' && <p>{language === 'ko' ? '황금빛 시간이 복도에 따뜻한 그림자를 드리웁니다' : 'Golden hour casts warm shadows through the halls'}</p>}
-          {timeOfDay === 'night' && <p>{language === 'ko' ? '특별한 야간 관람 - 작품들이 비밀을 속삭입니다' : 'A rare night visit - the artworks whisper secrets'}</p>}
-        </motion.div>
+      {/* Bento Grid Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              {language === 'ko' ? '당신의 예술 공간' : 'Your Art Spaces'}
+            </h2>
+            <p className="text-xl text-gray-600">
+              {language === 'ko' ? '각각의 공간이 특별한 경험을 선사합니다' : 'Each space offers a unique experience'}
+            </p>
+          </motion.div>
 
-        {/* Artists Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.5 }}
-          className="mt-20 text-center"
-        >
-          <h2 className="text-3xl font-bold mb-8">
-            {language === 'ko' ? '당신과 대화하는 작가들' : 'Artists Who Speak Your Language'}
-          </h2>
+          {/* Bento Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[250px]">
+            {rooms.map((room, index) => {
+              const isLarge = index === 0 || index === 2; // Make certain cards larger
+              const gridClass = isLarge ? 'md:col-span-2 md:row-span-2' : 'md:col-span-2';
+              
+              return (
+                <motion.div
+                  key={room.path}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className={gridClass}
+                >
+                  <GlassCard
+                    className={`h-full cursor-pointer group relative overflow-hidden ${
+                      room.status === 'locked' ? 'opacity-60' : ''
+                    }`}
+                    onClick={() => handleRoomClick(room)}
+                    whileHover={room.status !== 'locked' ? { scale: 1.02 } : {}}
+                    whileTap={room.status !== 'locked' ? { scale: 0.98 } : {}}
+                  >
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 opacity-5">
+                      <div className="absolute inset-0" style={{
+                        backgroundImage: `radial-gradient(circle at 2px 2px, currentColor 1px, transparent 1px)`,
+                        backgroundSize: '20px 20px'
+                      }} />
+                    </div>
+
+                    <div className="relative z-10 h-full flex flex-col justify-between p-6">
+                      <div>
+                        <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                          {room.icon}
+                        </div>
+                        <h3 className="text-2xl font-bold mb-2">{room.name}</h3>
+                        <p className="text-gray-600">{room.description}</p>
+                      </div>
+
+                      {room.status === 'locked' ? (
+                        <div className="flex items-center gap-2 text-gray-500">
+                          <Lock size={16} />
+                          <span className="text-sm">{language === 'ko' ? '로그인 필요' : 'Login required'}</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2 text-primary group-hover:translate-x-2 transition-transform">
+                          <span className="text-sm font-medium">{language === 'ko' ? '입장하기' : 'Enter'}</span>
+                          <ChevronRight size={16} />
+                        </div>
+                      )}
+                    </div>
+                  </GlassCard>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-12 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <GlassCard variant="light">
+            <div className="flex flex-wrap justify-center gap-8 py-4">
+              <motion.div 
+                className="flex items-center gap-3"
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="p-3 bg-primary/10 rounded-xl">
+                  <Users className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">{currentVisitors.toLocaleString()}</p>
+                  <p className="text-sm text-gray-600">{language === 'ko' ? '현재 방문자' : 'Current visitors'}</p>
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                className="flex items-center gap-3"
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="p-3 bg-secondary/10 rounded-xl">
+                  <Sparkles className="w-6 h-6 text-secondary" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">{todayDiscoveries}</p>
+                  <p className="text-sm text-gray-600">{language === 'ko' ? '오늘의 발견' : 'Discoveries today'}</p>
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                className="flex items-center gap-3"
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="p-3 bg-accent/10 rounded-xl">
+                  <Heart className="w-6 h-6 text-accent" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">16</p>
+                  <p className="text-sm text-gray-600">{language === 'ko' ? '성격 유형' : 'Personality types'}</p>
+                </div>
+              </motion.div>
+            </div>
+          </GlassCard>
+        </div>
+      </section>
+
+      {/* Artists Section */}
+      <section className="py-20 px-4 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              {language === 'ko' ? '당신과 대화하는 작가들' : 'Artists Who Speak Your Language'}
+            </h2>
+            <p className="text-xl text-gray-600">
+              {language === 'ko' ? '성격 유형별로 만나는 예술가들' : 'Discover artists by personality type'}
+            </p>
+          </motion.div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {featuredArtists.map((artist, index) => (
               <motion.div
                 key={artist.name.en}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 2.7 + index * 0.1 }}
-                whileHover={{ scale: 1.05 }}
-                className="sayu-card p-4 cursor-pointer"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
               >
-                <div className="relative mb-4">
-                  <img
-                    src={artist.image}
-                    alt={artist.name[language]}
-                    className="w-full aspect-square object-cover rounded-lg"
-                  />
-                  <div className="absolute top-2 right-2 bg-purple-500 text-white text-xs px-2 py-1 rounded-full">
-                    {artist.personality[0]}
+                <GlassCard className="group cursor-pointer h-full">
+                  <div className="relative mb-4 overflow-hidden rounded-xl">
+                    <img
+                      src={artist.image}
+                      alt={artist.name[language]}
+                      className="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute top-3 right-3">
+                      <span className="glass px-3 py-1 rounded-full text-xs font-medium">
+                        {artist.personality[0]}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <h3 className="font-bold text-lg mb-1">{artist.name[language]}</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">{artist.style[language]}</p>
+                  <GlassCardHeader>
+                    <GlassCardTitle>{artist.name[language]}</GlassCardTitle>
+                    <GlassCardDescription>{artist.style[language]}</GlassCardDescription>
+                  </GlassCardHeader>
+                </GlassCard>
               </motion.div>
             ))}
           </div>
 
-          {/* Call to Action */}
+          {/* Final CTA */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 3.2 }}
-            className="space-y-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center"
           >
-            <h3 className="text-2xl font-bold mb-6">
-              {language === 'ko' ? '당신의 예술 성향을 발견하세요' : 'Discover Your Art Personality'}
-            </h3>
-            <Link href="/quiz">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="sayu-button sayu-button-primary px-8 py-4 text-lg font-bold"
-              >
-                {language === 'ko' ? '성향 테스트 시작하기' : 'Start Personality Test'}
-              </motion.button>
-            </Link>
+            <GlassCard className="inline-block p-12">
+              <h3 className="text-3xl font-bold mb-4">
+                {language === 'ko' ? '당신의 예술 DNA를 발견하세요' : 'Discover Your Art DNA'}
+              </h3>
+              <p className="text-xl text-gray-600 mb-8 max-w-2xl">
+                {language === 'ko' 
+                  ? '16가지 성격 유형을 기반으로 당신만의 독특한 예술 취향을 찾아드립니다' 
+                  : 'Find your unique artistic taste based on 16 personality types'}
+              </p>
+              <Link href="/quiz">
+                <GlassButton size="lg" variant="primary" className="group">
+                  <Sparkles className="mr-2 h-5 w-5 group-hover:rotate-180 transition-transform duration-500" />
+                  {language === 'ko' ? '지금 시작하기' : 'Start Now'}
+                </GlassButton>
+              </Link>
+            </GlassCard>
           </motion.div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </section>
     </div>
   );
 }

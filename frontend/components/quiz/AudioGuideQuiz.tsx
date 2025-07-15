@@ -15,10 +15,11 @@ import {
   getPhaseByQuestion, 
   fallbackGradients 
 } from '@/data/quiz-backgrounds';
+import { GlassCard, GlassButton, GlassIconButton } from '@/components/ui/glass';
 import { EmotionalButton, EmotionalToast } from '@/components/emotional/EmotionalCard';
 import { 
   ChevronRight, ChevronLeft, Home, Play, Pause, 
-  SkipBack, SkipForward, Volume2, Map
+  SkipBack, SkipForward, Volume2, Map, Headphones
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -171,51 +172,104 @@ export const AudioGuideQuiz: React.FC = () => {
       
       {/* Audio Guide Device */}
       <motion.div 
-        className="audio-guide-device"
+        className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40"
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
       >
-        <div className="device-screen">
-          <div className="guide-number">{audioGuideNumber}</div>
-          <div className="guide-title">{galleryRoom}</div>
-          <div className="waveform-container">
-            {audioPlaying && (
-              <div className="waveform-animation">
-                {[...Array(20)].map((_, i) => (
-                  <div key={i} className="wave-bar" style={{ animationDelay: `${i * 0.05}s` }} />
-                ))}
-              </div>
-            )}
+        <GlassCard variant="heavy" className="p-0 overflow-hidden">
+          {/* Progress Bar */}
+          <div className="h-1 bg-gray-200 relative">
+            <motion.div 
+              className="absolute inset-y-0 left-0 bg-gradient-primary"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ ease: "easeOut" }}
+            />
           </div>
-        </div>
-        
-        <div className="device-controls">
-          <button className="control-btn" onClick={handleGoBack} disabled={currentQuestion === 0}>
-            <SkipBack size={20} />
-          </button>
-          <button 
-            className="control-btn play-pause" 
-            onClick={() => setAudioPlaying(!audioPlaying)}
-          >
-            {audioPlaying ? <Pause size={24} /> : <Play size={24} />}
-          </button>
-          <button className="control-btn" disabled={currentQuestion === narrativeQuestions.length - 1}>
-            <SkipForward size={20} />
-          </button>
-        </div>
-        
-        <div className="device-footer">
-          <button className="footer-btn" onClick={() => setShowGalleryMap(true)}>
-            <Map size={16} />
-          </button>
-          <div className="volume-indicator">
-            <Volume2 size={16} />
+          
+          {/* Device Screen */}
+          <div className="p-4 text-center">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Headphones className="w-5 h-5 text-primary" />
+              <span className="text-2xl font-bold text-primary">{audioGuideNumber}</span>
+            </div>
+            <p className="text-sm font-medium">{galleryRoom}</p>
+            
+            {/* Audio Visualizer */}
+            <div className="h-12 flex items-center justify-center gap-1 my-3">
+              {audioPlaying ? (
+                [...Array(12)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="w-1 bg-primary/60 rounded-full"
+                    animate={{
+                      height: [8, 24, 8],
+                    }}
+                    transition={{
+                      duration: 1,
+                      repeat: Infinity,
+                      delay: i * 0.1,
+                    }}
+                  />
+                ))
+              ) : (
+                <div className="text-gray-400 text-sm">
+                  {language === 'ko' ? '재생을 눌러주세요' : 'Press play to start'}
+                </div>
+              )}
+            </div>
           </div>
-          <button className="footer-btn" onClick={handleExitQuiz}>
-            <Home size={16} />
-          </button>
-        </div>
+          
+          {/* Controls */}
+          <div className="flex items-center justify-between p-4 border-t border-gray-200">
+            <GlassIconButton
+              variant="ghost"
+              size="sm"
+              icon={<SkipBack />}
+              aria-label="Previous"
+              onClick={handleGoBack}
+              disabled={currentQuestion === 0}
+            />
+            
+            <GlassIconButton
+              variant="primary"
+              size="lg"
+              icon={audioPlaying ? <Pause /> : <Play />}
+              aria-label={audioPlaying ? "Pause" : "Play"}
+              onClick={() => setAudioPlaying(!audioPlaying)}
+            />
+            
+            <GlassIconButton
+              variant="ghost"
+              size="sm"
+              icon={<SkipForward />}
+              aria-label="Next"
+              disabled={currentQuestion === narrativeQuestions.length - 1}
+            />
+          </div>
+          
+          {/* Footer Actions */}
+          <div className="flex items-center justify-between px-4 pb-3">
+            <GlassButton
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowGalleryMap(true)}
+            >
+              <Map className="w-4 h-4 mr-1" />
+              {language === 'ko' ? '지도' : 'Map'}
+            </GlassButton>
+            
+            <GlassButton
+              variant="ghost"
+              size="sm"
+              onClick={handleExitQuiz}
+            >
+              <Home className="w-4 h-4 mr-1" />
+              {language === 'ko' ? '나가기' : 'Exit'}
+            </GlassButton>
+          </div>
+        </GlassCard>
       </motion.div>
 
       {/* Gallery Room Experience */}
@@ -256,46 +310,49 @@ export const AudioGuideQuiz: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <h3>{galleryRoom}</h3>
-                  <p>Stop {currentQuestion + 1} of {narrativeQuestions.length}</p>
+                  <h3 className="text-lg font-medium">{galleryRoom}</h3>
+                  <p className="text-sm opacity-70">Stop {currentQuestion + 1} of {narrativeQuestions.length}</p>
                 </motion.div>
 
-                {/* Narrative Setup */}
-                {(question.narrative.setup || question.narrative.transition) && (
-                  <motion.p
-                    className="narrative-text"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
+                {/* Main Question Card */}
+                <GlassCard className="max-w-3xl mx-auto mb-8">
+                  {/* Narrative Setup */}
+                  {(question.narrative.setup || question.narrative.transition) && (
+                    <motion.p
+                      className="text-lg text-gray-600 mb-6 leading-relaxed"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                    >
+                      {language === 'ko' && question.narrative.setup_ko ? 
+                        (currentQuestion === 0 ? question.narrative.setup_ko : 
+                         question.narrative.transition_ko || getTransitionText()) :
+                        getTransitionText()
+                      }
+                    </motion.p>
+                  )}
+
+                  {/* Question */}
+                  <motion.h2
+                    className="text-3xl md:text-4xl font-bold text-center mb-8 leading-tight"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
                   >
-                    {language === 'ko' && question.narrative.setup_ko ? 
-                      (currentQuestion === 0 ? question.narrative.setup_ko : 
-                       question.narrative.transition_ko || getTransitionText()) :
-                      getTransitionText()
-                    }
-                  </motion.p>
-                )}
+                    {(language === 'ko' && question.question_ko ? question.question_ko : question.question)
+                      .split('\n')
+                      .map((line, index) => (
+                        <React.Fragment key={index}>
+                          {line}
+                          {index < (language === 'ko' && question.question_ko ? question.question_ko : question.question).split('\n').length - 1 && <br />}
+                        </React.Fragment>
+                      ))}
+                  </motion.h2>
+                </GlassCard>
 
-                {/* Question as Artwork Title */}
-                <motion.h2
-                  className="question-title"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  {(language === 'ko' && question.question_ko ? question.question_ko : question.question)
-                    .split('\n')
-                    .map((line, index) => (
-                      <React.Fragment key={index}>
-                        {line}
-                        {index < (language === 'ko' && question.question_ko ? question.question_ko : question.question).split('\n').length - 1 && <br />}
-                      </React.Fragment>
-                    ))}
-                </motion.h2>
-
-                {/* Choice Labels as Museum Plaques */}
+                {/* Choice Cards */}
                 <motion.div 
-                  className="choice-labels"
+                  className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.6 }}
@@ -303,30 +360,43 @@ export const AudioGuideQuiz: React.FC = () => {
                   {question.options.map((option, index) => (
                     <motion.div
                       key={option.id}
-                      initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                      animate={{ opacity: 1, x: 0 }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.7 + index * 0.1 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      <button
-                        className="museum-label"
+                      <GlassCard
+                        className="cursor-pointer group h-full relative overflow-hidden"
                         onClick={() => handleChoice(option.id)}
                       >
-                        <div className="label-header">
-                          <span className="label-number">{index === 0 ? 'A' : 'B'}</span>
-                          <span className="label-indicator">Tap to select</span>
+                        {/* Background Pattern */}
+                        <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity">
+                          <div className="absolute inset-0" style={{
+                            backgroundImage: `radial-gradient(circle at 2px 2px, currentColor 1px, transparent 1px)`,
+                            backgroundSize: '20px 20px'
+                          }} />
                         </div>
-                        <div className="label-content">
-                          <h4>{language === 'ko' && option.text_ko ? option.text_ko : option.text}</h4>
+
+                        <div className="relative z-10">
+                          <div className="flex justify-between items-start mb-4">
+                            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary font-bold">
+                              {index === 0 ? 'A' : 'B'}
+                            </span>
+                            <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                          </div>
+                          
+                          <h4 className="text-xl font-semibold mb-2">
+                            {language === 'ko' && option.text_ko ? option.text_ko : option.text}
+                          </h4>
+                          
                           {option.subtext && (
-                            <p className="label-subtext">
+                            <p className="text-gray-600 text-sm">
                               {language === 'ko' && option.subtext_ko ? option.subtext_ko : option.subtext}
                             </p>
                           )}
                         </div>
-                        <div className="label-footer">
-                          <ChevronRight className="w-4 h-4" />
-                        </div>
-                      </button>
+                      </GlassCard>
                     </motion.div>
                   ))}
                 </motion.div>
@@ -430,27 +500,44 @@ export const AudioGuideQuiz: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="exit-confirm-modal"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             onClick={() => setShowExitConfirm(false)}
           >
-            <motion.div
+            <GlassCard
+              className="max-w-md w-full"
+              onClick={(e: React.MouseEvent) => e.stopPropagation()}
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="exit-confirm-content"
-              onClick={(e) => e.stopPropagation()}
             >
-              <h3>End Gallery Tour?</h3>
-              <p>Your progress will be lost. Are you sure you want to exit?</p>
-              <div className="exit-buttons">
-                <button onClick={() => router.push('/')} className="btn-exit">
-                  Yes, exit tour
-                </button>
-                <button onClick={() => setShowExitConfirm(false)} className="btn-continue">
-                  Continue tour
-                </button>
+              <div className="text-center">
+                <div className="mx-auto w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mb-4">
+                  <Home className="w-8 h-8 text-secondary" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2">
+                  {language === 'ko' ? '갤러리 투어를 종료하시겠습니까?' : 'End Gallery Tour?'}
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  {language === 'ko' ? '진행 상황이 사라집니다. 정말 나가시겠습니까?' : 'Your progress will be lost. Are you sure you want to exit?'}
+                </p>
+                <div className="flex gap-3">
+                  <GlassButton
+                    variant="secondary"
+                    className="flex-1"
+                    onClick={() => router.push('/')}
+                  >
+                    {language === 'ko' ? '나가기' : 'Exit tour'}
+                  </GlassButton>
+                  <GlassButton
+                    variant="primary"
+                    className="flex-1"
+                    onClick={() => setShowExitConfirm(false)}
+                  >
+                    {language === 'ko' ? '계속하기' : 'Continue'}
+                  </GlassButton>
+                </div>
               </div>
-            </motion.div>
+            </GlassCard>
           </motion.div>
         )}
       </AnimatePresence>

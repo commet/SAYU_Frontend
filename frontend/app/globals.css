@@ -18,33 +18,58 @@
 
 @layer base {
   :root {
-    /* Gallery-inspired color palette */
+    /* SAYU Modern Color Palette - 오방색의 현대적 재해석 */
     --background: 0 0% 98%; /* #FAFAF8 */
     --foreground: 0 0% 10%; /* #1A1A1A */
     --card: 0 0% 100%; /* #FFFFFF */
     --card-foreground: 0 0% 10%; /* #1A1A1A */
     --popover: 0 0% 100%; /* #FFFFFF */
     --popover-foreground: 0 0% 10%; /* #1A1A1A */
-    --primary: 0 0% 17%; /* #2C2C2C */
-    --primary-foreground: 0 0% 98%; /* #FAFAF8 */
-    --secondary: 0 0% 90%; /* #E5E5E1 */
-    --secondary-foreground: 0 0% 17%; /* #2C2C2C */
+    
+    /* Primary Colors - 오방색 */
+    --primary: 211 65% 35%; /* #1A5490 - 청(신뢰와 깊이) */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 355 75% 55%; /* #E63946 - 적(열정과 에너지) */
+    --secondary-foreground: 0 0% 98%;
+    --accent: 45 95% 51%; /* #F1C40F - 황(창의와 영감) */
+    --accent-foreground: 0 0% 10%;
+    
+    /* Semantic Colors */
+    --destructive: 355 75% 55%; /* Using red */
+    --destructive-foreground: 0 0% 98%;
     --muted: 0 0% 91%; /* #E8E8E6 */
     --muted-foreground: 0 0% 48%; /* #7A7A7A */
-    --accent: 0 39% 40%; /* #8B3A3A - Museum burgundy */
-    --accent-foreground: 0 0% 98%; /* #FAFAF8 */
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
     --border: 0 0% 91%; /* #E8E8E6 */
     --input: 0 0% 91%; /* #E8E8E6 */
-    --ring: 0 0% 17%; /* #2C2C2C */
-    --radius: 0.75rem;
+    --ring: 211 65% 35%; /* Primary blue */
+    --radius: 1rem;
     
-    /* Additional gallery variables */
-    --gallery-gold: 43 84% 39%; /* #B8860B */
-    --gallery-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
-    --gallery-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
-    --gallery-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+    /* Glassmorphism Variables */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-bg-heavy: rgba(255, 255, 255, 0.85);
+    --glass-bg-light: rgba(255, 255, 255, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    --glass-shadow-hover: 0 12px 48px 0 rgba(31, 38, 135, 0.25);
+    --glass-blur: 20px;
+    --glass-blur-heavy: 30px;
+    
+    /* Animation Variables */
+    --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+    /* Gradient Backgrounds */
+    --gradient-primary: linear-gradient(135deg, #1A5490 0%, #E63946 100%);
+    --gradient-accent: linear-gradient(135deg, #F1C40F 0%, #E63946 100%);
+    --gradient-subtle: linear-gradient(135deg, #FAFAF8 0%, #E8E8E6 100%);
+    --gradient-hero: linear-gradient(135deg, rgba(26, 84, 144, 0.1) 0%, rgba(230, 57, 70, 0.1) 50%, rgba(241, 196, 15, 0.1) 100%);
+    
+    /* Shadow System */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12);
   }
 
   .dark {
@@ -98,6 +123,41 @@
 }
 
 @layer components {
+  /* Glassmorphism Components */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: all var(--transition-base);
+  }
+  
+  .glass-heavy {
+    background: var(--glass-bg-heavy);
+    backdrop-filter: blur(var(--glass-blur-heavy)) saturate(200%);
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(200%);
+  }
+  
+  .glass-light {
+    background: var(--glass-bg-light);
+    backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  }
+  
+  .glass:hover {
+    box-shadow: var(--glass-shadow-hover);
+    transform: translateY(-2px);
+  }
+  
+  .glass-card {
+    @apply glass rounded-2xl p-6;
+  }
+  
+  .glass-button {
+    @apply glass rounded-xl px-6 py-3 font-medium hover:scale-105 active:scale-95;
+  }
+  
   /* Gallery Card Component */
   .gallery-card {
     background-color: hsl(var(--card));

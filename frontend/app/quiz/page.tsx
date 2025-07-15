@@ -7,8 +7,7 @@ import { useOnboarding } from '@/contexts/OnboardingContext';
 import { WelcomeModal } from '@/components/onboarding/WelcomeModal';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
-import LanguageToggle from '@/components/ui/LanguageToggle';
-import { EmotionalButton } from '@/components/emotional/EmotionalCard';
+import { GlassCard, GlassButton } from '@/components/ui/glass';
 import { Sparkles, Heart, Compass } from 'lucide-react';
 import '@/styles/emotional-palette.css';
 
@@ -23,14 +22,47 @@ export default function QuizIntroPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[hsl(var(--gallery-pearl))] via-[hsl(var(--gallery-white))] to-[hsl(var(--journey-dawn-cream))] flex items-center justify-center p-4">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-hero animate-gradient-shift opacity-20" />
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/50 to-white" />
+      </div>
+
+      {/* Floating Orbs */}
+      <div className="absolute inset-0 -z-5">
+        {[...Array(4)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              width: `${200 + i * 50}px`,
+              height: `${200 + i * 50}px`,
+              background: `radial-gradient(circle, ${['rgba(168, 85, 247, 0.1)', 'rgba(236, 72, 153, 0.1)', 'rgba(59, 130, 246, 0.1)', 'rgba(251, 146, 60, 0.1)'][i % 4]} 0%, transparent 70%)`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              x: [0, 50, 0],
+              y: [0, -50, 0],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 15 + i * 3,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.390, 0.575, 0.565, 1.000] }}
-        className="max-w-3xl w-full"
+        className="relative z-10 max-w-4xl mx-auto px-4 py-16"
       >
-        <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-12 max-w-4xl mx-auto">
+        <GlassCard variant="heavy" className="p-12">
           {/* Language Toggle removed - now in floating nav */}
 
           <motion.div
@@ -39,16 +71,16 @@ export default function QuizIntroPage() {
             transition={{ delay: 0.3 }}
             className="text-center mb-12"
           >
-            <Heart className="w-16 h-16 mx-auto mb-6 text-[hsl(var(--journey-dusty-rose))]" />
+            <Heart className="w-16 h-16 mx-auto mb-6 text-primary" />
             
-            <h1 className="text-3xl md:text-5xl font-serif mb-6 text-[hsl(var(--journey-midnight))] leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight bg-gradient-primary bg-clip-text text-transparent">
               {language === 'ko' 
                 ? '당신만의 예술 여정이 시작됩니다' 
                 : 'Your Personal Art Journey Awaits'
               }
             </h1>
             
-            <div className="text-xl text-[hsl(var(--journey-twilight))] opacity-80 leading-relaxed max-w-xl mx-auto">
+            <div className="text-xl text-gray-700 leading-relaxed max-w-xl mx-auto">
               {language === 'ko' ? (
                 <>
                   <p>이것은 테스트가 아닙니다.</p>
@@ -71,91 +103,94 @@ export default function QuizIntroPage() {
           >
             {/* What You'll Discover */}
             <div className="text-center">
-              <h2 className="text-2xl font-serif mb-6 text-[hsl(var(--journey-midnight))] flex items-center justify-center gap-3">
-                <Compass className="w-6 h-6" />
+              <h2 className="text-2xl font-bold mb-6 flex items-center justify-center gap-3">
+                <Compass className="w-6 h-6 text-primary" />
                 {language === 'ko' ? '무엇을 발견하게 될까요?' : 'What You\'ll Discover'}
               </h2>
               
               <div className="grid md:grid-cols-3 gap-6">
                 <motion.div 
-                  className="sayu-card p-6"
                   whileHover={{ y: -4, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="text-3xl mb-3">🌅</div>
-                  <h3 className="font-medium mb-2 text-[hsl(var(--journey-midnight))]">
-                    {language === 'ko' ? '당신의 관람 스타일' : 'Your Viewing Style'}
-                  </h3>
-                  <div className="text-sm text-[hsl(var(--journey-twilight))] opacity-70 whitespace-pre-line">
-                    {language === 'ko' 
-                      ? '혼자 조용히,\n또는 함께 나누며' 
-                      : 'Solitary contemplation\nor shared discovery'
-                    }
-                  </div>
+                  <GlassCard variant="light" className="h-full p-6 text-center group">
+                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">🌅</div>
+                    <h3 className="font-semibold text-lg mb-2">
+                      {language === 'ko' ? '당신의 관람 스타일' : 'Your Viewing Style'}
+                    </h3>
+                    <div className="text-sm text-gray-600 whitespace-pre-line">
+                      {language === 'ko' 
+                        ? '혼자 조용히,\n또는 함께 나누며' 
+                        : 'Solitary contemplation\nor shared discovery'
+                      }
+                    </div>
+                  </GlassCard>
                 </motion.div>
                 
                 <motion.div 
-                  className="sayu-card p-6"
                   whileHover={{ y: -4, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="text-3xl mb-3">🎭</div>
-                  <h3 className="font-medium mb-2 text-[hsl(var(--journey-midnight))]">
-                    {language === 'ko' ? '당신의 감상 방식' : 'Your Perception Style'}
-                  </h3>
-                  <div className="text-sm text-[hsl(var(--journey-twilight))] opacity-70 whitespace-pre-line">
-                    {language === 'ko' 
-                      ? '감정적 몰입\n또는 분석적 이해' 
-                      : 'Emotional immersion\nor analytical understanding'
-                    }
-                  </div>
+                  <GlassCard variant="light" className="h-full p-6 text-center group">
+                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">🎭</div>
+                    <h3 className="font-semibold text-lg mb-2">
+                      {language === 'ko' ? '당신의 감상 방식' : 'Your Perception Style'}
+                    </h3>
+                    <div className="text-sm text-gray-600 whitespace-pre-line">
+                      {language === 'ko' 
+                        ? '감정적 몰입\n또는 분석적 이해' 
+                        : 'Emotional immersion\nor analytical understanding'
+                      }
+                    </div>
+                  </GlassCard>
                 </motion.div>
                 
                 <motion.div 
-                  className="sayu-card p-6"
                   whileHover={{ y: -4, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="text-3xl mb-3">✨</div>
-                  <h3 className="font-medium mb-2 text-[hsl(var(--journey-midnight))]">
-                    {language === 'ko' ? '당신의 예술 언어' : 'Your Art Language'}
-                  </h3>
-                  <p className="text-sm text-[hsl(var(--journey-twilight))] opacity-70">
-                    {language === 'ko' 
-                      ? '당신에게 말을 거는 작품들' 
-                      : 'The artworks that speak to you'
-                    }
-                  </p>
+                  <GlassCard variant="light" className="h-full p-6 text-center group">
+                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">✨</div>
+                    <h3 className="font-semibold text-lg mb-2">
+                      {language === 'ko' ? '당신의 예술 언어' : 'Your Art Language'}
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      {language === 'ko' 
+                        ? '당신에게 말을 거는 작품들' 
+                        : 'The artworks that speak to you'
+                      }
+                    </p>
+                  </GlassCard>
                 </motion.div>
               </div>
             </div>
 
             {/* Journey Details */}
-            <div className="sayu-liquid-glass rounded-2xl p-8">
-              <div className="flex items-center justify-center gap-8 text-[hsl(var(--journey-twilight))]">
-                <div className="text-center">
-                  <div className="text-3xl mb-2">🖼️</div>
-                  <p className="text-sm font-medium">
+            <GlassCard variant="default" className="mt-8">
+              <div className="flex items-center justify-center gap-8 py-4">
+                <div className="text-center group">
+                  <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">🖼️</div>
+                  <p className="text-sm font-medium text-gray-700">
                     {language === 'ko' ? '15개의 순간' : '15 Moments'}
                   </p>
                 </div>
-                <div className="text-center">
-                  <div className="text-3xl mb-2">⏱️</div>
-                  <p className="text-sm font-medium">
+                <div className="text-center group">
+                  <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">⏱️</div>
+                  <p className="text-sm font-medium text-gray-700">
                     {language === 'ko' ? '7-10분의 여정' : '7-10 min journey'}
                   </p>
                 </div>
-                <div className="text-center">
-                  <div className="text-3xl mb-2">💫</div>
-                  <p className="text-sm font-medium">
+                <div className="text-center group">
+                  <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">💫</div>
+                  <p className="text-sm font-medium text-gray-700">
                     {language === 'ko' ? '깊은 자기 발견' : 'Deep self-discovery'}
                   </p>
                 </div>
               </div>
-            </div>
+            </GlassCard>
           </motion.div>
           
           <motion.div
@@ -164,24 +199,24 @@ export default function QuizIntroPage() {
             transition={{ delay: 0.7 }}
             className="text-center"
           >
-            <motion.button
+            <GlassButton
               onClick={startQuiz}
-              className="bg-[hsl(var(--journey-twilight))] hover:bg-[hsl(var(--journey-midnight))] text-white px-12 py-4 text-lg font-semibold rounded-full flex items-center gap-2 mx-auto transition-all duration-300 shadow-lg hover:shadow-xl"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              size="lg"
+              variant="primary"
+              className="mx-auto flex items-center gap-2"
             >
               <Sparkles className="w-5 h-5" />
               {language === 'ko' ? '나의 여정 시작하기' : 'Begin My Journey'}
-            </motion.button>
+            </GlassButton>
             
-            <p className="mt-6 text-sm text-[hsl(var(--journey-twilight))] opacity-60">
+            <p className="mt-6 text-sm text-gray-600">
               {language === 'ko' 
                 ? '정답은 없습니다. 오직 당신의 진실한 마음만이 있을 뿐입니다.' 
                 : 'There are no right answers. Only your authentic self.'
               }
             </p>
           </motion.div>
-        </div>
+        </GlassCard>
       </motion.div>
 
       <WelcomeModal 
