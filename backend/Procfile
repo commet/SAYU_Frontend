@@ -1,0 +1,10 @@
+# Railway Procfile for SAYU Backend Services
+
+# Main API Server
+web: node src/server.js
+
+# Cron Job Service (별도 서비스로 배포)
+cron: node railway-cron.js
+
+# Worker Service (필요시)
+worker: node src/workers/index.js
