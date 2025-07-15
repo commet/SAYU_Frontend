@@ -81,6 +81,7 @@ const aiRecommendationRoutes = require('./routes/aiRecommendationRoutes');
 const exhibitionCalendarRoutes = require('./routes/exhibitionCalendarRoutes');
 const artveeRoutes = require('./routes/artveeRoutes');
 const artveeImageServer = require('./routes/artveeImageServer');
+const exhibitionRoutes = require('../routes/exhibitionRoutes');
 
 const app = express();
 
@@ -227,6 +228,7 @@ app.use('/api/ai-recommendations', aiRecommendationRoutes);
 app.use('/api/calendar', exhibitionCalendarRoutes);
 app.use('/api/artvee', artveeRoutes);
 app.use('/api/artvee', artveeImageServer);
+app.use('/api', exhibitionRoutes);
 
 // Duplicate health check endpoint removed - using the comprehensive one above (lines 174-186)
 

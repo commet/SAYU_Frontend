@@ -50,8 +50,11 @@ export const useConditionalText = (koText: string, enText: string) => {
 export const withI18n = <P extends object>(
   Component: React.ComponentType<P & { t: any; language: string }>
 ) => {
-  return (props: P) => {
+  const WrappedComponent = (props: P) => {
     const { t, language } = useTranslation();
     return <Component {...props} t={t} language={language} />;
   };
+  
+  WrappedComponent.displayName = `withI18n(${Component.displayName || Component.name || 'Component'})`;
+  return WrappedComponent;
 };

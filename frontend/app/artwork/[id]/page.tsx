@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useRouter } from 'next/navigation';
 import { GalleryLayout } from '@/components/gallery/GalleryLayout';
@@ -63,9 +63,9 @@ export default function ArtworkDetailPage() {
   useEffect(() => {
     fetchArtworkDetail();
     loadUserPreferences();
-  }, [artworkId]);
+  }, [artworkId, fetchArtworkDetail, loadUserPreferences]);
 
-  const fetchArtworkDetail = async () => {
+  const fetchArtworkDetail = useCallback(async () => {
     try {
       const response = await fetch(
         `https://collectionapi.metmuseum.org/public/collection/v1/objects/${artworkId}`
@@ -104,9 +104,9 @@ export default function ArtworkDetailPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [artworkId, router]);
 
-  const loadUserPreferences = () => {
+  const loadUserPreferences = useCallback(() => {
     const liked = localStorage.getItem('likedArtworks');
     const saved = localStorage.getItem('savedArtworks');
     
@@ -119,7 +119,7 @@ export default function ArtworkDetailPage() {
       const savedSet = new Set(JSON.parse(saved));
       setIsSaved(savedSet.has(artworkId));
     }
-  };
+  }, [artworkId]);
 
   const handleLike = () => {
     const liked = localStorage.getItem('likedArtworks');

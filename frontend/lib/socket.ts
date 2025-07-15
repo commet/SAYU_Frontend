@@ -6,7 +6,7 @@ class SocketManager {
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
   private reconnectDelay = 1000;
-  private listeners: Map<string, Set<Function>> = new Map();
+  private listeners: Map<string, Set<(...args: any[]) => void>> = new Map();
 
   connect(token: string) {
     if (this.socket?.connected) return;
@@ -61,14 +61,14 @@ class SocketManager {
   }
 
   // Event listener management
-  on(event: string, callback: Function) {
+  on(event: string, callback: (...args: any[]) => void) {
     if (!this.listeners.has(event)) {
       this.listeners.set(event, new Set());
     }
     this.listeners.get(event)!.add(callback);
   }
 
-  off(event: string, callback?: Function) {
+  off(event: string, callback?: (...args: any[]) => void) {
     if (!this.listeners.has(event)) return;
     
     if (callback) {
@@ -155,7 +155,7 @@ export function useSocket() {
     joinExhibition: (exhibitionId: string, museumName: string, exhibitionName: string) =>
       socketManager.joinExhibition(exhibitionId, museumName, exhibitionName),
     shareReflection: (reflection: any) => socketManager.shareReflection(reflection),
-    on: (event: string, callback: Function) => socketManager.on(event, callback),
-    off: (event: string, callback?: Function) => socketManager.off(event, callback)
+    on: (event: string, callback: (...args: any[]) => void) => socketManager.on(event, callback),
+    off: (event: string, callback?: (...args: any[]) => void) => socketManager.off(event, callback)
   };
 }

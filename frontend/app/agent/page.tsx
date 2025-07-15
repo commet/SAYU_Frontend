@@ -56,7 +56,7 @@ export default function AgentPage() {
         'What artwork matches my mood today?'
       ]);
     }
-  }, [user]);
+  }, [user, messages.length]);
 
   const sendMessage = async (content: string) => {
     if (!content.trim() || isTyping) return;

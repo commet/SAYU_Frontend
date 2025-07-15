@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-interface AIResponse {
+interface CouncilResult {
   success: boolean;
   response?: string;
   error?: string;
@@ -13,7 +13,7 @@ interface AIResponse {
 export default function AICouncilPage() {
   const [question, setQuestion] = useState('');
   const [loading, setLoading] = useState(false);
-  const [councilResult, setCouncilResult] = useState<any>(null);
+  const [councilResult, setCouncilResult] = useState<CouncilResult | null>(null);
 
   const consultAICouncil = async () => {
     if (!question.trim()) return;

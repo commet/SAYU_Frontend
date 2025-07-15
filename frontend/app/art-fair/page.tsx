@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { Camera, Mic, MapPin, Clock, Save, Grid3x3, List, ChevronLeft } from 'lucide-react';
+import { Camera, Mic, MapPin, Clock, Save, Grid3x3, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -26,7 +26,7 @@ export default function ArtFairPage() {
   const { language } = useLanguage();
   const [activeMode, setActiveMode] = useState<string | null>(null);
   const [savedCount, setSavedCount] = useState(0);
-  const [currentFair, setCurrentFair] = useState('Frieze Seoul 2024');
+  const currentFair = 'Frieze Seoul 2024';
 
   const fairModes: FairMode[] = [
     {

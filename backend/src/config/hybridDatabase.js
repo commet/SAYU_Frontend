@@ -36,12 +36,22 @@ class HybridDatabase {
       gamification_levels: 'railway',
       gamification_challenges: 'railway',
       gamification_leaderboards: 'railway',
-      global_exhibitions: 'railway',
-      exhibition_sources: 'railway',
-      scraping_jobs: 'railway',
       
-      // Shared tables (read from Supabase, cache in Railway)
-      exhibitions: 'hybrid',
+      // Exhibition system routing
+      exhibitions: 'supabase',           // User-facing exhibition data
+      venues: 'supabase',               // Venue information
+      exhibition_submissions: 'supabase', // User submissions
+      exhibition_likes: 'supabase',      // User interactions
+      exhibition_views: 'supabase',      // View tracking
+      
+      // Railway-only tables (processing/temporary)
+      exhibition_raw_data: 'railway',    // Raw crawling data
+      scraping_jobs: 'railway',          // Crawling job management
+      naver_search_cache: 'railway',     // API response cache
+      exhibition_sources: 'railway',     // Source metadata
+      
+      // Legacy/migration tables
+      global_exhibitions: 'railway',
       institutions: 'hybrid',
       exhibition_tags: 'hybrid'
     };
