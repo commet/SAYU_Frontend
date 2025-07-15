@@ -9,8 +9,8 @@ import { Card } from '@/components/ui/card';
 import { MapPin, Clock, Users, Sparkles, ChevronRight, Lock } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
-import LanguageToggle from '@/components/ui/LanguageToggle';
 import toast from 'react-hot-toast';
+import ModernEntrance from '@/components/entrance/ModernEntrance';
 import '@/styles/emotional-palette.css';
 import '@/styles/museum-entrance.css';
 
@@ -55,7 +55,7 @@ export default function HomePage() {
     }
   ];
   const [timeOfDay, setTimeOfDay] = useState('');
-  const [doorsOpen, setDoorsOpen] = useState(false);
+  const [doorsOpen, setDoorsOpen] = useState(true);
   const [currentVisitors, setCurrentVisitors] = useState(1234);
   const [todayDiscoveries, setTodayDiscoveries] = useState(89);
 
@@ -146,54 +146,8 @@ export default function HomePage() {
 
   return (
     <div className={`home-gallery-entrance sayu-gradient-bg ${timeOfDay}`}>
-      {/* Museum Doors Animation */}
-      <AnimatePresence>
-        {!doorsOpen && (
-          <motion.div 
-            className="entrance-doors"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
-          >
-            <motion.div 
-              className="door left"
-              initial={{ x: 0 }}
-              animate={{ x: doorsOpen ? '-100%' : 0 }}
-              transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
-            />
-            <motion.div 
-              className="door right"
-              initial={{ x: 0 }}
-              animate={{ x: doorsOpen ? '100%' : 0 }}
-              transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
-            />
-            
-            <motion.button
-              className="enter-button-modern"
-              onClick={() => setDoorsOpen(true)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-            >
-              <div className="enter-button-content">
-                <span className="enter-button-text">
-                  {language === 'ko' ? 'SAYU 입장하기' : 'Enter SAYU'}
-                </span>
-                <motion.div 
-                  className="enter-button-icon"
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </motion.div>
-              </div>
-              <div className="enter-button-glow" />
-            </motion.button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Modern Entrance */}
+      <ModernEntrance onEnter={() => setDoorsOpen(true)} isOpen={doorsOpen} />
 
       {/* Main Gallery Foyer */}
       <motion.div 
@@ -212,9 +166,6 @@ export default function HomePage() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 1 }}
         >
-          <div className="absolute top-4 right-4 z-50">
-            <LanguageToggle />
-          </div>
           <h1 className="museum-title">SAYU</h1>
           <p className="museum-tagline">
             {language === 'ko' ? '당신만의 예술 여정이 기다립니다' : 'Your Personal Art Journey Awaits'}

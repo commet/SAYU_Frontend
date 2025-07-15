@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
+import GlobalNav from '@/components/navigation/GlobalNav'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,9 +31,7 @@ export default function RootLayout({
       {/* Removed head tag content due to 401 errors */}
       <body className={inter.className}>
         <Providers>
-          <div className="min-h-screen relative">
-            {children}
-          </div>
+          {children}
         </Providers>
       </body>
     </html>

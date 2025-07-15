@@ -16,12 +16,22 @@ interface NavItem {
   requiresAuth?: boolean;
 }
 
-const navItems: NavItem[] = [
+// 데스크탑 메뉴 (상단) - 모든 항목
+const desktopNavItems: NavItem[] = [
   { icon: <Home className="w-5 h-5" />, label: { en: 'Home', ko: '홈' }, path: '/' },
-  { icon: <Sparkles className="w-5 h-5" />, label: { en: 'Discover', ko: '발견' }, path: '/quiz' },
+  { icon: <Sparkles className="w-5 h-5" />, label: { en: 'Discover', ko: '탐색' }, path: '/quiz' },
   { icon: <Users className="w-5 h-5" />, label: { en: 'Community', ko: '커뮤니티' }, path: '/community', requiresAuth: true },
   { icon: <User className="w-5 h-5" />, label: { en: 'Profile', ko: '프로필' }, path: '/profile', requiresAuth: true },
 ];
+
+// 모바일 메뉴 (하단) - 중요한 3개만
+const mobileNavItems: NavItem[] = [
+  { icon: <Home className="w-5 h-5" />, label: { en: 'Home', ko: '홈' }, path: '/' },
+  { icon: <Sparkles className="w-5 h-5" />, label: { en: 'Quiz', ko: '퀴즈' }, path: '/quiz' },
+  { icon: <User className="w-5 h-5" />, label: { en: 'My', ko: '마이' }, path: '/profile', requiresAuth: true },
+];
+
+const navItems = desktopNavItems; // 모바일 메뉴 오버레이에서 사용
 
 export default function FloatingNav() {
   const router = useRouter();
@@ -67,36 +77,58 @@ export default function FloatingNav() {
   return (
     <>
       {/* Top Floating Bar */}
-      <motion.div
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className={`sayu-liquid-glass sayu-floating-header ${scrolled ? 'backdrop-blur-xl' : ''}`}
-        style={{ 
-          position: 'fixed',
-          top: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: 'calc(100% - 40px)',
-          maxWidth: '1200px',
-          padding: '12px 24px',
-          borderRadius: '20px',
-          zIndex: 1000
-        }}
-      >
-        <div className="flex items-center justify-between">
-          <motion.div 
-            className="flex items-center gap-3"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              SAYU
-            </div>
-          </motion.div>
+      <div className="fixed top-0 left-0 right-0 z-[1000] px-4 pt-4">
+        <motion.div
+          initial={{ y: -100 }}
+          animate={{ y: 0 }}
+          className={`mx-auto max-w-7xl ${scrolled ? 'backdrop-blur-xl' : ''}`}
+          style={{ 
+            background: 'rgba(255, 255, 255, 0.9)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            borderRadius: '20px',
+            padding: '12px 24px',
+            border: '1px solid rgba(255, 255, 255, 0.4)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
+          }}
+        >
+          <div className="flex items-center justify-between">
+            <motion.div 
+              className="flex items-center gap-3"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                SAYU
+              </div>
+            </motion.div>
 
-          <div className="flex items-center gap-3">
-            <LanguageToggle variant="glass" className="hidden md:flex" />
-            
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-6">
+            {desktopNavItems.map((item) => {
+              const isActive = pathname === item.path;
+              const isDisabled = item.requiresAuth && !user;
+              
+              return (
+                <motion.button
+                  key={item.path}
+                  onClick={() => handleNavClick(item)}
+                  disabled={isDisabled}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
+                    isActive ? 'bg-purple-100 text-purple-600' : 'text-gray-700 hover:bg-gray-100'
+                  } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  whileHover={!isDisabled ? { scale: 1.05 } : {}}
+                  whileTap={!isDisabled ? { scale: 0.95 } : {}}
+                >
+                  {item.icon}
+                  <span className="font-medium">{item.label[language]}</span>
+                </motion.button>
+              );
+            })}
+            <LanguageToggle variant="glass" />
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="flex items-center gap-3 md:hidden">
             <motion.button
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 rounded-full glass hover:bg-white/20 transition-all"
@@ -128,30 +160,31 @@ export default function FloatingNav() {
           </div>
         </div>
       </motion.div>
+      </div>
 
-      {/* Bottom Floating Navigation */}
+      {/* Bottom Floating Navigation - Mobile Only */}
       <motion.nav
         initial={{ y: 100 }}
         animate={{ y: 0 }}
-        className="sayu-liquid-glass sayu-floating-nav"
+        className="sayu-liquid-glass sayu-floating-nav md:hidden"
         style={{ 
           position: 'fixed',
           bottom: '20px',
           left: '50%',
           transform: 'translateX(-50%)',
-          background: 'rgba(255, 255, 255, 0.8)',
+          background: 'rgba(255, 255, 255, 0.9)',
           backdropFilter: 'blur(20px) saturate(180%)',
           borderRadius: '30px',
-          padding: '8px',
+          padding: '12px 20px',
           border: '1px solid rgba(255, 255, 255, 0.4)',
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.6), inset 0 -1px 1px rgba(0, 0, 0, 0.05)',
-          display: 'flex',
-          gap: '4px',
+          width: 'auto',
+          maxWidth: 'calc(100vw - 40px)',
           zIndex: 1000
         }}
       >
-        <div className="flex items-center justify-around gap-2 px-2">
-          {navItems.map((item, index) => {
+        <div className="flex items-center justify-center gap-4">
+          {mobileNavItems.map((item, index) => {
             const isActive = pathname === item.path;
             const isDisabled = item.requiresAuth && !user;
             
@@ -160,7 +193,7 @@ export default function FloatingNav() {
                 key={item.path}
                 onClick={() => handleNavClick(item)}
                 disabled={isDisabled}
-                className={`sayu-nav-item ${isActive ? 'active' : ''} ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`sayu-nav-item flex flex-col items-center justify-center px-4 py-2 rounded-xl transition-all ${isActive ? 'active text-purple-600' : 'text-gray-600'} ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-50'}`}
                 whileHover={!isDisabled ? { scale: 1.05 } : {}}
                 whileTap={!isDisabled ? { scale: 0.95 } : {}}
                 initial={{ opacity: 0, y: 20 }}
@@ -195,7 +228,7 @@ export default function FloatingNav() {
                   )}
                 </div>
                 
-                <span className="text-xs font-medium text-center">
+                <span className="text-xs font-medium whitespace-nowrap mt-1">
                   {item.label[language]}
                 </span>
               </motion.button>
@@ -203,6 +236,7 @@ export default function FloatingNav() {
           })}
         </div>
       </motion.nav>
+      </div>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
@@ -233,7 +267,7 @@ export default function FloatingNav() {
                 </div>
                 
                 <nav className="flex flex-col gap-2">
-                  {navItems.map((item) => {
+                  {desktopNavItems.map((item) => {
                     const isActive = pathname === item.path;
                     const isDisabled = item.requiresAuth && !user;
                     
