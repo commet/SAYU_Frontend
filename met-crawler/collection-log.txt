@@ -1,0 +1,42 @@
+🚀 사용 가능한 API들 최대 활용 시작...
+
+🎨 1단계: Art Institute of Chicago 대량 확장
+  🔍 73개 검색어로 확장 수집...
+    ✅ "painting": 62개
+    ✅ "portrait": 78개
+    ✅ "landscape": 62개
+    ✅ "still life": 40개
+    ✅ "sculpture": 33개
+    ✅ "drawing": 36개
+    ✅ "watercolor": 31개
+    ✅ "oil painting": 58개
+    ✅ "pastel": 58개
+    ✅ "print": 32개
+    ✅ "lithograph": 36개
+    ✅ "etching": 64개
+    ✅ "photography": 13개
+    ✅ "modern": 6개
+    ✅ "contemporary": 4개
+    ✅ "abstract": 1개
+    ✅ "figurative": 53개
+    ✅ "monet": 99개
+    ✅ "renoir": 83개
+    ✅ "degas": 92개
+    ✅ "matisse": 4개
+    ✅ "cezanne": 45개
+    ✅ "van gogh": 84개
+    ✅ "manet": 100개
+    ✅ "pissarro": 68개
+    ✅ "cassatt": 63개
+    ✅ "toulouse-lautrec": 100개
+    ✅ "gauguin": 99개
+    ✅ "seurat": 47개
+    ✅ "rodin": 44개
+    ✅ "hokusai": 100개
+    ✅ "hiroshige": 97개
+    ✅ "whistler": 93개
+    ✅ "sargent": 57개
+    ✅ "homer": 99개
+    ✅ "impressionist": 2개
+    ✅ "post-impressionist": 62개
+    ✅ "cubism": 2개

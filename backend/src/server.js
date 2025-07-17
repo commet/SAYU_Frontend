@@ -18,6 +18,13 @@ if (SAYU_MODE === 'living') {
   return;
 }
 
+// Demo mode - simplified setup (only when explicitly set)
+if (SAYU_MODE === 'demo') {
+  console.log('🎯 Starting in Demo Mode...');
+  const demoServer = require('./demo-server');
+  return;
+}
+
 // Validate environment variables for full server mode
 const { validateEnv } = require('./utils/validateEnv');
 validateEnv();
@@ -82,6 +89,9 @@ const exhibitionCalendarRoutes = require('./routes/exhibitionCalendarRoutes');
 const artveeRoutes = require('./routes/artveeRoutes');
 const artveeImageServer = require('./routes/artveeImageServer');
 const exhibitionRoutes = require('./routes/exhibitionRoutes');
+// const emotionTranslationRoutes = require('./routes/emotionTranslationRoutes'); // Temporarily disabled for debugging
+const chatbotRoutes = require('./routes/chatbot');
+// const contemplativeRoutes = require('./routes/contemplativeRoutes'); // Temporarily disabled for debugging
 
 const app = express();
 
@@ -280,6 +290,9 @@ app.use('/api/calendar', exhibitionCalendarRoutes);
 app.use('/api/artvee', artveeRoutes);
 app.use('/api/artvee', artveeImageServer);
 app.use('/api', exhibitionRoutes);
+// app.use('/api/emotion', emotionTranslationRoutes); // Temporarily disabled for debugging
+app.use('/api/chatbot', chatbotRoutes);
+// app.use('/api/contemplative', contemplativeRoutes); // Temporarily disabled for debugging
 
 // Duplicate health check endpoint removed - using the comprehensive one above (lines 174-186)
 
