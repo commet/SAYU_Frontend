@@ -1,0 +1,151 @@
+/* SAYU 동물 커서 시스템 */
+
+/* 기본 커서 스타일 */
+:root {
+  --cursor-size: 32px;
+  --cursor-hover-size: 36px;
+  --cursor-transition: all 0.2s ease;
+}
+
+/* 각 동물별 커서 정의 - SAYU_TYPE_DEFINITIONS.md 기준 */
+.cursor-fox { cursor: url('/images/personality-animals/avatars/fox-laef-avatar.png') 16 16, auto; }
+.cursor-cat { cursor: url('/images/personality-animals/avatars/cat-laec-avatar.png') 16 16, auto; }
+.cursor-owl { cursor: url('/images/personality-animals/avatars/owl-lamf-avatar.png') 16 16, auto; }
+.cursor-turtle { cursor: url('/images/personality-animals/avatars/turtle-lamc-avatar.png') 16 16, auto; }
+.cursor-chameleon { cursor: url('/images/personality-animals/avatars/chameleon-lref-avatar.png') 16 16, auto; }
+.cursor-hedgehog { cursor: url('/images/personality-animals/avatars/hedgehog-lrec-avatar.png') 16 16, auto; }
+.cursor-octopus { cursor: url('/images/personality-animals/avatars/octopus-lrmf-avatar.png') 16 16, auto; }
+.cursor-beaver { cursor: url('/images/personality-animals/avatars/beaver-lrmc-avatar.png') 16 16, auto; }
+.cursor-butterfly { cursor: url('/images/personality-animals/avatars/butterfly-saef-avatar.png') 16 16, auto; }
+.cursor-penguin { cursor: url('/images/personality-animals/avatars/penguin-saec-avatar.png') 16 16, auto; }
+.cursor-parrot { cursor: url('/images/personality-animals/avatars/parrot-samf-avatar.png') 16 16, auto; }
+.cursor-deer { cursor: url('/images/personality-animals/avatars/deer-samc-avatar.png') 16 16, auto; }
+.cursor-dog { cursor: url('/images/personality-animals/avatars/dog-sref-avatar.png') 16 16, auto; }
+.cursor-duck { cursor: url('/images/personality-animals/avatars/duck-srec-avatar.png') 16 16, auto; }
+.cursor-elephant { cursor: url('/images/personality-animals/avatars/elephant-srmf-avatar.png') 16 16, auto; }
+.cursor-eagle { cursor: url('/images/personality-animals/avatars/eagle-srmc-avatar.png') 16 16, auto; }
+
+/* 호버 상태별 커서 변화 */
+[class*="cursor-"] button:hover,
+[class*="cursor-"] a:hover,
+[class*="cursor-"] .clickable:hover {
+  cursor: pointer;
+}
+
+/* 텍스트 영역 */
+[class*="cursor-"] input,
+[class*="cursor-"] textarea {
+  cursor: text;
+}
+
+/* 드래그 가능 영역 */
+[class*="cursor-"] .draggable {
+  cursor: grab;
+}
+
+[class*="cursor-"] .draggable:active {
+  cursor: grabbing;
+}
+
+/* 비활성화 상태 */
+[class*="cursor-"] :disabled,
+[class*="cursor-"] .disabled {
+  cursor: not-allowed;
+}
+
+/* 로딩 상태 */
+[class*="cursor-"] .loading {
+  cursor: wait;
+}
+
+/* 고급 커서 효과를 위한 컨테이너 */
+.animal-cursor-container {
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  transition: var(--cursor-transition);
+}
+
+.animal-cursor-image {
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* 호버 애니메이션 */
+.animal-cursor-container.hovering .animal-cursor-image {
+  width: var(--cursor-hover-size);
+  height: var(--cursor-hover-size);
+  animation: cursor-bounce 0.3s ease-out;
+}
+
+@keyframes cursor-bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* 클릭 애니메이션 */
+.animal-cursor-container.clicking .animal-cursor-image {
+  animation: cursor-click 0.2s ease-out;
+}
+
+@keyframes cursor-click {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+/* 트레일 효과 */
+.cursor-trail {
+  position: fixed;
+  pointer-events: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--primary-color, #FF6B6B) 0%, transparent 70%);
+  opacity: 0;
+  animation: trail-fade 0.5s ease-out;
+}
+
+@keyframes trail-fade {
+  0% { 
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  100% { 
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+/* 접근성 - 모션 감소 선호시 */
+@media (prefers-reduced-motion: reduce) {
+  .animal-cursor-container,
+  .animal-cursor-image {
+    transition: none;
+    animation: none;
+  }
+  
+  .cursor-trail {
+    display: none;
+  }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+  .animal-cursor-image {
+    filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.2));
+  }
+}
+
+/* 모바일에서는 커스텀 커서 비활성화 */
+@media (hover: none) {
+  [class*="cursor-"] {
+    cursor: auto !important;
+  }
+  
+  .animal-cursor-container {
+    display: none;
+  }
+}

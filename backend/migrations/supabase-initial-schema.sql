@@ -31,11 +31,11 @@ CREATE TABLE IF NOT EXISTS user_profiles (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- MBTI results table
-CREATE TABLE IF NOT EXISTS mbti_results (
+-- APT results table
+CREATE TABLE IF NOT EXISTS apt_results (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id TEXT REFERENCES users(id) ON DELETE CASCADE,
-    mbti_type VARCHAR(4) NOT NULL,
+    apt_type VARCHAR(4) NOT NULL,
     animal_type VARCHAR(50) NOT NULL,
     scores JSONB NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS mbti_results (
 CREATE TABLE IF NOT EXISTS art_profiles (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id TEXT REFERENCES users(id) ON DELETE CASCADE,
-    mbti_type VARCHAR(4) NOT NULL,
+    apt_type VARCHAR(4) NOT NULL,
     animal_type VARCHAR(50) NOT NULL,
     art_preferences JSONB NOT NULL,
     personality_traits JSONB NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS follows (
 -- Create indexes
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_user_profiles_user_id ON user_profiles(user_id);
-CREATE INDEX idx_mbti_results_user_id ON mbti_results(user_id);
+CREATE INDEX idx_apt_results_user_id ON apt_results(user_id);
 CREATE INDEX idx_art_profiles_user_id ON art_profiles(user_id);
 CREATE INDEX idx_follows_follower ON follows(follower_id);
 CREATE INDEX idx_follows_following ON follows(following_id);
@@ -96,7 +96,7 @@ CREATE TRIGGER update_art_profiles_updated_at BEFORE UPDATE ON art_profiles
 -- Enable Row Level Security (RLS)
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
-ALTER TABLE mbti_results ENABLE ROW LEVEL SECURITY;
+ALTER TABLE apt_results ENABLE ROW LEVEL SECURITY;
 ALTER TABLE art_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE follows ENABLE ROW LEVEL SECURITY;
 

@@ -10,6 +10,7 @@ import { GlassButton } from '@/components/ui/glass';
 import { MapPin, Clock, Users, Sparkles, ChevronRight, Lock, Palette, Heart, Compass } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { FeaturedArtists } from '@/components/home/FeaturedArtists';
 import toast from 'react-hot-toast';
 import '@/styles/emotional-palette.css';
 import '@/styles/museum-entrance.css';
@@ -29,7 +30,8 @@ export default function HomePage() {
   const { user } = useAuth();
   const { language } = useLanguage();
 
-  // Sample artists data with images - using SAYU personality types
+  // FeaturedArtists 컴포넌트가 API를 통해 실제 데이터를 가져옵니다
+  // 임시로 비워둡니다
   const featuredArtists = [
     {
       name: { en: 'Yayoi Kusama', ko: '쿠사마 야요이' },
@@ -239,7 +241,7 @@ export default function HomePage() {
                 {language === 'ko' ? '성격 기반 큐레이션' : 'Personality-Based Curation'}
               </h3>
               <p className="text-gray-600">
-                {language === 'ko' ? 'MBTI로 발견하는 나만의 예술 취향' : 'Discover art that matches your MBTI'}
+                {language === 'ko' ? 'APT로 발견하는 나만의 예술 취향' : 'Discover art that matches your APT'}
               </p>
             </GlassCard>
 
@@ -582,37 +584,7 @@ export default function HomePage() {
             </p>
           </motion.div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {featuredArtists.map((artist, index) => (
-              <motion.div
-                key={artist.name.en}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <GlassCard className="group cursor-pointer h-full">
-                  <div className="relative mb-4 overflow-hidden rounded-xl">
-                    <img
-                      src={artist.image}
-                      alt={artist.name[language]}
-                      className="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="absolute top-3 right-3">
-                      <span className="glass px-3 py-1 rounded-full text-xs font-medium">
-                        {artist.personality[0]}
-                      </span>
-                    </div>
-                  </div>
-                  <GlassCardHeader>
-                    <GlassCardTitle>{artist.name[language]}</GlassCardTitle>
-                    <GlassCardDescription>{artist.style[language]}</GlassCardDescription>
-                  </GlassCardHeader>
-                </GlassCard>
-              </motion.div>
-            ))}
-          </div>
+          <FeaturedArtists limit={4} />
 
           {/* Final CTA */}
           <motion.div

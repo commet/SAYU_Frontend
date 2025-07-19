@@ -120,7 +120,27 @@ module.exports = {
         modal: '40',
         tooltip: '50',
       },
+      // 3D 변환을 위한 유틸리티
+      extend: {
+        // 이미 extend 안에 있으므로 중복 제거
+      }
     },
   },
-  plugins: [],
+  plugins: [
+    // 3D 변환을 위한 플러그인
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.preserve-3d': {
+          transformStyle: 'preserve-3d',
+        },
+        '.backface-hidden': {
+          backfaceVisibility: 'hidden',
+        },
+        '.rotate-y-180': {
+          transform: 'rotateY(180deg)',
+        },
+      }
+      addUtilities(newUtilities)
+    }
+  ],
 }

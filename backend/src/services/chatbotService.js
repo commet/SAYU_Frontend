@@ -7,7 +7,10 @@ class ChatbotService {
     this.genAI = null;
     this.model = null;
     this.sessions = new Map();
+    this.sessionTimeout = 30 * 60 * 1000; // 30분
+    this.maxSessionSize = 50; // 최대 대화 개수
     this.initializeAI();
+    this.startSessionCleanup();
     
     // Allowed topics for art discussion
     this.allowedTopics = new Set([
@@ -62,6 +65,29 @@ class ChatbotService {
     }
   }
 
+  // 세션 자동 정리
+  startSessionCleanup() {
+    setInterval(() => {
+      const now = Date.now();
+      const expiredSessions = [];
+      
+      this.sessions.forEach((session, sessionId) => {
+        if (now - session.lastActivity > this.sessionTimeout) {
+          expiredSessions.push(sessionId);
+        }
+      });
+      
+      expiredSessions.forEach(sessionId => {
+        this.sessions.delete(sessionId);
+        log.info(`Session ${sessionId} expired and removed`);
+      });
+      
+      if (expiredSessions.length > 0) {
+        log.info(`Cleaned up ${expiredSessions.length} expired sessions`);
+      }
+    }, 5 * 60 * 1000); // 5분마다 체크
+  }
+
   // Validate message input
   validateMessage(message) {
     if (!message || typeof message !== 'string') {
@@ -92,6 +118,28 @@ class ChatbotService {
     ];
     
     return artKeywords.some(keyword => lowerMessage.includes(keyword));
+  }
+
+  // 세션 가져오기 또는 생성
+  getOrCreateSession(sessionId, sayuType) {
+    if (!this.sessions.has(sessionId)) {
+      this.sessions.set(sessionId, {
+        messages: [],
+        sayuType: sayuType,
+        createdAt: Date.now(),
+        lastActivity: Date.now()
+      });
+    }
+    
+    const session = this.sessions.get(sessionId);
+    session.lastActivity = Date.now();
+    
+    // 메시지 수 제한
+    if (session.messages.length > this.maxSessionSize) {
+      session.messages = session.messages.slice(-this.maxSessionSize);
+    }
+    
+    return session;
   }
 
   // Get animal personality based on SAYU type

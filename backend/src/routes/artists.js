@@ -303,17 +303,18 @@ router.get('/featured',
           follow_count,
           images
         FROM artists
-        WHERE is_featured = true OR follow_count > 1000
+        WHERE follow_count > 100 OR is_active = true
         ORDER BY follow_count DESC
-        LIMIT 20
+        LIMIT $1
       `;
 
-      const result = await pool.query(query);
+      const limit = parseInt(req.query.limit) || 20;
+      const result = await pool.query(query, [limit]);
       
       // Cache for 6 hours
       await redisClient.setEx(cacheKey, 21600, JSON.stringify(result.rows));
       
-      res.json(result.rows);
+      res.json({ artists: result.rows });
 
     } catch (error) {
       logger.error('Get featured artists error:', error);

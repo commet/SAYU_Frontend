@@ -15,7 +15,7 @@ async function testPreferenceSystem() {
     const testSayuType = 'LAEF'; // 여우 - 몽환적 방랑자
     
     // 1. 초기 선호도 설정
-    console.log('1️⃣ MBTI 기반 초기 선호도 설정...');
+    console.log('1️⃣ APT 기반 초기 선호도 설정...');
     await prefSystem.initializeUserPreferences(testUserId, testMbtiType);
     console.log('   ✅ 완료\n');
     

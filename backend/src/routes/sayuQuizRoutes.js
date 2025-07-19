@@ -40,7 +40,7 @@ router.post('/start-public', async (req, res) => {
       data: {
         sessionId: session.sessionId,
         currentQuestion: firstQuestion,
-        totalQuestions: 10, // Total questions in the quiz
+        totalQuestions: 15, // Total questions in the quiz - Art Persona Type (APT)
         progress: 0
       }
     });
@@ -120,8 +120,8 @@ router.get('/progress/:sessionId', async (req, res) => {
       success: true,
       data: {
         currentQuestionIndex: session.currentQuestionIndex,
-        totalQuestions: 10, // Total questions in the quiz
-        progress: (session.currentQuestionIndex / 10) * 100,
+        totalQuestions: 15, // Total questions in the quiz - Art Persona Type (APT)
+        progress: (session.currentQuestionIndex / 15) * 100,
         dimensions: quizService.getDimensionSnapshot(session.dimensions),
         status: session.status
       }

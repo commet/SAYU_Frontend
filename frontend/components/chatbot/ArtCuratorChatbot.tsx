@@ -8,21 +8,26 @@ import { chatbotAPI, ChatMessage } from '@/lib/chatbot-api';
 import { getAnimalByType } from '@/data/personality-animals';
 import { AnimalCompanion, getCompanionMessage } from '@/components/animations/AnimalCompanion';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Send, X, ThumbsUp, ThumbsDown, RefreshCw, MessageSquare } from 'lucide-react';
+import { Send, X, ThumbsUp, ThumbsDown, RefreshCw, MessageSquare, HelpCircle } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { detectPageType, getContextualMessage, UNIDENTIFIED_USER_MESSAGES } from '@/lib/chatbot-context';
 // Toast functionality removed for demo
 
 interface ArtCuratorChatbotProps {
   position?: 'bottom-left' | 'bottom-right';
   defaultOpen?: boolean;
+  onClose?: () => void;
 }
 
 export const ArtCuratorChatbot = ({ 
   position = 'bottom-right',
-  defaultOpen = false 
+  defaultOpen = false,
+  onClose 
 }: ArtCuratorChatbotProps) => {
   const { currentArtwork } = useArtworkViewing();
   const { personalityType } = useUserProfile();
   const { language } = useLanguage();
+  const pathname = usePathname();
   
   const [isOpen, setIsOpen] = useState(defaultOpen);
   
@@ -44,24 +49,49 @@ export const ArtCuratorChatbot = ({
   const animalData = getAnimalByType(personalityType);
   console.log('personalityType:', personalityType, 'animalData:', animalData);
   
-  // Initialize with greeting when artwork is selected
+  // 페이지 컨텍스트 감지
+  const pageContext = detectPageType(pathname);
+  
+  // Initialize with greeting based on page context
   useEffect(() => {
-    if (currentArtwork && messages.length === 0) {
+    if (messages.length === 0 && isOpen) {
       const greeting = getGreeting();
       setMessages([{ role: 'assistant', content: greeting }]);
       loadSuggestions();
     }
-  }, [currentArtwork, personalityType]);
+  }, [isOpen, pathname, currentArtwork, personalityType]);
   
   // Auto-scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
   
-  // Get greeting message
+  // Get greeting message based on page context
   const getGreeting = () => {
-    if (!currentArtwork) return '';
+    // 페이지 메타데이터 추가
+    const context = { ...pageContext };
+    if (currentArtwork) {
+      context.metadata = {
+        artworkTitle: currentArtwork.title,
+        artistName: currentArtwork.artist,
+      };
+    }
+    if (personalityType) {
+      context.metadata = { ...context.metadata, personalityType };
+    }
     
+    // 미판정 유저인 경우
+    if (!personalityType) {
+      return UNIDENTIFIED_USER_MESSAGES.initial[0];
+    }
+    
+    // 페이지별 컨텍스촄 메시지
+    const contextualGreeting = getContextualMessage(context, 'initial', 0);
+    if (context.type !== 'artwork' || !currentArtwork) {
+      return contextualGreeting;
+    }
+    
+    // 작품 페이지에서는 성격별 메시지
     const greetings = {
       'LAEF': `안녕하세요, ${currentArtwork.title}의 신비로운 분위기가 느껴지시나요?`,
       'LAEC': `${currentArtwork.title}... 당신의 취향에 맞을 것 같네요.`,
@@ -239,14 +269,20 @@ export const ArtCuratorChatbot = ({
             {/* Header */}
             <div className="p-4 bg-gradient-to-r from-primary/10 to-primary/5 border-b flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <img 
-                  src={animalData?.avatar || animalData?.image}
-                  alt={animalData?.animal || 'Curator'}
-                  className="w-10 h-10 rounded-full"
-                />
+                {personalityType ? (
+                  <img 
+                    src={animalData?.avatar || animalData?.image}
+                    alt={animalData?.animal || 'Curator'}
+                    className="w-10 h-10 rounded-full"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-200 to-blue-200 dark:from-purple-700 dark:to-blue-700 flex items-center justify-center">
+                    <HelpCircle className="w-5 h-5 text-white" />
+                  </div>
+                )}
                 <div>
                   <h3 className="font-semibold text-gray-800">
-                    {animalData?.animal || '여우'} 큐레이터
+                    {personalityType ? `${animalData?.animal || '여우'} 큐레이터` : 'AI 큐레이터'}
                   </h3>
                   <p className="text-xs text-gray-500">
                     {currentArtwork?.title || '작품을 선택해주세요'}
@@ -262,7 +298,10 @@ export const ArtCuratorChatbot = ({
                   <RefreshCw className="w-4 h-4" />
                 </button>
                 <button
-                  onClick={toggleChat}
+                  onClick={() => {
+                    toggleChat();
+                    onClose?.();
+                  }}
                   className="text-gray-400 hover:text-gray-600 transition-colors"
                 >
                   <X className="w-5 h-5" />
@@ -390,7 +429,7 @@ export const ArtCuratorChatbot = ({
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={handleKeyPress}
-                    placeholder={`${animalData?.animal || '큐레이터'}에게 물어보세요...`}
+                    placeholder={personalityType ? `${animalData?.animal || '큐레이터'}에게 물어보세요...` : '궁금한 점을 물어보세요...'}
                     className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
                     maxLength={500}
                     disabled={isTyping}

@@ -81,9 +81,9 @@ class MasterCrawler {
       const crawlResult = await this.crawlMetadata(options);
       console.log(`   ✅ ${crawlResult.successful}개 크롤링 완료\n`);
       
-      // 3단계: 이미지 분석 및 MBTI 태깅
+      // 3단계: 이미지 분석 및 APT 태깅
       if (this.config.enableAnalysis) {
-        console.log('🎨 3단계: 이미지 분석 및 MBTI 태깅');
+        console.log('🎨 3단계: 이미지 분석 및 APT 태깅');
         this.state.phase = 'analyzing';
         const analysisResult = await this.analyzeArtworks(options);
         console.log(`   ✅ ${analysisResult.successful}개 분석 완료\n`);
@@ -429,20 +429,20 @@ class MasterCrawler {
     
     console.log(`   - ${deactivateResult.rowCount}개 저품질 작품 제외`);
     
-    // MBTI 균형 확인
+    // APT 균형 확인
     const balanceResult = await this.pool.query(`
       SELECT 
-        unnest(personality_tags) as mbti_type,
+        unnest(personality_tags) as apt_type,
         COUNT(*) as count
       FROM artvee_artworks
       WHERE is_active = true
-      GROUP BY mbti_type
+      GROUP BY apt_type
       ORDER BY count DESC
     `);
     
-    console.log('   - MBTI 분포:');
+    console.log('   - APT 분포:');
     balanceResult.rows.forEach(row => {
-      console.log(`     ${row.mbti_type}: ${row.count}개`);
+      console.log(`     ${row.apt_type}: ${row.count}개`);
     });
     
     // 중복 제거
@@ -470,7 +470,7 @@ class MasterCrawler {
     return {
       deactivated: deactivateResult.rowCount,
       duplicatesRemoved: duplicateResult.rowCount,
-      mbtiBalance: balanceResult.rows
+      aptBalance: balanceResult.rows
     };
   }
 
@@ -479,24 +479,24 @@ class MasterCrawler {
    */
   async prepareForIntegration() {
     // 추천 캐시 생성
-    console.log('   📦 MBTI별 추천 캐시 생성 중...');
+    console.log('   📦 APT별 추천 캐시 생성 중...');
     
-    const mbtiTypes = [
+    const aptTypes = [
       'INTJ', 'INTP', 'ENTJ', 'ENTP',
       'INFJ', 'INFP', 'ENFJ', 'ENFP',
       'ISTJ', 'ISFJ', 'ESTJ', 'ESFJ',
       'ISTP', 'ISFP', 'ESTP', 'ESFP'
     ];
     
-    for (const mbtiType of mbtiTypes) {
+    for (const aptType of aptTypes) {
       try {
         const recommendations = await this.sayuIntegration.getPersonalizedRecommendations(
-          mbtiType,
+          aptType,
           { limit: 50 }
         );
-        console.log(`   - ${mbtiType}: ${recommendations.length}개 추천 생성`);
+        console.log(`   - ${aptType}: ${recommendations.length}개 추천 생성`);
       } catch (error) {
-        console.error(`   - ${mbtiType}: 실패 - ${error.message}`);
+        console.error(`   - ${aptType}: 실패 - ${error.message}`);
       }
     }
     
@@ -523,7 +523,7 @@ class MasterCrawler {
     `);
     
     return {
-      recommendationsGenerated: mbtiTypes.length,
+      recommendationsGenerated: aptTypes.length,
       samplePathCreated: true,
       statistics: stats.rows[0]
     };
@@ -564,7 +564,7 @@ class MasterCrawler {
         COUNT(CASE WHEN processing_status = 'processed' THEN 1 END) as fully_processed,
         COUNT(DISTINCT artist) as unique_artists,
         COUNT(DISTINCT period) as unique_periods,
-        COUNT(DISTINCT unnest(personality_tags)) as mbti_coverage,
+        COUNT(DISTINCT unnest(personality_tags)) as apt_coverage,
         AVG(image_quality_score) as avg_quality_score
       FROM artvee_artworks
     `);
@@ -589,7 +589,7 @@ class MasterCrawler {
         fullyProcessed: parseInt(stats.fully_processed),
         uniqueArtists: parseInt(stats.unique_artists),
         uniquePeriods: parseInt(stats.unique_periods),
-        mbtiCoverage: parseInt(stats.mbti_coverage),
+        aptCoverage: parseInt(stats.apt_coverage),
         avgQualityScore: parseFloat(stats.avg_quality_score || 0).toFixed(2)
       },
       performance: performanceReport,
@@ -597,8 +597,8 @@ class MasterCrawler {
         nextSteps: [
           stats.fully_processed < stats.active_artworks ? 
             '추가 이미지 분석 필요' : null,
-          stats.mbti_coverage < 16 ? 
-            'MBTI 태깅 보강 필요' : null,
+          stats.apt_coverage < 16 ? 
+            'APT 태깅 보강 필요' : null,
           parseFloat(stats.avg_quality_score) < 0.7 ? 
             '품질 기준 재검토 필요' : null
         ].filter(Boolean)
@@ -626,7 +626,7 @@ class MasterCrawler {
   • 완전 처리: ${report.results.fullyProcessed.toLocaleString()}
   • 작가 수: ${report.results.uniqueArtists.toLocaleString()}명
   • 시대: ${report.results.uniquePeriods}개
-  • MBTI 커버리지: ${report.results.mbtiCoverage}/16
+  • APT 커버리지: ${report.results.aptCoverage}/16
   • 평균 품질: ${report.results.avgQualityScore}
 
 ${report.performance ? `

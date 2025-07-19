@@ -18,7 +18,7 @@ CREATE INDEX IF NOT EXISTS idx_user_profiles_sayu_type ON user_profiles(sayu_typ
 
 -- Update quiz_sessions to support SAYU quiz type
 ALTER TABLE quiz_sessions
-ADD COLUMN IF NOT EXISTS quiz_version VARCHAR(20) DEFAULT 'mbti',
+ADD COLUMN IF NOT EXISTS quiz_version VARCHAR(20) DEFAULT 'apt',
 ADD COLUMN IF NOT EXISTS sayu_dimensions JSONB,
 ADD COLUMN IF NOT EXISTS result_data JSONB;
 

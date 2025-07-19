@@ -17,7 +17,7 @@ class FinalArtveeCollector {
     this.artistSitemaps = [];
     this.collectionSitemaps = [];
     
-    // 우선순위 작가 목록 (MBTI와 연관)
+    // 우선순위 작가 목록 (APT와 연관)
     this.priorityArtists = [
       // 감정 표현이 강한 작가들 (F 타입)
       'van-gogh', 'monet', 'renoir', 'degas', 'cezanne', 'gauguin',
@@ -319,16 +319,16 @@ class FinalArtveeCollector {
     });
     console.log(`   🎯 우선순위 작가: ${priorityArtworks.length}개`);
     
-    // 2. MBTI 균형 맞추기 (400개)
-    const mbtiTypes = ['E', 'I', 'N', 'S', 'T', 'F', 'J', 'P'];
+    // 2. APT 균형 맞추기 (400개)
+    const aptTypes = ['E', 'I', 'N', 'S', 'T', 'F', 'J', 'P'];
     const perType = 50;
     
-    console.log('   🧠 MBTI 유형별 선별:');
-    for (const mbtiType of mbtiTypes) {
+    console.log('   🧠 APT 유형별 선별:');
+    for (const aptType of aptTypes) {
       const typeUrls = uniqueUrls
         .filter(item => 
           !used.has(item.url) && 
-          item.metadata.personalityMatch.includes(mbtiType)
+          item.metadata.personalityMatch.includes(aptType)
         )
         .slice(0, perType);
       
@@ -337,7 +337,7 @@ class FinalArtveeCollector {
         used.add(item.url);
       });
       
-      console.log(`      • ${mbtiType}: ${typeUrls.length}개`);
+      console.log(`      • ${aptType}: ${typeUrls.length}개`);
     }
     
     // 3. 시대별 균형 (200개)
@@ -410,7 +410,7 @@ class FinalArtveeCollector {
   }
 
   generateCSV() {
-    const headers = ['URL', 'Artist', 'Category', 'Sitemap', 'Priority', 'MBTI Match'];
+    const headers = ['URL', 'Artist', 'Category', 'Sitemap', 'Priority', 'APT Match'];
     const rows = [headers.join(',')];
     
     this.allUrls.forEach(item => {
@@ -447,7 +447,7 @@ class FinalArtveeCollector {
 - **Classic Works**: ${this.allUrls.filter(u => u.category === 'classic').length}
 - **Middle Era**: ${this.allUrls.filter(u => u.category === 'middle').length}
 
-## 🧠 MBTI Coverage
+## 🧠 APT Coverage
 ${['E', 'I', 'N', 'S', 'T', 'F', 'J', 'P'].map(type => 
   `- ${type}: ${this.allUrls.filter(u => u.metadata.personalityMatch.includes(type)).length}`
 ).join('\n')}

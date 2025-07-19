@@ -45,7 +45,7 @@ class SAYUQuizController {
       res.json({
         sessionId: session.sessionId,
         sessionType: 'sayu',
-        totalQuestions: 20,
+        totalQuestions: 15, // Art Persona Type (APT) quiz
         currentQuestion: 1,
         question: firstQuestion,
         dimensions: session.dimensions

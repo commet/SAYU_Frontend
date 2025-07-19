@@ -14,8 +14,8 @@ class SAYUIntegration {
     
     this.analyzer = new ArtworkAnalyzer();
     
-    // MBTI별 선호 아트 스타일 매핑
-    this.mbtiArtPreferences = {
+    // APT별 선호 아트 스타일 매핑
+    this.aptArtPreferences = {
       // 분석가 그룹 (NT)
       'INTJ': {
         styles: ['abstract', 'minimalist', 'conceptual', 'geometric'],
@@ -123,9 +123,9 @@ class SAYUIntegration {
   }
 
   /**
-   * MBTI 기반 작품 추천
+   * APT 기반 작품 추천
    */
-  async getPersonalizedRecommendations(mbtiType, options = {}) {
+  async getPersonalizedRecommendations(aptType, options = {}) {
     const {
       limit = 20,
       mood = null,
@@ -133,9 +133,9 @@ class SAYUIntegration {
       onlyHighQuality = true
     } = options;
     
-    const preferences = this.mbtiArtPreferences[mbtiType];
+    const preferences = this.aptArtPreferences[aptType];
     if (!preferences) {
-      throw new Error(`Unknown MBTI type: ${mbtiType}`);
+      throw new Error(`Unknown APT type: ${aptType}`);
     }
     
     // 복잡한 쿼리 구성
@@ -240,7 +240,7 @@ class SAYUIntegration {
     const recommendations = result.rows.map(artwork => ({
       ...artwork,
       matchReason: this.generateMatchReason(artwork, preferences),
-      personalityInsight: this.generatePersonalityInsight(mbtiType, artwork)
+      personalityInsight: this.generatePersonalityInsight(aptType, artwork)
     }));
     
     return recommendations;
@@ -249,7 +249,7 @@ class SAYUIntegration {
   /**
    * 성격 유형별 미술관 경로 생성
    */
-  async generatePersonalizedGalleryPath(mbtiType, options = {}) {
+  async generatePersonalizedGalleryPath(aptType, options = {}) {
     const {
       duration = 30, // 분
       startMood = 'neutral',
@@ -257,14 +257,14 @@ class SAYUIntegration {
       themeProgression = true
     } = options;
     
-    const preferences = this.mbtiArtPreferences[mbtiType];
+    const preferences = this.aptArtPreferences[aptType];
     const artworksPerSection = Math.ceil(duration / 3); // 3분당 1작품
     
     const path = {
-      mbtiType,
+      aptType,
       sections: [],
       totalDuration: duration,
-      narrative: this.generateGalleryNarrative(mbtiType)
+      narrative: this.generateGalleryNarrative(aptType)
     };
     
     // 감정 진행 경로 설계
@@ -281,7 +281,7 @@ class SAYUIntegration {
       
       // 해당 섹션에 맞는 작품 선택
       const sectionArtworks = await this.getPersonalizedRecommendations(
-        mbtiType,
+        aptType,
         {
           limit: Math.ceil(artworksPerSection / emotionProgression.length),
           mood: emotionProgression[i].emotion,
@@ -291,7 +291,7 @@ class SAYUIntegration {
       
       section.artworks = sectionArtworks;
       section.description = this.generateSectionDescription(
-        mbtiType,
+        aptType,
         section.theme,
         sectionArtworks
       );
@@ -306,7 +306,7 @@ class SAYUIntegration {
   }
 
   /**
-   * 작품 분석 및 MBTI 태깅
+   * 작품 분석 및 APT 태깅
    */
   async analyzeAndTagArtwork(artworkId) {
     // DB에서 작품 정보 조회
@@ -329,8 +329,8 @@ class SAYUIntegration {
       );
       
       if (analysis) {
-        // MBTI 태그 생성
-        const mbtiTags = this.generateMBTITags(analysis);
+        // APT 태그 생성
+        const aptTags = this.generateAPTTags(analysis);
         
         // DB 업데이트
         await this.pool.query(`
@@ -346,7 +346,7 @@ class SAYUIntegration {
           WHERE id = $1
         `, [
           artworkId,
-          mbtiTags,
+          aptTags,
           analysis.emotions.map(e => e.emotion),
           analysis.colors,
           analysis.quality_score / 100,
@@ -355,7 +355,7 @@ class SAYUIntegration {
         
         return {
           success: true,
-          mbtiTags,
+          aptTags,
           emotions: analysis.emotions,
           qualityScore: analysis.quality_score
         };
@@ -511,19 +511,19 @@ class SAYUIntegration {
   }
 
   // 헬퍼 메서드들
-  generateMBTITags(analysis) {
+  generateAPTTags(analysis) {
     const tags = [];
-    const scores = analysis.mbti.scores;
+    const scores = analysis.apt.scores;
     
     // 주 유형
-    tags.push(analysis.mbti.type);
+    tags.push(analysis.apt.type);
     
     // 보조 유형 (점수가 근접한 경우)
     if (Math.abs(scores.E - scores.I) < 2) {
-      tags.push(analysis.mbti.type.replace(/[EI]/, scores.E > scores.I ? 'I' : 'E'));
+      tags.push(analysis.apt.type.replace(/[EI]/, scores.E > scores.I ? 'I' : 'E'));
     }
     if (Math.abs(scores.N - scores.S) < 2) {
-      tags.push(analysis.mbti.type.replace(/[NS]/, scores.N > scores.S ? 'S' : 'N'));
+      tags.push(analysis.apt.type.replace(/[NS]/, scores.N > scores.S ? 'S' : 'N'));
     }
     
     return [...new Set(tags)];
@@ -547,7 +547,7 @@ class SAYUIntegration {
     return reasons;
   }
 
-  generatePersonalityInsight(mbtiType, artwork) {
+  generatePersonalityInsight(aptType, artwork) {
     const insights = {
       'INTJ': '이 작품의 구조적 완성도와 숨겨진 의미가 당신의 분석적 사고를 자극할 것입니다.',
       'INFP': '작품 속 감정의 깊이와 상상력이 당신의 내면 세계와 연결될 것입니다.',
@@ -555,10 +555,10 @@ class SAYUIntegration {
       'ISTJ': '세밀한 기법과 전통적 가치가 당신의 미적 기준과 일치합니다.'
     };
     
-    return insights[mbtiType] || '이 작품은 당신의 독특한 관점을 풍부하게 할 것입니다.';
+    return insights[aptType] || '이 작품은 당신의 독특한 관점을 풍부하게 할 것입니다.';
   }
 
-  generateGalleryNarrative(mbtiType) {
+  generateGalleryNarrative(aptType) {
     const narratives = {
       'NT': '논리와 혁신의 여정: 예술 속 숨겨진 패턴과 의미를 탐구합니다.',
       'NF': '감성과 영감의 여정: 작품이 전하는 깊은 메시지와 감동을 경험합니다.',
@@ -566,7 +566,7 @@ class SAYUIntegration {
       'SP': '감각과 순간의 여정: 생생한 시각적 경험과 즉각적인 아름다움을 만납니다.'
     };
     
-    const group = mbtiType.slice(1, 3);
+    const group = aptType.slice(1, 3);
     return narratives[group] || narratives.NF;
   }
 
@@ -590,11 +590,11 @@ class SAYUIntegration {
     return progressions[key] || progressions['neutral-inspired'];
   }
 
-  generateSectionDescription(mbtiType, theme, artworks) {
+  generateSectionDescription(aptType, theme, artworks) {
     const artist = artworks[0]?.artist || '익명의 예술가';
     const style = artworks[0]?.style || '다양한 스타일';
     
-    return `${theme} - ${artist}의 ${style} 작품을 통해 ${mbtiType} 유형의 고유한 시각을 경험합니다.`;
+    return `${theme} - ${artist}의 ${style} 작품을 통해 ${aptType} 유형의 고유한 시각을 경험합니다.`;
   }
 
   generateTransitions(sections) {

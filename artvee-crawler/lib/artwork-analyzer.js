@@ -5,12 +5,12 @@ const { createCanvas, loadImage } = require('canvas');
 
 /**
  * 고급 예술 작품 분석기
- * 이미지 분석을 통한 MBTI 매칭 및 메타데이터 추출
+ * 이미지 분석을 통한 APT 매칭 및 메타데이터 추출
  */
 class ArtworkAnalyzer {
   constructor() {
-    // MBTI 차원별 시각적 특성 매핑
-    this.mbtiVisualMapping = {
+    // APT 차원별 시각적 특성 매핑
+    this.aptVisualMapping = {
       // E vs I (외향 vs 내향)
       E: {
         colors: ['vibrant', 'bright', 'warm', 'saturated'],
@@ -110,13 +110,13 @@ class ArtworkAnalyzer {
         technical: await this.analyzeTechnicalQuality(imageUrl),
         colors: await this.analyzeColors(imageUrl),
         composition: await this.analyzeComposition(imageUrl),
-        mbti: {},
+        apt: {},
         emotions: [],
         quality_score: 0
       };
       
-      // MBTI 매칭 점수 계산
-      analysis.mbti = this.calculateMBTIScores(analysis);
+      // APT 매칭 점수 계산
+      analysis.apt = this.calculateAPTScores(analysis);
       
       // 감정 태그 추출
       analysis.emotions = this.extractEmotions(analysis.colors);
@@ -210,9 +210,9 @@ class ArtworkAnalyzer {
   }
 
   /**
-   * MBTI 점수 계산
+   * APT 점수 계산
    */
-  calculateMBTIScores(analysis) {
+  calculateAPTScores(analysis) {
     const scores = {
       E: 0, I: 0,
       N: 0, S: 0,
@@ -243,15 +243,15 @@ class ArtworkAnalyzer {
     if (analysis.composition.symmetry > 0.8) scores.J += 2;
     if (analysis.composition.symmetry < 0.3) scores.P += 2;
     
-    // 최종 MBTI 유형 결정
-    const mbtiType = 
+    // 최종 APT 유형 결정
+    const aptType = 
       (scores.E > scores.I ? 'E' : 'I') +
       (scores.N > scores.S ? 'N' : 'S') +
       (scores.T > scores.F ? 'T' : 'F') +
       (scores.J > scores.P ? 'J' : 'P');
     
     return {
-      type: mbtiType,
+      type: aptType,
       scores: scores,
       confidence: this.calculateConfidence(scores)
     };

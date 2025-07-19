@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS user_artist_preferences (
   artist VARCHAR(200) NOT NULL,
   score FLOAT DEFAULT 0,
   is_inferred BOOLEAN DEFAULT FALSE, -- 추론된 선호도인지 직접적인지
-  is_initial BOOLEAN DEFAULT FALSE,   -- MBTI 기반 초기 설정인지
+  is_initial BOOLEAN DEFAULT FALSE,   -- APT 기반 초기 설정인지
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
   UNIQUE(user_id, artist)

@@ -92,6 +92,8 @@ const exhibitionRoutes = require('./routes/exhibitionRoutes');
 // const emotionTranslationRoutes = require('./routes/emotionTranslationRoutes'); // Temporarily disabled for debugging
 const chatbotRoutes = require('./routes/chatbot');
 // const contemplativeRoutes = require('./routes/contemplativeRoutes'); // Temporarily disabled for debugging
+const aptRecommendationRoutes = require('./routes/aptRecommendationRoutes');
+const artistRoutes = require('./routes/artistRoutes');
 
 const app = express();
 
@@ -269,6 +271,7 @@ app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/agent', agentRoutes);
 app.use('/api/reflections', reflectionRoutes);
 app.use('/api/artworks', artworkRoutes);
+app.use('/api/artists', artistRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/image-generation', imageGenerationRoutes);
 app.use('/api/admin', adminRoutes);
@@ -293,6 +296,7 @@ app.use('/api', exhibitionRoutes);
 // app.use('/api/emotion', emotionTranslationRoutes); // Temporarily disabled for debugging
 app.use('/api/chatbot', chatbotRoutes);
 // app.use('/api/contemplative', contemplativeRoutes); // Temporarily disabled for debugging
+app.use('/api/apt', aptRecommendationRoutes); // APT 기반 추천 시스템
 
 // Duplicate health check endpoint removed - using the comprehensive one above (lines 174-186)
 

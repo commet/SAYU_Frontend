@@ -1,11 +1,6 @@
-const { createClient } = require('@supabase/supabase-js');
+const { pool } = require('../config/database');
 const { body, validationResult } = require('express-validator');
-
-// Supabase 클라이언트 초기화
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const { log } = require('../config/logger');
 
 // 메모리 캐시 설정
 const cache = new Map();

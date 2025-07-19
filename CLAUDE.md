@@ -26,7 +26,7 @@ SAYU는 성격 유형과 예술 선호도를 연결하는 Art Life Platform입�
 
 ### 백엔드
 - 사용자 인증 (JWT + OAuth)
-- MBTI 기반 퀴즈 시스템
+- APT 기반 퀴즈 시스템
 - AI 아트 프로필 생성 (Replicate API)
 - 박물관 API 통합 (Met, Cleveland, Rijksmuseum)
 - 이메일 자동화 (크론 작업)

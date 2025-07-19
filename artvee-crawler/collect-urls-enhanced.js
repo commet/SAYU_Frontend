@@ -13,7 +13,7 @@ class EnhancedArtveeCollector {
     this.parser = new xml2js.Parser();
     this.allUrls = [];
     
-    // 우선순위 작가 목록 (MBTI 성격 유형과 연관성 높은 작가들)
+    // 우선순위 작가 목록 (APT 성격 유형과 연관성 높은 작가들)
     this.priorityArtists = [
       // 감정 표현이 강한 작가들 (F 타입)
       'van gogh', 'monet', 'renoir', 'degas', 'cezanne', 'gauguin',
@@ -89,7 +89,7 @@ class EnhancedArtveeCollector {
 
   async collectEnhanced() {
     console.log('🎨 SAYU Enhanced URL Collection 시작...\n');
-    console.log('📋 목표: MBTI 성격 유형에 맞는 1,000개 작품 선별\n');
+    console.log('📋 목표: APT 성격 유형에 맞는 1,000개 작품 선별\n');
     
     // 1단계: 타겟 sitemap 범위 설정
     console.log('1️⃣ Sitemap 범위 탐색...');

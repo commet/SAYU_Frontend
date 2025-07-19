@@ -23,7 +23,7 @@
 - 위험도: ⭐⭐⭐ (중간)
 - 이전 대상:
   1. users, user_profiles - 백업 필수!
-  2. mbti_results - 사용자 데이터
+  2. apt_results - 사용자 데이터
   3. gamification - 포인트/레벨 시스템
 
 ### Phase 4: 완전 이전 (2개월 후)

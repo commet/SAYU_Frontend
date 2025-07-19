@@ -1370,7 +1370,21 @@
     "chicago-2156",
     "chicago-84709",
     "chicago-19333",
-    "chicago-69533"
+    "chicago-69533",
+    "chicago-100829",
+    "chicago-156596",
+    "chicago-120154",
+    "chicago-154496",
+    "chicago-65930",
+    "chicago-110982",
+    "chicago-75507",
+    "chicago-84096",
+    "chicago-65940",
+    "chicago-72180",
+    "chicago-20534",
+    "chicago-62450",
+    "chicago-94126",
+    "chicago-198905"
   ],
   "failedIds": [
     435875,
@@ -1383,4 +1397,5 @@
     "chicago-4",
     "chicago-12225"
   ],
-  "lastP
+  "lastProcessedIndex": 250
+}

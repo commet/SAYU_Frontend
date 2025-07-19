@@ -243,8 +243,8 @@ function ResultsContent() {
                 <div className="space-y-4 text-lg leading-relaxed text-white/90">
                   <p>
                     {language === 'ko' 
-                      ? 'MBTI와 달리, 당신의 미술 취향은 고정되어 있지 않습니다. 그것은 당신과 함께 성장하고, 진화하며, 새로운 경험과 감정에 따라 변화합니다.'
-                      : 'Unlike MBTI, your art taste is not fixed. It grows with you, evolves, and transforms with new experiences and emotions.'
+                      ? 'APT와 달리, 당신의 미술 취향은 고정되어 있지 않습니다. 그것은 당신과 함께 성장하고, 진화하며, 새로운 경험과 감정에 따라 변화합니다.'
+                      : 'Unlike APT, your art taste is not fixed. It grows with you, evolves, and transforms with new experiences and emotions.'
                     }
                   </p>
                   <p className="text-purple-200">

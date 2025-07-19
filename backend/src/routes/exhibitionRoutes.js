@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const exhibitionController = require('../controllers/exhibitionController');
+const exhibitionController = require('../controllers/exhibitionControllerPG');
 const authMiddleware = require('../middleware/auth');
 
 // Enhanced validation middleware
