@@ -16,7 +16,8 @@
       "Bash(taskkill:*)",
       "Bash(npm run:*)",
       "Bash(timeout:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(npm start)"
     ],
     "deny": []
   }

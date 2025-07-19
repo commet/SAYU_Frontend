@@ -61,63 +61,96 @@ const exhibitionController = {
       // 페이지네이션 설정
       const offset = (page - 1) * limit;
 
-      // 기본 쿼리 빌더
-      let query = supabase
-        .from('exhibitions')
-        .select(`
-          *,
-          venues!inner(
-            id,
-            name,
-            name_en,
-            city,
-            country,
-            type,
-            website,
-            instagram
-          )
-        `, { count: 'exact' })
-        .range(offset, offset + limit - 1);
+      // Build base query
+      let query = `
+        SELECT e.*, v.id as venue_id, v.name as venue_name, v.name_en as venue_name_en,
+               v.city as venue_city, v.country as venue_country, v.type as venue_type,
+               v.website as venue_website, v.instagram as venue_instagram
+        FROM exhibitions e
+        INNER JOIN venues v ON e.venue_id = v.id
+        WHERE 1=1
+      `;
+      const queryParams = [];
+      let paramIndex = 1;
 
-      // 필터링
+      // Apply filters
       if (status) {
-        query = query.eq('status', status);
+        query += ` AND e.status = $${paramIndex}`;
+        queryParams.push(status);
+        paramIndex++;
       }
 
       if (city) {
-        query = query.eq('venue_city', city);
+        query += ` AND e.venue_city = $${paramIndex}`;
+        queryParams.push(city);
+        paramIndex++;
       }
 
       if (venue_id) {
-        query = query.eq('venue_id', venue_id);
+        query += ` AND e.venue_id = $${paramIndex}`;
+        queryParams.push(venue_id);
+        paramIndex++;
       }
 
       if (search) {
-        query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%,venue_name.ilike.%${search}%`);
+        query += ` AND (e.title ILIKE $${paramIndex} OR e.description ILIKE $${paramIndex} OR v.name ILIKE $${paramIndex})`;
+        queryParams.push(`%${search}%`);
+        paramIndex++;
       }
 
-      // 정렬
-      query = query.order(sort, { ascending: order === 'asc' });
+      // Add sorting
+      const validSorts = ['created_at', 'start_date', 'end_date', 'title', 'views'];
+      const sortColumn = validSorts.includes(sort) ? sort : 'created_at';
+      const sortOrder = order === 'asc' ? 'ASC' : 'DESC';
+      query += ` ORDER BY e.${sortColumn} ${sortOrder}`;
 
-      const { data: exhibitions, error, count } = await query;
+      // Add pagination
+      query += ` LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
+      queryParams.push(parseInt(limit), offset);
 
-      if (error) {
-        console.error('Error fetching exhibitions:', error);
-        return res.status(500).json({ 
-          success: false, 
-          message: 'Failed to fetch exhibitions' 
-        });
+      const result = await pool.query(query, queryParams);
+      const exhibitions = result.rows;
+
+      // Get total count
+      let countQuery = `
+        SELECT COUNT(*) as total
+        FROM exhibitions e
+        INNER JOIN venues v ON e.venue_id = v.id
+        WHERE 1=1
+      `;
+      const countParams = [];
+      let countParamIndex = 1;
+
+      if (status) {
+        countQuery += ` AND e.status = $${countParamIndex}`;
+        countParams.push(status);
+        countParamIndex++;
+      }
+      if (city) {
+        countQuery += ` AND e.venue_city = $${countParamIndex}`;
+        countParams.push(city);
+        countParamIndex++;
+      }
+      if (venue_id) {
+        countQuery += ` AND e.venue_id = $${countParamIndex}`;
+        countParams.push(venue_id);
+        countParamIndex++;
+      }
+      if (search) {
+        countQuery += ` AND (e.title ILIKE $${countParamIndex} OR e.description ILIKE $${countParamIndex} OR v.name ILIKE $${countParamIndex})`;
+        countParams.push(`%${search}%`);
+        countParamIndex++;
       }
 
-      // 통계 데이터 추가
-      const { data: statsData } = await supabase
-        .from('exhibitions')
-        .select('status');
+      const countResult = await pool.query(countQuery, countParams);
+      const count = parseInt(countResult.rows[0].total);
 
-      const stats = statsData?.reduce((acc, ex) => {
-        acc[ex.status] = (acc[ex.status] || 0) + 1;
+      // Get status statistics
+      const statsResult = await pool.query('SELECT status, COUNT(*) as count FROM exhibitions GROUP BY status');
+      const stats = statsResult.rows.reduce((acc, row) => {
+        acc[row.status] = parseInt(row.count);
         return acc;
-      }, {}) || {};
+      }, {});
 
       const response = {
         success: true,
@@ -150,38 +183,31 @@ const exhibitionController = {
     try {
       const { id } = req.params;
 
-      const { data: exhibition, error } = await supabase
-        .from('exhibitions')
-        .select(`
-          *,
-          venues!inner(
-            id,
-            name,
-            name_en,
-            city,
-            country,
-            type,
-            website,
-            instagram,
-            address
-          )
-        `)
-        .eq('id', id)
-        .single();
+      const query = `
+        SELECT e.*, v.id as venue_id, v.name as venue_name, v.name_en as venue_name_en,
+               v.city as venue_city, v.country as venue_country, v.type as venue_type,
+               v.website as venue_website, v.instagram as venue_instagram, v.address as venue_address
+        FROM exhibitions e
+        INNER JOIN venues v ON e.venue_id = v.id
+        WHERE e.id = $1
+      `;
 
-      if (error) {
-        console.error('Error fetching exhibition:', error);
+      const result = await pool.query(query, [id]);
+      
+      if (result.rows.length === 0) {
         return res.status(404).json({ 
           success: false, 
           message: 'Exhibition not found' 
         });
       }
 
+      const exhibition = result.rows[0];
+
       // 조회수 증가
-      await supabase
-        .from('exhibitions')
-        .update({ views: (exhibition.views || 0) + 1 })
-        .eq('id', id);
+      await pool.query(
+        'UPDATE exhibitions SET views = COALESCE(views, 0) + 1 WHERE id = $1',
+        [id]
+      );
 
       res.json({
         success: true,
@@ -438,45 +464,48 @@ const exhibitionController = {
     try {
       const { city, country = 'KR', type, tier, search, limit = 50 } = req.query;
       
-      let query = supabase
-        .from('venues')
-        .select('*')
-        .eq('is_active', true)
-        .limit(parseInt(limit));
+      let query = 'SELECT * FROM venues WHERE is_active = true';
+      const queryParams = [];
+      let paramIndex = 1;
 
       if (city) {
-        query = query.eq('city', city);
+        query += ` AND city = $${paramIndex}`;
+        queryParams.push(city);
+        paramIndex++;
       }
 
       if (country) {
-        query = query.eq('country', country);
+        query += ` AND country = $${paramIndex}`;
+        queryParams.push(country);
+        paramIndex++;
       }
 
       if (type) {
-        query = query.eq('type', type);
+        query += ` AND type = $${paramIndex}`;
+        queryParams.push(type);
+        paramIndex++;
       }
 
       if (tier) {
-        query = query.eq('tier', tier);
+        query += ` AND tier = $${paramIndex}`;
+        queryParams.push(tier);
+        paramIndex++;
       }
 
       if (search) {
-        query = query.or(`name.ilike.%${search}%,name_en.ilike.%${search}%`);
+        query += ` AND (name ILIKE $${paramIndex} OR name_en ILIKE $${paramIndex})`;
+        queryParams.push(`%${search}%`);
+        paramIndex++;
       }
 
-      const { data: venues, error } = await query.order('name');
+      query += ` ORDER BY name LIMIT $${paramIndex}`;
+      queryParams.push(parseInt(limit));
 
-      if (error) {
-        console.error('Error fetching venues:', error);
-        return res.status(500).json({ 
-          success: false, 
-          message: 'Failed to fetch venues' 
-        });
-      }
+      const result = await pool.query(query, queryParams);
 
       res.json({
         success: true,
-        data: venues
+        data: result.rows
       });
       
     } catch (error) {
@@ -502,24 +531,17 @@ const exhibitionController = {
       }
 
       // 이미 좋아요 했는지 확인
-      const { data: existingLike, error: checkError } = await supabase
-        .from('exhibition_likes')
-        .select('id')
-        .eq('exhibition_id', id)
-        .eq('user_id', userId)
-        .single();
+      const checkResult = await pool.query(
+        'SELECT id FROM exhibition_likes WHERE exhibition_id = $1 AND user_id = $2',
+        [id, userId]
+      );
 
-      if (checkError && checkError.code !== 'PGRST116') {
-        throw checkError;
-      }
-
-      if (existingLike) {
+      if (checkResult.rows.length > 0) {
         // 좋아요 취소
-        await supabase
-          .from('exhibition_likes')
-          .delete()
-          .eq('exhibition_id', id)
-          .eq('user_id', userId);
+        await pool.query(
+          'DELETE FROM exhibition_likes WHERE exhibition_id = $1 AND user_id = $2',
+          [id, userId]
+        );
 
         res.json({
           success: true,
@@ -528,9 +550,10 @@ const exhibitionController = {
         });
       } else {
         // 좋아요 추가
-        await supabase
-          .from('exhibition_likes')
-          .insert({ exhibition_id: id, user_id: userId });
+        await pool.query(
+          'INSERT INTO exhibition_likes (exhibition_id, user_id) VALUES ($1, $2)',
+          [id, userId]
+        );
 
         res.json({
           success: true,
@@ -582,20 +605,12 @@ const exhibitionController = {
       }
 
       // 중복 제출 체크
-      const { data: existing, error: checkError } = await supabase
-        .from('exhibition_submissions')
-        .select('id')
-        .eq('title', title)
-        .eq('venue_name', venue_name)
-        .eq('start_date', start_date)
-        .eq('submitted_by', userId)
-        .single();
+      const existingResult = await pool.query(
+        'SELECT id FROM exhibition_submissions WHERE title = $1 AND venue_name = $2 AND start_date = $3 AND submitted_by = $4',
+        [title, venue_name, start_date, userId]
+      );
 
-      if (checkError && checkError.code !== 'PGRST116') {
-        throw checkError;
-      }
-
-      if (existing) {
+      if (existingResult.rows.length > 0) {
         return res.status(400).json({
           success: false,
           message: 'Exhibition already submitted'
@@ -603,29 +618,17 @@ const exhibitionController = {
       }
 
       // 제출 데이터 저장
-      const { data: submission, error: insertError } = await supabase
-        .from('exhibition_submissions')
-        .insert({
-          title,
-          venue_name,
-          venue_city,
-          venue_country,
-          start_date,
-          end_date,
-          description,
-          artists: artists || [],
-          admission_fee: admission_fee || 0,
-          source_url,
-          contact_info,
-          submitted_by: userId,
-          submission_status: 'pending'
-        })
-        .select()
-        .single();
+      const insertResult = await pool.query(
+        `INSERT INTO exhibition_submissions 
+         (title, venue_name, venue_city, venue_country, start_date, end_date, description, 
+          artists, admission_fee, source_url, contact_info, submitted_by, submission_status) 
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
+         RETURNING *`,
+        [title, venue_name, venue_city, venue_country, start_date, end_date, description,
+         JSON.stringify(artists || []), admission_fee || 0, source_url, contact_info, userId, 'pending']
+      );
 
-      if (insertError) {
-        throw insertError;
-      }
+      const submission = insertResult.rows[0];
 
       res.status(201).json({
         success: true,
@@ -645,15 +648,9 @@ const exhibitionController = {
   // 도시별 전시 통계
   async getCityStats(req, res) {
     try {
-      const { data: exhibitions, error } = await supabase
-        .from('exhibitions')
-        .select('venue_city, status');
-
-      if (error) {
-        throw error;
-      }
-
-      const cityStats = exhibitions.reduce((acc, ex) => {
+      const result = await pool.query('SELECT venue_city, status FROM exhibitions');
+      
+      const cityStats = result.rows.reduce((acc, ex) => {
         if (!acc[ex.venue_city]) {
           acc[ex.venue_city] = {
             total: 0,
@@ -686,30 +683,21 @@ const exhibitionController = {
     try {
       const { limit = 10 } = req.query;
 
-      const { data: exhibitions, error } = await supabase
-        .from('exhibitions')
-        .select(`
-          *,
-          venues!inner(
-            id,
-            name,
-            name_en,
-            city,
-            country,
-            type
-          )
-        `)
-        .eq('status', 'ongoing')
-        .order('views', { ascending: false })
-        .limit(limit);
+      const query = `
+        SELECT e.*, v.id as venue_id, v.name as venue_name, v.name_en as venue_name_en,
+               v.city as venue_city, v.country as venue_country, v.type as venue_type
+        FROM exhibitions e
+        INNER JOIN venues v ON e.venue_id = v.id
+        WHERE e.status = 'ongoing'
+        ORDER BY e.views DESC
+        LIMIT $1
+      `;
 
-      if (error) {
-        throw error;
-      }
+      const result = await pool.query(query, [parseInt(limit)]);
 
       res.json({
         success: true,
-        data: exhibitions
+        data: result.rows
       });
 
     } catch (error) {

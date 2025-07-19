@@ -76,19 +76,19 @@ class ArtistKnowledgeCollector {
     try {
       this.recordRequest('wikipedia');
       
-      // 검색 API로 정확한 타이틀 찾기
-      const searchUrl = `https://${language}.wikipedia.org/api/rest_v1/page/search/${encodeURIComponent(artistName)}`;
+      // 검색 API로 정확한 타이틀 찾기 (새로운 API 엔드포인트)
+      const searchUrl = `https://${language}.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=${encodeURIComponent(artistName)}&srlimit=5`;
       const searchResponse = await axios.get(searchUrl, {
         headers: {
           'User-Agent': 'SAYU-Art-Platform/1.0 (educational-research)'
         }
       });
 
-      if (!searchResponse.data.pages || searchResponse.data.pages.length === 0) {
+      if (!searchResponse.data.query || !searchResponse.data.query.search || searchResponse.data.query.search.length === 0) {
         return null;
       }
 
-      const pageTitle = searchResponse.data.pages[0].title;
+      const pageTitle = searchResponse.data.query.search[0].title;
       
       // 페이지 내용 가져오기
       const contentUrl = `https://${language}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(pageTitle)}`;
