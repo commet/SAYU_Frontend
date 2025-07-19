@@ -36,12 +36,14 @@ export function SystemInitializer() {
     }
     
     // Monitor WebGPU availability
-    if ('gpu' in navigator) {
-      navigator.gpu.requestAdapter().then(adapter => {
+    if (typeof navigator !== 'undefined' && 'gpu' in navigator) {
+      navigator.gpu?.requestAdapter().then(adapter => {
         if (adapter) {
           console.log('🚀 WebGPU available - Enhanced graphics enabled');
           useAnimationStore.getState().setQuality('high');
         }
+      }).catch(() => {
+        // WebGPU not available, continue without it
       });
     }
     

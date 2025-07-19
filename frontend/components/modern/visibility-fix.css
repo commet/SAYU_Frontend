@@ -1,0 +1,57 @@
+/* Visibility Fix for Modern Components */
+
+/* Ensure proper text contrast in all modes */
+.text-contrast {
+  color: var(--text-primary);
+}
+
+/* Light Mode Text Colors */
+@media (prefers-color-scheme: light) {
+  .text-primary { color: #111827 !important; }
+  .text-secondary { color: #4B5563 !important; }
+  .text-muted { color: #6B7280 !important; }
+  
+  /* Fix for gradient text on light backgrounds */
+  .bg-clip-text {
+    filter: brightness(0.8) contrast(1.2);
+  }
+}
+
+/* Dark Mode Text Colors */
+@media (prefers-color-scheme: dark) {
+  .text-primary { color: #F9FAFB !important; }
+  .text-secondary { color: #E5E7EB !important; }
+  .text-muted { color: #D1D5DB !important; }
+}
+
+/* Ensure backgrounds have proper contrast */
+.bg-surface {
+  background-color: #FFFFFF;
+}
+
+.dark .bg-surface {
+  background-color: #111827;
+}
+
+/* Fix button text visibility */
+button span {
+  position: relative;
+  z-index: 10;
+}
+
+/* Ensure icons are visible */
+.icon-visible {
+  color: currentColor;
+  opacity: 1;
+}
+
+/* Card backgrounds with proper contrast */
+.card-contrast {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E7EB;
+}
+
+.dark .card-contrast {
+  background-color: #1F2937;
+  border: 1px solid #374151;
+}

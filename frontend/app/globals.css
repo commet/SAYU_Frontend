@@ -17,7 +17,8 @@
   font-style: normal;
   font-weight: 300 900;
   font-display: swap;
-  src: url('https://fonts.gstatic.com/s/figtree/v5/OFL0_vMPCQnyH3c1iqmyFQZA.woff2') format('woff2-variations');
+  src: url('https://fonts.gstatic.com/s/figtree/v5/OFL5_vMPCQnyTrKEU4ZA.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 /* Fallback for non-variable font support */
@@ -27,6 +28,18 @@
 @tailwind base;
 @tailwind components; 
 @tailwind utilities;
+
+/* Import Modern Design System */
+@import url('../components/modern/design-system.css');
+
+/* Animation Delays */
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
 
 /* 🎯 CSS Custom Properties - Design Token System (2024-2025 Trends) */
 :root {

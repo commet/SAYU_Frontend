@@ -12,6 +12,7 @@ export default function ModernHero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const isInView = useInView(titleRef, { once: true });
+  const [mounted, setMounted] = useState(false);
   
   // Scroll animations
   const { scrollY } = useScroll();
@@ -26,6 +27,10 @@ export default function ModernHero() {
   // Mouse position for magnetic effect
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cursorVariant, setCursorVariant] = useState('default');
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -78,23 +83,24 @@ export default function ModernHero() {
         
         {/* Particle Field */}
         <div className="absolute inset-0 overflow-hidden">
-          {[...Array(30)].map((_, i) => (
+          {mounted && [...Array(30)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute w-1 h-1 bg-purple-400/30 rounded-full"
               initial={{
-                x: typeof window !== 'undefined' ? Math.random() * window.innerWidth : 0,
-                y: typeof window !== 'undefined' ? Math.random() * window.innerHeight : 0,
+                x: (i * 137) % (typeof window !== 'undefined' ? window.innerWidth : 1920),
+                y: (i * 239) % (typeof window !== 'undefined' ? window.innerHeight : 1080),
               }}
               animate={{
-                x: typeof window !== 'undefined' ? Math.random() * window.innerWidth : 0,
-                y: -10,
+                x: [(i * 137) % (typeof window !== 'undefined' ? window.innerWidth : 1920), 
+                    (i * 173) % (typeof window !== 'undefined' ? window.innerWidth : 1920)],
+                y: [-10, typeof window !== 'undefined' ? window.innerHeight + 10 : 1090],
               }}
               transition={{
-                duration: Math.random() * 20 + 10,
+                duration: 10 + (i % 5) * 2,
                 repeat: Infinity,
                 ease: "linear",
-                delay: Math.random() * 10,
+                delay: i * 0.3,
               }}
             />
           ))}

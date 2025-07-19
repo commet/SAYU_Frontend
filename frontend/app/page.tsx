@@ -16,12 +16,14 @@ import {
   Plus
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function LandingPage() {
   const router = useRouter();
   const { language } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const supabase = createClientComponentClient();
   
   // Scroll animations
   const { scrollY } = useScroll();
@@ -41,6 +43,15 @@ export default function LandingPage() {
   useEffect(() => {
     setMounted(true);
     
+    // Check if user is authenticated and redirect to dashboard
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        router.push('/dashboard');
+      }
+    };
+    checkAuth();
+    
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
       const x = (clientX / window.innerWidth - 0.5) * 20;
@@ -50,7 +61,7 @@ export default function LandingPage() {
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [router, supabase]);
 
   if (!mounted) return null;
 
