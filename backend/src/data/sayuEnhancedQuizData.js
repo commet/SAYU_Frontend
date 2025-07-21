@@ -23,13 +23,13 @@ const sayuEnhancedQuizData = {
       keywords: ["social", "collaborative", "interactive", "communicative"]
     },
     "A": { 
-      name: "Atmospheric", 
+      name: "Abstract", 
       description: "Intuitive, symbolic perception",
       opposite: "R",
       keywords: ["intuitive", "emotional", "abstract", "impressionistic"]
     },
     "R": { 
-      name: "Realistic", 
+      name: "Representational", 
       description: "Concrete, figurative understanding",
       opposite: "A",
       keywords: ["concrete", "literal", "detailed", "technical"]

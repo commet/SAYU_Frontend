@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { useUserProfile } from '@/hooks/useUserProfile';
+import { useEasterEgg } from '@/contexts/EasterEggContext';
 
 interface CursorPosition {
   x: number;
@@ -29,6 +30,7 @@ const animalMapping: Record<string, string> = {
 
 export default function AnimalCursor() {
   const { personalityType } = useUserProfile();
+  const { trackAction } = useEasterEgg();
   const [position, setPosition] = useState<CursorPosition>({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -55,7 +57,11 @@ export default function AnimalCursor() {
     const handleMouseEnter = () => setIsVisible(true);
     const handleMouseLeave = () => setIsVisible(false);
     
-    const handleMouseDown = () => setIsClicking(true);
+    const handleMouseDown = () => {
+      setIsClicking(true);
+      // Track cursor clicks for easter egg
+      trackAction('cursor_click');
+    };
     const handleMouseUp = () => setIsClicking(false);
 
     // 호버 상태 감지

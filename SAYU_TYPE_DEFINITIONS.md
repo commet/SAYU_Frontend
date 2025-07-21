@@ -10,20 +10,20 @@ SAYU is an art personality assessment system based on 4 binary dimensions:
 
 ### Dimensions:
 1. **L/S** - Viewing Preference
-   - **L** = Lone (고독한) - Individual, introspective viewing
-   - **S** = Shared (공유하는) - Social, interactive experience
+   - **L** = Lone (Individual, introspective, solitary) | 고독한 (개별적, 내성적, 혼자만의)
+   - **S** = Social (Shared, interactive, collaborative) | 공유하는 (사회적, 상호작용, 협력적)
 
 2. **A/R** - Perception Style  
-   - **A** = Atmospheric (분위기) - Intuitive, symbolic perception
-   - **R** = Realistic (현실적) - Concrete, figurative understanding
+   - **A** = Abstract (Atmospheric, impressionistic, symbolic) | 추상 (분위기적, 인상적, 상징적)
+   - **R** = Representational (Realistic, concrete, figurative) | 구상 (현실적, 구체적, 구상적)
 
 3. **E/M** - Reflection Type
-   - **E** = Emotional (감정적) - Affective, immersive reflection
-   - **M** = Meaning-driven (의미 추구) - Analytical, intentional interpretation
+   - **E** = Emotional (Affective, feeling-based, visceral) | 감정적 (정서적, 감정기반, 직감적)
+   - **M** = Meaning-driven (Analytical, rational, interpretive) | 의미 추구 (분석적, 이성적, 해석적)
 
 4. **F/C** - Exploration Style
-   - **F** = Flow (흐름) - Fluid, intuitive exploration
-   - **C** = Constructive (구조적) - Structured, sequential exploration
+   - **F** = Flow (Fluid, spontaneous, intuitive) | 흐름 (유동적, 자발적, 직관적)
+   - **C** = Constructive (Structured, systematic, organized) | 구조적 (체계적, 조직적, 구성적)
 
 ## 16 Personality Types & Animal Mappings
 

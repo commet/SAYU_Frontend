@@ -1,0 +1,751 @@
+{
+  "metadata": {
+    "date": "2025-07-18T11:20:17.368Z",
+    "total": 49,
+    "sources": {
+      "smithsonian": 0,
+      "cleveland": 49,
+      "rijksmuseum": 0,
+      "harvard": 0
+    },
+    "license": "CC0 / Public Domain",
+    "purpose": "Commercial use allowed"
+  },
+  "artworks": [
+    {
+      "id": "cleveland-97714",
+      "museum": "Cleveland Museum of Art",
+      "title": "Cover for a Pitcher",
+      "artist": "Unknown",
+      "date": "1100s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon ware with inlaid white and black slip decoration",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1917.1090/1917.1090_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1917.1090",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98761",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl",
+      "artist": "Unknown",
+      "date": "1100s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.442/1918.442_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.442",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-123585",
+      "museum": "Cleveland Museum of Art",
+      "title": "Vase in the Form of a Melon",
+      "artist": "Unknown",
+      "date": "1100s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1944.164/1944.164_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1944.164",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98798",
+      "museum": "Cleveland Museum of Art",
+      "title": "Prunus Vase with Inlaid Lotus and Reed Design",
+      "artist": "Unknown",
+      "date": "1300s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "Celadon ware with inlaid white and black slip decoration",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.472/1918.472_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.472",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98774",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl and Saucer with Incised Lotus and Peony Design",
+      "artist": "Unknown",
+      "date": "1100s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.455/1918.455_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.455",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98749",
+      "museum": "Cleveland Museum of Art",
+      "title": "Floral-shaped Cup Stand",
+      "artist": "Unknown",
+      "date": "1100s-1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.430/1918.430_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.430",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98734",
+      "museum": "Cleveland Museum of Art",
+      "title": "Cup with Incised Thunder Design",
+      "artist": "Unknown",
+      "date": "1100s-1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.421/1918.421_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.421",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98776",
+      "museum": "Cleveland Museum of Art",
+      "title": "Saucer",
+      "artist": "Unknown",
+      "date": "1100s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.455.b/1918.455.b_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.455.b",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-153284",
+      "museum": "Cleveland Museum of Art",
+      "title": "Cup with Chrysanthemum Design",
+      "artist": "Unknown",
+      "date": "1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "glazed stoneware with slip decoration",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1986.243/1986.243_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1986.243",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98806",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with Incised Parrot Design",
+      "artist": "Unknown",
+      "date": "1100s–1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon ware with incised decoration",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.482/1918.482_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.482",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98802",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with Lotus and Child Design in Relief",
+      "artist": "Unknown",
+      "date": "1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.478/1918.478_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.478",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98746",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with Carved Design",
+      "artist": "Unknown",
+      "date": "1000s–1100s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.428/1918.428_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.428",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98755",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bottle",
+      "artist": "Unknown",
+      "date": "1100s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.436/1918.436_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.436",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103684",
+      "museum": "Cleveland Museum of Art",
+      "title": "Gourd-shaped Wine Pot",
+      "artist": "Unknown",
+      "date": "1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.632/1921.632_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.632",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-156276",
+      "museum": "Cleveland Museum of Art",
+      "title": "Gourd-Shaped Bottle",
+      "artist": "Unknown",
+      "date": "918–1392",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "bronze",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1992.113/1992.113_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1992.113",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103677",
+      "museum": "Cleveland Museum of Art",
+      "title": "Wine Pot with Incised Lotus Design",
+      "artist": "Unknown",
+      "date": "918–1392",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon ware with incised and carved decoration",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.628/1921.628_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.628",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98807",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with Floral Scroll Design in Relief",
+      "artist": "Unknown",
+      "date": "1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.483/1918.483_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.483",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-135594",
+      "museum": "Cleveland Museum of Art",
+      "title": "Dragon and Tiger",
+      "artist": "Sesson Shūkei (Japanese, c. 1492–c. 1577)",
+      "date": "c. 1546–56",
+      "culture": [
+        "Japan, Muromachi period (1392–1573) to Momoyama period (1573–1615)"
+      ],
+      "medium": "One of a pair of six-panel folding screens; ink on paper",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1959.136.2/1959.136.2_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1959.136.2",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103670",
+      "museum": "Cleveland Museum of Art",
+      "title": "Melon-shaped Wine Ewer with Incised Chrysanthemum Design",
+      "artist": "Unknown",
+      "date": "918–1392",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.623/1921.623_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.623",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-136769",
+      "museum": "Cleveland Museum of Art",
+      "title": "Iron-glazed Prunus Vase with Inlaid Floral Design",
+      "artist": "Unknown",
+      "date": "1100s-1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "iron-black ware",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1961.270/1961.270_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1961.270",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-145233",
+      "museum": "Cleveland Museum of Art",
+      "title": "Floral-shaped Cup Stand with Inlaid Chrysanthemum Design",
+      "artist": "Unknown",
+      "date": "1100s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "inlaid and glazed porcelain",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1970.503/1970.503_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1970.503",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98777",
+      "museum": "Cleveland Museum of Art",
+      "title": "Floral-shaped Cup Stand",
+      "artist": "Unknown",
+      "date": "1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.456/1918.456_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.456",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98750",
+      "museum": "Cleveland Museum of Art",
+      "title": "Cup and Stand",
+      "artist": "Unknown",
+      "date": "900s-1100s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.433/1918.433_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.433",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98754",
+      "museum": "Cleveland Museum of Art",
+      "title": "Wide-mouthed Bottle",
+      "artist": "Unknown",
+      "date": "1100s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.435/1918.435_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.435",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103688",
+      "museum": "Cleveland Museum of Art",
+      "title": "Prunus Vase with Inlaid Clouds and Flying Cranes Design",
+      "artist": "Unknown",
+      "date": "1300s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon ware with inlaid white and black slip decoration",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.634/1921.634_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.634",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-109536",
+      "museum": "Cleveland Museum of Art",
+      "title": "Wide-Mouthed Vase",
+      "artist": "Unknown",
+      "date": "1000s–1100s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "porcelaneous ware with celadon glaze and fluted and incised decoration",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1928.176/1928.176_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1928.176",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98751",
+      "museum": "Cleveland Museum of Art",
+      "title": "Cup and Stand",
+      "artist": "Unknown",
+      "date": "918–1392",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.433.a/1918.433.a_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.433.a",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103686",
+      "museum": "Cleveland Museum of Art",
+      "title": "Wine Pot",
+      "artist": "Unknown",
+      "date": "918–1392",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.633.a/1921.633.a_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.633.a",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103661",
+      "museum": "Cleveland Museum of Art",
+      "title": "Floral-shaped Cup Stand",
+      "artist": "Unknown",
+      "date": "918–1392",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.617/1921.617_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.617",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98752",
+      "museum": "Cleveland Museum of Art",
+      "title": "Cup and Stand (stand)",
+      "artist": "Unknown",
+      "date": "918–1392",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.433.b/1918.433.b_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.433.b",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103747",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with Inlaid Chrysanthemum and Peony Design",
+      "artist": "Unknown",
+      "date": "1100s–1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.685/1921.685_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.685",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98780",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with Inlaid Chrysanthemum and Lychee Design",
+      "artist": "Unknown",
+      "date": "1300s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.459/1918.459_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.459",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-155938",
+      "museum": "Cleveland Museum of Art",
+      "title": "Wide-Mouthed Bottle",
+      "artist": "Unknown",
+      "date": "1100s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "bronze",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1991.227/1991.227_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1991.227",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98779",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with Inlaid Waterfowl, Willow, and  Reed Design",
+      "artist": "Unknown",
+      "date": "1300s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon with inlaid design",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.458/1918.458_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.458",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-109535",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with Flowering Vines Design in Relief",
+      "artist": "Unknown",
+      "date": "1100s-1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon ware",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1928.175/1928.175_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1928.175",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103685",
+      "museum": "Cleveland Museum of Art",
+      "title": "Wine Pot with Incised Chrysanthemum Design",
+      "artist": "Unknown",
+      "date": "1100s-1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.633/1921.633_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.633",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103732",
+      "museum": "Cleveland Museum of Art",
+      "title": "Dish with Inlaid Plant Design",
+      "artist": "Unknown",
+      "date": "1300s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon with inlaid design",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.671/1921.671_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.671",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103753",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with  Peony Design in Relief",
+      "artist": "Unknown",
+      "date": "1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.690/1921.690_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.690",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103687",
+      "museum": "Cleveland Museum of Art",
+      "title": "Wine Pot (lid)",
+      "artist": "Unknown",
+      "date": "918–1392",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.633.b/1921.633.b_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.633.b",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-98764",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with Fish and Waves in Relief",
+      "artist": "Unknown",
+      "date": "1100s-1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1918.445/1918.445_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1918.445",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-106015",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with Cloud Design in Relief",
+      "artist": "Unknown",
+      "date": "1100s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "glazed porcelain",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1924.137/1924.137_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1924.137",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103660",
+      "museum": "Cleveland Museum of Art",
+      "title": "Floral-shaped Cup",
+      "artist": "Unknown",
+      "date": "1100s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.616/1921.616_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.616",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-122453",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with Lotus Petal Design in Relief",
+      "artist": "Unknown",
+      "date": "1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "porcelain celadon ware",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1942.721/1942.721_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1942.721",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103678",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with Inlaid Cranes and Clouds Design",
+      "artist": "Unknown",
+      "date": "1200s-1300s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.629/1921.629_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.629",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103702",
+      "museum": "Cleveland Museum of Art",
+      "title": "Prunus Vase with Incised Peony Design",
+      "artist": "Unknown",
+      "date": "1100s-1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "celadon",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.645/1921.645_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.645",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-103699",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with Fish and Waves in Relief",
+      "artist": "Unknown",
+      "date": "1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "pottery",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1921.642/1921.642_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1921.642",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-154327",
+      "museum": "Cleveland Museum of Art",
+      "title": "Mask of an Elder",
+      "artist": "Unknown",
+      "date": "1800s",
+      "culture": [
+        "Korea, Joseon dynasty (1392–1910)"
+      ],
+      "medium": "wood with horsehair",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1989.103/1989.103_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1989.103",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-106014",
+      "museum": "Cleveland Museum of Art",
+      "title": "Bowl with Incised Parrot Design",
+      "artist": "Unknown",
+      "date": "1100s-1200s",
+      "culture": [
+        "Korea, Goryeo dynasty (918–1392)"
+      ],
+      "medium": "glazed porcelain",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1924.136/1924.136_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1924.136",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    },
+    {
+      "id": "cleveland-159756",
+      "museum": "Cleveland Museum of Art",
+      "title": "Thatched Hut by Water's Edge",
+      "artist": "Unknown",
+      "date": "c. 1500–1573",
+      "culture": [
+        "Japan, Muromachi period (1392–1573)"
+      ],
+      "medium": "hanging scroll; ink on paper",
+      "primaryImage": "https://openaccess-cdn.clevelandart.org/1997.125/1997.125_web.jpg",
+      "metUrl": "https://clevelandart.org/art/1997.125",
+      "license": "CC0",
+      "source": "Cleveland Museum of Art"
+    }
+  ]
+}

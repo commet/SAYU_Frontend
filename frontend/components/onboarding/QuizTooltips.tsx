@@ -13,26 +13,33 @@ interface Dimension {
 }
 
 const dimensions: Record<string, Dimension> = {
-  exhibition: {
-    code: 'G/S',
-    name: 'Experience Style',
+  viewing_preference: {
+    code: 'L/S',
+    name: 'Viewing Preference',
     description: 'How you prefer to experience art galleries',
-    leftLabel: 'Grounded (Personal, intimate experiences)',
-    rightLabel: 'Shared (Social, communal experiences)'
+    leftLabel: 'Lone (Individual, introspective, solitary)',
+    rightLabel: 'Social (Shared, interactive, collaborative)'
   },
-  art_preference: {
+  perception_style: {
     code: 'A/R',
-    name: 'Art Preference',
-    description: 'What types of art resonate with you',
-    leftLabel: 'Abstract (Conceptual, symbolic art)',
-    rightLabel: 'Realistic (Representational, figurative art)'
+    name: 'Perception Style',
+    description: 'How you perceive and understand art',
+    leftLabel: 'Abstract (Atmospheric, impressionistic, symbolic)',
+    rightLabel: 'Representational (Realistic, concrete, figurative)'
   },
-  engagement: {
-    code: 'M/E',
-    name: 'Engagement Approach',
-    description: 'How you connect with artworks',
-    leftLabel: 'Meaning (Analytical, intellectual approach)',
-    rightLabel: 'Emotion (Intuitive, feeling-based approach)'
+  reflection_type: {
+    code: 'E/M',
+    name: 'Reflection Type',
+    description: 'How you process and reflect on artworks',
+    leftLabel: 'Emotional (Affective, feeling-based, visceral)',
+    rightLabel: 'Meaning-driven (Analytical, rational, interpretive)'
+  },
+  exploration_style: {
+    code: 'F/C',
+    name: 'Exploration Style',
+    description: 'How you navigate and explore galleries',
+    leftLabel: 'Flow (Fluid, spontaneous, intuitive)',
+    rightLabel: 'Constructive (Structured, systematic, organized)'
   }
 };
 

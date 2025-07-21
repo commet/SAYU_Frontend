@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
 import GlobalNav from '@/components/navigation/GlobalNav'
+import { SystemInitializer, PerformanceMonitor, SpatialPreloader } from '@/components/system/SystemInitializer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,10 +28,26 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      {/* Removed head tag content due to 401 errors */}
-      <body className={inter.className}>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const darkMode = localStorage.getItem('darkMode');
+                if (darkMode === 'true' || (!darkMode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark');
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
+      <body className={`${inter.className} min-h-screen transition-colors`}>
         <Providers>
+          <SystemInitializer />
+          <PerformanceMonitor />
+          <SpatialPreloader />
           {children}
         </Providers>
       </body>

@@ -236,22 +236,22 @@ const SAYU_TYPES = Object.freeze({
 
 // 8 Cognitive Functions - IMMUTABLE
 const SAYU_FUNCTIONS = Object.freeze({
-  Le: { code: 'Le', name: '혼자 외부관찰', axis: 'L/S', description: '작품을 개인적으로 관찰하며 객관적 특성 파악' },
-  Li: { code: 'Li', name: '혼자 내면탐구', axis: 'L/S', description: '작품과의 내적 대화를 통한 성찰' },
-  Se: { code: 'Se', name: '함께 외부교류', axis: 'L/S', description: '타인과 작품에 대한 의견 교환' },
-  Si: { code: 'Si', name: '함께 내면공유', axis: 'L/S', description: '타인과 감정적 공명 추구' },
-  Ae: { code: 'Ae', name: '추상 추구', axis: 'A/R', description: '추상적 작품을 적극적으로 찾고 선호' },
-  Ai: { code: 'Ai', name: '추상 음미', axis: 'A/R', description: '추상적 작품의 모호함 속에서 개인적 의미 발견' },
-  Re: { code: 'Re', name: '구상 추구', axis: 'A/R', description: '명확한 형태의 작품을 적극 탐색' },
-  Ri: { code: 'Ri', name: '구상 음미', axis: 'A/R', description: '세밀한 묘사와 현실적 표현을 조용히 감상' },
-  Ee: { code: 'Ee', name: '감정 표현', axis: 'E/M', description: '즉각적 감정의 외부 표출' },
-  Ei: { code: 'Ei', name: '감정 수용', axis: 'E/M', description: '작품의 감정을 내면으로 흡수' },
-  Me: { code: 'Me', name: '의미 전달', axis: 'E/M', description: '해석과 의미를 타인에게 설명' },
-  Mi: { code: 'Mi', name: '의미 탐구', axis: 'E/M', description: '심층적 의미를 내적으로 탐색' },
-  Fe: { code: 'Fe', name: '경로 창조', axis: 'F/C', description: '즉흥적으로 동선을 만들며 자유롭게 관람' },
-  Fi: { code: 'Fi', name: '흐름 따르기', axis: 'F/C', description: '전시의 자연스러운 흐름이나 직관을 따라 관람' },
-  Ce: { code: 'Ce', name: '체계 설계', axis: 'F/C', description: '효율적 관람 순서를 미리 계획하고 실행' },
-  Ci: { code: 'Ci', name: '순서 준수', axis: 'F/C', description: '정해진 순서나 추천 경로를 충실히 따라 관람' }
+  Le: { code: 'Le', name: '혼자 외부관찰 (Individual, introspective observation)', axis: 'L/S', description: '작품을 개인적으로 관찰하며 객관적 특성 파악' },
+  Li: { code: 'Li', name: '혼자 내면탐구 (Individual, inner exploration)', axis: 'L/S', description: '작품과의 내적 대화를 통한 성찰' },
+  Se: { code: 'Se', name: '함께 외부교류 (Social, interactive sharing)', axis: 'L/S', description: '타인과 작품에 대한 의견 교환' },
+  Si: { code: 'Si', name: '함께 내면공유 (Social, collaborative feeling)', axis: 'L/S', description: '타인과 감정적 공명 추구' },
+  Ae: { code: 'Ae', name: '추상 추구 (Abstract, atmospheric seeking)', axis: 'A/R', description: '추상적 작품을 적극적으로 찾고 선호' },
+  Ai: { code: 'Ai', name: '추상 음미 (Abstract, impressionistic appreciation)', axis: 'A/R', description: '추상적 작품의 모호함 속에서 개인적 의미 발견' },
+  Re: { code: 'Re', name: '구상 추구 (Representational, realistic seeking)', axis: 'A/R', description: '명확한 형태의 작품을 적극 탐색' },
+  Ri: { code: 'Ri', name: '구상 음미 (Representational, concrete appreciation)', axis: 'A/R', description: '세밀한 묘사와 구상적 표현을 조용히 감상' },
+  Ee: { code: 'Ee', name: '감정 표현 (Emotional, affective expression)', axis: 'E/M', description: '즉각적 감정의 외부 표출' },
+  Ei: { code: 'Ei', name: '감정 수용 (Emotional, feeling-based reception)', axis: 'E/M', description: '작품의 감정을 내면으로 흡수' },
+  Me: { code: 'Me', name: '의미 전달 (Meaning-driven, analytical sharing)', axis: 'E/M', description: '해석과 의미를 타인에게 설명' },
+  Mi: { code: 'Mi', name: '의미 탐구 (Meaning-driven, rational exploration)', axis: 'E/M', description: '심층적 의미를 내적으로 탐색' },
+  Fe: { code: 'Fe', name: '경로 창조 (Flow, fluid creation)', axis: 'F/C', description: '즉흥적으로 동선을 만들며 자유롭게 관람' },
+  Fi: { code: 'Fi', name: '흐름 따르기 (Flow, spontaneous following)', axis: 'F/C', description: '전시의 자연스러운 흐름이나 직관을 따라 관람' },
+  Ce: { code: 'Ce', name: '체계 설계 (Constructive, structured planning)', axis: 'F/C', description: '효율적 관람 순서를 미리 계획하고 실행' },
+  Ci: { code: 'Ci', name: '순서 준수 (Constructive, systematic following)', axis: 'F/C', description: '정해진 순서나 추천 경로를 충실히 따라 관람' }
 });
 
 // Valid type codes only

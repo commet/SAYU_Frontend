@@ -17,6 +17,7 @@ import {
 import { EmotionalButton, EmotionalToast, GalleryTransition } from '@/components/emotional/EmotionalCard';
 import { ChevronRight, Sparkles, ArrowLeft, Home } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { calculateEnhancedScore } from '@/lib/quiz-scoring-enhanced';
 
 interface QuizResponse {
   questionId: number;
@@ -110,48 +111,8 @@ export const NarrativeQuiz: React.FC = () => {
   };
 
   const completeQuiz = (allResponses: QuizResponse[], finalScores: typeof personalityScores) => {
-    // Helper function to resolve ties by comparing average weights
-    const resolveTie = (trait1: string, trait2: string, score1: number, score2: number) => {
-      if (score1 !== score2) {
-        return score1 > score2 ? trait1 : trait2;
-      }
-      
-      // Calculate average weight per selection for each trait
-      let trait1Total = 0;
-      let trait1Count = 0;
-      let trait2Total = 0;
-      let trait2Count = 0;
-      
-      allResponses.forEach(response => {
-        if (response.weight[trait1] > 0) {
-          trait1Total += response.weight[trait1];
-          trait1Count++;
-        }
-        if (response.weight[trait2] > 0) {
-          trait2Total += response.weight[trait2];
-          trait2Count++;
-        }
-      });
-      
-      // Compare average weights (intensity of preference)
-      const trait1Avg = trait1Count > 0 ? trait1Total / trait1Count : 0;
-      const trait2Avg = trait2Count > 0 ? trait2Total / trait2Count : 0;
-      
-      if (trait1Avg !== trait2Avg) {
-        return trait1Avg > trait2Avg ? trait1 : trait2;
-      }
-      
-      // Final fallback: first trait (extremely rare case)
-      return trait1;
-    };
-
-    // Calculate personality type with tie resolution
-    const type = [
-      resolveTie('L', 'S', finalScores.L, finalScores.S),
-      resolveTie('A', 'R', finalScores.A, finalScores.R),
-      resolveTie('E', 'M', finalScores.E, finalScores.M),
-      resolveTie('F', 'C', finalScores.F, finalScores.C)
-    ].join('');
+    // Use enhanced scoring system for better distribution
+    const type = calculateEnhancedScore(finalScores, allResponses);
 
     // Store results
     localStorage.setItem('quizResults', JSON.stringify({

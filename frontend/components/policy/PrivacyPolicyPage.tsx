@@ -20,7 +20,9 @@ const privacyPolicy = {
       "Usage patterns and interaction data",
       "Device information and IP addresses",
       "Cookies and similar tracking technologies",
-      "Exhibition attendance and feedback data"
+      "Exhibition attendance and feedback data",
+      "AI interaction data and generated content preferences",
+      "Search queries and recommendation history"
     ],
     ko: [
       "개인정보 (이름, 이메일 주소, 프로필 사진)",
@@ -28,7 +30,9 @@ const privacyPolicy = {
       "사용 패턴 및 상호작용 데이터",
       "기기 정보 및 IP 주소",
       "쿠키 및 유사한 추적 기술",
-      "전시회 관람 및 피드백 데이터"
+      "전시회 관람 및 피드백 데이터",
+      "AI 상호작용 데이터 및 생성된 콘텐츠 선호도",
+      "검색 쿼리 및 추천 이력"
     ]
   },
   dataUse: {
@@ -52,14 +56,22 @@ const privacyPolicy = {
   dataSharing: {
     en: [
       "We do not sell your personal information to third parties",
-      "Data may be shared with trusted service providers",
+      "Data may be shared with trusted service providers including:",
+      "• OpenAI and Google AI for personalized recommendations",
+      "• Replicate for AI art profile generation",
+      "• Museum APIs (Met, Cleveland, Rijksmuseum) for artwork data",
+      "• Cloudinary for image hosting and optimization",
       "Anonymous, aggregated data may be used for research",
       "Legal disclosure may be required by law enforcement",
       "Data transfer occurs only with your explicit consent"
     ],
     ko: [
       "제3자에게 개인정보를 판매하지 않습니다",
-      "신뢰할 수 있는 서비스 제공업체와 데이터를 공유할 수 있습니다",
+      "신뢰할 수 있는 서비스 제공업체와 데이터를 공유할 수 있습니다:",
+      "• 개인화된 추천을 위한 OpenAI 및 Google AI",
+      "• AI 아트 프로필 생성을 위한 Replicate",
+      "• 작품 데이터를 위한 박물관 API (Met, Cleveland, Rijksmuseum)",
+      "• 이미지 호스팅 및 최적화를 위한 Cloudinary",
       "익명화된 집계 데이터는 연구에 사용될 수 있습니다",
       "법 집행 기관에 의해 법적 공개가 요구될 수 있습니다",
       "데이터 전송은 귀하의 명시적 동의 하에만 이루어집니다"
@@ -88,12 +100,12 @@ const privacyPolicy = {
     ]
   },
   security: {
-    en: "We implement industry-standard security measures including encryption, secure servers, and regular security audits to protect your data.",
-    ko: "당사는 귀하의 데이터를 보호하기 위해 암호화, 보안 서버, 정기적인 보안 감사를 포함한 업계 표준 보안 조치를 시행합니다."
+    en: "We implement industry-standard security measures including encryption, secure servers, and regular security audits to protect your data. Third-party AI services process data according to their own security standards.",
+    ko: "당사는 귀하의 데이터를 보호하기 위해 암호화, 보안 서버, 정기적인 보안 감사를 포함한 업계 표준 보안 조치를 시행합니다. 제3자 AI 서비스는 자체 보안 기준에 따라 데이터를 처리합니다."
   },
   cookies: {
-    en: "We use cookies to enhance your experience, analyze usage patterns, and provide personalized content. You can manage cookie preferences in your browser settings.",
-    ko: "당사는 사용자 경험을 향상시키고, 사용 패턴을 분석하며, 개인화된 콘텐츠를 제공하기 위해 쿠키를 사용합니다. 브라우저 설정에서 쿠키 기본 설정을 관리할 수 있습니다."
+    en: "We use cookies to enhance your experience, analyze usage patterns, and provide personalized content. You can manage cookie preferences in your browser settings. Some features may not work properly without cookies.",
+    ko: "당사는 사용자 경험을 향상시키고, 사용 패턴을 분석하며, 개인화된 콘텐츠를 제공하기 위해 쿠키를 사용합니다. 브라우저 설정에서 쿠키 기본 설정을 관리할 수 있습니다. 쿠키 없이는 일부 기능이 제대로 작동하지 않을 수 있습니다."
   },
   contact: "privacy@sayu.app"
 };

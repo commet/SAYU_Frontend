@@ -170,104 +170,91 @@ export const AudioGuideQuiz: React.FC = () => {
         <LanguageToggle variant="glass" />
       </div>
       
-      {/* Audio Guide Device */}
+      {/* Audio Guide Device - Compact Version */}
       <motion.div 
-        className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40"
-        initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        className="fixed top-4 left-4 z-40 max-w-xs"
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
       >
-        <GlassCard variant="heavy" className="p-0 overflow-hidden">
+        <GlassCard variant="heavy" className="p-3">
           {/* Progress Bar */}
-          <div className="h-1 bg-gray-200 relative">
+          <div className="h-1 bg-gray-200 relative rounded-full mb-3">
             <motion.div 
-              className="absolute inset-y-0 left-0 bg-gradient-primary"
+              className="absolute inset-y-0 left-0 bg-gradient-primary rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ ease: "easeOut" }}
             />
           </div>
           
-          {/* Device Screen */}
-          <div className="p-4 text-center">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Headphones className="w-5 h-5 text-primary" />
-              <span className="text-2xl font-bold text-primary">{audioGuideNumber}</span>
+          {/* Compact Info */}
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Headphones className="w-4 h-4 text-primary" />
+              <span className="text-lg font-bold text-primary">{audioGuideNumber}</span>
             </div>
-            <p className="text-sm font-medium">{galleryRoom}</p>
-            
-            {/* Audio Visualizer */}
-            <div className="h-12 flex items-center justify-center gap-1 my-3">
-              {audioPlaying ? (
-                [...Array(12)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="w-1 bg-primary/60 rounded-full"
-                    animate={{
-                      height: [8, 24, 8],
-                    }}
-                    transition={{
-                      duration: 1,
-                      repeat: Infinity,
-                      delay: i * 0.1,
-                    }}
-                  />
-                ))
-              ) : (
-                <div className="text-gray-400 text-sm">
-                  {language === 'ko' ? '재생을 눌러주세요' : 'Press play to start'}
-                </div>
-              )}
-            </div>
-          </div>
-          
-          {/* Controls */}
-          <div className="flex items-center justify-between p-4 border-t border-gray-200">
-            <GlassIconButton
-              variant="ghost"
-              size="sm"
-              icon={<SkipBack />}
-              aria-label="Previous"
-              onClick={handleGoBack}
-              disabled={currentQuestion === 0}
-            />
-            
             <GlassIconButton
               variant="primary"
-              size="lg"
+              size="sm"
               icon={audioPlaying ? <Pause /> : <Play />}
               aria-label={audioPlaying ? "Pause" : "Play"}
               onClick={() => setAudioPlaying(!audioPlaying)}
             />
-            
-            <GlassIconButton
-              variant="ghost"
-              size="sm"
-              icon={<SkipForward />}
-              aria-label="Next"
-              disabled={currentQuestion === narrativeQuestions.length - 1}
-            />
           </div>
           
-          {/* Footer Actions */}
-          <div className="flex items-center justify-between px-4 pb-3">
-            <GlassButton
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowGalleryMap(true)}
+          <p className="text-xs font-medium text-gray-600 mb-2">{galleryRoom}</p>
+          
+          {/* Audio Visualizer - Compact */}
+          <div className="h-6 flex items-center justify-center gap-0.5 mb-2">
+            {audioPlaying ? (
+              [...Array(8)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="w-0.5 bg-primary/60 rounded-full"
+                  animate={{
+                    height: [4, 16, 4],
+                  }}
+                  transition={{
+                    duration: 1,
+                    repeat: Infinity,
+                    delay: i * 0.1,
+                  }}
+                />
+              ))
+            ) : (
+              <div className="text-gray-400 text-xs">
+                {language === 'ko' ? '재생' : 'Play'}
+              </div>
+            )}
+          </div>
+          
+          {/* Compact Controls */}
+          <div className="flex items-center justify-between text-xs">
+            <button
+              onClick={handleGoBack}
+              disabled={currentQuestion === 0}
+              className="text-gray-500 hover:text-primary disabled:opacity-50 flex items-center gap-1"
             >
-              <Map className="w-4 h-4 mr-1" />
-              {language === 'ko' ? '지도' : 'Map'}
-            </GlassButton>
+              <ChevronLeft className="w-3 h-3" />
+              {language === 'ko' ? '이전' : 'Back'}
+            </button>
             
-            <GlassButton
-              variant="ghost"
-              size="sm"
-              onClick={handleExitQuiz}
+            <button
+              onClick={() => setShowGalleryMap(true)}
+              className="text-gray-500 hover:text-primary flex items-center gap-1"
             >
-              <Home className="w-4 h-4 mr-1" />
+              <Map className="w-3 h-3" />
+              {language === 'ko' ? '지도' : 'Map'}
+            </button>
+            
+            <button
+              onClick={handleExitQuiz}
+              className="text-gray-500 hover:text-primary flex items-center gap-1"
+            >
+              <Home className="w-3 h-3" />
               {language === 'ko' ? '나가기' : 'Exit'}
-            </GlassButton>
+            </button>
           </div>
         </GlassCard>
       </motion.div>

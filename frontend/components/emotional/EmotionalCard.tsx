@@ -168,7 +168,7 @@ export const ArtworkCard: React.FC<ArtworkCardProps> = ({
 interface EmotionalButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'success' | 'warning' | 'danger' | 'elegant' | 'creative' | 'art' | 'golden';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   personality?: string;
@@ -193,7 +193,14 @@ export const EmotionalButton: React.FC<EmotionalButtonProps> = ({
   const variantClasses = {
     primary: 'bg-[hsl(var(--personality-accent))] text-white hover:brightness-110',
     secondary: 'bg-[hsl(var(--personality-secondary))] text-[hsl(var(--foreground))] hover:brightness-95',
-    ghost: 'bg-transparent border-2 border-[hsl(var(--personality-accent))] text-[hsl(var(--personality-accent))] hover:bg-[hsl(var(--personality-accent)/0.1)]'
+    ghost: 'bg-transparent border-2 border-[hsl(var(--personality-accent))] text-[hsl(var(--personality-accent))] hover:bg-[hsl(var(--personality-accent)/0.1)]',
+    success: 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-600 hover:to-teal-600 shadow-lg shadow-emerald-500/25',
+    warning: 'bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-lg shadow-amber-500/25',
+    danger: 'bg-gradient-to-r from-rose-500 to-pink-500 text-white hover:from-rose-600 hover:to-pink-600 shadow-lg shadow-rose-500/25',
+    elegant: 'bg-gradient-to-r from-slate-700 to-gray-700 text-white hover:from-slate-800 hover:to-gray-800 shadow-lg shadow-slate-500/25',
+    creative: 'bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 text-white hover:from-violet-600 hover:via-purple-600 hover:to-fuchsia-600 shadow-lg shadow-purple-500/25',
+    art: 'bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-500 text-white hover:from-indigo-600 hover:via-blue-600 hover:to-cyan-600 shadow-lg shadow-blue-500/25',
+    golden: 'bg-gradient-to-r from-yellow-500 to-amber-600 text-white hover:from-yellow-600 hover:to-amber-700 shadow-lg shadow-yellow-500/25'
   };
 
   return (

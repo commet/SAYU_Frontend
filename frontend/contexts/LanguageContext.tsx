@@ -28,16 +28,20 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
 
   // Load language preference from localStorage on mount
   useEffect(() => {
-    const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
-    if (savedLanguage === 'en' || savedLanguage === 'ko') {
-      setLanguageState(savedLanguage);
+    if (typeof window !== 'undefined') {
+      const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+      if (savedLanguage === 'en' || savedLanguage === 'ko') {
+        setLanguageState(savedLanguage);
+      }
     }
   }, []);
 
   // Function to set language and persist to localStorage
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+    }
   };
 
   // Function to toggle between languages

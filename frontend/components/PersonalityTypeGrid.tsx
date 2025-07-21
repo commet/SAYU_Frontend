@@ -20,42 +20,42 @@ interface PersonalityTypeGridProps {
 
 const defaultDimensions: PersonalityDimension[] = [
   {
-    name: { en: 'Location Preference', ko: '장소 선호도' },
-    left: { code: 'L', label: { en: 'Local', ko: '로컬' } },
-    right: { code: 'T', label: { en: 'Traveler', ko: '여행자' } },
+    name: { en: 'Viewing Preference', ko: '관람 선호도' },
+    left: { code: 'L', label: { en: 'Lone (Individual, introspective)', ko: '고독한 (개별적, 내성적)' } },
+    right: { code: 'S', label: { en: 'Social (Interactive, collaborative)', ko: '사교적 (상호작용, 협력적)' } },
     description: { 
-      en: 'Do you prefer familiar local galleries or exploring new museums?',
-      ko: '익숙한 로컬 갤러리를 선호하나요, 아니면 새로운 미술관 탐험을 좋아하나요?'
+      en: 'Do you prefer experiencing art alone or with others?',
+      ko: '예술을 혼자 경험하는 것을 선호하나요, 아니면 다른 사람들과 함께 하나요?'
     },
     position: 'left'
   },
   {
-    name: { en: 'Art Approach', ko: '예술 접근법' },
-    left: { code: 'A', label: { en: 'Analytical', ko: '분석적' } },
-    right: { code: 'I', label: { en: 'Intuitive', ko: '직관적' } },
+    name: { en: 'Perception Style', ko: '인식 스타일' },
+    left: { code: 'A', label: { en: 'Abstract (Atmospheric, symbolic)', ko: '추상 (분위기적, 상징적)' } },
+    right: { code: 'R', label: { en: 'Representational (Realistic, concrete)', ko: '구상 (현실적, 구체적)' } },
     description: { 
-      en: 'Do you analyze artworks intellectually or experience them emotionally?',
-      ko: '작품을 지적으로 분석하나요, 아니면 감정적으로 경험하나요?'
+      en: 'Do you prefer abstract or representational artworks?',
+      ko: '추상적인 작품을 선호하나요, 아니면 구상적인 작품을 선호하나요?'
     },
     position: 'left'
   },
   {
-    name: { en: 'Social Style', ko: '사회적 스타일' },
-    left: { code: 'E', label: { en: 'Engaging', ko: '참여적' } },
-    right: { code: 'O', label: { en: 'Observing', ko: '관찰적' } },
+    name: { en: 'Reflection Type', ko: '성찰 유형' },
+    left: { code: 'E', label: { en: 'Emotional (Affective, feeling-based)', ko: '감정적 (정서적, 감정기반)' } },
+    right: { code: 'M', label: { en: 'Meaning-driven (Analytical, rational)', ko: '의미추구 (분석적, 이성적)' } },
     description: { 
-      en: 'Do you actively engage with art communities or quietly observe?',
-      ko: '예술 커뮤니티에 적극적으로 참여하나요, 아니면 조용히 관찰하나요?'
+      en: 'Do you respond to art emotionally or analytically?',
+      ko: '예술에 감정적으로 반응하나요, 아니면 분석적으로 접근하나요?'
     },
     position: 'left'
   },
   {
-    name: { en: 'Experience Style', ko: '경험 스타일' },
-    left: { code: 'F', label: { en: 'Flowing', ko: '유동적' } },
-    right: { code: 'S', label: { en: 'Structured', ko: '구조적' } },
+    name: { en: 'Exploration Style', ko: '탐색 스타일' },
+    left: { code: 'F', label: { en: 'Flow (Fluid, spontaneous)', ko: '흐름 (유동적, 자발적)' } },
+    right: { code: 'C', label: { en: 'Constructive (Structured, systematic)', ko: '구조적 (체계적, 조직적)' } },
     description: { 
-      en: 'Do you prefer spontaneous art discoveries or planned museum visits?',
-      ko: '즉흥적인 예술 발견을 선호하나요, 아니면 계획된 미술관 방문을 좋아하나요?'
+      en: 'Do you explore galleries spontaneously or systematically?',
+      ko: '갤러리를 자발적으로 탐색하나요, 아니면 체계적으로 관람하나요?'
     },
     position: 'left'
   }

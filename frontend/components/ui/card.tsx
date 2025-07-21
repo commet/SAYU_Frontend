@@ -3,8 +3,8 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from '@/lib/utils';
 
 const cardVariants = cva(
-  // Base styles - 미술관 카드 컨셉
-  "bg-white border border-gray transition-all duration-base ease-out",
+  // Base styles - 미술관 카드 컨셉 (다크모드 지원)
+  "bg-white dark:bg-gray-800 border border-gray dark:border-gray-700 text-gray-900 dark:text-gray-100 transition-all duration-base ease-out",
   {
     variants: {
       variant: {
@@ -15,7 +15,7 @@ const cardVariants = cva(
         gallery: "shadow-subtle hover:shadow-gentle border-light-gray",
         
         // Glass - 투명한 글래스 효과
-        glass: "bg-white/80 backdrop-blur-moderate border-white/20 shadow-gentle",
+        glass: "bg-white/80 dark:bg-gray-800/80 backdrop-blur-moderate border-white/20 dark:border-gray-600/20 shadow-gentle",
         
         // Flat - 그림자 없는 플랫 디자인
         flat: "border-gray shadow-none",
@@ -76,7 +76,7 @@ const CardTitle = forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadin
       <h3
         ref={ref}
         className={cn(
-          "font-display font-medium text-xl text-black leading-tight",
+          "font-display font-medium text-xl text-gray-900 dark:text-gray-100 leading-tight",
           className
         )}
         {...props}
@@ -91,7 +91,7 @@ const CardDescription = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HT
     return (
       <p
         ref={ref}
-        className={cn("font-body text-sm text-dark-gray leading-normal", className)}
+        className={cn("font-body text-sm text-gray-600 dark:text-gray-400 leading-normal", className)}
         {...props}
       />
     );
@@ -104,7 +104,7 @@ const CardContent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEleme
     return (
       <div 
         ref={ref} 
-        className={cn("font-body text-base text-black leading-normal", className)} 
+        className={cn("font-body text-base text-gray-900 dark:text-gray-100 leading-normal", className)} 
         {...props} 
       />
     );

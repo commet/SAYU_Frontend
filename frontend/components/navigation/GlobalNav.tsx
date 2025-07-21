@@ -2,9 +2,10 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Home, Palette, Users, User, MessageSquare, GalleryVerticalEnd, Settings } from 'lucide-react';
+import { Home, Palette, Users, User, MessageSquare, GalleryVerticalEnd, Settings, Sun, Moon } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useDarkMode } from '@/contexts/DarkModeContext';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -59,6 +60,7 @@ export default function GlobalNav() {
   const router = useRouter();
   const { user } = useAuth();
   const { language } = useLanguage();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   console.log('GlobalNav rendered, pathname:', pathname, 'user:', user);
 
@@ -87,10 +89,11 @@ export default function GlobalNav() {
   const currentNavItems = getNavItemsWithAdmin(user);
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 md:top-0 md:bottom-auto">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 z-50 md:top-0 md:bottom-auto transition-colors">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-around md:justify-start md:space-x-8 h-16">
-          {currentNavItems.map((item) => {
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-around md:justify-start md:space-x-8 flex-1">
+            {currentNavItems.map((item) => {
             const isActive = pathname === item.href;
             const isLocked = item.requireAuth && !user;
             
@@ -105,9 +108,9 @@ export default function GlobalNav() {
                   "flex flex-col md:flex-row items-center justify-center md:justify-start",
                   "p-2 md:px-3 md:py-2 rounded-lg transition-colors",
                   "text-xs md:text-sm font-medium",
-                  isActive && "text-purple-600 bg-purple-50",
-                  !isActive && !isLocked && "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
-                  isLocked && "text-gray-400 cursor-not-allowed"
+                  isActive && "text-purple-600 bg-purple-50 dark:bg-purple-900/30 dark:text-purple-400",
+                  !isActive && !isLocked && "text-gray-600 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800",
+                  isLocked && "text-gray-400 dark:text-gray-600 cursor-not-allowed"
                 )}
                 disabled={isLocked}
               >
@@ -116,6 +119,25 @@ export default function GlobalNav() {
               </button>
             );
           })}
+          </div>
+          
+          {/* Dark Mode Toggle */}
+          <button
+            onClick={toggleDarkMode}
+            className={cn(
+              "p-2 md:p-3 rounded-lg transition-all duration-200",
+              "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
+              "dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800",
+              "hidden md:flex items-center justify-center"
+            )}
+            aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDarkMode ? (
+              <Sun className="w-5 h-5" />
+            ) : (
+              <Moon className="w-5 h-5" />
+            )}
+          </button>
         </div>
       </div>
     </nav>

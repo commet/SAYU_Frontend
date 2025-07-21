@@ -43,7 +43,7 @@ export interface PersonalityDescription {
  * Do not create duplicate type definitions here - always use the imported types.
  */
 export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescription> = {
-  // Lone Wolf + Abstract + Emotional + Flow-oriented
+  // Lone + Abstract + Emotional + Flow
   LAEF: {
     type: 'LAEF',
     title: 'The Emotional Explorer',
@@ -140,15 +140,15 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Lone Wolf + Abstract + Emotional + Structured
+  // Lone + Abstract + Emotional + Constructive
   LAEC: {
     type: 'LAEC',
     title: 'The Emotional Curator',
     title_ko: '감성 큐레이터',
     subtitle: 'Creating personal collections of emotional art experiences',
     subtitle_ko: '감정적 예술 경험의 개인 커렉션을 만드는',
-    essence: 'You approach art like a poet approaches words - with reverence, patience, and deep attention. Your solitary gallery visits are research expeditions of the soul, where you systematically uncover layers of meaning while allowing yourself to be emotionally moved.',
-    essence_ko: '당신은 마치 큐레이터처럼 자신만의 감성적 기준으로 작품을 선별하고 수집합니다. 각 작품이 주는 감정을 체계적으로 분류하고, 그 의미를 깊이 탐구합니다. 미술관에서의 시간은 감정의 아카이브를 만들어가는 과정이며, 작품마다 담긴 정서적 메시지를 자신만의 방식으로 해석하고 보관합니다.',
+    essence: 'You approach abstract art like a poet approaches words - with reverence, patience, and deep attention to color, form, and emotional resonance. Your solitary gallery visits are research expeditions of the soul, where you systematically uncover layers of meaning in symbolic works while allowing yourself to be emotionally moved by their atmospheric qualities.',
+    essence_ko: '당신은 추상 예술을 마치 큐레이터처럼 자신만의 감성적 기준으로 선별하고 수집합니다. 색채와 형태가 만들어내는 감정의 뉘앙스를 체계적으로 분류하며, 추상 작품의 상징적 의미를 깊이 탐구합니다. 미술관에서의 시간은 감정의 아카이브를 만들어가는 과정이며, 작품마다 담긴 추상적 정서를 자신만의 방식으로 해석하고 보관합니다.',
     strengths: [
       {
         icon: '📖',
@@ -237,7 +237,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Lone Wolf + Abstract + Logical + Flow-oriented
+  // Lone + Abstract + Meaning-driven + Flow
   LAMF: {
     type: 'LAMF',
     title: 'The Intuitive Navigator',
@@ -334,7 +334,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Lone Wolf + Abstract + Logical + Structured
+  // Lone + Abstract + Meaning-driven + Constructive
   LAMC: {
     type: 'LAMC',
     title: 'The Knowledge Collector',
@@ -431,7 +431,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Social + Abstract + Emotional + Flow-oriented
+  // Social + Abstract + Emotional + Flow
   SAEF: {
     type: 'SAEF',
     title: 'The Emotion Sharer',
@@ -528,7 +528,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Social + Abstract + Emotional + Structured
+  // Social + Abstract + Emotional + Constructive
   SAEC: {
     type: 'SAEC',
     title: 'The Art Networker',
@@ -625,7 +625,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Social + Abstract + Logical + Flow-oriented
+  // Social + Abstract + Meaning-driven + Flow
   SAMF: {
     type: 'SAMF',
     title: 'The Insight Sharer',
@@ -722,7 +722,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Social + Abstract + Logical + Structured
+  // Social + Abstract + Meaning-driven + Constructive
   SAMC: {
     type: 'SAMC',
     title: 'The Cultural Organizer',
@@ -820,7 +820,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Lone Wolf + Realistic + Emotional + Flow-oriented
+  // Lone + Realistic + Emotional + Flow
   LREF: {
     type: 'LREF',
     title: 'The Delicate Observer',
@@ -917,7 +917,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Lone Wolf + Realistic + Emotional + Structured
+  // Lone + Realistic + Emotional + Constructive
   LREC: {
     type: 'LREC',
     title: 'The Deep Appreciator',
@@ -1014,7 +1014,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Lone Wolf + Realistic + Logical + Flow-oriented
+  // Lone + Realistic + Meaning-driven + Flow
   LRMF: {
     type: 'LRMF',
     title: 'The Free Analyst',
@@ -1111,7 +1111,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Lone Wolf + Realistic + Logical + Structured
+  // Lone + Realistic + Meaning-driven + Constructive
   LRMC: {
     type: 'LRMC',
     title: 'The Systematic Researcher',
@@ -1208,7 +1208,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Social + Realistic + Emotional + Flow-oriented
+  // Social + Realistic + Emotional + Flow
   SREF: {
     type: 'SREF',
     title: 'The Emotional Storyteller',
@@ -1305,7 +1305,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Social + Realistic + Emotional + Structured
+  // Social + Realistic + Emotional + Constructive
   SREC: {
     type: 'SREC',
     title: 'The Heart Curator',
@@ -1402,7 +1402,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Social + Realistic + Logical + Flow-oriented
+  // Social + Realistic + Meaning-driven + Flow
   SRMF: {
     type: 'SRMF',
     title: 'The Social Explorer',
@@ -1499,7 +1499,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     ]
   },
 
-  // Social + Realistic + Logical + Structured
+  // Social + Realistic + Meaning-driven + Constructive
   SRMC: {
     type: 'SRMC',
     title: 'The Culture Guide',

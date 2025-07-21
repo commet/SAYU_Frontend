@@ -94,6 +94,9 @@ const chatbotRoutes = require('./routes/chatbot');
 // const contemplativeRoutes = require('./routes/contemplativeRoutes'); // Temporarily disabled for debugging
 const aptRecommendationRoutes = require('./routes/aptRecommendationRoutes');
 const artistRoutes = require('./routes/artistRoutes');
+const databaseRecommendationRoutes = require('./routes/databaseRecommendationRoutes');
+const exhibitionCollectionRoutes = require('./routes/exhibitionCollectionRoutes');
+const easterEggRoutes = require('./routes/easterEggRoutes');
 
 const app = express();
 
@@ -268,6 +271,8 @@ app.use('/api/quiz', quizRoutes);
 app.use('/api/sayu-quiz', sayuQuizRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/recommendations', recommendationRoutes);
+app.use('/api/db-recommendations', databaseRecommendationRoutes);
+app.use('/api/exhibition-collection', exhibitionCollectionRoutes);
 app.use('/api/agent', agentRoutes);
 app.use('/api/reflections', reflectionRoutes);
 app.use('/api/artworks', artworkRoutes);
@@ -297,6 +302,8 @@ app.use('/api', exhibitionRoutes);
 app.use('/api/chatbot', chatbotRoutes);
 // app.use('/api/contemplative', contemplativeRoutes); // Temporarily disabled for debugging
 app.use('/api/apt', aptRecommendationRoutes); // APT 기반 추천 시스템
+app.use('/api/easter-eggs', easterEggRoutes);
+app.use('/api/matching', require('./routes/matchingRoutes')); // 매칭 시스템
 
 // Duplicate health check endpoint removed - using the comprehensive one above (lines 174-186)
 
@@ -329,7 +336,7 @@ async function startServer() {
       log.info('Email automation initialized');
     }
     
-    app.listen(PORT, '0.0.0.0', () => {
+    const server = app.listen(PORT, '0.0.0.0', () => {
       log.info('SAYU server started successfully', {
         port: PORT,
         environment: process.env.NODE_ENV || 'development',
@@ -340,6 +347,11 @@ async function startServer() {
       console.log(`🎨 SAYU Server running on port ${PORT}`);
       console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
     });
+
+    // Initialize Socket.io for real-time gallery sessions
+    const realtimeGalleryService = require('./services/realtimeGalleryService');
+    realtimeGalleryService.initialize(server);
+    log.info('Real-time gallery service initialized');
   } catch (error) {
     log.error('Failed to start server', error, {
       port: PORT,

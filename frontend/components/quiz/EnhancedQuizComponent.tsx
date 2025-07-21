@@ -831,10 +831,10 @@ export const EnhancedQuizComponent: React.FC<QuizProps> = ({ onComplete }) => {
       </h3>
       <div className="space-y-2 w-48">
         {[
-          { axis: 'L/S', left: 'Lone', right: 'Shared', leftVal: dimensions.L, rightVal: dimensions.S },
-          { axis: 'A/R', left: 'Atmospheric', right: 'Realistic', leftVal: dimensions.A, rightVal: dimensions.R },
-          { axis: 'E/M', left: 'Emotional', right: 'Meaning', leftVal: dimensions.E, rightVal: dimensions.M },
-          { axis: 'F/C', left: 'Flow', right: 'Constructive', leftVal: dimensions.F, rightVal: dimensions.C }
+          { axis: 'L/S', left: 'Lone (Individual, introspective)', right: 'Social (Interactive, collaborative)', leftVal: dimensions.L, rightVal: dimensions.S },
+          { axis: 'A/R', left: 'Abstract (Atmospheric, symbolic)', right: 'Representational (Realistic, concrete)', leftVal: dimensions.A, rightVal: dimensions.R },
+          { axis: 'E/M', left: 'Emotional (Affective, feeling-based)', right: 'Meaning-driven (Analytical, rational)', leftVal: dimensions.E, rightVal: dimensions.M },
+          { axis: 'F/C', left: 'Flow (Fluid, spontaneous)', right: 'Constructive (Structured, systematic)', leftVal: dimensions.F, rightVal: dimensions.C }
         ].map(({ axis, left, right, leftVal, rightVal }) => {
           const total = leftVal + rightVal || 1;
           const leftPercent = (leftVal / total) * 100;

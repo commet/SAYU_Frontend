@@ -3,6 +3,7 @@
 
 import { Artwork, UnifiedMuseumClient } from './api-client';
 import { ArtworkEnrichmentService } from './artwork-enrichment';
+import { getSAYUType, isValidSAYUType, type SAYUType } from '../../../shared/SAYUTypeDefinitions';
 
 export interface UserPreferences {
   personalityType: string;
@@ -62,10 +63,55 @@ export class ArtworkRecommendationEngine {
     let score = 0;
     const matchReasons: string[] = [];
     
-    // Personality match (highest weight)
+    // Get SAYU type information for enhanced matching
+    let sayuType: SAYUType | null = null;
+    if (isValidSAYUType(preferences.personalityType)) {
+      sayuType = getSAYUType(preferences.personalityType);
+    }
+    
+    // Enhanced personality match using SAYU type preferences
+    if (sayuType) {
+      // Style preference matching (enhanced)
+      const styleMatch = sayuType.artPreferences.preferredStyles.some(preferredStyle =>
+        artwork.tags.some(tag => 
+          tag.toLowerCase().includes(preferredStyle.toLowerCase()) ||
+          preferredStyle.toLowerCase().includes(tag.toLowerCase())
+        )
+      );
+      if (styleMatch) {
+        score += 40;
+        matchReasons.push(`Matches your ${sayuType.name} style preferences`);
+      }
+      
+      // Subject preference matching
+      const subjectMatch = sayuType.artPreferences.preferredSubjects.some(subject =>
+        artwork.tags.some(tag => 
+          tag.toLowerCase().includes(subject.toLowerCase()) ||
+          subject.toLowerCase().includes(tag.toLowerCase())
+        ) || artwork.description?.toLowerCase().includes(subject.toLowerCase())
+      );
+      if (subjectMatch) {
+        score += 30;
+        matchReasons.push(`Matches your preferred subjects as a ${sayuType.name}`);
+      }
+      
+      // Color preference matching (enhanced with SAYU preferences)
+      const colorMatch = sayuType.artPreferences.preferredColors.some(preferredColor =>
+        artwork.colors?.some(artworkColor => 
+          artworkColor.toLowerCase().includes(preferredColor.toLowerCase()) ||
+          preferredColor.toLowerCase().includes(artworkColor.toLowerCase())
+        )
+      );
+      if (colorMatch) {
+        score += 25;
+        matchReasons.push(`Color palette aligns with your ${sayuType.name} preferences`);
+      }
+    }
+    
+    // Legacy personality match (for backward compatibility)
     if (artwork.personalityMatch?.includes(preferences.personalityType)) {
-      score += 50;
-      matchReasons.push('Matches your personality type');
+      score += 35;
+      matchReasons.push('Direct personality type match');
     }
     
     // Color preferences

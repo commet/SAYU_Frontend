@@ -132,18 +132,18 @@ export default function PersonalityTypesPage() {
           <h3 className="text-lg font-medium mb-4 text-center">
             {language === 'ko' ? '4가지 차원' : '4 Dimensions'}
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="font-bold">L/S:</span> {language === 'ko' ? '고독한/사교적' : 'Lone/Social'}
+              <span className="font-bold">L/S:</span> {language === 'ko' ? '고독한 (개별적, 내성적) / 사교적 (상호작용, 협력적)' : 'Lone (Individual, introspective) / Social (Interactive, collaborative)'}
             </div>
             <div>
-              <span className="font-bold">A/R:</span> {language === 'ko' ? '추상/구상' : 'Abstract/Representational'}
+              <span className="font-bold">A/R:</span> {language === 'ko' ? '추상 (분위기적, 상징적) / 구상 (현실적, 구체적)' : 'Abstract (Atmospheric, symbolic) / Representational (Realistic, concrete)'}
             </div>
             <div>
-              <span className="font-bold">E/M:</span> {language === 'ko' ? '감정적/의미추구' : 'Emotional/Meaning'}
+              <span className="font-bold">E/M:</span> {language === 'ko' ? '감정적 (정서적, 감정기반) / 의미추구 (분석적, 이성적)' : 'Emotional (Affective, feeling-based) / Meaning-driven (Analytical, rational)'}
             </div>
             <div>
-              <span className="font-bold">F/C:</span> {language === 'ko' ? '흐름따라/체계적' : 'Flow/Constructive'}
+              <span className="font-bold">F/C:</span> {language === 'ko' ? '흐름 (유동적, 자발적) / 구조적 (체계적, 조직적)' : 'Flow (Fluid, spontaneous) / Constructive (Structured, systematic)'}
             </div>
           </div>
         </div>

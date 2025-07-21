@@ -152,6 +152,46 @@ export default function FeedbackModal({ isOpen, onClose, contextData }: Feedback
               </button>
             </div>
 
+            {/* Rewards Banner */}
+            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 p-4 border-b border-gray-100">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                  <Heart className="w-4 h-4 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-sm font-semibold text-gray-900">
+                    {language === 'ko' ? '🎁 피드백 보상 프로그램' : '🎁 Feedback Rewards Program'}
+                  </h3>
+                  <p className="text-xs text-gray-600">
+                    {language === 'ko' 
+                      ? '활발한 피드백 제공자에게 베타 기능 우선 체험, 큐레이터 뱃지, 프리미엄 AI 아트 프로필 등 특별 혜택을 드립니다!'
+                      : 'Active feedback contributors get exclusive access to beta features, curator badges, premium AI art profiles, and more!'
+                    }
+                  </p>
+                </div>
+              </div>
+              
+              {/* Rewards List */}
+              <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                <div className="flex items-center gap-1 text-purple-600">
+                  <span>🚀</span>
+                  <span>{language === 'ko' ? '베타 기능 우선 체험' : 'Beta Access'}</span>
+                </div>
+                <div className="flex items-center gap-1 text-pink-600">
+                  <span>🏅</span>
+                  <span>{language === 'ko' ? '큐레이터 뱃지' : 'Curator Badge'}</span>
+                </div>
+                <div className="flex items-center gap-1 text-blue-600">
+                  <span>🎨</span>
+                  <span>{language === 'ko' ? '프리미엄 AI 아트' : 'Premium AI Art'}</span>
+                </div>
+                <div className="flex items-center gap-1 text-amber-600">
+                  <span>✨</span>
+                  <span>{language === 'ko' ? '맞춤형 큐레이션' : 'Custom Curation'}</span>
+                </div>
+              </div>
+            </div>
+
             {isSubmitted ? (
               /* Success State */
               <div className="p-8 text-center">

@@ -7,12 +7,13 @@
     "start": "cd backend && node sayu-living-server.js"
   },
   "dependencies": {
-    "pm2": "^6.0.6",
-    "express": "^4.18.2",
     "cors": "^2.8.5",
-    "express-rate-limit": "^7.1.0"
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.0",
+    "pm2": "^6.0.6"
   },
   "devDependencies": {
-    "@railway/cli": "^4.5.3"
+    "@railway/cli": "^4.5.3",
+    "conventional-changelog-cli": "^5.0.0"
   }
 }

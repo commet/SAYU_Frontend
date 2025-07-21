@@ -405,28 +405,29 @@ function generateDefaultTheme(): PersonalizedTheme {
   } as PersonalizedTheme;
 }
 
-// Apply theme to CSS custom properties
+// Apply theme to CSS custom properties in a dark mode compatible way
 export function applyThemeToDOM(theme: PersonalizedTheme) {
   const root = document.documentElement;
   
-  // Apply colors
-  Object.entries(theme.colors).forEach(([key, value]) => {
-    root.style.setProperty(`--color-${key}`, value);
-  });
+  // Only apply non-conflicting theme properties
+  // Background and foreground colors are handled by dark mode CSS
   
-  // Apply typography
+  // Apply typography (safe in both modes)
   Object.entries(theme.typography).forEach(([key, value]) => {
-    root.style.setProperty(`--font-${key}`, value);
+    root.style.setProperty(`--theme-font-${key}`, value);
   });
   
-  // Apply layout
+  // Apply layout (safe in both modes)
   Object.entries(theme.layout).forEach(([key, value]) => {
-    root.style.setProperty(`--layout-${key}`, value);
+    root.style.setProperty(`--theme-layout-${key}`, value);
   });
   
-  // Apply animations
+  // Apply animations (safe in both modes)
   Object.entries(theme.animations).forEach(([key, value]) => {
-    root.style.setProperty(`--animation-${key}`, value);
+    root.style.setProperty(`--theme-animation-${key}`, value);
   });
+  
+  // Add theme data attribute for CSS targeting
+  root.setAttribute('data-theme', theme.id);
 }
 

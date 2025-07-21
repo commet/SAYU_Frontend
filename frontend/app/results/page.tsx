@@ -9,7 +9,9 @@ import '@/styles/emotional-palette.css';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { getAnimalByType } from '@/data/personality-animals';
 import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
+import { getSAYUType, isValidSAYUType, type SAYUType } from '../../../shared/SAYUTypeDefinitions';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAnimalCursor } from '@/contexts/AnimalCursorContext';
 import { useGamificationDashboard } from '@/hooks/useGamification';
 import { useAuth } from '@/hooks/useAuth';
 import LanguageToggle from '@/components/ui/LanguageToggle';
@@ -30,11 +32,13 @@ function ResultsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { language } = useLanguage();
+  const { setPersonalityType } = useAnimalCursor();
   const { user, loading: authLoading } = useAuth();
   const { dashboard: gamificationData, isLoading: gamificationLoading } = useGamificationDashboard();
   const [results, setResults] = useState<QuizResults | null>(null);
   const [personality, setPersonality] = useState<any>(null);
   const [animalCharacter, setAnimalCharacter] = useState<any>(null);
+  const [sayuType, setSayuType] = useState<SAYUType | null>(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showProfileCard, setShowProfileCard] = useState(false);
 
@@ -50,10 +54,18 @@ function ResultsContent() {
       
       setPersonality(personalityData);
       setAnimalCharacter(animalData);
+      
+      // Set SAYU type data
+      if (isValidSAYUType(type)) {
+        setSayuType(getSAYUType(type));
+      }
+      
+      // Set personality type for animal cursor
+      setPersonalityType(type);
     } else {
       router.push('/quiz');
     }
-  }, [searchParams, router]);
+  }, [searchParams, router, setPersonalityType]);
 
   if (!results || !personality) {
     return (
@@ -233,6 +245,117 @@ function ResultsContent() {
           </motion.div>
         </motion.div>
       </section>
+
+      {/* Enhanced Type Details Section */}
+      {sayuType && (
+        <section className="max-w-4xl mx-auto px-lg mb-lg">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className="bg-white rounded-xl border border-gray shadow-gentle"
+          >
+            {/* Detailed Description */}
+            <div className="p-lg border-b border-light-gray">
+              <h3 className="font-display text-xl font-semibold text-black mb-md flex items-center gap-sm">
+                <BookOpen className="w-5 h-5 text-primary" />
+                {language === 'ko' ? '당신의 예술 감상 스타일' : 'Your Art Appreciation Style'}
+              </h3>
+              <p className="text-dark-gray leading-relaxed">
+                {sayuType.detailedDescription}
+              </p>
+            </div>
+
+            {/* Art Preferences */}
+            <div className="p-lg border-b border-light-gray">
+              <h4 className="font-display text-lg font-semibold text-black mb-md flex items-center gap-sm">
+                <Palette className="w-5 h-5 text-purple-600" />
+                {language === 'ko' ? '예술 선호도' : 'Art Preferences'}
+              </h4>
+              <div className="grid md:grid-cols-2 gap-md">
+                <div>
+                  <h5 className="font-medium text-black mb-sm">{language === 'ko' ? '선호하는 스타일' : 'Preferred Styles'}</h5>
+                  <div className="flex flex-wrap gap-xs">
+                    {sayuType.artPreferences.preferredStyles.map((style, index) => (
+                      <span key={index} className="px-sm py-xs bg-purple-50 text-purple-700 rounded-full text-xs font-medium border border-purple-200">
+                        {style}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h5 className="font-medium text-black mb-sm">{language === 'ko' ? '관람 동기' : 'Viewing Motivations'}</h5>
+                  <div className="flex flex-wrap gap-xs">
+                    {sayuType.artPreferences.motivations.map((motivation, index) => (
+                      <span key={index} className="px-sm py-xs bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">
+                        {motivation}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="mt-md">
+                <h5 className="font-medium text-black mb-sm">{language === 'ko' ? '관람 스타일' : 'Viewing Style'}</h5>
+                <p className="text-sm text-dark-gray bg-off-white rounded-lg p-sm">
+                  {sayuType.artPreferences.viewingStyle}
+                </p>
+              </div>
+            </div>
+
+            {/* Strengths & Challenges */}
+            <div className="p-lg border-b border-light-gray">
+              <div className="grid md:grid-cols-2 gap-md">
+                <div>
+                  <h4 className="font-display text-lg font-semibold text-green-700 mb-md flex items-center gap-sm">
+                    <span className="text-green-600">✨</span>
+                    {language === 'ko' ? '강점' : 'Strengths'}
+                  </h4>
+                  <ul className="space-y-xs">
+                    {sayuType.strengths.map((strength, index) => (
+                      <li key={index} className="flex items-start gap-xs text-sm">
+                        <span className="text-green-500 mt-1">•</span>
+                        <span className="text-dark-gray">{strength}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-display text-lg font-semibold text-orange-700 mb-md flex items-center gap-sm">
+                    <span className="text-orange-600">⚡</span>
+                    {language === 'ko' ? '도전 과제' : 'Challenges'}
+                  </h4>
+                  <ul className="space-y-xs">
+                    {sayuType.challenges.map((challenge, index) => (
+                      <li key={index} className="flex items-start gap-xs text-sm">
+                        <span className="text-orange-500 mt-1">•</span>
+                        <span className="text-dark-gray">{challenge}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Perfect Day */}
+            <div className="p-lg">
+              <h4 className="font-display text-lg font-semibold text-black mb-md flex items-center gap-sm">
+                <Heart className="w-5 h-5 text-pink-600" />
+                {language === 'ko' ? '완벽한 하루' : 'Your Perfect Day'}
+              </h4>
+              <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg p-md border border-pink-200">
+                <p className="text-dark-gray leading-relaxed italic">
+                  "{sayuType.perfectDay}"
+                </p>
+                {sayuType.famousExample && (
+                  <p className="text-sm text-pink-600 mt-sm">
+                    💡 {sayuType.famousExample}
+                  </p>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        </section>
+      )}
 
       {/* 16 Types Overview Section */}
       <section className="max-w-4xl mx-auto px-lg mb-lg">

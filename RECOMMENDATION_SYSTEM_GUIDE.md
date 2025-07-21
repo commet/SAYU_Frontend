@@ -97,10 +97,10 @@ personalityMappings = {
 ### 16가지 SAYU 성격 유형
 
 4차원 모델 사용:
-- **L/S**: 개인(Lone) vs 사회(Social) 선호
-- **A/R**: 추상(Abstract) vs 현실(Realistic) 예술 선호
-- **E/M**: 감정(Emotional) vs 의미(Meaning) 중심 접근
-- **F/C**: 흐름(Flow) vs 구성(Constructive) 중심 관람
+- **L/S**: 개인(Lone) vs 사회(Social) 관람 선호
+- **A/R**: 추상(Abstract) vs 구상(Representational) 인식 스타일
+- **E/M**: 감정(Emotional) vs 의미(Meaning-driven) 반영 유형
+- **F/C**: 흐름(Flow) vs 구조적(Constructive) 탐색 스타일
 
 ### 성격-예술 매핑 예시
 

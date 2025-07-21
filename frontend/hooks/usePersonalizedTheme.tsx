@@ -34,6 +34,21 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user]);
 
+  // Listen for dark mode toggles and re-apply theme
+  useEffect(() => {
+    const handleDarkModeToggle = () => {
+      if (theme) {
+        // Re-apply current theme when dark mode is toggled
+        applyThemeToDOM(theme);
+      }
+    };
+
+    window.addEventListener('darkModeToggled', handleDarkModeToggle);
+    return () => {
+      window.removeEventListener('darkModeToggled', handleDarkModeToggle);
+    };
+  }, [theme]);
+
   const fetchUserProfileAndTheme = async () => {
     try {
       setIsLoading(true);

@@ -11,6 +11,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Send, X, ThumbsUp, ThumbsDown, RefreshCw, MessageSquare, HelpCircle } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { detectPageType, getContextualMessage, UNIDENTIFIED_USER_MESSAGES } from '@/lib/chatbot-context';
+import { useEasterEgg } from '@/contexts/EasterEggContext';
 // Toast functionality removed for demo
 
 interface ArtCuratorChatbotProps {
@@ -27,12 +28,10 @@ export const ArtCuratorChatbot = ({
   const { currentArtwork } = useArtworkViewing();
   const { personalityType } = useUserProfile();
   const { language } = useLanguage();
+  const { checkCommand } = useEasterEgg();
   const pathname = usePathname();
   
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  
-  // Debug: force show chat for testing
-  console.log('Chat component states:', { isOpen, defaultOpen });
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -47,7 +46,6 @@ export const ArtCuratorChatbot = ({
   
   // personalityType is already available from useUserProfile
   const animalData = getAnimalByType(personalityType);
-  console.log('personalityType:', personalityType, 'animalData:', animalData);
   
   // 페이지 컨텍스트 감지
   const pageContext = detectPageType(pathname);
@@ -137,6 +135,11 @@ export const ArtCuratorChatbot = ({
   const sendMessage = async (messageText?: string) => {
     const message = messageText || inputValue.trim();
     if (!message || !currentArtwork) return;
+    
+    // Check for easter egg commands
+    if (message.startsWith('/')) {
+      checkCommand(message);
+    }
     
     // Clear input
     setInputValue('');

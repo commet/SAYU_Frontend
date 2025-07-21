@@ -22,7 +22,14 @@
     "cron:railway": "node railway-cron.js",
     "backup:create": "node backup-exhibition-data.js backup",
     "backup:restore": "node backup-exhibition-data.js restore",
-    "backup:list": "node backup-exhibition-data.js list"
+    "backup:list": "node backup-exhibition-data.js list",
+    "collection:setup": "node setup-exhibition-collection-tables.js",
+    "collection:cron": "node exhibition-collection-cron.js",
+    "collection:manual": "node -e \"require('./exhibition-collection-cron').runManual().then(() => process.exit(0))\"",
+    "venues:seed": "node seeders/expanded-venue-seeder.js",
+    "collection:enhanced": "node run-enhanced-exhibition-collection.js",
+    "collection:test": "node run-enhanced-exhibition-collection.js --test",
+    "naver:test": "node test-naver-api.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -34,6 +41,7 @@
     "axios": "^1.10.0",
     "bcryptjs": "^2.4.3",
     "canvas-confetti": "^1.9.3",
+    "cheerio": "^1.1.0",
     "cloudinary": "^1.41.3",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
@@ -62,11 +70,14 @@
     "puppeteer": "^24.12.1",
     "redis": "^4.6.7",
     "replicate": "^0.25.2",
+    "rss-parser": "^3.13.0",
     "sequelize": "^6.37.7",
     "sharp": "^0.34.3",
+    "socket.io": "^4.7.2",
     "uuid": "^9.0.1",
     "winston": "^3.17.0",
-    "winston-daily-rotate-file": "^5.0.0"
+    "winston-daily-rotate-file": "^5.0.0",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "isomorphic-dompurify": "^2.25.0",

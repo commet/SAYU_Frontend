@@ -179,7 +179,7 @@ Each personality type includes:
 
 ### **4 Core Axes**
 - **L/S**: Lone vs Shared (social preference)
-- **A/R**: Atmospheric vs Realistic (perceptual style)  
+- **A/R**: Abstract vs Representational (perceptual style)  
 - **E/M**: Emotional vs Meaning-driven (reflection style)
 - **F/C**: Flow vs Constructive (spatial behavior)
 

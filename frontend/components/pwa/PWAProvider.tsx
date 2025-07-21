@@ -38,8 +38,15 @@ export function PWAProvider({ children }: PWAProviderProps) {
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [swRegistration, setSWRegistration] = useState<ServiceWorkerRegistration | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted || typeof window === 'undefined') return;
+
     // Check if running as PWA
     const checkIfInstalled = () => {
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
@@ -87,12 +94,14 @@ export function PWAProvider({ children }: PWAProviderProps) {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
     };
-  }, [isInstalled]);
+  }, [mounted, isInstalled]);
 
   useEffect(() => {
+    if (!mounted || typeof window === 'undefined') return;
+    
     // Register service worker with delay to ensure page is ready
     const registerSW = () => {
-      if ('serviceWorker' in navigator && typeof window !== 'undefined') {
+      if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js', {
           scope: '/'
         })
@@ -128,7 +137,7 @@ export function PWAProvider({ children }: PWAProviderProps) {
     // Add a small delay to ensure the page is fully loaded
     const timer = setTimeout(registerSW, 1000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [mounted]);
 
   const install = async () => {
     if (!deferredPrompt) return;

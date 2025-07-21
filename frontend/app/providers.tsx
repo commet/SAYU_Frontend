@@ -6,8 +6,9 @@ import { AuthProvider } from '@/hooks/useAuth';
 import { ThemeProvider } from '@/hooks/usePersonalizedTheme';
 import { OnboardingProvider } from '@/contexts/OnboardingContext';
 import { LanguageProvider } from '@/contexts/LanguageContext';
-// TODO: 점진적 마이그레이션을 위해 임시로 둘 다 import
-// import { I18nLanguageProvider } from '@/contexts/I18nLanguageProvider';
+import { AnimalCursorProvider } from '@/contexts/AnimalCursorContext';
+import { EasterEggProvider } from '@/contexts/EasterEggContext';
+import { DarkModeProvider } from '@/contexts/DarkModeContext';
 import { PWAProvider } from '@/components/pwa/PWAProvider';
 import ClientLayout from '@/components/layouts/ClientLayout';
 import { Toaster } from 'react-hot-toast';
@@ -29,14 +30,20 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <PWAProvider>
           <AuthProvider>
             <LanguageProvider>
-              <ThemeProvider>
-                <OnboardingProvider>
-                  <ClientLayout>
-                    {children}
-                  </ClientLayout>
-                  <PersonalizedToaster />
-                </OnboardingProvider>
-              </ThemeProvider>
+              <DarkModeProvider>
+                <ThemeProvider>
+                  <OnboardingProvider>
+                    <AnimalCursorProvider>
+                      <EasterEggProvider>
+                        <ClientLayout>
+                          {children}
+                        </ClientLayout>
+                        <PersonalizedToaster />
+                      </EasterEggProvider>
+                    </AnimalCursorProvider>
+                  </OnboardingProvider>
+                </ThemeProvider>
+              </DarkModeProvider>
             </LanguageProvider>
           </AuthProvider>
         </PWAProvider>

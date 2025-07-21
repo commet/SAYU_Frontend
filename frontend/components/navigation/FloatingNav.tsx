@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter, usePathname } from 'next/navigation';
-import { Home, Sparkles, Users, User, Menu, X } from 'lucide-react';
+import { Home, Sparkles, Users, User, Menu, X, Sun, Moon } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useDarkMode } from '@/contexts/DarkModeContext';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import { useAuth } from '@/hooks/useAuth';
 import toast from 'react-hot-toast';
@@ -37,6 +38,7 @@ export default function FloatingNav() {
   const router = useRouter();
   const pathname = usePathname();
   const { language } = useLanguage();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -79,14 +81,14 @@ export default function FloatingNav() {
         <motion.div
           initial={{ y: -100 }}
           animate={{ y: 0 }}
-          className={`mx-auto max-w-7xl ${scrolled ? 'backdrop-blur-xl' : ''}`}
+          className={`mx-auto max-w-7xl ${scrolled ? 'backdrop-blur-xl' : ''} transition-all duration-300`}
           style={{ 
-            background: 'rgba(255, 255, 255, 0.9)',
+            background: isDarkMode ? 'rgba(31, 41, 55, 0.9)' : 'rgba(255, 255, 255, 0.9)',
             backdropFilter: 'blur(20px) saturate(180%)',
             borderRadius: '20px',
             padding: '12px 24px',
-            border: '1px solid rgba(255, 255, 255, 0.4)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
+            border: isDarkMode ? '1px solid rgba(75, 85, 99, 0.4)' : '1px solid rgba(255, 255, 255, 0.4)',
+            boxShadow: isDarkMode ? '0 8px 32px rgba(0, 0, 0, 0.3)' : '0 8px 32px rgba(0, 0, 0, 0.08)'
           }}
         >
           <div className="flex items-center justify-between">
@@ -112,7 +114,9 @@ export default function FloatingNav() {
                   onClick={() => handleNavClick(item)}
                   disabled={isDisabled}
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
-                    isActive ? 'bg-purple-100 text-purple-600' : 'text-gray-700 hover:bg-gray-100'
+                    isActive 
+                      ? 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400' 
+                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
                   } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                   whileHover={!isDisabled ? { scale: 1.05 } : {}}
                   whileTap={!isDisabled ? { scale: 0.95 } : {}}
@@ -122,7 +126,18 @@ export default function FloatingNav() {
                 </motion.button>
               );
             })}
-            <LanguageToggle variant="glass" />
+            <div className="flex items-center gap-2">
+              <motion.button
+                onClick={toggleDarkMode}
+                className="p-2 rounded-xl text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-all"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+              >
+                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </motion.button>
+              <LanguageToggle variant="glass" />
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -170,12 +185,14 @@ export default function FloatingNav() {
           bottom: '20px',
           left: '50%',
           transform: 'translateX(-50%)',
-          background: 'rgba(255, 255, 255, 0.9)',
+          background: isDarkMode ? 'rgba(31, 41, 55, 0.9)' : 'rgba(255, 255, 255, 0.9)',
           backdropFilter: 'blur(20px) saturate(180%)',
           borderRadius: '30px',
           padding: '12px 20px',
-          border: '1px solid rgba(255, 255, 255, 0.4)',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.6), inset 0 -1px 1px rgba(0, 0, 0, 0.05)',
+          border: isDarkMode ? '1px solid rgba(75, 85, 99, 0.4)' : '1px solid rgba(255, 255, 255, 0.4)',
+          boxShadow: isDarkMode 
+            ? '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -1px 1px rgba(0, 0, 0, 0.2)' 
+            : '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.6), inset 0 -1px 1px rgba(0, 0, 0, 0.05)',
           width: 'auto',
           maxWidth: 'calc(100vw - 40px)',
           zIndex: 1000

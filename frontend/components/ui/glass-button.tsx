@@ -6,7 +6,7 @@ import { motion, HTMLMotionProps } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 
 interface GlassButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
-  variant?: 'default' | 'primary' | 'secondary' | 'ghost';
+  variant?: 'default' | 'primary' | 'secondary' | 'ghost' | 'success' | 'warning' | 'danger' | 'elegant' | 'creative' | 'art' | 'golden';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   icon?: React.ReactNode;
@@ -19,6 +19,13 @@ const variants = {
   primary: 'bg-primary/80 backdrop-blur-md text-primary-foreground hover:bg-primary/90',
   secondary: 'bg-secondary/80 backdrop-blur-md text-secondary-foreground hover:bg-secondary/90',
   ghost: 'hover:bg-white/10 backdrop-blur-sm',
+  success: 'bg-gradient-to-r from-emerald-500/80 to-teal-500/80 backdrop-blur-md text-white hover:from-emerald-600/90 hover:to-teal-600/90 shadow-lg shadow-emerald-500/25',
+  warning: 'bg-gradient-to-r from-amber-500/80 to-orange-500/80 backdrop-blur-md text-white hover:from-amber-600/90 hover:to-orange-600/90 shadow-lg shadow-amber-500/25',
+  danger: 'bg-gradient-to-r from-rose-500/80 to-pink-500/80 backdrop-blur-md text-white hover:from-rose-600/90 hover:to-pink-600/90 shadow-lg shadow-rose-500/25',
+  elegant: 'bg-gradient-to-r from-slate-700/80 to-gray-700/80 backdrop-blur-md text-white hover:from-slate-800/90 hover:to-gray-800/90 shadow-lg shadow-slate-500/25',
+  creative: 'bg-gradient-to-r from-violet-500/80 via-purple-500/80 to-fuchsia-500/80 backdrop-blur-md text-white hover:from-violet-600/90 hover:via-purple-600/90 hover:to-fuchsia-600/90 shadow-lg shadow-purple-500/25',
+  art: 'bg-gradient-to-r from-indigo-500/80 via-blue-500/80 to-cyan-500/80 backdrop-blur-md text-white hover:from-indigo-600/90 hover:via-blue-600/90 hover:to-cyan-600/90 shadow-lg shadow-blue-500/25',
+  golden: 'bg-gradient-to-r from-yellow-500/80 to-amber-600/80 backdrop-blur-md text-white hover:from-yellow-600/90 hover:to-amber-700/90 shadow-lg shadow-yellow-500/25',
 };
 
 const sizes = {

@@ -20,7 +20,9 @@ const termsOfService = {
       "Artwork recommendations based on your preferences",
       "Community features for art enthusiasts",
       "AI-powered art profile generation",
-      "Cultural event notifications and updates"
+      "Cultural event notifications and updates",
+      "Integration with museum APIs and third-party art databases",
+      "AI-enhanced content curation and personalization"
     ],
     ko: [
       "예술 성격 평가 및 추천",
@@ -28,7 +30,9 @@ const termsOfService = {
       "선호도 기반 작품 추천",
       "예술 애호가를 위한 커뮤니티 기능",
       "AI 기반 아트 프로필 생성",
-      "문화 행사 알림 및 업데이트"
+      "문화 행사 알림 및 업데이트",
+      "박물관 API 및 제3자 예술 데이터베이스 통합",
+      "AI 기반 콘텐츠 큐레이션 및 개인화"
     ]
   },
   userResponsibilities: {
@@ -38,7 +42,9 @@ const termsOfService = {
       "Use the platform in accordance with applicable laws",
       "Maintain confidentiality of your account credentials",
       "Report inappropriate content or behavior",
-      "Respect other users' privacy and opinions"
+      "Respect other users' privacy and opinions",
+      "Acknowledge that AI-generated content may not always be accurate",
+      "Understand that recommendations are based on algorithmic analysis"
     ],
     ko: [
       "회원가입 및 평가 시 정확한 정보 제공",
@@ -46,7 +52,9 @@ const termsOfService = {
       "관련 법률에 따른 플랫폼 사용",
       "계정 자격 증명의 기밀성 유지",
       "부적절한 콘텐츠나 행동 신고",
-      "다른 사용자의 개인정보와 의견 존중"
+      "다른 사용자의 개인정보와 의견 존중",
+      "AI 생성 콘텐츠가 항상 정확하지 않을 수 있음을 인지",
+      "추천이 알고리즘 분석에 기반함을 이해"
     ]
   },
   prohibitedActivities: {
@@ -74,6 +82,10 @@ const termsOfService = {
   termination: {
     en: "We may terminate or suspend your account at our sole discretion for violations of these terms.",
     ko: "당사는 이 약관 위반 시 단독 재량으로 귀하의 계정을 종료하거나 정지할 수 있습니다."
+  },
+  thirdPartyServices: {
+    en: "Our platform integrates with third-party services including OpenAI, Google AI, Replicate, Met Museum, Cleveland Museum, Rijksmuseum, and Cloudinary. Use of these services is subject to their respective terms and privacy policies.",
+    ko: "저희 플랫폼은 OpenAI, Google AI, Replicate, Met Museum, Cleveland Museum, Rijksmuseum, Cloudinary 등의 제3자 서비스와 통합됩니다. 이러한 서비스 사용은 각각의 이용약관 및 개인정보 처리방침의 적용을 받습니다."
   },
   contact: "legal@sayu.app"
 };
@@ -255,6 +267,22 @@ export default function TermsOfServicePage() {
             <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
               <p className="text-gray-200 leading-relaxed">
                 {termsOfService.termination[language]}
+              </p>
+            </div>
+          </motion.section>
+
+          {/* Third Party Services */}
+          <motion.section
+            {...fadeInUp}
+            transition={{ delay: 1.2 }}
+            className="mb-12"
+          >
+            <h2 className="text-2xl font-bold mb-6">
+              {language === 'ko' ? '제3자 서비스' : 'Third-Party Services'}
+            </h2>
+            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+              <p className="text-gray-200 leading-relaxed">
+                {termsOfService.thirdPartyServices[language]}
               </p>
             </div>
           </motion.section>

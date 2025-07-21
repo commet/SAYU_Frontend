@@ -17,7 +17,12 @@
       "Bash(npm run:*)",
       "Bash(timeout:*)",
       "Bash(git push:*)",
-      "Bash(npm start)"
+      "Bash(npm start)",
+      "WebFetch(domain:artforum.com)",
+      "WebFetch(domain:artnet.com)",
+      "WebFetch(domain:artsy.net)",
+      "WebFetch(domain:artreview.com)",
+      "WebFetch(domain:e-flux.com)"
     ],
     "deny": []
   }

@@ -182,7 +182,7 @@ export default function HomePage() {
         {/* Animated Gradient Background */}
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-hero animate-gradient-shift opacity-30" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/50 to-white" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/50 to-white dark:via-gray-900/50 dark:to-gray-900" />
         </div>
 
         {/* Floating Particles */}
@@ -520,7 +520,7 @@ export default function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 bg-gradient-to-b from-gray-50 to-white">
+      <section className="py-12 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
         <div className="max-w-6xl mx-auto px-4">
           <GlassCard variant="light">
             <div className="flex flex-wrap justify-center gap-8 py-4">
@@ -568,7 +568,7 @@ export default function HomePage() {
       </section>
 
       {/* Artists Section */}
-      <section className="py-20 px-4 bg-gray-50">
+      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
