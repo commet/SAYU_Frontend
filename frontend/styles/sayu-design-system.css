@@ -1,16 +1,74 @@
-/* SAYU Art Platform Design System 2025 */
+/* SAYU Design System - Emotional Spectrum 2025 */
+
+:root {
+  /* Primary - 뉴트럴하지만 따뜻한 */
+  --sayu-mocha: #6F4E37;       /* Pantone 2025 모카 무스 */
+  --sayu-cream: #FBF7F4;       /* 크림 화이트 */
+  --sayu-charcoal: #1A1A1A;    /* 깊은 차콜 */
+  
+  /* Gradient Palette - 감정의 스펙트럼 */
+  --emotion-dawn: linear-gradient(135deg, #FAF7ED 0%, #FCE4DD 50%, #FAE8EC 100%);
+  --emotion-twilight: linear-gradient(135deg, #5E85CC 0%, #8B7BAB 50%, #364B75 100%);
+  --emotion-mist: linear-gradient(135deg, #F0EAF8 0%, #E6C8D1 50%, #DDD0DC 100%);
+  
+  /* Dynamic Accents - 인터랙션용 */
+  --accent-coral: #FF6B6B;     /* 따뜻한 강조 */
+  --accent-sage: #95CDB6;      /* 차분한 강조 */
+  --accent-mauve: #C589E8;     /* 몽환적 강조 */
+  
+  /* Gradients for Animation */
+  --gradient-shift-1: linear-gradient(135deg, #FAF7ED 0%, #FCE4DD 25%, #FAE8EC 50%, #F0EAF8 75%, #FAF7ED 100%);
+  --gradient-shift-2: linear-gradient(135deg, #5E85CC 0%, #8B7BAB 25%, #364B75 50%, #5E85CC 75%, #8B7BAB 100%);
+  
+  /* Typography */
+  --font-display: 'Playfair Display', 'Noto Serif KR', serif;
+  --font-body: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 8rem;
+  
+  /* Transitions */
+  --transition-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+  --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* Shadows */
+  --shadow-subtle: 0 4px 20px -4px rgba(111, 78, 55, 0.15);
+  --shadow-medium: 0 20px 40px -10px rgba(111, 78, 55, 0.25);
+  --shadow-dramatic: 0 30px 60px -20px rgba(111, 78, 55, 0.35);
+  
+  /* Blur values */
+  --blur-subtle: 10px;
+  --blur-medium: 20px;
+  --blur-heavy: 40px;
+}
+
+/* Dark mode - Gallery Night */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sayu-cream: #0A0A0A;
+    --sayu-mocha: #D4A574;
+    --sayu-charcoal: #F5F5F5;
+    
+    /* Deeper gradients for dark mode */
+    --emotion-dawn: linear-gradient(135deg, #1A1618 0%, #2C2025 50%, #1F1A1E 100%);
+    --emotion-twilight: linear-gradient(135deg, #1E2951 0%, #2B2340 50%, #141B2A 100%);
+    --emotion-mist: linear-gradient(135deg, #201C24 0%, #261A1F 50%, #1D1619 100%);
+    
+    /* Adjusted shadows for dark mode */
+    --shadow-subtle: 0 4px 20px -4px rgba(0, 0, 0, 0.5);
+    --shadow-medium: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
+    --shadow-dramatic: 0 30px 60px -20px rgba(0, 0, 0, 0.9);
+  }
+}
 
 /* 1. 다이나믹 그라데이션 배경 */
 .sayu-gradient-bg {
   /* 아트 갤러리의 조명을 연상시키는 그라데이션 */
-  background: linear-gradient(
-    135deg,
-    #fafafa 0%,
-    #f5f0e8 25%,
-    #e8e2d5 50%,
-    #f0e8df 75%,
-    #faf5f0 100%
-  );
+  background: var(--emotion-dawn);
   position: relative;
   min-height: 100vh;
 }
@@ -727,4 +785,351 @@
 
 .sayu-highlight:hover::after {
   width: 100%;
+}
+
+/* ===== NEW SENSORY DESIGN SYSTEM ===== */
+
+/* Typography Scale - 감각적 타이포그래피 */
+.text-hero {
+  font-size: clamp(3rem, 8vw, 8rem);
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  color: var(--sayu-charcoal);
+}
+
+.text-title {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: var(--sayu-charcoal);
+}
+
+.text-heading {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--sayu-charcoal);
+}
+
+.text-body {
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--sayu-charcoal);
+}
+
+.text-caption {
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--sayu-charcoal);
+  opacity: 0.8;
+}
+
+/* Gradient Animations - 살아있는 그라디언트 */
+@keyframes gradient-morph {
+  0%, 100% { 
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+  25% { 
+    background-position: 50% 100%;
+    filter: hue-rotate(10deg);
+  }
+  50% { 
+    background-position: 100% 50%;
+    filter: hue-rotate(-10deg);
+  }
+  75% { 
+    background-position: 50% 0%;
+    filter: hue-rotate(5deg);
+  }
+}
+
+.animate-gradient-morph {
+  background-size: 400% 400%;
+  animation: gradient-morph 15s ease infinite;
+}
+
+/* Floating Particles - 감정 파티클 */
+.emotion-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--accent-coral);
+  border-radius: 50%;
+  opacity: 0.6;
+  filter: blur(1px);
+  animation: float-particle 20s infinite;
+}
+
+@keyframes float-particle {
+  0% {
+    transform: translateY(100vh) translateX(0) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(100px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Depth Layers - 깊이감 레이어링 */
+.layer-back {
+  z-index: 1;
+  filter: blur(2px);
+  opacity: 0.6;
+  transform: scale(0.95);
+}
+
+.layer-mid {
+  z-index: 2;
+  filter: blur(0.5px);
+  opacity: 0.8;
+  transform: scale(0.98);
+}
+
+.layer-front {
+  z-index: 3;
+  filter: none;
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Glass Morphism Enhanced - 향상된 글래스 */
+.glass-enhanced {
+  background: linear-gradient(
+    135deg,
+    rgba(251, 247, 244, 0.7) 0%,
+    rgba(251, 247, 244, 0.5) 100%
+  );
+  backdrop-filter: blur(var(--blur-medium)) saturate(180%);
+  border: 1px solid rgba(111, 78, 55, 0.1);
+  box-shadow: 
+    var(--shadow-subtle),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-enhanced::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.3) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+/* Artwork Card Hover - 작품 카드 인터랙션 */
+.artwork-card {
+  transition: all 0.6s var(--transition-smooth);
+  cursor: pointer;
+}
+
+.artwork-card:hover {
+  transform: translateY(-10px) rotateX(5deg) scale(1.02);
+  box-shadow: 
+    0 30px 60px -20px rgba(111, 78, 55, 0.3),
+    0 0 120px -40px var(--accent-coral);
+}
+
+/* Magnetic Button - 마그네틱 버튼 */
+.magnetic-button {
+  position: relative;
+  transition: transform 0.3s var(--transition-smooth);
+  display: inline-block;
+}
+
+/* Horizontal Scroll Gallery - 가로 스크롤 갤러리 */
+.horizontal-gallery {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 2rem 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.horizontal-gallery::-webkit-scrollbar {
+  height: 4px;
+}
+
+.horizontal-gallery::-webkit-scrollbar-track {
+  background: rgba(111, 78, 55, 0.1);
+}
+
+.horizontal-gallery::-webkit-scrollbar-thumb {
+  background: var(--sayu-mocha);
+  border-radius: 2px;
+}
+
+.gallery-item {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  transition: transform 0.3s var(--transition-smooth);
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+}
+
+/* 3D Perspective Cards - 3D 원근감 카드 */
+.perspective-container {
+  perspective: 1000px;
+}
+
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.6s var(--transition-smooth);
+}
+
+.card-3d:hover {
+  transform: rotateY(10deg) rotateX(-10deg);
+}
+
+/* Emotion Color Picker - 감정 색상 선택기 */
+.emotion-picker {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    var(--accent-coral),
+    var(--accent-mauve),
+    var(--accent-sage),
+    var(--accent-coral)
+  );
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s var(--transition-smooth);
+}
+
+.emotion-picker:hover {
+  transform: scale(1.05);
+}
+
+.emotion-picker::after {
+  content: '';
+  position: absolute;
+  inset: 20px;
+  background: var(--sayu-cream);
+  border-radius: 50%;
+}
+
+/* Scroll Progress Indicator - 스크롤 진행 표시 */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  background: rgba(111, 78, 55, 0.1);
+  z-index: 100;
+}
+
+.scroll-progress-bar {
+  width: 100%;
+  background: var(--sayu-mocha);
+  transition: height 0.1s linear;
+}
+
+/* Smooth Scroll Sections */
+.scroll-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Custom Cursor - 커스텀 커서 */
+.custom-cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background-color: var(--sayu-mocha);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: transform 0.1s ease;
+}
+
+.custom-cursor-ring {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--sayu-mocha);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  mix-blend-mode: difference;
+  transition: all 0.15s ease;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+  .horizontal-gallery {
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+  
+  .emotion-picker {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .text-hero {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+  }
+}
+
+/* Performance Optimizations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.reduce-motion {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

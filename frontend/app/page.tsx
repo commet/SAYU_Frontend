@@ -4,46 +4,86 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { 
-  Sparkles, 
-  ArrowRight, 
-  Heart, 
-  Palette, 
-  Eye,
-  Zap,
-  MousePointer2,
-  Plus
-} from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import '@/styles/sayu-design-system.css';
+import { OptimizedImage, getCloudinaryUrl } from '@/components/ui/OptimizedImage';
 
-export default function LandingPage() {
+// Emotion to personality type mapping
+const emotionToPersonality = {
+  'Passion': ['SAEF', 'SAMF'], // 감정 지휘자, 영감 전도사
+  'Serenity': ['LRMC', 'LAMC'], // 침묵의 정원사, 패턴 건축가
+  'Mystery': ['SREC', 'SREF'], // 마음의 큐레이터, 이야기 직조가
+  'Contemplation': ['LREC', 'LRMF'], // 질감의 예언자, 내면의 탐구자
+  'Joy': ['SAEC', 'SAMF'], // 감성 큐레이터, 영감 전도사
+  'Imagination': ['LAEF', 'SREF'] // 몽환적 방랑자, 이야기 직조가
+};
+
+export default function SensoryLandingPage() {
   const router = useRouter();
   const { language } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const supabase = createClientComponentClient();
-  
+  const [selectedEmotion, setSelectedEmotion] = useState<string>('#FF6B6B');
+  const [selectedEmotionName, setSelectedEmotionName] = useState<string>('Passion');
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [artworks, setArtworks] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
   // Scroll animations
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 300], [0, 50]);
-  const y2 = useTransform(scrollY, [0, 300], [0, -50]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const scale = useTransform(scrollY, [0, 300], [1, 0.8]);
+  const { scrollY, scrollYProgress } = useScroll();
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const heroScale = useTransform(scrollY, [0, 400], [1, 0.95]);
 
-  // Smooth spring animations
-  const springConfig = { stiffness: 100, damping: 30 };
-  const y1Spring = useSpring(y1, springConfig);
-  const y2Spring = useSpring(y2, springConfig);
-
-  // Mouse parallax
+  // Mouse position for interactive effects
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
+
+  // Fetch artworks based on emotion
+  const fetchArtworks = async (emotion: string) => {
+    setLoading(true);
+    try {
+      // Get personality types for the selected emotion
+      const personalityTypes = emotionToPersonality[emotion as keyof typeof emotionToPersonality] || ['LAEF'];
+      
+      // Fetch artworks for each personality type
+      const promises = personalityTypes.map(async (type) => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/artvee/personality/${type}?limit=5&emotionFilter=${emotion.toLowerCase()}`);
+        if (response.ok) {
+          const data = await response.json();
+          return data.artworks || [];
+        }
+        return [];
+      });
+      
+      const results = await Promise.all(promises);
+      const allArtworks = results.flat();
+      
+      // Remove duplicates and limit to 12 artworks
+      const uniqueArtworks = Array.from(new Map(allArtworks.map(item => [item.artveeId, item])).values()).slice(0, 12);
+      
+      setArtworks(uniqueArtworks);
+    } catch (error) {
+      console.error('Error fetching artworks:', error);
+      // Fallback to random artworks
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/artvee/random?limit=12`);
+        if (response.ok) {
+          const data = await response.json();
+          setArtworks(data.artworks || []);
+        }
+      } catch (fallbackError) {
+        console.error('Fallback error:', fallbackError);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     setMounted(true);
-    
-    // Check if user is authenticated and redirect to dashboard
+
+    // Check auth status
     const checkAuth = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
@@ -51,345 +91,684 @@ export default function LandingPage() {
       }
     };
     checkAuth();
-    
+
+    // Fetch initial artworks
+    fetchArtworks('Passion');
+
+    // Mouse move handler
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
-      const x = (clientX / window.innerWidth - 0.5) * 20;
-      const y = (clientY / window.innerHeight - 0.5) * 20;
-      setMousePosition({ x, y });
+      setMousePosition({
+        x: (clientX / window.innerWidth - 0.5) * 20,
+        y: (clientY / window.innerHeight - 0.5) * 20,
+      });
+    };
+
+    // Scroll progress handler
+    const handleScroll = () => {
+      const winScroll = window.scrollY;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (winScroll / height) * 100;
+      setScrollProgress(scrolled);
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [router, supabase]);
 
   if (!mounted) return null;
 
+  // Emotion colors for the picker
+  const emotionColors = [
+    { color: '#FF6B6B', name: language === 'ko' ? '열정' : 'Passion' },
+    { color: '#C589E8', name: language === 'ko' ? '상상' : 'Imagination' },
+    { color: '#95CDB6', name: language === 'ko' ? '평온' : 'Serenity' },
+    { color: '#5E85CC', name: language === 'ko' ? '사색' : 'Contemplation' },
+    { color: '#FFB26B', name: language === 'ko' ? '기쁨' : 'Joy' },
+    { color: '#8B7BAB', name: language === 'ko' ? '신비' : 'Mystery' },
+  ];
+
   return (
-    <div ref={containerRef} className="relative overflow-hidden bg-gradient-to-br from-gray-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-pink-900/20">
-      {/* Animated Background Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Morphing Gradient Blobs */}
-        <motion.div
-          className="absolute -top-48 -left-48 w-96 h-96 bg-gradient-to-br from-purple-400/30 to-pink-400/30 rounded-full blur-3xl"
-          animate={{
-            x: [0, 100, 0],
-            y: [0, -50, 0],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          style={{
-            x: mousePosition.x * 2,
-            y: mousePosition.y * 2,
-          }}
+    <div ref={containerRef} className="relative overflow-hidden">
+      {/* Scroll Progress Indicator */}
+      <div className="scroll-progress">
+        <div 
+          className="scroll-progress-bar" 
+          style={{ height: `${scrollProgress}%` }}
         />
-        <motion.div
-          className="absolute -bottom-48 -right-48 w-96 h-96 bg-gradient-to-br from-blue-400/30 to-green-400/30 rounded-full blur-3xl"
-          animate={{
-            x: [0, -100, 0],
-            y: [0, 50, 0],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          style={{
-            x: mousePosition.x * -2,
-            y: mousePosition.y * -2,
-          }}
-        />
-        
-        {/* Floating Particles */}
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-purple-500/50 rounded-full"
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-            }}
-            animate={{
-              y: [null, -100, null],
-              x: [null, Math.random() * 100 - 50, null],
-            }}
-            transition={{
-              duration: Math.random() * 20 + 10,
-              repeat: Infinity,
-              ease: "linear",
-              delay: Math.random() * 5,
-            }}
-          />
-        ))}
       </div>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4">
-        <motion.div
-          className="relative z-10 text-center max-w-5xl mx-auto"
-          style={{ opacity, scale }}
-        >
-          {/* Animated Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="inline-flex items-center gap-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border border-purple-200 dark:border-purple-800 px-4 py-2 rounded-full mb-8 shadow-lg"
-          >
-            <Sparkles className="w-4 h-4 text-purple-600" />
-            <span className="text-sm font-medium bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              {language === 'ko' ? 'AI가 찾아주는 나만의 예술 취향' : 'AI-Powered Art Personality Discovery'}
-            </span>
-          </motion.div>
+      {/* Custom Cursor */}
+      <motion.div 
+        className="custom-cursor-dot"
+        style={{
+          x: mousePosition.x,
+          y: mousePosition.y,
+        }}
+      />
+      <motion.div 
+        className="custom-cursor-ring"
+        style={{
+          x: mousePosition.x * 0.5,
+          y: mousePosition.y * 0.5,
+        }}
+      />
 
-          {/* Main Title with Gradient Animation */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="text-6xl md:text-8xl font-bold mb-8"
-          >
-            <motion.span
-              className="inline-block bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
-              animate={{
-                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "linear"
-              }}
+      {/* Section 1: Opening Gallery */}
+      <section className="scroll-section relative">
+        {/* Animated Gradient Background */}
+        <div className="absolute inset-0 animate-gradient-morph" style={{
+          background: `linear-gradient(135deg, ${selectedEmotion}20 0%, transparent 50%, ${selectedEmotion}10 100%)`,
+        }} />
+
+        {/* Floating Emotion Particles */}
+        <div className="emotion-particles">
+          {[...Array(15)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="particle"
               style={{
-                backgroundSize: '200% 200%',
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 20}s`,
+                background: emotionColors[i % emotionColors.length].color,
               }}
-            >
-              SAYU
-            </motion.span>
+            />
+          ))}
+        </div>
+
+        <motion.div 
+          className="relative z-10 text-center px-4 max-w-4xl mx-auto"
+          style={{ opacity: heroOpacity, scale: heroScale }}
+        >
+          <motion.h1 
+            className="text-hero mb-8"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
+          >
+            {language === 'ko' ? '당신의 감정은\n어떤 색인가요?' : 'What Color\nIs Your Emotion?'}
           </motion.h1>
 
-          {/* Animated Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
+          <motion.p 
+            className="text-body mb-12 opacity-80"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="text-xl md:text-3xl text-gray-700 dark:text-gray-300 mb-12 font-light"
-            style={{ y: y1Spring }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
           >
-            {language === 'ko' ? (
-              <>
-                당신의 성격이 만나는 <span className="font-medium text-purple-600">예술</span>의 순간
-              </>
-            ) : (
-              <>
-                Where Your Personality Meets <span className="font-medium text-purple-600">Art</span>
-              </>
-            )}
+            {language === 'ko' 
+              ? '감정의 색을 선택하고, 당신만의 예술을 발견하세요'
+              : 'Choose the color of your emotion and discover your art'}
           </motion.p>
 
-          {/* CTA Buttons with Hover Effects */}
-          <motion.div
+          {/* Enhanced Emotion Selector */}
+          <motion.div 
+            className="mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            {/* Emotion Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+              {emotionColors.map((emotion, index) => (
+                <motion.button
+                  key={emotion.color}
+                  className={`group relative p-6 rounded-3xl transition-all duration-500 overflow-hidden ${
+                    selectedEmotionName === emotion.name 
+                      ? 'scale-105' 
+                      : 'hover:scale-102'
+                  }`}
+                  style={{ 
+                    background: selectedEmotionName === emotion.name
+                      ? `linear-gradient(135deg, ${emotion.color}20, ${emotion.color}10)`
+                      : 'rgba(255, 255, 255, 0.5)',
+                    border: selectedEmotionName === emotion.name
+                      ? `2px solid ${emotion.color}`
+                      : '1px solid rgba(0, 0, 0, 0.05)',
+                    boxShadow: selectedEmotionName === emotion.name 
+                      ? `0 8px 32px ${emotion.color}40`
+                      : '0 4px 16px rgba(0,0,0,0.05)'
+                  }}
+                  onClick={() => {
+                    setSelectedEmotion(emotion.color);
+                    setSelectedEmotionName(emotion.name);
+                    fetchArtworks(emotion.name);
+                  }}
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.98 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  {/* Emotion Color Visual */}
+                  <motion.div 
+                    className="w-full h-24 rounded-2xl mb-4 relative overflow-hidden"
+                    style={{ background: emotion.color }}
+                  >
+                    {/* Animated Gradient Overlay */}
+                    <motion.div
+                      className="absolute inset-0"
+                      style={{
+                        background: `radial-gradient(circle at 50% 50%, transparent 0%, ${emotion.color} 100%)`,
+                      }}
+                      animate={{
+                        scale: selectedEmotionName === emotion.name ? [1, 1.5, 1] : 1,
+                        opacity: selectedEmotionName === emotion.name ? [0.5, 0.8, 0.5] : 0.3,
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+                    
+                    {/* Emotion Icon/Symbol */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-4xl filter brightness-200 opacity-80">
+                        {emotion.name === 'Passion' && '🔥'}
+                        {emotion.name === 'Serenity' && '🌊'}
+                        {emotion.name === 'Joy' && '✨'}
+                        {emotion.name === 'Mystery' && '🌙'}
+                        {emotion.name === 'Imagination' && '🦋'}
+                        {emotion.name === 'Contemplation' && '🍃'}
+                      </span>
+                    </div>
+                  </motion.div>
+                  
+                  {/* Emotion Name */}
+                  <h3 className={`text-lg font-medium mb-2 transition-colors ${
+                    selectedEmotionName === emotion.name 
+                      ? 'text-gray-900' 
+                      : 'text-gray-700'
+                  }`}>
+                    {emotion.name}
+                  </h3>
+                  
+                  {/* Emotion Description */}
+                  <p className="text-sm opacity-70">
+                    {language === 'ko' ? (
+                      <>
+                        {emotion.name === 'Passion' && '뜨거운 열정과 에너지'}
+                        {emotion.name === 'Serenity' && '고요한 평화와 안정'}
+                        {emotion.name === 'Joy' && '밝은 기쁨과 즐거움'}
+                        {emotion.name === 'Mystery' && '신비로운 호기심'}
+                        {emotion.name === 'Imagination' && '무한한 상상의 세계'}
+                        {emotion.name === 'Contemplation' && '깊은 사색과 성찰'}
+                      </>
+                    ) : (
+                      <>
+                        {emotion.name === 'Passion' && 'Burning energy & drive'}
+                        {emotion.name === 'Serenity' && 'Peaceful & calm state'}
+                        {emotion.name === 'Joy' && 'Bright happiness'}
+                        {emotion.name === 'Mystery' && 'Curious enigma'}
+                        {emotion.name === 'Imagination' && 'Endless creativity'}
+                        {emotion.name === 'Contemplation' && 'Deep reflection'}
+                      </>
+                    )}
+                  </p>
+                  
+                  {/* Selection Indicator */}
+                  {selectedEmotionName === emotion.name && (
+                    <motion.div
+                      className="absolute top-3 right-3"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring" }}
+                    >
+                      <div 
+                        className="w-6 h-6 rounded-full flex items-center justify-center"
+                        style={{ background: emotion.color }}
+                      >
+                        <span className="text-white text-xs">✓</span>
+                      </div>
+                    </motion.div>
+                  )}
+                </motion.button>
+              ))}
+            </div>
+            
+            {/* Current Emotion Indicator */}
+            <motion.div 
+              className="text-center mt-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+            >
+              <p className="text-sm opacity-60">
+                {language === 'ko' ? '선택된 감정' : 'Selected emotion'}
+              </p>
+              <motion.p 
+                className="text-xl font-medium mt-1"
+                style={{ color: selectedEmotion }}
+                key={selectedEmotionName}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                {selectedEmotionName}
+              </motion.p>
+            </motion.div>
+          </motion.div>
+
+          <motion.button
+            className="glass-enhanced px-12 py-6 rounded-full text-lg font-medium magnetic-button"
+            style={{ 
+              background: `linear-gradient(135deg, ${selectedEmotion}20, transparent)`,
+              border: `1px solid ${selectedEmotion}40`
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => router.push('/quiz')}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                size="lg"
-                onClick={() => router.push('/home')}
-                className="group relative bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-6 text-lg shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  {language === 'ko' ? '3분 테스트 시작하기' : 'Start 3-Min Test'}
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600"
-                  initial={{ x: '100%' }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.3 }}
-                />
-              </Button>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                size="lg"
-                onClick={() => router.push('/gallery-3d')}
-                variant="outline"
-                className="group bg-white/50 dark:bg-gray-800/50 backdrop-blur-xl border-2 border-purple-300 dark:border-purple-700 hover:border-purple-500 dark:hover:border-purple-500 px-8 py-6 text-lg shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <Sparkles className="mr-2 h-5 w-5 text-purple-600 group-hover:rotate-12 transition-transform" />
-                {language === 'ko' ? '3D 갤러리 체험' : 'Experience 3D Gallery'}
-              </Button>
-            </motion.div>
-          </motion.div>
-
-          {/* Scroll Indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 1 }}
-            className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-          >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="flex flex-col items-center gap-2 text-gray-500"
-            >
-              <MousePointer2 className="w-5 h-5" />
-              <span className="text-sm">{language === 'ko' ? '스크롤하여 더보기' : 'Scroll to explore'}</span>
-            </motion.div>
-          </motion.div>
+            {language === 'ko' ? '나의 예술 성향 찾기' : 'Find My Art Personality'}
+          </motion.button>
         </motion.div>
-      </section>
 
-      {/* Features Section with Parallax */}
-      <section className="relative py-20 px-4">
-        <motion.div
-          className="max-w-6xl mx-auto"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
+        {/* Scroll Indicator */}
+        <motion.div 
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            {language === 'ko' ? '당신만의 예술 여정' : 'Your Art Journey'}
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: Heart,
-                title: language === 'ko' ? '성격 분석' : 'Personality Analysis',
-                description: language === 'ko' ? 'APT 이론 기반 정밀 분석' : 'Precise analysis based on APT theory',
-                color: 'from-purple-500 to-pink-500',
-                delay: 0,
-              },
-              {
-                icon: Palette,
-                title: language === 'ko' ? '맞춤 추천' : 'Custom Recommendations',
-                description: language === 'ko' ? 'AI가 찾아주는 완벽한 작품' : 'AI finds perfect artworks for you',
-                color: 'from-blue-500 to-purple-500',
-                delay: 0.2,
-              },
-              {
-                icon: Eye,
-                title: language === 'ko' ? '예술 탐험' : 'Art Exploration',
-                description: language === 'ko' ? '세계 미술관의 명작 감상' : 'Explore masterpieces from world museums',
-                color: 'from-pink-500 to-orange-500',
-                delay: 0.4,
-              },
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: feature.delay }}
-                viewport={{ once: true }}
-                whileHover={{ y: -10 }}
-                className="group relative"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-3xl blur-xl"
-                  style={{
-                    background: `linear-gradient(to right, var(--tw-gradient-stops))`,
-                    '--tw-gradient-from': feature.color.split(' ')[1],
-                    '--tw-gradient-to': feature.color.split(' ')[3],
-                  } as any}
-                />
-                <div className="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50">
-                  <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    <feature.icon className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    {feature.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+          <div className="text-caption opacity-60">
+            {language === 'ko' ? '아래로 스크롤' : 'Scroll down'}
           </div>
         </motion.div>
       </section>
 
-      {/* Interactive Demo Section */}
-      <section className="relative py-20 px-4 overflow-hidden">
-        <motion.div
-          className="max-w-4xl mx-auto text-center"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            {language === 'ko' ? '지금 시작하세요' : 'Start Now'}
-          </h2>
-          
+      {/* Section 2: Emotion Translation */}
+      <section className="scroll-section bg-gradient-to-b from-transparent to-gray-50/50">
+        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+          {/* Left: Emotion Input */}
           <motion.div
-            className="relative inline-block"
-            whileHover={{ scale: 1.02 }}
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur-2xl opacity-50" />
-            <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl p-8 shadow-2xl border border-purple-200 dark:border-purple-800">
-              <p className="text-xl mb-6 text-gray-700 dark:text-gray-300">
-                {language === 'ko' 
-                  ? '단 3분만에 당신의 예술 성향을 발견하고, 전 세계 미술관의 작품을 만나보세요.'
-                  : 'Discover your art personality in just 3 minutes and explore artworks from museums worldwide.'
-                }
-              </p>
-              <motion.div
-                className="flex flex-wrap gap-4 justify-center"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                {['🦊', '🐱', '🦉', '🐢', '🦎', '🦔', '🐙', '🦫'].map((emoji, index) => (
+            <h2 className="text-title mb-6">
+              {language === 'ko' ? '감정을 입력하면' : 'When You Input Emotion'}
+            </h2>
+            <div className="glass-enhanced p-8 rounded-3xl">
+              <div className="space-y-4">
+                {['기쁨', '설렘', '평온', '호기심'].map((emotion, i) => (
                   <motion.div
-                    key={index}
-                    className="w-12 h-12 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900 dark:to-pink-900 rounded-full flex items-center justify-center text-2xl shadow-lg"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.1 * index, type: "spring" }}
-                    whileHover={{ scale: 1.2, rotate: 360 }}
+                    key={emotion}
+                    className="p-4 rounded-2xl"
+                    style={{ background: `${emotionColors[i].color}10` }}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
                   >
-                    {emoji}
+                    <span className="text-body">{emotion}</span>
                   </motion.div>
                 ))}
-              </motion.div>
+              </div>
             </div>
           </motion.div>
-        </motion.div>
+
+          {/* Right: Artwork Translation */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative"
+          >
+            <h2 className="text-title mb-6">
+              {language === 'ko' ? '작품으로 번역됩니다' : 'Translated to Artworks'}
+            </h2>
+            <div className="grid grid-cols-2 gap-4">
+              {loading ? (
+                // Loading skeleton
+                [...Array(4)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="aspect-square rounded-2xl bg-gray-200 animate-pulse"
+                  />
+                ))
+              ) : (
+                artworks.slice(0, 4).map((artwork, i) => (
+                  <motion.div
+                    key={artwork.artveeId}
+                    className="aspect-square rounded-2xl overflow-hidden artwork-card relative group"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    <OptimizedImage
+                      src={artwork.cloudinaryUrl?.full || getCloudinaryUrl(`sayu/artvee/full/${artwork.artveeId}`, {
+                        width: 400,
+                        height: 400,
+                        crop: 'fill',
+                        quality: 85
+                      })}
+                      alt={artwork.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="absolute bottom-4 left-4 text-white">
+                        <p className="text-sm font-medium">{artwork.title}</p>
+                        <p className="text-xs opacity-80">{artwork.artist}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))
+              )}
+            </div>
+          </motion.div>
+        </div>
       </section>
 
-      {/* Floating Action Button */}
-      <motion.div
-        className="fixed bottom-8 right-8 z-50"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 1, type: "spring" }}
-      >
-        <motion.button
-          onClick={() => router.push('/home')}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+      {/* Section 3: Gallery Journey - Horizontal Scroll */}
+      <section className="scroll-section py-20">
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.h2 
+            className="text-title text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            {language === 'ko' ? '갤러리 여정' : 'Gallery Journey'}
+          </motion.h2>
+
+          <div className="horizontal-gallery">
+            {loading ? (
+              // Loading skeleton
+              [...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-80 h-96 glass-enhanced rounded-3xl p-6 flex-shrink-0"
+                >
+                  <div className="w-full h-3/4 bg-gray-200 animate-pulse rounded-2xl mb-4" />
+                  <div className="h-4 bg-gray-200 animate-pulse rounded mb-2" />
+                  <div className="h-3 bg-gray-200 animate-pulse rounded w-2/3" />
+                </div>
+              ))
+            ) : (
+              artworks.map((artwork, i) => (
+                <motion.div
+                  key={artwork.artveeId}
+                  className="gallery-item"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: (i % 4) * 0.1 }}
+                >
+                  <div className="w-80 h-96 glass-enhanced rounded-3xl overflow-hidden group cursor-pointer">
+                    <div className="relative w-full h-3/4">
+                      <OptimizedImage
+                        src={artwork.cloudinaryUrl?.full || getCloudinaryUrl(`sayu/artvee/full/${artwork.artveeId}`, {
+                          width: 600,
+                          height: 450,
+                          crop: 'fill',
+                          quality: 85
+                        })}
+                        alt={artwork.title}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        sizes="320px"
+                      />
+                      <div 
+                        className="absolute inset-0 opacity-20 mix-blend-overlay"
+                        style={{ background: selectedEmotion }}
+                      />
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-lg font-medium mb-1">{artwork.title}</h3>
+                      <p className="text-sm opacity-70">{artwork.artist}</p>
+                      <div className="flex items-center gap-2 mt-3">
+                        <div 
+                          className="w-3 h-3 rounded-full"
+                          style={{ background: selectedEmotion }}
+                        />
+                        <p className="text-xs opacity-60">{selectedEmotionName}</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 4: Personal Museum - 3D Perspective */}
+      <section className="scroll-section bg-gradient-to-b from-gray-50/50 to-transparent">
+        <div className="perspective-container max-w-6xl mx-auto px-4">
+          <motion.h2 
+            className="text-title text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            {language === 'ko' ? '당신만의 미술관' : 'Your Personal Museum'}
+          </motion.h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { title: language === 'ko' ? '감정 번역' : 'Emotion Translation', icon: '🎨' },
+              { title: language === 'ko' ? '사유의 동반' : 'Contemplative Companion', icon: '🤔' },
+              { title: language === 'ko' ? '취향 발견' : 'Taste Discovery', icon: '✨' },
+            ].map((feature, i) => (
+              <motion.div
+                key={i}
+                className="card-3d glass-enhanced p-8 rounded-3xl text-center"
+                initial={{ opacity: 0, rotateY: -30 }}
+                whileInView={{ opacity: 1, rotateY: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.2 }}
+              >
+                <div className="text-6xl mb-4">{feature.icon}</div>
+                <h3 className="text-heading mb-4">{feature.title}</h3>
+                <p className="text-body opacity-80">
+                  {language === 'ko' 
+                    ? '당신의 감정과 예술이 만나는 특별한 순간'
+                    : 'Special moments where your emotions meet art'}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 5: Daily Ritual - Timeline */}
+      <section className="scroll-section">
+        <div className="max-w-4xl mx-auto px-4">
+          <motion.h2 
+            className="text-title text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            {language === 'ko' ? '매일의 예술 리추얼' : 'Daily Art Ritual'}
+          </motion.h2>
+
+          <div className="relative">
+            {/* Timeline Line */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-transparent via-gray-300 to-transparent" />
+
+            {/* Timeline Items */}
+            {[
+              { time: '아침', emotion: '평온', color: '#95CDB6' },
+              { time: '점심', emotion: '활력', color: '#FFB26B' },
+              { time: '저녁', emotion: '사색', color: '#5E85CC' },
+              { time: '밤', emotion: '신비', color: '#8B7BAB' },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                className={`flex items-center gap-8 mb-12 ${i % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
+                initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <div className="flex-1 text-right">
+                  {i % 2 === 0 && (
+                    <>
+                      <h3 className="text-heading mb-2">{item.time}</h3>
+                      <p className="text-body opacity-80">{item.emotion}</p>
+                    </>
+                  )}
+                </div>
+                <div 
+                  className="w-16 h-16 rounded-full flex items-center justify-center"
+                  style={{ background: item.color }}
+                >
+                  <div className="w-3 h-3 bg-white rounded-full" />
+                </div>
+                <div className="flex-1">
+                  {i % 2 !== 0 && (
+                    <>
+                      <h3 className="text-heading mb-2">{item.time}</h3>
+                      <p className="text-body opacity-80">{item.emotion}</p>
+                    </>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 6: Community Gallery - Masonry */}
+      <section className="scroll-section bg-gradient-to-t from-gray-50/50 to-transparent">
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.h2 
+            className="text-title text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            {language === 'ko' ? '감정의 갤러리' : 'Gallery of Emotions'}
+          </motion.h2>
+
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-6">
+            {loading ? (
+              // Loading skeleton
+              [...Array(9)].map((_, i) => (
+                <div
+                  key={i}
+                  className="break-inside-avoid mb-6"
+                  style={{ height: `${300 + (i % 3) * 100}px` }}
+                >
+                  <div className="glass-enhanced rounded-3xl bg-gray-200 animate-pulse h-full" />
+                </div>
+              ))
+            ) : (
+              artworks.slice(0, 9).map((artwork, i) => (
+                <motion.div
+                  key={`${artwork.artveeId}-${i}`}
+                  className="break-inside-avoid mb-6"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: (i % 3) * 0.1 }}
+                >
+                  <div 
+                    className="glass-enhanced rounded-3xl overflow-hidden artwork-card group cursor-pointer"
+                    style={{ 
+                      height: `${300 + (i % 3) * 100}px`
+                    }}
+                  >
+                    <div className="relative w-full h-full">
+                      <OptimizedImage
+                        src={artwork.cloudinaryUrl?.full || getCloudinaryUrl(`sayu/artvee/full/${artwork.artveeId}`, {
+                          width: 400,
+                          height: 600,
+                          crop: 'fill',
+                          quality: 80
+                        })}
+                        alt={artwork.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent">
+                        <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                          <h4 className="text-lg font-medium mb-1">{artwork.title}</h4>
+                          <p className="text-sm opacity-90 mb-3">{artwork.artist}</p>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div 
+                                className="w-3 h-3 rounded-full"
+                                style={{ background: selectedEmotion }}
+                              />
+                              <span className="text-xs opacity-80">{selectedEmotionName}</span>
+                            </div>
+                            <p className="text-xs opacity-70">
+                              {language === 'ko' ? `${100 + i * 23}명이 공감` : `${100 + i * 23} people relate`}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 7: Begin Journey - CTA */}
+      <section className="scroll-section relative">
+        <div className="absolute inset-0 animate-gradient-morph opacity-30" style={{
+          background: 'var(--emotion-twilight)',
+        }} />
+
+        <motion.div 
+          className="relative z-10 text-center px-4 max-w-4xl mx-auto"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
         >
-          <Plus className="w-6 h-6" />
-        </motion.button>
-      </motion.div>
+          <h2 className="text-hero mb-8">
+            {language === 'ko' ? '시작할 준비가\n되셨나요?' : 'Ready to\nBegin?'}
+          </h2>
+
+          <p className="text-body mb-12 opacity-80 max-w-2xl mx-auto">
+            {language === 'ko' 
+              ? '3분의 테스트로 당신의 예술 성향을 발견하고,\n평생 함께할 작품들을 만나보세요.'
+              : 'Discover your art personality with a 3-minute test\nand meet artworks that will stay with you forever.'}
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <motion.button
+              className="glass-enhanced px-12 py-6 rounded-full text-lg font-medium magnetic-button"
+              style={{ 
+                background: `linear-gradient(135deg, ${selectedEmotion}40, ${selectedEmotion}20)`,
+                border: `2px solid ${selectedEmotion}`
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => router.push('/quiz')}
+            >
+              {language === 'ko' ? '지금 시작하기' : 'Start Now'}
+            </motion.button>
+
+            <motion.button
+              className="glass-enhanced px-12 py-6 rounded-full text-lg font-medium"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => router.push('/gallery')}
+            >
+              {language === 'ko' ? '갤러리 둘러보기' : 'Explore Gallery'}
+            </motion.button>
+          </div>
+        </motion.div>
+      </section>
     </div>
   );
 }
