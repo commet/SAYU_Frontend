@@ -18,6 +18,7 @@ import {
 import Link from 'next/link';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { userActivityApi } from '@/lib/api/collections';
+import { CommunityUnlockProgress } from '@/components/community/CommunityUnlockProgress';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
@@ -122,51 +123,10 @@ export default function DashboardPage() {
       </div>
 
       {/* Community Progress */}
-      {!communityStatus?.isUnlocked && (
-        <Card className="border-purple-200 bg-purple-50/50 dark:bg-purple-950/20">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Lock className="h-5 w-5" />
-              커뮤니티 잠금 해제 진행률
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>컬렉션 생성</span>
-                <span>{activityStats?.collectionsCreated || 0} / {communityStatus?.requirements?.minCollections || 3}</span>
-              </div>
-              <Progress 
-                value={(activityStats?.collectionsCreated || 0) / (communityStatus?.requirements?.minCollections || 3) * 100} 
-                className="h-2"
-              />
-            </div>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>작품 수집</span>
-                <span>{activityStats?.itemsCollected || 0} / {communityStatus?.requirements?.minItems || 10}</span>
-              </div>
-              <Progress 
-                value={(activityStats?.itemsCollected || 0) / (communityStatus?.requirements?.minItems || 10) * 100} 
-                className="h-2"
-              />
-            </div>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>활동 일수</span>
-                <span>{activityStats?.activeDays || 0} / {communityStatus?.requirements?.minActiveDays || 7}</span>
-              </div>
-              <Progress 
-                value={(activityStats?.activeDays || 0) / (communityStatus?.requirements?.minActiveDays || 7) * 100} 
-                className="h-2"
-              />
-            </div>
-            <p className="text-sm text-muted-foreground mt-4">
-              커뮤니티 기능을 잠금 해제하면 다른 사용자들과 교류할 수 있습니다
-            </p>
-          </CardContent>
-        </Card>
-      )}
+      <CommunityUnlockProgress 
+        showCompact={communityStatus?.isUnlocked} 
+        onUnlock={() => loadDashboardData()} 
+      />
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

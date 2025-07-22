@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { userActivityApi } from '@/lib/api/collections';
-import { exchangeApi } from '@/lib/api/perception-exchange';
+import { perceptionExchangeApi as exchangeApi } from '@/lib/api/perception-exchange';
 import { ExchangeSessionCard } from '@/components/perception-exchange/ExchangeSessionCard';
 import { StartExchangeModal } from '@/components/perception-exchange/StartExchangeModal';
 import { ExchangeDetailModal } from '@/components/perception-exchange/ExchangeDetailModal';

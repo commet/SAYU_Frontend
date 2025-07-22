@@ -127,16 +127,20 @@ export const dailyChallengeApi = {
       .from('daily_challenge_matches')
       .select(`
         *,
-        matched_user:user_profiles!daily_challenge_matches_user2_id_fkey(
-          id:user_id,
+        user1_profile:user_profiles!daily_challenge_matches_user1_id_fkey(
           username,
           profile_image_url,
-          apt_type:personality_type
+          apt_type
+        ),
+        user2_profile:user_profiles!daily_challenge_matches_user2_id_fkey(
+          username,
+          profile_image_url,
+          apt_type
         )
       `)
       .eq('challenge_date', today)
       .or(`user1_id.eq.${user.id},user2_id.eq.${user.id}`)
-      .order('total_match_score', { ascending: false })
+      .order('match_score', { ascending: false })
       .limit(10);
 
     if (error) {
@@ -147,9 +151,17 @@ export const dailyChallengeApi = {
     // 매칭된 사용자 정보 정리
     return data.map(match => {
       const isUser1 = match.user1_id === user.id;
+      const matchedUserProfile = isUser1 ? match.user2_profile : match.user1_profile;
+      const matchedUserId = isUser1 ? match.user2_id : match.user1_id;
+      
       return {
         ...match,
-        matched_user: isUser1 ? match.matched_user : undefined
+        matched_user: {
+          id: matchedUserId,
+          username: matchedUserProfile?.username || '익명 사용자',
+          profile_image_url: matchedUserProfile?.profile_image_url,
+          apt_type: matchedUserProfile?.apt_type
+        }
       };
     });
   },

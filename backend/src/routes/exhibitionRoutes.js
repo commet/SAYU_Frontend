@@ -2,6 +2,22 @@ const express = require('express');
 const router = express.Router();
 const exhibitionController = require('../controllers/exhibitionControllerPG');
 const authMiddleware = require('../middleware/auth');
+const CultureAPIService = require('../services/cultureAPIService');
+
+// Import rate limiters
+const { 
+  exhibitionLimiter, 
+  museumApiLimiter, 
+  realtimeLimiter 
+} = require('../middleware/rateLimiter');
+
+// Import enhanced security middleware
+const {
+  queryComplexityLimit,
+  anomalyDetection
+} = require('../middleware/securityEnhanced');
+
+const cultureAPI = new CultureAPIService();
 
 // Enhanced validation middleware
 const {
@@ -26,9 +42,12 @@ const {
 router.use(securityHeaders);
 router.use(securityAuditLogger);
 router.use(sanitizeExhibitionInput);
+router.use(anomalyDetection);
 
 // 전시 목록 조회 (필터링, 페이지네이션 지원)
 router.get('/exhibitions', 
+  exhibitionLimiter,
+  queryComplexityLimit(500),
   exhibitionQueryValidation,
   handleExhibitionValidationResult,
   exhibitionController.getExhibitions
@@ -36,6 +55,7 @@ router.get('/exhibitions',
 
 // 특정 전시 조회
 router.get('/exhibitions/:id', 
+  exhibitionLimiter,
   exhibitionIdValidation,
   handleExhibitionValidationResult,
   exhibitionController.getExhibition
@@ -59,11 +79,13 @@ router.post('/exhibitions/submit',
 
 // 도시별 전시 통계
 router.get('/exhibitions/stats/cities', 
+  exhibitionLimiter,
   exhibitionController.getCityStats
 );
 
 // 인기 전시 조회
 router.get('/exhibitions/popular', 
+  exhibitionLimiter,
   exhibitionQueryValidation,
   handleExhibitionValidationResult,
   exhibitionController.getPopularExhibitions
@@ -71,9 +93,108 @@ router.get('/exhibitions/popular',
 
 // 장소(venue) 목록 조회
 router.get('/venues', 
+  exhibitionLimiter,
   exhibitionQueryValidation,
   handleExhibitionValidationResult,
   exhibitionController.getVenues
 );
+
+// =========================
+// 새로운 실시간 전시 정보 API
+// =========================
+
+/**
+ * GET /api/exhibitions/live
+ * 실시간 전시 정보 수집 및 반환
+ */
+router.get('/live', 
+  realtimeLimiter,
+  museumApiLimiter, // Double protection for expensive operations
+  async (req, res) => {
+  try {
+    console.log('📡 실시간 전시 정보 요청 받음');
+    
+    const result = await cultureAPI.collectAllExhibitions();
+    
+    if (result.success) {
+      res.json({
+        success: true,
+        exhibitions: result.data,
+        meta: result.meta,
+        message: `${result.data.length}개의 전시 정보를 수집했습니다.`
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        error: result.error,
+        exhibitions: [],
+        meta: result.meta
+      });
+    }
+  } catch (error) {
+    console.error('전시 정보 API 오류:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      exhibitions: []
+    });
+  }
+});
+
+/**
+ * GET /api/exhibitions/culture-api
+ * 문화데이터광장 API만 사용
+ */
+router.get('/culture-api', 
+  museumApiLimiter,
+  async (req, res) => {
+  try {
+    const exhibitions = await cultureAPI.getExhibitionsFromAPI(req.query);
+    
+    res.json({
+      success: true,
+      exhibitions,
+      count: exhibitions.length,
+      source: 'culture_api'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+/**
+ * GET /api/exhibitions/api-status
+ * API 키 상태 및 시스템 상태 확인
+ */
+router.get('/api-status', 
+  exhibitionLimiter,
+  async (req, res) => {
+  try {
+    const keyValidation = cultureAPI.validateAPIKeys();
+    
+    res.json({
+      success: true,
+      apiKeys: keyValidation,
+      system: {
+        puppeteerAvailable: true,
+        cheerioAvailable: true,
+        axiosAvailable: true
+      },
+      endpoints: [
+        'GET /api/exhibitions/live - 통합 전시 정보',
+        'GET /api/exhibitions/culture-api - 문화데이터광장 API',
+        'GET /api/exhibitions/api-status - 시스템 상태'
+      ]
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
 
 module.exports = router;

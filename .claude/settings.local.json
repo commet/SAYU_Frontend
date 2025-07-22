@@ -23,7 +23,9 @@
       "WebFetch(domain:artsy.net)",
       "WebFetch(domain:artreview.com)",
       "WebFetch(domain:e-flux.com)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(git pull:*)",
+      "Bash(npx tsc:*)"
     ],
     "deny": []
   }

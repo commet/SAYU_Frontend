@@ -6,6 +6,24 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface CouncilResult {
   success: boolean;
   response?: string;
+  responses?: {
+    claude?: {
+      success: boolean;
+      response: string;
+      error?: string;
+    };
+    gemini?: {
+      success: boolean;
+      response: string;
+      error?: string;
+    };
+    chatgpt?: {
+      success: boolean;
+      response: string;
+      error?: string;
+    };
+  };
+  synthesis?: string;
   error?: string;
   model?: string;
 }

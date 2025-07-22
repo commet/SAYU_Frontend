@@ -5,7 +5,14 @@ const axios = require('axios');
 async function testHarvardAPI() {
   console.log('🏛️ Harvard Art Museums API 테스트\n');
   
-  const API_KEY = '96a5e5e0-4b7a-4f8d-b7f0-8f3f3f3f3f3f'; // 예시 키
+  const API_KEY = process.env.HARVARD_API_KEY || ''; // 환경변수에서 가져오기
+  
+  if (!API_KEY) {
+    console.error('❌ HARVARD_API_KEY 환경변수가 설정되지 않았습니다.');
+    console.log('터미널에서: export HARVARD_API_KEY="your-api-key-here"');
+    console.log('또는 .env 파일에: HARVARD_API_KEY=your-api-key-here');
+    process.exit(1);
+  }
   const baseUrl = 'https://api.harvardartmuseums.org';
   
   try {
