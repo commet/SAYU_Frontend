@@ -28,6 +28,7 @@ import {
 import Link from 'next/link';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { userActivityApi } from '@/lib/api/collections';
+import { CommunityUnlockProgress } from '@/components/community/CommunityUnlockProgress';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { DailyArtHabitWidget } from '@/components/dashboard/DailyArtHabitWidget';
@@ -137,6 +138,7 @@ export default function DashboardPage() {
         communityStatus={communityStatus}
       />
 
+<<<<<<< HEAD
       {/* Tab Navigation */}
       <Tabs value={activeTab} onValueChange={(value: any) => setActiveTab(value)} className="space-y-6">
         <TabsList className="grid w-full grid-cols-3">
@@ -223,6 +225,13 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
           )}
+=======
+      {/* Community Progress */}
+      <CommunityUnlockProgress 
+        showCompact={communityStatus?.isUnlocked} 
+        onUnlock={() => loadDashboardData()} 
+      />
+>>>>>>> 387884c5e2dc7dc27995f48a8e33a2a1e7032884
 
           {/* Activity Stats Row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

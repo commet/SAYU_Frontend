@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Calendar, Clock, Sparkles, TrendingUp } from 'lucide-react';
+import { Calendar, Clock, Sparkles, TrendingUp, Zap } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +14,9 @@ import type { DailyChallenge, ChallengeProgressState } from '@/types/daily-chall
 import { EmotionSelector } from './EmotionSelector';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { ArtPulseWidget } from '@/components/art-pulse/ArtPulseWidget';
+import { ArtPulseSession } from '@/components/art-pulse/ArtPulseSession';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 interface DailyChallengeCardProps {
   onComplete?: () => void;
@@ -24,7 +27,11 @@ export function DailyChallengeCard({ onComplete }: DailyChallengeCardProps) {
   const [progress, setProgress] = useState<ChallengeProgressState | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showEmotionSelector, setShowEmotionSelector] = useState(false);
+  const [showArtPulse, setShowArtPulse] = useState(false);
   const { toast } = useToast();
+  
+  // Mock user for demo
+  const user = { id: 'demo-user', aptType: 'LAEF' };
 
   useEffect(() => {
     loadChallengeData();
@@ -175,6 +182,31 @@ export function DailyChallengeCard({ onComplete }: DailyChallengeCardProps) {
           )}
         </CardFooter>
       </Card>
+
+      {/* Art Pulse 위젯 */}
+      <ArtPulseWidget 
+        onOpenSession={() => setShowArtPulse(true)}
+        className="fixed bottom-6 right-6"
+      />
+
+      {/* Art Pulse 세션 다이얼로그 */}
+      <Dialog open={showArtPulse} onOpenChange={setShowArtPulse}>
+        <DialogContent className="max-w-5xl p-0">
+          {challenge && (
+            <ArtPulseSession
+              dailyChallengeId={challenge.id}
+              artwork={{
+                id: challenge.artwork_id,
+                imageUrl: challenge.artwork_image,
+                title: challenge.artwork_title,
+                artist: challenge.artwork_artist
+              }}
+              userId={user?.id || 'demo-user'}
+              userAptType={user?.apt_type || user?.aptType || 'LAEF'}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* 감정 선택 모달 */}
       {challenge && (

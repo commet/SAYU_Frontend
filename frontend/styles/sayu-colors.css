@@ -1,0 +1,153 @@
+/* SAYU UI 디자인 시스템 - CSS 색상 변수 */
+
+:root {
+  /* 따뜻하고 부드러운 조합 */
+  --sayu-peach-breeze: #F5D9C4;
+  --sayu-lavender-dream: #BA98D4;
+  --sayu-apricot-whisper: #F4CFA3;
+  --sayu-tangerine-zest: #F57B28;
+  --sayu-peppermint-pink: #F6C6C2;
+  --sayu-silent-night: #62709F;
+  --sayu-tea-rose: #E5C8CD;
+  --sayu-fern-green: #4E724C;
+  
+  /* 차분하고 세련된 조합 */
+  --sayu-sage: #C3C98D;
+  --sayu-dark-purple: #31243E;
+  --sayu-dusty-jupiter: #40554B;
+  --sayu-lime-cream: #D6EF84;
+  --sayu-dusty-mauve: #776B75;
+  --sayu-ivory-mist: #F0EDE9;
+  --sayu-powder-blue: #A9C7EC;
+  --sayu-urban-smoke: #535350;
+  
+  /* 대비가 강한 활기찬 조합 */
+  --sayu-match-point: #DADE55;
+  --sayu-double-bounce: #F05692;
+  --sayu-soft-melon: #F6CFB5;
+  --sayu-astral-blue: #191B47;
+  --sayu-ucla-blue: #536895;
+  --sayu-pearl: #DBDABE;
+  
+  /* 배경색 */
+  --sayu-bg-primary: #F0EDE9;
+  --sayu-bg-secondary: #DBDABE;
+  --sayu-bg-card: #FAFAF8;
+  
+  /* 텍스트 색상 */
+  --sayu-text-primary: #31243E;
+  --sayu-text-secondary: #535350;
+  --sayu-text-muted: #776B75;
+  
+  /* APT 타입별 색상 조합 */
+  --sayu-apt-enfp-primary: var(--sayu-tangerine-zest);
+  --sayu-apt-enfp-secondary: var(--sayu-match-point);
+  --sayu-apt-enfp-accent: var(--sayu-double-bounce);
+  
+  --sayu-apt-infj-primary: var(--sayu-silent-night);
+  --sayu-apt-infj-secondary: var(--sayu-dusty-mauve);
+  --sayu-apt-infj-accent: var(--sayu-lavender-dream);
+  
+  --sayu-apt-intj-primary: var(--sayu-dark-purple);
+  --sayu-apt-intj-secondary: var(--sayu-urban-smoke);
+  --sayu-apt-intj-accent: var(--sayu-ucla-blue);
+  
+  --sayu-apt-isfp-primary: var(--sayu-tea-rose);
+  --sayu-apt-isfp-secondary: var(--sayu-peach-breeze);
+  --sayu-apt-isfp-accent: var(--sayu-peppermint-pink);
+  
+  /* 감정 상태별 색상 */
+  --sayu-emotion-calm: var(--sayu-powder-blue);
+  --sayu-emotion-peaceful: var(--sayu-sage);
+  --sayu-emotion-curious: var(--sayu-apricot-whisper);
+  --sayu-emotion-inspired: var(--sayu-lavender-dream);
+  --sayu-emotion-nostalgic: var(--sayu-tea-rose);
+  
+  /* 기능별 색상 */
+  --sayu-perception-bg: var(--sayu-ivory-mist);
+  --sayu-perception-card: var(--sayu-bg-card);
+  --sayu-perception-accent: var(--sayu-lavender-dream);
+  
+  --sayu-gallery-bg: var(--sayu-pearl);
+  --sayu-gallery-hover: var(--sayu-powder-blue);
+  --sayu-gallery-selected: var(--sayu-ucla-blue);
+  
+  --sayu-matching-waiting: var(--sayu-sage);
+  --sayu-matching-progress: var(--sayu-lime-cream);
+  --sayu-matching-complete: var(--sayu-fern-green);
+}
+
+/* 다크 모드 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* 다크 모드 기본 배경 */
+    --sayu-bg-primary: #1A1B26;
+    --sayu-bg-secondary: #24283B;
+    --sayu-bg-card: #2E3346;
+    
+    /* 다크 모드 텍스트 */
+    --sayu-text-primary: #F0EDE9;
+    --sayu-text-secondary: #C7C7C5;
+    --sayu-text-muted: #9A9A97;
+    
+    /* 다크 모드에서 밝은 색상들은 약간 톤다운 */
+    --sayu-peach-breeze: #E5C9B4;
+    --sayu-lavender-dream: #AA88C4;
+    --sayu-apricot-whisper: #E4BF93;
+    --sayu-peppermint-pink: #E6B6B2;
+    --sayu-ivory-mist: #2A2B36;
+    --sayu-pearl: #3A3B46;
+    --sayu-soft-melon: #E6BFA5;
+    
+    /* 어두운 색상들은 밝게 조정 */
+    --sayu-dark-purple: #4A3B5E;
+    --sayu-astral-blue: #394B77;
+    --sayu-dusty-jupiter: #506B5B;
+    --sayu-urban-smoke: #737370;
+  }
+}
+
+/* 색상 유틸리티 클래스 */
+.sayu-bg-warm {
+  background: linear-gradient(135deg, var(--sayu-peach-breeze), var(--sayu-lavender-dream));
+}
+
+.sayu-bg-calm {
+  background: linear-gradient(135deg, var(--sayu-sage), var(--sayu-powder-blue));
+}
+
+.sayu-bg-vibrant {
+  background: linear-gradient(135deg, var(--sayu-match-point), var(--sayu-double-bounce));
+}
+
+.sayu-text-gradient {
+  background: linear-gradient(135deg, var(--sayu-tangerine-zest), var(--sayu-double-bounce));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* APT 타입별 테마 클래스 */
+.apt-theme-enfp {
+  --theme-primary: var(--sayu-apt-enfp-primary);
+  --theme-secondary: var(--sayu-apt-enfp-secondary);
+  --theme-accent: var(--sayu-apt-enfp-accent);
+}
+
+.apt-theme-infj {
+  --theme-primary: var(--sayu-apt-infj-primary);
+  --theme-secondary: var(--sayu-apt-infj-secondary);
+  --theme-accent: var(--sayu-apt-infj-accent);
+}
+
+.apt-theme-intj {
+  --theme-primary: var(--sayu-apt-intj-primary);
+  --theme-secondary: var(--sayu-apt-intj-secondary);
+  --theme-accent: var(--sayu-apt-intj-accent);
+}
+
+.apt-theme-isfp {
+  --theme-primary: var(--sayu-apt-isfp-primary);
+  --theme-secondary: var(--sayu-apt-isfp-secondary);
+  --theme-accent: var(--sayu-apt-isfp-accent);
+}

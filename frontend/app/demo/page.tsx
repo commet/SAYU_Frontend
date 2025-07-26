@@ -118,13 +118,13 @@ export default function DemoPage() {
                       event: 'First Quiz Taken',
                       type: 'quiz',
                       impact: 'Identity Discovery'
-                    },
+                    } as any,
                     {
                       date: '2024-01-16',
                       event: 'Joined Village',
                       type: 'community',
                       impact: 'Found Home'
-                    }
+                    } as any
                   ]}
                   customizations={{
                     motto: 'Art speaks in whispers',

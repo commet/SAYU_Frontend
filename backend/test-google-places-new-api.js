@@ -2,7 +2,14 @@
 const axios = require('axios');
 
 // Google Places API (New) 테스트
-const API_KEY = 'AIzaSyDlPB0BK6lUxzrVBSHt7RpXnKKX_SSFPTE';
+const API_KEY = process.env.GOOGLE_PLACES_API_KEY || '';
+
+if (!API_KEY) {
+  console.error('❌ GOOGLE_PLACES_API_KEY 환경변수가 설정되지 않았습니다.');
+  console.log('터미널에서: export GOOGLE_PLACES_API_KEY="your-api-key-here"');
+  console.log('또는 .env 파일에: GOOGLE_PLACES_API_KEY=your-api-key-here');
+  process.exit(1);
+}
 
 async function testNewPlacesAPI() {
   console.log('🔍 Google Places API (New) 테스트\n');

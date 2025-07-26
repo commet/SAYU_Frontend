@@ -5,6 +5,7 @@ const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const session = require('express-session');
 const passport = require('passport');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 // Check for SAYU_MODE to determine server configuration
@@ -149,6 +150,9 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
+// Cookie parser (required for CSRF)
+app.use(cookieParser());
+
 // Session configuration for OAuth
 app.use(session({
   secret: process.env.SESSION_SECRET || (() => { 
@@ -198,6 +202,21 @@ app.use(express.json({
   }
 }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// CSRF Protection (after session and before routes)
+const { csrfMiddleware } = require('./middleware/csrfProtection');
+app.use(csrfMiddleware({
+  excludePaths: ['/api/auth/login', '/api/auth/register', '/api/health', '/api/webhook'],
+  secure: process.env.NODE_ENV === 'production'
+}));
+
+// XSS Protection (after CSRF and before routes)
+const { xssProtection, fileUploadXSSProtection } = require('./middleware/xssProtection');
+app.use(xssProtection({
+  enableLogging: true,
+  blockHighRisk: true,
+  riskThreshold: 50
+}));
 
 // Security audit middleware (before rate limiting)
 app.use('/api/', securityAudit);

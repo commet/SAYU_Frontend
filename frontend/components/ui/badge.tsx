@@ -3,17 +3,27 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sayu-tangerine-zest focus:ring-offset-2",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+          "border-transparent bg-sayu-tangerine-zest text-white hover:bg-sayu-dark-purple shadow-sm hover:shadow-md",
         secondary:
-          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "border-transparent bg-sayu-powder-blue text-sayu-text-primary hover:bg-sayu-powder-blue/80 shadow-sm",
         destructive:
-          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        outline: "text-foreground",
+          "border-transparent bg-sayu-double-bounce text-white hover:bg-sayu-double-bounce/80 shadow-sm hover:shadow-md",
+        outline: "text-sayu-text-primary border-sayu-powder-blue/50 hover:bg-sayu-powder-blue/10",
+        
+        // SAYU specific variants
+        warm:
+          "border-transparent bg-gradient-to-r from-sayu-peach-breeze to-sayu-apricot-whisper text-sayu-text-primary hover:from-sayu-peach-breeze/80 hover:to-sayu-apricot-whisper/80",
+        cool:
+          "border-transparent bg-sayu-sage text-sayu-text-primary hover:bg-sayu-sage/80 shadow-sm",
+        soft:
+          "border-transparent bg-sayu-lavender-dream/30 text-sayu-text-primary hover:bg-sayu-lavender-dream/50",
+        accent:
+          "border-transparent bg-sayu-match-point text-sayu-dark-purple hover:bg-sayu-match-point/80 shadow-sm",
       },
     },
     defaultVariants: {

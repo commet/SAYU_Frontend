@@ -277,7 +277,7 @@ export default function ExhibitionsPage() {
             initialDate={new Date()}
             viewMode="month"
             showFilters={true}
-            userId={userPersonality}
+            userId={userPersonality || undefined}
           />
         )}
 
@@ -388,7 +388,7 @@ export default function ExhibitionsPage() {
           variant="primary"
           contextData={{
             page: 'exhibitions',
-            personalityType: userPersonality,
+            personalityType: userPersonality || undefined,
             feature: 'exhibition-browsing'
           }}
         />

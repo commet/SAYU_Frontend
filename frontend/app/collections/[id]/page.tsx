@@ -22,7 +22,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useToast } from '@/hooks/use-toast';
+import toast from 'react-hot-toast';
 import { collectionsApi, collectionInteractionsApi, collectionItemsApi } from '@/lib/api/collections';
 import { museumAPIs } from '@/lib/museumAPIs';
 import type { ArtCollection, CollectionItem } from '@/types/collection';
@@ -34,7 +34,6 @@ import { AddArtworkModal } from '@/components/collections/AddArtworkModal';
 export default function CollectionDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const { toast } = useToast();
   const [collection, setCollection] = useState<ArtCollection | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
@@ -73,10 +72,7 @@ export default function CollectionDetailPage() {
       }
     } catch (error) {
       console.error('Failed to load collection:', error);
-      toast({
-        title: '컬렉션을 불러올 수 없습니다',
-        variant: 'destructive'
-      });
+      toast.error('컬렉션을 불러올 수 없습니다');
     } finally {
       setIsLoading(false);
     }
@@ -84,24 +80,16 @@ export default function CollectionDetailPage() {
 
   const handleLike = async () => {
     if (!currentUserId) {
-      toast({
-        title: '로그인이 필요합니다',
-        variant: 'destructive'
-      });
+      toast.error('로그인이 필요합니다');
       return;
     }
 
     try {
       const liked = await collectionInteractionsApi.toggleLike(collectionId);
       setIsLiked(liked);
-      toast({
-        title: liked ? '좋아요를 눌렀습니다' : '좋아요를 취소했습니다'
-      });
+      toast.success(liked ? '좋아요를 눌렀습니다' : '좋아요를 취소했습니다');
     } catch (error) {
-      toast({
-        title: '오류가 발생했습니다',
-        variant: 'destructive'
-      });
+      toast.error('오류가 발생했습니다');
     }
   };
 
@@ -115,9 +103,7 @@ export default function CollectionDetailPage() {
     } catch (error) {
       // 공유 API를 지원하지 않는 경우 클립보드에 복사
       await navigator.clipboard.writeText(window.location.href);
-      toast({
-        title: '링크가 복사되었습니다'
-      });
+      toast.success('링크가 복사되었습니다');
     }
   };
 
@@ -135,16 +121,9 @@ export default function CollectionDetailPage() {
       await loadCollection();
       setShowAddArtworkModal(false);
       
-      toast({
-        title: '작품이 추가되었습니다',
-        description: `"${artworkData.title}"이(가) 컬렉션에 추가되었습니다.`
-      });
+      toast.success(`"${artworkData.title}"이(가) 컬렉션에 추가되었습니다.`);
     } catch (error: any) {
-      toast({
-        title: '작품 추가에 실패했습니다',
-        description: error.message,
-        variant: 'destructive'
-      });
+      toast.error(`작품 추가에 실패했습니다: ${error.message}`);
     }
   };
 
@@ -270,7 +249,7 @@ export default function CollectionDetailPage() {
                 </Button>
               </div>
             )}
-            <CollectionArtworks items={collection.items || []} canEdit={canEdit} onUpdate={loadCollection} />
+            <CollectionArtworks items={collection.items || []} canEdit={canEdit || false} onUpdate={loadCollection} />
           </TabsContent>
 
           <TabsContent value="comments" className="mt-6">

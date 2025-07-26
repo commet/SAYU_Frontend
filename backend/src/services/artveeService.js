@@ -557,15 +557,23 @@ class ArtveeService extends EventEmitter {
       await new Promise((resolve) => {
         let totalHeight = 0;
         const distance = 100;
+        const maxScrollTime = 30000; // 30초 최대 타임아웃
+        const startTime = Date.now();
+        
         const timer = setInterval(() => {
           const scrollHeight = document.body.scrollHeight;
           window.scrollBy(0, distance);
           totalHeight += distance;
 
           const currentItems = document.querySelectorAll('.item-image, .product, .artwork-item').length;
+          const elapsedTime = Date.now() - startTime;
 
-          if (totalHeight >= scrollHeight || currentItems >= maxItems) {
+          // 종료 조건: 스크롤 끝, 최대 아이템 수 도달, 또는 타임아웃
+          if (totalHeight >= scrollHeight || currentItems >= maxItems || elapsedTime >= maxScrollTime) {
             clearInterval(timer);
+            if (elapsedTime >= maxScrollTime) {
+              console.warn('⚠️ AutoScroll 타임아웃 (30초)');
+            }
             resolve();
           }
         }, 100);

@@ -6,6 +6,10 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# Windows special files
+nul
+**/nul
+
 # Environment variables
 .env
 .env.local

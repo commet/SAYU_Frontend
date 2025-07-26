@@ -24,11 +24,17 @@
       "WebFetch(domain:artreview.com)",
       "WebFetch(domain:e-flux.com)",
       "Bash(rm:*)",
+<<<<<<< HEAD
       "Bash(git log:*)",
       "Bash(find:*)",
       "Bash(PORT=3006 npm run dev)",
       "Bash(set SAYU_MODE=full)",
       "Bash(chmod:*)"
+=======
+      "Bash(git pull:*)",
+      "Bash(npx tsc:*)",
+      "Bash(copy .env.local.example .env.local)"
+>>>>>>> 387884c5e2dc7dc27995f48a8e33a2a1e7032884
     ],
     "deny": []
   },

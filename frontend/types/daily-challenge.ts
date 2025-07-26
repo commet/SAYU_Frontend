@@ -56,13 +56,13 @@ export interface ChallengeMatch {
   challenge_date: string;
   user1_id: string;
   user2_id: string;
-  apt_compatibility_score: number;
-  taste_similarity_score: number;
-  emotion_match_score: number;
-  total_match_score: number;
+  match_score: number; // 전체 매칭 점수 (0-1)
+  apt_compatibility: number; // APT 호환성 점수 (0-1)  
+  emotion_similarity: number; // 감정 유사도 점수 (0-1)
+  match_reasons: string[]; // 매칭 이유들
   match_rank?: number;
-  notification_sent: boolean;
-  interaction_started: boolean;
+  notification_sent?: boolean;
+  interaction_started?: boolean;
   created_at: string;
   // 조인된 데이터
   matched_user?: {

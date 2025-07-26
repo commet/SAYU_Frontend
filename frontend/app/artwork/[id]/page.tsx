@@ -61,11 +61,6 @@ export default function ArtworkDetailPage() {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
-  useEffect(() => {
-    fetchArtworkDetail();
-    loadUserPreferences();
-  }, [artworkId, fetchArtworkDetail, loadUserPreferences]);
-
   const fetchArtworkDetail = useCallback(async () => {
     try {
       const response = await fetch(
@@ -121,6 +116,11 @@ export default function ArtworkDetailPage() {
       setIsSaved(savedSet.has(artworkId));
     }
   }, [artworkId]);
+
+  useEffect(() => {
+    fetchArtworkDetail();
+    loadUserPreferences();
+  }, [artworkId, fetchArtworkDetail, loadUserPreferences]);
 
   const handleLike = () => {
     const liked = localStorage.getItem('likedArtworks');

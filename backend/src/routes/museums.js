@@ -3,9 +3,10 @@ const authMiddleware = require('../middleware/auth');
 const { adminMiddleware: requireAdmin } = require('../middleware/auth');
 const museumAPIService = require('../services/museumAPIService');
 const { logger } = require("../config/logger");
+const { museumApiLimiter } = require('../middleware/rateLimiter');
 
 // Public routes (no auth required)
-router.get('/search', async (req, res) => {
+router.get('/search', museumApiLimiter, async (req, res) => {
   try {
     const {
       q: query,

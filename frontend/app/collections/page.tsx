@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CollectionGrid } from '@/components/collections/CollectionGrid';
 import { CreateCollectionModal } from '@/components/collections/CreateCollectionModal';
 import { collectionsApi, userActivityApi } from '@/lib/api/collections';
-import { useToast } from '@/hooks/use-toast';
+import toast from 'react-hot-toast';
 import type { ArtCollection, UserArtActivity } from '@/types/collection';
 import { Progress } from '@/components/ui/progress';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,7 +21,6 @@ export default function CollectionsPage() {
   const [userActivity, setUserActivity] = useState<UserArtActivity | null>(null);
   const [communityStatus, setCommunityStatus] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { toast } = useToast();
   const supabase = createClientComponentClient();
 
   useEffect(() => {
@@ -56,10 +55,7 @@ export default function CollectionsPage() {
       setCommunityStatus(status);
     } catch (error) {
       console.error('Failed to load collections:', error);
-      toast({
-        title: '데이터를 불러오는데 실패했습니다',
-        variant: 'destructive'
-      });
+      toast.error('데이터를 불러오는데 실패했습니다');
     } finally {
       setIsLoading(false);
     }

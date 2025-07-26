@@ -252,7 +252,7 @@ export function EvolvingAnimalImage({
               exit={{ opacity: 0, y: 10 }}
             >
               <p className="text-sm font-semibold">
-                {evolutionStage}단계 {getStageNa me(evolutionStage)}
+                {evolutionStage}단계 {getStageName(evolutionStage)}
               </p>
             </motion.div>
           )}
@@ -263,7 +263,7 @@ export function EvolvingAnimalImage({
       {showProgress && progress !== undefined && (
         <div className="mt-4 w-full">
           <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
-            <span>{getStageNa me(evolutionStage)}</span>
+            <span>{getStageName(evolutionStage)}</span>
             <span>{progress}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
@@ -342,7 +342,7 @@ function CultureAura() {
   );
 }
 
-function getStageNa me(stage: number): string {
+function getStageName(stage: number): string {
   const names = {
     1: '아기',
     2: '청소년',

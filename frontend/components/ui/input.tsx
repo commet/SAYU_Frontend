@@ -3,24 +3,27 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const inputVariants = cva(
-  // Base styles - 미니멀하고 접근성 좋은 인풋
-  "flex w-full font-body transition-all duration-base ease-out placeholder:text-dark-gray focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 file:border-0 file:bg-transparent file:font-medium",
+  // Base styles - SAYU Elegant Input Design
+  "flex w-full font-body transition-all duration-300 ease-out placeholder:text-sayu-text-muted focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 file:border-0 file:bg-transparent file:font-medium text-sayu-text-primary",
   {
     variants: {
       variant: {
-        // Default - 기본 스타일
-        default: "bg-white border border-gray focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20",
+        // Default - SAYU 기본 스타일
+        default: "bg-sayu-bg-card border border-sayu-powder-blue/30 focus-visible:border-sayu-tangerine-zest focus-visible:ring-2 focus-visible:ring-sayu-tangerine-zest/20 hover:border-sayu-powder-blue/50",
         
-        // Ghost - 경계선 없는 스타일
-        ghost: "bg-off-white border-0 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-primary/20",
+        // Ghost - 부드러운 배경 스타일
+        ghost: "bg-sayu-ivory-mist border-0 focus-visible:bg-sayu-bg-card focus-visible:ring-2 focus-visible:ring-sayu-lavender-dream/30 hover:bg-sayu-peach-breeze/20",
         
-        // Glass - 투명한 글래스 효과
-        glass: "bg-white/50 backdrop-blur-subtle border border-white/20 focus-visible:bg-white/80 focus-visible:border-primary/50",
+        // Glass - SAYU 글래스 모포이즘
+        glass: "bg-sayu-bg-card/60 backdrop-blur-lg border border-sayu-lavender-dream/30 focus-visible:bg-sayu-bg-card/80 focus-visible:border-sayu-tangerine-zest/60 hover:bg-sayu-bg-card/70",
+        
+        // Warm - 따뜻한 스타일 (APT 테스트 등에 사용)
+        warm: "bg-gradient-to-r from-sayu-peach-breeze/20 to-sayu-apricot-whisper/20 border border-sayu-tangerine-zest/30 focus-visible:border-sayu-tangerine-zest focus-visible:ring-2 focus-visible:ring-sayu-tangerine-zest/20",
       },
       size: {
-        sm: "h-8 px-sm text-sm rounded-sm",         // 32px height
-        default: "h-11 px-md text-base rounded-md", // 44px height (WCAG 터치 타겟)
-        lg: "h-12 px-lg text-lg rounded-lg",        // 48px height
+        sm: "h-8 px-3 text-sm rounded-lg",          // 32px height - SAYU rounded
+        default: "h-11 px-4 text-base rounded-lg",  // 44px height (WCAG 터치 타겟) - SAYU rounded
+        lg: "h-12 px-6 text-lg rounded-xl",         // 48px height - SAYU rounded
       },
     },
     defaultVariants: {

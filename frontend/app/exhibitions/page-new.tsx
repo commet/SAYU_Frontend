@@ -21,10 +21,10 @@ import {
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { userActivityApi } from '@/lib/api/collections';
 import { exhibitionCompanionApi } from '@/lib/api/exhibition-companion';
-import { ExhibitionCard } from '@/components/exhibition-companion/ExhibitionCard';
+// import { ExhibitionCard } from '@/components/exhibition-companion/ExhibitionCard';
 import { CompanionRequestCard } from '@/components/exhibition-companion/CompanionRequestCard';
-import { CreateCompanionRequestModal } from '@/components/exhibition-companion/CreateCompanionRequestModal';
-import { CompanionMatchCard } from '@/components/exhibition-companion/CompanionMatchCard';
+// import { CreateCompanionRequestModal } from '@/components/exhibition-companion/CreateCompanionRequestModal';
+// import { CompanionMatchCard } from '@/components/exhibition-companion/CompanionMatchCard';
 import { useRouter } from 'next/navigation';
 
 export default function ExhibitionsPage() {
@@ -99,7 +99,7 @@ export default function ExhibitionsPage() {
 
   const handleCreateRequest = async (requestData: any) => {
     try {
-      await exhibitionCompanionApi.createRequest(requestData);
+      await exhibitionCompanionApi.createCompanionRequest(requestData);
       await loadExhibitionData();
       setShowCreateModal(false);
       setSelectedExhibition(null);
@@ -110,7 +110,7 @@ export default function ExhibitionsPage() {
 
   const handleRequestMatch = async (requestId: string) => {
     try {
-      await exhibitionCompanionApi.requestMatch(requestId);
+      await exhibitionCompanionApi.createMatch(requestId);
       await loadExhibitionData();
     } catch (error) {
       console.error('Failed to request match:', error);

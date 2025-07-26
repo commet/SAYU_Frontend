@@ -235,10 +235,9 @@ class TourAPIWorking {
           try {
             await client.query(`
               INSERT INTO venues (
-                name, type, city, address, 
+                name, type, city, district, country, address, 
                 latitude, longitude, 
-                phone, website, description,
-                source, external_id
+                phone, website, is_active
               ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
               ON CONFLICT (name, city) DO UPDATE
               SET address = EXCLUDED.address,
@@ -248,14 +247,14 @@ class TourAPIWorking {
               venue.title,
               'gallery',
               venue.addr1?.split(' ')[0] || '서울',
+              venue.addr1?.split(' ')[1] || '',  // district
+              'KR',  // country
               venue.addr1,
-              venue.mapy,
-              venue.mapx,
+              venue.mapy ? parseFloat(venue.mapy) : null,
+              venue.mapx ? parseFloat(venue.mapx) : null,
               venue.tel || null,
-              null,
-              '',  // overview 필드 제거
-              '한국관광공사',
-              venue.contentid
+              null,  // website
+              true   // is_active
             ]);
             
           } catch (err) {
