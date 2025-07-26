@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Download, Share2, RefreshCw, Heart, Instagram, Save } from 'lucide-react';
+import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { ArtProfileResult as ArtProfileResultType } from '@/types/art-profile';
 import { Button } from '@/components/ui/button';
@@ -113,11 +114,15 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
           <h3 className="text-lg font-semibold mb-4">
             {language === 'ko' ? '원본' : 'Original'}
           </h3>
-          <img 
-            src={result.originalImage} 
-            alt="Original"
-            className="w-full rounded-xl"
-          />
+          <div className="relative w-full aspect-square">
+            <Image 
+              src={result.originalImage} 
+              alt="Original"
+              fill
+              className="object-cover rounded-xl"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
         </motion.div>
 
         <motion.div
@@ -128,11 +133,16 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
           <h3 className="text-lg font-semibold mb-4">
             {result.styleUsed.nameKo || result.styleUsed.name}
           </h3>
-          <img 
-            src={result.transformedImage} 
-            alt="Transformed"
-            className="w-full rounded-xl"
-          />
+          <div className="relative w-full aspect-square">
+            <Image 
+              src={result.transformedImage} 
+              alt="Transformed"
+              fill
+              className="object-cover rounded-xl"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+            />
+          </div>
         </motion.div>
       </div>
 
@@ -194,11 +204,14 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
         className="fixed -left-[9999px] top-0 w-[1080px] h-[1080px] bg-gradient-to-br from-purple-500 to-pink-500 p-12"
       >
         <div className="bg-white rounded-3xl p-8 h-full flex flex-col items-center justify-center">
-          <img 
-            src={result.transformedImage} 
-            alt="Art Profile"
-            className="w-[800px] h-[800px] object-cover rounded-2xl mb-8"
-          />
+          <div className="relative w-[800px] h-[800px] mb-8">
+            <Image 
+              src={result.transformedImage} 
+              alt="Art Profile"
+              fill
+              className="object-cover rounded-2xl"
+            />
+          </div>
           <div className="text-center">
             <h2 className="text-3xl font-bold mb-2">
               {language === 'ko' ? '나의 아트 프로필' : 'My Art Profile'}
@@ -207,7 +220,7 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
               {result.styleUsed.nameKo || result.styleUsed.name} Style
             </p>
             <div className="flex items-center justify-center gap-2">
-              <img src="/logo.png" alt="SAYU" className="h-8" />
+              <Image src="/logo.png" alt="SAYU" width={32} height={32} className="h-8" />
               <span className="text-lg font-medium">SAYU</span>
             </div>
           </div>

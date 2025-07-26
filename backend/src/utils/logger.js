@@ -171,5 +171,11 @@ module.exports = {
   createErrorContext,
   createTimer,
   logBatch,
-  logError
+  logError,
+  // Direct access to log methods for services
+  info: (message, meta) => log.info(message, meta),
+  error: (message, error, meta) => log.error(message, error, meta),
+  warn: (message, meta) => log.warn(message, meta),
+  debug: (message, meta) => log.debug(message, meta),
+  log
 };

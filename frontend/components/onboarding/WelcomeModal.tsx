@@ -3,16 +3,51 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Palette, Brain, Heart, Trophy, ArrowRight, X } from 'lucide-react';
+import { Sparkles, Palette, Brain, Heart, Trophy, ArrowRight, X, Users, Camera, Coffee, Briefcase } from 'lucide-react';
 
 interface WelcomeModalProps {
   isOpen: boolean;
   onClose: () => void;
   userName?: string;
+  onPurposeSelected?: (purpose: string) => void;
 }
 
-export function WelcomeModal({ isOpen, onClose, userName }: WelcomeModalProps) {
+export function WelcomeModal({ isOpen, onClose, userName, onPurposeSelected }: WelcomeModalProps) {
   const [currentStep, setCurrentStep] = useState(0);
+  const [selectedPurpose, setSelectedPurpose] = useState<string>('');
+
+  const purposeOptions = [
+    { 
+      id: 'exploring', 
+      icon: <Camera className="w-8 h-8" />, 
+      title: '예술 탐험', 
+      description: '새로운 예술 경험을 발견하고 싶어요' 
+    },
+    { 
+      id: 'dating', 
+      icon: <Heart className="w-8 h-8" />, 
+      title: '의미있는 만남', 
+      description: '예술을 통해 특별한 사람을 만나고 싶어요' 
+    },
+    { 
+      id: 'social', 
+      icon: <Users className="w-8 h-8" />, 
+      title: '친구 만들기', 
+      description: '예술을 함께 즐길 친구들을 찾고 있어요' 
+    },
+    { 
+      id: 'family', 
+      icon: <Coffee className="w-8 h-8" />, 
+      title: '가족과 함께', 
+      description: '가족과 함께 문화생활을 즐기고 싶어요' 
+    },
+    { 
+      id: 'professional', 
+      icon: <Briefcase className="w-8 h-8" />, 
+      title: '전문적 네트워킹', 
+      description: '예술 분야 전문가들과 교류하고 싶어요' 
+    }
+  ];
 
   const steps = [
     {
@@ -20,6 +55,12 @@ export function WelcomeModal({ isOpen, onClose, userName }: WelcomeModalProps) {
       title: `Welcome to SAYU${userName ? ', ' + userName : ''}!`,
       description: "You're about to discover your unique aesthetic personality through our scientifically-designed assessment.",
       image: "/images/onboarding/welcome.png"
+    },
+    {
+      icon: <Heart className="w-12 h-12 text-pink-400" />,
+      title: "SAYU를 통해 무엇을 하고 싶나요?",
+      description: "당신의 목적에 맞는 최적의 경험을 제공해드릴게요.",
+      purposeSelection: true
     },
     {
       icon: <Brain className="w-12 h-12 text-blue-400" />,
@@ -65,8 +106,15 @@ export function WelcomeModal({ isOpen, onClose, userName }: WelcomeModalProps) {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
+      if (selectedPurpose && onPurposeSelected) {
+        onPurposeSelected(selectedPurpose);
+      }
       onClose();
     }
+  };
+
+  const handlePurposeSelect = (purpose: string) => {
+    setSelectedPurpose(purpose);
   };
 
   const handleSkip = () => {
@@ -152,6 +200,36 @@ export function WelcomeModal({ isOpen, onClose, userName }: WelcomeModalProps) {
                     className="rounded-lg mx-auto mb-8 max-w-full"
                   />
                 )}
+
+                {currentStepData.purposeSelection && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                    {purposeOptions.map((option) => (
+                      <motion.button
+                        key={option.id}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => handlePurposeSelect(option.id)}
+                        className={`p-4 rounded-xl border-2 transition-all text-left ${
+                          selectedPurpose === option.id
+                            ? 'border-purple-500 bg-purple-500/10'
+                            : 'border-gray-600 hover:border-gray-500 bg-gray-800/50'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className={`${selectedPurpose === option.id ? 'text-purple-400' : 'text-gray-400'}`}>
+                            {option.icon}
+                          </div>
+                          <h3 className={`font-semibold ${selectedPurpose === option.id ? 'text-white' : 'text-gray-200'}`}>
+                            {option.title}
+                          </h3>
+                        </div>
+                        <p className={`text-sm ${selectedPurpose === option.id ? 'text-gray-300' : 'text-gray-400'}`}>
+                          {option.description}
+                        </p>
+                      </motion.button>
+                    ))}
+                  </div>
+                )}
               </motion.div>
             </div>
 
@@ -176,6 +254,7 @@ export function WelcomeModal({ isOpen, onClose, userName }: WelcomeModalProps) {
                 )}
                 <Button
                   onClick={handleNext}
+                  disabled={currentStepData.purposeSelection && !selectedPurpose}
                   className={
                     currentStepData.cta
                       ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700'

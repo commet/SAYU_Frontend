@@ -1,0 +1,56 @@
+{
+  "city": "paris",
+  "country": "France",
+  "startTime": "2025-07-26T11:06:29.753Z",
+  "venuesProcessed": 0,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [
+    {
+      "venue": "",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Centre Pompidou",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Centre Pompidou",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Centre Pompidou",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Fondation d’entreprise Ricard",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Centre Pompidou",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Centre Pompidou",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Centre Pompidou",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Fondation d’entreprise Ricard",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    }
+  ],
+  "exhibitions": [],
+  "venues": [],
+  "endTime": "2025-07-26T11:07:30.057Z",
+  "duration": 60.304
+}

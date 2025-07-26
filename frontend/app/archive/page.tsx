@@ -13,7 +13,7 @@ import {
 } from 'phosphor-react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { cn } from '@/lib/utils';
+// import { cn } from '@/lib/utils'; // unused
 
 interface ArchivedArtwork {
   id: string;

@@ -1,0 +1,204 @@
+{
+  "metadata": {
+    "totalExhibitions": 0,
+    "totalSaved": 0,
+    "totalVenues": 0,
+    "totalErrors": 38,
+    "startTime": "2025-07-26T12:33:49.935Z",
+    "endTime": "2025-07-26T12:35:52.091Z",
+    "source": "artmap.com"
+  },
+  "exhibitions": [],
+  "errors": [
+    {
+      "type": "save_exhibition",
+      "exhibition": "Marta Astfalck-Vietz",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Ștefan Bertalan",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Plants_Intelligence",
+      "error": "value too long for type character varying(200)"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Monira Al Qadiri",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Gala Hernández López",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "The Daughters’ Trilogy. Chapter II: Bindung & communion",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Karla Black",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Klara Lidén",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Ser Serpas",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Ghislaine Leung",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Franka Hörnschemeyer",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Dala Nasser",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Other Intelligences",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Daniel Hölzl",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Fabian Knecht",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Giuseppe Penone",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "VAGINAL DAVIS: FABELHAFTES PRODUKT",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Kerstin Brätsch",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Psychonauts",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Provenances",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Yoko Ono. TOUCH",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Shu Lea Cheang",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Emma Talbot",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "The Subterranean Sky",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "One Becomes Many",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Nora Turato",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Santiago Sierra",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Nora Turato",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Kerstin Brätsch",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Pairings",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "A Plant. A Person. A Life.",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Abraham Cruzvillegas: Splitogetherness: another groove",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Gala Porras-Kim: The categorical bind",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Salvo, Andreas Schulze: About Painting",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Rosemarie Trockel: Material",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Michail Pirgelis: Seven Springs",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Language/Text/Image",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Richard Long - Rhine Driftwood Line",
+      "error": "there is no unique or exclusion constraint matching the ON CONFLICT specification"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "city": "london",
+  "country": "GB",
+  "startTime": "2025-07-26T12:21:13.206Z",
+  "venuesProcessed": 2,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [],
+  "exhibitions": [],
+  "venues": [
+    {
+      "name": "",
+      "url": "https://artmap.com/profiles/",
+      "address": "",
+      "slug": null,
+      "city": "london",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Barbican",
+      "url": "https://artmap.com/barbican",
+      "address": "",
+      "slug": null,
+      "city": "london",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    }
+  ],
+  "endTime": "2025-07-26T12:21:33.993Z",
+  "duration": 20.787
+}

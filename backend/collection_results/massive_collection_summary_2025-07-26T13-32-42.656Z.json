@@ -1,0 +1,395 @@
+{
+  "summary": {
+    "totalCitiesProcessed": 38,
+    "totalExhibitionsFound": 0,
+    "totalExhibitionsSaved": 0,
+    "totalVenuesProcessed": 772,
+    "totalVenuesWithCoordinates": 0,
+    "totalErrors": 0,
+    "duration": 4110.948,
+    "successRate": "0.00"
+  },
+  "cityStats": {
+    "london": {
+      "country": "GB",
+      "priority": "priority1",
+      "venuesProcessed": 40,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 165.916
+    },
+    "paris": {
+      "country": "FR",
+      "priority": "priority1",
+      "venuesProcessed": 40,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 176.542
+    },
+    "berlin": {
+      "country": "DE",
+      "priority": "priority1",
+      "venuesProcessed": 40,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 165.02
+    },
+    "amsterdam": {
+      "country": "NL",
+      "priority": "priority1",
+      "venuesProcessed": 40,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 165.192
+    },
+    "zurich": {
+      "country": "CH",
+      "priority": "priority1",
+      "venuesProcessed": 0,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 7.567
+    },
+    "basel": {
+      "country": "CH",
+      "priority": "priority1",
+      "venuesProcessed": 40,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 148.435
+    },
+    "vienna": {
+      "country": "AT",
+      "priority": "priority1",
+      "venuesProcessed": 40,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 159.628
+    },
+    "madrid": {
+      "country": "ES",
+      "priority": "priority1",
+      "venuesProcessed": 40,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 170.185
+    },
+    "barcelona": {
+      "country": "ES",
+      "priority": "priority1",
+      "venuesProcessed": 40,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 194.992
+    },
+    "rome": {
+      "country": "IT",
+      "priority": "priority1",
+      "venuesProcessed": 40,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 174.646
+    },
+    "newyork": {
+      "country": "US",
+      "priority": "priority2",
+      "venuesProcessed": 30,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 130.122
+    },
+    "losangeles": {
+      "country": "US",
+      "priority": "priority2",
+      "venuesProcessed": 30,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 132.816
+    },
+    "chicago": {
+      "country": "US",
+      "priority": "priority2",
+      "venuesProcessed": 30,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 128.214
+    },
+    "sanfrancisco": {
+      "country": "US",
+      "priority": "priority2",
+      "venuesProcessed": 30,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 128.039
+    },
+    "miami": {
+      "country": "US",
+      "priority": "priority2",
+      "venuesProcessed": 30,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 119.798
+    },
+    "washington": {
+      "country": "US",
+      "priority": "priority2",
+      "venuesProcessed": 8,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 40.863
+    },
+    "boston": {
+      "country": "US",
+      "priority": "priority2",
+      "venuesProcessed": 20,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 88.971
+    },
+    "seattle": {
+      "country": "US",
+      "priority": "priority2",
+      "venuesProcessed": 14,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 66.387
+    },
+    "toronto": {
+      "country": "CA",
+      "priority": "priority2",
+      "venuesProcessed": 30,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 125.802
+    },
+    "montreal": {
+      "country": "CA",
+      "priority": "priority2",
+      "venuesProcessed": 30,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 125.11
+    },
+    "milan": {
+      "country": "IT",
+      "priority": "priority3",
+      "venuesProcessed": 10,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 49.737
+    },
+    "venice": {
+      "country": "IT",
+      "priority": "priority3",
+      "venuesProcessed": 10,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 50.209
+    },
+    "brussels": {
+      "country": "BE",
+      "priority": "priority3",
+      "venuesProcessed": 10,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 50.093
+    },
+    "copenhagen": {
+      "country": "DK",
+      "priority": "priority3",
+      "venuesProcessed": 10,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 46.389
+    },
+    "stockholm": {
+      "country": "SE",
+      "priority": "priority3",
+      "venuesProcessed": 10,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 51.131
+    },
+    "oslo": {
+      "country": "NO",
+      "priority": "priority3",
+      "venuesProcessed": 10,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 50.364
+    },
+    "munich": {
+      "country": "DE",
+      "priority": "priority3",
+      "venuesProcessed": 10,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 46.356
+    },
+    "frankfurt": {
+      "country": "DE",
+      "priority": "priority3",
+      "venuesProcessed": 10,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 52.614
+    },
+    "tokyo": {
+      "country": "JP",
+      "priority": "priority4",
+      "venuesProcessed": 8,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 42.989
+    },
+    "hongkong": {
+      "country": "HK",
+      "priority": "priority4",
+      "venuesProcessed": 8,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 71.105
+    },
+    "shanghai": {
+      "country": "CN",
+      "priority": "priority4",
+      "venuesProcessed": 8,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 43.337
+    },
+    "singapore": {
+      "country": "SG",
+      "priority": "priority4",
+      "venuesProcessed": 8,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 42.021
+    },
+    "beijing": {
+      "country": "CN",
+      "priority": "priority4",
+      "venuesProcessed": 8,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 41.972
+    },
+    "taipei": {
+      "country": "TW",
+      "priority": "priority4",
+      "venuesProcessed": 8,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 42.627
+    },
+    "bangkok": {
+      "country": "TH",
+      "priority": "priority4",
+      "venuesProcessed": 8,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 41.861
+    },
+    "sydney": {
+      "country": "AU",
+      "priority": "priority4",
+      "venuesProcessed": 8,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 44.34
+    },
+    "melbourne": {
+      "country": "AU",
+      "priority": "priority4",
+      "venuesProcessed": 8,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 42.085
+    },
+    "dubai": {
+      "country": "AE",
+      "priority": "priority4",
+      "venuesProcessed": 8,
+      "exhibitionsFound": 0,
+      "exhibitionsSaved": 0,
+      "venuesWithCoordinates": 0,
+      "errors": 0,
+      "duration": 41.933
+    }
+  },
+  "errors": []
+}

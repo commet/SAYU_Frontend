@@ -1,0 +1,112 @@
+{
+  "city": "sydney",
+  "country": "AU",
+  "startTime": "2025-07-26T13:48:32.999Z",
+  "venuesProcessed": 8,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [],
+  "exhibitions": [],
+  "venues": [
+    {
+      "name": "",
+      "url": "https://artmap.com/profiles/",
+      "address": "",
+      "slug": null,
+      "city": "sydney",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Art Gallery of New South Wales",
+      "url": "https://artmap.com/artgallerysydney",
+      "address": "",
+      "slug": null,
+      "city": "sydney",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Art Gallery of New South Wales",
+      "url": "https://artmap.com/artgallerysydney",
+      "address": "",
+      "slug": null,
+      "city": "sydney",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Art Gallery of New South Wales",
+      "url": "https://artmap.com/artgallerysydney",
+      "address": "",
+      "slug": null,
+      "city": "sydney",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Artspace",
+      "url": "https://artmap.com/artspacesydney",
+      "address": "",
+      "slug": null,
+      "city": "sydney",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Artspace",
+      "url": "https://artmap.com/artspacesydney",
+      "address": "",
+      "slug": null,
+      "city": "sydney",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Artspace",
+      "url": "https://artmap.com/artspacesydney",
+      "address": "",
+      "slug": null,
+      "city": "sydney",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Australian Centre for Photography",
+      "url": "https://artmap.com/acpsydney",
+      "address": "",
+      "slug": null,
+      "city": "sydney",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    }
+  ],
+  "endTime": "2025-07-26T13:49:14.430Z",
+  "duration": 41.431
+}

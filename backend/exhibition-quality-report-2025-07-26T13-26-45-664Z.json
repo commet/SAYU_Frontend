@@ -1,0 +1,42 @@
+{
+  "timestamp": "2025-07-26T13:26:45.663Z",
+  "overallGrade": "F",
+  "avgVenueScore": 17,
+  "cityScores": [
+    {
+      "city": "london",
+      "score": 18,
+      "type": "venue_coverage"
+    },
+    {
+      "city": "paris",
+      "score": 0,
+      "type": "venue_coverage"
+    },
+    {
+      "city": "berlin",
+      "score": 20,
+      "type": "venue_coverage"
+    },
+    {
+      "city": "munich",
+      "score": 14,
+      "type": "venue_coverage"
+    },
+    {
+      "city": "basel",
+      "score": 33,
+      "type": "venue_coverage"
+    },
+    {
+      "city": "vienna",
+      "score": 14,
+      "type": "venue_coverage"
+    }
+  ],
+  "recommendations": [
+    "주요 미술관 데이터 추가 필요",
+    "정기 업데이트 시스템 구축",
+    "사용자 피드백 시스템 도입"
+  ]
+}

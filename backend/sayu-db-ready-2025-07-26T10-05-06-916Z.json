@@ -1,0 +1,134 @@
+[
+  {
+    "title": "Marta Astfalck-Vietz",
+    "title_en": "Marta Astfalck-Vietz",
+    "description": "Contemporary art exhibition",
+    "start_date": "2025-07-11",
+    "end_date": "2025-10-13",
+    "period_text": "11 Jul - 13 Oct 2025",
+    "venue_name": null,
+    "venue_location": null,
+    "venue_country": null,
+    "artists": [
+      "Marta Astfalck-Vietz"
+    ],
+    "primary_artist": "Marta Astfalck-Vietz",
+    "category": "contemporary",
+    "art_movement": "contemporary",
+    "region": "international",
+    "emotion_tags": [
+      "contemporary",
+      "artistic"
+    ],
+    "price_range": "free",
+    "is_active": true,
+    "images": null,
+    "source": "artmap.com",
+    "source_url": "https://artmap.com/exhibitions",
+    "extracted_at": "2025-07-26T10:03:34.359Z",
+    "integrated_at": "2025-07-26T10:05:06.915Z",
+    "accessibility_wheelchair": true,
+    "accessibility_parking": true,
+    "accessibility_public_transport": true,
+    "recommendation_score": null,
+    "popularity_score": null,
+    "user_ratings": null,
+    "data_quality": "low",
+    "needs_manual_review": true,
+    "search_keywords": [
+      "marta",
+      "astfalck-vietz",
+      "contemporary",
+      "artistic"
+    ]
+  },
+  {
+    "title": "Ștefan Bertalan",
+    "title_en": "Ștefan Bertalan",
+    "description": "Contemporary art exhibition",
+    "start_date": "2025-07-11",
+    "end_date": "2025-11-23",
+    "period_text": "11 Jul - 23 Nov 2025",
+    "venue_name": null,
+    "venue_location": null,
+    "venue_country": null,
+    "artists": [
+      "Ștefan Bertalan"
+    ],
+    "primary_artist": "Ștefan Bertalan",
+    "category": "contemporary",
+    "art_movement": "contemporary",
+    "region": "international",
+    "emotion_tags": [
+      "contemporary",
+      "artistic"
+    ],
+    "price_range": "free",
+    "is_active": true,
+    "images": null,
+    "source": "artmap.com",
+    "source_url": "https://artmap.com/exhibitions",
+    "extracted_at": "2025-07-26T10:03:34.360Z",
+    "integrated_at": "2025-07-26T10:05:06.915Z",
+    "accessibility_wheelchair": true,
+    "accessibility_parking": true,
+    "accessibility_public_transport": true,
+    "recommendation_score": null,
+    "popularity_score": null,
+    "user_ratings": null,
+    "data_quality": "low",
+    "needs_manual_review": true,
+    "search_keywords": [
+      "ștefan",
+      "bertalan",
+      "contemporary",
+      "artistic"
+    ]
+  },
+  {
+    "title": "Plants_Intelligence",
+    "title_en": "Plants_Intelligence",
+    "description": "Contemporary art exhibition",
+    "start_date": "2025-07-11",
+    "end_date": "2025-11-23",
+    "period_text": "11 Jul - 23 Nov 2025",
+    "venue_name": null,
+    "venue_location": null,
+    "venue_country": null,
+    "artists": [
+      "Plants_Intelligence"
+    ],
+    "primary_artist": "Plants_Intelligence",
+    "category": "contemporary",
+    "art_movement": "contemporary",
+    "region": "international",
+    "emotion_tags": [
+      "contemporary",
+      "artistic",
+      "peaceful",
+      "natural"
+    ],
+    "price_range": "free",
+    "is_active": true,
+    "images": null,
+    "source": "artmap.com",
+    "source_url": "https://artmap.com/exhibitions",
+    "extracted_at": "2025-07-26T10:03:34.361Z",
+    "integrated_at": "2025-07-26T10:05:06.916Z",
+    "accessibility_wheelchair": true,
+    "accessibility_parking": true,
+    "accessibility_public_transport": true,
+    "recommendation_score": null,
+    "popularity_score": null,
+    "user_ratings": null,
+    "data_quality": "medium",
+    "needs_manual_review": true,
+    "search_keywords": [
+      "plants_intelligence",
+      "contemporary",
+      "artistic",
+      "peaceful",
+      "natural"
+    ]
+  }
+]

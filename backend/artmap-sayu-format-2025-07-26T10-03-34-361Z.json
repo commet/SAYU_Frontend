@@ -1,0 +1,106 @@
+[
+  {
+    "title": "Marta Astfalck-Vietz",
+    "titleEn": "Marta Astfalck-Vietz",
+    "description": "Contemporary art exhibition",
+    "venue": {
+      "name": "N/A",
+      "location": "N/A",
+      "country": "Unknown"
+    },
+    "period": {
+      "text": "11 Jul - 13 Oct 2025"
+    },
+    "artists": [
+      "Marta Astfalck-Vietz"
+    ],
+    "images": [],
+    "source": "artmap.com",
+    "sourceUrl": "https://artmap.com/exhibitions",
+    "category": "contemporary",
+    "region": "international",
+    "isActive": true,
+    "extractedAt": "2025-07-26T10:03:34.359Z",
+    "emotionTags": [
+      "contemporary",
+      "artistic"
+    ],
+    "artMovement": "contemporary",
+    "priceRange": "free",
+    "accessibility": {
+      "wheelchair": true,
+      "parking": true,
+      "publicTransport": true
+    }
+  },
+  {
+    "title": "Ștefan Bertalan",
+    "titleEn": "Ștefan Bertalan",
+    "description": "Contemporary art exhibition",
+    "venue": {
+      "name": "N/A",
+      "location": "N/A",
+      "country": "Unknown"
+    },
+    "period": {
+      "text": "11 Jul - 23 Nov 2025"
+    },
+    "artists": [
+      "Ștefan Bertalan"
+    ],
+    "images": [],
+    "source": "artmap.com",
+    "sourceUrl": "https://artmap.com/exhibitions",
+    "category": "contemporary",
+    "region": "international",
+    "isActive": true,
+    "extractedAt": "2025-07-26T10:03:34.360Z",
+    "emotionTags": [
+      "contemporary",
+      "artistic"
+    ],
+    "artMovement": "contemporary",
+    "priceRange": "free",
+    "accessibility": {
+      "wheelchair": true,
+      "parking": true,
+      "publicTransport": true
+    }
+  },
+  {
+    "title": "Plants_Intelligence",
+    "titleEn": "Plants_Intelligence",
+    "description": "Contemporary art exhibition",
+    "venue": {
+      "name": "N/A",
+      "location": "N/A",
+      "country": "Unknown"
+    },
+    "period": {
+      "text": "11 Jul - 23 Nov 2025"
+    },
+    "artists": [
+      "Plants_Intelligence"
+    ],
+    "images": [],
+    "source": "artmap.com",
+    "sourceUrl": "https://artmap.com/exhibitions",
+    "category": "contemporary",
+    "region": "international",
+    "isActive": true,
+    "extractedAt": "2025-07-26T10:03:34.361Z",
+    "emotionTags": [
+      "contemporary",
+      "artistic",
+      "peaceful",
+      "natural"
+    ],
+    "artMovement": "contemporary",
+    "priceRange": "free",
+    "accessibility": {
+      "wheelchair": true,
+      "parking": true,
+      "publicTransport": true
+    }
+  }
+]

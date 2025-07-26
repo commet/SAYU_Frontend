@@ -1,0 +1,15 @@
+{
+  "city": "zurich",
+  "country": "CH",
+  "startTime": "2025-07-26T12:55:28.951Z",
+  "venuesProcessed": 0,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [],
+  "exhibitions": [],
+  "venues": [],
+  "endTime": "2025-07-26T12:55:36.376Z",
+  "duration": 7.425
+}

@@ -1,0 +1,112 @@
+{
+  "city": "bangkok",
+  "country": "TH",
+  "startTime": "2025-07-26T13:47:36.273Z",
+  "venuesProcessed": 8,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [],
+  "exhibitions": [],
+  "venues": [
+    {
+      "name": "",
+      "url": "https://artmap.com/profiles/",
+      "address": "",
+      "slug": null,
+      "city": "bangkok",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "BACC Bangkok Art and Culture Centre",
+      "url": "https://artmap.com/bacc3",
+      "address": "",
+      "slug": null,
+      "city": "bangkok",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "BACC Bangkok Art and Culture Centre",
+      "url": "https://artmap.com/bacc3",
+      "address": "",
+      "slug": null,
+      "city": "bangkok",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "BACC Bangkok Art and Culture Centre",
+      "url": "https://artmap.com/bacc3",
+      "address": "",
+      "slug": null,
+      "city": "bangkok",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Nova",
+      "url": "https://artmap.com/novabangkok",
+      "address": "",
+      "slug": null,
+      "city": "bangkok",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Nova",
+      "url": "https://artmap.com/novabangkok",
+      "address": "",
+      "slug": null,
+      "city": "bangkok",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Nova",
+      "url": "https://artmap.com/novabangkok",
+      "address": "",
+      "slug": null,
+      "city": "bangkok",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Tang",
+      "url": "https://artmap.com/tangbangkok",
+      "address": "",
+      "slug": null,
+      "city": "bangkok",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    }
+  ],
+  "endTime": "2025-07-26T13:48:17.977Z",
+  "duration": 41.704
+}

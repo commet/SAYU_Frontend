@@ -3,9 +3,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { Calendar, Grid, List } from 'lucide-react';
+import { Calendar, Grid, List, MapPin } from 'lucide-react';
 import ExhibitionCalendar from '@/components/calendar/ExhibitionCalendar';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
+import VenueInfoCard from '@/components/venue/VenueInfoCard';
 
 interface Exhibition {
   id: string;
@@ -309,7 +310,12 @@ export default function ExhibitionsPage() {
                   <h3 className="text-xl font-bold text-white mb-2">
                     {exhibition.title}
                   </h3>
-                  <p className="text-white/80 mb-1">{exhibition.venues.name}</p>
+                  
+                  <div className="flex items-center gap-2 mb-2">
+                    <MapPin className="w-4 h-4 text-white/60" />
+                    <span className="text-white/80">{exhibition.venues.name}</span>
+                  </div>
+                  
                   <p className="text-white/60 text-sm mb-4">
                     {formatDate(exhibition.start_date)} - {formatDate(exhibition.end_date)}
                   </p>

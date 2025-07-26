@@ -23,8 +23,21 @@
       "WebFetch(domain:artsy.net)",
       "WebFetch(domain:artreview.com)",
       "WebFetch(domain:e-flux.com)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(git log:*)",
+      "Bash(find:*)",
+      "Bash(PORT=3006 npm run dev)",
+      "Bash(set SAYU_MODE=full)",
+      "Bash(chmod:*)"
     ],
     "deny": []
+  },
+  "agents": {
+    "sayu-debugger": {
+      "description": "SAYU의 최강 디버깅 마스터. Next.js 15, React 19, Railway 배포, Supabase 통합, Cloudinary 서비스의 모든 오류를 신속하고 정확하게 진단하고 해결. MUST BE USED for all debugging, system health checks, and error resolution tasks.",
+      "file": ".claude/agents/sayu-debugger.md",
+      "tools": ["Read", "Edit", "MultiEdit", "Bash", "Grep", "Glob", "Write", "mcp__tavily_search", "mcp__context7", "mcp__sequentialthinking"],
+      "aliases": ["/debug-sayu", "/fix-sayu", "/sayu-health"]
+    }
   }
 }

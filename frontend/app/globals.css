@@ -32,6 +32,9 @@
 /* Import Modern Design System */
 @import url('../components/modern/design-system.css');
 
+/* Import Waitlist Styles */
+@import url('../styles/waitlist.css');
+
 /* Animation Delays */
 .animation-delay-2000 {
   animation-delay: 2s;

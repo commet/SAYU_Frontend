@@ -1,0 +1,112 @@
+{
+  "city": "singapore",
+  "country": "SG",
+  "startTime": "2025-07-26T13:26:15.731Z",
+  "venuesProcessed": 8,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [],
+  "exhibitions": [],
+  "venues": [
+    {
+      "name": "",
+      "url": "https://artmap.com/profiles/",
+      "address": "",
+      "slug": null,
+      "city": "singapore",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "The Arts House",
+      "url": "https://artmap.com/theartshouse",
+      "address": "",
+      "slug": null,
+      "city": "singapore",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "The Arts House",
+      "url": "https://artmap.com/theartshouse",
+      "address": "",
+      "slug": null,
+      "city": "singapore",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "The Arts House",
+      "url": "https://artmap.com/theartshouse",
+      "address": "",
+      "slug": null,
+      "city": "singapore",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "The Esplanade",
+      "url": "https://artmap.com/esplanade",
+      "address": "",
+      "slug": null,
+      "city": "singapore",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "The Esplanade",
+      "url": "https://artmap.com/esplanade",
+      "address": "",
+      "slug": null,
+      "city": "singapore",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "The Esplanade",
+      "url": "https://artmap.com/esplanade",
+      "address": "",
+      "slug": null,
+      "city": "singapore",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Future of Imagination",
+      "url": "https://artmap.com/foisingapore",
+      "address": "",
+      "slug": null,
+      "city": "singapore",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    }
+  ],
+  "endTime": "2025-07-26T13:26:57.752Z",
+  "duration": 42.021
+}

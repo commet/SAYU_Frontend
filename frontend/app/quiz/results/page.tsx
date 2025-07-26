@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { getTranslatedText, getColorCodes, getArtEmoji } from '@/lib/artTranslations';
 import { getArtworkRecommendations } from '@/lib/artworkRecommendations';
 import { calculatePersonalityFromSimulation } from '@/lib/simulationDesign';
@@ -278,10 +279,13 @@ function ResultsContent() {
                   className="relative group w-full"
                 >
                   <div className="relative overflow-hidden rounded-xl shadow-2xl aspect-[4/5]">
-                    <img
+                    <Image
                       src={artworkRecommendations.representativeWork.image}
                       alt={artworkRecommendations.representativeWork.title}
-                      className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                      fill
+                      className="object-cover transform transition-transform duration-500 group-hover:scale-110"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                      priority
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
@@ -343,10 +347,12 @@ function ResultsContent() {
                   className="relative group w-full"
                 >
                   <div className="relative overflow-hidden rounded-xl shadow-2xl aspect-[4/5]">
-                    <img
+                    <Image
                       src={exhibitionRecommendation.image}
                       alt={exhibitionRecommendation.title[language]}
-                      className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                      fill
+                      className="object-cover transform transition-transform duration-500 group-hover:scale-110"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>

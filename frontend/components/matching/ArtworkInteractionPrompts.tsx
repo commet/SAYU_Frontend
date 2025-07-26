@@ -13,6 +13,7 @@ import {
   Clock,
   Music
 } from 'lucide-react';
+import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -136,11 +137,15 @@ export function ArtworkInteractionPrompts({
       {/* 작품 미리보기 */}
       <Card className="p-4 glass-panel">
         <div className="flex gap-4">
-          <img 
-            src={artwork.image} 
-            alt={artwork.title}
-            className="w-24 h-24 object-cover rounded-lg"
-          />
+          <div className="relative w-24 h-24">
+            <Image 
+              src={artwork.image} 
+              alt={artwork.title}
+              fill
+              className="object-cover rounded-lg"
+              sizes="96px"
+            />
+          </div>
           <div className="flex-1">
             <h3 className="font-semibold">{artwork.title}</h3>
             <p className="text-sm text-muted-foreground">{artwork.artist}</p>

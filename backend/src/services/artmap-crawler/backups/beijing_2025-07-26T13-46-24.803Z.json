@@ -1,0 +1,112 @@
+{
+  "city": "beijing",
+  "country": "CN",
+  "startTime": "2025-07-26T13:45:42.988Z",
+  "venuesProcessed": 8,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [],
+  "exhibitions": [],
+  "venues": [
+    {
+      "name": "",
+      "url": "https://artmap.com/profiles/",
+      "address": "",
+      "slug": null,
+      "city": "beijing",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "M Woods",
+      "url": "https://artmap.com/mwoods",
+      "address": "",
+      "slug": null,
+      "city": "beijing",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "M Woods",
+      "url": "https://artmap.com/mwoods",
+      "address": "",
+      "slug": null,
+      "city": "beijing",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "M Woods",
+      "url": "https://artmap.com/mwoods",
+      "address": "",
+      "slug": null,
+      "city": "beijing",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Red Brick Art Museum",
+      "url": "https://artmap.com/redbrick",
+      "address": "",
+      "slug": null,
+      "city": "beijing",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Red Brick Art Museum",
+      "url": "https://artmap.com/redbrick",
+      "address": "",
+      "slug": null,
+      "city": "beijing",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Red Brick Art Museum",
+      "url": "https://artmap.com/redbrick",
+      "address": "",
+      "slug": null,
+      "city": "beijing",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Three Shadows Photography Art Centre",
+      "url": "https://artmap.com/threeshadows",
+      "address": "",
+      "slug": null,
+      "city": "beijing",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    }
+  ],
+  "endTime": "2025-07-26T13:46:24.801Z",
+  "duration": 41.813
+}

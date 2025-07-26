@@ -7,6 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { artProfileAPI } from '@/lib/art-profile-api';
 import { ArtProfileGalleryItem } from '@/types/art-profile';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ArtProfileGallery() {
   const { language } = useLanguage();
@@ -133,10 +134,12 @@ export default function ArtProfileGallery() {
               >
                 {/* Image */}
                 <div className="relative aspect-square overflow-hidden">
-                  <img 
+                  <Image 
                     src={item.artProfile.transformedImage}
                     alt={`Art profile by ${item.user.nickname}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                   
                   {/* Overlay */}

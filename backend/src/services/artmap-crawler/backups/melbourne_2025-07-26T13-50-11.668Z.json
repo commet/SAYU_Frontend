@@ -1,0 +1,112 @@
+{
+  "city": "melbourne",
+  "country": "AU",
+  "startTime": "2025-07-26T13:49:29.454Z",
+  "venuesProcessed": 8,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [],
+  "exhibitions": [],
+  "venues": [
+    {
+      "name": "",
+      "url": "https://artmap.com/profiles/",
+      "address": "",
+      "slug": null,
+      "city": "melbourne",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Australian Centre for Contemporary Art",
+      "url": "https://artmap.com/accamelbourne",
+      "address": "",
+      "slug": null,
+      "city": "melbourne",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Australian Centre for Contemporary Art",
+      "url": "https://artmap.com/accamelbourne",
+      "address": "",
+      "slug": null,
+      "city": "melbourne",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Australian Centre for Contemporary Art",
+      "url": "https://artmap.com/accamelbourne",
+      "address": "",
+      "slug": null,
+      "city": "melbourne",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Australian Centre for the Moving Image",
+      "url": "https://artmap.com/acmimelbourne",
+      "address": "",
+      "slug": null,
+      "city": "melbourne",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Australian Centre for the Moving Image",
+      "url": "https://artmap.com/acmimelbourne",
+      "address": "",
+      "slug": null,
+      "city": "melbourne",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Australian Centre for the Moving Image",
+      "url": "https://artmap.com/acmimelbourne",
+      "address": "",
+      "slug": null,
+      "city": "melbourne",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Centre for Contemporary Photography",
+      "url": "https://artmap.com/ccpmelbourne",
+      "address": "",
+      "slug": null,
+      "city": "melbourne",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    }
+  ],
+  "endTime": "2025-07-26T13:50:11.668Z",
+  "duration": 42.214
+}

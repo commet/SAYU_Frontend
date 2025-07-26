@@ -1,11 +1,11 @@
 {
-  "name": "SAYU - Your Art Soul",
+  "name": "SAYU - Art Life Platform",
   "short_name": "SAYU",
-  "description": "Discover your unique aesthetic personality through art",
+  "description": "매일 예술과 함께하는 습관, 당신의 감성을 깨우는 아트 라이프 플랫폼",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#8b5cf6",
+  "background_color": "#000000",
+  "theme_color": "#FF6B6B",
   "orientation": "portrait",
   "icons": [
     {
@@ -13,6 +13,35 @@
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "categories": ["lifestyle", "education"],
+  "shortcuts": [
+    {
+      "name": "오늘의 작품",
+      "short_name": "Daily Art",
+      "description": "오늘의 추천 작품 보기",
+      "url": "/daily-art"
+    },
+    {
+      "name": "감정 체크인",
+      "short_name": "Check-in",
+      "description": "지금의 감정 기록하기",
+      "url": "/emotion-checkin"
+    },
+    {
+      "name": "내 프로필",
+      "short_name": "Profile",
+      "description": "나의 아트 프로필 보기",
+      "url": "/profile"
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": []
 }

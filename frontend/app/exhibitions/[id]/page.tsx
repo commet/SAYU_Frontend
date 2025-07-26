@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, MapPin, Heart, Eye, Clock, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
+import VenueInfoCard from '@/components/venue/VenueInfoCard';
 
 interface Exhibition {
   id: string;
@@ -195,11 +196,6 @@ export default function ExhibitionDetailPage() {
                 
                 <div className="space-y-4 mb-6">
                   <div className="flex items-center gap-3 text-white/80">
-                    <MapPin className="w-5 h-5" />
-                    <span>{exhibition.venues.name}, {exhibition.venues.city}</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 text-white/80">
                     <Calendar className="w-5 h-5" />
                     <span>{formatDate(exhibition.start_date)} - {formatDate(exhibition.end_date)}</span>
                   </div>
@@ -231,6 +227,13 @@ export default function ExhibitionDetailPage() {
 
               {/* Sidebar */}
               <div className="space-y-6">
+                {/* Venue Information */}
+                <VenueInfoCard 
+                  venueName={exhibition.venues.name}
+                  venueCity={exhibition.venues.city}
+                  venueWebsite={exhibition.venues.website}
+                />
+
                 {/* Stats */}
                 <div className="bg-white/10 rounded-xl p-6">
                   <h3 className="text-lg font-semibold text-white mb-4">통계</h3>

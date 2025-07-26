@@ -6,7 +6,7 @@ import {
   Plus,
   Users,
   Tag,
-  Image,
+  Image as ImageIcon,
   Mic,
   Send,
   Lock,
@@ -16,6 +16,7 @@ import {
   Palette,
   MessageSquare
 } from 'lucide-react';
+import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -216,11 +217,15 @@ export function SharedCollectionCreator({
                   )}
                   onClick={() => toggleArtwork(artwork.id)}
                 >
-                  <img
-                    src={artwork.image}
-                    alt={artwork.title}
-                    className="w-full h-32 object-cover"
-                  />
+                  <div className="relative w-full h-32">
+                    <Image
+                      src={artwork.image}
+                      alt={artwork.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                  </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-2 text-white">
                     <p className="text-xs font-medium truncate">{artwork.title}</p>
@@ -255,11 +260,15 @@ export function SharedCollectionCreator({
                 
                 return (
                   <div key={artworkId} className="flex gap-3 p-2 bg-secondary/20 rounded-lg">
-                    <img
-                      src={artwork.image}
-                      alt={artwork.title}
-                      className="w-12 h-12 object-cover rounded"
-                    />
+                    <div className="relative w-12 h-12">
+                      <Image
+                        src={artwork.image}
+                        alt={artwork.title}
+                        fill
+                        className="object-cover rounded"
+                        sizes="48px"
+                      />
+                    </div>
                     <div className="flex-1">
                       <p className="text-xs font-medium">{artwork.title}</p>
                       <Input

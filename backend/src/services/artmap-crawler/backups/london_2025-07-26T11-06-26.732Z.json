@@ -1,0 +1,56 @@
+{
+  "city": "london",
+  "country": "United Kingdom",
+  "startTime": "2025-07-26T11:05:27.678Z",
+  "venuesProcessed": 0,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [
+    {
+      "venue": "",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Barbican",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Barbican",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Barbican",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Hayward Gallery",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Barbican",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Barbican",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Barbican",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Hayward Gallery",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    }
+  ],
+  "exhibitions": [],
+  "venues": [],
+  "endTime": "2025-07-26T11:06:26.731Z",
+  "duration": 59.053
+}

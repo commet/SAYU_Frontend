@@ -63,4 +63,10 @@ router.delete('/sessions/:tokenId',
   authController.revokeSession
 );
 
+// User purpose update
+router.patch('/purpose', 
+  authMiddleware,
+  authController.updateUserPurpose
+);
+
 module.exports = router;

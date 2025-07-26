@@ -1,0 +1,112 @@
+{
+  "city": "washington",
+  "country": "US",
+  "startTime": "2025-07-26T13:23:00.598Z",
+  "venuesProcessed": 8,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [],
+  "exhibitions": [],
+  "venues": [
+    {
+      "name": "",
+      "url": "https://artmap.com/profiles/",
+      "address": "",
+      "slug": null,
+      "city": "washington",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Hirshhorn Museum",
+      "url": "https://artmap.com/hirshhorn",
+      "address": "",
+      "slug": null,
+      "city": "washington",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Hirshhorn Museum",
+      "url": "https://artmap.com/hirshhorn",
+      "address": "",
+      "slug": null,
+      "city": "washington",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Hirshhorn Museum",
+      "url": "https://artmap.com/hirshhorn",
+      "address": "",
+      "slug": null,
+      "city": "washington",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "",
+      "url": "https://artmap.com/profiles/",
+      "address": "",
+      "slug": null,
+      "city": "washington",
+      "type": "galleries",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Hirshhorn Museum",
+      "url": "https://artmap.com/hirshhorn",
+      "address": "",
+      "slug": null,
+      "city": "washington",
+      "type": "galleries",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Hirshhorn Museum",
+      "url": "https://artmap.com/hirshhorn",
+      "address": "",
+      "slug": null,
+      "city": "washington",
+      "type": "galleries",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Hirshhorn Museum",
+      "url": "https://artmap.com/hirshhorn",
+      "address": "",
+      "slug": null,
+      "city": "washington",
+      "type": "galleries",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    }
+  ],
+  "endTime": "2025-07-26T13:23:41.767Z",
+  "duration": 41.169
+}

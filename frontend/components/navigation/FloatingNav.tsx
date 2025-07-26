@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter, usePathname } from 'next/navigation';
-import { Home, Sparkles, Users, User, Menu, X, Sun, Moon } from 'lucide-react';
+import { Home, Sparkles, Users, User, Menu, X, Sun, Moon, Zap, LayoutDashboard, Calendar } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useDarkMode } from '@/contexts/DarkModeContext';
 import LanguageToggle from '@/components/ui/LanguageToggle';
@@ -11,7 +11,7 @@ import { useAuth } from '@/hooks/useAuth';
 import toast from 'react-hot-toast';
 
 interface NavItem {
-  iconType: 'home' | 'sparkles' | 'users' | 'user';
+  iconType: 'home' | 'sparkles' | 'users' | 'user' | 'zap' | 'dashboard' | 'calendar';
   label: { en: string; ko: string };
   path: string;
   requiresAuth?: boolean;
@@ -21,14 +21,19 @@ interface NavItem {
 const desktopNavItems: NavItem[] = [
   { iconType: 'home', label: { en: 'Home', ko: '홈' }, path: '/' },
   { iconType: 'sparkles', label: { en: 'Discover', ko: '탐색' }, path: '/quiz' },
+  { iconType: 'zap', label: { en: 'Art Pulse', ko: 'Art Pulse' }, path: '/art-pulse', requiresAuth: true },
+  { iconType: 'calendar', label: { en: 'Daily Habit', ko: '일일 습관' }, path: '/daily-habit', requiresAuth: true },
   { iconType: 'users', label: { en: 'Community', ko: '커뮤니티' }, path: '/community', requiresAuth: true },
+  { iconType: 'dashboard', label: { en: 'Dashboard', ko: '대시보드' }, path: '/dashboard', requiresAuth: true },
   { iconType: 'user', label: { en: 'Profile', ko: '프로필' }, path: '/profile', requiresAuth: true },
 ];
 
-// 모바일 메뉴 (하단) - 중요한 3개만
+// 모바일 메뉴 (하단) - 중요한 5개
 const mobileNavItems: NavItem[] = [
   { iconType: 'home', label: { en: 'Home', ko: '홈' }, path: '/' },
   { iconType: 'sparkles', label: { en: 'Quiz', ko: '퀴즈' }, path: '/quiz' },
+  { iconType: 'zap', label: { en: 'Pulse', ko: 'Pulse' }, path: '/art-pulse', requiresAuth: true },
+  { iconType: 'dashboard', label: { en: 'Hub', ko: '허브' }, path: '/dashboard', requiresAuth: true },
   { iconType: 'user', label: { en: 'My', ko: '마이' }, path: '/profile', requiresAuth: true },
 ];
 
@@ -49,6 +54,9 @@ export default function FloatingNav() {
       case 'sparkles': return <Sparkles className="w-5 h-5" />;
       case 'users': return <Users className="w-5 h-5" />;
       case 'user': return <User className="w-5 h-5" />;
+      case 'zap': return <Zap className="w-5 h-5" />;
+      case 'dashboard': return <LayoutDashboard className="w-5 h-5" />;
+      case 'calendar': return <Calendar className="w-5 h-5" />;
       default: return null;
     }
   };
@@ -198,7 +206,7 @@ export default function FloatingNav() {
           zIndex: 1000
         }}
       >
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex items-center justify-center gap-1">
           {mobileNavItems.map((item, index) => {
             const isActive = pathname === item.path;
             const isDisabled = item.requiresAuth && !user;
@@ -208,7 +216,7 @@ export default function FloatingNav() {
                 key={item.path}
                 onClick={() => handleNavClick(item)}
                 disabled={isDisabled}
-                className={`sayu-nav-item flex flex-col items-center justify-center px-4 py-2 rounded-xl transition-all ${isActive ? 'active text-purple-600' : 'text-gray-600'} ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-50'}`}
+                className={`sayu-nav-item flex flex-col items-center justify-center px-2 py-2 rounded-xl transition-all min-w-[60px] ${isActive ? 'active text-purple-600' : 'text-gray-600'} ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-50'}`}
                 whileHover={!isDisabled ? { scale: 1.05 } : {}}
                 whileTap={!isDisabled ? { scale: 0.95 } : {}}
                 initial={{ opacity: 0, y: 20 }}
@@ -243,7 +251,7 @@ export default function FloatingNav() {
                   )}
                 </div>
                 
-                <span className="text-xs font-medium whitespace-nowrap mt-1">
+                <span className="text-[10px] font-medium whitespace-nowrap mt-1 leading-tight">
                   {item.label[language]}
                 </span>
               </motion.button>

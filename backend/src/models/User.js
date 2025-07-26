@@ -11,6 +11,7 @@ class UserModel {
       age,
       location,
       personalManifesto,
+      userPurpose = 'exploring',
       role = 'user'
     } = userData;
     
@@ -20,9 +21,9 @@ class UserModel {
     const query = `
       INSERT INTO users (
         id, email, password_hash, nickname, age, location,
-        personal_manifesto, agency_level, aesthetic_journey_stage, role
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-      RETURNING id, email, nickname, agency_level, role, created_at
+        personal_manifesto, user_purpose, agency_level, aesthetic_journey_stage, role
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+      RETURNING id, email, nickname, user_purpose, agency_level, role, created_at
     `;
     
     const values = [
@@ -33,6 +34,7 @@ class UserModel {
       age,
       location ? JSON.stringify(location) : null,
       personalManifesto,
+      userPurpose,
       'explorer',
       'discovering',
       role
@@ -130,6 +132,15 @@ class UserModel {
       RETURNING id, email, role
     `;
     const result = await pool.query(query, [userId, role]);
+    return result.rows[0];
+  }
+
+  async updateUserPurpose(userId, userPurpose) {
+    const query = `
+      UPDATE users SET user_purpose = $2 WHERE id = $1
+      RETURNING id, email, nickname, user_purpose, created_at
+    `;
+    const result = await pool.query(query, [userId, userPurpose]);
     return result.rows[0];
   }
 }

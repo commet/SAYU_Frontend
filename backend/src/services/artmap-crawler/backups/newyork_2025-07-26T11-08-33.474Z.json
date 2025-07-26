@@ -1,0 +1,56 @@
+{
+  "city": "newyork",
+  "country": "United States",
+  "startTime": "2025-07-26T11:07:33.072Z",
+  "venuesProcessed": 0,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [
+    {
+      "venue": "",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Guggenheim Museum",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Guggenheim Museum",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Guggenheim Museum",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "ICP International Center of Photography",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Guggenheim Museum",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Guggenheim Museum",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "Guggenheim Museum",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    },
+    {
+      "venue": "ICP International Center of Photography",
+      "error": "column \"email\" of relation \"venues\" does not exist"
+    }
+  ],
+  "exhibitions": [],
+  "venues": [],
+  "endTime": "2025-07-26T11:08:33.474Z",
+  "duration": 60.402
+}

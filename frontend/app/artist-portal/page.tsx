@@ -10,11 +10,11 @@ import {
   Upload, 
   FileImage, 
   Calendar, 
-  Users, 
+  // Users, // unused
   Star,
   CheckCircle,
   Clock,
-  XCircle
+  // XCircle // unused
 } from 'lucide-react';
 
 interface PortalStats {

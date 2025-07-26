@@ -1,0 +1,24 @@
+{
+  "city": "london",
+  "country": "United Kingdom",
+  "startTime": "2025-07-26T12:19:12.563Z",
+  "venuesProcessed": 0,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [
+    {
+      "venue": "",
+      "error": "value too long for type character varying(2)"
+    },
+    {
+      "venue": "Barbican",
+      "error": "value too long for type character varying(2)"
+    }
+  ],
+  "exhibitions": [],
+  "venues": [],
+  "endTime": "2025-07-26T12:19:35.725Z",
+  "duration": 23.162
+}

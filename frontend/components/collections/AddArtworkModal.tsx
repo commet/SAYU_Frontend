@@ -17,6 +17,7 @@ import {
   Sparkles,
   X
 } from 'lucide-react';
+import Image from 'next/image';
 import { museumAPIs } from '@/lib/museumAPIs';
 
 interface AddArtworkModalProps {
@@ -153,12 +154,14 @@ export function AddArtworkModal({ open, onOpenChange, onSubmit }: AddArtworkModa
                     className="cursor-pointer hover:shadow-lg transition-shadow"
                     onClick={() => selectArtwork(artwork)}
                   >
-                    <div className="aspect-square overflow-hidden rounded-t-lg">
+                    <div className="aspect-square overflow-hidden rounded-t-lg relative">
                       {artwork.image_url ? (
-                        <img 
+                        <Image 
                           src={artwork.image_url} 
                           alt={artwork.title}
-                          className="w-full h-full object-cover"
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 50vw, 25vw"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gray-100">
@@ -180,12 +183,14 @@ export function AddArtworkModal({ open, onOpenChange, onSubmit }: AddArtworkModa
           <TabsContent value="customize" className="space-y-6">
             {selectedArtwork && (
               <div className="flex items-start gap-4 p-4 border rounded-lg">
-                <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0 relative">
                   {selectedArtwork.image_url ? (
-                    <img 
+                    <Image 
                       src={selectedArtwork.image_url} 
                       alt={selectedArtwork.title}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="96px"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">

@@ -1,0 +1,23 @@
+{
+  "timestamp": "2025-07-26T13:21:53.916Z",
+  "testsPassed": false,
+  "results": {
+    "sqlValidation": {
+      "fileExists": true,
+      "size": 14522,
+      "totalLines": 106,
+      "venueInserts": 1,
+      "exhibitionInserts": 1,
+      "hasConflictHandling": true,
+      "hasValidation": true,
+      "hasForeignKeys": true
+    },
+    "connectionTest": {
+      "success": false,
+      "error": ""
+    },
+    "sampleExecution": {},
+    "dataVerification": {},
+    "generalError": ""
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "city": "hongkong",
+  "country": "HK",
+  "startTime": "2025-07-26T13:23:51.250Z",
+  "venuesProcessed": 8,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [],
+  "exhibitions": [],
+  "venues": [
+    {
+      "name": "",
+      "url": "https://artmap.com/profiles/",
+      "address": "",
+      "slug": null,
+      "city": "hongkong",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "HKMoA Hong Kong Museum of Art",
+      "url": "https://artmap.com/hongkongartmuseum",
+      "address": "",
+      "slug": null,
+      "city": "hongkong",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "HKMoA Hong Kong Museum of Art",
+      "url": "https://artmap.com/hongkongartmuseum",
+      "address": "",
+      "slug": null,
+      "city": "hongkong",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "HKMoA Hong Kong Museum of Art",
+      "url": "https://artmap.com/hongkongartmuseum",
+      "address": "",
+      "slug": null,
+      "city": "hongkong",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "M+",
+      "url": "https://artmap.com/mplus",
+      "address": "",
+      "slug": null,
+      "city": "hongkong",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "M+",
+      "url": "https://artmap.com/mplus",
+      "address": "",
+      "slug": null,
+      "city": "hongkong",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "M+",
+      "url": "https://artmap.com/mplus",
+      "address": "",
+      "slug": null,
+      "city": "hongkong",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Tai Kwun Contemporary",
+      "url": "https://artmap.com/taikwun",
+      "address": "",
+      "slug": null,
+      "city": "hongkong",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    }
+  ],
+  "endTime": "2025-07-26T13:25:02.355Z",
+  "duration": 71.105
+}

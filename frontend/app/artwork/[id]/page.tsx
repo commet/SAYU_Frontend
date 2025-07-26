@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { GalleryLayout } from '@/components/gallery/GalleryLayout';
 import { Button } from '@/components/ui/button';
 import { 
@@ -271,10 +272,13 @@ export default function ArtworkDetailPage() {
               className="artwork-frame cursor-zoom-in relative overflow-hidden"
               onClick={() => setShowZoom(true)}
             >
-              <img
+              <Image
                 src={artwork.imageUrl}
                 alt={artwork.title}
+                width={800}
+                height={600}
                 className="w-full h-auto"
+                priority
               />
               
               {/* Zoom Hint */}
@@ -485,9 +489,11 @@ export default function ArtworkDetailPage() {
               onMouseLeave={handleMouseUp}
               style={{ cursor: zoomLevel > 1 ? 'grab' : 'default' }}
             >
-              <img
+              <Image
                 src={artwork.highResImageUrl || artwork.imageUrl}
                 alt={artwork.title}
+                width={1200}
+                height={900}
                 className="max-w-full max-h-[90vh] object-contain"
                 style={{
                   transform: `scale(${zoomLevel}) translate(${imagePosition.x / zoomLevel}px, ${imagePosition.y / zoomLevel}px)`,

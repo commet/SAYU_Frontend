@@ -8,6 +8,14 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import '@/styles/sayu-design-system.css';
 import { OptimizedImage, getCloudinaryUrl } from '@/components/ui/OptimizedImage';
+import { 
+  AnimeJSTextReveal, 
+  AnimeJSGalleryReveal, 
+  AnimeJSFloatingElements, 
+  AnimeJSScrollReveal,
+  AnimeJSMorphingBackground,
+  useAnimeJS 
+} from '@/components/animations/AnimeJSEnhanced';
 
 // Emotion to personality type mapping
 const emotionToPersonality = {
@@ -30,6 +38,7 @@ export default function SensoryLandingPage() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [artworks, setArtworks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const anime = useAnimeJS();
 
   // Scroll animations
   const { scrollY, scrollYProgress } = useScroll();
@@ -166,33 +175,23 @@ export default function SensoryLandingPage() {
           background: `linear-gradient(135deg, ${selectedEmotion}20 0%, transparent 50%, ${selectedEmotion}10 100%)`,
         }} />
 
-        {/* Floating Emotion Particles */}
-        <div className="emotion-particles">
-          {[...Array(15)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="particle"
-              style={{
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 20}s`,
-                background: emotionColors[i % emotionColors.length].color,
-              }}
-            />
-          ))}
-        </div>
+        {/* Enhanced Floating Emotion Particles with AnimeJS */}
+        <AnimeJSFloatingElements 
+          count={20}
+          colors={emotionColors.map(e => e.color)}
+          className="emotion-particles"
+        />
 
         <motion.div 
           className="relative z-10 text-center px-4 max-w-4xl mx-auto"
           style={{ opacity: heroOpacity, scale: heroScale }}
         >
-          <motion.h1 
-            className="text-hero mb-8"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
-          >
-            {language === 'ko' ? '당신의 감정은\n어떤 색인가요?' : 'What Color\nIs Your Emotion?'}
-          </motion.h1>
+          <AnimeJSTextReveal
+            text={language === 'ko' ? '당신의 감정은 어떤 색인가요?' : 'What Color Is Your Emotion?'}
+            className="text-hero mb-8 leading-tight"
+            delay={500}
+            duration={2000}
+          />
 
           <motion.p 
             className="text-body mb-12 opacity-80"
@@ -425,8 +424,8 @@ export default function SensoryLandingPage() {
             <h2 className="text-title mb-6">
               {language === 'ko' ? '작품으로 번역됩니다' : 'Translated to Artworks'}
             </h2>
-            <div className="grid grid-cols-2 gap-4">
-              {loading ? (
+            <AnimeJSGalleryReveal
+              items={loading ? (
                 // Loading skeleton
                 [...Array(4)].map((_, i) => (
                   <div
@@ -436,13 +435,9 @@ export default function SensoryLandingPage() {
                 ))
               ) : (
                 artworks.slice(0, 4).map((artwork, i) => (
-                  <motion.div
+                  <div
                     key={artwork.artveeId}
                     className="aspect-square rounded-2xl overflow-hidden artwork-card relative group"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
                   >
                     <OptimizedImage
                       src={artwork.cloudinaryUrl?.full || getCloudinaryUrl(`sayu/artvee/full/${artwork.artveeId}`, {
@@ -462,10 +457,11 @@ export default function SensoryLandingPage() {
                         <p className="text-xs opacity-80">{artwork.artist}</p>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ))
               )}
-            </div>
+              className="grid grid-cols-2 gap-4"
+            />
           </motion.div>
         </div>
       </section>

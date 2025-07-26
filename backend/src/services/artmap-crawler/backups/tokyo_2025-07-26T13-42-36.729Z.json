@@ -1,0 +1,112 @@
+{
+  "city": "tokyo",
+  "country": "JP",
+  "startTime": "2025-07-26T13:41:54.708Z",
+  "venuesProcessed": 8,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [],
+  "exhibitions": [],
+  "venues": [
+    {
+      "name": "",
+      "url": "https://artmap.com/profiles/",
+      "address": "",
+      "slug": null,
+      "city": "tokyo",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Metropolitan Museum of Photography",
+      "url": "https://artmap.com/syabi",
+      "address": "",
+      "slug": null,
+      "city": "tokyo",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Metropolitan Museum of Photography",
+      "url": "https://artmap.com/syabi",
+      "address": "",
+      "slug": null,
+      "city": "tokyo",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Metropolitan Museum of Photography",
+      "url": "https://artmap.com/syabi",
+      "address": "",
+      "slug": null,
+      "city": "tokyo",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "MOMAT The National Museum of Modern Art",
+      "url": "https://artmap.com/momat",
+      "address": "",
+      "slug": null,
+      "city": "tokyo",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "MOMAT The National Museum of Modern Art",
+      "url": "https://artmap.com/momat",
+      "address": "",
+      "slug": null,
+      "city": "tokyo",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "MOMAT The National Museum of Modern Art",
+      "url": "https://artmap.com/momat",
+      "address": "",
+      "slug": null,
+      "city": "tokyo",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Mori Art Museum",
+      "url": "https://artmap.com/moritokyo",
+      "address": "",
+      "slug": null,
+      "city": "tokyo",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    }
+  ],
+  "endTime": "2025-07-26T13:42:36.729Z",
+  "duration": 42.021
+}

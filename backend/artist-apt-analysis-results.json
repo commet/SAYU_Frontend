@@ -1,0 +1,622 @@
+[
+  {
+    "name": "Imitator of Vincent van Gogh",
+    "nationality": "Dutch",
+    "era": null,
+    "years": "1853 - 1890",
+    "aptProfile": {
+      "primaryType": "SRMC",
+      "dimensions": {
+        "L": 50,
+        "S": 50,
+        "A": 30,
+        "R": 70,
+        "E": 50,
+        "M": 50,
+        "F": 35,
+        "C": 65
+      },
+      "confidence": 0.65,
+      "reasoning": [
+        "고전 예술 - 사실적, 체계적 성향"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "Dutch",
+          "era": "Classical",
+          "birth_year": 1853
+        }
+      }
+    }
+  },
+  {
+    "name": "Vincent van Gogh",
+    "nationality": "France",
+    "era": "Impressionism",
+    "years": "1853 - 1890",
+    "aptProfile": {
+      "primaryType": "SRMC",
+      "dimensions": {
+        "L": 50,
+        "S": 50,
+        "A": 50,
+        "R": 50,
+        "E": 50,
+        "M": 50,
+        "F": 50,
+        "C": 50
+      },
+      "confidence": 0.3,
+      "reasoning": [],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "France",
+          "era": "Impressionism",
+          "birth_year": 1853
+        }
+      }
+    }
+  },
+  {
+    "name": "Pablo Picasso",
+    "nationality": "Spain",
+    "era": "Postmodern",
+    "years": "1881 - 1973",
+    "aptProfile": {
+      "primaryType": "SAEF",
+      "dimensions": {
+        "L": 30,
+        "S": 70,
+        "A": 85,
+        "R": 15,
+        "E": 60,
+        "M": 40,
+        "F": 75,
+        "C": 25
+      },
+      "confidence": 0.95,
+      "reasoning": [
+        "사교적 성격, 추상적 혁신, 다양한 스타일 실험"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "Spain",
+          "era": "Postmodern",
+          "birth_year": 1881
+        }
+      }
+    }
+  },
+  {
+    "name": "Claude Monet",
+    "nationality": "France",
+    "era": "Modern",
+    "years": "1840 - 1926",
+    "aptProfile": {
+      "primaryType": "LAEF",
+      "dimensions": {
+        "L": 60,
+        "S": 40,
+        "A": 80,
+        "R": 20,
+        "E": 70,
+        "M": 30,
+        "F": 85,
+        "C": 15
+      },
+      "confidence": 0.95,
+      "reasoning": [
+        "인상주의 개척, 감정적 색채, 자연스러운 표현"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "France",
+          "era": "Modern",
+          "birth_year": 1840
+        }
+      }
+    }
+  },
+  {
+    "name": "Claude Monet (French, 1840–1926)\nafter Etienne Carjat (French, 1828–1906)",
+    "nationality": null,
+    "era": null,
+    "years": "? - present",
+    "aptProfile": {
+      "primaryType": "LAEF",
+      "dimensions": {
+        "L": 60,
+        "S": 40,
+        "A": 80,
+        "R": 20,
+        "E": 70,
+        "M": 30,
+        "F": 85,
+        "C": 15
+      },
+      "confidence": 0.95,
+      "reasoning": [
+        "인상주의 개척, 감정적 색채, 자연스러운 표현"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "Unknown",
+          "era": "Unknown",
+          "birth_year": null
+        }
+      }
+    }
+  },
+  {
+    "name": "Claude Monet (French, 1840–1926)\nafter Nadar (French, 1820–1910)",
+    "nationality": null,
+    "era": null,
+    "years": "? - present",
+    "aptProfile": {
+      "primaryType": "LAEF",
+      "dimensions": {
+        "L": 60,
+        "S": 40,
+        "A": 80,
+        "R": 20,
+        "E": 70,
+        "M": 30,
+        "F": 85,
+        "C": 15
+      },
+      "confidence": 0.95,
+      "reasoning": [
+        "인상주의 개척, 감정적 색채, 자연스러운 표현"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "Unknown",
+          "era": "Unknown",
+          "birth_year": null
+        }
+      }
+    }
+  },
+  {
+    "name": "Leonardo da Vinci",
+    "nationality": "Republic of Florence",
+    "era": "Renaissance",
+    "years": "1452 - 1519",
+    "aptProfile": {
+      "primaryType": "LRMC",
+      "dimensions": {
+        "L": 70,
+        "S": 30,
+        "A": 40,
+        "R": 60,
+        "E": 30,
+        "M": 70,
+        "F": 20,
+        "C": 80
+      },
+      "confidence": 0.95,
+      "reasoning": [
+        "과학적 분석, 완벽주의, 체계적 연구"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "Republic of Florence",
+          "era": "Renaissance",
+          "birth_year": 1452
+        }
+      }
+    }
+  },
+  {
+    "name": "After Raffaello Sanzio, called Raphael",
+    "nationality": "Italian",
+    "era": null,
+    "years": "1483 - 1520",
+    "aptProfile": {
+      "primaryType": "SRMC",
+      "dimensions": {
+        "L": 50,
+        "S": 50,
+        "A": 30,
+        "R": 70,
+        "E": 50,
+        "M": 50,
+        "F": 35,
+        "C": 65
+      },
+      "confidence": 0.65,
+      "reasoning": [
+        "고전 예술 - 사실적, 체계적 성향"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "Italian",
+          "era": "Classical",
+          "birth_year": 1483
+        }
+      }
+    }
+  },
+  {
+    "name": "after Raffaello Sanzio, called Raphael, and his workshop",
+    "nationality": "Italian",
+    "era": null,
+    "years": "1483 - 1520",
+    "aptProfile": {
+      "primaryType": "SRMC",
+      "dimensions": {
+        "L": 50,
+        "S": 50,
+        "A": 30,
+        "R": 70,
+        "E": 50,
+        "M": 50,
+        "F": 35,
+        "C": 65
+      },
+      "confidence": 0.65,
+      "reasoning": [
+        "고전 예술 - 사실적, 체계적 성향"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "Italian",
+          "era": "Classical",
+          "birth_year": 1483
+        }
+      }
+    }
+  },
+  {
+    "name": "Ai Weiwei",
+    "nationality": "People's Republic of China",
+    "era": "Contemporary",
+    "years": "1957 - present",
+    "aptProfile": {
+      "primaryType": "SAMC",
+      "dimensions": {
+        "L": 40,
+        "S": 60,
+        "A": 65,
+        "R": 35,
+        "E": 50,
+        "M": 50,
+        "F": 50,
+        "C": 50
+      },
+      "confidence": 0.55,
+      "reasoning": [
+        "현대 예술 - 추상적, 사회적 성향"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "People's Republic of China",
+          "era": "Contemporary",
+          "birth_year": 1957
+        }
+      }
+    }
+  },
+  {
+    "name": "Andy Warhol",
+    "nationality": "United States",
+    "era": "Contemporary",
+    "years": "1928 - 1987",
+    "aptProfile": {
+      "primaryType": "SAMC",
+      "dimensions": {
+        "L": 40,
+        "S": 60,
+        "A": 65,
+        "R": 35,
+        "E": 50,
+        "M": 50,
+        "F": 50,
+        "C": 50
+      },
+      "confidence": 0.55,
+      "reasoning": [
+        "현대 예술 - 추상적, 사회적 성향"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "United States",
+          "era": "Contemporary",
+          "birth_year": 1928
+        }
+      }
+    }
+  },
+  {
+    "name": "Anton Raphael Mengs",
+    "nationality": "German",
+    "era": null,
+    "years": "1728 - 1779",
+    "aptProfile": {
+      "primaryType": "SRMC",
+      "dimensions": {
+        "L": 50,
+        "S": 50,
+        "A": 30,
+        "R": 70,
+        "E": 30,
+        "M": 70,
+        "F": 20,
+        "C": 80
+      },
+      "confidence": 0.95,
+      "reasoning": [
+        "독일 예술 전통 - 분석적, 체계적 성향",
+        "고전 예술 - 사실적, 체계적 성향"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "German",
+          "era": "Classical",
+          "birth_year": 1728
+        }
+      }
+    }
+  },
+  {
+    "name": "Attributed to Édouard Manet",
+    "nationality": "French",
+    "era": null,
+    "years": "1832 - 1883",
+    "aptProfile": {
+      "primaryType": "SRMC",
+      "dimensions": {
+        "L": 50,
+        "S": 50,
+        "A": 50,
+        "R": 50,
+        "E": 50,
+        "M": 50,
+        "F": 50,
+        "C": 50
+      },
+      "confidence": 0.3,
+      "reasoning": [
+        "프랑스 예술 전통 - 추상적, 자유로운 성향",
+        "고전 예술 - 사실적, 체계적 성향"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "French",
+          "era": "Classical",
+          "birth_year": 1832
+        }
+      }
+    }
+  },
+  {
+    "name": "Attributed to Pierre Auguste Renoir (French, 1841–1919)\nor Hyacinthe Eugène Meunier (Eugène Murer; French, 1841–1906)",
+    "nationality": null,
+    "era": null,
+    "years": "? - present",
+    "aptProfile": {
+      "primaryType": "SRMC",
+      "dimensions": {
+        "L": 50,
+        "S": 50,
+        "A": 30,
+        "R": 70,
+        "E": 50,
+        "M": 50,
+        "F": 35,
+        "C": 65
+      },
+      "confidence": 0.65,
+      "reasoning": [
+        "고전 예술 - 사실적, 체계적 성향"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "Unknown",
+          "era": "Unknown",
+          "birth_year": null
+        }
+      }
+    }
+  },
+  {
+    "name": "Auguste Renoir",
+    "nationality": null,
+    "era": null,
+    "years": "? - present",
+    "aptProfile": {
+      "primaryType": "SRMC",
+      "dimensions": {
+        "L": 50,
+        "S": 50,
+        "A": 30,
+        "R": 70,
+        "E": 50,
+        "M": 50,
+        "F": 35,
+        "C": 65
+      },
+      "confidence": 0.65,
+      "reasoning": [
+        "고전 예술 - 사실적, 체계적 성향"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "Unknown",
+          "era": "Unknown",
+          "birth_year": null
+        }
+      }
+    }
+  },
+  {
+    "name": "Banksy",
+    "nationality": "United Kingdom",
+    "era": "Contemporary",
+    "years": "1974 - present",
+    "aptProfile": {
+      "primaryType": "SAMC",
+      "dimensions": {
+        "L": 40,
+        "S": 60,
+        "A": 65,
+        "R": 35,
+        "E": 50,
+        "M": 50,
+        "F": 50,
+        "C": 50
+      },
+      "confidence": 0.55,
+      "reasoning": [
+        "현대 예술 - 추상적, 사회적 성향"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "United Kingdom",
+          "era": "Contemporary",
+          "birth_year": 1974
+        }
+      }
+    }
+  },
+  {
+    "name": "Camille Pissarro (French, 1830-1903)\nprinted by Edgar Degas (French, 1834-1917)",
+    "nationality": null,
+    "era": null,
+    "years": "? - present",
+    "aptProfile": {
+      "primaryType": "SRMC",
+      "dimensions": {
+        "L": 50,
+        "S": 50,
+        "A": 30,
+        "R": 70,
+        "E": 50,
+        "M": 50,
+        "F": 35,
+        "C": 65
+      },
+      "confidence": 0.65,
+      "reasoning": [
+        "고전 예술 - 사실적, 체계적 성향"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "Unknown",
+          "era": "Unknown",
+          "birth_year": null
+        }
+      }
+    }
+  },
+  {
+    "name": "Cecco del Caravaggio",
+    "nationality": "Francesco Boneri; Italian, 1588/90–after 1620",
+    "era": null,
+    "years": "? - present",
+    "aptProfile": {
+      "primaryType": "SRMC",
+      "dimensions": {
+        "L": 50,
+        "S": 50,
+        "A": 30,
+        "R": 70,
+        "E": 50,
+        "M": 50,
+        "F": 35,
+        "C": 65
+      },
+      "confidence": 0.65,
+      "reasoning": [
+        "고전 예술 - 사실적, 체계적 성향"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "Francesco Boneri; Italian, 1588/90–after 1620",
+          "era": "Unknown",
+          "birth_year": null
+        }
+      }
+    }
+  },
+  {
+    "name": "Damien Hirst",
+    "nationality": "United Kingdom",
+    "era": "Contemporary",
+    "years": "1965 - present",
+    "aptProfile": {
+      "primaryType": "SAMC",
+      "dimensions": {
+        "L": 40,
+        "S": 60,
+        "A": 65,
+        "R": 35,
+        "E": 50,
+        "M": 50,
+        "F": 50,
+        "C": 50
+      },
+      "confidence": 0.55,
+      "reasoning": [
+        "현대 예술 - 추상적, 사회적 성향"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "United Kingdom",
+          "era": "Contemporary",
+          "birth_year": 1965
+        }
+      }
+    }
+  },
+  {
+    "name": "David Hockney",
+    "nationality": "United Kingdom",
+    "era": "Contemporary",
+    "years": "1937 - present",
+    "aptProfile": {
+      "primaryType": "SAMC",
+      "dimensions": {
+        "L": 40,
+        "S": 60,
+        "A": 65,
+        "R": 35,
+        "E": 50,
+        "M": 50,
+        "F": 50,
+        "C": 50
+      },
+      "confidence": 0.55,
+      "reasoning": [
+        "현대 예술 - 추상적, 사회적 성향"
+      ],
+      "meta": {
+        "analyzed_from": "biographical_analysis",
+        "source_data": {
+          "nationality": "United Kingdom",
+          "era": "Contemporary",
+          "birth_year": 1937
+        }
+      }
+    }
+  }
+]

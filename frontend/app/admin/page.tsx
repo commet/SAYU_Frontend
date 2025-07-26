@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { AdminDashboard } from '@/components/admin/AdminDashboard';
@@ -11,19 +11,7 @@ export default function AdminPage() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [checking, setChecking] = useState(true);
 
-  useEffect(() => {
-    if (!loading) {
-      if (!user) {
-        router.push('/login');
-        return;
-      }
-
-      // 관리자 권한 확인
-      checkAdminRole();
-    }
-  }, [user, loading, router]);
-
-  const checkAdminRole = async () => {
+  const checkAdminRole = useCallback(async () => {
     try {
       // 사용자 역할 확인 API 호출
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`, {
@@ -48,7 +36,19 @@ export default function AdminPage() {
     } finally {
       setChecking(false);
     }
-  };
+  }, [router]);
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        router.push('/login');
+        return;
+      }
+
+      // 관리자 권한 확인
+      checkAdminRole();
+    }
+  }, [user, loading, router, checkAdminRole]);
 
   if (loading || checking) {
     return (

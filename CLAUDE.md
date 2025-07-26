@@ -136,6 +136,9 @@ npm run typecheck # 타입 체크
 - AI 상담 기능 베타 테스트 중
 - AI 아트 프로필 기능 구현 완료
 - 팔로우 시스템 백엔드 구현 완료
+- **⚠️ IMPORTANT: venues 테이블이 global_venues로 통합됨 (2025년 1월)**
+  - 모든 새 코드는 global_venues 테이블 사용
+  - 상세 가이드: `/backend/VENUE_TABLE_MIGRATION_GUIDE.md`
 
 ## Important Considerations
 1. Frontend와 Backend가 분리된 서버에서 실행됨
@@ -144,6 +147,7 @@ npm run typecheck # 타입 체크
 4. 이미지는 Cloudinary CDN 사용
 5. 프론트엔드는 SSR/SSG 혼합 사용
 6. API 엔드포인트는 인증 토큰 필요
+7. **venues 테이블 대신 global_venues 사용 (통합 완료)**
 
 ## Git 커밋 시
 ```bash

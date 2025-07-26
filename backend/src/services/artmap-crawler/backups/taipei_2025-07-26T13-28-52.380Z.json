@@ -1,0 +1,112 @@
+{
+  "city": "taipei",
+  "country": "TW",
+  "startTime": "2025-07-26T13:28:09.752Z",
+  "venuesProcessed": 8,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [],
+  "exhibitions": [],
+  "venues": [
+    {
+      "name": "",
+      "url": "https://artmap.com/profiles/",
+      "address": "",
+      "slug": null,
+      "city": "taipei",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "KdMoFa Kuandu Museum of Fine Arts",
+      "url": "https://artmap.com/kdmofa",
+      "address": "",
+      "slug": null,
+      "city": "taipei",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "KdMoFa Kuandu Museum of Fine Arts",
+      "url": "https://artmap.com/kdmofa",
+      "address": "",
+      "slug": null,
+      "city": "taipei",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "KdMoFa Kuandu Museum of Fine Arts",
+      "url": "https://artmap.com/kdmofa",
+      "address": "",
+      "slug": null,
+      "city": "taipei",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "MOCA Museum of Contemporary Art",
+      "url": "https://artmap.com/mocataipei",
+      "address": "",
+      "slug": null,
+      "city": "taipei",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "MOCA Museum of Contemporary Art",
+      "url": "https://artmap.com/mocataipei",
+      "address": "",
+      "slug": null,
+      "city": "taipei",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "MOCA Museum of Contemporary Art",
+      "url": "https://artmap.com/mocataipei",
+      "address": "",
+      "slug": null,
+      "city": "taipei",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Chi-Wen",
+      "url": "https://artmap.com/chiwen",
+      "address": "",
+      "slug": null,
+      "city": "taipei",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    }
+  ],
+  "endTime": "2025-07-26T13:28:52.379Z",
+  "duration": 42.627
+}

@@ -9,6 +9,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { GlassCard, GlassButton } from '@/components/ui/glass';
 import { Sparkles, Heart, Compass } from 'lucide-react';
+import { updateUserPurpose } from '@/lib/api/user-purpose';
 import '@/styles/emotional-palette.css';
 
 export default function QuizIntroPage() {
@@ -19,6 +20,15 @@ export default function QuizIntroPage() {
 
   const startQuiz = () => {
     router.push('/quiz/narrative');
+  };
+
+  const handlePurposeSelected = async (purpose: string) => {
+    try {
+      await updateUserPurpose(purpose);
+      console.log('✅ User purpose updated:', purpose);
+    } catch (error) {
+      console.error('❌ Failed to update user purpose:', error);
+    }
   };
 
   return (
@@ -223,6 +233,7 @@ export default function QuizIntroPage() {
         isOpen={showWelcomeModal}
         onClose={() => setShowWelcomeModal(false)}
         userName={user?.nickname}
+        onPurposeSelected={handlePurposeSelected}
       />
     </div>
   );

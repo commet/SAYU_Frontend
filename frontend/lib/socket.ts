@@ -124,6 +124,31 @@ class SocketManager {
     this.socket?.emit('reflection_created', { reflection });
   }
 
+  // Art Pulse functionality
+  joinArtPulse(sessionId?: string) {
+    this.socket?.emit('art_pulse_join', { sessionId });
+  }
+
+  leaveArtPulse() {
+    this.socket?.emit('art_pulse_leave', {});
+  }
+
+  submitArtPulseEmotion(sessionId: string, emotion: string, intensity: number = 1) {
+    this.socket?.emit('art_pulse_emotion', { sessionId, emotion, intensity });
+  }
+
+  submitArtPulseReflection(sessionId: string, reflection: string, isAnonymous: boolean = false) {
+    this.socket?.emit('art_pulse_reflection', { sessionId, reflection, isAnonymous });
+  }
+
+  likeArtPulseReflection(sessionId: string, reflectionId: string) {
+    this.socket?.emit('art_pulse_like', { sessionId, reflectionId });
+  }
+
+  artPulseTyping(sessionId: string, isTyping: boolean) {
+    this.socket?.emit('art_pulse_typing', { sessionId, isTyping });
+  }
+
   // Utility methods
   isConnected(): boolean {
     return this.socket?.connected || false;
@@ -155,6 +180,19 @@ export function useSocket() {
     joinExhibition: (exhibitionId: string, museumName: string, exhibitionName: string) =>
       socketManager.joinExhibition(exhibitionId, museumName, exhibitionName),
     shareReflection: (reflection: any) => socketManager.shareReflection(reflection),
+    
+    // Art Pulse methods
+    joinArtPulse: (sessionId?: string) => socketManager.joinArtPulse(sessionId),
+    leaveArtPulse: () => socketManager.leaveArtPulse(),
+    submitArtPulseEmotion: (sessionId: string, emotion: string, intensity?: number) =>
+      socketManager.submitArtPulseEmotion(sessionId, emotion, intensity),
+    submitArtPulseReflection: (sessionId: string, reflection: string, isAnonymous?: boolean) =>
+      socketManager.submitArtPulseReflection(sessionId, reflection, isAnonymous),
+    likeArtPulseReflection: (sessionId: string, reflectionId: string) =>
+      socketManager.likeArtPulseReflection(sessionId, reflectionId),
+    artPulseTyping: (sessionId: string, isTyping: boolean) =>
+      socketManager.artPulseTyping(sessionId, isTyping),
+    
     on: (event: string, callback: (...args: any[]) => void) => socketManager.on(event, callback),
     off: (event: string, callback?: (...args: any[]) => void) => socketManager.off(event, callback)
   };

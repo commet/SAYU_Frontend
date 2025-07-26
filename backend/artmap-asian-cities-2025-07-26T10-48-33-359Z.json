@@ -1,0 +1,4457 @@
+{
+  "cities": {
+    "Seoul": [
+      {
+        "title": "Fabian Knecht",
+        "url": "/mocak/exhibition/fabian-knecht-2025",
+        "city": "Seoul"
+      },
+      {
+        "title": "Giuseppe Penone",
+        "url": "/serpentine/exhibition/giuseppe-penone-2025",
+        "city": "Seoul"
+      },
+      {
+        "title": "Renée Levi",
+        "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+        "city": "Seoul"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+        "city": "Seoul"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+        "city": "Seoul"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+        "city": "Seoul"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+        "city": "Seoul"
+      },
+      {
+        "title": "Katharina Sieverding",
+        "url": "/k20/exhibition/katharina-sieverding-2024",
+        "city": "Seoul"
+      },
+      {
+        "title": "Cosima von Bonin",
+        "url": "/mudam/exhibition/cosima-von-bonin-2024",
+        "city": "Seoul"
+      },
+      {
+        "title": "In Her Hands",
+        "url": "/bucerius/exhibition/in-her-hands-2025",
+        "city": "Seoul"
+      },
+      {
+        "title": "Pauline Curnier Jardin",
+        "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+        "city": "Seoul"
+      },
+      {
+        "title": "Lauren Halsey",
+        "url": "/serpentine/exhibition/lauren-halsey-2024",
+        "city": "Seoul"
+      },
+      {
+        "title": "Maria Pinińska-Bereś",
+        "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+        "city": "Seoul"
+      },
+      {
+        "title": "Francis Upritchard",
+        "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+        "city": "Seoul"
+      },
+      {
+        "title": "Bangkok Art Biennale 2024",
+        "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+        "city": "Seoul"
+      },
+      {
+        "title": "Biennale Gherdëina 2024",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+        "city": "Seoul"
+      },
+      {
+        "title": "Shanghai Biennale 2024",
+        "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+        "city": "Seoul"
+      },
+      {
+        "title": "35th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+        "city": "Seoul"
+      },
+      {
+        "title": "Ruhr Ding 2023",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+        "city": "Seoul"
+      },
+      {
+        "title": "Aichi Triennale 2022",
+        "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+        "city": "Seoul"
+      },
+      {
+        "title": "Lyon Biennale 2022",
+        "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+        "city": "Seoul"
+      },
+      {
+        "title": "Bergen Assembly 2022",
+        "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+        "city": "Seoul"
+      },
+      {
+        "title": "Steirischer Herbst 2022",
+        "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+        "city": "Seoul"
+      },
+      {
+        "title": "Biennale Gherdëina 2022",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+        "city": "Seoul"
+      },
+      {
+        "title": "Manifesta 14 Prishtina",
+        "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+        "city": "Seoul"
+      },
+      {
+        "title": "Documenta 15",
+        "url": "/documenta/exhibition/documenta-15-2022",
+        "city": "Seoul"
+      },
+      {
+        "title": "12th Berlin Biennale 2022",
+        "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+        "city": "Seoul"
+      },
+      {
+        "title": "New Museum Triennial 2021",
+        "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+        "city": "Seoul"
+      },
+      {
+        "title": "7. Athens Biennale 2021",
+        "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+        "city": "Seoul"
+      },
+      {
+        "title": "34th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+        "city": "Seoul"
+      },
+      {
+        "title": "Ruhr Ding 2021",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+        "city": "Seoul"
+      },
+      {
+        "title": "Made in L.A. 2020",
+        "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+        "city": "Seoul"
+      },
+      {
+        "title": "Manifesta 13 Marseille",
+        "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+        "city": "Seoul"
+      },
+      {
+        "title": "11th Berlin Biennale 2020",
+        "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+        "city": "Seoul"
+      }
+    ],
+    "Busan": [
+      {
+        "title": "Fabian Knecht",
+        "url": "/mocak/exhibition/fabian-knecht-2025",
+        "city": "Busan"
+      },
+      {
+        "title": "Giuseppe Penone",
+        "url": "/serpentine/exhibition/giuseppe-penone-2025",
+        "city": "Busan"
+      },
+      {
+        "title": "Renée Levi",
+        "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+        "city": "Busan"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+        "city": "Busan"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+        "city": "Busan"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+        "city": "Busan"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+        "city": "Busan"
+      },
+      {
+        "title": "Katharina Sieverding",
+        "url": "/k20/exhibition/katharina-sieverding-2024",
+        "city": "Busan"
+      },
+      {
+        "title": "Cosima von Bonin",
+        "url": "/mudam/exhibition/cosima-von-bonin-2024",
+        "city": "Busan"
+      },
+      {
+        "title": "In Her Hands",
+        "url": "/bucerius/exhibition/in-her-hands-2025",
+        "city": "Busan"
+      },
+      {
+        "title": "Pauline Curnier Jardin",
+        "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+        "city": "Busan"
+      },
+      {
+        "title": "Lauren Halsey",
+        "url": "/serpentine/exhibition/lauren-halsey-2024",
+        "city": "Busan"
+      },
+      {
+        "title": "Maria Pinińska-Bereś",
+        "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+        "city": "Busan"
+      },
+      {
+        "title": "Francis Upritchard",
+        "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+        "city": "Busan"
+      },
+      {
+        "title": "Bangkok Art Biennale 2024",
+        "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+        "city": "Busan"
+      },
+      {
+        "title": "Biennale Gherdëina 2024",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+        "city": "Busan"
+      },
+      {
+        "title": "Shanghai Biennale 2024",
+        "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+        "city": "Busan"
+      },
+      {
+        "title": "35th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+        "city": "Busan"
+      },
+      {
+        "title": "Ruhr Ding 2023",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+        "city": "Busan"
+      },
+      {
+        "title": "Aichi Triennale 2022",
+        "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+        "city": "Busan"
+      },
+      {
+        "title": "Lyon Biennale 2022",
+        "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+        "city": "Busan"
+      },
+      {
+        "title": "Bergen Assembly 2022",
+        "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+        "city": "Busan"
+      },
+      {
+        "title": "Steirischer Herbst 2022",
+        "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+        "city": "Busan"
+      },
+      {
+        "title": "Biennale Gherdëina 2022",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+        "city": "Busan"
+      },
+      {
+        "title": "Manifesta 14 Prishtina",
+        "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+        "city": "Busan"
+      },
+      {
+        "title": "Documenta 15",
+        "url": "/documenta/exhibition/documenta-15-2022",
+        "city": "Busan"
+      },
+      {
+        "title": "12th Berlin Biennale 2022",
+        "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+        "city": "Busan"
+      },
+      {
+        "title": "New Museum Triennial 2021",
+        "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+        "city": "Busan"
+      },
+      {
+        "title": "7. Athens Biennale 2021",
+        "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+        "city": "Busan"
+      },
+      {
+        "title": "34th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+        "city": "Busan"
+      },
+      {
+        "title": "Ruhr Ding 2021",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+        "city": "Busan"
+      },
+      {
+        "title": "Made in L.A. 2020",
+        "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+        "city": "Busan"
+      },
+      {
+        "title": "Manifesta 13 Marseille",
+        "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+        "city": "Busan"
+      },
+      {
+        "title": "11th Berlin Biennale 2020",
+        "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+        "city": "Busan"
+      }
+    ],
+    "Daegu": [],
+    "Gwangju": [
+      {
+        "title": "Fabian Knecht",
+        "url": "/mocak/exhibition/fabian-knecht-2025",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Giuseppe Penone",
+        "url": "/serpentine/exhibition/giuseppe-penone-2025",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Renée Levi",
+        "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Katharina Sieverding",
+        "url": "/k20/exhibition/katharina-sieverding-2024",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Cosima von Bonin",
+        "url": "/mudam/exhibition/cosima-von-bonin-2024",
+        "city": "Gwangju"
+      },
+      {
+        "title": "In Her Hands",
+        "url": "/bucerius/exhibition/in-her-hands-2025",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Pauline Curnier Jardin",
+        "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Lauren Halsey",
+        "url": "/serpentine/exhibition/lauren-halsey-2024",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Maria Pinińska-Bereś",
+        "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Francis Upritchard",
+        "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Bangkok Art Biennale 2024",
+        "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Biennale Gherdëina 2024",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Shanghai Biennale 2024",
+        "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+        "city": "Gwangju"
+      },
+      {
+        "title": "35th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Ruhr Ding 2023",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Aichi Triennale 2022",
+        "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Lyon Biennale 2022",
+        "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Bergen Assembly 2022",
+        "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Steirischer Herbst 2022",
+        "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Biennale Gherdëina 2022",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Manifesta 14 Prishtina",
+        "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Documenta 15",
+        "url": "/documenta/exhibition/documenta-15-2022",
+        "city": "Gwangju"
+      },
+      {
+        "title": "12th Berlin Biennale 2022",
+        "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+        "city": "Gwangju"
+      },
+      {
+        "title": "New Museum Triennial 2021",
+        "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+        "city": "Gwangju"
+      },
+      {
+        "title": "7. Athens Biennale 2021",
+        "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+        "city": "Gwangju"
+      },
+      {
+        "title": "34th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Ruhr Ding 2021",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Made in L.A. 2020",
+        "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+        "city": "Gwangju"
+      },
+      {
+        "title": "Manifesta 13 Marseille",
+        "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+        "city": "Gwangju"
+      },
+      {
+        "title": "11th Berlin Biennale 2020",
+        "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+        "city": "Gwangju"
+      }
+    ],
+    "Tokyo": [
+      {
+        "title": "Fabian Knecht",
+        "url": "/mocak/exhibition/fabian-knecht-2025",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Giuseppe Penone",
+        "url": "/serpentine/exhibition/giuseppe-penone-2025",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Renée Levi",
+        "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Katharina Sieverding",
+        "url": "/k20/exhibition/katharina-sieverding-2024",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Cosima von Bonin",
+        "url": "/mudam/exhibition/cosima-von-bonin-2024",
+        "city": "Tokyo"
+      },
+      {
+        "title": "In Her Hands",
+        "url": "/bucerius/exhibition/in-her-hands-2025",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Pauline Curnier Jardin",
+        "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Lauren Halsey",
+        "url": "/serpentine/exhibition/lauren-halsey-2024",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Maria Pinińska-Bereś",
+        "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Francis Upritchard",
+        "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Bangkok Art Biennale 2024",
+        "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Biennale Gherdëina 2024",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Shanghai Biennale 2024",
+        "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+        "city": "Tokyo"
+      },
+      {
+        "title": "35th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Ruhr Ding 2023",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Aichi Triennale 2022",
+        "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Lyon Biennale 2022",
+        "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Bergen Assembly 2022",
+        "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Steirischer Herbst 2022",
+        "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Biennale Gherdëina 2022",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Manifesta 14 Prishtina",
+        "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Documenta 15",
+        "url": "/documenta/exhibition/documenta-15-2022",
+        "city": "Tokyo"
+      },
+      {
+        "title": "12th Berlin Biennale 2022",
+        "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+        "city": "Tokyo"
+      },
+      {
+        "title": "New Museum Triennial 2021",
+        "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+        "city": "Tokyo"
+      },
+      {
+        "title": "7. Athens Biennale 2021",
+        "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+        "city": "Tokyo"
+      },
+      {
+        "title": "34th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Ruhr Ding 2021",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Made in L.A. 2020",
+        "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+        "city": "Tokyo"
+      },
+      {
+        "title": "Manifesta 13 Marseille",
+        "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+        "city": "Tokyo"
+      },
+      {
+        "title": "11th Berlin Biennale 2020",
+        "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+        "city": "Tokyo"
+      }
+    ],
+    "Osaka": [
+      {
+        "title": "Fabian Knecht",
+        "url": "/mocak/exhibition/fabian-knecht-2025",
+        "city": "Osaka"
+      },
+      {
+        "title": "Giuseppe Penone",
+        "url": "/serpentine/exhibition/giuseppe-penone-2025",
+        "city": "Osaka"
+      },
+      {
+        "title": "Renée Levi",
+        "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+        "city": "Osaka"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+        "city": "Osaka"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+        "city": "Osaka"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+        "city": "Osaka"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+        "city": "Osaka"
+      },
+      {
+        "title": "Katharina Sieverding",
+        "url": "/k20/exhibition/katharina-sieverding-2024",
+        "city": "Osaka"
+      },
+      {
+        "title": "Cosima von Bonin",
+        "url": "/mudam/exhibition/cosima-von-bonin-2024",
+        "city": "Osaka"
+      },
+      {
+        "title": "In Her Hands",
+        "url": "/bucerius/exhibition/in-her-hands-2025",
+        "city": "Osaka"
+      },
+      {
+        "title": "Pauline Curnier Jardin",
+        "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+        "city": "Osaka"
+      },
+      {
+        "title": "Lauren Halsey",
+        "url": "/serpentine/exhibition/lauren-halsey-2024",
+        "city": "Osaka"
+      },
+      {
+        "title": "Maria Pinińska-Bereś",
+        "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+        "city": "Osaka"
+      },
+      {
+        "title": "Francis Upritchard",
+        "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+        "city": "Osaka"
+      },
+      {
+        "title": "Bangkok Art Biennale 2024",
+        "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+        "city": "Osaka"
+      },
+      {
+        "title": "Biennale Gherdëina 2024",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+        "city": "Osaka"
+      },
+      {
+        "title": "Shanghai Biennale 2024",
+        "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+        "city": "Osaka"
+      },
+      {
+        "title": "35th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+        "city": "Osaka"
+      },
+      {
+        "title": "Ruhr Ding 2023",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+        "city": "Osaka"
+      },
+      {
+        "title": "Aichi Triennale 2022",
+        "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+        "city": "Osaka"
+      },
+      {
+        "title": "Lyon Biennale 2022",
+        "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+        "city": "Osaka"
+      },
+      {
+        "title": "Bergen Assembly 2022",
+        "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+        "city": "Osaka"
+      },
+      {
+        "title": "Steirischer Herbst 2022",
+        "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+        "city": "Osaka"
+      },
+      {
+        "title": "Biennale Gherdëina 2022",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+        "city": "Osaka"
+      },
+      {
+        "title": "Manifesta 14 Prishtina",
+        "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+        "city": "Osaka"
+      },
+      {
+        "title": "Documenta 15",
+        "url": "/documenta/exhibition/documenta-15-2022",
+        "city": "Osaka"
+      },
+      {
+        "title": "12th Berlin Biennale 2022",
+        "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+        "city": "Osaka"
+      },
+      {
+        "title": "New Museum Triennial 2021",
+        "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+        "city": "Osaka"
+      },
+      {
+        "title": "7. Athens Biennale 2021",
+        "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+        "city": "Osaka"
+      },
+      {
+        "title": "34th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+        "city": "Osaka"
+      },
+      {
+        "title": "Ruhr Ding 2021",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+        "city": "Osaka"
+      },
+      {
+        "title": "Made in L.A. 2020",
+        "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+        "city": "Osaka"
+      },
+      {
+        "title": "Manifesta 13 Marseille",
+        "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+        "city": "Osaka"
+      },
+      {
+        "title": "11th Berlin Biennale 2020",
+        "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+        "city": "Osaka"
+      }
+    ],
+    "Kyoto": [
+      {
+        "title": "Fabian Knecht",
+        "url": "/mocak/exhibition/fabian-knecht-2025",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Giuseppe Penone",
+        "url": "/serpentine/exhibition/giuseppe-penone-2025",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Renée Levi",
+        "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Katharina Sieverding",
+        "url": "/k20/exhibition/katharina-sieverding-2024",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Cosima von Bonin",
+        "url": "/mudam/exhibition/cosima-von-bonin-2024",
+        "city": "Kyoto"
+      },
+      {
+        "title": "In Her Hands",
+        "url": "/bucerius/exhibition/in-her-hands-2025",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Pauline Curnier Jardin",
+        "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Lauren Halsey",
+        "url": "/serpentine/exhibition/lauren-halsey-2024",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Maria Pinińska-Bereś",
+        "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Francis Upritchard",
+        "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Bangkok Art Biennale 2024",
+        "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Biennale Gherdëina 2024",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Shanghai Biennale 2024",
+        "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+        "city": "Kyoto"
+      },
+      {
+        "title": "35th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Ruhr Ding 2023",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Aichi Triennale 2022",
+        "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Lyon Biennale 2022",
+        "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Bergen Assembly 2022",
+        "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Steirischer Herbst 2022",
+        "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Biennale Gherdëina 2022",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Manifesta 14 Prishtina",
+        "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Documenta 15",
+        "url": "/documenta/exhibition/documenta-15-2022",
+        "city": "Kyoto"
+      },
+      {
+        "title": "12th Berlin Biennale 2022",
+        "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+        "city": "Kyoto"
+      },
+      {
+        "title": "New Museum Triennial 2021",
+        "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+        "city": "Kyoto"
+      },
+      {
+        "title": "7. Athens Biennale 2021",
+        "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+        "city": "Kyoto"
+      },
+      {
+        "title": "34th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Ruhr Ding 2021",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Made in L.A. 2020",
+        "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+        "city": "Kyoto"
+      },
+      {
+        "title": "Manifesta 13 Marseille",
+        "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+        "city": "Kyoto"
+      },
+      {
+        "title": "11th Berlin Biennale 2020",
+        "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+        "city": "Kyoto"
+      }
+    ],
+    "Beijing": [
+      {
+        "title": "Fabian Knecht",
+        "url": "/mocak/exhibition/fabian-knecht-2025",
+        "city": "Beijing"
+      },
+      {
+        "title": "Giuseppe Penone",
+        "url": "/serpentine/exhibition/giuseppe-penone-2025",
+        "city": "Beijing"
+      },
+      {
+        "title": "Renée Levi",
+        "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+        "city": "Beijing"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+        "city": "Beijing"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+        "city": "Beijing"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+        "city": "Beijing"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+        "city": "Beijing"
+      },
+      {
+        "title": "Katharina Sieverding",
+        "url": "/k20/exhibition/katharina-sieverding-2024",
+        "city": "Beijing"
+      },
+      {
+        "title": "Cosima von Bonin",
+        "url": "/mudam/exhibition/cosima-von-bonin-2024",
+        "city": "Beijing"
+      },
+      {
+        "title": "In Her Hands",
+        "url": "/bucerius/exhibition/in-her-hands-2025",
+        "city": "Beijing"
+      },
+      {
+        "title": "Pauline Curnier Jardin",
+        "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+        "city": "Beijing"
+      },
+      {
+        "title": "Lauren Halsey",
+        "url": "/serpentine/exhibition/lauren-halsey-2024",
+        "city": "Beijing"
+      },
+      {
+        "title": "Maria Pinińska-Bereś",
+        "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+        "city": "Beijing"
+      },
+      {
+        "title": "Francis Upritchard",
+        "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+        "city": "Beijing"
+      },
+      {
+        "title": "Bangkok Art Biennale 2024",
+        "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+        "city": "Beijing"
+      },
+      {
+        "title": "Biennale Gherdëina 2024",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+        "city": "Beijing"
+      },
+      {
+        "title": "Shanghai Biennale 2024",
+        "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+        "city": "Beijing"
+      },
+      {
+        "title": "35th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+        "city": "Beijing"
+      },
+      {
+        "title": "Ruhr Ding 2023",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+        "city": "Beijing"
+      },
+      {
+        "title": "Aichi Triennale 2022",
+        "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+        "city": "Beijing"
+      },
+      {
+        "title": "Lyon Biennale 2022",
+        "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+        "city": "Beijing"
+      },
+      {
+        "title": "Bergen Assembly 2022",
+        "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+        "city": "Beijing"
+      },
+      {
+        "title": "Steirischer Herbst 2022",
+        "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+        "city": "Beijing"
+      },
+      {
+        "title": "Biennale Gherdëina 2022",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+        "city": "Beijing"
+      },
+      {
+        "title": "Manifesta 14 Prishtina",
+        "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+        "city": "Beijing"
+      },
+      {
+        "title": "Documenta 15",
+        "url": "/documenta/exhibition/documenta-15-2022",
+        "city": "Beijing"
+      },
+      {
+        "title": "12th Berlin Biennale 2022",
+        "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+        "city": "Beijing"
+      },
+      {
+        "title": "New Museum Triennial 2021",
+        "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+        "city": "Beijing"
+      },
+      {
+        "title": "7. Athens Biennale 2021",
+        "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+        "city": "Beijing"
+      },
+      {
+        "title": "34th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+        "city": "Beijing"
+      },
+      {
+        "title": "Ruhr Ding 2021",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+        "city": "Beijing"
+      },
+      {
+        "title": "Made in L.A. 2020",
+        "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+        "city": "Beijing"
+      },
+      {
+        "title": "Manifesta 13 Marseille",
+        "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+        "city": "Beijing"
+      },
+      {
+        "title": "11th Berlin Biennale 2020",
+        "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+        "city": "Beijing"
+      }
+    ],
+    "Shanghai": [
+      {
+        "title": "Fabian Knecht",
+        "url": "/mocak/exhibition/fabian-knecht-2025",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Giuseppe Penone",
+        "url": "/serpentine/exhibition/giuseppe-penone-2025",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Renée Levi",
+        "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Katharina Sieverding",
+        "url": "/k20/exhibition/katharina-sieverding-2024",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Cosima von Bonin",
+        "url": "/mudam/exhibition/cosima-von-bonin-2024",
+        "city": "Shanghai"
+      },
+      {
+        "title": "In Her Hands",
+        "url": "/bucerius/exhibition/in-her-hands-2025",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Pauline Curnier Jardin",
+        "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Lauren Halsey",
+        "url": "/serpentine/exhibition/lauren-halsey-2024",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Maria Pinińska-Bereś",
+        "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Francis Upritchard",
+        "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Bangkok Art Biennale 2024",
+        "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Biennale Gherdëina 2024",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Shanghai Biennale 2024",
+        "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+        "city": "Shanghai"
+      },
+      {
+        "title": "35th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Ruhr Ding 2023",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Aichi Triennale 2022",
+        "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Lyon Biennale 2022",
+        "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Bergen Assembly 2022",
+        "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Steirischer Herbst 2022",
+        "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Biennale Gherdëina 2022",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Manifesta 14 Prishtina",
+        "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Documenta 15",
+        "url": "/documenta/exhibition/documenta-15-2022",
+        "city": "Shanghai"
+      },
+      {
+        "title": "12th Berlin Biennale 2022",
+        "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+        "city": "Shanghai"
+      },
+      {
+        "title": "New Museum Triennial 2021",
+        "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+        "city": "Shanghai"
+      },
+      {
+        "title": "7. Athens Biennale 2021",
+        "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+        "city": "Shanghai"
+      },
+      {
+        "title": "34th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Ruhr Ding 2021",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Made in L.A. 2020",
+        "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+        "city": "Shanghai"
+      },
+      {
+        "title": "Manifesta 13 Marseille",
+        "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+        "city": "Shanghai"
+      },
+      {
+        "title": "11th Berlin Biennale 2020",
+        "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+        "city": "Shanghai"
+      }
+    ],
+    "Guangzhou": [],
+    "Hong-Kong": [],
+    "Singapore": [
+      {
+        "title": "Fabian Knecht",
+        "url": "/mocak/exhibition/fabian-knecht-2025",
+        "city": "Singapore"
+      },
+      {
+        "title": "Giuseppe Penone",
+        "url": "/serpentine/exhibition/giuseppe-penone-2025",
+        "city": "Singapore"
+      },
+      {
+        "title": "Renée Levi",
+        "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+        "city": "Singapore"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+        "city": "Singapore"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+        "city": "Singapore"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+        "city": "Singapore"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+        "city": "Singapore"
+      },
+      {
+        "title": "Katharina Sieverding",
+        "url": "/k20/exhibition/katharina-sieverding-2024",
+        "city": "Singapore"
+      },
+      {
+        "title": "Cosima von Bonin",
+        "url": "/mudam/exhibition/cosima-von-bonin-2024",
+        "city": "Singapore"
+      },
+      {
+        "title": "In Her Hands",
+        "url": "/bucerius/exhibition/in-her-hands-2025",
+        "city": "Singapore"
+      },
+      {
+        "title": "Pauline Curnier Jardin",
+        "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+        "city": "Singapore"
+      },
+      {
+        "title": "Lauren Halsey",
+        "url": "/serpentine/exhibition/lauren-halsey-2024",
+        "city": "Singapore"
+      },
+      {
+        "title": "Maria Pinińska-Bereś",
+        "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+        "city": "Singapore"
+      },
+      {
+        "title": "Francis Upritchard",
+        "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+        "city": "Singapore"
+      },
+      {
+        "title": "Bangkok Art Biennale 2024",
+        "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+        "city": "Singapore"
+      },
+      {
+        "title": "Biennale Gherdëina 2024",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+        "city": "Singapore"
+      },
+      {
+        "title": "Shanghai Biennale 2024",
+        "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+        "city": "Singapore"
+      },
+      {
+        "title": "35th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+        "city": "Singapore"
+      },
+      {
+        "title": "Ruhr Ding 2023",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+        "city": "Singapore"
+      },
+      {
+        "title": "Aichi Triennale 2022",
+        "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+        "city": "Singapore"
+      },
+      {
+        "title": "Lyon Biennale 2022",
+        "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+        "city": "Singapore"
+      },
+      {
+        "title": "Bergen Assembly 2022",
+        "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+        "city": "Singapore"
+      },
+      {
+        "title": "Steirischer Herbst 2022",
+        "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+        "city": "Singapore"
+      },
+      {
+        "title": "Biennale Gherdëina 2022",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+        "city": "Singapore"
+      },
+      {
+        "title": "Manifesta 14 Prishtina",
+        "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+        "city": "Singapore"
+      },
+      {
+        "title": "Documenta 15",
+        "url": "/documenta/exhibition/documenta-15-2022",
+        "city": "Singapore"
+      },
+      {
+        "title": "12th Berlin Biennale 2022",
+        "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+        "city": "Singapore"
+      },
+      {
+        "title": "New Museum Triennial 2021",
+        "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+        "city": "Singapore"
+      },
+      {
+        "title": "7. Athens Biennale 2021",
+        "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+        "city": "Singapore"
+      },
+      {
+        "title": "34th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+        "city": "Singapore"
+      },
+      {
+        "title": "Ruhr Ding 2021",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+        "city": "Singapore"
+      },
+      {
+        "title": "Made in L.A. 2020",
+        "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+        "city": "Singapore"
+      },
+      {
+        "title": "Manifesta 13 Marseille",
+        "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+        "city": "Singapore"
+      },
+      {
+        "title": "11th Berlin Biennale 2020",
+        "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+        "city": "Singapore"
+      }
+    ],
+    "Bangkok": [
+      {
+        "title": "Fabian Knecht",
+        "url": "/mocak/exhibition/fabian-knecht-2025",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Giuseppe Penone",
+        "url": "/serpentine/exhibition/giuseppe-penone-2025",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Renée Levi",
+        "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Katharina Sieverding",
+        "url": "/k20/exhibition/katharina-sieverding-2024",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Cosima von Bonin",
+        "url": "/mudam/exhibition/cosima-von-bonin-2024",
+        "city": "Bangkok"
+      },
+      {
+        "title": "In Her Hands",
+        "url": "/bucerius/exhibition/in-her-hands-2025",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Pauline Curnier Jardin",
+        "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Lauren Halsey",
+        "url": "/serpentine/exhibition/lauren-halsey-2024",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Maria Pinińska-Bereś",
+        "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Francis Upritchard",
+        "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Bangkok Art Biennale 2024",
+        "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Biennale Gherdëina 2024",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Shanghai Biennale 2024",
+        "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+        "city": "Bangkok"
+      },
+      {
+        "title": "35th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Ruhr Ding 2023",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Aichi Triennale 2022",
+        "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Lyon Biennale 2022",
+        "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Bergen Assembly 2022",
+        "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Steirischer Herbst 2022",
+        "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Biennale Gherdëina 2022",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Manifesta 14 Prishtina",
+        "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Documenta 15",
+        "url": "/documenta/exhibition/documenta-15-2022",
+        "city": "Bangkok"
+      },
+      {
+        "title": "12th Berlin Biennale 2022",
+        "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+        "city": "Bangkok"
+      },
+      {
+        "title": "New Museum Triennial 2021",
+        "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+        "city": "Bangkok"
+      },
+      {
+        "title": "7. Athens Biennale 2021",
+        "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+        "city": "Bangkok"
+      },
+      {
+        "title": "34th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Ruhr Ding 2021",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Made in L.A. 2020",
+        "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+        "city": "Bangkok"
+      },
+      {
+        "title": "Manifesta 13 Marseille",
+        "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+        "city": "Bangkok"
+      },
+      {
+        "title": "11th Berlin Biennale 2020",
+        "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+        "city": "Bangkok"
+      }
+    ],
+    "Taipei": [
+      {
+        "title": "Fabian Knecht",
+        "url": "/mocak/exhibition/fabian-knecht-2025",
+        "city": "Taipei"
+      },
+      {
+        "title": "Giuseppe Penone",
+        "url": "/serpentine/exhibition/giuseppe-penone-2025",
+        "city": "Taipei"
+      },
+      {
+        "title": "Renée Levi",
+        "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+        "city": "Taipei"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+        "city": "Taipei"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+        "city": "Taipei"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+        "city": "Taipei"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+        "city": "Taipei"
+      },
+      {
+        "title": "Katharina Sieverding",
+        "url": "/k20/exhibition/katharina-sieverding-2024",
+        "city": "Taipei"
+      },
+      {
+        "title": "Cosima von Bonin",
+        "url": "/mudam/exhibition/cosima-von-bonin-2024",
+        "city": "Taipei"
+      },
+      {
+        "title": "In Her Hands",
+        "url": "/bucerius/exhibition/in-her-hands-2025",
+        "city": "Taipei"
+      },
+      {
+        "title": "Pauline Curnier Jardin",
+        "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+        "city": "Taipei"
+      },
+      {
+        "title": "Lauren Halsey",
+        "url": "/serpentine/exhibition/lauren-halsey-2024",
+        "city": "Taipei"
+      },
+      {
+        "title": "Maria Pinińska-Bereś",
+        "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+        "city": "Taipei"
+      },
+      {
+        "title": "Francis Upritchard",
+        "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+        "city": "Taipei"
+      },
+      {
+        "title": "Bangkok Art Biennale 2024",
+        "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+        "city": "Taipei"
+      },
+      {
+        "title": "Biennale Gherdëina 2024",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+        "city": "Taipei"
+      },
+      {
+        "title": "Shanghai Biennale 2024",
+        "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+        "city": "Taipei"
+      },
+      {
+        "title": "35th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+        "city": "Taipei"
+      },
+      {
+        "title": "Ruhr Ding 2023",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+        "city": "Taipei"
+      },
+      {
+        "title": "Aichi Triennale 2022",
+        "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+        "city": "Taipei"
+      },
+      {
+        "title": "Lyon Biennale 2022",
+        "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+        "city": "Taipei"
+      },
+      {
+        "title": "Bergen Assembly 2022",
+        "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+        "city": "Taipei"
+      },
+      {
+        "title": "Steirischer Herbst 2022",
+        "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+        "city": "Taipei"
+      },
+      {
+        "title": "Biennale Gherdëina 2022",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+        "city": "Taipei"
+      },
+      {
+        "title": "Manifesta 14 Prishtina",
+        "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+        "city": "Taipei"
+      },
+      {
+        "title": "Documenta 15",
+        "url": "/documenta/exhibition/documenta-15-2022",
+        "city": "Taipei"
+      },
+      {
+        "title": "12th Berlin Biennale 2022",
+        "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+        "city": "Taipei"
+      },
+      {
+        "title": "New Museum Triennial 2021",
+        "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+        "city": "Taipei"
+      },
+      {
+        "title": "7. Athens Biennale 2021",
+        "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+        "city": "Taipei"
+      },
+      {
+        "title": "34th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+        "city": "Taipei"
+      },
+      {
+        "title": "Ruhr Ding 2021",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+        "city": "Taipei"
+      },
+      {
+        "title": "Made in L.A. 2020",
+        "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+        "city": "Taipei"
+      },
+      {
+        "title": "Manifesta 13 Marseille",
+        "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+        "city": "Taipei"
+      },
+      {
+        "title": "11th Berlin Biennale 2020",
+        "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+        "city": "Taipei"
+      }
+    ],
+    "Jakarta": [
+      {
+        "title": "Fabian Knecht",
+        "url": "/mocak/exhibition/fabian-knecht-2025",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Giuseppe Penone",
+        "url": "/serpentine/exhibition/giuseppe-penone-2025",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Renée Levi",
+        "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Katharina Sieverding",
+        "url": "/k20/exhibition/katharina-sieverding-2024",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Cosima von Bonin",
+        "url": "/mudam/exhibition/cosima-von-bonin-2024",
+        "city": "Jakarta"
+      },
+      {
+        "title": "In Her Hands",
+        "url": "/bucerius/exhibition/in-her-hands-2025",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Pauline Curnier Jardin",
+        "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Lauren Halsey",
+        "url": "/serpentine/exhibition/lauren-halsey-2024",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Maria Pinińska-Bereś",
+        "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Francis Upritchard",
+        "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Bangkok Art Biennale 2024",
+        "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Biennale Gherdëina 2024",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Shanghai Biennale 2024",
+        "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+        "city": "Jakarta"
+      },
+      {
+        "title": "35th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Ruhr Ding 2023",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Aichi Triennale 2022",
+        "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Lyon Biennale 2022",
+        "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Bergen Assembly 2022",
+        "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Steirischer Herbst 2022",
+        "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Biennale Gherdëina 2022",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Manifesta 14 Prishtina",
+        "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Documenta 15",
+        "url": "/documenta/exhibition/documenta-15-2022",
+        "city": "Jakarta"
+      },
+      {
+        "title": "12th Berlin Biennale 2022",
+        "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+        "city": "Jakarta"
+      },
+      {
+        "title": "New Museum Triennial 2021",
+        "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+        "city": "Jakarta"
+      },
+      {
+        "title": "7. Athens Biennale 2021",
+        "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+        "city": "Jakarta"
+      },
+      {
+        "title": "34th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Ruhr Ding 2021",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Made in L.A. 2020",
+        "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+        "city": "Jakarta"
+      },
+      {
+        "title": "Manifesta 13 Marseille",
+        "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+        "city": "Jakarta"
+      },
+      {
+        "title": "11th Berlin Biennale 2020",
+        "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+        "city": "Jakarta"
+      }
+    ],
+    "Manila": [
+      {
+        "title": "Fabian Knecht",
+        "url": "/mocak/exhibition/fabian-knecht-2025",
+        "city": "Manila"
+      },
+      {
+        "title": "Giuseppe Penone",
+        "url": "/serpentine/exhibition/giuseppe-penone-2025",
+        "city": "Manila"
+      },
+      {
+        "title": "Renée Levi",
+        "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+        "city": "Manila"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+        "city": "Manila"
+      },
+      {
+        "title": "Kerstin Brätsch",
+        "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+        "city": "Manila"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+        "city": "Manila"
+      },
+      {
+        "title": "Mariechen Danz",
+        "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+        "city": "Manila"
+      },
+      {
+        "title": "Katharina Sieverding",
+        "url": "/k20/exhibition/katharina-sieverding-2024",
+        "city": "Manila"
+      },
+      {
+        "title": "Cosima von Bonin",
+        "url": "/mudam/exhibition/cosima-von-bonin-2024",
+        "city": "Manila"
+      },
+      {
+        "title": "In Her Hands",
+        "url": "/bucerius/exhibition/in-her-hands-2025",
+        "city": "Manila"
+      },
+      {
+        "title": "Pauline Curnier Jardin",
+        "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+        "city": "Manila"
+      },
+      {
+        "title": "Lauren Halsey",
+        "url": "/serpentine/exhibition/lauren-halsey-2024",
+        "city": "Manila"
+      },
+      {
+        "title": "Maria Pinińska-Bereś",
+        "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+        "city": "Manila"
+      },
+      {
+        "title": "Francis Upritchard",
+        "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+        "city": "Manila"
+      },
+      {
+        "title": "Bangkok Art Biennale 2024",
+        "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+        "city": "Manila"
+      },
+      {
+        "title": "Biennale Gherdëina 2024",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+        "city": "Manila"
+      },
+      {
+        "title": "Shanghai Biennale 2024",
+        "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+        "city": "Manila"
+      },
+      {
+        "title": "35th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+        "city": "Manila"
+      },
+      {
+        "title": "Ruhr Ding 2023",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+        "city": "Manila"
+      },
+      {
+        "title": "Aichi Triennale 2022",
+        "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+        "city": "Manila"
+      },
+      {
+        "title": "Lyon Biennale 2022",
+        "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+        "city": "Manila"
+      },
+      {
+        "title": "Bergen Assembly 2022",
+        "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+        "city": "Manila"
+      },
+      {
+        "title": "Steirischer Herbst 2022",
+        "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+        "city": "Manila"
+      },
+      {
+        "title": "Biennale Gherdëina 2022",
+        "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+        "city": "Manila"
+      },
+      {
+        "title": "Manifesta 14 Prishtina",
+        "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+        "city": "Manila"
+      },
+      {
+        "title": "Documenta 15",
+        "url": "/documenta/exhibition/documenta-15-2022",
+        "city": "Manila"
+      },
+      {
+        "title": "12th Berlin Biennale 2022",
+        "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+        "city": "Manila"
+      },
+      {
+        "title": "New Museum Triennial 2021",
+        "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+        "city": "Manila"
+      },
+      {
+        "title": "7. Athens Biennale 2021",
+        "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+        "city": "Manila"
+      },
+      {
+        "title": "34th Bienal de Sao Paulo",
+        "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+        "city": "Manila"
+      },
+      {
+        "title": "Ruhr Ding 2021",
+        "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+        "city": "Manila"
+      },
+      {
+        "title": "Made in L.A. 2020",
+        "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+        "city": "Manila"
+      },
+      {
+        "title": "Manifesta 13 Marseille",
+        "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+        "city": "Manila"
+      },
+      {
+        "title": "11th Berlin Biennale 2020",
+        "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+        "city": "Manila"
+      }
+    ]
+  },
+  "totalExhibitions": 442,
+  "exhibitions": [
+    {
+      "title": "Fabian Knecht",
+      "url": "/mocak/exhibition/fabian-knecht-2025",
+      "city": "Seoul"
+    },
+    {
+      "title": "Giuseppe Penone",
+      "url": "/serpentine/exhibition/giuseppe-penone-2025",
+      "city": "Seoul"
+    },
+    {
+      "title": "Renée Levi",
+      "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+      "city": "Seoul"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+      "city": "Seoul"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+      "city": "Seoul"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+      "city": "Seoul"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+      "city": "Seoul"
+    },
+    {
+      "title": "Katharina Sieverding",
+      "url": "/k20/exhibition/katharina-sieverding-2024",
+      "city": "Seoul"
+    },
+    {
+      "title": "Cosima von Bonin",
+      "url": "/mudam/exhibition/cosima-von-bonin-2024",
+      "city": "Seoul"
+    },
+    {
+      "title": "In Her Hands",
+      "url": "/bucerius/exhibition/in-her-hands-2025",
+      "city": "Seoul"
+    },
+    {
+      "title": "Pauline Curnier Jardin",
+      "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+      "city": "Seoul"
+    },
+    {
+      "title": "Lauren Halsey",
+      "url": "/serpentine/exhibition/lauren-halsey-2024",
+      "city": "Seoul"
+    },
+    {
+      "title": "Maria Pinińska-Bereś",
+      "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+      "city": "Seoul"
+    },
+    {
+      "title": "Francis Upritchard",
+      "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+      "city": "Seoul"
+    },
+    {
+      "title": "Bangkok Art Biennale 2024",
+      "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+      "city": "Seoul"
+    },
+    {
+      "title": "Biennale Gherdëina 2024",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+      "city": "Seoul"
+    },
+    {
+      "title": "Shanghai Biennale 2024",
+      "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+      "city": "Seoul"
+    },
+    {
+      "title": "35th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+      "city": "Seoul"
+    },
+    {
+      "title": "Ruhr Ding 2023",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+      "city": "Seoul"
+    },
+    {
+      "title": "Aichi Triennale 2022",
+      "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+      "city": "Seoul"
+    },
+    {
+      "title": "Lyon Biennale 2022",
+      "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+      "city": "Seoul"
+    },
+    {
+      "title": "Bergen Assembly 2022",
+      "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+      "city": "Seoul"
+    },
+    {
+      "title": "Steirischer Herbst 2022",
+      "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+      "city": "Seoul"
+    },
+    {
+      "title": "Biennale Gherdëina 2022",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+      "city": "Seoul"
+    },
+    {
+      "title": "Manifesta 14 Prishtina",
+      "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+      "city": "Seoul"
+    },
+    {
+      "title": "Documenta 15",
+      "url": "/documenta/exhibition/documenta-15-2022",
+      "city": "Seoul"
+    },
+    {
+      "title": "12th Berlin Biennale 2022",
+      "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+      "city": "Seoul"
+    },
+    {
+      "title": "New Museum Triennial 2021",
+      "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+      "city": "Seoul"
+    },
+    {
+      "title": "7. Athens Biennale 2021",
+      "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+      "city": "Seoul"
+    },
+    {
+      "title": "34th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+      "city": "Seoul"
+    },
+    {
+      "title": "Ruhr Ding 2021",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+      "city": "Seoul"
+    },
+    {
+      "title": "Made in L.A. 2020",
+      "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+      "city": "Seoul"
+    },
+    {
+      "title": "Manifesta 13 Marseille",
+      "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+      "city": "Seoul"
+    },
+    {
+      "title": "11th Berlin Biennale 2020",
+      "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+      "city": "Seoul"
+    },
+    {
+      "title": "Fabian Knecht",
+      "url": "/mocak/exhibition/fabian-knecht-2025",
+      "city": "Busan"
+    },
+    {
+      "title": "Giuseppe Penone",
+      "url": "/serpentine/exhibition/giuseppe-penone-2025",
+      "city": "Busan"
+    },
+    {
+      "title": "Renée Levi",
+      "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+      "city": "Busan"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+      "city": "Busan"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+      "city": "Busan"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+      "city": "Busan"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+      "city": "Busan"
+    },
+    {
+      "title": "Katharina Sieverding",
+      "url": "/k20/exhibition/katharina-sieverding-2024",
+      "city": "Busan"
+    },
+    {
+      "title": "Cosima von Bonin",
+      "url": "/mudam/exhibition/cosima-von-bonin-2024",
+      "city": "Busan"
+    },
+    {
+      "title": "In Her Hands",
+      "url": "/bucerius/exhibition/in-her-hands-2025",
+      "city": "Busan"
+    },
+    {
+      "title": "Pauline Curnier Jardin",
+      "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+      "city": "Busan"
+    },
+    {
+      "title": "Lauren Halsey",
+      "url": "/serpentine/exhibition/lauren-halsey-2024",
+      "city": "Busan"
+    },
+    {
+      "title": "Maria Pinińska-Bereś",
+      "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+      "city": "Busan"
+    },
+    {
+      "title": "Francis Upritchard",
+      "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+      "city": "Busan"
+    },
+    {
+      "title": "Bangkok Art Biennale 2024",
+      "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+      "city": "Busan"
+    },
+    {
+      "title": "Biennale Gherdëina 2024",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+      "city": "Busan"
+    },
+    {
+      "title": "Shanghai Biennale 2024",
+      "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+      "city": "Busan"
+    },
+    {
+      "title": "35th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+      "city": "Busan"
+    },
+    {
+      "title": "Ruhr Ding 2023",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+      "city": "Busan"
+    },
+    {
+      "title": "Aichi Triennale 2022",
+      "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+      "city": "Busan"
+    },
+    {
+      "title": "Lyon Biennale 2022",
+      "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+      "city": "Busan"
+    },
+    {
+      "title": "Bergen Assembly 2022",
+      "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+      "city": "Busan"
+    },
+    {
+      "title": "Steirischer Herbst 2022",
+      "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+      "city": "Busan"
+    },
+    {
+      "title": "Biennale Gherdëina 2022",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+      "city": "Busan"
+    },
+    {
+      "title": "Manifesta 14 Prishtina",
+      "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+      "city": "Busan"
+    },
+    {
+      "title": "Documenta 15",
+      "url": "/documenta/exhibition/documenta-15-2022",
+      "city": "Busan"
+    },
+    {
+      "title": "12th Berlin Biennale 2022",
+      "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+      "city": "Busan"
+    },
+    {
+      "title": "New Museum Triennial 2021",
+      "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+      "city": "Busan"
+    },
+    {
+      "title": "7. Athens Biennale 2021",
+      "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+      "city": "Busan"
+    },
+    {
+      "title": "34th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+      "city": "Busan"
+    },
+    {
+      "title": "Ruhr Ding 2021",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+      "city": "Busan"
+    },
+    {
+      "title": "Made in L.A. 2020",
+      "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+      "city": "Busan"
+    },
+    {
+      "title": "Manifesta 13 Marseille",
+      "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+      "city": "Busan"
+    },
+    {
+      "title": "11th Berlin Biennale 2020",
+      "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+      "city": "Busan"
+    },
+    {
+      "title": "Fabian Knecht",
+      "url": "/mocak/exhibition/fabian-knecht-2025",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Giuseppe Penone",
+      "url": "/serpentine/exhibition/giuseppe-penone-2025",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Renée Levi",
+      "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Katharina Sieverding",
+      "url": "/k20/exhibition/katharina-sieverding-2024",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Cosima von Bonin",
+      "url": "/mudam/exhibition/cosima-von-bonin-2024",
+      "city": "Gwangju"
+    },
+    {
+      "title": "In Her Hands",
+      "url": "/bucerius/exhibition/in-her-hands-2025",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Pauline Curnier Jardin",
+      "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Lauren Halsey",
+      "url": "/serpentine/exhibition/lauren-halsey-2024",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Maria Pinińska-Bereś",
+      "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Francis Upritchard",
+      "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Bangkok Art Biennale 2024",
+      "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Biennale Gherdëina 2024",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Shanghai Biennale 2024",
+      "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+      "city": "Gwangju"
+    },
+    {
+      "title": "35th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Ruhr Ding 2023",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Aichi Triennale 2022",
+      "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Lyon Biennale 2022",
+      "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Bergen Assembly 2022",
+      "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Steirischer Herbst 2022",
+      "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Biennale Gherdëina 2022",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Manifesta 14 Prishtina",
+      "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Documenta 15",
+      "url": "/documenta/exhibition/documenta-15-2022",
+      "city": "Gwangju"
+    },
+    {
+      "title": "12th Berlin Biennale 2022",
+      "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+      "city": "Gwangju"
+    },
+    {
+      "title": "New Museum Triennial 2021",
+      "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+      "city": "Gwangju"
+    },
+    {
+      "title": "7. Athens Biennale 2021",
+      "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+      "city": "Gwangju"
+    },
+    {
+      "title": "34th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Ruhr Ding 2021",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Made in L.A. 2020",
+      "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Manifesta 13 Marseille",
+      "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+      "city": "Gwangju"
+    },
+    {
+      "title": "11th Berlin Biennale 2020",
+      "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+      "city": "Gwangju"
+    },
+    {
+      "title": "Fabian Knecht",
+      "url": "/mocak/exhibition/fabian-knecht-2025",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Giuseppe Penone",
+      "url": "/serpentine/exhibition/giuseppe-penone-2025",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Renée Levi",
+      "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Katharina Sieverding",
+      "url": "/k20/exhibition/katharina-sieverding-2024",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Cosima von Bonin",
+      "url": "/mudam/exhibition/cosima-von-bonin-2024",
+      "city": "Tokyo"
+    },
+    {
+      "title": "In Her Hands",
+      "url": "/bucerius/exhibition/in-her-hands-2025",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Pauline Curnier Jardin",
+      "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Lauren Halsey",
+      "url": "/serpentine/exhibition/lauren-halsey-2024",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Maria Pinińska-Bereś",
+      "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Francis Upritchard",
+      "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Bangkok Art Biennale 2024",
+      "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Biennale Gherdëina 2024",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Shanghai Biennale 2024",
+      "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+      "city": "Tokyo"
+    },
+    {
+      "title": "35th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Ruhr Ding 2023",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Aichi Triennale 2022",
+      "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Lyon Biennale 2022",
+      "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Bergen Assembly 2022",
+      "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Steirischer Herbst 2022",
+      "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Biennale Gherdëina 2022",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Manifesta 14 Prishtina",
+      "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Documenta 15",
+      "url": "/documenta/exhibition/documenta-15-2022",
+      "city": "Tokyo"
+    },
+    {
+      "title": "12th Berlin Biennale 2022",
+      "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+      "city": "Tokyo"
+    },
+    {
+      "title": "New Museum Triennial 2021",
+      "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+      "city": "Tokyo"
+    },
+    {
+      "title": "7. Athens Biennale 2021",
+      "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+      "city": "Tokyo"
+    },
+    {
+      "title": "34th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Ruhr Ding 2021",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Made in L.A. 2020",
+      "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Manifesta 13 Marseille",
+      "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+      "city": "Tokyo"
+    },
+    {
+      "title": "11th Berlin Biennale 2020",
+      "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+      "city": "Tokyo"
+    },
+    {
+      "title": "Fabian Knecht",
+      "url": "/mocak/exhibition/fabian-knecht-2025",
+      "city": "Osaka"
+    },
+    {
+      "title": "Giuseppe Penone",
+      "url": "/serpentine/exhibition/giuseppe-penone-2025",
+      "city": "Osaka"
+    },
+    {
+      "title": "Renée Levi",
+      "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+      "city": "Osaka"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+      "city": "Osaka"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+      "city": "Osaka"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+      "city": "Osaka"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+      "city": "Osaka"
+    },
+    {
+      "title": "Katharina Sieverding",
+      "url": "/k20/exhibition/katharina-sieverding-2024",
+      "city": "Osaka"
+    },
+    {
+      "title": "Cosima von Bonin",
+      "url": "/mudam/exhibition/cosima-von-bonin-2024",
+      "city": "Osaka"
+    },
+    {
+      "title": "In Her Hands",
+      "url": "/bucerius/exhibition/in-her-hands-2025",
+      "city": "Osaka"
+    },
+    {
+      "title": "Pauline Curnier Jardin",
+      "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+      "city": "Osaka"
+    },
+    {
+      "title": "Lauren Halsey",
+      "url": "/serpentine/exhibition/lauren-halsey-2024",
+      "city": "Osaka"
+    },
+    {
+      "title": "Maria Pinińska-Bereś",
+      "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+      "city": "Osaka"
+    },
+    {
+      "title": "Francis Upritchard",
+      "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+      "city": "Osaka"
+    },
+    {
+      "title": "Bangkok Art Biennale 2024",
+      "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+      "city": "Osaka"
+    },
+    {
+      "title": "Biennale Gherdëina 2024",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+      "city": "Osaka"
+    },
+    {
+      "title": "Shanghai Biennale 2024",
+      "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+      "city": "Osaka"
+    },
+    {
+      "title": "35th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+      "city": "Osaka"
+    },
+    {
+      "title": "Ruhr Ding 2023",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+      "city": "Osaka"
+    },
+    {
+      "title": "Aichi Triennale 2022",
+      "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+      "city": "Osaka"
+    },
+    {
+      "title": "Lyon Biennale 2022",
+      "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+      "city": "Osaka"
+    },
+    {
+      "title": "Bergen Assembly 2022",
+      "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+      "city": "Osaka"
+    },
+    {
+      "title": "Steirischer Herbst 2022",
+      "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+      "city": "Osaka"
+    },
+    {
+      "title": "Biennale Gherdëina 2022",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+      "city": "Osaka"
+    },
+    {
+      "title": "Manifesta 14 Prishtina",
+      "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+      "city": "Osaka"
+    },
+    {
+      "title": "Documenta 15",
+      "url": "/documenta/exhibition/documenta-15-2022",
+      "city": "Osaka"
+    },
+    {
+      "title": "12th Berlin Biennale 2022",
+      "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+      "city": "Osaka"
+    },
+    {
+      "title": "New Museum Triennial 2021",
+      "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+      "city": "Osaka"
+    },
+    {
+      "title": "7. Athens Biennale 2021",
+      "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+      "city": "Osaka"
+    },
+    {
+      "title": "34th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+      "city": "Osaka"
+    },
+    {
+      "title": "Ruhr Ding 2021",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+      "city": "Osaka"
+    },
+    {
+      "title": "Made in L.A. 2020",
+      "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+      "city": "Osaka"
+    },
+    {
+      "title": "Manifesta 13 Marseille",
+      "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+      "city": "Osaka"
+    },
+    {
+      "title": "11th Berlin Biennale 2020",
+      "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+      "city": "Osaka"
+    },
+    {
+      "title": "Fabian Knecht",
+      "url": "/mocak/exhibition/fabian-knecht-2025",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Giuseppe Penone",
+      "url": "/serpentine/exhibition/giuseppe-penone-2025",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Renée Levi",
+      "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Katharina Sieverding",
+      "url": "/k20/exhibition/katharina-sieverding-2024",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Cosima von Bonin",
+      "url": "/mudam/exhibition/cosima-von-bonin-2024",
+      "city": "Kyoto"
+    },
+    {
+      "title": "In Her Hands",
+      "url": "/bucerius/exhibition/in-her-hands-2025",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Pauline Curnier Jardin",
+      "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Lauren Halsey",
+      "url": "/serpentine/exhibition/lauren-halsey-2024",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Maria Pinińska-Bereś",
+      "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Francis Upritchard",
+      "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Bangkok Art Biennale 2024",
+      "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Biennale Gherdëina 2024",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Shanghai Biennale 2024",
+      "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+      "city": "Kyoto"
+    },
+    {
+      "title": "35th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Ruhr Ding 2023",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Aichi Triennale 2022",
+      "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Lyon Biennale 2022",
+      "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Bergen Assembly 2022",
+      "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Steirischer Herbst 2022",
+      "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Biennale Gherdëina 2022",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Manifesta 14 Prishtina",
+      "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Documenta 15",
+      "url": "/documenta/exhibition/documenta-15-2022",
+      "city": "Kyoto"
+    },
+    {
+      "title": "12th Berlin Biennale 2022",
+      "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+      "city": "Kyoto"
+    },
+    {
+      "title": "New Museum Triennial 2021",
+      "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+      "city": "Kyoto"
+    },
+    {
+      "title": "7. Athens Biennale 2021",
+      "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+      "city": "Kyoto"
+    },
+    {
+      "title": "34th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Ruhr Ding 2021",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Made in L.A. 2020",
+      "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Manifesta 13 Marseille",
+      "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+      "city": "Kyoto"
+    },
+    {
+      "title": "11th Berlin Biennale 2020",
+      "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+      "city": "Kyoto"
+    },
+    {
+      "title": "Fabian Knecht",
+      "url": "/mocak/exhibition/fabian-knecht-2025",
+      "city": "Beijing"
+    },
+    {
+      "title": "Giuseppe Penone",
+      "url": "/serpentine/exhibition/giuseppe-penone-2025",
+      "city": "Beijing"
+    },
+    {
+      "title": "Renée Levi",
+      "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+      "city": "Beijing"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+      "city": "Beijing"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+      "city": "Beijing"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+      "city": "Beijing"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+      "city": "Beijing"
+    },
+    {
+      "title": "Katharina Sieverding",
+      "url": "/k20/exhibition/katharina-sieverding-2024",
+      "city": "Beijing"
+    },
+    {
+      "title": "Cosima von Bonin",
+      "url": "/mudam/exhibition/cosima-von-bonin-2024",
+      "city": "Beijing"
+    },
+    {
+      "title": "In Her Hands",
+      "url": "/bucerius/exhibition/in-her-hands-2025",
+      "city": "Beijing"
+    },
+    {
+      "title": "Pauline Curnier Jardin",
+      "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+      "city": "Beijing"
+    },
+    {
+      "title": "Lauren Halsey",
+      "url": "/serpentine/exhibition/lauren-halsey-2024",
+      "city": "Beijing"
+    },
+    {
+      "title": "Maria Pinińska-Bereś",
+      "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+      "city": "Beijing"
+    },
+    {
+      "title": "Francis Upritchard",
+      "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+      "city": "Beijing"
+    },
+    {
+      "title": "Bangkok Art Biennale 2024",
+      "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+      "city": "Beijing"
+    },
+    {
+      "title": "Biennale Gherdëina 2024",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+      "city": "Beijing"
+    },
+    {
+      "title": "Shanghai Biennale 2024",
+      "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+      "city": "Beijing"
+    },
+    {
+      "title": "35th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+      "city": "Beijing"
+    },
+    {
+      "title": "Ruhr Ding 2023",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+      "city": "Beijing"
+    },
+    {
+      "title": "Aichi Triennale 2022",
+      "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+      "city": "Beijing"
+    },
+    {
+      "title": "Lyon Biennale 2022",
+      "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+      "city": "Beijing"
+    },
+    {
+      "title": "Bergen Assembly 2022",
+      "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+      "city": "Beijing"
+    },
+    {
+      "title": "Steirischer Herbst 2022",
+      "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+      "city": "Beijing"
+    },
+    {
+      "title": "Biennale Gherdëina 2022",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+      "city": "Beijing"
+    },
+    {
+      "title": "Manifesta 14 Prishtina",
+      "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+      "city": "Beijing"
+    },
+    {
+      "title": "Documenta 15",
+      "url": "/documenta/exhibition/documenta-15-2022",
+      "city": "Beijing"
+    },
+    {
+      "title": "12th Berlin Biennale 2022",
+      "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+      "city": "Beijing"
+    },
+    {
+      "title": "New Museum Triennial 2021",
+      "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+      "city": "Beijing"
+    },
+    {
+      "title": "7. Athens Biennale 2021",
+      "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+      "city": "Beijing"
+    },
+    {
+      "title": "34th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+      "city": "Beijing"
+    },
+    {
+      "title": "Ruhr Ding 2021",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+      "city": "Beijing"
+    },
+    {
+      "title": "Made in L.A. 2020",
+      "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+      "city": "Beijing"
+    },
+    {
+      "title": "Manifesta 13 Marseille",
+      "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+      "city": "Beijing"
+    },
+    {
+      "title": "11th Berlin Biennale 2020",
+      "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+      "city": "Beijing"
+    },
+    {
+      "title": "Fabian Knecht",
+      "url": "/mocak/exhibition/fabian-knecht-2025",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Giuseppe Penone",
+      "url": "/serpentine/exhibition/giuseppe-penone-2025",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Renée Levi",
+      "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Katharina Sieverding",
+      "url": "/k20/exhibition/katharina-sieverding-2024",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Cosima von Bonin",
+      "url": "/mudam/exhibition/cosima-von-bonin-2024",
+      "city": "Shanghai"
+    },
+    {
+      "title": "In Her Hands",
+      "url": "/bucerius/exhibition/in-her-hands-2025",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Pauline Curnier Jardin",
+      "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Lauren Halsey",
+      "url": "/serpentine/exhibition/lauren-halsey-2024",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Maria Pinińska-Bereś",
+      "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Francis Upritchard",
+      "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Bangkok Art Biennale 2024",
+      "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Biennale Gherdëina 2024",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Shanghai Biennale 2024",
+      "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+      "city": "Shanghai"
+    },
+    {
+      "title": "35th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Ruhr Ding 2023",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Aichi Triennale 2022",
+      "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Lyon Biennale 2022",
+      "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Bergen Assembly 2022",
+      "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Steirischer Herbst 2022",
+      "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Biennale Gherdëina 2022",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Manifesta 14 Prishtina",
+      "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Documenta 15",
+      "url": "/documenta/exhibition/documenta-15-2022",
+      "city": "Shanghai"
+    },
+    {
+      "title": "12th Berlin Biennale 2022",
+      "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+      "city": "Shanghai"
+    },
+    {
+      "title": "New Museum Triennial 2021",
+      "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+      "city": "Shanghai"
+    },
+    {
+      "title": "7. Athens Biennale 2021",
+      "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+      "city": "Shanghai"
+    },
+    {
+      "title": "34th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Ruhr Ding 2021",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Made in L.A. 2020",
+      "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Manifesta 13 Marseille",
+      "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+      "city": "Shanghai"
+    },
+    {
+      "title": "11th Berlin Biennale 2020",
+      "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+      "city": "Shanghai"
+    },
+    {
+      "title": "Fabian Knecht",
+      "url": "/mocak/exhibition/fabian-knecht-2025",
+      "city": "Singapore"
+    },
+    {
+      "title": "Giuseppe Penone",
+      "url": "/serpentine/exhibition/giuseppe-penone-2025",
+      "city": "Singapore"
+    },
+    {
+      "title": "Renée Levi",
+      "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+      "city": "Singapore"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+      "city": "Singapore"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+      "city": "Singapore"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+      "city": "Singapore"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+      "city": "Singapore"
+    },
+    {
+      "title": "Katharina Sieverding",
+      "url": "/k20/exhibition/katharina-sieverding-2024",
+      "city": "Singapore"
+    },
+    {
+      "title": "Cosima von Bonin",
+      "url": "/mudam/exhibition/cosima-von-bonin-2024",
+      "city": "Singapore"
+    },
+    {
+      "title": "In Her Hands",
+      "url": "/bucerius/exhibition/in-her-hands-2025",
+      "city": "Singapore"
+    },
+    {
+      "title": "Pauline Curnier Jardin",
+      "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+      "city": "Singapore"
+    },
+    {
+      "title": "Lauren Halsey",
+      "url": "/serpentine/exhibition/lauren-halsey-2024",
+      "city": "Singapore"
+    },
+    {
+      "title": "Maria Pinińska-Bereś",
+      "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+      "city": "Singapore"
+    },
+    {
+      "title": "Francis Upritchard",
+      "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+      "city": "Singapore"
+    },
+    {
+      "title": "Bangkok Art Biennale 2024",
+      "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+      "city": "Singapore"
+    },
+    {
+      "title": "Biennale Gherdëina 2024",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+      "city": "Singapore"
+    },
+    {
+      "title": "Shanghai Biennale 2024",
+      "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+      "city": "Singapore"
+    },
+    {
+      "title": "35th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+      "city": "Singapore"
+    },
+    {
+      "title": "Ruhr Ding 2023",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+      "city": "Singapore"
+    },
+    {
+      "title": "Aichi Triennale 2022",
+      "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+      "city": "Singapore"
+    },
+    {
+      "title": "Lyon Biennale 2022",
+      "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+      "city": "Singapore"
+    },
+    {
+      "title": "Bergen Assembly 2022",
+      "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+      "city": "Singapore"
+    },
+    {
+      "title": "Steirischer Herbst 2022",
+      "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+      "city": "Singapore"
+    },
+    {
+      "title": "Biennale Gherdëina 2022",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+      "city": "Singapore"
+    },
+    {
+      "title": "Manifesta 14 Prishtina",
+      "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+      "city": "Singapore"
+    },
+    {
+      "title": "Documenta 15",
+      "url": "/documenta/exhibition/documenta-15-2022",
+      "city": "Singapore"
+    },
+    {
+      "title": "12th Berlin Biennale 2022",
+      "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+      "city": "Singapore"
+    },
+    {
+      "title": "New Museum Triennial 2021",
+      "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+      "city": "Singapore"
+    },
+    {
+      "title": "7. Athens Biennale 2021",
+      "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+      "city": "Singapore"
+    },
+    {
+      "title": "34th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+      "city": "Singapore"
+    },
+    {
+      "title": "Ruhr Ding 2021",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+      "city": "Singapore"
+    },
+    {
+      "title": "Made in L.A. 2020",
+      "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+      "city": "Singapore"
+    },
+    {
+      "title": "Manifesta 13 Marseille",
+      "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+      "city": "Singapore"
+    },
+    {
+      "title": "11th Berlin Biennale 2020",
+      "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+      "city": "Singapore"
+    },
+    {
+      "title": "Fabian Knecht",
+      "url": "/mocak/exhibition/fabian-knecht-2025",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Giuseppe Penone",
+      "url": "/serpentine/exhibition/giuseppe-penone-2025",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Renée Levi",
+      "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Katharina Sieverding",
+      "url": "/k20/exhibition/katharina-sieverding-2024",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Cosima von Bonin",
+      "url": "/mudam/exhibition/cosima-von-bonin-2024",
+      "city": "Bangkok"
+    },
+    {
+      "title": "In Her Hands",
+      "url": "/bucerius/exhibition/in-her-hands-2025",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Pauline Curnier Jardin",
+      "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Lauren Halsey",
+      "url": "/serpentine/exhibition/lauren-halsey-2024",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Maria Pinińska-Bereś",
+      "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Francis Upritchard",
+      "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Bangkok Art Biennale 2024",
+      "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Biennale Gherdëina 2024",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Shanghai Biennale 2024",
+      "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+      "city": "Bangkok"
+    },
+    {
+      "title": "35th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Ruhr Ding 2023",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Aichi Triennale 2022",
+      "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Lyon Biennale 2022",
+      "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Bergen Assembly 2022",
+      "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Steirischer Herbst 2022",
+      "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Biennale Gherdëina 2022",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Manifesta 14 Prishtina",
+      "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Documenta 15",
+      "url": "/documenta/exhibition/documenta-15-2022",
+      "city": "Bangkok"
+    },
+    {
+      "title": "12th Berlin Biennale 2022",
+      "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+      "city": "Bangkok"
+    },
+    {
+      "title": "New Museum Triennial 2021",
+      "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+      "city": "Bangkok"
+    },
+    {
+      "title": "7. Athens Biennale 2021",
+      "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+      "city": "Bangkok"
+    },
+    {
+      "title": "34th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Ruhr Ding 2021",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Made in L.A. 2020",
+      "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Manifesta 13 Marseille",
+      "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+      "city": "Bangkok"
+    },
+    {
+      "title": "11th Berlin Biennale 2020",
+      "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+      "city": "Bangkok"
+    },
+    {
+      "title": "Fabian Knecht",
+      "url": "/mocak/exhibition/fabian-knecht-2025",
+      "city": "Taipei"
+    },
+    {
+      "title": "Giuseppe Penone",
+      "url": "/serpentine/exhibition/giuseppe-penone-2025",
+      "city": "Taipei"
+    },
+    {
+      "title": "Renée Levi",
+      "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+      "city": "Taipei"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+      "city": "Taipei"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+      "city": "Taipei"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+      "city": "Taipei"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+      "city": "Taipei"
+    },
+    {
+      "title": "Katharina Sieverding",
+      "url": "/k20/exhibition/katharina-sieverding-2024",
+      "city": "Taipei"
+    },
+    {
+      "title": "Cosima von Bonin",
+      "url": "/mudam/exhibition/cosima-von-bonin-2024",
+      "city": "Taipei"
+    },
+    {
+      "title": "In Her Hands",
+      "url": "/bucerius/exhibition/in-her-hands-2025",
+      "city": "Taipei"
+    },
+    {
+      "title": "Pauline Curnier Jardin",
+      "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+      "city": "Taipei"
+    },
+    {
+      "title": "Lauren Halsey",
+      "url": "/serpentine/exhibition/lauren-halsey-2024",
+      "city": "Taipei"
+    },
+    {
+      "title": "Maria Pinińska-Bereś",
+      "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+      "city": "Taipei"
+    },
+    {
+      "title": "Francis Upritchard",
+      "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+      "city": "Taipei"
+    },
+    {
+      "title": "Bangkok Art Biennale 2024",
+      "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+      "city": "Taipei"
+    },
+    {
+      "title": "Biennale Gherdëina 2024",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+      "city": "Taipei"
+    },
+    {
+      "title": "Shanghai Biennale 2024",
+      "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+      "city": "Taipei"
+    },
+    {
+      "title": "35th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+      "city": "Taipei"
+    },
+    {
+      "title": "Ruhr Ding 2023",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+      "city": "Taipei"
+    },
+    {
+      "title": "Aichi Triennale 2022",
+      "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+      "city": "Taipei"
+    },
+    {
+      "title": "Lyon Biennale 2022",
+      "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+      "city": "Taipei"
+    },
+    {
+      "title": "Bergen Assembly 2022",
+      "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+      "city": "Taipei"
+    },
+    {
+      "title": "Steirischer Herbst 2022",
+      "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+      "city": "Taipei"
+    },
+    {
+      "title": "Biennale Gherdëina 2022",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+      "city": "Taipei"
+    },
+    {
+      "title": "Manifesta 14 Prishtina",
+      "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+      "city": "Taipei"
+    },
+    {
+      "title": "Documenta 15",
+      "url": "/documenta/exhibition/documenta-15-2022",
+      "city": "Taipei"
+    },
+    {
+      "title": "12th Berlin Biennale 2022",
+      "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+      "city": "Taipei"
+    },
+    {
+      "title": "New Museum Triennial 2021",
+      "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+      "city": "Taipei"
+    },
+    {
+      "title": "7. Athens Biennale 2021",
+      "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+      "city": "Taipei"
+    },
+    {
+      "title": "34th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+      "city": "Taipei"
+    },
+    {
+      "title": "Ruhr Ding 2021",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+      "city": "Taipei"
+    },
+    {
+      "title": "Made in L.A. 2020",
+      "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+      "city": "Taipei"
+    },
+    {
+      "title": "Manifesta 13 Marseille",
+      "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+      "city": "Taipei"
+    },
+    {
+      "title": "11th Berlin Biennale 2020",
+      "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+      "city": "Taipei"
+    },
+    {
+      "title": "Fabian Knecht",
+      "url": "/mocak/exhibition/fabian-knecht-2025",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Giuseppe Penone",
+      "url": "/serpentine/exhibition/giuseppe-penone-2025",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Renée Levi",
+      "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Katharina Sieverding",
+      "url": "/k20/exhibition/katharina-sieverding-2024",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Cosima von Bonin",
+      "url": "/mudam/exhibition/cosima-von-bonin-2024",
+      "city": "Jakarta"
+    },
+    {
+      "title": "In Her Hands",
+      "url": "/bucerius/exhibition/in-her-hands-2025",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Pauline Curnier Jardin",
+      "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Lauren Halsey",
+      "url": "/serpentine/exhibition/lauren-halsey-2024",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Maria Pinińska-Bereś",
+      "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Francis Upritchard",
+      "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Bangkok Art Biennale 2024",
+      "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Biennale Gherdëina 2024",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Shanghai Biennale 2024",
+      "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+      "city": "Jakarta"
+    },
+    {
+      "title": "35th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Ruhr Ding 2023",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Aichi Triennale 2022",
+      "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Lyon Biennale 2022",
+      "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Bergen Assembly 2022",
+      "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Steirischer Herbst 2022",
+      "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Biennale Gherdëina 2022",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Manifesta 14 Prishtina",
+      "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Documenta 15",
+      "url": "/documenta/exhibition/documenta-15-2022",
+      "city": "Jakarta"
+    },
+    {
+      "title": "12th Berlin Biennale 2022",
+      "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+      "city": "Jakarta"
+    },
+    {
+      "title": "New Museum Triennial 2021",
+      "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+      "city": "Jakarta"
+    },
+    {
+      "title": "7. Athens Biennale 2021",
+      "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+      "city": "Jakarta"
+    },
+    {
+      "title": "34th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Ruhr Ding 2021",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Made in L.A. 2020",
+      "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Manifesta 13 Marseille",
+      "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+      "city": "Jakarta"
+    },
+    {
+      "title": "11th Berlin Biennale 2020",
+      "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+      "city": "Jakarta"
+    },
+    {
+      "title": "Fabian Knecht",
+      "url": "/mocak/exhibition/fabian-knecht-2025",
+      "city": "Manila"
+    },
+    {
+      "title": "Giuseppe Penone",
+      "url": "/serpentine/exhibition/giuseppe-penone-2025",
+      "city": "Manila"
+    },
+    {
+      "title": "Renée Levi",
+      "url": "/palaisdetokyo/exhibition/renee-levi-2024",
+      "city": "Manila"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/gropiusbau/exhibition/kerstin-braetsch-2024",
+      "city": "Manila"
+    },
+    {
+      "title": "Kerstin Brätsch",
+      "url": "/munchmuseet/exhibition/kerstin-braetsch-2025",
+      "city": "Manila"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/berlinischegalerie/exhibition/mariechen-danz-2024",
+      "city": "Manila"
+    },
+    {
+      "title": "Mariechen Danz",
+      "url": "/kunstvereinarnsberg/exhibition/mariechen-danz-2025",
+      "city": "Manila"
+    },
+    {
+      "title": "Katharina Sieverding",
+      "url": "/k20/exhibition/katharina-sieverding-2024",
+      "city": "Manila"
+    },
+    {
+      "title": "Cosima von Bonin",
+      "url": "/mudam/exhibition/cosima-von-bonin-2024",
+      "city": "Manila"
+    },
+    {
+      "title": "In Her Hands",
+      "url": "/bucerius/exhibition/in-her-hands-2025",
+      "city": "Manila"
+    },
+    {
+      "title": "Pauline Curnier Jardin",
+      "url": "/kiasma/exhibition/pauline-curnier-jardin-2024",
+      "city": "Manila"
+    },
+    {
+      "title": "Lauren Halsey",
+      "url": "/serpentine/exhibition/lauren-halsey-2024",
+      "city": "Manila"
+    },
+    {
+      "title": "Maria Pinińska-Bereś",
+      "url": "/gfzk/exhibition/maria-pininska-beres-2024",
+      "city": "Manila"
+    },
+    {
+      "title": "Francis Upritchard",
+      "url": "/kunsthalcharlottenborg/exhibition/francis-upritchard-2024",
+      "city": "Manila"
+    },
+    {
+      "title": "Bangkok Art Biennale 2024",
+      "url": "/bangkokartbiennale/exhibition/bangkok-art-biennale-2024",
+      "city": "Manila"
+    },
+    {
+      "title": "Biennale Gherdëina 2024",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2024",
+      "city": "Manila"
+    },
+    {
+      "title": "Shanghai Biennale 2024",
+      "url": "/shanghaibeinnale/exhibition/shanghai-biennale-2024-2023",
+      "city": "Manila"
+    },
+    {
+      "title": "35th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/35th-bienal-de-sao-paulo-2023",
+      "city": "Manila"
+    },
+    {
+      "title": "Ruhr Ding 2023",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2023",
+      "city": "Manila"
+    },
+    {
+      "title": "Aichi Triennale 2022",
+      "url": "/aichitriennale/exhibition/aichi-triennale-2022",
+      "city": "Manila"
+    },
+    {
+      "title": "Lyon Biennale 2022",
+      "url": "/biennaledelyon/exhibition/lyon-biennale-2022",
+      "city": "Manila"
+    },
+    {
+      "title": "Bergen Assembly 2022",
+      "url": "/bergenassembly/exhibition/bergen-assembly-2022",
+      "city": "Manila"
+    },
+    {
+      "title": "Steirischer Herbst 2022",
+      "url": "/steirischerherbst/exhibition/steirischer-herbst-2022",
+      "city": "Manila"
+    },
+    {
+      "title": "Biennale Gherdëina 2022",
+      "url": "/biennalegherdeina/exhibition/biennale-gherdeina-2022",
+      "city": "Manila"
+    },
+    {
+      "title": "Manifesta 14 Prishtina",
+      "url": "/manifesta/exhibition/manifesta-14-prishtina-2022",
+      "city": "Manila"
+    },
+    {
+      "title": "Documenta 15",
+      "url": "/documenta/exhibition/documenta-15-2022",
+      "city": "Manila"
+    },
+    {
+      "title": "12th Berlin Biennale 2022",
+      "url": "/berlinbiennale/exhibition/12th-berlin-biennale-2022",
+      "city": "Manila"
+    },
+    {
+      "title": "New Museum Triennial 2021",
+      "url": "/newmuseumtriennial/exhibition/new-museum-triennial-2021",
+      "city": "Manila"
+    },
+    {
+      "title": "7. Athens Biennale 2021",
+      "url": "/athensbiennale/exhibition/7-athens-biennale-2021",
+      "city": "Manila"
+    },
+    {
+      "title": "34th Bienal de Sao Paulo",
+      "url": "/bienalsaopaulo/exhibition/34th-bienal-de-sao-paulo-2021",
+      "city": "Manila"
+    },
+    {
+      "title": "Ruhr Ding 2021",
+      "url": "/urbanekuensteruhr/exhibition/ruhr-ding-2021",
+      "city": "Manila"
+    },
+    {
+      "title": "Made in L.A. 2020",
+      "url": "/hammer/exhibition/made-in-l-a-2020-2021",
+      "city": "Manila"
+    },
+    {
+      "title": "Manifesta 13 Marseille",
+      "url": "/manifesta/exhibition/manifesta-13-marseille-2020",
+      "city": "Manila"
+    },
+    {
+      "title": "11th Berlin Biennale 2020",
+      "url": "/berlinbiennale/exhibition/11th-berlin-biennale-2020",
+      "city": "Manila"
+    }
+  ],
+  "crawledAt": "2025-07-26T10:48:33.362Z"
+}

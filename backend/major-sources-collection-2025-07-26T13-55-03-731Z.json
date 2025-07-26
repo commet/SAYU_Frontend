@@ -1,0 +1,989 @@
+{
+  "metadata": {
+    "collectionDate": "2025-07-26T13:55:03.731Z",
+    "totalExhibitions": 30,
+    "sourcesCovered": 4,
+    "durationSeconds": 13,
+    "quality": "HIGH - Major art publication sources"
+  },
+  "sourceResults": {
+    "timeout": {
+      "london": [
+        {
+          "title": "1. Emily Kam Kngwarray",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "https://www.timeout.com/london/art/emily-kam-kngwarray",
+          "city": "london",
+          "source": "timeout",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:51.250Z"
+        },
+        {
+          "title": "2. Yoshitomo Nara at the Hayward Gallery",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "https://www.timeout.com/london/art/yoshitomo-nara-1",
+          "city": "london",
+          "source": "timeout",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:51.252Z"
+        },
+        {
+          "title": "3. Encounters: Giacometti x Huma Bhabha",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "https://www.timeout.com/london/art/encounters-giacometti-at-barbican",
+          "city": "london",
+          "source": "timeout",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:51.253Z"
+        },
+        {
+          "title": "4. Duane Linklater at Camden Arts Centre",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "https://www.timeout.com/london/art/akami-duane-linklater",
+          "city": "london",
+          "source": "timeout",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:51.254Z"
+        },
+        {
+          "title": "5. Ed Atkins at Tate Britain",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "https://www.timeout.com/london/art/ed-atkins-at-tate-britain",
+          "city": "london",
+          "source": "timeout",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:51.255Z"
+        },
+        {
+          "title": "6. Leigh Bowery!",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "https://www.timeout.com/london/art/leigh-bowery",
+          "city": "london",
+          "source": "timeout",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:51.256Z"
+        },
+        {
+          "title": "7. Do Ho Suh: Walk the House",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "https://www.timeout.com/london/art/the-genesis-exhibition-do-ho-suh",
+          "city": "london",
+          "source": "timeout",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:51.257Z"
+        },
+        {
+          "title": "8. Edward Burra at Tate Britain",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "https://www.timeout.com/london/art/edward-burra-at-tate-britain",
+          "city": "london",
+          "source": "timeout",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:51.258Z"
+        },
+        {
+          "title": "9. Mantegna: ‘The Triumphs of Caesar’",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "https://www.timeout.com/london/art/mantegna-the-triumphs-of-caesar",
+          "city": "london",
+          "source": "timeout",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:51.259Z"
+        },
+        {
+          "title": "10. Lina Lapelytė: ‘In The Dark, We Play’ at The Cosmic House",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "https://www.timeout.com/london/art/lina-lapelyte-in-the-dark-we-play-at-the-cosmic-house",
+          "city": "london",
+          "source": "timeout",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:51.268Z"
+        }
+      ],
+      "paris": [],
+      "berlin": []
+    },
+    "artlyst": {
+      "london": [
+        {
+          "title": "2025 promises to see another full and varied programme of art exhibitions in London. Artlyst has put together this month-by-month guide to help you navigate your choice of where to spend your free tim",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.768Z"
+        },
+        {
+          "title": "Brasil! Brasil! the Birth of Modernism",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.768Z"
+        },
+        {
+          "title": "28 January – 21 April 2025",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.768Z"
+        },
+        {
+          "title": "Royal Academy of Arts",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.768Z"
+        },
+        {
+          "title": "Noah Davis",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.770Z"
+        },
+        {
+          "title": "Barbican Art Gallery",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.770Z"
+        },
+        {
+          "title": "6 February – 11 May 2025",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.770Z"
+        },
+        {
+          "title": "Linder: Danger Came Smiling",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.771Z"
+        },
+        {
+          "title": "11 February – 5 May 2025.",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.771Z"
+        },
+        {
+          "title": "Hayward Gallery",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.771Z"
+        },
+        {
+          "title": "11 February – 5 May 2025.",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.772Z"
+        },
+        {
+          "title": "Hayward Gallery",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.772Z"
+        },
+        {
+          "title": "Donald Rodney: Visceral Canker",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.773Z"
+        },
+        {
+          "title": "12 February – 4 May 2025",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.774Z"
+        },
+        {
+          "title": "Whitechapel Art Gallery",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.774Z"
+        },
+        {
+          "title": "Donald Rodney",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "https://www.spikeisland.org.uk/programme/exhibitions/donald-rodney/",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.774Z"
+        },
+        {
+          "title": "Goya To Impressionism: Masterpieces from the Oskar Reinhart Collection",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.775Z"
+        },
+        {
+          "title": "14 February – 26 May 2025",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.775Z"
+        },
+        {
+          "title": "The Courtauld Gallery",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.775Z"
+        },
+        {
+          "title": "The Face Magazine: Culture Shift",
+          "venue": {
+            "name": "Unknown",
+            "city": "london"
+          },
+          "dates": {
+            "original": ""
+          },
+          "description": "",
+          "url": "",
+          "city": "london",
+          "source": "artlyst",
+          "quality": "high",
+          "crawledAt": "2025-07-26T13:54:58.776Z"
+        }
+      ]
+    },
+    "artforum": {
+      "global": []
+    },
+    "artnet": {
+      "global": []
+    }
+  },
+  "allExhibitions": [
+    {
+      "title": "1. Emily Kam Kngwarray",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "https://www.timeout.com/london/art/emily-kam-kngwarray",
+      "city": "london",
+      "source": "timeout",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:51.250Z"
+    },
+    {
+      "title": "2. Yoshitomo Nara at the Hayward Gallery",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "https://www.timeout.com/london/art/yoshitomo-nara-1",
+      "city": "london",
+      "source": "timeout",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:51.252Z"
+    },
+    {
+      "title": "3. Encounters: Giacometti x Huma Bhabha",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "https://www.timeout.com/london/art/encounters-giacometti-at-barbican",
+      "city": "london",
+      "source": "timeout",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:51.253Z"
+    },
+    {
+      "title": "4. Duane Linklater at Camden Arts Centre",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "https://www.timeout.com/london/art/akami-duane-linklater",
+      "city": "london",
+      "source": "timeout",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:51.254Z"
+    },
+    {
+      "title": "5. Ed Atkins at Tate Britain",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "https://www.timeout.com/london/art/ed-atkins-at-tate-britain",
+      "city": "london",
+      "source": "timeout",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:51.255Z"
+    },
+    {
+      "title": "6. Leigh Bowery!",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "https://www.timeout.com/london/art/leigh-bowery",
+      "city": "london",
+      "source": "timeout",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:51.256Z"
+    },
+    {
+      "title": "7. Do Ho Suh: Walk the House",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "https://www.timeout.com/london/art/the-genesis-exhibition-do-ho-suh",
+      "city": "london",
+      "source": "timeout",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:51.257Z"
+    },
+    {
+      "title": "8. Edward Burra at Tate Britain",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "https://www.timeout.com/london/art/edward-burra-at-tate-britain",
+      "city": "london",
+      "source": "timeout",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:51.258Z"
+    },
+    {
+      "title": "9. Mantegna: ‘The Triumphs of Caesar’",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "https://www.timeout.com/london/art/mantegna-the-triumphs-of-caesar",
+      "city": "london",
+      "source": "timeout",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:51.259Z"
+    },
+    {
+      "title": "10. Lina Lapelytė: ‘In The Dark, We Play’ at The Cosmic House",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "https://www.timeout.com/london/art/lina-lapelyte-in-the-dark-we-play-at-the-cosmic-house",
+      "city": "london",
+      "source": "timeout",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:51.268Z"
+    },
+    {
+      "title": "2025 promises to see another full and varied programme of art exhibitions in London. Artlyst has put together this month-by-month guide to help you navigate your choice of where to spend your free tim",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.768Z"
+    },
+    {
+      "title": "Brasil! Brasil! the Birth of Modernism",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.768Z"
+    },
+    {
+      "title": "28 January – 21 April 2025",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.768Z"
+    },
+    {
+      "title": "Royal Academy of Arts",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.768Z"
+    },
+    {
+      "title": "Noah Davis",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.770Z"
+    },
+    {
+      "title": "Barbican Art Gallery",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.770Z"
+    },
+    {
+      "title": "6 February – 11 May 2025",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.770Z"
+    },
+    {
+      "title": "Linder: Danger Came Smiling",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.771Z"
+    },
+    {
+      "title": "11 February – 5 May 2025.",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.771Z"
+    },
+    {
+      "title": "Hayward Gallery",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.771Z"
+    },
+    {
+      "title": "11 February – 5 May 2025.",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.772Z"
+    },
+    {
+      "title": "Hayward Gallery",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.772Z"
+    },
+    {
+      "title": "Donald Rodney: Visceral Canker",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.773Z"
+    },
+    {
+      "title": "12 February – 4 May 2025",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.774Z"
+    },
+    {
+      "title": "Whitechapel Art Gallery",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.774Z"
+    },
+    {
+      "title": "Donald Rodney",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "https://www.spikeisland.org.uk/programme/exhibitions/donald-rodney/",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.774Z"
+    },
+    {
+      "title": "Goya To Impressionism: Masterpieces from the Oskar Reinhart Collection",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.775Z"
+    },
+    {
+      "title": "14 February – 26 May 2025",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.775Z"
+    },
+    {
+      "title": "The Courtauld Gallery",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.775Z"
+    },
+    {
+      "title": "The Face Magazine: Culture Shift",
+      "venue": {
+        "name": "Unknown",
+        "city": "london"
+      },
+      "dates": {
+        "original": ""
+      },
+      "description": "",
+      "url": "",
+      "city": "london",
+      "source": "artlyst",
+      "quality": "high",
+      "crawledAt": "2025-07-26T13:54:58.776Z"
+    }
+  ]
+}

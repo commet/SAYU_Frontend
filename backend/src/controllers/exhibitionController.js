@@ -64,10 +64,10 @@ const exhibitionController = {
       // Build base query
       let query = `
         SELECT e.*, v.id as venue_id, v.name as venue_name, v.name_en as venue_name_en,
-               v.city as venue_city, v.country as venue_country, v.type as venue_type,
-               v.website as venue_website, v.instagram as venue_instagram
+               v.city as venue_city, v.country as venue_country, v.venue_type as venue_type,
+               v.website as venue_website, v.social_media->>'instagram' as venue_instagram
         FROM exhibitions e
-        INNER JOIN venues v ON e.venue_id = v.id
+        INNER JOIN global_venues v ON e.venue_id = v.id
         WHERE 1=1
       `;
       const queryParams = [];

@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Sparkles, 
   FolderOpen, 
@@ -13,19 +15,36 @@ import {
   TrendingUp,
   Calendar,
   Heart,
-  Lock
+  Lock,
+  Trophy,
+  Target,
+  Palette,
+  Clock,
+  Activity,
+  Zap,
+  Crown,
+  Coins
 } from 'lucide-react';
 import Link from 'next/link';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { userActivityApi } from '@/lib/api/collections';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { DailyArtHabitWidget } from '@/components/dashboard/DailyArtHabitWidget';
+import { ArtPulseWidget } from '@/components/dashboard/ArtPulseWidget';
+import { GamificationWidget } from '@/components/dashboard/GamificationWidget';
+import { UserJourneyWidget } from '@/components/dashboard/UserJourneyWidget';
+import { QuickActionsWidget } from '@/components/dashboard/QuickActionsWidget';
+import { DualValueWidget } from '@/components/dashboard/DualValueWidget';
+import { FriendActivityWidget } from '@/components/dashboard/FriendActivityWidget';
+import { ProfileSummaryWidget } from '@/components/dashboard/ProfileSummaryWidget';
 
 export default function DashboardPage() {
   const [user, setUser] = useState<any>(null);
   const [activityStats, setActivityStats] = useState<any>(null);
   const [communityStatus, setCommunityStatus] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'overview' | 'journey' | 'social'>('overview');
   const supabase = createClientComponentClient();
 
   useEffect(() => {
@@ -111,18 +130,55 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* Welcome Section */}
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold">
-          안녕하세요! 👋
-        </h1>
-        <p className="text-muted-foreground">
-          오늘도 예술과 함께하는 하루 되세요
-        </p>
-      </div>
+      {/* Enhanced Welcome Section with Profile Summary */}
+      <ProfileSummaryWidget 
+        user={user}
+        activityStats={activityStats}
+        communityStatus={communityStatus}
+      />
 
-      {/* Community Progress */}
-      {!communityStatus?.isUnlocked && (
+      {/* Tab Navigation */}
+      <Tabs value={activeTab} onValueChange={(value: any) => setActiveTab(value)} className="space-y-6">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="overview" className="flex items-center gap-2">
+            <Activity className="h-4 w-4" />
+            대시보드
+          </TabsTrigger>
+          <TabsTrigger value="journey" className="flex items-center gap-2">
+            <Target className="h-4 w-4" />
+            나의 여정
+          </TabsTrigger>
+          <TabsTrigger value="social" className="flex items-center gap-2">
+            <Users className="h-4 w-4" />
+            커뮤니티
+          </TabsTrigger>
+        </TabsList>
+
+        {/* Overview Tab */}
+        <TabsContent value="overview" className="space-y-6">
+
+          {/* Main Widget Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            {/* Daily Art Habit Widget */}
+            <DailyArtHabitWidget className="lg:col-span-2 xl:col-span-1" />
+
+            {/* Art Pulse Widget */}
+            <ArtPulseWidget className="xl:col-span-1" />
+
+            {/* Gamification Progress Widget */}
+            <GamificationWidget className="xl:col-span-1" />
+          </div>
+
+          {/* Dual Value System Display */}
+          <DualValueWidget />
+
+          {/* Quick Actions Grid */}
+          <QuickActionsWidget 
+            communityStatus={communityStatus}
+          />
+
+          {/* Community Progress (if not unlocked) */}
+          {!communityStatus?.isUnlocked && (
         <Card className="border-purple-200 bg-purple-50/50 dark:bg-purple-950/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -166,123 +222,108 @@ export default function DashboardPage() {
             </p>
           </CardContent>
         </Card>
-      )}
+          )}
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {quickActions.map((action) => (
-          <Card 
-            key={action.href}
-            className={`group hover:shadow-lg transition-all duration-300 ${
-              action.locked ? 'opacity-60' : ''
-            }`}
-          >
-            <Link 
-              href={action.locked ? '#' : action.href}
-              className={action.locked ? 'cursor-not-allowed' : ''}
-              onClick={(e) => action.locked && e.preventDefault()}
-            >
-              <CardHeader>
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
-                  <action.icon className="h-6 w-6 text-white" />
-                </div>
-                <CardTitle className="flex items-center gap-2">
-                  {action.title}
-                  {action.locked && <Lock className="h-4 w-4" />}
+          {/* Activity Stats Row */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  총 컬렉션
                 </CardTitle>
+                <FolderOpen className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  {action.description}
+                <div className="text-2xl font-bold">
+                  {activityStats?.collectionsCreated || 0}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  공개: {activityStats?.publicCollections || 0}
                 </p>
               </CardContent>
-            </Link>
-          </Card>
-        ))}
-      </div>
+            </Card>
 
-      {/* Activity Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              총 컬렉션
-            </CardTitle>
-            <FolderOpen className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {activityStats?.collectionsCreated || 0}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              공개: {activityStats?.publicCollections || 0}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              수집한 작품
-            </CardTitle>
-            <Heart className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {activityStats?.itemsCollected || 0}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              이번 주: {activityStats?.itemsThisWeek || 0}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              활동 일수
-            </CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {activityStats?.activeDays || 0}일
-            </div>
-            <p className="text-xs text-muted-foreground">
-              연속: {activityStats?.streak || 0}일
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Recent Activity */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
-            최근 활동
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {activityStats?.recentActivity?.length > 0 ? (
-            <div className="space-y-4">
-              {activityStats.recentActivity.map((activity: any, index: number) => (
-                <div key={index} className="flex items-center gap-3 text-sm">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                  <span className="flex-1">{activity.description}</span>
-                  <span className="text-muted-foreground">
-                    {format(new Date(activity.created_at), 'M월 d일', { locale: ko })}
-                  </span>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  수집한 작품
+                </CardTitle>
+                <Heart className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {activityStats?.itemsCollected || 0}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground">
-              아직 활동 내역이 없습니다. 컬렉션을 만들어보세요!
-            </p>
-          )}
-        </CardContent>
-      </Card>
+                <p className="text-xs text-muted-foreground">
+                  이번 주: {activityStats?.itemsThisWeek || 0}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  활동 일수
+                </CardTitle>
+                <Calendar className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {activityStats?.activeDays || 0}일
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  연속: {activityStats?.streak || 0}일
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Recent Activity Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5" />
+                최근 활동
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {activityStats?.recentActivity?.length > 0 ? (
+                <div className="space-y-4">
+                  {activityStats.recentActivity.map((activity: any, index: number) => (
+                    <div key={index} className="flex items-center gap-3 text-sm">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full" />
+                      <span className="flex-1">{activity.description}</span>
+                      <span className="text-muted-foreground">
+                        {format(new Date(activity.created_at), 'M월 d일', { locale: ko })}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  아직 활동 내역이 없습니다. 컬렉션을 만들어보세요!
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Journey Tab */}
+        <TabsContent value="journey" className="space-y-6">
+          <UserJourneyWidget 
+            user={user}
+            activityStats={activityStats}
+          />
+        </TabsContent>
+
+        {/* Social Tab */}
+        <TabsContent value="social" className="space-y-6">
+          <FriendActivityWidget 
+            user={user}
+            communityStatus={communityStatus}
+          />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

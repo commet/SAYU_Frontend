@@ -1,0 +1,16 @@
+{
+  "completedCities": [
+    "seoul",
+    "newyork",
+    "london",
+    "paris",
+    "berlin",
+    "tokyo"
+  ],
+  "totalStats": {
+    "exhibitions": 0,
+    "venues": 0,
+    "errors": 0
+  },
+  "lastRun": "2025-07-26T10:34:27.005Z"
+}

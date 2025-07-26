@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { ArtworkViewingProvider, useArtworkViewing } from '@/contexts/ArtworkViewingContext';
 import { ArtCuratorChatbot } from '@/components/chatbot/ArtCuratorChatbot';
-import { AnimalCompanion } from '@/components/animations/AnimalCompanion';
 import { motion } from 'framer-motion';
 import { ZoomIn, Heart, Share2, Info } from 'lucide-react';
 
@@ -102,9 +102,11 @@ function ArtworkDemoContent() {
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
-                <img
+                <Image
                   src={artwork.imageUrl}
                   alt={artwork.title}
+                  width={200}
+                  height={128}
                   className="w-full h-32 object-cover rounded mb-2"
                 />
                 <p className="text-sm font-medium">{artwork.title}</p>
@@ -124,10 +126,13 @@ function ArtworkDemoContent() {
               className="relative overflow-hidden rounded-lg shadow-2xl cursor-zoom-in"
               onClick={handleZoom}
             >
-              <img
+              <Image
                 src={selectedArtwork.imageUrl}
                 alt={selectedArtwork.title}
+                width={600}
+                height={400}
                 className="w-full h-auto"
+                priority
               />
             </motion.div>
             

@@ -2,6 +2,7 @@ const { Server } = require('socket.io');
 const jwt = require('jsonwebtoken');
 const { getSupabaseAdmin } = require('../config/supabase');
 const { logger } = require('../config/logger');
+const artPulseService = require('./artPulseService');
 
 class SocketService {
   constructor() {
@@ -74,6 +75,14 @@ class SocketService {
     socket.on('typing_stop', (data) => this.handleTypingStop(socket, data));
     socket.on('exhibition_view', (data) => this.handleExhibitionView(socket, data));
     socket.on('reflection_created', (data) => this.handleReflectionCreated(socket, data));
+    
+    // Art Pulse events
+    socket.on('art_pulse_join', (data) => this.handleArtPulseJoin(socket, data));
+    socket.on('art_pulse_leave', (data) => this.handleArtPulseLeave(socket, data));
+    socket.on('art_pulse_emotion', (data) => this.handleArtPulseEmotion(socket, data));
+    socket.on('art_pulse_reflection', (data) => this.handleArtPulseReflection(socket, data));
+    socket.on('art_pulse_like', (data) => this.handleArtPulseLike(socket, data));
+    socket.on('art_pulse_typing', (data) => this.handleArtPulseTyping(socket, data));
     
     socket.on('disconnect', () => this.handleDisconnect(socket));
 
@@ -279,6 +288,172 @@ class SocketService {
 
   isUserOnline(userId) {
     return this.connectedUsers.has(userId);
+  }
+
+  // Art Pulse event handlers
+  async handleArtPulseJoin(socket, data) {
+    const userId = socket.userId;
+    const { sessionId } = data;
+    
+    try {
+      const result = await artPulseService.joinSession(userId, sessionId);
+      const roomId = `art-pulse:${result.session.id}`;
+      
+      // Join Art Pulse room
+      socket.join(roomId);
+      socket.artPulseRoom = roomId;
+      
+      // Send session data to user
+      socket.emit('art_pulse_joined', {
+        session: result.session,
+        userProfile: result.userProfile,
+        participantCount: result.participantCount
+      });
+
+      // Broadcast new participant to room
+      socket.to(roomId).emit('art_pulse_participant_joined', {
+        userId,
+        username: socket.user.username,
+        sayuType: socket.user.sayu_type,
+        participantCount: result.participantCount
+      });
+
+      // Send current state
+      const emotions = artPulseService.getEmotionDistribution(result.session.id);
+      const reflections = artPulseService.getReflections(result.session.id);
+      
+      socket.emit('art_pulse_state_update', {
+        emotions,
+        reflections,
+        participantCount: result.participantCount
+      });
+
+      logger.info(`User ${userId} joined Art Pulse session ${result.session.id}`);
+    } catch (error) {
+      logger.error('Error joining Art Pulse:', error);
+      socket.emit('art_pulse_error', { message: error.message });
+    }
+  }
+
+  handleArtPulseLeave(socket, data) {
+    const userId = socket.userId;
+    const roomId = socket.artPulseRoom;
+    
+    if (roomId) {
+      socket.leave(roomId);
+      socket.to(roomId).emit('art_pulse_participant_left', {
+        userId,
+        username: socket.user.username
+      });
+      socket.artPulseRoom = null;
+      logger.info(`User ${userId} left Art Pulse session`);
+    }
+  }
+
+  async handleArtPulseEmotion(socket, data) {
+    const userId = socket.userId;
+    const { sessionId, emotion, intensity } = data;
+    
+    try {
+      const distribution = await artPulseService.submitEmotion(userId, sessionId, emotion, intensity);
+      const roomId = `art-pulse:${sessionId}`;
+      
+      // Broadcast emotion update to all participants
+      this.io.to(roomId).emit('art_pulse_emotion_update', {
+        userId,
+        username: socket.user.username,
+        emotion,
+        intensity,
+        distribution,
+        timestamp: new Date()
+      });
+
+      logger.info(`User ${userId} submitted emotion ${emotion} for session ${sessionId}`);
+    } catch (error) {
+      logger.error('Error submitting Art Pulse emotion:', error);
+      socket.emit('art_pulse_error', { message: error.message });
+    }
+  }
+
+  async handleArtPulseReflection(socket, data) {
+    const userId = socket.userId;
+    const { sessionId, reflection, isAnonymous } = data;
+    
+    try {
+      const reflectionData = await artPulseService.submitReflection(userId, sessionId, reflection, isAnonymous);
+      const roomId = `art-pulse:${sessionId}`;
+      
+      // Broadcast new reflection to all participants
+      this.io.to(roomId).emit('art_pulse_new_reflection', reflectionData);
+
+      logger.info(`User ${userId} submitted reflection for session ${sessionId}`);
+    } catch (error) {
+      logger.error('Error submitting Art Pulse reflection:', error);
+      socket.emit('art_pulse_error', { message: error.message });
+    }
+  }
+
+  async handleArtPulseLike(socket, data) {
+    const userId = socket.userId;
+    const { sessionId, reflectionId } = data;
+    
+    try {
+      const reflection = await artPulseService.likeReflection(userId, sessionId, reflectionId);
+      const roomId = `art-pulse:${sessionId}`;
+      
+      // Broadcast like update to all participants
+      this.io.to(roomId).emit('art_pulse_reflection_liked', {
+        reflectionId,
+        likes: reflection.likes,
+        likedBy: reflection.likedBy,
+        userId
+      });
+
+      logger.info(`User ${userId} liked reflection ${reflectionId}`);
+    } catch (error) {
+      logger.error('Error liking Art Pulse reflection:', error);
+      socket.emit('art_pulse_error', { message: error.message });
+    }
+  }
+
+  handleArtPulseTyping(socket, data) {
+    const userId = socket.userId;
+    const { sessionId, isTyping } = data;
+    const roomId = `art-pulse:${sessionId}`;
+    
+    socket.to(roomId).emit('art_pulse_user_typing', {
+      userId,
+      username: socket.user.username,
+      isTyping,
+      timestamp: new Date()
+    });
+  }
+
+  // Broadcast Art Pulse events
+  broadcastArtPulsePhaseChange(sessionId, phase) {
+    const roomId = `art-pulse:${sessionId}`;
+    this.io.to(roomId).emit('art_pulse_phase_change', {
+      sessionId,
+      phase,
+      timestamp: new Date()
+    });
+  }
+
+  broadcastArtPulseSessionEnd(sessionId, results) {
+    const roomId = `art-pulse:${sessionId}`;
+    this.io.to(roomId).emit('art_pulse_session_ended', {
+      sessionId,
+      results,
+      timestamp: new Date()
+    });
+  }
+
+  // Notify all users of new Art Pulse session
+  broadcastNewArtPulseSession(session) {
+    this.io.emit('art_pulse_session_started', {
+      session,
+      timestamp: new Date()
+    });
   }
 }
 

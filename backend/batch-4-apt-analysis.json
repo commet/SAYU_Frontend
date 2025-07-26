@@ -1,0 +1,629 @@
+[
+  {
+    "name": "Heinrich Jansen (Danish, 1625)",
+    "nationality": "Danish",
+    "birth_year": 1625,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 70,
+        "S": 30,
+        "A": 65,
+        "R": 35,
+        "E": 45,
+        "M": 55,
+        "F": 50,
+        "C": 50
+      },
+      "primary_types": [
+        {
+          "type": "LARC",
+          "weight": 0.85
+        },
+        {
+          "type": "LAEC",
+          "weight": 0.15
+        }
+      ],
+      "meta": {
+        "confidence": 0.85,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["Danish Renaissance", "court painter", "technical precision", "workshop leader"],
+        "reasoning": [
+          "Court painters required significant leadership to manage workshops and direct artistic programs",
+          "Danish Renaissance artists balanced assertion with diplomatic court relations",
+          "Technical precision and systematic approach characteristic of Northern European tradition",
+          "Danish temperament and stable court patronage fostered calm working conditions"
+        ],
+        "animal_type": "Hawk",
+        "animal_reasoning": "Strategic court artist with precise technical skills and leadership capabilities"
+      }
+    }
+  },
+  {
+    "name": "after Giotto Italian, 1266/67-1337",
+    "nationality": "Italian",
+    "birth_year": 1310,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 45,
+        "S": 55,
+        "A": 40,
+        "R": 60,
+        "E": 35,
+        "M": 65,
+        "F": 25,
+        "C": 75
+      },
+      "primary_types": [
+        {
+          "type": "SEMC",
+          "weight": 0.80
+        },
+        {
+          "type": "SEFC",
+          "weight": 0.20
+        }
+      ],
+      "meta": {
+        "confidence": 0.75,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["Giotto tradition", "religious art", "emotional expression", "workshop follower"],
+        "reasoning": [
+          "Followers rather than innovators, working within established traditions",
+          "Peaceful continuation of master's style rather than assertive innovation",
+          "Giotto tradition emphasized emotional expression and human connection",
+          "Deeply spiritual focus on religious narratives and divine themes"
+        ],
+        "animal_type": "Deer",
+        "animal_reasoning": "Gentle, spiritually-focused followers maintaining sacred artistic traditions"
+      }
+    }
+  },
+  {
+    "name": "Sir Thomas Lawrence (English, 1769)",
+    "nationality": "English", 
+    "birth_year": 1769,
+    "death_year": 1830,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 85,
+        "S": 15,
+        "A": 80,
+        "R": 20,
+        "E": 60,
+        "M": 40,
+        "F": 90,
+        "C": 10
+      },
+      "primary_types": [
+        {
+          "type": "LAET",
+          "weight": 0.90
+        },
+        {
+          "type": "LAEF",
+          "weight": 0.10
+        }
+      ],
+      "meta": {
+        "confidence": 0.95,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["Royal Academy President", "portrait painter", "social advancement", "romantic style"],
+        "reasoning": [
+          "Leading figure in British art establishment, Royal Academy President",
+          "Aggressively pursued high-profile commissions and social advancement",
+          "Thrived in high society, celebrated for charm and social skills",
+          "Known for anxiety, perfectionism, and emotional volatility"
+        ],
+        "animal_type": "Lion",
+        "animal_reasoning": "Charismatic leader of artistic society with commanding presence and social dominance"
+      }
+    }
+  },
+  {
+    "name": "Attributed to Elisabetta Sirani (Italian, 1638)",
+    "nationality": "Italian",
+    "birth_year": 1638,
+    "death_year": 1665,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 90,
+        "S": 10,
+        "A": 85,
+        "R": 15,
+        "E": 65,
+        "M": 35,
+        "F": 75,
+        "C": 25
+      },
+      "primary_types": [
+        {
+          "type": "LAET",
+          "weight": 0.85
+        },
+        {
+          "type": "LAEF",
+          "weight": 0.15
+        }
+      ],
+      "meta": {
+        "confidence": 0.90,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["women's academy", "workshop leader", "gender barriers", "prolific artist"],
+        "reasoning": [
+          "Ran major workshop, established women's academy, family breadwinner",
+          "Broke gender barriers and aggressively pursued artistic career",
+          "Public demonstrations of painting skill, social workshop environment",
+          "High productivity under pressure, but mysterious early death suggests stress"
+        ],
+        "animal_type": "Eagle",
+        "animal_reasoning": "Visionary leader who soared above gender constraints with exceptional talent"
+      }
+    }
+  },
+  {
+    "name": "Maestro Daddesco Italian (Florence), active about 1310-1350",
+    "nationality": "Italian",
+    "birth_year": 1310,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 55,
+        "S": 45,
+        "A": 50,
+        "R": 50,
+        "E": 40,
+        "M": 60,
+        "F": 30,
+        "C": 70
+      },
+      "primary_types": [
+        {
+          "type": "SREF",
+          "weight": 0.70
+        },
+        {
+          "type": "LREF",
+          "weight": 0.30
+        }
+      ],
+      "meta": {
+        "confidence": 0.70,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["Florentine painter", "post-Giotto", "religious commissions", "transitional period"],
+        "reasoning": [
+          "Regional master with workshop responsibilities but not major innovator",
+          "Post-Giotto tradition emphasized emotional narrative and human feeling",
+          "Primarily spiritual themes with emerging interest in worldly subjects",
+          "Stable religious patronage during Florence's commercial prosperity"
+        ],
+        "animal_type": "Wolf",
+        "animal_reasoning": "Loyal to pack traditions while adapting to changing artistic environment"
+      }
+    }
+  },
+  {
+    "name": "Giovanni Battista Tiepolo",
+    "nationality": "Italian",
+    "birth_year": 1696,
+    "death_year": 1770,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 85,
+        "S": 15,
+        "A": 75,
+        "R": 25,
+        "E": 70,
+        "M": 30,
+        "F": 85,
+        "C": 15
+      },
+      "primary_types": [
+        {
+          "type": "LAEC",
+          "weight": 0.80
+        },
+        {
+          "type": "LAEF",
+          "weight": 0.20
+        }
+      ],
+      "meta": {
+        "confidence": 0.90,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["Venetian painter", "ceiling frescoes", "Rococo", "international commissions"],
+        "reasoning": [
+          "Major workshop leader, international commissions, artistic dynasty",
+          "Pursued grand scale projects across Europe with confidence",
+          "Theatrical, public art for grand spaces and royal courts",
+          "Confident, fluid working style with apparent ease of execution"
+        ],
+        "animal_type": "Peacock",
+        "animal_reasoning": "Spectacular, confident artist displaying virtuosic talents on grand stage"
+      }
+    }
+  },
+  {
+    "name": "Jean-Baptiste-Siméon Chardin",
+    "nationality": "French",
+    "birth_year": 1699,
+    "death_year": 1779,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 45,
+        "S": 55,
+        "A": 30,
+        "R": 70,
+        "E": 80,
+        "M": 20,
+        "F": 25,
+        "C": 75
+      },
+      "primary_types": [
+        {
+          "type": "SRIC",
+          "weight": 0.85
+        },
+        {
+          "type": "SREC",
+          "weight": 0.15
+        }
+      ],
+      "meta": {
+        "confidence": 0.90,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["still life", "genre painting", "domestic scenes", "contemplative"],
+        "reasoning": [
+          "Modest position in art hierarchy, focused on personal vision over leadership",
+          "Peaceful, contemplative approach to art and life",
+          "Highly introverted, focused on intimate domestic subjects",
+          "Embodied calm, meditative approach to painting"
+        ],
+        "animal_type": "Turtle",
+        "animal_reasoning": "Patient, methodical artist finding depth in quiet observation"
+      }
+    }
+  },
+  {
+    "name": "Canaletto",
+    "nationality": "Italian",
+    "birth_year": 1697,
+    "death_year": 1768,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 70,
+        "S": 30,
+        "A": 60,
+        "R": 40,
+        "E": 90,
+        "M": 10,
+        "F": 85,
+        "C": 15
+      },
+      "primary_types": [
+        {
+          "type": "LRMC",
+          "weight": 0.80
+        },
+        {
+          "type": "LREC",
+          "weight": 0.20
+        }
+      ],
+      "meta": {
+        "confidence": 0.85,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["view painter", "Venice", "topographical", "camera obscura"],
+        "reasoning": [
+          "Dominated view painting market, influenced entire genre",
+          "Highly systematic, technical approach using optical devices",
+          "Work focused on public spaces and social interaction",
+          "Concentrated on physical reality and commercial success"
+        ],
+        "animal_type": "Owl",
+        "animal_reasoning": "Precise observer with systematic approach to documenting reality"
+      }
+    }
+  },
+  {
+    "name": "François Boucher",
+    "nationality": "French",
+    "birth_year": 1703,
+    "death_year": 1770,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 85,
+        "S": 15,
+        "A": 75,
+        "R": 25,
+        "E": 50,
+        "M": 50,
+        "F": 85,
+        "C": 15
+      },
+      "primary_types": [
+        {
+          "type": "LAMC",
+          "weight": 0.80
+        },
+        {
+          "type": "LAMF",
+          "weight": 0.20
+        }
+      ],
+      "meta": {
+        "confidence": 0.85,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["Rococo", "court painter", "Madame de Pompadour", "decorative"],
+        "reasoning": [
+          "Major court position, academy director, workshop leader",
+          "Confidently promoted Rococo aesthetic against criticism",
+          "Court artist focused on social pleasure and display",
+          "Emphasized worldly pleasure, luxury, and sensual beauty"
+        ],
+        "animal_type": "Fox",
+        "animal_reasoning": "Clever, socially adept artist who charmed patrons with sophisticated pleasures"
+      }
+    }
+  },
+  {
+    "name": "Joshua Reynolds",
+    "nationality": "English",
+    "birth_year": 1723,
+    "death_year": 1792,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 90,
+        "S": 10,
+        "A": 80,
+        "R": 20,
+        "E": 85,
+        "M": 15,
+        "F": 70,
+        "C": 30
+      },
+      "primary_types": [
+        {
+          "type": "LARC",
+          "weight": 0.85
+        },
+        {
+          "type": "LAEC",
+          "weight": 0.15
+        }
+      ],
+      "meta": {
+        "confidence": 0.95,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["Royal Academy", "Grand Manner", "portrait", "theoretical writings"],
+        "reasoning": [
+          "Founded Royal Academy, shaped artistic theory and practice",
+          "Actively promoted high art ideals and professional status",
+          "Systematic theorist who intellectualized artistic practice",
+          "Famous host, social leader of artistic and literary circles"
+        ],
+        "animal_type": "Lion",
+        "animal_reasoning": "Dominant leader who established artistic authority through intellect and social power"
+      }
+    }
+  },
+  {
+    "name": "Thomas Gainsborough",
+    "nationality": "English",
+    "birth_year": 1727,
+    "death_year": 1788,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 60,
+        "S": 40,
+        "A": 45,
+        "R": 55,
+        "E": 35,
+        "M": 65,
+        "F": 40,
+        "C": 60
+      },
+      "primary_types": [
+        {
+          "type": "SEFF",
+          "weight": 0.75
+        },
+        {
+          "type": "LEFF",
+          "weight": 0.25
+        }
+      ],
+      "meta": {
+        "confidence": 0.80,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["landscape", "portraitist", "natural grace", "bohemian"],
+        "reasoning": [
+          "Major artist but preferred personal vision over institutional leadership",
+          "Emphasized feeling and natural expression over systematic theory",
+          "Found spiritual connection with nature, painted portraits reluctantly",
+          "Highly adaptable, experimental with technique and subject matter"
+        ],
+        "animal_type": "Deer",
+        "animal_reasoning": "Gentle, nature-loving artist who preferred harmony to competition"
+      }
+    }
+  },
+  {
+    "name": "Jean-Honoré Fragonard",
+    "nationality": "French",
+    "birth_year": 1732,
+    "death_year": 1806,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 55,
+        "S": 45,
+        "A": 70,
+        "R": 30,
+        "E": 30,
+        "M": 70,
+        "F": 75,
+        "C": 25
+      },
+      "primary_types": [
+        {
+          "type": "SAEF",
+          "weight": 0.80
+        },
+        {
+          "type": "LAEF",
+          "weight": 0.20
+        }
+      ],
+      "meta": {
+        "confidence": 0.85,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["Rococo", "sensual", "rapid brushwork", "intimate subjects"],
+        "reasoning": [
+          "Bold, confident artistic expression and technique",
+          "Highly emotional, spontaneous approach to painting",
+          "Celebratory art focused on social pleasure and intimacy",
+          "Remarkably adaptable across different periods and patrons"
+        ],
+        "animal_type": "Dolphin",
+        "animal_reasoning": "Playful, emotionally intelligent artist who brought joy to art"
+      }
+    }
+  },
+  {
+    "name": "Elisabeth Louise Vigée Le Brun",
+    "nationality": "French",
+    "birth_year": 1755,
+    "death_year": 1842,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 80,
+        "S": 20,
+        "A": 75,
+        "R": 25,
+        "E": 60,
+        "M": 40,
+        "F": 80,
+        "C": 20
+      },
+      "primary_types": [
+        {
+          "type": "LAET",
+          "weight": 0.85
+        },
+        {
+          "type": "LAEF",
+          "weight": 0.15
+        }
+      ],
+      "meta": {
+        "confidence": 0.90,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["Marie Antoinette", "female artist", "European courts", "autobiography"],
+        "reasoning": [
+          "Broke gender barriers, ran international career independently",
+          "Assertively pursued opportunities across European courts",
+          "Thrived in court society, maintained extensive social networks",
+          "Maintained artistic career through revolutionary turbulence"
+        ],
+        "animal_type": "Eagle",
+        "animal_reasoning": "Soaring above limitations with determination and adaptability"
+      }
+    }
+  },
+  {
+    "name": "Angelica Kauffman",
+    "nationality": "Swiss",
+    "birth_year": 1741,
+    "death_year": 1807,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 75,
+        "S": 25,
+        "A": 70,
+        "R": 30,
+        "E": 80,
+        "M": 20,
+        "F": 45,
+        "C": 55
+      },
+      "primary_types": [
+        {
+          "type": "LARC",
+          "weight": 0.80
+        },
+        {
+          "type": "LAEC",
+          "weight": 0.20
+        }
+      ],
+      "meta": {
+        "confidence": 0.85,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["Neoclassical", "Royal Academy", "history painting", "classical learning"],
+        "reasoning": [
+          "Academy founder, broke gender barriers in serious art",
+          "Assertively pursued high art status against social expectations",
+          "Intellectual approach to classical and historical subjects",
+          "International career required extensive social networking"
+        ],
+        "animal_type": "Owl",
+        "animal_reasoning": "Wise, learned artist who combined intelligence with artistic skill"
+      }
+    }
+  },
+  {
+    "name": "Francisco Goya",
+    "nationality": "Spanish",
+    "birth_year": 1746,
+    "death_year": 1828,
+    "artist_type": "Historical",
+    "apt_inference": {
+      "dimensions": {
+        "L": 85,
+        "S": 15,
+        "A": 85,
+        "R": 15,
+        "E": 40,
+        "M": 60,
+        "F": 50,
+        "C": 50
+      },
+      "primary_types": [
+        {
+          "type": "LAEF",
+          "weight": 0.80
+        },
+        {
+          "type": "LAET",
+          "weight": 0.20
+        }
+      ],
+      "meta": {
+        "confidence": 0.95,
+        "source": "comprehensive_biographical_analysis",
+        "keywords": ["court painter", "social critic", "Black Paintings", "proto-modern"],
+        "reasoning": [
+          "Major court position evolved into artistic independence and innovation",
+          "Increasingly assertive in social criticism and artistic experimentation",
+          "Emotional intensity and psychological insight dominated rational planning",
+          "Extraordinary adaptability across different styles and periods"
+        ],
+        "animal_type": "Wolf",
+        "animal_reasoning": "Lone visionary who transformed from pack member to independent hunter"
+      }
+    }
+  }
+]

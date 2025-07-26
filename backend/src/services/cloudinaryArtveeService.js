@@ -69,7 +69,7 @@ class CloudinaryArtveeService {
 
       // Cloudinary URL 추가
       const artworksWithCloudinary = selected.map(artwork => {
-        const cloudinaryData = this.cloudinaryUrls[artwork.artveeId] || {};
+        const cloudinaryData = (this.cloudinaryUrls && this.cloudinaryUrls[artwork.artveeId]) || {};
         
         return {
           ...artwork,
@@ -91,7 +91,7 @@ class CloudinaryArtveeService {
   // Cloudinary URL 생성 (업로드된 경우 사용, 아니면 동적 생성)
   getCloudinaryUrl(artveeId, type = 'full') {
     // 이미 업로드된 URL이 있으면 사용
-    if (this.cloudinaryUrls[artveeId]) {
+    if (this.cloudinaryUrls && this.cloudinaryUrls[artveeId]) {
       const urls = this.cloudinaryUrls[artveeId];
       if (type === 'thumbnail' && urls.thumbnail) {
         return urls.thumbnail.secure_url;
@@ -163,7 +163,7 @@ class CloudinaryArtveeService {
       const selected = shuffled.slice(0, limit);
 
       return selected.map(artwork => {
-        const cloudinaryData = this.cloudinaryUrls[artwork.artveeId] || {};
+        const cloudinaryData = (this.cloudinaryUrls && this.cloudinaryUrls[artwork.artveeId]) || {};
         
         return {
           ...artwork,
@@ -191,7 +191,7 @@ class CloudinaryArtveeService {
         .slice(0, limit);
 
       return artistArtworks.map(artwork => {
-        const cloudinaryData = this.cloudinaryUrls[artwork.artveeId] || {};
+        const cloudinaryData = (this.cloudinaryUrls && this.cloudinaryUrls[artwork.artveeId]) || {};
         
         return {
           ...artwork,

@@ -12,11 +12,12 @@ import {
   MapPin,
   Globe,
   DollarSign,
-  Image,
+  Image as ImageIcon,
   Tag,
   Plus,
   RefreshCw
 } from 'lucide-react';
+import Image from 'next/image';
 
 interface Exhibition {
   id: string;
@@ -251,11 +252,15 @@ export function ExhibitionManager({ onUpdate }: ExhibitionManagerProps) {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-3">
                       {exhibition.image_url && (
-                        <img
-                          src={exhibition.image_url}
-                          alt={exhibition.title}
-                          className="w-16 h-16 object-cover rounded-lg"
-                        />
+                        <div className="relative w-16 h-16">
+                          <Image
+                            src={exhibition.image_url}
+                            alt={exhibition.title}
+                            fill
+                            className="object-cover rounded-lg"
+                            sizes="64px"
+                          />
+                        </div>
                       )}
                       <div>
                         <h3 className="text-lg font-semibold text-white mb-1">
@@ -416,11 +421,13 @@ function ExhibitionDetailModal({ exhibition, onClose }: { exhibition: Exhibition
 
         <div className="space-y-6">
           {exhibition.image_url && (
-            <div>
-              <img
+            <div className="relative w-full h-64">
+              <Image
                 src={exhibition.image_url}
                 alt={exhibition.title}
-                className="w-full h-64 object-cover rounded-lg"
+                fill
+                className="object-cover rounded-lg"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
           )}

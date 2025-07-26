@@ -12,7 +12,7 @@ class AuthController {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      const { email, password, nickname, age, location, personalManifesto } = req.body;
+      const { email, password, nickname, age, location, personalManifesto, userPurpose } = req.body;
 
       // Check if user exists
       const existingUser = await UserModel.findByEmail(email);
@@ -27,7 +27,8 @@ class AuthController {
         nickname,
         age,
         location,
-        personalManifesto
+        personalManifesto,
+        userPurpose: userPurpose || 'exploring'
       });
 
       // Generate token pair
@@ -263,6 +264,36 @@ class AuthController {
     } catch (error) {
       console.error('Revoke session error:', error);
       res.status(500).json({ error: 'Failed to revoke session' });
+    }
+  }
+
+  async updateUserPurpose(req, res) {
+    try {
+      const userId = req.userId;
+      const { userPurpose } = req.body;
+
+      if (!userPurpose) {
+        return res.status(400).json({ error: 'User purpose is required' });
+      }
+
+      const validPurposes = ['exploring', 'dating', 'social', 'family', 'professional'];
+      if (!validPurposes.includes(userPurpose)) {
+        return res.status(400).json({ error: 'Invalid user purpose' });
+      }
+
+      const updatedUser = await UserModel.updateUserPurpose(userId, userPurpose);
+      
+      if (!updatedUser) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      res.json({ 
+        message: 'User purpose updated successfully',
+        userPurpose: updatedUser.user_purpose
+      });
+    } catch (error) {
+      console.error('Update user purpose error:', error);
+      res.status(500).json({ error: 'Failed to update user purpose' });
     }
   }
 }

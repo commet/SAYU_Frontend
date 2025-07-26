@@ -1,0 +1,204 @@
+{
+  "metadata": {
+    "totalExhibitions": 0,
+    "totalSaved": 0,
+    "totalVenues": 23,
+    "totalErrors": 38,
+    "startTime": "2025-07-26T12:30:37.999Z",
+    "endTime": "2025-07-26T12:32:44.713Z",
+    "source": "artmap.com"
+  },
+  "exhibitions": [],
+  "errors": [
+    {
+      "type": "save_exhibition",
+      "exhibition": "Marta Astfalck-Vietz",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Ștefan Bertalan",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Plants_Intelligence",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Monira Al Qadiri",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Gala Hernández López",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "The Daughters’ Trilogy. Chapter II: Bindung & communion",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Karla Black",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Klara Lidén",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Ser Serpas",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Ghislaine Leung",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Franka Hörnschemeyer",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Dala Nasser",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Other Intelligences",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Daniel Hölzl",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Fabian Knecht",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Giuseppe Penone",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "VAGINAL DAVIS: FABELHAFTES PRODUKT",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Kerstin Brätsch",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Psychonauts",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Provenances",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Yoko Ono. TOUCH",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Shu Lea Cheang",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Emma Talbot",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "The Subterranean Sky",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "One Becomes Many",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Nora Turato",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Santiago Sierra",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Nora Turato",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Kerstin Brätsch",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Pairings",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "A Plant. A Person. A Life.",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Abraham Cruzvillegas: Splitogetherness: another groove",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Gala Porras-Kim: The categorical bind",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Salvo, Andreas Schulze: About Painting",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Rosemarie Trockel: Material",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Michail Pirgelis: Seven Springs",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Language/Text/Image",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    },
+    {
+      "type": "save_exhibition",
+      "exhibition": "Richard Long - Rhine Driftwood Line",
+      "error": "column \"image_url\" of relation \"exhibitions\" does not exist"
+    }
+  ]
+}

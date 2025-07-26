@@ -15,6 +15,7 @@ import {
   UserMinus,
   Volume2
 } from 'lucide-react';
+import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -269,11 +270,15 @@ export function RealtimeGalleryExplorer({
                 )}
                 onClick={() => handleArtworkSelect(artwork)}
               >
-                <img
-                  src={artwork.image}
-                  alt={artwork.title}
-                  className="w-full h-32 object-cover"
-                />
+                <div className="relative w-full h-32">
+                  <Image
+                    src={artwork.image}
+                    alt={artwork.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                  />
+                </div>
                 
                 {/* 다른 참가자가 보고 있는 작품 표시 */}
                 {focusedBy.length > 0 && (

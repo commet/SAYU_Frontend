@@ -97,6 +97,10 @@ const artistRoutes = require('./routes/artistRoutes');
 const databaseRecommendationRoutes = require('./routes/databaseRecommendationRoutes');
 const exhibitionCollectionRoutes = require('./routes/exhibitionCollectionRoutes');
 const easterEggRoutes = require('./routes/easterEggRoutes');
+const dailyHabitRoutes = require('./routes/dailyHabitRoutes');
+const artistDataRoutes = require('./routes/artistDataRoutes');
+const venueRoutes = require('./routes/venueRoutes');
+const artveeArtworkRoutes = require('./routes/artveeArtworkRoutes');
 
 const app = express();
 
@@ -303,7 +307,13 @@ app.use('/api/chatbot', chatbotRoutes);
 // app.use('/api/contemplative', contemplativeRoutes); // Temporarily disabled for debugging
 app.use('/api/apt', aptRecommendationRoutes); // APT 기반 추천 시스템
 app.use('/api/easter-eggs', easterEggRoutes);
+app.use('/api/daily-habit', dailyHabitRoutes); // Daily Art Habit 시스템
+app.use('/api/artist-data', artistDataRoutes); // 아티스트 데이터 수집 및 관리
 app.use('/api/matching', require('./routes/matchingRoutes')); // 매칭 시스템
+app.use('/api/waitlist', require('./routes/waitlistRoutes')); // 베타 대기 목록
+app.use('/api/art-pulse', require('./routes/artPulseRoutes')); // Art Pulse 실시간 공동 감상
+app.use('/api/venues', venueRoutes); // 다국어 지원 venue API
+app.use('/api/artvee-artworks', artveeArtworkRoutes); // Artvee 작품-작가 연결 API
 
 // Duplicate health check endpoint removed - using the comprehensive one above (lines 174-186)
 
@@ -334,6 +344,20 @@ async function startServer() {
     if (process.env.NODE_ENV === 'production' || process.env.ENABLE_EMAIL_AUTOMATION === 'true') {
       require('./services/emailAutomation');
       log.info('Email automation initialized');
+    }
+
+    // Initialize Daily Art Habit cron jobs
+    if (process.env.NODE_ENV === 'production' || process.env.ENABLE_DAILY_HABIT_JOBS === 'true') {
+      const { initializeDailyHabitJobs } = require('./jobs/dailyHabitNotifications');
+      initializeDailyHabitJobs();
+      log.info('Daily Art Habit cron jobs initialized');
+    }
+
+    // Initialize Global Museum Collection cron jobs
+    if (process.env.NODE_ENV === 'production' || process.env.ENABLE_GLOBAL_MUSEUM_COLLECTION === 'true') {
+      const globalMuseumCronManager = require('./cron/globalMuseumCron');
+      globalMuseumCronManager.startAllJobs();
+      log.info('Global Museum Collection cron jobs initialized');
     }
     
     const server = app.listen(PORT, '0.0.0.0', () => {

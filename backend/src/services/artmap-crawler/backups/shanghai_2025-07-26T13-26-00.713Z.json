@@ -1,0 +1,112 @@
+{
+  "city": "shanghai",
+  "country": "CN",
+  "startTime": "2025-07-26T13:25:17.375Z",
+  "venuesProcessed": 8,
+  "exhibitionsFound": 0,
+  "exhibitionsSaved": 0,
+  "upcomingExhibitions": 0,
+  "venuesWithCoordinates": 0,
+  "errors": [],
+  "exhibitions": [],
+  "venues": [
+    {
+      "name": "",
+      "url": "https://artmap.com/profiles/",
+      "address": "",
+      "slug": null,
+      "city": "shanghai",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "How Art Museum",
+      "url": "https://artmap.com/howartmuseum",
+      "address": "",
+      "slug": null,
+      "city": "shanghai",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "How Art Museum",
+      "url": "https://artmap.com/howartmuseum",
+      "address": "",
+      "slug": null,
+      "city": "shanghai",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "How Art Museum",
+      "url": "https://artmap.com/howartmuseum",
+      "address": "",
+      "slug": null,
+      "city": "shanghai",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "K11 Art Foundation",
+      "url": "https://artmap.com/k11art",
+      "address": "",
+      "slug": null,
+      "city": "shanghai",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "K11 Art Foundation",
+      "url": "https://artmap.com/k11art",
+      "address": "",
+      "slug": null,
+      "city": "shanghai",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "K11 Art Foundation",
+      "url": "https://artmap.com/k11art",
+      "address": "",
+      "slug": null,
+      "city": "shanghai",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    },
+    {
+      "name": "Long Museum",
+      "url": "https://artmap.com/longmarch",
+      "address": "",
+      "slug": null,
+      "city": "shanghai",
+      "type": "institutions",
+      "phone": "",
+      "email": "",
+      "openingHours": "",
+      "description": ""
+    }
+  ],
+  "endTime": "2025-07-26T13:26:00.712Z",
+  "duration": 43.337
+}
