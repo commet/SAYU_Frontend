@@ -91,4 +91,6 @@ const adminMiddleware = async (req, res, next) => {
 };
 
 module.exports = authMiddleware;
+module.exports.authenticate = authMiddleware;
+module.exports.authenticateUser = authMiddleware;
 module.exports.adminMiddleware = adminMiddleware;

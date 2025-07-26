@@ -126,8 +126,8 @@ export function MobileNav() {
                   href={item.href}
                   className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-all ${
                     active
-                      ? 'text-purple-600 bg-purple-500/10 scale-110'
-                      : 'text-gray-600 hover:text-purple-500 hover:scale-105'
+                      ? 'text-sayu-tangerine-zest bg-sayu-tangerine-zest/10 scale-110'
+                      : 'text-sayu-text-secondary hover:text-sayu-tangerine-zest hover:scale-105'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
@@ -141,8 +141,8 @@ export function MobileNav() {
               onClick={() => setIsOpen(!isOpen)}
               className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-all ${
                 isOpen
-                  ? 'text-purple-600 bg-purple-500/10 scale-110'
-                  : 'text-gray-600 hover:text-purple-500 hover:scale-105'
+                  ? 'text-sayu-tangerine-zest bg-sayu-tangerine-zest/10 scale-110'
+                  : 'text-sayu-text-secondary hover:text-sayu-tangerine-zest hover:scale-105'
               }`}
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -175,10 +175,10 @@ export function MobileNav() {
               <div className="p-6">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-bold text-white">Navigation</h2>
+                  <h2 className="text-xl font-bold text-sayu-text-primary">Navigation</h2>
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="p-2 text-gray-400 hover:text-white transition-colors"
+                    className="p-2 text-sayu-text-secondary hover:text-sayu-text-primary transition-colors"
                   >
                     <X className="w-6 h-6" />
                   </button>
@@ -186,7 +186,7 @@ export function MobileNav() {
 
                 {/* Main Navigation */}
                 <div className="space-y-2 mb-8">
-                  <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wide mb-3">
+                  <h3 className="text-sm font-medium text-sayu-text-secondary uppercase tracking-wide mb-3">
                     Explore
                   </h3>
                   {navigationItems.map((item) => {
@@ -199,12 +199,12 @@ export function MobileNav() {
                         href={item.href}
                         className={`flex items-center gap-4 p-4 rounded-xl transition-colors ${
                           active
-                            ? 'bg-purple-500/20 border border-purple-500/30 text-purple-400'
-                            : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                            ? 'bg-sayu-tangerine-zest/20 border border-sayu-tangerine-zest/30 text-sayu-tangerine-zest'
+                            : 'text-sayu-text-primary hover:bg-sayu-powder-blue/10 hover:text-sayu-tangerine-zest'
                         }`}
                       >
                         <div className={`p-2 rounded-lg ${
-                          active ? 'bg-purple-500/20' : 'bg-gray-800'
+                          active ? 'bg-sayu-tangerine-zest/20' : 'bg-sayu-powder-blue/20'
                         }`}>
                           <Icon className="w-5 h-5" />
                         </div>
@@ -220,7 +220,7 @@ export function MobileNav() {
                 {/* User Section */}
                 {user && (
                   <div className="space-y-2">
-                    <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wide mb-3">
+                    <h3 className="text-sm font-medium text-sayu-text-secondary uppercase tracking-wide mb-3">
                       Your Account
                     </h3>
                     {userItems.map((item) => {
@@ -233,12 +233,12 @@ export function MobileNav() {
                           href={item.href}
                           className={`flex items-center gap-4 p-4 rounded-xl transition-colors ${
                             active
-                              ? 'bg-purple-500/20 border border-purple-500/30 text-purple-400'
-                              : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                              ? 'bg-sayu-tangerine-zest/20 border border-sayu-tangerine-zest/30 text-sayu-tangerine-zest'
+                              : 'text-sayu-text-primary hover:bg-sayu-powder-blue/10 hover:text-sayu-tangerine-zest'
                           }`}
                         >
                           <div className={`p-2 rounded-lg ${
-                            active ? 'bg-purple-500/20' : 'bg-gray-800'
+                            active ? 'bg-sayu-tangerine-zest/20' : 'bg-sayu-powder-blue/20'
                           }`}>
                             <Icon className="w-5 h-5" />
                           </div>
@@ -254,16 +254,16 @@ export function MobileNav() {
 
                 {/* User Info */}
                 {user && (
-                  <div className="mt-8 pt-6 border-t border-gray-800">
-                    <div className="flex items-center gap-3 p-4 bg-gray-800/50 rounded-xl">
-                      <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
+                  <div className="mt-8 pt-6 border-t border-sayu-powder-blue/30">
+                    <div className="flex items-center gap-3 p-4 bg-sayu-powder-blue/10 rounded-xl">
+                      <div className="w-10 h-10 bg-gradient-to-br from-sayu-tangerine-zest to-sayu-lavender-dream rounded-full flex items-center justify-center text-white font-semibold">
                         {user.nickname?.charAt(0)?.toUpperCase() || user.email?.charAt(0)?.toUpperCase()}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="font-medium text-white truncate">
+                        <div className="font-medium text-sayu-text-primary truncate">
                           {user.nickname || user.email}
                         </div>
-                        <div className="text-sm text-gray-400">
+                        <div className="text-sm text-sayu-text-secondary">
                           Aesthetic Explorer
                         </div>
                       </div>
@@ -273,16 +273,16 @@ export function MobileNav() {
 
                 {/* Auth Actions */}
                 {!user && (
-                  <div className="mt-8 pt-6 border-t border-gray-800 space-y-3">
+                  <div className="mt-8 pt-6 border-t border-sayu-powder-blue/30 space-y-3">
                     <Link
                       href="/login"
-                      className="block w-full text-center py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl transition-colors"
+                      className="block w-full text-center py-3 bg-sayu-tangerine-zest hover:bg-sayu-dark-purple text-white rounded-xl transition-colors shadow-md hover:shadow-lg"
                     >
                       Sign In
                     </Link>
                     <Link
                       href="/register"
-                      className="block w-full text-center py-3 border border-gray-600 hover:border-gray-500 text-gray-300 rounded-xl transition-colors"
+                      className="block w-full text-center py-3 border border-sayu-powder-blue/50 hover:border-sayu-powder-blue text-sayu-text-primary hover:bg-sayu-powder-blue/10 rounded-xl transition-colors"
                     >
                       Create Account
                     </Link>

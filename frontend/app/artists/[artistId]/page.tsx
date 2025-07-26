@@ -113,7 +113,7 @@ export default function ArtistProfilePage() {
       if (user) {
         try {
           const followingList = await followAPI.getFollowing(user.id);
-          setIsFollowing(followingList.some(f => f.id === artistId));
+          setIsFollowing(followingList.users.some((f: any) => f.id === artistId));
         } catch (error) {
           console.error('Failed to check following status:', error);
         }

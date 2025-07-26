@@ -65,7 +65,7 @@ export default function ArtworkRecommendationCard({
       transition={{ duration: 0.3 }}
     >
       <Card className="artwork-recommendation-card overflow-hidden">
-        <div className="relative aspect-[4/5] bg-gray-100">
+        <div className="relative aspect-[4/5] bg-sayu-powder-blue/10">
           {!imageError ? (
             <Image
               src={artwork.thumbnailUrl || artwork.imageUrl}
@@ -76,14 +76,14 @@ export default function ArtworkRecommendationCard({
               onError={() => setImageError(true)}
             />
           ) : (
-            <div className="flex items-center justify-center h-full bg-gray-200">
-              <span className="text-gray-400">Image unavailable</span>
+            <div className="flex items-center justify-center h-full bg-sayu-powder-blue/20">
+              <span className="text-sayu-text-muted">Image unavailable</span>
             </div>
           )}
           
           {/* Match reasons badge */}
           {matchReasons.length > 0 && (
-            <div className="absolute top-2 left-2 bg-purple-600 text-white text-xs px-2 py-1 rounded-full">
+            <div className="absolute top-2 left-2 bg-sayu-tangerine-zest text-white text-xs px-2 py-1 rounded-full shadow-sm">
               {matchReasons[0]}
             </div>
           )}
@@ -104,15 +104,15 @@ export default function ArtworkRecommendationCard({
                 <Button
                   size="sm"
                   variant="ghost"
-                  className="text-white hover:bg-white/20"
+                  className="text-white hover:bg-sayu-bg-card/30"
                   onClick={handleLike}
                 >
-                  <Heart className={`w-5 h-5 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
+                  <Heart className={`w-5 h-5 ${isLiked ? 'fill-sayu-double-bounce text-sayu-double-bounce' : ''}`} />
                 </Button>
                 <Button
                   size="sm"
                   variant="ghost"
-                  className="text-white hover:bg-white/20"
+                  className="text-white hover:bg-sayu-bg-card/30"
                   onClick={() => setShowInfo(!showInfo)}
                 >
                   <Info className="w-5 h-5" />
@@ -131,17 +131,17 @@ export default function ArtworkRecommendationCard({
               exit={{ height: 0 }}
               className="overflow-hidden"
             >
-              <div className="p-4 space-y-3 bg-gray-50 dark:bg-gray-900">
+              <div className="p-4 space-y-3 bg-sayu-ivory-mist dark:bg-sayu-dark-purple/50">
                 <div>
                   <h4 className="font-semibold text-sm mb-1">
                     {language === 'ko' ? '작품 정보' : 'Artwork Details'}
                   </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-sayu-text-secondary dark:text-sayu-text-secondary">
                     {artwork.date && <span>{artwork.date} • </span>}
                     {language === 'ko' && artwork.mediumKo ? artwork.mediumKo : artwork.medium}
                   </p>
                   {artwork.dimensions && (
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-sayu-text-secondary dark:text-sayu-text-secondary">
                       {artwork.dimensions}
                     </p>
                   )}
@@ -156,7 +156,7 @@ export default function ArtworkRecommendationCard({
                       {artwork.emotionalTags.map((tag, index) => (
                         <span
                           key={index}
-                          className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full"
+                          className="text-xs bg-sayu-tangerine-zest/10 text-sayu-tangerine-zest px-2 py-1 rounded-full"
                         >
                           {tag}
                         </span>
@@ -186,7 +186,7 @@ export default function ArtworkRecommendationCard({
                   </Button>
                 </div>
                 
-                <p className="text-xs text-gray-500 text-center">
+                <p className="text-xs text-sayu-text-muted text-center">
                   {artwork.sourceMuseum} • {artwork.license}
                 </p>
               </div>

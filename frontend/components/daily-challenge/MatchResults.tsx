@@ -12,7 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuCheckboxItem } from '@/components/ui/dropdown-menu';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { toast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { dailyChallengeApi } from '@/lib/api/daily-challenge';
 import { userActivityApi } from '@/lib/api/collections';
 import type { ChallengeMatch, DailyChallengeStats } from '@/types/daily-challenge';
@@ -44,6 +44,7 @@ export function MatchResults({ challengeDate }: MatchResultsProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(false);
+  const { toast } = useToast();
   
   // 필터 상태
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({

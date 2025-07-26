@@ -77,12 +77,12 @@ export function ArtworkCard({
       onClick={handleClick}
     >
       <div className={cn(
-        "overflow-hidden bg-card",
-        variant === 'default' && "artwork-frame",
+        "overflow-hidden bg-sayu-bg-card border border-sayu-powder-blue/20 shadow-md hover:shadow-lg transition-all duration-300",
+        variant === 'default' && "artwork-frame rounded-xl",
         variant === 'minimal' && "rounded-lg"
       )}>
         {/* Image Container */}
-        <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+        <div className="relative aspect-[4/5] overflow-hidden bg-sayu-powder-blue/10">
           {!imageLoaded && (
             <div className="absolute inset-0 skeleton" />
           )}
@@ -118,10 +118,10 @@ export function ArtworkCard({
                 whileTap={{ scale: 0.95 }}
                 onClick={(e) => handleAction(e, () => onLike(id))}
                 className={cn(
-                  "p-2.5 rounded-full backdrop-blur-sm transition-colors",
+                  "p-2.5 rounded-full backdrop-blur-sm transition-colors shadow-sm",
                   isLiked 
-                    ? "bg-red-500 text-white" 
-                    : "bg-white/90 text-gray-700 hover:bg-white"
+                    ? "bg-sayu-double-bounce text-white" 
+                    : "bg-sayu-bg-card/90 text-sayu-text-primary hover:bg-sayu-bg-card"
                 )}
                 aria-label={isLiked ? "Unlike artwork" : "Like artwork"}
               >
@@ -135,10 +135,10 @@ export function ArtworkCard({
                 whileTap={{ scale: 0.95 }}
                 onClick={(e) => handleAction(e, () => onSave(id))}
                 className={cn(
-                  "p-2.5 rounded-full backdrop-blur-sm transition-colors",
+                  "p-2.5 rounded-full backdrop-blur-sm transition-colors shadow-sm",
                   isSaved 
-                    ? "bg-primary text-primary-foreground" 
-                    : "bg-white/90 text-gray-700 hover:bg-white"
+                    ? "bg-sayu-tangerine-zest text-white" 
+                    : "bg-sayu-bg-card/90 text-sayu-text-primary hover:bg-sayu-bg-card"
                 )}
                 aria-label={isSaved ? "Remove from collection" : "Save to collection"}
               >
@@ -151,7 +151,7 @@ export function ArtworkCard({
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={(e) => handleAction(e, () => onShare(id))}
-                className="p-2.5 rounded-full bg-white/90 text-gray-700 hover:bg-white backdrop-blur-sm transition-colors"
+                className="p-2.5 rounded-full bg-sayu-bg-card/90 text-sayu-text-primary hover:bg-sayu-bg-card backdrop-blur-sm transition-colors shadow-sm"
                 aria-label="Share artwork"
               >
                 <ShareNetwork size={18} />
@@ -162,7 +162,7 @@ export function ArtworkCard({
           {/* Viewed Indicator */}
           {isViewed && (
             <div className="absolute top-3 left-3">
-              <div className="p-1.5 rounded-full bg-green-500 text-white">
+              <div className="p-1.5 rounded-full bg-sayu-fern-green text-white shadow-sm">
                 <Eye size={14} weight="fill" />
               </div>
             </div>
@@ -184,7 +184,7 @@ export function ArtworkCard({
           <div className="flex items-center justify-between mb-0.5">
             <div className="flex items-center gap-2">
               <p 
-                className="text-sm text-muted-foreground font-medium hover:text-primary cursor-pointer transition-colors"
+                className="text-sm text-sayu-text-secondary font-medium hover:text-sayu-tangerine-zest cursor-pointer transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
                   if (artistId) router.push(`/artists/${artistId}`);
@@ -203,8 +203,8 @@ export function ArtworkCard({
                   className={cn(
                     "flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium transition-colors",
                     isFollowingArtist
-                      ? "bg-primary/10 text-primary hover:bg-primary/20"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      ? "bg-sayu-tangerine-zest/10 text-sayu-tangerine-zest hover:bg-sayu-tangerine-zest/20"
+                      : "bg-sayu-powder-blue/20 text-sayu-text-primary hover:bg-sayu-powder-blue/30"
                   )}
                 >
                   <UserPlus size={12} weight={isFollowingArtist ? "fill" : "regular"} />
@@ -216,14 +216,14 @@ export function ArtworkCard({
             </div>
           </div>
           
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-sayu-text-muted">
             {year}
             {medium && ` • ${medium}`}
           </p>
           
           {museum && variant !== 'minimal' && (
-            <div className="mt-3 pt-3 border-t">
-              <p className="text-xs text-muted-foreground">
+            <div className="mt-3 pt-3 border-t border-sayu-powder-blue/30">
+              <p className="text-xs text-sayu-text-muted">
                 {museum}
               </p>
             </div>

@@ -34,9 +34,9 @@ export function GalleryLayout({
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-sayu-bg-primary">
       {/* Elegant Header */}
-      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
+      <header className="sticky top-0 z-50 bg-sayu-bg-primary/95 backdrop-blur-sm border-b border-sayu-powder-blue/30">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -45,7 +45,7 @@ export function GalleryLayout({
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => router.back()}
-                  className="p-2 rounded-lg hover:bg-secondary transition-colors"
+                  className="p-2 rounded-lg hover:bg-sayu-powder-blue/20 transition-colors"
                   aria-label="Go back"
                 >
                   <ArrowLeft size={20} weight="bold" />
@@ -55,7 +55,7 @@ export function GalleryLayout({
                 <div>
                   <h1 className="text-2xl font-display">{title}</h1>
                   {subtitle && (
-                    <p className="text-sm text-muted-foreground mt-0.5">{subtitle}</p>
+                    <p className="text-sm text-sayu-text-secondary mt-0.5">{subtitle}</p>
                   )}
                 </div>
               )}
@@ -86,7 +86,7 @@ export function GalleryLayout({
       </AnimatePresence>
 
       {/* Bottom Navigation - Mobile Only */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t md:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 bg-sayu-bg-primary/95 backdrop-blur-sm border-t border-sayu-powder-blue/30 md:hidden">
         <div className="flex items-center justify-around py-2">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
@@ -98,7 +98,7 @@ export function GalleryLayout({
                 href={item.href}
                 className={cn(
                   "flex flex-col items-center gap-1 p-2 rounded-lg transition-colors",
-                  isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                  isActive ? "text-sayu-tangerine-zest" : "text-sayu-text-secondary hover:text-sayu-text-primary"
                 )}
               >
                 <Icon size={24} weight={isActive ? "fill" : "regular"} />

@@ -64,12 +64,49 @@
   --color-border-strong: 204 204 204;           /* hsl(0, 0%, 80%) */
   --color-border-focus: 59 130 206;             /* hsl(211, 65%, 45%) */
   
-  /* === BRAND COLORS (Korean 5 Elements) === */
-  --color-brand-primary: 59 130 206;            /* 청(Blue) - Trust & Depth */
-  --color-brand-secondary: 230 57 70;           /* 적(Red) - Passion & Energy */
-  --color-brand-tertiary: 241 196 15;           /* 황(Yellow) - Creativity */
-  --color-brand-accent: 147 51 234;             /* Dynamic purple */
-  --color-brand-muted: 107 114 142;             /* Muted brand */
+  /* === SAYU BRAND COLORS === */
+  --color-brand-primary: 245 123 40;            /* Tangerine Zest - Energy & Warmth */
+  --color-brand-secondary: 49 36 62;            /* Dark Purple - Depth & Sophistication */
+  --color-brand-tertiary: 186 152 212;          /* Lavender Dream - Creativity & Imagination */
+  --color-brand-accent: 240 86 146;             /* Double Bounce - Vibrance & Joy */
+  --color-brand-muted: 83 83 80;                /* Urban Smoke - Subtle & Calm */
+  
+  /* === SAYU COLOR PALETTE === */
+  /* Warm & Soft Combinations */
+  --sayu-peach-breeze: 245 217 196;
+  --sayu-lavender-dream: 186 152 212;
+  --sayu-apricot-whisper: 244 207 163;
+  --sayu-tangerine-zest: 245 123 40;
+  --sayu-peppermint-pink: 246 198 194;
+  --sayu-silent-night: 98 112 159;
+  --sayu-tea-rose: 229 200 205;
+  --sayu-fern-green: 78 114 76;
+  
+  /* Calm & Sophisticated Combinations */
+  --sayu-sage: 195 201 141;
+  --sayu-dark-purple: 49 36 62;
+  --sayu-dusty-jupiter: 64 85 75;
+  --sayu-lime-cream: 214 239 132;
+  --sayu-dusty-mauve: 119 107 117;
+  --sayu-ivory-mist: 240 237 233;
+  --sayu-powder-blue: 169 199 236;
+  --sayu-urban-smoke: 83 83 80;
+  
+  /* Vibrant & Energetic Combinations */
+  --sayu-match-point: 218 222 85;
+  --sayu-double-bounce: 240 86 146;
+  --sayu-soft-melon: 246 207 181;
+  --sayu-astral-blue: 25 27 71;
+  --sayu-ucla-blue: 83 104 149;
+  --sayu-pearl: 219 218 190;
+  
+  /* SAYU Background & Text Colors */
+  --sayu-bg-primary: 240 237 233;               /* Ivory Mist */
+  --sayu-bg-secondary: 219 218 190;             /* Pearl */
+  --sayu-bg-card: 250 250 248;                  /* Soft White */
+  --sayu-text-primary: 49 36 62;                /* Dark Purple */
+  --sayu-text-secondary: 83 83 80;              /* Urban Smoke */
+  --sayu-text-muted: 119 107 117;               /* Dusty Mauve */
   
   /* === FUNCTIONAL COLORS === */
   --color-success: 34 197 94;                   /* Green */
@@ -237,11 +274,19 @@
   --glass-shadow: 0 8px 32px rgb(0 0 0 / 0.5);
   --glass-shadow-hover: 0 12px 48px rgb(0 0 0 / 0.6);
   
-  /* Dark mode gradients */
-  --gradient-primary: linear-gradient(135deg, rgb(96 165 250), rgb(248 113 113));
-  --gradient-accent: linear-gradient(135deg, rgb(251 191 36), rgb(248 113 113));
-  --gradient-subtle: linear-gradient(135deg, rgb(31 31 31), rgb(51 51 51));
-  --gradient-hero: linear-gradient(135deg, rgb(96 165 250 / 0.2), rgb(248 113 113 / 0.2), rgb(251 191 36 / 0.2));
+  /* SAYU Dark mode overrides */
+  --sayu-bg-primary: 26 27 38;                  /* Dark version of Ivory Mist */
+  --sayu-bg-secondary: 36 40 59;                /* Dark version of Pearl */
+  --sayu-bg-card: 46 51 70;                     /* Dark version of Soft White */
+  --sayu-text-primary: 240 237 233;             /* Light version for dark mode */
+  --sayu-text-secondary: 199 199 197;           /* Light version for dark mode */
+  --sayu-text-muted: 154 154 151;               /* Light version for dark mode */
+  
+  /* Dark mode gradients with SAYU colors */
+  --gradient-primary: linear-gradient(135deg, rgb(var(--sayu-tangerine-zest)), rgb(var(--sayu-double-bounce)));
+  --gradient-accent: linear-gradient(135deg, rgb(var(--sayu-lavender-dream)), rgb(var(--sayu-double-bounce)));
+  --gradient-subtle: linear-gradient(135deg, rgb(var(--sayu-bg-secondary)), rgb(var(--sayu-bg-primary)));
+  --gradient-hero: linear-gradient(135deg, rgb(var(--sayu-tangerine-zest) / 0.2), rgb(var(--sayu-lavender-dream) / 0.2), rgb(var(--sayu-double-bounce) / 0.2));
 }
 
 /* 🎯 BASE LAYER - RESET & FOUNDATIONS */

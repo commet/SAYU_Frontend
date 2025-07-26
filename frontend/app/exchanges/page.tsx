@@ -79,8 +79,17 @@ export default function ExchangesPage() {
 
   const handleStartExchange = async (artworkData: any) => {
     try {
-      const session = await exchangeApi.startExchange(artworkData);
-      setActiveSessions([session, ...activeSessions]);
+      // TODO: 실제로는 교환 생성 후 sessionId를 받아와야 함
+      // 임시로 createExchange를 호출하는 것으로 처리
+      const request = {
+        partner_id: '', // 파트너 선택 로직 필요
+        artwork_id: artworkData.id,
+        museum_source: artworkData.source || 'met',
+        artwork_data: artworkData,
+        initial_message: '안녕하세요! 이 작품에 대해 이야기 나누고 싶어요.'
+      };
+      const sessionId = await exchangeApi.createExchange(request);
+      await loadExchangeData(); // 데이터 다시 로드
       setShowStartModal(false);
     } catch (error) {
       console.error('Failed to start exchange:', error);

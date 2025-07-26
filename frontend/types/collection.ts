@@ -19,6 +19,8 @@ export interface ArtCollection {
     username: string;
     profile_image_url?: string;
   };
+  items?: CollectionItem[];
+  collaborators?: CollectionCollaborator[];
 }
 
 export interface CollectionItem {

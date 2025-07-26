@@ -227,7 +227,7 @@ function PersonalGallery() {
               <User className="w-4 h-4" />
               {language === 'ko' ? '팔로잉' : 'Following'}
               <span className="ml-1 text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full">
-                {mockFollowingArtists.length}
+                {followingArtists.length}
               </span>
             </TabsTrigger>
           </TabsList>
@@ -329,12 +329,12 @@ function PersonalGallery() {
                 {language === 'ko' ? '팔로우하는 작가' : 'Following Artists'}
               </h2>
               <p className="text-sm text-gray-500">
-                {mockFollowingArtists.length}명의 작가
+                {followingArtists.length}명의 작가
               </p>
             </div>
             
             <div className="grid gap-4">
-              {mockFollowingArtists.map((artist, index) => (
+              {followingArtists.map((artist, index) => (
                 <motion.div
                   key={artist.name}
                   initial={{ opacity: 0, x: -20 }}
@@ -586,7 +586,7 @@ function GalleryContent() {
         console.log('🎨 First artwork:', validArtworks[0]);
       }
       
-      setGalleryArtworks(validArtworks);
+      setGalleryArtworks(validArtworks as any);
       
       // Cache the results
       localStorage.setItem(cacheKey, JSON.stringify({
@@ -671,12 +671,7 @@ function GalleryContent() {
 
   const handleLike = async (artworkId: string) => {
     if (isGuestMode) {
-      toast.success('Sign up to save favorites!', {
-        action: {
-          label: 'Sign Up',
-          onClick: () => router.push('/register')
-        }
-      });
+      toast.success('Sign up to save favorites!');
       return;
     }
 
@@ -687,7 +682,7 @@ function GalleryContent() {
       newLiked.add(artworkId);
       toast.success('Added to favorites');
       await trackInteraction(artworkId, 'like');
-      if (user) trackArtworkLiked(); // Track for achievements
+      // if (user) trackArtworkLiked(); // Track for achievements - TODO: implement
     } else {
       newLiked.delete(artworkId);
       toast.success('Removed from favorites');
@@ -705,12 +700,12 @@ function GalleryContent() {
       setViewedArtworks(newViewed);
       saveUserPreferences();
       await trackInteraction(artworkId, 'view');
-      if (user) trackArtworkViewed(); // Track for achievements
+      // if (user) trackArtworkViewed(); // Track for achievements - TODO: implement
     }
   };
 
   const shuffleArtworks = () => {
-    const shuffled = [...artworks].sort(() => Math.random() - 0.5);
+    const shuffled = [...galleryArtworks].sort(() => Math.random() - 0.5);
     setGalleryArtworks(shuffled);
     toast.success('Gallery shuffled!');
   };
@@ -744,14 +739,14 @@ function GalleryContent() {
   return (
     <div 
       className="min-h-screen theme-animated-element personalized-container"
-      style={{ background: theme?.colors.background || 'var(--color-background)' }}
+      style={{ background: '#f9fafb' }}
     >
       {/* Header */}
       <div 
         className="border-b backdrop-blur-sm sticky top-0 z-10"
         style={{ 
-          backgroundColor: `${theme?.colors.surface || 'var(--color-surface)'}cc`,
-          borderColor: theme?.colors.border || 'var(--color-border)'
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          borderColor: '#e5e7eb'
         }}
       >
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -775,8 +770,8 @@ function GalleryContent() {
                 </h1>
                 <p className="text-sm text-muted-foreground">
                   {isGuestMode 
-                    ? `Discover amazing artworks • ${artworks.length} artworks`
-                    : `Curated for ${userProfile?.archetypeName || 'your aesthetic'} • ${artworks.length} artworks`
+                    ? `Discover amazing artworks • ${galleryArtworks.length} artworks`
+                    : `Curated for ${userProfile?.archetypeName || 'your aesthetic'} • ${galleryArtworks.length} artworks`
                   }
                 </p>
               </div>
@@ -837,7 +832,7 @@ function GalleryContent() {
             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
           >
             <AnimatePresence>
-              {artworks.map((artwork) => (
+              {galleryArtworks.map((artwork: any) => (
                 <motion.div
                   key={artwork.id}
                   layout
@@ -846,10 +841,10 @@ function GalleryContent() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   className="group relative personalized-card cursor-pointer"
                   style={{
-                    transition: `all ${animations.duration} ${animations.easing}`,
-                    borderRadius: layout.borderRadius
+                    transition: 'all 0.3s ease',
+                    borderRadius: '0.5rem'
                   }}
-                  whileHover={{ scale: parseFloat(animations.hoverScale) }}
+                  whileHover={{ scale: 1.05 }}
                   onClick={() => handleView(artwork.id)}
                 >
                   {/* Image */}
@@ -926,7 +921,7 @@ function GalleryContent() {
         )}
 
         {/* Empty state */}
-        {!loading_artworks && artworks.length === 0 && (
+        {!loading_artworks && galleryArtworks.length === 0 && (
           <div className="text-center py-12">
             <Eye className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
             <h3 className="text-lg font-semibold mb-2">No artworks found</h3>

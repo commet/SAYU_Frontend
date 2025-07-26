@@ -125,7 +125,7 @@ export default function ExhibitionRecordPage() {
       selectedExhibition
     );
     setFilledTemplate(filled as FilledTemplate);
-    setUserResponses(filled.responses);
+    setUserResponses(filled.responses || {});
   };
   
   const handleResponseChange = (promptId: string, value: string) => {

@@ -35,8 +35,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get client IP
-    const clientIp = request.ip || 
-      request.headers.get('x-forwarded-for')?.split(',')[0] || 
+    const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0] || 
       request.headers.get('x-real-ip') || 
       'unknown';
 

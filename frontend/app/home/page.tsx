@@ -77,7 +77,7 @@ export default function HomePage() {
       name: language === 'ko' ? '성향 테스트' : 'Personality Test',
       icon: '🎭',
       path: '/quiz',
-      status: 'available',
+      status: 'available' as const,
       description: language === 'ko' ? '3분 테스트로 당신의 예술 유형을 발견하세요' : 'Discover your art type in 3 minutes',
       category: 'core'
     },
@@ -85,7 +85,7 @@ export default function HomePage() {
       name: language === 'ko' ? '갤러리 탐험' : 'Gallery Explorer',
       icon: '🖼️',
       path: '/gallery',
-      status: 'available',
+      status: 'available' as const,
       description: language === 'ko' ? '세계 유명 미술관의 작품들을 둘러보세요' : 'Explore artworks from world-famous museums',
       category: 'core'
     }
@@ -96,7 +96,7 @@ export default function HomePage() {
       name: language === 'ko' ? '작가 발견' : 'Discover Artists',
       icon: '👨‍🎨',
       path: '/artists',
-      status: 'available',
+      status: 'available' as const,
       description: language === 'ko' ? '다양한 시대의 작가들을 만나보세요' : 'Meet artists from different eras',
       category: 'explore'
     },
@@ -104,7 +104,7 @@ export default function HomePage() {
       name: language === 'ko' ? '아트페어 모드' : 'Art Fair Mode',
       icon: '🎨',
       path: '/art-fair',
-      status: 'available',
+      status: 'available' as const,
       description: language === 'ko' ? '전시장에서 빠른 작품 저장' : 'Quick artwork saving at exhibitions',
       category: 'explore'
     }
@@ -142,7 +142,7 @@ export default function HomePage() {
       name: language === 'ko' ? '사유의 산책' : 'Contemplative Walk',
       icon: '🚶‍♀️',
       path: '/contemplative-walk',
-      status: 'available',
+      status: 'available' as const,
       description: language === 'ko' ? '작품과 깊은 대화를 나누기' : 'Deep conversation with artworks',
       category: 'advanced'
     }
@@ -274,7 +274,7 @@ export default function HomePage() {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <Link href="/">
-              <GlassButton size="lg" variant="outline" className="group">
+              <GlassButton size="lg" variant="secondary" className="group">
                 <Heart className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
                 {language === 'ko' ? '처음으로' : 'Back to Start'}
               </GlassButton>
@@ -286,7 +286,7 @@ export default function HomePage() {
               </GlassButton>
             </Link>
             <Link href="/philosophy">
-              <GlassButton size="lg" variant="outline">
+              <GlassButton size="lg" variant="secondary">
                 <Sparkles className="mr-2 h-5 w-5" />
                 {language === 'ko' ? '철학적 기반 알아보기' : 'Explore Our Philosophy'}
               </GlassButton>

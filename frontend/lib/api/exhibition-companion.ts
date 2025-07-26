@@ -324,5 +324,175 @@ export const exhibitionCompanionApi = {
 
     if (error) return [];
     return data || [];
+  },
+
+  // 사용 가능한 동행 요청 목록 (다른 사용자들의 요청)
+  async getAvailableRequests(filters?: {
+    exhibitionId?: string;
+    date?: string;
+  }): Promise<CompanionRequest[]> {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return [];
+
+    let query = supabase
+      .from('exhibition_companion_requests')
+      .select(`
+        *,
+        exhibition:exhibitions(*),
+        user:user_profiles!user_id(
+          id:user_id,
+          username,
+          profile_image_url,
+          apt_type:personality_type,
+          birth_date,
+          gender
+        )
+      `)
+      .eq('status', 'active')
+      .neq('user_id', user.id)
+      .gt('expires_at', new Date().toISOString())
+      .order('created_at', { ascending: false });
+
+    if (filters?.exhibitionId) {
+      query = query.eq('exhibition_id', filters.exhibitionId);
+    }
+    if (filters?.date) {
+      query = query.eq('preferred_date', filters.date);
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return data || [];
+  },
+
+  // 내 매칭 목록
+  async getMyMatches(status?: string): Promise<CompanionMatch[]> {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return [];
+
+    let query = supabase
+      .from('exhibition_companions')
+      .select(`
+        *,
+        request:exhibition_companion_requests(
+          *,
+          exhibition:exhibitions(*)
+        ),
+        companion:user_profiles!companion_id(
+          id:user_id,
+          username,
+          profile_image_url,
+          apt_type:personality_type
+        ),
+        requester:user_profiles!user_id(
+          id:user_id,
+          username,
+          profile_image_url,
+          apt_type:personality_type
+        )
+      `)
+      .or(`user_id.eq.${user.id},companion_id.eq.${user.id}`)
+      .order('created_at', { ascending: false });
+
+    if (status) {
+      query = query.eq('status', status);
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return data || [];
+  },
+
+  // 동행 통계
+  async getCompanionStats(): Promise<{
+    total_requests: number;
+    active_requests: number;
+    total_matches: number;
+    successful_matches: number;
+    average_rating: number;
+  }> {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      return {
+        total_requests: 0,
+        active_requests: 0,
+        total_matches: 0,
+        successful_matches: 0,
+        average_rating: 0
+      };
+    }
+
+    const [requestsResult, matchesResult] = await Promise.all([
+      supabase
+        .from('exhibition_companion_requests')
+        .select('*', { count: 'exact' })
+        .eq('user_id', user.id),
+      supabase
+        .from('exhibition_companions')
+        .select('*', { count: 'exact' })
+        .or(`user_id.eq.${user.id},companion_id.eq.${user.id}`)
+    ]);
+
+    const activeRequests = await supabase
+      .from('exhibition_companion_requests')
+      .select('*', { count: 'exact' })
+      .eq('user_id', user.id)
+      .eq('status', 'active');
+
+    const successfulMatches = await supabase
+      .from('exhibition_companions')
+      .select('*', { count: 'exact' })
+      .or(`user_id.eq.${user.id},companion_id.eq.${user.id}`)
+      .eq('met_in_person', true);
+
+    const ratings = await supabase
+      .from('exhibition_companions')
+      .select('rating')
+      .eq('companion_id', user.id)
+      .not('rating', 'is', null);
+
+    const avgRating = ratings.data?.length 
+      ? ratings.data.reduce((sum, r) => sum + r.rating, 0) / ratings.data.length 
+      : 0;
+
+    return {
+      total_requests: requestsResult.count || 0,
+      active_requests: activeRequests.count || 0,
+      total_matches: matchesResult.count || 0,
+      successful_matches: successfulMatches.count || 0,
+      average_rating: Math.round(avgRating * 10) / 10
+    };
+  },
+
+  // 동행 요청에 대한 매칭 요청
+  async createMatch(requestId: string): Promise<CompanionMatch> {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Not authenticated');
+
+    const { data, error } = await supabase
+      .from('exhibition_companions')
+      .insert({
+        request_id: requestId,
+        companion_id: user.id,
+        status: 'pending'
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  },
+
+  // 매칭 수락/거절
+  async respondToMatch(matchId: string, accept: boolean): Promise<void> {
+    const { error } = await supabase
+      .from('exhibition_companions')
+      .update({
+        status: accept ? 'accepted' : 'rejected',
+        responded_at: new Date().toISOString()
+      })
+      .eq('id', matchId);
+
+    if (error) throw error;
   }
 };

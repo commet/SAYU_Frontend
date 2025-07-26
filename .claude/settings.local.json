@@ -25,7 +25,8 @@
       "WebFetch(domain:e-flux.com)",
       "Bash(rm:*)",
       "Bash(git pull:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(copy .env.local.example .env.local)"
     ],
     "deny": []
   }

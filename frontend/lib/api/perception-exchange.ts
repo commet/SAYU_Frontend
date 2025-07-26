@@ -331,5 +331,46 @@ export const perceptionExchangeApi = {
         ...item.user,
         shared_emotions: item.emotion_tags
       }));
+  },
+
+  // 진행 중인 세션 조회
+  async getActiveSessions(): Promise<PerceptionExchangeSession[]> {
+    const exchanges = await this.getMyExchanges('active');
+    return exchanges.map(item => item.session);
+  },
+
+  // 완료된 세션 조회
+  async getCompletedSessions(): Promise<PerceptionExchangeSession[]> {
+    const exchanges = await this.getMyExchanges('completed');
+    return exchanges.map(item => item.session);
+  },
+
+  // 교환 통계 조회
+  async getExchangeStats(): Promise<{
+    total_exchanges: number;
+    active_exchanges: number;
+    completed_exchanges: number;
+    average_quality_score: number;
+  }> {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Not authenticated');
+
+    const { data, error } = await supabase.rpc('get_exchange_stats', {
+      p_user_id: user.id
+    });
+
+    if (error) throw error;
+    return data || {
+      total_exchanges: 0,
+      active_exchanges: 0,
+      completed_exchanges: 0,
+      average_quality_score: 0
+    };
+  },
+
+  // 교환 시작 (초대 수락과 동시에 첫 메시지 전송)
+  async startExchange(sessionId: string, initialMessage: string): Promise<void> {
+    await this.acceptInvitation(sessionId);
+    await this.sendMessage(sessionId, initialMessage);
   }
 };

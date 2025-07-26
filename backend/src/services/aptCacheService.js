@@ -47,7 +47,8 @@ class APTCacheService {
   }
 
   async cachePrototypeVectors() {
-    const redis = getRedisClient();\n    if (!redis) return null;
+    const redis = getRedisClient();
+    if (!redis) return null;
     const pipeline = redis.pipeline();
     
     for (const typeCode of Object.keys(SAYU_TYPES)) {
@@ -84,7 +85,8 @@ class APTCacheService {
     } = options;
     
     const cacheKey = `${this.cacheKeys.aptArtworks}${aptType}:${context}:${limit}:${offset}`;
-    const redis = getRedisClient();\n    if (!redis) return null;
+    const redis = getRedisClient();
+    if (!redis) return null;
     
     // 캐시 확인
     if (!forceRefresh) {
@@ -193,7 +195,8 @@ class APTCacheService {
     } = options;
     
     const cacheKey = `${this.cacheKeys.aptExhibitions}${aptType}:${location}:${dateRange}`;
-    const redis = getRedisClient();\n    if (!redis) return null;
+    const redis = getRedisClient();
+    if (!redis) return null;
     
     const cached = await redis.get(cacheKey);
     if (cached) {
@@ -216,7 +219,8 @@ class APTCacheService {
   // ==================== 사용자 벡터 캐싱 ====================
   
   async getUserVector(userId) {
-    const redis = getRedisClient();\n    if (!redis) return null;
+    const redis = getRedisClient();
+    if (!redis) return null;
     const cacheKey = `${this.cacheKeys.userVector}${userId}`;
     
     const cached = await redis.get(cacheKey);
@@ -242,7 +246,8 @@ class APTCacheService {
   }
 
   async updateUserVector(userId, newActions) {
-    const redis = getRedisClient();\n    if (!redis) return null;
+    const redis = getRedisClient();
+    if (!redis) return null;
     const currentVector = await this.getUserVector(userId);
     const userProfile = await this.getUserProfile(userId);
     
@@ -270,7 +275,8 @@ class APTCacheService {
   // ==================== 인기 콘텐츠 캐싱 ====================
   
   async getTrendingForAPT(aptType, period = 'daily') {
-    const redis = getRedisClient();\n    if (!redis) return null;
+    const redis = getRedisClient();
+    if (!redis) return null;
     const cacheKey = `${this.cacheKeys.aptTrending}${aptType}:${period}`;
     
     const cached = await redis.get(cacheKey);
@@ -318,7 +324,8 @@ class APTCacheService {
   // ==================== 캐시 무효화 ====================
   
   async invalidateAPTCache(aptType) {
-    const redis = getRedisClient();\n    if (!redis) return null;
+    const redis = getRedisClient();
+    if (!redis) return null;
     const pattern = `apt:*:${aptType}*`;
     
     const keys = await redis.keys(pattern);
@@ -330,7 +337,8 @@ class APTCacheService {
   }
 
   async invalidateUserRecommendations(userId) {
-    const redis = getRedisClient();\n    if (!redis) return null;
+    const redis = getRedisClient();
+    if (!redis) return null;
     // 사용자 관련 추천 캐시 제거
     const patterns = [
       `user:recommendations:${userId}:*`,
@@ -348,7 +356,8 @@ class APTCacheService {
   // ==================== 캐시 통계 ====================
   
   async updateCacheStats(type, aptType, result) {
-    const redis = getRedisClient();\n    if (!redis) return null;
+    const redis = getRedisClient();
+    if (!redis) return null;
     const statsKey = `${this.cacheKeys.globalStats}:${type}`;
     
     await redis.hincrby(statsKey, `${aptType}:${result}`, 1);
@@ -359,7 +368,8 @@ class APTCacheService {
   }
 
   async getCacheStats() {
-    const redis = getRedisClient();\n    if (!redis) return null;
+    const redis = getRedisClient();
+    if (!redis) return null;
     const stats = {
       artwork: {},
       exhibition: {},
@@ -389,7 +399,8 @@ class APTCacheService {
   // ==================== 헬퍼 함수 ====================
   
   async getAPTVector(aptType) {
-    const redis = getRedisClient();\n    if (!redis) return null;
+    const redis = getRedisClient();
+    if (!redis) return null;
     const cacheKey = `${this.cacheKeys.aptVector}${aptType}`;
     
     const cached = await redis.get(cacheKey);
@@ -401,7 +412,8 @@ class APTCacheService {
   }
 
   async getArtworkVectors(artworks) {
-    const redis = getRedisClient();\n    if (!redis) return null;
+    const redis = getRedisClient();
+    if (!redis) return null;
     const vectors = [];
     
     for (const artwork of artworks) {

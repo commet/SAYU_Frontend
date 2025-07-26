@@ -3,33 +3,39 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from '@/lib/utils';
 
 const cardVariants = cva(
-  // Base styles - 미술관 카드 컨셉 (다크모드 지원)
-  "bg-white dark:bg-gray-800 border border-gray dark:border-gray-700 text-gray-900 dark:text-gray-100 transition-all duration-base ease-out",
+  // Base styles - SAYU Gallery Card Concept
+  "bg-sayu-bg-card dark:bg-sayu-bg-secondary border border-sayu-powder-blue/30 dark:border-sayu-powder-blue/20 text-sayu-text-primary dark:text-sayu-text-primary transition-all duration-300 ease-out",
   {
     variants: {
       variant: {
-        // Default - 기본 카드
-        default: "shadow-gentle hover:shadow-moderate",
+        // Default - 기본 SAYU 카드
+        default: "shadow-md hover:shadow-lg hover:border-sayu-powder-blue/50 hover:-translate-y-1",
         
-        // Gallery - 갤러리 스타일 (artwork 전용)
-        gallery: "shadow-subtle hover:shadow-gentle border-light-gray",
+        // Gallery - 미술 작품 전용 (사진 프레임 스타일)
+        gallery: "shadow-sm hover:shadow-md border-sayu-tea-rose/40 hover:border-sayu-tea-rose/60 bg-sayu-ivory-mist hover:bg-sayu-peach-breeze/20 transition-all duration-500",
         
-        // Glass - 투명한 글래스 효과
-        glass: "bg-white/80 dark:bg-gray-800/80 backdrop-blur-moderate border-white/20 dark:border-gray-600/20 shadow-gentle",
+        // Glass - SAYU 글래스 모포이즘
+        glass: "bg-sayu-bg-card/70 dark:bg-sayu-bg-secondary/70 backdrop-blur-lg border-sayu-lavender-dream/30 dark:border-sayu-lavender-dream/20 shadow-lg hover:shadow-xl",
         
-        // Flat - 그림자 없는 플랫 디자인
-        flat: "border-gray shadow-none",
+        // Flat - 미니멀 디자인
+        flat: "border-sayu-dusty-mauve/20 shadow-none hover:border-sayu-dusty-mauve/40",
+        
+        // Warm - 따뜻한 느낌 (APT 결과 등에 사용)
+        warm: "bg-gradient-to-br from-sayu-peach-breeze/30 to-sayu-apricot-whisper/30 border-sayu-tangerine-zest/30 shadow-md hover:shadow-lg",
+        
+        // Cool - 차분한 느낌 (분석 데이터 등에 사용)
+        cool: "bg-gradient-to-br from-sayu-powder-blue/20 to-sayu-sage/20 border-sayu-silent-night/30 shadow-md hover:shadow-lg",
       },
       size: {
-        compact: "rounded-sm",      // 리스트용 
-        default: "rounded-lg",      // 기본
-        expanded: "rounded-xl",     // 상세 정보용
+        compact: "rounded-lg",      // 리스트용 - SAYU rounded style
+        default: "rounded-xl",      // 기본 - SAYU rounded style
+        expanded: "rounded-2xl",    // 상세 정보용 - SAYU rounded style
       },
       padding: {
         none: "",
-        sm: "p-md",                 // 24px
-        default: "p-lg",            // 32px  
-        lg: "p-xl",                 // 48px
+        sm: "p-4",                  // 16px - SAYU spacing
+        default: "p-6",             // 24px - SAYU spacing
+        lg: "p-8",                  // 32px - SAYU spacing
       }
     },
     defaultVariants: {
@@ -76,7 +82,7 @@ const CardTitle = forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadin
       <h3
         ref={ref}
         className={cn(
-          "font-display font-medium text-xl text-gray-900 dark:text-gray-100 leading-tight",
+          "font-display font-medium text-xl text-sayu-text-primary dark:text-sayu-text-primary leading-tight",
           className
         )}
         {...props}
@@ -91,7 +97,7 @@ const CardDescription = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HT
     return (
       <p
         ref={ref}
-        className={cn("font-body text-sm text-gray-600 dark:text-gray-400 leading-normal", className)}
+        className={cn("font-body text-sm text-sayu-text-secondary dark:text-sayu-text-secondary leading-normal", className)}
         {...props}
       />
     );
@@ -104,7 +110,7 @@ const CardContent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEleme
     return (
       <div 
         ref={ref} 
-        className={cn("font-body text-base text-gray-900 dark:text-gray-100 leading-normal", className)} 
+        className={cn("font-body text-base text-sayu-text-primary dark:text-sayu-text-primary leading-normal", className)} 
         {...props} 
       />
     );

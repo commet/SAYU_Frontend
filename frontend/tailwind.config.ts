@@ -50,6 +50,46 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // SAYU 디자인 시스템 색상 팔레트
+        sayu: {
+          // 따뜻하고 부드러운 조합
+          'peach-breeze': '#F5D9C4',
+          'lavender-dream': '#BA98D4',
+          'apricot-whisper': '#F4CFA3',
+          'tangerine-zest': '#F57B28',
+          'peppermint-pink': '#F6C6C2',
+          'silent-night': '#62709F',
+          'tea-rose': '#E5C8CD',
+          'fern-green': '#4E724C',
+          
+          // 차분하고 세련된 조합
+          'sage': '#C3C98D',
+          'dark-purple': '#31243E',
+          'dusty-jupiter': '#40554B',
+          'lime-cream': '#D6EF84',
+          'dusty-mauve': '#776B75',
+          'ivory-mist': '#F0EDE9',
+          'powder-blue': '#A9C7EC',
+          'urban-smoke': '#535350',
+          
+          // 대비가 강한 활기찬 조합
+          'match-point': '#DADE55',
+          'double-bounce': '#F05692',
+          'soft-melon': '#F6CFB5',
+          'astral-blue': '#191B47',
+          'ucla-blue': '#536895',
+          'pearl': '#DBDABE',
+          
+          // 배경색
+          'bg-primary': '#F0EDE9',
+          'bg-secondary': '#DBDABE',
+          'bg-card': '#FAFAF8',
+          
+          // 텍스트 색상
+          'text-primary': '#31243E',
+          'text-secondary': '#535350',
+          'text-muted': '#776B75',
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
