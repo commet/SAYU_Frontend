@@ -102,6 +102,7 @@ const dailyHabitRoutes = require('./routes/dailyHabitRoutes');
 const artistDataRoutes = require('./routes/artistDataRoutes');
 const venueRoutes = require('./routes/venueRoutes');
 const artveeArtworkRoutes = require('./routes/artveeArtworkRoutes');
+const artistAPTRoutes = require('./routes/artistAPT');
 
 const app = express();
 
@@ -333,6 +334,7 @@ app.use('/api/waitlist', require('./routes/waitlistRoutes')); // 베타 대기 �
 app.use('/api/art-pulse', require('./routes/artPulseRoutes')); // Art Pulse 실시간 공동 감상
 app.use('/api/venues', venueRoutes); // 다국어 지원 venue API
 app.use('/api/artvee-artworks', artveeArtworkRoutes); // Artvee 작품-작가 연결 API
+app.use('/api/artist-apt', artistAPTRoutes); // 작가 APT 매칭 시스템
 
 // Duplicate health check endpoint removed - using the comprehensive one above (lines 174-186)
 
