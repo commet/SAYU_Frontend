@@ -74,7 +74,7 @@ async function findValidationRules() {
           weight: 0.7
         },
         {
-          type: "RAMF", // Rational-Analytical-Material-Flexible  
+          type: "RAMF", // Rational-Analytical-Material-Flow  
           weight: 0.3
         }
       ]
@@ -94,28 +94,28 @@ async function findValidationRules() {
       const artists = [
         {
           name: 'Cindy Sherman',
-          typeCode1: 'CFEC', // Creative-Flexible-Emotional-Creative
-          typeCode2: 'CFEF'  // Creative-Flexible-Emotional-Flexible
+          typeCode1: 'CFEC', // Creative-Flow-Emotional-Creative
+          typeCode2: 'CFEF'  // Creative-Flow-Emotional-Flow
         },
         {
           name: 'Anselm Kiefer', 
           typeCode1: 'CEMC', // Creative-Emotional-Material-Creative
-          typeCode2: 'CEMF'  // Creative-Emotional-Material-Flexible
+          typeCode2: 'CEMF'  // Creative-Emotional-Material-Flow
         },
         {
           name: 'Yinka Shonibare',
           typeCode1: 'ALMC', // Agreeable-Leadership-Material-Creative
-          typeCode2: 'ALMF'  // Agreeable-Leadership-Material-Flexible
+          typeCode2: 'ALMF'  // Agreeable-Leadership-Material-Flow
         },
         {
           name: 'Kerry James Marshall',
           typeCode1: 'ALRC', // Agreeable-Leadership-Rational-Creative
-          typeCode2: 'ALRF'  // Agreeable-Leadership-Rational-Flexible
+          typeCode2: 'ALRF'  // Agreeable-Leadership-Rational-Flow
         },
         {
           name: 'Kehinde Wiley',
           typeCode1: 'LMCE', // Leadership-Material-Creative-Emotional
-          typeCode2: 'LMCF'  // Leadership-Material-Creative-Flexible
+          typeCode2: 'LMCF'  // Leadership-Material-Creative-Flow
         }
       ];
       

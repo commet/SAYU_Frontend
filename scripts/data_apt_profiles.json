@@ -1,0 +1,838 @@
+[
+  {
+    "id": "1be00af7-0aac-4cd0-9185-e704258490db",
+    "artist_id": "dab4f1f4-49da-47d6-a576-3fd3ce34f3d6",
+    "primary_apt": "VNRT",
+    "secondary_apt": "VSCM",
+    "tertiary_apt": "SRRT",
+    "matching_reasoning": "다재다능한 천재성(호랑이), 신비로운 창조력(용), 과학적 정밀함(곰)",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 6251,
+        "languages": 238
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "741b7f8e-fcd9-4a84-8ed8-787b1cafff60",
+    "artist_id": "b9d5b263-8674-4b33-9cff-4eb9f786f9ed",
+    "primary_apt": "VNRT",
+    "secondary_apt": "HSRT",
+    "tertiary_apt": "VSCM",
+    "matching_reasoning": "불굴의 의지(호랑이), 고통의 승화(나비), 초현실적 표현(용)",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 6032,
+        "languages": 165
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "6b7201dd-ccbd-4055-a596-65159914e25e",
+    "artist_id": "3e706040-e519-4d78-9837-5c703153f97e",
+    "primary_apt": "VSRT",
+    "secondary_apt": "DEMC",
+    "tertiary_apt": "SRCM",
+    "matching_reasoning": "대중문화의 화려함(공작), 상업적 영리함(여우), 협업 시스템(늑대)",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 5936,
+        "languages": 140
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "f2e24278-3e40-4e54-9ad0-8dee79d6214c",
+    "artist_id": "311b77bf-8bd2-40ec-a630-a5669cc39aea",
+    "primary_apt": "VSCM",
+    "secondary_apt": "HSRT",
+    "tertiary_apt": "SRMC",
+    "matching_reasoning": "독창적 예술혼(용), 감정적 섬세함(나비), 고독한 인내(거북이)",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 5666,
+        "languages": 210
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "d64dfaf4-52e2-45d2-a24c-0f49e0b6a375",
+    "artist_id": "d69adc8c-5325-410f-80fe-cbe2cfd7b652",
+    "primary_apt": "VSRT",
+    "secondary_apt": "VNRT",
+    "tertiary_apt": "DECM",
+    "matching_reasoning": "화려한 변신(공작), 혁명적 리더십(호랑이), 실험정신(원숭이)",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 4778,
+        "languages": 203
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "8b67c199-19f8-4bdc-a476-71ae1bc64b51",
+    "artist_id": "9012c52e-f77d-46db-84b0-e617f3fa70e0",
+    "primary_apt": "VNRT",
+    "secondary_apt": "SRRT",
+    "tertiary_apt": "VSCM",
+    "matching_reasoning": "완벽주의적 거장(호랑이), 육체적 인내(곰), 신성한 창조(용)",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 4070,
+        "languages": 209
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "ce74c48b-97ca-4b8b-93be-7f9bf3dd24e6",
+    "artist_id": "a1c20d81-1d2e-4826-9467-d1eeda1c343e",
+    "primary_apt": "VSRT",
+    "secondary_apt": "VNRT",
+    "tertiary_apt": "DECM",
+    "matching_reasoning": "국제적 명성과 예술적 영향력",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 3016,
+        "languages": 62
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "c7fdaab1-c469-4cfb-adc7-68d6ea465e7b",
+    "artist_id": "b4e3ea07-686f-406b-8ea6-567f0258d3eb",
+    "primary_apt": "VSRT",
+    "secondary_apt": "VNRT",
+    "tertiary_apt": "DECM",
+    "matching_reasoning": "국제적 명성과 예술적 영향력",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 2525,
+        "languages": 97
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "6d0001f1-3bc0-41c8-8345-d6b6809658b2",
+    "artist_id": "e5e309f9-ef3a-482a-adfc-f31d4a25d015",
+    "primary_apt": "HSRT",
+    "secondary_apt": "HSCM",
+    "tertiary_apt": "SRMC",
+    "matching_reasoning": "빛의 섬세함(나비), 자연과의 조화(백조), 반복의 인내(거북이)",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 2194,
+        "languages": 131
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "ad8ccfd4-72f0-42f4-b816-2369a58fb7cd",
+    "artist_id": "d752fcfd-97d8-4c28-a42b-71da49e291e2",
+    "primary_apt": "VSRT",
+    "secondary_apt": "VNRT",
+    "tertiary_apt": "VSCM",
+    "matching_reasoning": "국제적 명성과 예술적 영향력",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 2123,
+        "languages": 169
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "c803cafa-c427-4103-b918-a0b47aa97bdb",
+    "artist_id": "0071336a-87d3-43df-9aae-9be5cadf2bf3",
+    "primary_apt": "DERT",
+    "secondary_apt": "VSCM",
+    "tertiary_apt": "SRCM",
+    "matching_reasoning": "역동적 액션(치타), 무의식의 표현(용), 예술 운동 참여(늑대)",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 1875,
+        "languages": 101
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "65743461-6bc9-40f5-a29f-d61bbabef247",
+    "artist_id": "4fe54855-5a63-4216-b356-ac6886902997",
+    "primary_apt": "HSRT",
+    "secondary_apt": "SRCM",
+    "tertiary_apt": "SRMF",
+    "matching_reasoning": "지역적 중요성과 전문적 인정",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 1843,
+        "languages": 99
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "4907ccc5-2cc7-4baa-af56-0f54a9e1dd5a",
+    "artist_id": "abd83b64-74de-4e82-a97d-ef54e3fc5abb",
+    "primary_apt": "HSRT",
+    "secondary_apt": "SRCM",
+    "tertiary_apt": "SRMF",
+    "matching_reasoning": "지역적 중요성과 전문적 인정",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 1458,
+        "languages": 110
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "d2480246-686e-4a06-8f98-0d6b71c6d7ed",
+    "artist_id": "98d82ebc-2ae2-420c-8e03-576d234da73f",
+    "primary_apt": "HSRT",
+    "secondary_apt": "SRCM",
+    "tertiary_apt": "SRMF",
+    "matching_reasoning": "지역적 중요성과 전문적 인정",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 1438,
+        "languages": 84
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "0e7c644f-ed9d-4c9d-8780-5d8502d6925f",
+    "artist_id": "8ab4c681-246f-4dbb-9455-8d2e66eb2114",
+    "primary_apt": "HSCM",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "VNRT",
+    "matching_reasoning": "자연의 우아함(백조), 고독한 탐구(거북이), 선구자적 역할(호랑이)",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 1435,
+        "languages": 81
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "ee805960-1aa9-4aef-b9fc-91845e5d3988",
+    "artist_id": "a4ac6c2b-bb8c-45ea-bd8c-be0822099b3b",
+    "primary_apt": "SRRT",
+    "secondary_apt": "SRCM",
+    "tertiary_apt": "SRMF",
+    "matching_reasoning": "지역적 중요성과 전문적 인정",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 1311,
+        "languages": 41
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "60f93769-f005-4abb-a710-346431434eb2",
+    "artist_id": "40271a68-d18f-4e42-bfb3-4a1a44b7becf",
+    "primary_apt": "SRRT",
+    "secondary_apt": "SRCM",
+    "tertiary_apt": "SRMF",
+    "matching_reasoning": "지역적 중요성과 전문적 인정",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 1303,
+        "languages": 46
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "22915b40-0806-46c1-b5b9-6a4eb7c6bb43",
+    "artist_id": "afbb67cf-04b7-406a-bd51-0c4362dd8289",
+    "primary_apt": "HSRT",
+    "secondary_apt": "HSCM",
+    "tertiary_apt": "VSRT",
+    "matching_reasoning": "색채의 조화(나비), 우아한 단순화(백조), 대담한 표현(공작)",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 1156,
+        "languages": 150
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "b143437e-26c0-4cc1-8b3f-6d54c62359db",
+    "artist_id": "caa12842-0f9a-4544-8b04-767e7693eaa4",
+    "primary_apt": "HSRT",
+    "secondary_apt": "SRCM",
+    "tertiary_apt": "SRMF",
+    "matching_reasoning": "지역적 중요성과 전문적 인정",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 1053,
+        "languages": 83
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "174feb70-a64a-42a3-a96c-f536dc70200c",
+    "artist_id": "96633be1-5c00-4a68-9829-b8dc28cbe6fc",
+    "primary_apt": "HSRT",
+    "secondary_apt": "SRCM",
+    "tertiary_apt": "SRMF",
+    "matching_reasoning": "지역적 중요성과 전문적 인정",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 1019,
+        "languages": 106
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "1b9ef962-7027-4c8d-b4e3-18566c938263",
+    "artist_id": "f1a78d1d-0a45-44e1-bb37-78ceb832d566",
+    "primary_apt": "HSRT",
+    "secondary_apt": "SRCM",
+    "tertiary_apt": "SRMF",
+    "matching_reasoning": "지역적 중요성과 전문적 인정",
+    "confidence_score": "0.90",
+    "data_sources": {
+      "wikipedia": {
+        "views": 1018,
+        "languages": 149
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "8f63da71-7c40-4d50-84da-d92496e7b50f",
+    "artist_id": "2b7a3eb5-4d27-4498-a19d-a74d29c48e28",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 969,
+        "languages": 111
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "7fd89789-d4ec-47a5-b28c-1c699ca1a407",
+    "artist_id": "58d3c3d4-4acf-47be-9da7-e142ea5cee0b",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 929,
+        "languages": 65
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "bc94cfcb-05c2-4db8-b9f3-1da96b3e3257",
+    "artist_id": "4b5de4e5-16a1-4f94-80bb-079ef2ee5c38",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 902,
+        "languages": 95
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "6a32fcd3-2d2c-497e-ab0a-0c03235a21d0",
+    "artist_id": "03216cef-f541-4d54-95be-67bfb0cdcc77",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 864,
+        "languages": 157
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "d78b8d84-1d0f-4c1d-86bf-4625e8b146e4",
+    "artist_id": "41b5c177-5ca0-4e74-9270-105faf6223cc",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 863,
+        "languages": 100
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "55813f4d-80c6-43f3-a6e8-2aa6d93d099e",
+    "artist_id": "a3bfe822-ccbc-4fb4-a999-1a617616425c",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 810,
+        "languages": 72
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "320bb053-bf06-4fd4-9920-3e1c470c54b2",
+    "artist_id": "1d209107-35d1-4590-b5cf-f72a7729fde9",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 804,
+        "languages": 90
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "114270f3-2008-408b-9bf7-ad205381137c",
+    "artist_id": "e1c789b0-b223-4414-8148-2e5a5063361c",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 744,
+        "languages": 93
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "97041bdc-357e-4352-936a-ff10c702a99c",
+    "artist_id": "725e2d94-770e-4d4d-8089-cd85929c3b1d",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 721,
+        "languages": 73
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "70539461-f6ea-45b3-a020-d0565345a9ed",
+    "artist_id": "03601ab0-6ac8-41c4-ae89-50223afc2269",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 699,
+        "languages": 36
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "e9fbc57b-2241-431c-a10a-531840a6c365",
+    "artist_id": "3a9dd195-95bf-4f6d-90c1-4d322b6b1cf3",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 678,
+        "languages": 37
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "36f6c365-40fa-4079-bc59-0bd809a78044",
+    "artist_id": "b4dca201-cd49-45e2-9b63-f0dec91c609e",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 634,
+        "languages": 67
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "c6dd11d9-b84c-4a33-afde-fbfe48e61aa5",
+    "artist_id": "d5a331b5-6e96-4160-b8df-4ecfc818d6d1",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 626,
+        "languages": 85
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "5bddd1f4-64ba-4ead-8187-ff403f91c8c3",
+    "artist_id": "34d5d1a8-35cf-43bc-be3c-69853807bd8d",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 616,
+        "languages": 152
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "c38e209d-8abf-4135-a50a-e344eefc0e9d",
+    "artist_id": "0f96f8ca-479c-4e55-92bb-8e140af5f2c6",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 519,
+        "languages": 75
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "2c5169a4-4e25-4109-938c-0ebdc9334049",
+    "artist_id": "0c3c98c3-0651-4a7f-9826-64cb51fc2b80",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 503,
+        "languages": 92
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "05ed6d1a-cc2f-4255-af51-1cb93d5d956b",
+    "artist_id": "08e9ade6-7bfc-4bfd-9a48-84cf3e32755c",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 412,
+        "languages": 76
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "e7caac31-51f5-4e4e-8d8c-d1ce10914892",
+    "artist_id": "43ad68a7-c82d-4ae3-ba80-3bd1b652e848",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 347,
+        "languages": 63
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "1690303c-321c-4acc-9fc5-4b85ef0d284c",
+    "artist_id": "01c49d8f-b51e-4450-abea-42ee91f5f6b8",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 289,
+        "languages": 31
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "b7c29849-ad27-49df-a83c-bae503a343cb",
+    "artist_id": "7472abd6-e6d9-4779-8ba9-c2bde28d2d53",
+    "primary_apt": "VNRT",
+    "secondary_apt": "DECM",
+    "tertiary_apt": "HNRT",
+    "matching_reasoning": "미디어 아트 개척(호랑이), 유머와 실험(원숭이), 문화적 가교(코끼리)",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 203,
+        "languages": 32
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "183698f4-fc07-4248-b1aa-b896f17587e0",
+    "artist_id": "65cc5884-1706-4922-8d66-fb38de81b536",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 194,
+        "languages": 78
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "2344aea4-8881-4a55-bcba-d36274499582",
+    "artist_id": "ebbc32b5-b270-49ab-9348-11898053252b",
+    "primary_apt": "SRMF",
+    "secondary_apt": "SRMC",
+    "tertiary_apt": "DEMC",
+    "matching_reasoning": "전문 분야에서의 가치",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 97,
+        "languages": 33
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  },
+  {
+    "id": "64560dd2-4766-4ef4-aa1f-f08005df6366",
+    "artist_id": "8ca3f53c-136a-4ceb-b734-532ec529724d",
+    "primary_apt": "SRMC",
+    "secondary_apt": "HSCM",
+    "tertiary_apt": "SRMF",
+    "matching_reasoning": "철학적 사유(거북이), 미니멀한 조화(백조), 이론적 탐구(올빼미)",
+    "confidence_score": "0.70",
+    "data_sources": {
+      "wikipedia": {
+        "views": 81,
+        "languages": 7
+      }
+    },
+    "classification_method": "logical_data_based",
+    "is_verified": true,
+    "created_at": "2025-07-27T00:59:03.683Z",
+    "updated_at": "2025-07-27T00:59:03.683Z"
+  }
+]

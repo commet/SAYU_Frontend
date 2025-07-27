@@ -1,184 +1,211 @@
 const rateLimit = require('express-rate-limit');
-const slowDown = require('express-slow-down');
+const { getRedisClient } = require('../config/redis');
 
-// General rate limiter factory
-const createRateLimiter = (options = {}) => {
-  const defaults = {
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-    message: 'Too many requests from this IP, please try again later.',
-    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  };
-
-  return rateLimit({
-    ...defaults,
-    ...options
-  });
-};
-
-// Speed limiter factory
-const createSpeedLimiter = (options = {}) => {
-  const defaults = {
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    delayAfter: 50, // allow 50 requests per windowMs without slowing down
-    delayMs: 500, // begin adding 500ms of delay per request above delayAfter
-    maxDelayMs: 20000, // maximum delay of 20 seconds
-  };
-
-  return slowDown({
-    ...defaults,
-    ...options
-  });
-};
-
-// Pre-configured limiters for specific use cases
-
-// API endpoints limiter
-const apiLimiter = createRateLimiter({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  message: 'API 요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요.'
-});
-
-// Auth endpoints limiter (stricter)
-const authLimiter = createRateLimiter({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  skipSuccessfulRequests: true,
-  message: '너무 많은 인증 시도가 있었습니다. 15분 후 다시 시도해주세요.'
-});
-
-// AI/expensive operations limiter
-const aiLimiter = createRateLimiter({
-  windowMs: 5 * 60 * 1000, // 5 minutes
-  max: 20,
-  message: 'AI 서비스 요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요.'
-});
-
-// File upload limiter
-const uploadLimiter = createRateLimiter({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 50,
-  message: '파일 업로드 한도를 초과했습니다. 1시간 후 다시 시도해주세요.'
-});
-
-// Chatbot message limiter with speed limiting
-const chatbotLimiter = createRateLimiter({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 10,
-  message: '너무 많은 메시지를 보내셨습니다. 잠시 후 다시 시도해주세요.'
-});
-
-const chatbotSpeedLimiter = createSpeedLimiter({
-  windowMs: 1 * 60 * 1000,
-  delayAfter: 5,
-  delayMs: 500,
-  maxDelayMs: 2000
-});
-
-// Exhibition and gallery endpoints limiter
-const exhibitionLimiter = createRateLimiter({
-  windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 60,
-  message: '전시 정보 요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요.'
-});
-
-// Museum API limiter (expensive external calls)
-const museumApiLimiter = createRateLimiter({
-  windowMs: 5 * 60 * 1000, // 5 minutes
-  max: 30,
-  message: '박물관 API 요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요.'
-});
-
-// Artist portal limiter
-const artistPortalLimiter = createRateLimiter({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 150,
-  message: '아티스트 포털 요청 한도를 초과했습니다.'
-});
-
-// Gallery operations limiter
-const galleryLimiter = createRateLimiter({
-  windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 100,
-  message: '갤러리 요청 한도를 초과했습니다.'
-});
-
-// Chat functionality limiter
-const chatLimiter = createRateLimiter({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 30,
-  message: '채팅 요청 한도를 초과했습니다.'
-});
-
-// Real-time data limiter (for live endpoints)
-const realtimeLimiter = createRateLimiter({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 60,
-  message: '실시간 데이터 요청 한도를 초과했습니다.'
-});
-
-// Public API limiter with tier support
-const createPublicApiLimiter = (req) => {
-  const hasApiKey = req.headers['x-api-key'] || req.query.apiKey;
-  const isPremium = req.user?.tier === 'premium';
+// Redis 기반 rate limiter 스토어 설정
+const createRateLimiter = (options) => {
+  const redis = getRedisClient();
   
-  return createRateLimiter({
-    windowMs: 15 * 60 * 1000,
-    max: isPremium ? 5000 : hasApiKey ? 1000 : 100,
-    message: hasApiKey 
-      ? 'API 키 요청 한도를 초과했습니다. 더 높은 한도가 필요하시면 프리미엄으로 업그레이드하세요.'
-      : '공개 API 요청 한도를 초과했습니다. API 키를 발급받으세요.',
-    keyGenerator: (req) => hasApiKey || req.ip
-  });
+  if (redis) {
+    // Redis가 사용 가능한 경우 Redis 스토어 사용
+    const RedisStore = require('rate-limit-redis');
+    return rateLimit({
+      store: new RedisStore({
+        sendCommand: (...args) => redis.call(...args),
+      }),
+      ...options
+    });
+  } else {
+    // Redis가 없는 경우 메모리 스토어 사용
+    return rateLimit(options);
+  }
 };
 
-// Account security limiter (for password reset, etc.)
-const accountSecurityLimiter = createRateLimiter({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 3,
-  skipSuccessfulRequests: true,
-  message: '보안을 위해 계정 관련 요청이 제한되었습니다. 1시간 후 다시 시도해주세요.'
+// 매칭 요청 생성 제한 (시간당 5개)
+const createMatchRequest = createRateLimiter({
+  windowMs: 60 * 60 * 1000, // 1시간
+  max: 5,
+  message: {
+    error: 'Too many match requests. Please try again later.',
+    retryAfter: 3600
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => `match_create:${req.userId}`,
+  skip: (req) => {
+    // 관리자는 제한 없음
+    return req.user && req.user.role === 'admin';
+  }
 });
 
-// Email sending limiter
-const emailLimiter = createRateLimiter({
-  windowMs: 60 * 60 * 1000, // 1 hour
+// 매칭 결과 조회 제한 (분당 10개)
+const findMatches = createRateLimiter({
+  windowMs: 60 * 1000, // 1분
   max: 10,
-  message: '이메일 전송 한도를 초과했습니다.'
+  message: {
+    error: 'Too many match queries. Please slow down.',
+    retryAfter: 60
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => `match_find:${req.userId}`,
 });
 
-// Dynamic rate limiter based on operation cost
-const createCostBasedLimiter = (cost = 1) => {
-  return createRateLimiter({
-    windowMs: 5 * 60 * 1000, // 5 minutes
-    max: Math.floor(100 / cost), // Adjust limit based on operation cost
-    message: `요청 한도를 초과했습니다. (Cost: ${cost})`,
-    keyGenerator: (req) => {
-      // Include user tier in key generation for different limits
-      const tier = req.user?.tier || 'free';
-      return `${req.ip}:${tier}`;
+// 매칭 액션 제한 (분당 5개) - 수락/거절
+const matchAction = createRateLimiter({
+  windowMs: 60 * 1000, // 1분
+  max: 5,
+  message: {
+    error: 'Too many match actions. Please wait before trying again.',
+    retryAfter: 60
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => `match_action:${req.userId}`,
+});
+
+// 일반적인 API 호출 제한 (분당 100개)
+const general = createRateLimiter({
+  windowMs: 60 * 1000, // 1분
+  max: 100,
+  message: {
+    error: 'Too many requests. Please try again later.',
+    retryAfter: 60
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => `general:${req.ip}:${req.userId || 'anonymous'}`,
+});
+
+// 엄격한 제한 (분당 20개) - 민감한 작업용
+const strict = createRateLimiter({
+  windowMs: 60 * 1000, // 1분
+  max: 20,
+  message: {
+    error: 'Rate limit exceeded for sensitive operation.',
+    retryAfter: 60
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => `strict:${req.userId}`,
+});
+
+// 매칭 시스템별 적응형 rate limiting
+const adaptiveMatchingLimiter = (req, res, next) => {
+  const redis = getRedisClient();
+  if (!redis) return next();
+
+  const userId = req.userId;
+  const key = `adaptive_limit:${userId}`;
+
+  redis.get(key).then(data => {
+    const userStats = data ? JSON.parse(data) : {
+      successfulMatches: 0,
+      rejections: 0,
+      spamScore: 0,
+      lastActivity: Date.now()
+    };
+
+    // 스팸 점수에 따른 동적 제한
+    let maxRequests = 10; // 기본값
+    
+    if (userStats.spamScore > 80) {
+      maxRequests = 2; // 스팸 의심 사용자
+    } else if (userStats.spamScore > 50) {
+      maxRequests = 5; // 주의 필요
+    } else if (userStats.successfulMatches > 10) {
+      maxRequests = 20; // 활성 사용자에게 더 많은 허용
     }
+
+    // 실제 rate limiting 적용
+    const dynamicLimiter = createRateLimiter({
+      windowMs: 60 * 1000,
+      max: maxRequests,
+      keyGenerator: () => `adaptive:${userId}`,
+      message: {
+        error: `Rate limit exceeded. Max ${maxRequests} requests per minute.`,
+        retryAfter: 60,
+        spamScore: userStats.spamScore
+      }
+    });
+
+    dynamicLimiter(req, res, next);
+  }).catch(() => {
+    // Redis 오류 시 기본 제한 적용
+    general(req, res, next);
   });
 };
 
-module.exports = createRateLimiter;
-module.exports.createRateLimiter = createRateLimiter;
-module.exports.createSpeedLimiter = createSpeedLimiter;
-module.exports.apiLimiter = apiLimiter;
-module.exports.authLimiter = authLimiter;
-module.exports.aiLimiter = aiLimiter;
-module.exports.uploadLimiter = uploadLimiter;
-module.exports.chatbotLimiter = chatbotLimiter;
-module.exports.chatbotSpeedLimiter = chatbotSpeedLimiter;
-module.exports.exhibitionLimiter = exhibitionLimiter;
-module.exports.museumApiLimiter = museumApiLimiter;
-module.exports.artistPortalLimiter = artistPortalLimiter;
-module.exports.galleryLimiter = galleryLimiter;
-module.exports.chatLimiter = chatLimiter;
-module.exports.realtimeLimiter = realtimeLimiter;
-module.exports.createPublicApiLimiter = createPublicApiLimiter;
-module.exports.accountSecurityLimiter = accountSecurityLimiter;
-module.exports.emailLimiter = emailLimiter;
-module.exports.createCostBasedLimiter = createCostBasedLimiter;
+// 매칭 성공/실패에 따른 스팸 점수 업데이트
+const updateSpamScore = async (userId, action) => {
+  const redis = getRedisClient();
+  if (!redis) return;
+
+  const key = `adaptive_limit:${userId}`;
+  const data = await redis.get(key);
+  const userStats = data ? JSON.parse(data) : {
+    successfulMatches: 0,
+    rejections: 0,
+    spamScore: 0,
+    lastActivity: Date.now()
+  };
+
+  switch (action) {
+    case 'match_success':
+      userStats.successfulMatches++;
+      userStats.spamScore = Math.max(0, userStats.spamScore - 5);
+      break;
+    case 'match_rejection':
+      userStats.rejections++;
+      userStats.spamScore += 2;
+      break;
+    case 'rapid_requests':
+      userStats.spamScore += 10;
+      break;
+    case 'suspicious_behavior':
+      userStats.spamScore += 20;
+      break;
+  }
+
+  userStats.lastActivity = Date.now();
+  
+  // 24시간 후 만료
+  await redis.setex(key, 24 * 60 * 60, JSON.stringify(userStats));
+};
+
+// IP 기반 글로벌 제한 (DDoS 방지)
+const globalIpLimit = createRateLimiter({
+  windowMs: 15 * 60 * 1000, // 15분
+  max: 1000, // IP당 최대 1000개 요청
+  message: {
+    error: 'Too many requests from this IP. Please try again later.',
+    retryAfter: 900
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => `global_ip:${req.ip}`,
+});
+
+// 사용자별 일일 제한
+const dailyUserLimit = createRateLimiter({
+  windowMs: 24 * 60 * 60 * 1000, // 24시간
+  max: 1000, // 사용자당 일일 최대 1000개 요청
+  message: {
+    error: 'Daily request limit exceeded. Please try again tomorrow.',
+    retryAfter: 86400
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => `daily_user:${req.userId || req.ip}`,
+});
+
+module.exports = {
+  createMatchRequest,
+  findMatches,
+  matchAction,
+  general,
+  strict,
+  adaptiveMatchingLimiter,
+  updateSpamScore,
+  globalIpLimit,
+  dailyUserLimit
+};

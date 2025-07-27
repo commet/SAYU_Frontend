@@ -111,13 +111,13 @@ async function setupRedisOptimizations() {
   if (!redisClient) return;
   
   try {
-    // 메모리 최적화 설정
+    // 프로덕션 메모리 최적화 설정
     await redisClient.config('SET', 'maxmemory-policy', 'allkeys-lru');
-    await redisClient.config('SET', 'maxmemory', '512mb');
+    await redisClient.config('SET', 'maxmemory', '256mb'); // Railway 메모리 제한 고려
     
-    // 성능 최적화
-    await redisClient.config('SET', 'tcp-keepalive', '60');
-    await redisClient.config('SET', 'timeout', '300');
+    // 프로덕션 성능 최적화
+    await redisClient.config('SET', 'tcp-keepalive', '30');
+    await redisClient.config('SET', 'timeout', '180'); // 더 짧은 타임아웃
     
     // 레플리카 설정 (필요한 경우)
     if (process.env.REDIS_REPLICA) {

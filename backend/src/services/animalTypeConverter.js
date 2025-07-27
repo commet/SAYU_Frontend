@@ -1,162 +1,16 @@
 /**
  * SAYU APT → 16가지 동물 유형 변환 시스템
- * LAREMFC 4글자 코드를 16가지 동물로 매핑
+ * CORRECT SAYU SYSTEM: L/S A/R E/M F/C 4글자 코드를 16가지 동물로 매핑
+ * 
+ * CORRECTED AXIS DEFINITIONS:
+ * L/S: Lone (Individual, introspective) vs Social (Interactive, collaborative)
+ * A/R: Abstract (Atmospheric, symbolic) vs Representational (Realistic, concrete)
+ * E/M: Emotional (Affective, feeling-based) vs Meaning-driven (Analytical, rational)
+ * F/C: Flow (Fluid, spontaneous) vs Constructive (Structured, systematic)
  */
 
-// 16가지 동물 유형 정의
-const ANIMAL_TYPES = {
-  // 논리형 (L) + 감정적 (A)
-  'LAEF': {
-    animal: 'owl',
-    name: '지혜로운 올빼미',
-    name_ko: '올빼미',
-    traits: ['직관적', '감정적', '외향적', '유연한'],
-    description: '깊은 통찰력과 감성을 가진 창조적 리더',
-    art_preference: ['초현실주의', '상징주의', '추상표현주의'],
-    famous_artists: ['Salvador Dalí', 'René Magritte', 'Giorgio de Chirico']
-  },
-  'LAEC': {
-    animal: 'eagle',
-    name: '예리한 독수리',
-    name_ko: '독수리',
-    traits: ['논리적', '감정적', '외향적', '체계적'],
-    description: '날카로운 분석력과 표현력을 겸비한 혁신가',
-    art_preference: ['르네상스', '신고전주의', '사실주의'],
-    famous_artists: ['Leonardo da Vinci', 'Michelangelo', 'Jacques-Louis David']
-  },
-  'LAIF': {
-    animal: 'dolphin',
-    name: '영리한 돌고래',
-    name_ko: '돌고래',
-    traits: ['논리적', '감정적', '내향적', '유연한'],
-    description: '섬세한 감성과 지성을 조화시키는 예술가',
-    art_preference: ['인상주의', '후기인상주의', '표현주의'],
-    famous_artists: ['Claude Monet', 'Paul Cézanne', 'Wassily Kandinsky']
-  },
-  'LAIC': {
-    animal: 'whale',
-    name: '지적인 고래',
-    name_ko: '고래',
-    traits: ['논리적', '감정적', '내향적', '체계적'],
-    description: '깊은 사색과 체계적 접근의 대가',
-    art_preference: ['동양화', '미니멀리즘', '개념미술'],
-    famous_artists: ['Utagawa Hiroshige', 'Donald Judd', 'Sol LeWitt']
-  },
-
-  // 논리형 (L) + 이성적 (R)
-  'LREF': {
-    animal: 'fox',
-    name: '영리한 여우',
-    name_ko: '여우',
-    traits: ['논리적', '이성적', '외향적', '유연한'],
-    description: '기발한 아이디어와 논리적 사고의 결합',
-    art_preference: ['큐비즘', '구성주의', '팝아트'],
-    famous_artists: ['Pablo Picasso', 'Andy Warhol', 'Roy Lichtenstein']
-  },
-  'LREC': {
-    animal: 'hawk',
-    name: '날카로운 매',
-    name_ko: '매',
-    traits: ['논리적', '이성적', '외향적', '체계적'],
-    description: '정밀한 분석과 체계적 실행의 전문가',
-    art_preference: ['기하학적 추상', '바우하우스', '미니멀리즘'],
-    famous_artists: ['Piet Mondrian', 'Paul Klee', 'Kazimir Malevich']
-  },
-  'LRIF': {
-    animal: 'cat',
-    name: '독립적인 고양이',
-    name_ko: '고양이',
-    traits: ['논리적', '이성적', '내향적', '유연한'],
-    description: '독창적이고 자유로운 예술적 탐구자',
-    art_preference: ['다다이즘', '개념미술', '설치미술'],
-    famous_artists: ['Marcel Duchamp', 'Joseph Beuys', 'Yves Klein']
-  },
-  'LRIC': {
-    animal: 'snow_leopard',
-    name: '신비로운 눈표범',
-    name_ko: '눈표범',
-    traits: ['논리적', '이성적', '내향적', '체계적'],
-    description: '은밀하고 정교한 예술적 완성도 추구',
-    art_preference: ['고전주의', '세밀화', '정밀사실주의'],
-    famous_artists: ['Johannes Vermeer', 'Jan van Eyck', 'Hans Holbein']
-  },
-
-  // 감각형 (S) + 감정적 (A)
-  'SAEF': {
-    animal: 'butterfly',
-    name: '아름다운 나비',
-    name_ko: '나비',
-    traits: ['감각적', '감정적', '외향적', '유연한'],
-    description: '자유롭고 감성적인 색채와 형태의 탐험가',
-    art_preference: ['인상주의', '야수파', '추상표현주의'],
-    famous_artists: ['Vincent van Gogh', 'Henri Matisse', 'Jackson Pollock']
-  },
-  'SAEC': {
-    animal: 'peacock',
-    name: '화려한 공작',
-    name_ko: '공작',
-    traits: ['감각적', '감정적', '외향적', '체계적'],
-    description: '아름다움과 기교를 통한 감동 전달자',
-    art_preference: ['로코코', '장식미술', '아르누보'],
-    famous_artists: ['Mary Cassatt', 'Gustav Klimt', 'Alphonse Mucha']
-  },
-  'SAIF': {
-    animal: 'deer',
-    name: '우아한 사슴',
-    name_ko: '사슴',
-    traits: ['감각적', '감정적', '내향적', '유연한'],
-    description: '섬세하고 우아한 감성의 시각적 시인',
-    art_preference: ['낭만주의', '상징주의', '아르데코'],
-    famous_artists: ['Caspar David Friedrich', 'Pierre-Auguste Renoir', 'Edgar Degas']
-  },
-  'SAIC': {
-    animal: 'swan',
-    name: '우아한 백조',
-    name_ko: '백조',
-    traits: ['감각적', '감정적', '내향적', '체계적'],
-    description: '완벽한 조화와 균형미를 추구하는 고전파',
-    art_preference: ['고전주의', '신고전주의', '아카데미즘'],
-    famous_artists: ['El Greco', 'Jean-Auguste-Dominique Ingres', 'William-Adolphe Bouguereau']
-  },
-
-  // 감각형 (S) + 이성적 (R)
-  'SREF': {
-    animal: 'tiger',
-    name: '역동적인 호랑이',
-    name_ko: '호랑이',
-    traits: ['감각적', '이성적', '외향적', '유연한'],
-    description: '강렬하고 역동적인 에너지의 표현자',
-    art_preference: ['표현주의', '액션 페인팅', '거대한 조각'],
-    famous_artists: ['Willem de Kooning', 'Franz Kline', 'Henry Moore']
-  },
-  'SREC': {
-    animal: 'lion',
-    name: '당당한 사자',
-    name_ko: '사자',
-    traits: ['감각적', '이성적', '외향적', '체계적'],
-    description: '강인한 의지와 명확한 비전의 리더',
-    art_preference: ['바로크', '리얼리즘', '사회적 사실주의'],
-    famous_artists: ['Caravaggio', 'Peter Paul Rubens', 'Diego Velázquez']
-  },
-  'SRIF': {
-    animal: 'panther',
-    name: '신비로운 팬더',
-    name_ko: '팬더',
-    traits: ['감각적', '이성적', '내향적', '유연한'],
-    description: '신중하고 깊이 있는 감각적 탐구자',
-    art_preference: ['몽환적 사실주의', '마술적 사실주의', '하이퍼리얼리즘'],
-    famous_artists: ['René Magritte', 'Giorgio de Chirico', 'Chuck Close']
-  },
-  'SRIC': {
-    animal: 'wolf',
-    name: '충실한 늑대',
-    name_ko: '늑대',
-    traits: ['감각적', '이성적', '내향적', '체계적'],
-    description: '충실하고 꾸준한 기법 연마의 장인',
-    art_preference: ['사실주의', '자연주의', '세밀화'],
-    famous_artists: ['Gustave Courbet', 'Jean-François Millet', 'Andrew Wyeth']
-  }
-};
+// Import central SAYU definitions
+const { SAYU_TYPES, VALID_TYPE_CODES, getSAYUType } = require('../../../shared/SAYUTypeDefinitions');
 
 // APT 코드에서 동물 유형 추출
 function getAnimalFromAPT(aptCode) {
@@ -164,13 +18,17 @@ function getAnimalFromAPT(aptCode) {
     return null;
   }
   
-  return ANIMAL_TYPES[aptCode] || null;
+  if (!VALID_TYPE_CODES.includes(aptCode)) {
+    return null;
+  }
+  
+  return getSAYUType(aptCode);
 }
 
 // 동물 유형에서 APT 코드 추출
 function getAPTFromAnimal(animalName) {
-  const entry = Object.entries(ANIMAL_TYPES).find(([code, data]) => 
-    data.animal === animalName || data.name_ko === animalName
+  const entry = Object.entries(SAYU_TYPES).find(([code, data]) => 
+    data.animal === animalName || data.animalEn === animalName
   );
   
   return entry ? entry[0] : null;
@@ -180,14 +38,15 @@ function getAPTFromAnimal(animalName) {
 function getAnimalsByDimension(dimension) {
   const results = {};
   
-  Object.entries(ANIMAL_TYPES).forEach(([code, data]) => {
+  Object.entries(SAYU_TYPES).forEach(([code, data]) => {
     const key = code[dimension] || 'unknown';
     if (!results[key]) results[key] = [];
     results[key].push({
       code,
       animal: data.animal,
+      animalEn: data.animalEn,
       name: data.name,
-      name_ko: data.name_ko
+      nameEn: data.nameEn
     });
   });
   
@@ -196,23 +55,25 @@ function getAnimalsByDimension(dimension) {
 
 // 유사한 동물 유형 찾기
 function findSimilarAnimals(aptCode, maxResults = 3) {
-  if (!aptCode || !ANIMAL_TYPES[aptCode]) return [];
+  if (!aptCode || !SAYU_TYPES[aptCode]) return [];
   
-  const targetTraits = ANIMAL_TYPES[aptCode].traits;
+  const targetType = SAYU_TYPES[aptCode];
+  const targetTraits = targetType.characteristics;
   const similarities = [];
   
-  Object.entries(ANIMAL_TYPES).forEach(([code, data]) => {
+  Object.entries(SAYU_TYPES).forEach(([code, data]) => {
     if (code === aptCode) return;
     
-    const commonTraits = data.traits.filter(trait => 
+    const commonTraits = data.characteristics.filter(trait => 
       targetTraits.includes(trait)
     ).length;
     
     similarities.push({
       code,
       animal: data.animal,
+      animalEn: data.animalEn,
       name: data.name,
-      name_ko: data.name_ko,
+      nameEn: data.nameEn,
       similarity: commonTraits / targetTraits.length
     });
   });
@@ -229,33 +90,37 @@ function analyzeArtistAnimalType(aptProfile) {
   }
   
   const primaryType = aptProfile.primary_types[0].type;
-  const animalData = ANIMAL_TYPES[primaryType];
+  const sayuType = SAYU_TYPES[primaryType];
   
-  if (!animalData) return null;
+  if (!sayuType) return null;
   
   const dimensions = aptProfile.dimensions || {};
   
   return {
     primary: {
       code: primaryType,
-      animal: animalData.animal,
-      name: animalData.name,
-      name_ko: animalData.name_ko,
-      traits: animalData.traits,
-      description: animalData.description
+      animal: sayuType.animal,
+      animalEn: sayuType.animalEn,
+      name: sayuType.name,
+      nameEn: sayuType.nameEn,
+      characteristics: sayuType.characteristics,
+      description: sayuType.description,
+      emoji: sayuType.emoji
     },
-    art_affinity: {
-      preferred_styles: animalData.art_preference,
-      famous_artists: animalData.famous_artists,
-      compatibility_score: calculateCompatibilityScore(dimensions, primaryType)
+    cognitive_functions: {
+      dominant: sayuType.dominantFunction,
+      inferior: sayuType.inferiorFunction,
+      conscious: sayuType.consciousFunctions,
+      unconscious: sayuType.unconsciousFunctions
     },
     similar_types: findSimilarAnimals(primaryType),
     dimension_analysis: {
-      intuition_vs_sensing: primaryType[0] === 'L' ? 'intuitive' : 'sensing',
-      emotion_vs_reason: primaryType[1] === 'A' ? 'emotional' : 'rational',
-      extrovert_vs_introvert: primaryType[2] === 'E' ? 'extroverted' : 'introverted',
-      flexible_vs_systematic: primaryType[3] === 'F' ? 'flexible' : 'systematic'
-    }
+      social_preference: primaryType[0] === 'L' ? 'lone' : 'social',
+      art_style: primaryType[1] === 'A' ? 'abstract' : 'representational',
+      response_mode: primaryType[2] === 'E' ? 'emotional' : 'meaning-driven',
+      approach_style: primaryType[3] === 'F' ? 'flow' : 'constructive'
+    },
+    compatibility_score: calculateCompatibilityScore(dimensions, primaryType)
   };
 }
 
@@ -263,6 +128,7 @@ function analyzeArtistAnimalType(aptProfile) {
 function calculateCompatibilityScore(dimensions, aptCode) {
   const expected = {
     'L': aptCode[0] === 'L' ? 0.7 : 0.3,
+    'S': aptCode[0] === 'S' ? 0.7 : 0.3,
     'A': aptCode[1] === 'A' ? 0.7 : 0.3,
     'R': aptCode[1] === 'R' ? 0.7 : 0.3,
     'E': aptCode[2] === 'E' ? 0.7 : 0.3,
@@ -286,40 +152,56 @@ function calculateCompatibilityScore(dimensions, aptCode) {
 
 // 동물 유형별 추천 전시 스타일
 function getRecommendedExhibitionStyles(animalType) {
-  const animal = ANIMAL_TYPES[animalType];
-  if (!animal) return [];
+  const sayuType = SAYU_TYPES[animalType];
+  if (!sayuType) return [];
   
   return {
-    primary_styles: animal.art_preference,
+    type_info: {
+      code: animalType,
+      name: sayuType.name,
+      animal: sayuType.animal,
+      characteristics: sayuType.characteristics
+    },
     atmosphere: getAtmosphereRecommendations(animalType),
     interaction_level: getInteractionRecommendations(animalType),
-    group_size: getGroupSizeRecommendations(animalType)
+    group_size: getGroupSizeRecommendations(animalType),
+    exhibition_flow: getFlowRecommendations(animalType)
   };
 }
 
 function getAtmosphereRecommendations(animalType) {
-  const isExtroverted = animalType[2] === 'E';
-  const isEmotional = animalType[1] === 'A';
+  const isSocial = animalType[0] === 'S';
+  const isEmotional = animalType[2] === 'E';
   
-  if (isExtroverted && isEmotional) return ['lively', 'interactive', 'social'];
-  if (isExtroverted && !isEmotional) return ['sophisticated', 'structured', 'educational'];
-  if (!isExtroverted && isEmotional) return ['intimate', 'contemplative', 'immersive'];
-  return ['quiet', 'focused', 'scholarly'];
+  if (isSocial && isEmotional) return ['lively', 'interactive', 'social', 'expressive'];
+  if (isSocial && !isEmotional) return ['sophisticated', 'structured', 'educational', 'analytical'];
+  if (!isSocial && isEmotional) return ['intimate', 'contemplative', 'immersive', 'personal'];
+  return ['quiet', 'focused', 'scholarly', 'reflective'];
 }
 
 function getInteractionRecommendations(animalType) {
-  const isFlexible = animalType[3] === 'F';
-  const isExtroverted = animalType[2] === 'E';
+  const isFlow = animalType[3] === 'F';
+  const isSocial = animalType[0] === 'S';
   
-  if (isFlexible && isExtroverted) return ['hands-on', 'discussion', 'collaborative'];
-  if (isFlexible && !isExtroverted) return ['self-guided', 'multimedia', 'reflective'];
-  if (!isFlexible && isExtroverted) return ['guided_tour', 'lecture', 'structured'];
-  return ['audio_guide', 'individual', 'systematic'];
+  if (isFlow && isSocial) return ['hands-on', 'discussion', 'collaborative', 'spontaneous'];
+  if (isFlow && !isSocial) return ['self-guided', 'multimedia', 'exploratory', 'flexible'];
+  if (!isFlow && isSocial) return ['guided_tour', 'lecture', 'structured', 'systematic'];
+  return ['audio_guide', 'individual', 'methodical', 'organized'];
 }
 
 function getGroupSizeRecommendations(animalType) {
-  const isExtroverted = animalType[2] === 'E';
-  return isExtroverted ? ['medium', 'large'] : ['small', 'individual'];
+  const isSocial = animalType[0] === 'S';
+  return isSocial ? ['medium', 'large'] : ['small', 'individual'];
+}
+
+function getFlowRecommendations(animalType) {
+  const isFlow = animalType[3] === 'F';
+  const isAbstract = animalType[1] === 'A';
+  
+  if (isFlow && isAbstract) return ['wandering', 'intuitive', 'atmosphere-driven'];
+  if (isFlow && !isAbstract) return ['story-driven', 'narrative', 'thematic'];
+  if (!isFlow && isAbstract) return ['conceptual-sequence', 'theoretical', 'systematic-abstract'];
+  return ['chronological', 'structured', 'educational-sequence'];
 }
 
 // 전체 분포 균형 체크
@@ -338,7 +220,8 @@ function checkDistributionBalance(distribution) {
     ideal_per_type: Math.ceil(idealPerType),
     unbalanced_types: unbalanced.map(([type, count]) => ({
       type,
-      animal: ANIMAL_TYPES[type]?.name_ko || type,
+      animal: SAYU_TYPES[type]?.animal || type,
+      animal_ko: SAYU_TYPES[type]?.animal || type,
       current_count: count,
       ideal_count: Math.ceil(idealPerType),
       status: count < idealPerType ? 'underrepresented' : 'overrepresented'
@@ -346,8 +229,44 @@ function checkDistributionBalance(distribution) {
   };
 }
 
+// SAYU 타입별 예술 스타일 선호도 (추가 기능)
+function getArtStylePreferences(animalType) {
+  const sayuType = SAYU_TYPES[animalType];
+  if (!sayuType) return null;
+  
+  const isAbstract = animalType[1] === 'A';
+  const isEmotional = animalType[2] === 'E';
+  const isFlow = animalType[3] === 'F';
+  
+  let styles = [];
+  
+  if (isAbstract && isEmotional && isFlow) {
+    styles = ['Abstract Expressionism', 'Surrealism', 'Color Field'];
+  } else if (isAbstract && isEmotional && !isFlow) {
+    styles = ['Symbolism', 'Art Nouveau', 'Expressionism'];
+  } else if (isAbstract && !isEmotional && isFlow) {
+    styles = ['Conceptual Art', 'Minimalism', 'Installation'];
+  } else if (isAbstract && !isEmotional && !isFlow) {
+    styles = ['Constructivism', 'Geometric Abstraction', 'Op Art'];
+  } else if (!isAbstract && isEmotional && isFlow) {
+    styles = ['Romanticism', 'Impressionism', 'Post-Impressionism'];
+  } else if (!isAbstract && isEmotional && !isFlow) {
+    styles = ['Academic Art', 'Pre-Raphaelite', 'Orientalism'];
+  } else if (!isAbstract && !isEmotional && isFlow) {
+    styles = ['Street Art', 'Pop Art', 'Photorealism'];
+  } else {
+    styles = ['Realism', 'Classical', 'Neoclassicism'];
+  }
+  
+  return {
+    primary_styles: styles,
+    characteristics: sayuType.characteristics,
+    description: sayuType.description
+  };
+}
+
 module.exports = {
-  ANIMAL_TYPES,
+  SAYU_TYPES, // Export central types
   getAnimalFromAPT,
   getAPTFromAnimal,
   getAnimalsByDimension,
@@ -355,5 +274,6 @@ module.exports = {
   analyzeArtistAnimalType,
   calculateCompatibilityScore,
   getRecommendedExhibitionStyles,
+  getArtStylePreferences,
   checkDistributionBalance
 };

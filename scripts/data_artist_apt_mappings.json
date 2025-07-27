@@ -1,0 +1,2201 @@
+[
+  {
+    "id": "bc1bb688-7593-4844-9352-8b634d9ed17f",
+    "artist_id": "16461492-c53c-4ec5-bf2a-f276d177aa19",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "expert_preset",
+        "keywords": [
+          "고독",
+          "열정",
+          "감정폭발",
+          "색채마술사"
+        ],
+        "reasoning": [
+          "극도로 개인적이고 감정적인 예술 세계, 자유로운 붓터치로 내면 표현"
+        ],
+        "confidence": 0.95
+      },
+      "dimensions": {
+        "A": 90,
+        "C": 20,
+        "E": 95,
+        "F": 80,
+        "L": 85,
+        "M": 5,
+        "R": 10,
+        "S": 15
+      },
+      "primary_types": [
+        {
+          "type": "LAEF",
+          "weight": 0.8
+        },
+        {
+          "type": "LAEC",
+          "weight": 0.2
+        }
+      ]
+    },
+    "confidence_score": "0.95",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: 극도로 개인적이고 감정적인 예술 세계, 자유로운 붓터치로 내면 표현",
+    "created_at": "2025-07-26T13:01:38.028Z",
+    "updated_at": "2025-07-26T13:01:38.028Z"
+  },
+  {
+    "id": "d32a4de1-c164-4e39-ab9b-0f607d763383",
+    "artist_id": "d69adc8c-5325-410f-80fe-cbe2cfd7b652",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "expert_preset",
+        "keywords": [
+          "혁신",
+          "사교적",
+          "다작",
+          "실험정신"
+        ],
+        "reasoning": [
+          "매우 사교적이며 지속적인 스타일 혁신, 개념적 접근"
+        ],
+        "confidence": 0.95
+      },
+      "dimensions": {
+        "A": 85,
+        "C": 30,
+        "E": 40,
+        "F": 70,
+        "L": 25,
+        "M": 60,
+        "R": 15,
+        "S": 75
+      },
+      "primary_types": [
+        {
+          "type": "SAMF",
+          "weight": 0.6
+        },
+        {
+          "type": "SAEF",
+          "weight": 0.3
+        },
+        {
+          "type": "SAMC",
+          "weight": 0.1
+        }
+      ]
+    },
+    "confidence_score": "0.95",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: 매우 사교적이며 지속적인 스타일 혁신, 개념적 접근",
+    "created_at": "2025-07-26T13:01:38.469Z",
+    "updated_at": "2025-07-26T13:01:38.469Z"
+  },
+  {
+    "id": "2c09faed-febc-4409-8bb7-5932b6286669",
+    "artist_id": "e5e309f9-ef3a-482a-adfc-f31d4a25d015",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "expert_preset",
+        "keywords": [
+          "빛",
+          "순간포착",
+          "자연주의",
+          "감성"
+        ],
+        "reasoning": [
+          "빛과 색채의 순간적 변화를 감성적으로 포착하는 자유로운 스타일"
+        ],
+        "confidence": 0.9
+      },
+      "dimensions": {
+        "A": 85,
+        "C": 10,
+        "E": 75,
+        "F": 90,
+        "L": 60,
+        "M": 25,
+        "R": 15,
+        "S": 40
+      },
+      "primary_types": [
+        {
+          "type": "LAEF",
+          "weight": 0.7
+        },
+        {
+          "type": "SAEF",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.90",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: 빛과 색채의 순간적 변화를 감성적으로 포착하는 자유로운 스타일",
+    "created_at": "2025-07-26T13:01:38.886Z",
+    "updated_at": "2025-07-26T13:01:38.886Z"
+  },
+  {
+    "id": "118a0dbc-2c6c-4032-9313-c5e7021d9e12",
+    "artist_id": "0ef9e729-5003-4f2e-9fa8-d21c430477c9",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "expert_preset",
+        "keywords": [
+          "과학",
+          "완벽주의",
+          "해부학",
+          "체계적"
+        ],
+        "reasoning": [
+          "과학적 관찰과 체계적 연구에 기반한 정밀한 예술"
+        ],
+        "confidence": 0.95
+      },
+      "dimensions": {
+        "A": 30,
+        "C": 85,
+        "E": 20,
+        "F": 15,
+        "L": 70,
+        "M": 80,
+        "R": 70,
+        "S": 30
+      },
+      "primary_types": [
+        {
+          "type": "LRMC",
+          "weight": 0.8
+        },
+        {
+          "type": "LRMF",
+          "weight": 0.2
+        }
+      ]
+    },
+    "confidence_score": "0.95",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: 과학적 관찰과 체계적 연구에 기반한 정밀한 예술",
+    "created_at": "2025-07-26T13:01:39.298Z",
+    "updated_at": "2025-07-26T13:01:39.298Z"
+  },
+  {
+    "id": "f01eeae3-bf59-4947-a88c-62d329be355e",
+    "artist_id": "dab4f1f4-49da-47d6-a576-3fd3ce34f3d6",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "expert_preset",
+        "keywords": [
+          "과학",
+          "완벽주의",
+          "해부학",
+          "체계적"
+        ],
+        "reasoning": [
+          "과학적 관찰과 체계적 연구에 기반한 정밀한 예술"
+        ],
+        "confidence": 0.95
+      },
+      "dimensions": {
+        "A": 30,
+        "C": 85,
+        "E": 20,
+        "F": 15,
+        "L": 70,
+        "M": 80,
+        "R": 70,
+        "S": 30
+      },
+      "primary_types": [
+        {
+          "type": "LRMC",
+          "weight": 0.8
+        },
+        {
+          "type": "LRMF",
+          "weight": 0.2
+        }
+      ]
+    },
+    "confidence_score": "0.95",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: 과학적 관찰과 체계적 연구에 기반한 정밀한 예술",
+    "created_at": "2025-07-26T13:01:39.716Z",
+    "updated_at": "2025-07-26T13:01:39.716Z"
+  },
+  {
+    "id": "b148083d-6032-435f-a1d3-c2496038c7dd",
+    "artist_id": "97249f0b-28d7-4389-83dc-e9f7f690b39d",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "rule_based_analysis_v2",
+        "keywords": [
+          "null년대"
+        ],
+        "reasoning": [],
+        "confidence": 0.6
+      },
+      "dimensions": {
+        "A": 50,
+        "C": 50,
+        "E": 50,
+        "F": 50,
+        "L": 50,
+        "M": 50,
+        "R": 50,
+        "S": 50
+      },
+      "primary_types": [
+        {
+          "type": "SRMC",
+          "weight": 0.7
+        },
+        {
+          "type": "LRMC",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.60",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: ",
+    "created_at": "2025-07-26T13:01:40.131Z",
+    "updated_at": "2025-07-26T13:01:40.131Z"
+  },
+  {
+    "id": "eb14e296-f152-4d37-8d00-0761801f4e8f",
+    "artist_id": "afa12d27-73ac-42e8-8585-df483e9d3787",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "rule_based_analysis_v2",
+        "keywords": [
+          "null년대"
+        ],
+        "reasoning": [],
+        "confidence": 0.6
+      },
+      "dimensions": {
+        "A": 50,
+        "C": 50,
+        "E": 50,
+        "F": 50,
+        "L": 50,
+        "M": 50,
+        "R": 50,
+        "S": 50
+      },
+      "primary_types": [
+        {
+          "type": "SRMC",
+          "weight": 0.7
+        },
+        {
+          "type": "LRMC",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.60",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: ",
+    "created_at": "2025-07-26T13:01:40.545Z",
+    "updated_at": "2025-07-26T13:01:40.545Z"
+  },
+  {
+    "id": "e7bbe76f-2aec-478e-85b2-45d003fadbf4",
+    "artist_id": "63c30a64-66a5-41e6-bf50-e2dae177dc96",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "rule_based_analysis_v2",
+        "keywords": [
+          "null년대"
+        ],
+        "reasoning": [],
+        "confidence": 0.6
+      },
+      "dimensions": {
+        "A": 50,
+        "C": 50,
+        "E": 50,
+        "F": 50,
+        "L": 50,
+        "M": 50,
+        "R": 50,
+        "S": 50
+      },
+      "primary_types": [
+        {
+          "type": "SRMC",
+          "weight": 0.7
+        },
+        {
+          "type": "LRMC",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.60",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: ",
+    "created_at": "2025-07-26T13:01:40.968Z",
+    "updated_at": "2025-07-26T13:01:40.968Z"
+  },
+  {
+    "id": "13be9b09-996f-4710-b422-dd4074a8e94a",
+    "artist_id": "29b04cd8-240e-4816-b79f-bba6ccefff63",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "rule_based_analysis_v2",
+        "keywords": [
+          "null년대"
+        ],
+        "reasoning": [],
+        "confidence": 0.6
+      },
+      "dimensions": {
+        "A": 50,
+        "C": 50,
+        "E": 50,
+        "F": 50,
+        "L": 50,
+        "M": 50,
+        "R": 50,
+        "S": 50
+      },
+      "primary_types": [
+        {
+          "type": "SRMC",
+          "weight": 0.7
+        },
+        {
+          "type": "LRMC",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.60",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: ",
+    "created_at": "2025-07-26T13:01:41.392Z",
+    "updated_at": "2025-07-26T13:01:41.392Z"
+  },
+  {
+    "id": "bf6c3e00-ad14-46f4-96a8-5453d9383b50",
+    "artist_id": "c02f8dd3-d9f4-469b-80fd-21e353728ee9",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "rule_based_analysis_v2",
+        "keywords": [
+          "null년대"
+        ],
+        "reasoning": [],
+        "confidence": 0.6
+      },
+      "dimensions": {
+        "A": 50,
+        "C": 50,
+        "E": 50,
+        "F": 50,
+        "L": 50,
+        "M": 50,
+        "R": 50,
+        "S": 50
+      },
+      "primary_types": [
+        {
+          "type": "SRMC",
+          "weight": 0.7
+        },
+        {
+          "type": "LRMC",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.60",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: ",
+    "created_at": "2025-07-26T13:01:41.807Z",
+    "updated_at": "2025-07-26T13:01:41.807Z"
+  },
+  {
+    "id": "ce11cc9f-c649-4163-aeb1-904fdb1e70ea",
+    "artist_id": "d999e97e-4506-4ac4-9d4c-5a95d0b7cef5",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "rule_based_analysis_v2",
+        "keywords": [
+          "null년대"
+        ],
+        "reasoning": [],
+        "confidence": 0.6
+      },
+      "dimensions": {
+        "A": 50,
+        "C": 50,
+        "E": 50,
+        "F": 50,
+        "L": 50,
+        "M": 50,
+        "R": 50,
+        "S": 50
+      },
+      "primary_types": [
+        {
+          "type": "SRMC",
+          "weight": 0.7
+        },
+        {
+          "type": "LRMC",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.60",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: ",
+    "created_at": "2025-07-26T13:01:42.220Z",
+    "updated_at": "2025-07-26T13:01:42.220Z"
+  },
+  {
+    "id": "66e0b36d-b1c6-4e00-be01-76fa09fca141",
+    "artist_id": "0104e1a1-3ede-4b9a-852e-3da8aebfe89d",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "rule_based_analysis_v2",
+        "keywords": [
+          "null년대"
+        ],
+        "reasoning": [],
+        "confidence": 0.6
+      },
+      "dimensions": {
+        "A": 50,
+        "C": 50,
+        "E": 50,
+        "F": 50,
+        "L": 50,
+        "M": 50,
+        "R": 50,
+        "S": 50
+      },
+      "primary_types": [
+        {
+          "type": "SRMC",
+          "weight": 0.7
+        },
+        {
+          "type": "LRMC",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.60",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: ",
+    "created_at": "2025-07-26T13:01:42.640Z",
+    "updated_at": "2025-07-26T13:01:42.640Z"
+  },
+  {
+    "id": "9f2eb8cb-682d-4fc8-a92c-e8c607018238",
+    "artist_id": "3e706040-e519-4d78-9837-5c703153f97e",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "expert_preset",
+        "keywords": [
+          "팝아트",
+          "대중문화",
+          "상업적",
+          "반복"
+        ],
+        "reasoning": [
+          "대중문화와 상업 예술의 의미를 탐구하는 사회적 아티스트"
+        ],
+        "confidence": 0.85
+      },
+      "dimensions": {
+        "A": 60,
+        "C": 60,
+        "E": 30,
+        "F": 40,
+        "L": 20,
+        "M": 70,
+        "R": 40,
+        "S": 80
+      },
+      "primary_types": [
+        {
+          "type": "SAMC",
+          "weight": 0.7
+        },
+        {
+          "type": "SAMF",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: 대중문화와 상업 예술의 의미를 탐구하는 사회적 아티스트",
+    "created_at": "2025-07-26T13:01:43.063Z",
+    "updated_at": "2025-07-26T13:01:43.063Z"
+  },
+  {
+    "id": "288ba53f-9b55-4e52-9933-d029f21bac61",
+    "artist_id": "a1c20d81-1d2e-4826-9467-d1eeda1c343e",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "expert_preset",
+        "keywords": [
+          "익명성",
+          "사회비판",
+          "정치적",
+          "게릴라"
+        ],
+        "reasoning": [
+          "익명성을 통한 사회 비판, 개념적이면서도 감각적"
+        ],
+        "confidence": 0.8
+      },
+      "dimensions": {
+        "A": 70,
+        "C": 40,
+        "E": 40,
+        "F": 60,
+        "L": 85,
+        "M": 60,
+        "R": 30,
+        "S": 15
+      },
+      "primary_types": [
+        {
+          "type": "LAMF",
+          "weight": 0.6
+        },
+        {
+          "type": "LAMC",
+          "weight": 0.4
+        }
+      ]
+    },
+    "confidence_score": "0.80",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: 익명성을 통한 사회 비판, 개념적이면서도 감각적",
+    "created_at": "2025-07-26T13:01:43.479Z",
+    "updated_at": "2025-07-26T13:01:43.479Z"
+  },
+  {
+    "id": "1812447b-0bd0-48dc-a605-106d90672593",
+    "artist_id": "0071336a-87d3-43df-9aae-9be5cadf2bf3",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "expert_preset",
+        "keywords": [
+          "액션페인팅",
+          "무의식",
+          "자동기법",
+          "역동성"
+        ],
+        "reasoning": [
+          "무의식과 신체 움직임의 자유로운 표현"
+        ],
+        "confidence": 0.9
+      },
+      "dimensions": {
+        "A": 95,
+        "C": 5,
+        "E": 85,
+        "F": 95,
+        "L": 70,
+        "M": 15,
+        "R": 5,
+        "S": 30
+      },
+      "primary_types": [
+        {
+          "type": "LAEF",
+          "weight": 0.8
+        },
+        {
+          "type": "LAMF",
+          "weight": 0.2
+        }
+      ]
+    },
+    "confidence_score": "0.90",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: 무의식과 신체 움직임의 자유로운 표현",
+    "created_at": "2025-07-26T13:01:43.892Z",
+    "updated_at": "2025-07-26T13:01:43.892Z"
+  },
+  {
+    "id": "7dd921f9-a81d-4dc8-b8d7-d725663f04d0",
+    "artist_id": "e1c789b0-b223-4414-8148-2e5a5063361c",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "rule_based_analysis_v2",
+        "keywords": [
+          "French",
+          "1834년대"
+        ],
+        "reasoning": [
+          "French 문화권의 예술 특성 반영"
+        ],
+        "confidence": 0.7
+      },
+      "dimensions": {
+        "A": 65,
+        "C": 35,
+        "E": 60,
+        "F": 65,
+        "L": 50,
+        "M": 40,
+        "R": 35,
+        "S": 50
+      },
+      "primary_types": [
+        {
+          "type": "SAEF",
+          "weight": 0.7
+        },
+        {
+          "type": "LAEF",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.70",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: French 문화권의 예술 특성 반영",
+    "created_at": "2025-07-26T13:01:44.309Z",
+    "updated_at": "2025-07-26T13:01:44.309Z"
+  },
+  {
+    "id": "bc5350ff-b6a3-4303-822e-c6b112e8ead2",
+    "artist_id": "9012c52e-f77d-46db-84b0-e617f3fa70e0",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "expert_preset",
+        "keywords": [
+          "조각적",
+          "영웅적",
+          "고독한천재",
+          "완벽추구"
+        ],
+        "reasoning": [
+          "고독한 완벽주의자, 인체의 이상적 표현 추구"
+        ],
+        "confidence": 0.9
+      },
+      "dimensions": {
+        "A": 20,
+        "C": 75,
+        "E": 30,
+        "F": 25,
+        "L": 75,
+        "M": 70,
+        "R": 80,
+        "S": 25
+      },
+      "primary_types": [
+        {
+          "type": "LRMC",
+          "weight": 0.7
+        },
+        {
+          "type": "LREC",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.90",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: 고독한 완벽주의자, 인체의 이상적 표현 추구",
+    "created_at": "2025-07-26T13:01:44.732Z",
+    "updated_at": "2025-07-26T13:01:44.732Z"
+  },
+  {
+    "id": "322c9f6e-3a36-4f43-98df-ac17a7a1cdcd",
+    "artist_id": "373ddb36-b8ef-4244-b56d-625c38d92f5c",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "rule_based_analysis_v2",
+        "keywords": [
+          "French",
+          "1839년대"
+        ],
+        "reasoning": [
+          "French 문화권의 예술 특성 반영"
+        ],
+        "confidence": 0.7
+      },
+      "dimensions": {
+        "A": 65,
+        "C": 35,
+        "E": 60,
+        "F": 65,
+        "L": 50,
+        "M": 40,
+        "R": 35,
+        "S": 50
+      },
+      "primary_types": [
+        {
+          "type": "SAEF",
+          "weight": 0.7
+        },
+        {
+          "type": "LAEF",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.70",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: French 문화권의 예술 특성 반영",
+    "created_at": "2025-07-26T13:01:45.148Z",
+    "updated_at": "2025-07-26T13:01:45.148Z"
+  },
+  {
+    "id": "ad72cebb-4d4a-4046-b337-7c54f551ff27",
+    "artist_id": "4b5de4e5-16a1-4f94-80bb-079ef2ee5c38",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "rule_based_analysis_v2",
+        "keywords": [
+          "French",
+          "1841년대"
+        ],
+        "reasoning": [
+          "French 문화권의 예술 특성 반영"
+        ],
+        "confidence": 0.7
+      },
+      "dimensions": {
+        "A": 65,
+        "C": 35,
+        "E": 60,
+        "F": 65,
+        "L": 50,
+        "M": 40,
+        "R": 35,
+        "S": 50
+      },
+      "primary_types": [
+        {
+          "type": "SAEF",
+          "weight": 0.7
+        },
+        {
+          "type": "LAEF",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.70",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: French 문화권의 예술 특성 반영",
+    "created_at": "2025-07-26T13:01:45.562Z",
+    "updated_at": "2025-07-26T13:01:45.562Z"
+  },
+  {
+    "id": "c1b5189e-b4ae-4e07-90a1-f3c0377d246e",
+    "artist_id": "afbb67cf-04b7-406a-bd51-0c4362dd8289",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "rule_based_analysis_v2",
+        "keywords": [
+          "French",
+          "1869년대"
+        ],
+        "reasoning": [
+          "French 문화권의 예술 특성 반영"
+        ],
+        "confidence": 0.7
+      },
+      "dimensions": {
+        "A": 65,
+        "C": 35,
+        "E": 60,
+        "F": 65,
+        "L": 50,
+        "M": 40,
+        "R": 35,
+        "S": 50
+      },
+      "primary_types": [
+        {
+          "type": "SAEF",
+          "weight": 0.7
+        },
+        {
+          "type": "LAEF",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.70",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: French 문화권의 예술 특성 반영",
+    "created_at": "2025-07-26T13:01:45.989Z",
+    "updated_at": "2025-07-26T13:01:45.989Z"
+  },
+  {
+    "id": "c047ad87-4b6b-415a-940b-01bc5400ca91",
+    "artist_id": "3d073fcc-cfe0-4c48-b2ad-6b31dd0bd718",
+    "mapping_method": "expert_analysis_v2",
+    "apt_profile": {
+      "meta": {
+        "source": "rule_based_analysis_v2",
+        "keywords": [
+          "French",
+          "1841년대"
+        ],
+        "reasoning": [
+          "French 문화권의 예술 특성 반영"
+        ],
+        "confidence": 0.7
+      },
+      "dimensions": {
+        "A": 65,
+        "C": 35,
+        "E": 60,
+        "F": 65,
+        "L": 50,
+        "M": 40,
+        "R": 35,
+        "S": 50
+      },
+      "primary_types": [
+        {
+          "type": "SAEF",
+          "weight": 0.7
+        },
+        {
+          "type": "LAEF",
+          "weight": 0.3
+        }
+      ]
+    },
+    "confidence_score": "0.70",
+    "mapped_by": "sayu_apt_analyzer_v2",
+    "mapping_notes": "Analyzed: French 문화권의 예술 특성 반영",
+    "created_at": "2025-07-26T13:01:46.419Z",
+    "updated_at": "2025-07-26T13:01:46.419Z"
+  },
+  {
+    "id": "546368d8-36e8-48ad-8913-4eba6a76f951",
+    "artist_id": "8ab4c681-246f-4dbb-9455-8d2e66eb2114",
+    "mapping_method": "safe_targeted_mapping",
+    "apt_profile": {
+      "meta": {
+        "method": "safe_targeted_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Georgia O'Keeffe",
+        "analysis_date": "2025-07-26T14:50:32.055Z"
+      },
+      "dimensions": {
+        "A": 60,
+        "C": 35,
+        "E": 80,
+        "F": 65,
+        "L": 75,
+        "M": 20,
+        "R": 40,
+        "S": 25
+      },
+      "primary_types": [
+        {
+          "type": "LAEC",
+          "title": "감성 큐레이터",
+          "animal": "cat",
+          "weight": 0.85,
+          "name_ko": "고양이",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_safe_mapper",
+    "mapping_notes": "Targeted mapping: georgia o'keeffe → LAEC",
+    "created_at": "2025-07-26T14:50:32.213Z",
+    "updated_at": "2025-07-26T14:50:32.213Z"
+  },
+  {
+    "id": "822d5ba0-df57-47f2-9535-c01779723b20",
+    "artist_id": "08e9ade6-7bfc-4bfd-9a48-84cf3e32755c",
+    "mapping_method": "safe_targeted_mapping",
+    "apt_profile": {
+      "meta": {
+        "method": "safe_targeted_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Mary Cassatt",
+        "analysis_date": "2025-07-26T14:50:32.662Z"
+      },
+      "dimensions": {
+        "A": 60,
+        "C": 35,
+        "E": 80,
+        "F": 70,
+        "L": 75,
+        "M": 20,
+        "R": 40,
+        "S": 35
+      },
+      "primary_types": [
+        {
+          "type": "LAEC",
+          "title": "감성 큐레이터",
+          "animal": "cat",
+          "weight": 0.85,
+          "name_ko": "고양이",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_safe_mapper",
+    "mapping_notes": "Targeted mapping: mary cassatt → LAEC",
+    "created_at": "2025-07-26T14:50:32.819Z",
+    "updated_at": "2025-07-26T14:50:32.819Z"
+  },
+  {
+    "id": "3d92ac40-2c6f-40f4-97fd-efa996a1c9fc",
+    "artist_id": "43ad68a7-c82d-4ae3-ba80-3bd1b652e848",
+    "mapping_method": "safe_targeted_mapping",
+    "apt_profile": {
+      "meta": {
+        "method": "safe_targeted_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Berthe Morisot",
+        "analysis_date": "2025-07-26T14:50:33.270Z"
+      },
+      "dimensions": {
+        "A": 60,
+        "C": 35,
+        "E": 80,
+        "F": 65,
+        "L": 75,
+        "M": 20,
+        "R": 40,
+        "S": 25
+      },
+      "primary_types": [
+        {
+          "type": "LAEC",
+          "title": "감성 큐레이터",
+          "animal": "cat",
+          "weight": 0.85,
+          "name_ko": "고양이",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_safe_mapper",
+    "mapping_notes": "Targeted mapping: berthe morisot → LAEC",
+    "created_at": "2025-07-26T14:50:33.426Z",
+    "updated_at": "2025-07-26T14:50:33.426Z"
+  },
+  {
+    "id": "2c369443-d2c2-41f2-98f7-41b6743a403d",
+    "artist_id": "f6bf5a9c-b9d0-40af-9630-20588ea0a26a",
+    "mapping_method": "safe_targeted_mapping",
+    "apt_profile": {
+      "meta": {
+        "method": "safe_targeted_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Louise Bourgeois",
+        "analysis_date": "2025-07-26T14:50:33.875Z"
+      },
+      "dimensions": {
+        "A": 60,
+        "C": 35,
+        "E": 80,
+        "F": 65,
+        "L": 75,
+        "M": 20,
+        "R": 40,
+        "S": 25
+      },
+      "primary_types": [
+        {
+          "type": "LAEC",
+          "title": "감성 큐레이터",
+          "animal": "cat",
+          "weight": 0.85,
+          "name_ko": "고양이",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_safe_mapper",
+    "mapping_notes": "Targeted mapping: louise bourgeois → LAEC",
+    "created_at": "2025-07-26T14:50:34.030Z",
+    "updated_at": "2025-07-26T14:50:34.030Z"
+  },
+  {
+    "id": "fff3dbc5-e6da-468c-80dd-a530ad1ef0cc",
+    "artist_id": "b9d5b263-8674-4b33-9cff-4eb9f786f9ed",
+    "mapping_method": "safe_targeted_mapping",
+    "apt_profile": {
+      "meta": {
+        "method": "safe_targeted_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Frida Kahlo",
+        "analysis_date": "2025-07-26T14:50:34.490Z"
+      },
+      "dimensions": {
+        "A": 60,
+        "C": 35,
+        "E": 80,
+        "F": 65,
+        "L": 75,
+        "M": 20,
+        "R": 40,
+        "S": 25
+      },
+      "primary_types": [
+        {
+          "type": "LAEC",
+          "title": "감성 큐레이터",
+          "animal": "cat",
+          "weight": 0.85,
+          "name_ko": "고양이",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_safe_mapper",
+    "mapping_notes": "Targeted mapping: frida kahlo → LAEC",
+    "created_at": "2025-07-26T14:50:34.646Z",
+    "updated_at": "2025-07-26T14:50:34.646Z"
+  },
+  {
+    "id": "fbe47566-0b97-436a-81f8-d8ce12a809eb",
+    "artist_id": "96633be1-5c00-4a68-9829-b8dc28cbe6fc",
+    "mapping_method": "safe_targeted_mapping",
+    "apt_profile": {
+      "meta": {
+        "method": "safe_targeted_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Johannes Vermeer",
+        "analysis_date": "2025-07-26T14:50:35.096Z"
+      },
+      "dimensions": {
+        "A": 35,
+        "C": 55,
+        "E": 75,
+        "F": 45,
+        "L": 80,
+        "M": 25,
+        "R": 65,
+        "S": 20
+      },
+      "primary_types": [
+        {
+          "type": "LREC",
+          "title": "섬세한 감정가",
+          "animal": "hedgehog",
+          "weight": 0.85,
+          "name_ko": "고슴도치",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_safe_mapper",
+    "mapping_notes": "Targeted mapping: johannes vermeer → LREC",
+    "created_at": "2025-07-26T14:50:35.250Z",
+    "updated_at": "2025-07-26T14:50:35.250Z"
+  },
+  {
+    "id": "3b378b9e-6a28-4970-9f17-90fdb4c51d8c",
+    "artist_id": "7990a470-c6e2-4551-b25a-55bbe799ae1b",
+    "mapping_method": "safe_targeted_mapping",
+    "apt_profile": {
+      "meta": {
+        "method": "safe_targeted_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Jean Siméon Chardin",
+        "analysis_date": "2025-07-26T14:50:35.921Z"
+      },
+      "dimensions": {
+        "A": 35,
+        "C": 55,
+        "E": 75,
+        "F": 45,
+        "L": 80,
+        "M": 25,
+        "R": 65,
+        "S": 20
+      },
+      "primary_types": [
+        {
+          "type": "LREC",
+          "title": "섬세한 감정가",
+          "animal": "hedgehog",
+          "weight": 0.85,
+          "name_ko": "고슴도치",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_safe_mapper",
+    "mapping_notes": "Targeted mapping: chardin → LREC",
+    "created_at": "2025-07-26T14:50:36.076Z",
+    "updated_at": "2025-07-26T14:50:36.076Z"
+  },
+  {
+    "id": "727cf052-2714-4a67-af2c-b123331ba493",
+    "artist_id": "a4ac6c2b-bb8c-45ea-bd8c-be0822099b3b",
+    "mapping_method": "safe_targeted_mapping",
+    "apt_profile": {
+      "meta": {
+        "method": "safe_targeted_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "David Hockney",
+        "analysis_date": "2025-07-26T14:50:37.567Z"
+      },
+      "dimensions": {
+        "A": 40,
+        "C": 50,
+        "E": 70,
+        "F": 50,
+        "L": 25,
+        "M": 30,
+        "R": 60,
+        "S": 75
+      },
+      "primary_types": [
+        {
+          "type": "SREC",
+          "title": "따뜻한 안내자",
+          "animal": "duck",
+          "weight": 0.85,
+          "name_ko": "오리",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_safe_mapper",
+    "mapping_notes": "Targeted mapping: david hockney → SREC",
+    "created_at": "2025-07-26T14:50:37.721Z",
+    "updated_at": "2025-07-26T14:50:37.721Z"
+  },
+  {
+    "id": "a8fc3c0a-c752-4e0a-a4c6-3f2016084f4f",
+    "artist_id": "20c84e69-38ce-40b4-b522-efad1f32bded",
+    "mapping_method": "safe_targeted_mapping",
+    "apt_profile": {
+      "meta": {
+        "method": "safe_targeted_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Kehinde Wiley",
+        "analysis_date": "2025-07-26T14:50:38.592Z"
+      },
+      "dimensions": {
+        "A": 40,
+        "C": 50,
+        "E": 70,
+        "F": 50,
+        "L": 25,
+        "M": 30,
+        "R": 60,
+        "S": 75
+      },
+      "primary_types": [
+        {
+          "type": "SREC",
+          "title": "따뜻한 안내자",
+          "animal": "duck",
+          "weight": 0.85,
+          "name_ko": "오리",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_safe_mapper",
+    "mapping_notes": "Targeted mapping: kehinde wiley → SREC",
+    "created_at": "2025-07-26T14:50:38.749Z",
+    "updated_at": "2025-07-26T14:50:38.749Z"
+  },
+  {
+    "id": "4d330b56-bda7-4f13-8d8b-55d2a1dac99f",
+    "artist_id": "349cb5b6-f981-4df4-a337-af5d7e006b7b",
+    "mapping_method": "safe_targeted_mapping",
+    "apt_profile": {
+      "meta": {
+        "method": "safe_targeted_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Kerry James Marshall",
+        "analysis_date": "2025-07-26T14:50:39.207Z"
+      },
+      "dimensions": {
+        "A": 40,
+        "C": 50,
+        "E": 70,
+        "F": 50,
+        "L": 25,
+        "M": 30,
+        "R": 60,
+        "S": 75
+      },
+      "primary_types": [
+        {
+          "type": "SREC",
+          "title": "따뜻한 안내자",
+          "animal": "duck",
+          "weight": 0.85,
+          "name_ko": "오리",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_safe_mapper",
+    "mapping_notes": "Targeted mapping: kerry james marshall → SREC",
+    "created_at": "2025-07-26T14:50:39.361Z",
+    "updated_at": "2025-07-26T14:50:39.361Z"
+  },
+  {
+    "id": "8c00512c-852b-47ce-95e7-d342626ac1de",
+    "artist_id": "9b69a52b-f977-4993-bfd2-8f19f262f971",
+    "mapping_method": "safe_targeted_mapping",
+    "apt_profile": {
+      "meta": {
+        "method": "safe_targeted_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Ai Weiwei",
+        "analysis_date": "2025-07-26T14:50:39.819Z"
+      },
+      "dimensions": {
+        "A": 45,
+        "C": 35,
+        "E": 25,
+        "F": 65,
+        "L": 30,
+        "M": 75,
+        "R": 55,
+        "S": 70
+      },
+      "primary_types": [
+        {
+          "type": "SRMF",
+          "title": "지식 멘토",
+          "animal": "elephant",
+          "weight": 0.85,
+          "name_ko": "코끼리",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_safe_mapper",
+    "mapping_notes": "Targeted mapping: ai weiwei → SRMF",
+    "created_at": "2025-07-26T14:50:39.973Z",
+    "updated_at": "2025-07-26T14:50:39.973Z"
+  },
+  {
+    "id": "eee124fd-d727-474f-8d92-1f8fd9505131",
+    "artist_id": "e04e6a51-75d7-4e89-8c9e-e76c70df6330",
+    "mapping_method": "safe_targeted_mapping",
+    "apt_profile": {
+      "meta": {
+        "method": "safe_targeted_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Olafur Eliasson",
+        "analysis_date": "2025-07-26T14:50:40.438Z"
+      },
+      "dimensions": {
+        "A": 45,
+        "C": 35,
+        "E": 25,
+        "F": 65,
+        "L": 30,
+        "M": 75,
+        "R": 55,
+        "S": 70
+      },
+      "primary_types": [
+        {
+          "type": "SRMF",
+          "title": "지식 멘토",
+          "animal": "elephant",
+          "weight": 0.85,
+          "name_ko": "코끼리",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_safe_mapper",
+    "mapping_notes": "Targeted mapping: olafur eliasson → SRMF",
+    "created_at": "2025-07-26T14:50:40.598Z",
+    "updated_at": "2025-07-26T14:50:40.598Z"
+  },
+  {
+    "id": "64c1b642-8d67-4b12-b041-1efa2360859e",
+    "artist_id": "40271a68-d18f-4e42-bfb3-4a1a44b7becf",
+    "mapping_method": "safe_targeted_mapping",
+    "apt_profile": {
+      "meta": {
+        "method": "safe_targeted_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Yayoi Kusama",
+        "analysis_date": "2025-07-26T14:50:41.461Z"
+      },
+      "dimensions": {
+        "A": 45,
+        "C": 35,
+        "E": 25,
+        "F": 65,
+        "L": 30,
+        "M": 75,
+        "R": 55,
+        "S": 70
+      },
+      "primary_types": [
+        {
+          "type": "SRMF",
+          "title": "지식 멘토",
+          "animal": "elephant",
+          "weight": 0.85,
+          "name_ko": "코끼리",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_safe_mapper",
+    "mapping_notes": "Targeted mapping: yayoi kusama → SRMF",
+    "created_at": "2025-07-26T14:50:41.616Z",
+    "updated_at": "2025-07-26T14:50:41.616Z"
+  },
+  {
+    "id": "5f3d79cd-f330-4b0d-8e37-16ab337157cb",
+    "artist_id": "a29d39b6-f318-43a6-8962-be25d83f7baa",
+    "mapping_method": "final_completion_v1",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Andreas Gursky",
+        "analysis_date": "2025-07-26T14:52:21.681Z"
+      },
+      "dimensions": {
+        "A": 55,
+        "C": 40,
+        "E": 20,
+        "F": 60,
+        "L": 65,
+        "M": 80,
+        "R": 45,
+        "S": 35
+      },
+      "primary_types": [
+        {
+          "type": "LRMF",
+          "title": "디지털 탐험가",
+          "animal": "octopus",
+          "weight": 0.85,
+          "name_ko": "문어",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_final_completer",
+    "mapping_notes": "Final completion: andreas gursky → LRMF",
+    "created_at": "2025-07-26T14:52:21.844Z",
+    "updated_at": "2025-07-26T14:52:21.844Z"
+  },
+  {
+    "id": "4d86c410-ee6f-4bc0-9483-34f3149d1c18",
+    "artist_id": "4a7e6ec2-da6b-40a1-b0b1-fd08191cdab2",
+    "mapping_method": "final_completion_v1",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Cindy Sherman",
+        "analysis_date": "2025-07-26T14:52:22.301Z"
+      },
+      "dimensions": {
+        "A": 55,
+        "C": 30,
+        "E": 30,
+        "F": 70,
+        "L": 65,
+        "M": 70,
+        "R": 45,
+        "S": 35
+      },
+      "primary_types": [
+        {
+          "type": "LRMF",
+          "title": "디지털 탐험가",
+          "animal": "octopus",
+          "weight": 0.85,
+          "name_ko": "문어",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_final_completer",
+    "mapping_notes": "Final completion: cindy sherman → LRMF",
+    "created_at": "2025-07-26T14:52:22.463Z",
+    "updated_at": "2025-07-26T14:52:22.463Z"
+  },
+  {
+    "id": "e3fea545-9e03-406a-814a-2d5f0456e1c4",
+    "artist_id": "c7a2a879-8e78-43eb-8e4e-16f32993b4ce",
+    "mapping_method": "final_completion_v1",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Takashi Murakami",
+        "analysis_date": "2025-07-26T14:52:26.727Z"
+      },
+      "dimensions": {
+        "A": 65,
+        "C": 45,
+        "E": 70,
+        "F": 55,
+        "L": 25,
+        "M": 30,
+        "R": 35,
+        "S": 75
+      },
+      "primary_types": [
+        {
+          "type": "SAEC",
+          "title": "예술 네트워커",
+          "animal": "penguin",
+          "weight": 0.85,
+          "name_ko": "펭귄",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_final_completer",
+    "mapping_notes": "Final completion: takashi murakami → SAEC",
+    "created_at": "2025-07-26T14:52:26.889Z",
+    "updated_at": "2025-07-26T14:52:26.889Z"
+  },
+  {
+    "id": "3c161b81-50f4-4c0e-80b6-bad04d25f31a",
+    "artist_id": "4990f226-0fd9-4cf4-8811-3faafdc3bf28",
+    "mapping_method": "final_completion_v1",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Kaws",
+        "analysis_date": "2025-07-26T14:52:27.371Z"
+      },
+      "dimensions": {
+        "A": 65,
+        "C": 40,
+        "E": 70,
+        "F": 60,
+        "L": 15,
+        "M": 30,
+        "R": 35,
+        "S": 85
+      },
+      "primary_types": [
+        {
+          "type": "SAEC",
+          "title": "예술 네트워커",
+          "animal": "penguin",
+          "weight": 0.85,
+          "name_ko": "펭귄",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_final_completer",
+    "mapping_notes": "Final completion: kaws → SAEC",
+    "created_at": "2025-07-26T14:52:27.533Z",
+    "updated_at": "2025-07-26T14:52:27.533Z"
+  },
+  {
+    "id": "f7ca5541-642a-447b-a307-c7dd30c54317",
+    "artist_id": "50c3540a-83a8-4bfc-9580-f481cb3a0c16",
+    "mapping_method": "final_completion_v1",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Francisco José de Goya y Lucientes",
+        "analysis_date": "2025-07-26T14:52:28.223Z"
+      },
+      "dimensions": {
+        "A": 25,
+        "C": 30,
+        "E": 70,
+        "F": 70,
+        "L": 30,
+        "M": 30,
+        "R": 75,
+        "S": 70
+      },
+      "primary_types": [
+        {
+          "type": "SREF",
+          "title": "열정적 관람자",
+          "animal": "dog",
+          "weight": 0.85,
+          "name_ko": "강아지",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_final_completer",
+    "mapping_notes": "Final completion: goya → SREF",
+    "created_at": "2025-07-26T14:52:28.386Z",
+    "updated_at": "2025-07-26T14:52:28.386Z"
+  },
+  {
+    "id": "0e7bbfaf-f282-4946-ae9e-2d2f2285383a",
+    "artist_id": "0c3c98c3-0651-4a7f-9826-64cb51fc2b80",
+    "mapping_method": "final_completion_v1",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Eugène Delacroix",
+        "analysis_date": "2025-07-26T14:52:29.076Z"
+      },
+      "dimensions": {
+        "A": 35,
+        "C": 30,
+        "E": 75,
+        "F": 70,
+        "L": 30,
+        "M": 25,
+        "R": 65,
+        "S": 70
+      },
+      "primary_types": [
+        {
+          "type": "SREF",
+          "title": "열정적 관람자",
+          "animal": "dog",
+          "weight": 0.85,
+          "name_ko": "강아지",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_final_completer",
+    "mapping_notes": "Final completion: delacroix → SREF",
+    "created_at": "2025-07-26T14:52:29.238Z",
+    "updated_at": "2025-07-26T14:52:29.238Z"
+  },
+  {
+    "id": "7f2f1f78-cd8f-4781-9d9b-afaa431db21c",
+    "artist_id": "52e0d928-9327-4109-b82f-7a7caa6616d1",
+    "mapping_method": "final_completion_v1",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Gustave Courbet",
+        "analysis_date": "2025-07-26T14:52:29.710Z"
+      },
+      "dimensions": {
+        "A": 45,
+        "C": 30,
+        "E": 95,
+        "F": 70,
+        "L": 30,
+        "M": 5,
+        "R": 55,
+        "S": 70
+      },
+      "primary_types": [
+        {
+          "type": "SREF",
+          "title": "열정적 관람자",
+          "animal": "dog",
+          "weight": 0.85,
+          "name_ko": "강아지",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_final_completer",
+    "mapping_notes": "Final completion: gustave courbet → SREF",
+    "created_at": "2025-07-26T14:52:29.877Z",
+    "updated_at": "2025-07-26T14:52:29.877Z"
+  },
+  {
+    "id": "f5bd784f-be29-4363-8dc0-4e165dff8367",
+    "artist_id": "d5a331b5-6e96-4160-b8df-4ecfc818d6d1",
+    "mapping_method": "expansion_to_50",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Jacques-Louis David",
+        "analysis_date": "2025-07-26T14:52:34.335Z"
+      },
+      "dimensions": {
+        "A": 30,
+        "C": 25,
+        "E": 65,
+        "F": 75,
+        "L": 80,
+        "M": 35,
+        "R": 70,
+        "S": 20
+      },
+      "primary_types": [
+        {
+          "type": "LREF",
+          "title": "고독한 관찰자",
+          "animal": "chameleon",
+          "weight": 0.85,
+          "name_ko": "카멜레온",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_expander",
+    "mapping_notes": "Expansion: jacques-louis david → LREF",
+    "created_at": "2025-07-26T14:52:34.497Z",
+    "updated_at": "2025-07-26T14:52:34.497Z"
+  },
+  {
+    "id": "26b55bd9-694f-4ec4-a496-42901ed7920d",
+    "artist_id": "6c12a1fd-be00-4bfb-a5e4-df28b6767ce9",
+    "mapping_method": "expansion_to_50",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Jean-Baptiste-Camille Corot",
+        "analysis_date": "2025-07-26T14:52:34.965Z"
+      },
+      "dimensions": {
+        "A": 30,
+        "C": 25,
+        "E": 65,
+        "F": 75,
+        "L": 80,
+        "M": 35,
+        "R": 70,
+        "S": 20
+      },
+      "primary_types": [
+        {
+          "type": "LREF",
+          "title": "고독한 관찰자",
+          "animal": "chameleon",
+          "weight": 0.85,
+          "name_ko": "카멜레온",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_expander",
+    "mapping_notes": "Expansion: jean-baptiste-camille corot → LREF",
+    "created_at": "2025-07-26T14:52:35.128Z",
+    "updated_at": "2025-07-26T14:52:35.128Z"
+  },
+  {
+    "id": "28c702a1-7e2a-48b5-b6c4-85149fc66a7a",
+    "artist_id": "67c761c6-ddf0-4500-9b70-65555ad13d7b",
+    "mapping_method": "expansion_to_50",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Gustave Caillebotte",
+        "analysis_date": "2025-07-26T14:52:35.587Z"
+      },
+      "dimensions": {
+        "A": 40,
+        "C": 25,
+        "E": 85,
+        "F": 75,
+        "L": 80,
+        "M": 15,
+        "R": 60,
+        "S": 20
+      },
+      "primary_types": [
+        {
+          "type": "LREF",
+          "title": "고독한 관찰자",
+          "animal": "chameleon",
+          "weight": 0.85,
+          "name_ko": "카멜레온",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_expander",
+    "mapping_notes": "Expansion: gustave caillebotte → LREF",
+    "created_at": "2025-07-26T14:52:35.750Z",
+    "updated_at": "2025-07-26T14:52:35.750Z"
+  },
+  {
+    "id": "ee653a8d-d72b-4cc6-b01a-58ddcd23a8e8",
+    "artist_id": "5f2d7056-f469-4e71-97ae-20e167ad905a",
+    "mapping_method": "expansion_to_50",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Pierre Bonnard (French, 1867-1947)\nprinted by Edward Ancourt et Cie. (French, active 19th century)\ncommissioned by E. Debray (French, active 19th century)\ndepicted: Berthe Schaedlin (French, active 19th century)",
+        "analysis_date": "2025-07-26T14:52:36.415Z"
+      },
+      "dimensions": {
+        "A": 35,
+        "C": 55,
+        "E": 75,
+        "F": 45,
+        "L": 80,
+        "M": 25,
+        "R": 65,
+        "S": 20
+      },
+      "primary_types": [
+        {
+          "type": "LREC",
+          "title": "섬세한 감정가",
+          "animal": "hedgehog",
+          "weight": 0.85,
+          "name_ko": "고슴도치",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_expander",
+    "mapping_notes": "Expansion: pierre bonnard → LREC",
+    "created_at": "2025-07-26T14:52:36.577Z",
+    "updated_at": "2025-07-26T14:52:36.577Z"
+  },
+  {
+    "id": "d29f887b-0309-40f2-aa37-d6afbc8ea660",
+    "artist_id": "2082d4cd-a477-494a-b7c8-e0ba216fffb8",
+    "mapping_method": "expansion_to_50",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Richard Prince",
+        "analysis_date": "2025-07-26T14:52:37.665Z"
+      },
+      "dimensions": {
+        "A": 40,
+        "C": 30,
+        "E": 30,
+        "F": 70,
+        "L": 75,
+        "M": 70,
+        "R": 60,
+        "S": 25
+      },
+      "primary_types": [
+        {
+          "type": "LRMF",
+          "title": "디지털 탐험가",
+          "animal": "octopus",
+          "weight": 0.85,
+          "name_ko": "문어",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_expander",
+    "mapping_notes": "Expansion: richard prince → LRMF",
+    "created_at": "2025-07-26T14:52:37.827Z",
+    "updated_at": "2025-07-26T14:52:37.827Z"
+  },
+  {
+    "id": "e7f4dea4-6e81-47c3-94bf-fb9a52ac12e9",
+    "artist_id": "3a9dd195-95bf-4f6d-90c1-4d322b6b1cf3",
+    "mapping_method": "expansion_to_50",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Damien Hirst",
+        "analysis_date": "2025-07-26T14:52:39.958Z"
+      },
+      "dimensions": {
+        "A": 80,
+        "C": 45,
+        "E": 70,
+        "F": 55,
+        "L": 15,
+        "M": 30,
+        "R": 20,
+        "S": 85
+      },
+      "primary_types": [
+        {
+          "type": "SAEC",
+          "title": "예술 네트워커",
+          "animal": "penguin",
+          "weight": 0.85,
+          "name_ko": "펭귄",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_expander",
+    "mapping_notes": "Expansion: damien hirst → SAEC",
+    "created_at": "2025-07-26T14:52:40.120Z",
+    "updated_at": "2025-07-26T14:52:40.120Z"
+  },
+  {
+    "id": "c5e92648-47c5-4d9e-b697-d6081da7041b",
+    "artist_id": "0f96f8ca-479c-4e55-92bb-8e140af5f2c6",
+    "mapping_method": "expansion_to_50",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Caspar David Friedrich",
+        "analysis_date": "2025-07-26T14:52:44.362Z"
+      },
+      "dimensions": {
+        "A": 25,
+        "C": 40,
+        "E": 60,
+        "F": 60,
+        "L": 30,
+        "M": 40,
+        "R": 75,
+        "S": 70
+      },
+      "primary_types": [
+        {
+          "type": "SREF",
+          "title": "열정적 관람자",
+          "animal": "dog",
+          "weight": 0.85,
+          "name_ko": "강아지",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_expander",
+    "mapping_notes": "Expansion: caspar david friedrich → SREF",
+    "created_at": "2025-07-26T14:52:44.525Z",
+    "updated_at": "2025-07-26T14:52:44.525Z"
+  },
+  {
+    "id": "ec117253-72aa-4113-88ef-3d54babd04f1",
+    "artist_id": "6a8fa71d-816f-4b4b-8b00-b17e55122d30",
+    "mapping_method": "expansion_to_50",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "Joseph Mallord William Turner",
+        "analysis_date": "2025-07-26T14:52:44.984Z"
+      },
+      "dimensions": {
+        "A": 25,
+        "C": 30,
+        "E": 70,
+        "F": 70,
+        "L": 30,
+        "M": 30,
+        "R": 75,
+        "S": 70
+      },
+      "primary_types": [
+        {
+          "type": "SREF",
+          "title": "열정적 관람자",
+          "animal": "dog",
+          "weight": 0.85,
+          "name_ko": "강아지",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_expander",
+    "mapping_notes": "Expansion: william turner → SREF",
+    "created_at": "2025-07-26T14:52:45.146Z",
+    "updated_at": "2025-07-26T14:52:45.146Z"
+  },
+  {
+    "id": "1013d839-eb9f-494f-8d09-5b3093882d6a",
+    "artist_id": "4d729fd9-92ca-4c42-b3e4-0c26aa85e80e",
+    "mapping_method": "expansion_to_50",
+    "apt_profile": {
+      "meta": {
+        "method": "final_completion_mapping",
+        "source": "sayu_system_v3",
+        "artist_name": "John Singer Sargent (American, 1856-1925)\nprinted by Argus (South African, 19th-20th century)",
+        "analysis_date": "2025-07-26T14:52:46.256Z"
+      },
+      "dimensions": {
+        "A": 40,
+        "C": 50,
+        "E": 70,
+        "F": 50,
+        "L": 25,
+        "M": 30,
+        "R": 60,
+        "S": 75
+      },
+      "primary_types": [
+        {
+          "type": "SREC",
+          "title": "따뜻한 안내자",
+          "animal": "duck",
+          "weight": 0.85,
+          "name_ko": "오리",
+          "confidence": 88
+        }
+      ]
+    },
+    "confidence_score": "0.88",
+    "mapped_by": "sayu_expander",
+    "mapping_notes": "Expansion: john singer sargent → SREC",
+    "created_at": "2025-07-26T14:52:46.433Z",
+    "updated_at": "2025-07-26T14:52:46.433Z"
+  },
+  {
+    "id": "12f587b1-338a-4bc7-b0aa-d421e8063010",
+    "artist_id": "127cdade-5ea2-4926-a70b-cf3b7b051816",
+    "mapping_method": "balance_adjustment",
+    "apt_profile": {
+      "meta": {
+        "method": "perfect_balance_mapping",
+        "source": "sayu_system_final",
+        "artist_name": "Martin Johnson Heade",
+        "analysis_date": "2025-07-26T14:54:19.198Z"
+      },
+      "dimensions": {
+        "A": 75,
+        "C": 20,
+        "E": 25,
+        "F": 80,
+        "L": 70,
+        "M": 75,
+        "R": 25,
+        "S": 30
+      },
+      "primary_types": [
+        {
+          "type": "LAMF",
+          "title": "직관적 탐구자",
+          "animal": "owl",
+          "weight": 0.9,
+          "name_ko": "올빼미",
+          "confidence": 90
+        }
+      ]
+    },
+    "confidence_score": "0.90",
+    "mapped_by": "sayu_balancer",
+    "mapping_notes": "Balance: johns → LAMF",
+    "created_at": "2025-07-26T14:54:19.355Z",
+    "updated_at": "2025-07-26T14:54:19.355Z"
+  },
+  {
+    "id": "c48d1c1d-1f65-42f4-8218-d209196f8f69",
+    "artist_id": "4909ea24-7f0e-4bec-a771-ea38a5c2f0bc",
+    "mapping_method": "balance_adjustment",
+    "apt_profile": {
+      "meta": {
+        "method": "perfect_balance_mapping",
+        "source": "sayu_system_final",
+        "artist_name": "Eastman Johnson",
+        "analysis_date": "2025-07-26T14:54:19.611Z"
+      },
+      "dimensions": {
+        "A": 75,
+        "C": 20,
+        "E": 25,
+        "F": 80,
+        "L": 70,
+        "M": 75,
+        "R": 25,
+        "S": 30
+      },
+      "primary_types": [
+        {
+          "type": "LAMF",
+          "title": "직관적 탐구자",
+          "animal": "owl",
+          "weight": 0.9,
+          "name_ko": "올빼미",
+          "confidence": 90
+        }
+      ]
+    },
+    "confidence_score": "0.90",
+    "mapped_by": "sayu_balancer",
+    "mapping_notes": "Balance: johns → LAMF",
+    "created_at": "2025-07-26T14:54:19.766Z",
+    "updated_at": "2025-07-26T14:54:19.766Z"
+  },
+  {
+    "id": "74fa85c3-3cc8-4332-9087-dc7ccc0db600",
+    "artist_id": "0d977cdf-8a6e-4bce-9958-bc74a2d9b059",
+    "mapping_method": "emergency_lamc_rescue",
+    "apt_profile": {
+      "meta": {
+        "method": "emergency_lamc_rescue",
+        "source": "sayu_emergency_system",
+        "lamc_score": 35,
+        "artist_name": "Marina Abramović",
+        "analysis_date": "2025-07-26T14:55:38.080Z"
+      },
+      "dimensions": {
+        "A": 70,
+        "C": 80,
+        "E": 20,
+        "F": 20,
+        "L": 70,
+        "M": 80,
+        "R": 30,
+        "S": 30
+      },
+      "primary_types": [
+        {
+          "type": "LAMC",
+          "title": "철학적 수집가",
+          "animal": "turtle",
+          "weight": 0.9,
+          "name_ko": "거북이",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_emergency_responder",
+    "mapping_notes": "Emergency LAMC mapping: conceptual → LAMC (Score: 35)",
+    "created_at": "2025-07-26T14:55:38.241Z",
+    "updated_at": "2025-07-26T14:55:38.241Z"
+  },
+  {
+    "id": "15e85047-39e5-4fe0-aa8e-4b95f1273f71",
+    "artist_id": "07b2dfd4-c565-4506-91bf-760304761bfd",
+    "mapping_method": "emergency_lamc_rescue",
+    "apt_profile": {
+      "meta": {
+        "method": "emergency_lamc_rescue",
+        "source": "sayu_emergency_system",
+        "lamc_score": 35,
+        "artist_name": "Anselm Kiefer",
+        "analysis_date": "2025-07-26T14:55:38.289Z"
+      },
+      "dimensions": {
+        "A": 70,
+        "C": 80,
+        "E": 20,
+        "F": 20,
+        "L": 70,
+        "M": 80,
+        "R": 30,
+        "S": 30
+      },
+      "primary_types": [
+        {
+          "type": "LAMC",
+          "title": "철학적 수집가",
+          "animal": "turtle",
+          "weight": 0.9,
+          "name_ko": "거북이",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_emergency_responder",
+    "mapping_notes": "Emergency LAMC mapping: concept → LAMC (Score: 35)",
+    "created_at": "2025-07-26T14:55:38.450Z",
+    "updated_at": "2025-07-26T14:55:38.450Z"
+  },
+  {
+    "id": "9f284c67-3ec7-491d-a5c5-5c0484e7982b",
+    "artist_id": "8ca3f53c-136a-4ceb-b734-532ec529724d",
+    "mapping_method": "emergency_lamc_rescue",
+    "apt_profile": {
+      "meta": {
+        "method": "emergency_lamc_rescue",
+        "source": "sayu_emergency_system",
+        "lamc_score": 30,
+        "artist_name": "Lee Ufan",
+        "analysis_date": "2025-07-26T14:55:38.501Z"
+      },
+      "dimensions": {
+        "A": 70,
+        "C": 80,
+        "E": 20,
+        "F": 20,
+        "L": 70,
+        "M": 80,
+        "R": 30,
+        "S": 30
+      },
+      "primary_types": [
+        {
+          "type": "LAMC",
+          "title": "철학적 수집가",
+          "animal": "turtle",
+          "weight": 0.9,
+          "name_ko": "거북이",
+          "confidence": 85
+        }
+      ]
+    },
+    "confidence_score": "0.85",
+    "mapped_by": "sayu_emergency_responder",
+    "mapping_notes": "Emergency LAMC mapping: minimal → LAMC (Score: 30)",
+    "created_at": "2025-07-26T14:55:38.663Z",
+    "updated_at": "2025-07-26T14:55:38.663Z"
+  }
+]

@@ -742,7 +742,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
       },
       {
         icon: '🔗',
-        title: 'Logical Connection',
+        title: 'Loneal Connection',
         title_ko: '논리적 연결',
         description: 'You link abstract artistic concepts to concrete examples, creating clear pathways from theory to visual experience',
         description_ko: '추상적 예술 개념을 구체적 예시와 연결하여 이론에서 시각적 경험으로 향하는 명확한 경로를 만듭니다'
@@ -1130,7 +1130,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
       },
       {
         icon: '📐',
-        title: 'Compositional Logic',
+        title: 'Compositional Lone',
         title_ko: '구성의 논리',
         description: 'You see the mathematics in masterpieces',
         description_ko: '걸작에서 수학적 원리를 발견합니다'

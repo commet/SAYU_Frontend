@@ -8,6 +8,8 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import '@/styles/sayu-design-system.css';
 import { OptimizedImage, getCloudinaryUrl } from '@/components/ui/OptimizedImage';
+import { PioneerCounter } from '@/components/ui/PioneerBadge';
+import { getPioneerStats } from '@/lib/api/pioneer';
 import { 
   AnimeJSTextReveal, 
   AnimeJSGalleryReveal, 
@@ -38,6 +40,8 @@ export default function SensoryLandingPage() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [artworks, setArtworks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [pioneerStats, setPioneerStats] = useState<any>(null);
+  const [statsLoading, setStatsLoading] = useState(true);
   const anime = useAnimeJS();
 
   // Scroll animations
@@ -103,6 +107,19 @@ export default function SensoryLandingPage() {
 
     // Fetch initial artworks
     fetchArtworks('Passion');
+
+    // Fetch pioneer stats
+    const fetchPioneerStats = async () => {
+      try {
+        const stats = await getPioneerStats();
+        setPioneerStats(stats);
+      } catch (error) {
+        console.error('Failed to fetch pioneer stats:', error);
+      } finally {
+        setStatsLoading(false);
+      }
+    };
+    fetchPioneerStats();
 
     // Mouse move handler
     const handleMouseMove = (e: MouseEvent) => {
@@ -350,6 +367,33 @@ export default function SensoryLandingPage() {
                 {selectedEmotionName}
               </motion.p>
             </motion.div>
+          </motion.div>
+
+          {/* Pioneer Counter */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="mb-8"
+          >
+            <div className="text-center">
+              <div className="text-sm text-gray-600 mb-3">
+                {language === 'ko' ? 'SAYU의 첫 100명과 함께하세요' : 'Join the First 100 SAYU Pioneers'}
+              </div>
+              {!statsLoading && pioneerStats && (
+                <PioneerCounter 
+                  currentCount={pioneerStats.total_pioneers}
+                  maxCount={100}
+                  isLoading={statsLoading}
+                />
+              )}
+              <div className="text-xs text-gray-500 mt-2">
+                {language === 'ko' 
+                  ? `오늘 ${pioneerStats?.new_today || 0}명이 새로 가입했습니다`
+                  : `${pioneerStats?.new_today || 0} new pioneers joined today`
+                }
+              </div>
+            </div>
           </motion.div>
 
           <motion.button

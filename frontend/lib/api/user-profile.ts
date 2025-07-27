@@ -11,7 +11,7 @@ export interface UserProfile {
     G_vs_S: number;
     A_vs_R: number;
     M_vs_E: number;
-    F_vs_S: number;
+    F_vs_C: number;
   };
   personality_summary?: string;
   created_at: string;
@@ -26,7 +26,7 @@ export interface ProfileSetupData {
     G_vs_S: number;
     A_vs_R: number;
     M_vs_E: number;
-    F_vs_S: number;
+    F_vs_C: number;
   };
   profile_image_url?: string;
 }
@@ -138,12 +138,12 @@ export const userProfileApi = {
     G_vs_S: number;
     A_vs_R: number;
     M_vs_E: number;
-    F_vs_S: number;
+    F_vs_C: number;
   }): string {
     const scale1 = dimensions.G_vs_S > 50 ? 'L' : 'S'; // Large vs Small
     const scale2 = dimensions.A_vs_R > 50 ? 'A' : 'R'; // Abstract vs Representative  
     const scale3 = dimensions.M_vs_E > 50 ? 'M' : 'E'; // Modern vs Classic(Eternal)
-    const scale4 = dimensions.F_vs_S > 50 ? 'F' : 'S'; // Flexible vs Structured
+    const scale4 = dimensions.F_vs_C > 50 ? 'F' : 'S'; // Flow vs Constructive
     
     return scale1 + scale2 + scale3 + scale4;
   },

@@ -14,17 +14,17 @@ const sslConfig = process.env.DATABASE_URL?.includes('railway')
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: sslConfig,
-  // Optimized settings for high-load performance
-  max: 50,                    // Increased from 20 to support more concurrent users
-  idleTimeoutMillis: 300000,  // 5 minutes - increased from 30s for better reuse
-  connectionTimeoutMillis: 10000, // 10 seconds - increased from 2s for complex queries
-  // Additional performance optimizations
-  min: 5,                     // Minimum idle connections
-  acquireTimeoutMillis: 20000, // 20 seconds to acquire connection
-  createTimeoutMillis: 10000, // 10 seconds to create new connection
-  destroyTimeoutMillis: 5000, // 5 seconds to destroy connection
-  reapIntervalMillis: 10000,  // 10 seconds between reaping stale connections
-  createRetryIntervalMillis: 200, // 200ms between connection retry attempts
+  // Production-optimized settings for Railway deployment
+  max: 30,                    // Optimized for Railway's memory limits
+  idleTimeoutMillis: 120000,  // 2 minutes - balanced for performance
+  connectionTimeoutMillis: 8000, // 8 seconds - faster timeout for production
+  // Production-optimized additional settings
+  min: 3,                     // Reduced minimum for memory efficiency
+  acquireTimeoutMillis: 15000, // 15 seconds - faster acquisition
+  createTimeoutMillis: 8000,  // 8 seconds - faster creation
+  destroyTimeoutMillis: 3000, // 3 seconds - faster cleanup
+  reapIntervalMillis: 30000,  // 30 seconds - less frequent reaping
+  createRetryIntervalMillis: 100, // 100ms - faster retry cycles
 });
 
 async function connectDatabase() {

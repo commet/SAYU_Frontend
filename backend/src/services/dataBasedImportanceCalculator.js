@@ -223,13 +223,13 @@ class DataBasedImportanceCalculator {
     
     indicators.action_orientation = this.calculateKeywordScore(text, actionKeywords, reflectionKeywords);
 
-    // Emotional vs Mental 지표
+    // Emotional vs Meaning-driven 지표
     const emotionalKeywords = ['emotional', 'passionate', 'expressive', 'feeling', 'intuitive'];
     const mentalKeywords = ['analytical', 'intellectual', 'rational', 'systematic', 'logical'];
     
     indicators.emotional_expression = this.calculateKeywordScore(text, emotionalKeywords, mentalKeywords);
 
-    // Flexible vs Consistent 지표
+    // Flow vs Consistent 지표
     const flexibleKeywords = ['versatile', 'changing', 'experimental', 'varied', 'diverse'];
     const consistentKeywords = ['consistent', 'systematic', 'methodical', 'disciplined', 'structured'];
     

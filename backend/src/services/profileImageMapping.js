@@ -213,7 +213,7 @@ class ProfileImageMappingService {
    */
   getExhibitionVisualTheme(exhibitionType) {
     const themes = {
-      // Grounded types (G)
+      // Lone types (G)
       'GAEF': { mood: 'contemplative solitude', environment: 'intimate gallery space', composition: 'personal reflection pose' },
       'GAEC': { mood: 'focused study', environment: 'structured museum hall', composition: 'analytical observation' },
       'GAMF': { mood: 'thoughtful analysis', environment: 'open exhibition space', composition: 'intellectual engagement' },

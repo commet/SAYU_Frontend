@@ -532,7 +532,7 @@ const sayuEnhancedQuizData = {
       preferences: {
         artStyles: ["Conceptual Art", "Surrealism", "Political Art", "Video Art"],
         exhibitionTypes: ["Thematic group shows", "Concept-driven exhibitions", "Artist statement focus"],
-        optimalConditions: ["Flexible timing", "Thought-provoking content", "Minimal distractions"],
+        optimalConditions: ["Flow timing", "Thought-provoking content", "Minimal distractions"],
         avoidance: ["Superficial decoration", "Time constraints", "Overly social settings"]
       },
       
@@ -586,7 +586,7 @@ const sayuEnhancedQuizData = {
       preferences: {
         artStyles: ["Hyperrealism", "Dutch Masters", "Nature Photography", "Technical Drawing"],
         exhibitionTypes: ["Craft exhibitions", "Technique demonstrations", "Process-focused shows"],
-        optimalConditions: ["Good lighting", "Close viewing access", "Flexible timing"],
+        optimalConditions: ["Good lighting", "Close viewing access", "Flow timing"],
         avoidance: ["Rushed tours", "Poor lighting", "No detail access"]
       },
       

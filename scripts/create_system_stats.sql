@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS system_stats (
+  key VARCHAR(100) NOT NULL,
+  value TEXT,
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);

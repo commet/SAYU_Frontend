@@ -10,14 +10,14 @@ interface ProfileSetupRequest {
     G_vs_S: number;  // Global vs Specific (세계적 vs 구체적)
     A_vs_R: number;  // Abstract vs Representative (추상적 vs 구상적)  
     M_vs_E: number;  // Modern vs Classic (현대적 vs 고전적)
-    F_vs_S: number;  // Feeling vs Structure (감정적 vs 구조적)
+    F_vs_C: number;  // Feeling vs Structure (감정적 vs 구조적)
   };
   profile_image_url?: string;
 }
 
 // APT 타입별 기본 프로필 이미지 매핑
 const APT_DEFAULT_AVATARS: Record<string, string> = {
-  // L (Large Scale / Global) + A (Abstract) + E (Emotional) + F (Flexible)
+  // L (Large Scale / Global) + A (Abstract) + E (Emotional) + F (Flow)
   'LAEF': '/images/apt-avatars/laef-impressionist-bear.png',
   'LAEC': '/images/apt-avatars/laec-art-nouveau-deer.png',
   'LARF': '/images/apt-avatars/larf-conceptual-wolf.png', 

@@ -1,4 +1,10 @@
 // Artist APT Matcher Service - 작가를 16가지 APT 유형으로 정밀 분류
+// CORRECTED SAYU AXIS DEFINITIONS:
+// L/S: Lone (Individual, introspective) vs Social (Interactive, collaborative)
+// A/R: Abstract (Atmospheric, symbolic) vs Representational (Realistic, concrete)
+// E/M: Emotional (Affective, feeling-based) vs Meaning-driven (Analytical, rational)
+// F/C: Flow (Fluid, spontaneous) vs Constructive (Structured, systematic)
+
 const db = require('../config/database');
 const { SAYU_TYPES } = require('../../../shared/SAYUTypeDefinitions');
 const { openai } = require('../config/openai');
@@ -8,23 +14,23 @@ class ArtistAPTMatcher {
   constructor() {
     this.aptTypes = Object.keys(SAYU_TYPES);
     
-    // 4축 평가 기준
+    // 4축 평가 기준 (CORRECTED SAYU DEFINITIONS)
     this.evaluationCriteria = {
-      L_S: { // 혼자(Lone) vs 함께(Social)
+      L_S: { // Lone (Individual, introspective) vs Social (Interactive, collaborative)
         L: ['독립적 작업', '고독한 작업실', '개인주의적', '내향적', '은둔적', '자기성찰적'],
         S: ['협업 선호', '그룹 활동', '사회적 메시지', '공동체 지향', '외향적', '네트워킹']
       },
-      A_R: { // 추상(Abstract) vs 구상(Representational)
-        A: ['추상화', '개념적', '형태 해체', '색채 중심', '비구상', '표현주의적'],
+      A_R: { // Abstract (Atmospheric, symbolic) vs Representational (Realistic, concrete)
+        A: ['추상화', '개념적', '형태 해체', '색채 중심', '비구상', '분위기적'],
         R: ['사실주의', '구체적 묘사', '인물화', '풍경화', '정물화', '세밀한 표현']
       },
-      E_M: { // 감정(Emotional) vs 의미(Meaning)
+      E_M: { // Emotional (Affective, feeling-based) vs Meaning-driven (Analytical, rational)
         E: ['감정 표현', '직관적', '열정적', '감성적', '즉흥적', '개인적 경험'],
-        M: ['지적 탐구', '철학적', '개념 중심', '이론적', '계획적', '사회 비평']
+        M: ['지적 탐구', '철학적', '개념 중심', '이론적', '분석적', '사회 비평']
       },
-      F_C: { // 자유(Free) vs 체계(Constructive)
-        F: ['실험적', '규칙 파괴', '혁신적', '즉흥적', '자유분방', '탐험적'],
-        C: ['전통적', '기법 중시', '체계적', '계획적', '정교한', '규칙 준수']
+      F_C: { // Flow (Fluid, spontaneous) vs Constructive (Structured, systematic)
+        F: ['실험적', '자발적', '혁신적', '즉흥적', '유동적', '탐험적'],
+        C: ['전통적', '기법 중시', '체계적', '계획적', '구조적', '체계적']
       }
     };
   }

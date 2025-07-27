@@ -6,6 +6,9 @@
  * Always import and use these definitions.
  */
 
+// 무결성 검증 자동 실행
+require('./validateSAYUIntegrity');
+
 // 16 SAYU Personality Types - IMMUTABLE
 const SAYU_TYPES = Object.freeze({
   LAEF: {

@@ -1,0 +1,328 @@
+{
+  "timestamp": "2025-07-27T14:48:49.822Z",
+  "duration": 40,
+  "results": [
+    {
+      "skipped": true,
+      "table": "users",
+      "reason": "empty"
+    },
+    {
+      "skipped": true,
+      "table": "quiz_sessions",
+      "reason": "empty"
+    },
+    {
+      "skipped": true,
+      "table": "quiz_answers"
+    },
+    {
+      "skipped": true,
+      "table": "quiz_results"
+    },
+    {
+      "skipped": true,
+      "table": "art_profiles",
+      "reason": "empty"
+    },
+    {
+      "skipped": true,
+      "table": "art_profile_generations"
+    },
+    {
+      "success": true,
+      "table": "venues",
+      "total": 963,
+      "migrated": 0,
+      "errors": [
+        {
+          "offset": 0,
+          "error": "Could not find the 'admission_fee' column of 'venues' in the schema cache",
+          "sample": {
+            "id": 1,
+            "name": "국립현대미술관 서울",
+            "name_en": "MMCA Seoul",
+            "city": "서울",
+            "district": "종로구",
+            "country": "KR",
+            "type": "museum",
+            "tier": 1,
+            "website": "https://www.mmca.go.kr/",
+            "address": "30 Samcheong-ro, Jongno District, Seoul, South Korea",
+            "instagram": "@mmcakorea",
+            "is_active": true,
+            "created_at": "2025-07-19T07:21:20.082Z",
+            "updated_at": "2025-07-20T05:44:39.468Z",
+            "latitude": "37.57883330",
+            "longitude": "126.98042810",
+            "phone": "02-3701-9500",
+            "rating": "4.60",
+            "review_count": 3609,
+            "opening_hours": [
+              "Monday: 10:00 AM – 6:00 PM",
+              "Tuesday: 10:00 AM – 6:00 PM",
+              "Wednesday: 10:00 AM – 9:00 PM",
+              "Thursday: 10:00 AM – 6:00 PM",
+              "Friday: 10:00 AM – 6:00 PM",
+              "Saturday: 10:00 AM – 9:00 PM",
+              "Sunday: 10:00 AM – 6:00 PM"
+            ],
+            "admission_fee": {
+              "adult": 4000,
+              "child": 0,
+              "youth": 2000
+            },
+            "google_place_id": "ChIJRynTqcaifDURBaSFx8HncPs",
+            "data_completeness": 95,
+            "last_updated": "2025-07-19T08:35:07.538Z"
+          }
+        }
+      ]
+    },
+    {
+      "success": true,
+      "table": "exhibitions",
+      "total": 688,
+      "migrated": 0,
+      "errors": [
+        {
+          "offset": 0,
+          "error": "Could not find the 'ai_confidence' column of 'exhibitions' in the schema cache",
+          "sample": {
+            "id": "002d45a1-7e06-4a3f-aaf5-44aac0c69828",
+            "institution_id": null,
+            "title_en": "Gallery 823 Display",
+            "title_local": "Gallery 823 Display",
+            "subtitle": null,
+            "start_date": "2024-12-31T15:00:00.000Z",
+            "end_date": "2025-12-30T15:00:00.000Z",
+            "status": "upcoming",
+            "description": "Featuring \"Boats on the Beach at L'Estaque\" by Georges Braque (1906). Medium: Oil on canvas Part of the Modern and Contemporary Art collection.",
+            "curator": null,
+            "artists": [
+              "Georges Braque",
+              "Braque, Georges"
+            ],
+            "artworks_count": null,
+            "ticket_price": null,
+            "official_url": null,
+            "press_release_url": null,
+            "virtual_tour_url": null,
+            "exhibition_type": "collection",
+            "genres": null,
+            "tags": null,
+            "view_count": 0,
+            "created_at": "2025-07-20T15:07:49.761Z",
+            "updated_at": "2025-07-20T15:07:49.761Z",
+            "venue_id": null,
+            "venue_name": "Metropolitan Museum of Art",
+            "venue_city": "New York",
+            "venue_country": "US",
+            "source": "met_museum_verified",
+            "source_url": "https://www.metmuseum.org/art/collection/search/492746",
+            "contact_info": null,
+            "collected_at": "2025-07-20T06:07:49.761Z",
+            "submission_id": null,
+            "ai_verified": false,
+            "ai_confidence": "0.00",
+            "website_url": null,
+            "venue_address": null,
+            "phone_number": null,
+            "admission_fee": null,
+            "operating_hours": null
+          }
+        }
+      ]
+    },
+    {
+      "skipped": true,
+      "table": "exhibition_views"
+    },
+    {
+      "skipped": true,
+      "table": "exhibition_likes"
+    },
+    {
+      "skipped": true,
+      "table": "artworks",
+      "reason": "empty"
+    },
+    {
+      "skipped": true,
+      "table": "artwork_personality_tags"
+    },
+    {
+      "skipped": true,
+      "table": "artwork_interactions"
+    },
+    {
+      "skipped": true,
+      "table": "gamification_levels"
+    },
+    {
+      "skipped": true,
+      "table": "gamification_points"
+    },
+    {
+      "skipped": true,
+      "table": "user_badges"
+    },
+    {
+      "skipped": true,
+      "table": "daily_challenges"
+    },
+    {
+      "skipped": true,
+      "table": "user_following"
+    },
+    {
+      "skipped": true,
+      "table": "exhibition_companions"
+    },
+    {
+      "skipped": true,
+      "table": "perception_exchanges"
+    },
+    {
+      "skipped": true,
+      "table": "perception_exchange_replies"
+    },
+    {
+      "skipped": true,
+      "table": "perception_exchange_reactions"
+    },
+    {
+      "skipped": true,
+      "table": "emotion_vectors"
+    }
+  ],
+  "verificationResults": [
+    {
+      "table": "users",
+      "verified": true,
+      "railwayCount": 0,
+      "supabaseCount": 0,
+      "difference": 0
+    },
+    {
+      "table": "quiz_sessions",
+      "verified": true,
+      "railwayCount": 0,
+      "supabaseCount": 0,
+      "difference": 0
+    },
+    {
+      "table": "quiz_answers",
+      "verified": false,
+      "error": "relation \"quiz_answers\" does not exist"
+    },
+    {
+      "table": "quiz_results",
+      "verified": false,
+      "error": "relation \"quiz_results\" does not exist"
+    },
+    {
+      "table": "art_profiles",
+      "verified": true,
+      "railwayCount": 0,
+      "supabaseCount": 0,
+      "difference": 0
+    },
+    {
+      "table": "art_profile_generations",
+      "verified": false,
+      "error": "relation \"art_profile_generations\" does not exist"
+    },
+    {
+      "table": "venues",
+      "verified": false,
+      "railwayCount": 963,
+      "supabaseCount": 21,
+      "difference": 942
+    },
+    {
+      "table": "exhibitions",
+      "verified": false,
+      "railwayCount": 688,
+      "supabaseCount": 28,
+      "difference": 660
+    },
+    {
+      "table": "exhibition_views",
+      "verified": false,
+      "error": "relation \"exhibition_views\" does not exist"
+    },
+    {
+      "table": "exhibition_likes",
+      "verified": false,
+      "error": "relation \"exhibition_likes\" does not exist"
+    },
+    {
+      "table": "artworks",
+      "verified": true,
+      "railwayCount": 0,
+      "supabaseCount": 0,
+      "difference": 0
+    },
+    {
+      "table": "artwork_personality_tags",
+      "verified": false,
+      "error": "relation \"artwork_personality_tags\" does not exist"
+    },
+    {
+      "table": "artwork_interactions",
+      "verified": false,
+      "error": "relation \"artwork_interactions\" does not exist"
+    },
+    {
+      "table": "gamification_levels",
+      "verified": false,
+      "error": "relation \"gamification_levels\" does not exist"
+    },
+    {
+      "table": "gamification_points",
+      "verified": false,
+      "error": "relation \"gamification_points\" does not exist"
+    },
+    {
+      "table": "user_badges",
+      "verified": false,
+      "error": "relation \"user_badges\" does not exist"
+    },
+    {
+      "table": "daily_challenges",
+      "verified": false,
+      "error": "relation \"daily_challenges\" does not exist"
+    },
+    {
+      "table": "user_following",
+      "verified": false,
+      "error": "relation \"user_following\" does not exist"
+    },
+    {
+      "table": "exhibition_companions",
+      "verified": false,
+      "error": "relation \"exhibition_companions\" does not exist"
+    },
+    {
+      "table": "perception_exchanges",
+      "verified": false,
+      "error": "relation \"perception_exchanges\" does not exist"
+    },
+    {
+      "table": "perception_exchange_replies",
+      "verified": false,
+      "error": "relation \"perception_exchange_replies\" does not exist"
+    },
+    {
+      "table": "perception_exchange_reactions",
+      "verified": false,
+      "error": "relation \"perception_exchange_reactions\" does not exist"
+    },
+    {
+      "table": "emotion_vectors",
+      "verified": false,
+      "error": "relation \"emotion_vectors\" does not exist"
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+[
+  {
+    "id": "b129b460-378b-4394-964f-c7fa9be5c066",
+    "user_id": "fab070a6-10cd-4dbc-b95c-7ac2ab0c5853",
+    "artist_name": "김현대",
+    "bio": "현대 미술 작가입니다. 주로 디지털 아트와 설치 미술 작업을 합니다.",
+    "website_url": "https://kimhyeondae.art",
+    "social_links": {
+      "instagram": "@kim_hyeondae_art"
+    },
+    "contact_email": "kim.hyeondae@test.com",
+    "phone": null,
+    "address": null,
+    "specialties": [
+      "디지털아트",
+      "설치미술",
+      "미디어아트"
+    ],
+    "profile_image_url": null,
+    "banner_image_url": null,
+    "status": "approved",
+    "verified": false,
+    "created_at": "2025-07-27T14:49:39.892Z",
+    "updated_at": "2025-07-27T14:51:19.452Z"
+  },
+  {
+    "id": "dcf6d49c-d7cb-4453-88a5-6b7be58c0ebb",
+    "user_id": "424c69f6-c881-4178-b53b-375796949399",
+    "artist_name": "김설치",
+    "bio": "관객과 공간의 상호작용을 중시하는 설치미술가입니다.",
+    "website_url": "https://kiminstallation.kr",
+    "social_links": {
+      "twitter": "@kim_art_space",
+      "instagram": "@kim_installation"
+    },
+    "contact_email": "kim.installation@modern.art",
+    "phone": null,
+    "address": null,
+    "specialties": [
+      "설치미술",
+      "인터랙티브아트",
+      "뉴미디어"
+    ],
+    "profile_image_url": null,
+    "banner_image_url": null,
+    "status": "approved",
+    "verified": false,
+    "created_at": "2025-07-27T14:53:59.328Z",
+    "updated_at": "2025-07-27T14:54:01.286Z"
+  },
+  {
+    "id": "d71f838b-6843-4644-b63c-9f72962b6ede",
+    "user_id": "8a382498-456c-4dbf-a2e3-e28e7d8e8a11",
+    "artist_name": "최사진",
+    "bio": "일상의 순간을 포착하는 다큐멘터리 사진작가입니다.",
+    "website_url": null,
+    "social_links": {},
+    "contact_email": "choi.photo@gallery.net",
+    "phone": null,
+    "address": null,
+    "specialties": [
+      "사진",
+      "다큐멘터리",
+      "흑백사진"
+    ],
+    "profile_image_url": null,
+    "banner_image_url": null,
+    "status": "approved",
+    "verified": false,
+    "created_at": "2025-07-27T14:53:58.337Z",
+    "updated_at": "2025-07-27T14:54:49.307Z"
+  },
+  {
+    "id": "6e04c1fe-5e5f-4769-bbbc-9f3f358de309",
+    "user_id": "c3ccd06c-2157-4807-880a-5fe643c7e0c0",
+    "artist_name": "박조각",
+    "bio": "도시와 자연의 경계를 탐구하는 조각가입니다.",
+    "website_url": "https://parksculpture.com",
+    "social_links": {},
+    "contact_email": "park.sculpture@studio.com",
+    "phone": null,
+    "address": null,
+    "specialties": [
+      "조각",
+      "설치미술",
+      "공공미술"
+    ],
+    "profile_image_url": null,
+    "banner_image_url": null,
+    "status": "rejected",
+    "verified": false,
+    "created_at": "2025-07-27T14:53:57.343Z",
+    "updated_at": "2025-07-27T14:54:50.526Z"
+  },
+  {
+    "id": "2abac54c-7328-471c-8762-1862827c20b0",
+    "user_id": "cb908d8b-59ed-42b7-a720-7fae9c998db5",
+    "artist_name": "이추상",
+    "bio": "추상 표현주의 화가로 색채와 형태의 조화를 추구합니다.",
+    "website_url": "https://leeabstract.art",
+    "social_links": {
+      "instagram": "@lee_abstract_art"
+    },
+    "contact_email": "lee.abstract@art.com",
+    "phone": null,
+    "address": null,
+    "specialties": [
+      "추상화",
+      "유화",
+      "대형작품"
+    ],
+    "profile_image_url": null,
+    "banner_image_url": null,
+    "status": "approved",
+    "verified": false,
+    "created_at": "2025-07-27T14:53:56.342Z",
+    "updated_at": "2025-07-27T14:54:50.722Z"
+  }
+]

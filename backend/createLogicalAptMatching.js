@@ -32,7 +32,7 @@ const APT_TYPES = {
 };
 
 // 작가별 특성과 APT 매칭 로직
-class LogicalAptMatcher {
+class LonealAptMatcher {
   constructor() {
     this.matchingRules = this.initializeMatchingRules();
   }
@@ -214,7 +214,7 @@ class LogicalAptMatcher {
 }
 
 // 실행 함수
-async function createLogicalMatching() {
+async function createLonealMatching() {
   console.log('🧠 논리적 APT 매칭 시스템 구축');
   console.log('='.repeat(70));
 
@@ -233,7 +233,7 @@ async function createLogicalMatching() {
       return obj;
     });
 
-    const matcher = new LogicalAptMatcher();
+    const matcher = new LonealAptMatcher();
     const results = [];
 
     console.log(`\n📊 ${artists.length}명의 작가 분석 시작\n`);
@@ -312,4 +312,4 @@ function calculateDistribution(results) {
 }
 
 // 실행
-createLogicalMatching().catch(console.error);
+createLonealMatching().catch(console.error);

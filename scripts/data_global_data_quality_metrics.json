@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "metric_date": "2025-07-25T15:00:00.000Z",
+    "total_venues": 1081,
+    "verified_venues": 185,
+    "venues_with_coordinates": 0,
+    "venues_with_contact_info": 0,
+    "venues_with_opening_hours": 0,
+    "venues_with_social_media": 0,
+    "average_venue_quality_score": null,
+    "total_exhibitions": 0,
+    "active_exhibitions": 0,
+    "exhibitions_with_images": 0,
+    "exhibitions_with_booking_info": 0,
+    "average_exhibition_quality_score": null,
+    "google_places_venues": 0,
+    "foursquare_venues": 0,
+    "web_scraped_venues": 0,
+    "manual_venues": 0,
+    "countries_covered": 0,
+    "cities_covered": 0,
+    "daily_venues_collected": 0,
+    "daily_exhibitions_collected": 0,
+    "collection_success_rate": null,
+    "average_collection_duration_minutes": null,
+    "duplicate_detection_rate": null,
+    "api_error_rate": null,
+    "data_freshness_days": null,
+    "created_at": "2025-07-26T01:08:03.198Z"
+  }
+]

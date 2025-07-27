@@ -1,0 +1,47 @@
+[
+  {
+    "id": "f4fc8382-ce99-48f8-a540-37f5c4ac12bf",
+    "email": "test2@example.com",
+    "referralCode": "15BB679D",
+    "referredBy": "80d99f21-a9c3-4534-839f-666ef4d82dd9",
+    "referralCount": 0,
+    "aptTestCompleted": false,
+    "aptScore": null,
+    "position": 2,
+    "accessGranted": false,
+    "accessGrantedAt": null,
+    "metadata": {
+      "source": "referral",
+      "timestamp": "2025-07-26T07:40:42.038Z"
+    },
+    "createdAt": "2025-07-26T07:40:42.038Z",
+    "updatedAt": "2025-07-26T07:40:42.039Z"
+  },
+  {
+    "id": "80d99f21-a9c3-4534-839f-666ef4d82dd9",
+    "email": "test1@example.com",
+    "referralCode": "72C4BDA4",
+    "referredBy": null,
+    "referralCount": 1,
+    "aptTestCompleted": true,
+    "aptScore": {
+      "dominant": "INTJ",
+      "secondary": "INFJ",
+      "scores": {
+        "I": 80,
+        "N": 75,
+        "T": 70,
+        "J": 85
+      }
+    },
+    "position": 0,
+    "accessGranted": true,
+    "accessGrantedAt": "2025-07-26T07:40:43.285Z",
+    "metadata": {
+      "source": "test",
+      "timestamp": "2025-07-26T07:40:40.994Z"
+    },
+    "createdAt": "2025-07-26T07:40:40.995Z",
+    "updatedAt": "2025-07-26T07:40:43.286Z"
+  }
+]

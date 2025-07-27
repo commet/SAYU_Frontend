@@ -1,7 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
-const AppleStrategy = require('passport-apple').Strategy;
+// const AppleStrategy = require('passport-apple').Strategy; // 임시 비활성화
 const User = require('../models/User');
 const { logger } = require('./logger');
 const instagramAuth = require('../utils/instagramAuth');
@@ -97,7 +97,8 @@ if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
   }));
 }
 
-// Apple OAuth Strategy
+// Apple OAuth Strategy - 임시 비활성화
+/*
 if (process.env.APPLE_CLIENT_ID && process.env.APPLE_TEAM_ID && process.env.APPLE_KEY_ID) {
   passport.use(new AppleStrategy({
     clientID: process.env.APPLE_CLIENT_ID,
@@ -135,5 +136,6 @@ if (process.env.APPLE_CLIENT_ID && process.env.APPLE_TEAM_ID && process.env.APPL
     }
   }));
 }
+*/
 
 module.exports = passport;

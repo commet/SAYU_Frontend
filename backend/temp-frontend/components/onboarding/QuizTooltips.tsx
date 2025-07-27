@@ -17,7 +17,7 @@ const dimensions: Record<string, Dimension> = {
     code: 'G/S',
     name: 'Experience Style',
     description: 'How you prefer to experience art galleries',
-    leftLabel: 'Grounded (Personal, intimate experiences)',
+    leftLabel: 'Lone (Personal, intimate experiences)',
     rightLabel: 'Shared (Social, communal experiences)'
   },
   art_preference: {

@@ -1,0 +1,40 @@
+{
+  "sayuIntegrity": {
+    "version": "1.0.0",
+    "lastCheck": "2025-01-27",
+    "rules": {
+      "forbiddenTerms": {
+        "aptContext": {
+          "Free": "Flow (유동적, 자발적)",
+          "Mental": "Meaning-driven (분석적, 이성적)",
+          "Grounded": "Lone (개인적, 내성적)",
+          "Logic": "Lone (개인적, 내성적)",
+          "Logical": "Meaning-driven (분석적, 이성적)",
+          "Flexible": "Flow (유동적, 자발적)"
+        },
+        "exceptions": [
+          "Free tier", "Free trial", "Free plan", "Sign Up Free",
+          "Start Free", "무료", "dailyFreeLimit", "hasFreeDailyAccess",
+          "getFreeWalkArtworks", "Free-spirited"
+        ]
+      },
+      "correctAxes": {
+        "L/S": "Lone (Individual, introspective) vs Social (Interactive, collaborative)",
+        "A/R": "Abstract (Atmospheric, symbolic) vs Representational (Realistic, concrete)",
+        "E/M": "Emotional (Affective, feeling-based) vs Meaning-driven (Analytical, rational)",
+        "F/C": "Flow (Fluid, spontaneous) vs Constructive (Structured, systematic)"
+      },
+      "validTypes": [
+        "LAEF", "LAEC", "LAMF", "LAMC",
+        "LREF", "LREC", "LRMF", "LRMC",
+        "SAEF", "SAEC", "SAMF", "SAMC",
+        "SREF", "SREC", "SRMF", "SRMC"
+      ]
+    },
+    "enforcement": {
+      "runtime": true,
+      "preCommit": true,
+      "ci": true
+    }
+  }
+}

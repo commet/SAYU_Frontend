@@ -12,9 +12,9 @@ export function ThemePreviewDemo() {
 
   const demoTypes = [
     { code: 'AGE_001', name: 'Abstract • Social • Emotional • Modern', description: 'Creative, Social, Intuitive, Contemporary' },
-    { code: 'RGA_002', name: 'Realistic • Social • Analytical • Classical', description: 'Practical, Social, Logical, Traditional' },
+    { code: 'RGA_002', name: 'Realistic • Social • Analytical • Classical', description: 'Practical, Social, Loneal, Traditional' },
     { code: 'AIE_003', name: 'Abstract • Personal • Emotional • Classical', description: 'Creative, Individual, Intuitive, Traditional' },
-    { code: 'RIM_004', name: 'Realistic • Personal • Analytical • Modern', description: 'Practical, Individual, Logical, Contemporary' }
+    { code: 'RIM_004', name: 'Realistic • Personal • Analytical • Modern', description: 'Practical, Individual, Loneal, Contemporary' }
   ];
 
   const previewTheme = (typeCode: string) => {

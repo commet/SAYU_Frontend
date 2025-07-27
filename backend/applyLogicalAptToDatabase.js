@@ -5,7 +5,7 @@ require('dotenv').config();
 const { pool } = require('./src/config/database');
 const fs = require('fs').promises;
 
-async function applyLogicalAptToDatabase() {
+async function applyLonealAptToDatabase() {
   console.log('🚀 논리적 APT 매칭 데이터베이스 적용 시작');
   console.log('='.repeat(70));
 
@@ -236,4 +236,4 @@ async function applyLogicalAptToDatabase() {
 }
 
 // 실행
-applyLogicalAptToDatabase().catch(console.error);
+applyLonealAptToDatabase().catch(console.error);

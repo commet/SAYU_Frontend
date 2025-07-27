@@ -1,0 +1,72 @@
+[
+  {
+    "id": "early-bird",
+    "name": "Early Bird",
+    "name_ko": "얼리버드",
+    "description": "Visit exhibitions before 10 AM 5 times",
+    "description_ko": "오전 10시 이전 관람 5회",
+    "icon": "🌅",
+    "rarity": "common",
+    "sort_order": 0
+  },
+  {
+    "id": "night-owl",
+    "name": "Night Owl",
+    "name_ko": "야행성 올빼미",
+    "description": "Visit night exhibitions 3 times",
+    "description_ko": "야간 개장 관람 3회",
+    "icon": "🦉",
+    "rarity": "rare",
+    "sort_order": 0
+  },
+  {
+    "id": "slow-walker",
+    "name": "Slow Walker",
+    "name_ko": "느긋한 산책자",
+    "description": "Average viewing time over 2 hours",
+    "description_ko": "평균 관람 시간 2시간 이상",
+    "icon": "🚶",
+    "rarity": "rare",
+    "sort_order": 0
+  },
+  {
+    "id": "passion-runner",
+    "name": "Passion Runner",
+    "name_ko": "열정 관람러",
+    "description": "Visit 3+ exhibitions in one day",
+    "description_ko": "하루 3개 이상 전시 관람",
+    "icon": "🏃",
+    "rarity": "common",
+    "sort_order": 0
+  },
+  {
+    "id": "modern-art",
+    "name": "Modern Art Enthusiast",
+    "name_ko": "현대미술 마니아",
+    "description": "Visit 20 modern art exhibitions",
+    "description_ko": "현대미술 전시 20회",
+    "icon": "🎭",
+    "rarity": "epic",
+    "sort_order": 0
+  },
+  {
+    "id": "photo-lover",
+    "name": "Photography Lover",
+    "name_ko": "사진전 애호가",
+    "description": "Visit 15 photography exhibitions",
+    "description_ko": "사진전 15회",
+    "icon": "📸",
+    "rarity": "rare",
+    "sort_order": 0
+  },
+  {
+    "id": "k-art",
+    "name": "K-Art Supporter",
+    "name_ko": "K-아트 서포터",
+    "description": "Visit 10 Korean artist exhibitions",
+    "description_ko": "한국 작가전 10회",
+    "icon": "🇰🇷",
+    "rarity": "rare",
+    "sort_order": 0
+  }
+]

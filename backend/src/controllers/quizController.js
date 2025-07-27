@@ -3,6 +3,7 @@ const ProfileModel = require('../models/Profile');
 const AIService = require('../services/openai');
 const ArtworkScoringService = require('../services/artworkScoring');
 const ProfileImageMappingService = require('../services/profileImageMapping');
+const journeyNudgeService = require('../services/journeyNudgeService');
 const { redisClient } = require('../config/redis');
 
 // Import quiz questions and types
@@ -146,6 +147,15 @@ class QuizController {
       if (hasExhibition && hasArtwork) {
         // Generate profile
         const profile = await this.generateProfile(session.userId);
+        
+        // 🎯 APT 테스트 완료 시 7일 여정 시작!
+        try {
+          await journeyNudgeService.initializeJourney(session.userId);
+          console.log(`✅ Journey started for user ${session.userId} after APT completion`);
+        } catch (journeyError) {
+          console.error('Journey initialization failed:', journeyError);
+          // 여정 시작 실패해도 프로필 생성은 성공으로 처리
+        }
         
         res.json({
           complete: true,

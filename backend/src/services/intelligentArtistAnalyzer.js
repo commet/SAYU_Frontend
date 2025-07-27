@@ -125,8 +125,8 @@ class IntelligentArtistAnalyzer {
       L (Lively): Active/Energetic vs Calm/Quiet (-1 to 1)
       A (Agreeable): Friendly/Cooperative vs Competitive/Assertive (-1 to 1)
       R (Responsible): Disciplined/Organized vs Free-spirited/Spontaneous (-1 to 1)
-      E (Emotional): Emotional/Intuitive vs Rational/Logical (-1 to 1)
-      M (Methodical): Systematic/Planned vs Improvisational/Flexible (-1 to 1)
+      E (Emotional): Emotional/Intuitive vs Rational/Loneal (-1 to 1)
+      M (Methodical): Systematic/Planned vs Improvisational/Flow (-1 to 1)
       F (Focused): Focused/Specialized vs Diverse/Multi-faceted (-1 to 1)
       C (Creative): Innovative/Original vs Traditional/Conservative (-1 to 1)
 

@@ -24,7 +24,7 @@ function DimensionalBars({ exhibitionScores }: { exhibitionScores: Record<string
       name: 'Experience Style',
       leftLabel: 'G',
       rightLabel: 'S', 
-      leftFull: 'Grounded (Personal)',
+      leftFull: 'Lone (Personal)',
       rightFull: 'Shared (Social)',
       leftScore: exhibitionScores.G || 0,
       rightScore: exhibitionScores.S || 0,

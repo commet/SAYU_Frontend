@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
 import { followAPI } from '@/lib/follow-api';
+import { getPioneerProfile } from '@/lib/api/pioneer';
+import { PioneerBadge } from '@/components/ui/PioneerBadge';
 import PersonalArtMap from '@/components/artmap/PersonalArtMap';
 import ExhibitionRecord from '@/components/exhibition/ExhibitionRecord';
 import BadgeSystem from '@/components/gamification/BadgeSystem';
@@ -151,6 +153,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<'map' | 'records' | 'badges' | 'share'>('map');
   const [redirecting, setRedirecting] = useState(false);
   const [userPersonalityType, setUserPersonalityType] = useState<string | null>(null);
+  const [pioneerProfile, setPioneerProfile] = useState<any>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showIDCard, setShowIDCard] = useState(false);
@@ -164,6 +167,21 @@ export default function ProfilePage() {
       setUserPersonalityType(results.personalityType);
     }
   }, []);
+
+  // Load pioneer profile if user is authenticated
+  useEffect(() => {
+    const loadPioneerProfile = async () => {
+      if (user?.id) {
+        try {
+          const profile = await getPioneerProfile(user.id);
+          setPioneerProfile(profile);
+        } catch (error) {
+          console.error('Failed to load pioneer profile:', error);
+        }
+      }
+    };
+    loadPioneerProfile();
+  }, [user]);
 
   useEffect(() => {
     if (!user && !redirecting) {
@@ -252,7 +270,17 @@ export default function ProfilePage() {
                 {user.nickname?.[0] || user.email?.[0] || 'U'}
               </div>
               <div>
-                <h1 className="text-2xl font-bold">{user.nickname || user.email}</h1>
+                <div className="flex items-center gap-3">
+                  <h1 className="text-2xl font-bold">{user.nickname || user.email}</h1>
+                  {pioneerProfile?.pioneer_number && (
+                    <PioneerBadge 
+                      pioneerNumber={pioneerProfile.pioneer_number}
+                      size="md"
+                      variant="default"
+                      showAnimation={true}
+                    />
+                  )}
+                </div>
                 <p className="text-sm opacity-70">
                   {language === 'ko' ? '레벨' : 'Level'} {mockUserStats.level} • {mockUserStats.totalPoints.toLocaleString()} {language === 'ko' ? '포인트' : 'points'}
                 </p>

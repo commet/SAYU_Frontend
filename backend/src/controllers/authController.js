@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const UserModel = require('../models/User');
 const TokenService = require('../services/tokenService');
+const journeyNudgeService = require('../services/journeyNudgeService');
 const { validationResult } = require('express-validator');
 
 class AuthController {
@@ -48,6 +49,7 @@ class AuthController {
         user: {
           id: user.id,
           email: user.email,
+          pioneer_number: user.pioneer_number,
           nickname: user.nickname,
           agencyLevel: user.agency_level
         },

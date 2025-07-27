@@ -63,7 +63,7 @@ export const THEME_CATEGORIES = {
   SOCIAL: 'social',
   PERSONAL: 'personal',
   
-  // Emotional vs Logical (E/L)
+  // Emotional vs Loneal (E/L)
   EMOTIONAL: 'emotional',
   ANALYTICAL: 'analytical',
   

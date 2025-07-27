@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS global_collection_logs (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  collection_type VARCHAR(50) NOT NULL,
+  data_source VARCHAR(50) NOT NULL,
+  target_city VARCHAR(100),
+  target_country VARCHAR(100),
+  records_attempted INTEGER DEFAULT 0,
+  records_successful INTEGER DEFAULT 0,
+  records_failed INTEGER DEFAULT 0,
+  records_duplicate INTEGER DEFAULT 0,
+  duration_seconds INTEGER,
+  api_calls_made INTEGER DEFAULT 0,
+  api_quota_remaining INTEGER,
+  status VARCHAR(20) NOT NULL,
+  error_message TEXT,
+  warnings TEXT[],
+  success_rate DECIMAL,
+  started_at TIMESTAMPTZ NOT NULL,
+  completed_at TIMESTAMPTZ,
+  configuration JSONB,
+  results_summary JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);

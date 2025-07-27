@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "venue_id": null,
+    "venue_name": null,
+    "job_type": "exhibition_collection",
+    "status": "completed",
+    "started_at": null,
+    "completed_at": "2025-07-15T03:39:59.899Z",
+    "error_message": null,
+    "results_count": 16,
+    "created_at": "2025-07-15T03:39:59.899Z",
+    "metadata": {
+      "searched_venues": 17,
+      "found_exhibitions": 344,
+      "saved_exhibitions": 16
+    }
+  }
+]

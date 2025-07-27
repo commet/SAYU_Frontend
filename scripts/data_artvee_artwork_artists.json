@@ -1,0 +1,4448 @@
+[
+  {
+    "id": 1,
+    "artwork_id": 3,
+    "artist_id": "16461492-c53c-4ec5-bf2a-f276d177aa19",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 2,
+    "artwork_id": 5,
+    "artist_id": "16461492-c53c-4ec5-bf2a-f276d177aa19",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 3,
+    "artwork_id": 7,
+    "artist_id": "16461492-c53c-4ec5-bf2a-f276d177aa19",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 4,
+    "artwork_id": 9,
+    "artist_id": "16461492-c53c-4ec5-bf2a-f276d177aa19",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 5,
+    "artwork_id": 11,
+    "artist_id": "16461492-c53c-4ec5-bf2a-f276d177aa19",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 6,
+    "artwork_id": 13,
+    "artist_id": "16461492-c53c-4ec5-bf2a-f276d177aa19",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 7,
+    "artwork_id": 15,
+    "artist_id": "16461492-c53c-4ec5-bf2a-f276d177aa19",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 8,
+    "artwork_id": 17,
+    "artist_id": "16461492-c53c-4ec5-bf2a-f276d177aa19",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 9,
+    "artwork_id": 19,
+    "artist_id": "16461492-c53c-4ec5-bf2a-f276d177aa19",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 10,
+    "artwork_id": 21,
+    "artist_id": "16461492-c53c-4ec5-bf2a-f276d177aa19",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 11,
+    "artwork_id": 23,
+    "artist_id": "6a8fa71d-816f-4b4b-8b00-b17e55122d30",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 12,
+    "artwork_id": 25,
+    "artist_id": "6a8fa71d-816f-4b4b-8b00-b17e55122d30",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 13,
+    "artwork_id": 27,
+    "artist_id": "6a8fa71d-816f-4b4b-8b00-b17e55122d30",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 14,
+    "artwork_id": 29,
+    "artist_id": "6a8fa71d-816f-4b4b-8b00-b17e55122d30",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 15,
+    "artwork_id": 31,
+    "artist_id": "6a8fa71d-816f-4b4b-8b00-b17e55122d30",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 16,
+    "artwork_id": 2,
+    "artist_id": "d7be403c-3fa4-4943-9efe-f51bce143a88",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 17,
+    "artwork_id": 4,
+    "artist_id": "d7be403c-3fa4-4943-9efe-f51bce143a88",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 18,
+    "artwork_id": 6,
+    "artist_id": "f2857c7c-1ee7-434f-afd6-d74e02086b09",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 19,
+    "artwork_id": 8,
+    "artist_id": "f2857c7c-1ee7-434f-afd6-d74e02086b09",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 20,
+    "artwork_id": 10,
+    "artist_id": "f2857c7c-1ee7-434f-afd6-d74e02086b09",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 21,
+    "artwork_id": 12,
+    "artist_id": "f2857c7c-1ee7-434f-afd6-d74e02086b09",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 22,
+    "artwork_id": 14,
+    "artist_id": "f2857c7c-1ee7-434f-afd6-d74e02086b09",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 23,
+    "artwork_id": 16,
+    "artist_id": "f2857c7c-1ee7-434f-afd6-d74e02086b09",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 24,
+    "artwork_id": 18,
+    "artist_id": "f2857c7c-1ee7-434f-afd6-d74e02086b09",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 25,
+    "artwork_id": 20,
+    "artist_id": "f2857c7c-1ee7-434f-afd6-d74e02086b09",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 26,
+    "artwork_id": 22,
+    "artist_id": "f2857c7c-1ee7-434f-afd6-d74e02086b09",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 27,
+    "artwork_id": 24,
+    "artist_id": "f2857c7c-1ee7-434f-afd6-d74e02086b09",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 28,
+    "artwork_id": 26,
+    "artist_id": "96633be1-5c00-4a68-9829-b8dc28cbe6fc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 29,
+    "artwork_id": 28,
+    "artist_id": "96633be1-5c00-4a68-9829-b8dc28cbe6fc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 30,
+    "artwork_id": 30,
+    "artist_id": "96633be1-5c00-4a68-9829-b8dc28cbe6fc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 31,
+    "artwork_id": 34,
+    "artist_id": "96633be1-5c00-4a68-9829-b8dc28cbe6fc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 32,
+    "artwork_id": 36,
+    "artist_id": "96633be1-5c00-4a68-9829-b8dc28cbe6fc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 33,
+    "artwork_id": 38,
+    "artist_id": "96633be1-5c00-4a68-9829-b8dc28cbe6fc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 34,
+    "artwork_id": 40,
+    "artist_id": "96633be1-5c00-4a68-9829-b8dc28cbe6fc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 35,
+    "artwork_id": 42,
+    "artist_id": "96633be1-5c00-4a68-9829-b8dc28cbe6fc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 36,
+    "artwork_id": 44,
+    "artist_id": "96633be1-5c00-4a68-9829-b8dc28cbe6fc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 37,
+    "artwork_id": 77,
+    "artist_id": "753f49dc-667b-4c99-a6e1-f7aa8fe49117",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 38,
+    "artwork_id": 79,
+    "artist_id": "753f49dc-667b-4c99-a6e1-f7aa8fe49117",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 39,
+    "artwork_id": 81,
+    "artist_id": "753f49dc-667b-4c99-a6e1-f7aa8fe49117",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 40,
+    "artwork_id": 83,
+    "artist_id": "753f49dc-667b-4c99-a6e1-f7aa8fe49117",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 41,
+    "artwork_id": 85,
+    "artist_id": "753f49dc-667b-4c99-a6e1-f7aa8fe49117",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 42,
+    "artwork_id": 87,
+    "artist_id": "753f49dc-667b-4c99-a6e1-f7aa8fe49117",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 43,
+    "artwork_id": 33,
+    "artist_id": "6a8fa71d-816f-4b4b-8b00-b17e55122d30",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 44,
+    "artwork_id": 35,
+    "artist_id": "6a8fa71d-816f-4b4b-8b00-b17e55122d30",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 45,
+    "artwork_id": 37,
+    "artist_id": "6a8fa71d-816f-4b4b-8b00-b17e55122d30",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 46,
+    "artwork_id": 39,
+    "artist_id": "6a8fa71d-816f-4b4b-8b00-b17e55122d30",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 47,
+    "artwork_id": 41,
+    "artist_id": "6a8fa71d-816f-4b4b-8b00-b17e55122d30",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 48,
+    "artwork_id": 43,
+    "artist_id": "0f96f8ca-479c-4e55-92bb-8e140af5f2c6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 49,
+    "artwork_id": 45,
+    "artist_id": "0f96f8ca-479c-4e55-92bb-8e140af5f2c6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 50,
+    "artwork_id": 47,
+    "artist_id": "0f96f8ca-479c-4e55-92bb-8e140af5f2c6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 51,
+    "artwork_id": 49,
+    "artist_id": "0f96f8ca-479c-4e55-92bb-8e140af5f2c6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 52,
+    "artwork_id": 51,
+    "artist_id": "0f96f8ca-479c-4e55-92bb-8e140af5f2c6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 53,
+    "artwork_id": 53,
+    "artist_id": "0f96f8ca-479c-4e55-92bb-8e140af5f2c6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 54,
+    "artwork_id": 55,
+    "artist_id": "0f96f8ca-479c-4e55-92bb-8e140af5f2c6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 55,
+    "artwork_id": 58,
+    "artist_id": "0f96f8ca-479c-4e55-92bb-8e140af5f2c6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 56,
+    "artwork_id": 60,
+    "artist_id": "0f96f8ca-479c-4e55-92bb-8e140af5f2c6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 57,
+    "artwork_id": 62,
+    "artist_id": "0f96f8ca-479c-4e55-92bb-8e140af5f2c6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 58,
+    "artwork_id": 64,
+    "artist_id": "b5c79e39-3958-40a7-ad21-2826014c16ac",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 59,
+    "artwork_id": 66,
+    "artist_id": "b5c79e39-3958-40a7-ad21-2826014c16ac",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 60,
+    "artwork_id": 68,
+    "artist_id": "b5c79e39-3958-40a7-ad21-2826014c16ac",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 61,
+    "artwork_id": 70,
+    "artist_id": "b5c79e39-3958-40a7-ad21-2826014c16ac",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 62,
+    "artwork_id": 72,
+    "artist_id": "b5c79e39-3958-40a7-ad21-2826014c16ac",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 63,
+    "artwork_id": 74,
+    "artist_id": "b5c79e39-3958-40a7-ad21-2826014c16ac",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 64,
+    "artwork_id": 76,
+    "artist_id": "b5c79e39-3958-40a7-ad21-2826014c16ac",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 65,
+    "artwork_id": 78,
+    "artist_id": "b5c79e39-3958-40a7-ad21-2826014c16ac",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 66,
+    "artwork_id": 80,
+    "artist_id": "b5c79e39-3958-40a7-ad21-2826014c16ac",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 67,
+    "artwork_id": 82,
+    "artist_id": "b5c79e39-3958-40a7-ad21-2826014c16ac",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 68,
+    "artwork_id": 84,
+    "artist_id": "697eb3eb-2c3d-48fc-8f9d-ff97b0327549",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 69,
+    "artwork_id": 86,
+    "artist_id": "697eb3eb-2c3d-48fc-8f9d-ff97b0327549",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 70,
+    "artwork_id": 88,
+    "artist_id": "697eb3eb-2c3d-48fc-8f9d-ff97b0327549",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 71,
+    "artwork_id": 90,
+    "artist_id": "697eb3eb-2c3d-48fc-8f9d-ff97b0327549",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 72,
+    "artwork_id": 92,
+    "artist_id": "697eb3eb-2c3d-48fc-8f9d-ff97b0327549",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 73,
+    "artwork_id": 93,
+    "artist_id": "753f49dc-667b-4c99-a6e1-f7aa8fe49117",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 74,
+    "artwork_id": 95,
+    "artist_id": "753f49dc-667b-4c99-a6e1-f7aa8fe49117",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 75,
+    "artwork_id": 97,
+    "artist_id": "ac402b05-d72b-429b-866b-74dd02ec6c08",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 76,
+    "artwork_id": 99,
+    "artist_id": "ac402b05-d72b-429b-866b-74dd02ec6c08",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 77,
+    "artwork_id": 101,
+    "artist_id": "ac402b05-d72b-429b-866b-74dd02ec6c08",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 78,
+    "artwork_id": 103,
+    "artist_id": "ac402b05-d72b-429b-866b-74dd02ec6c08",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 79,
+    "artwork_id": 105,
+    "artist_id": "ac402b05-d72b-429b-866b-74dd02ec6c08",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 80,
+    "artwork_id": 107,
+    "artist_id": "ac402b05-d72b-429b-866b-74dd02ec6c08",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 81,
+    "artwork_id": 109,
+    "artist_id": "ac402b05-d72b-429b-866b-74dd02ec6c08",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 82,
+    "artwork_id": 111,
+    "artist_id": "ac402b05-d72b-429b-866b-74dd02ec6c08",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 83,
+    "artwork_id": 113,
+    "artist_id": "ac402b05-d72b-429b-866b-74dd02ec6c08",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 84,
+    "artwork_id": 115,
+    "artist_id": "ac402b05-d72b-429b-866b-74dd02ec6c08",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 85,
+    "artwork_id": 147,
+    "artist_id": "7990a470-c6e2-4551-b25a-55bbe799ae1b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 86,
+    "artwork_id": 149,
+    "artist_id": "7990a470-c6e2-4551-b25a-55bbe799ae1b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 87,
+    "artwork_id": 151,
+    "artist_id": "7990a470-c6e2-4551-b25a-55bbe799ae1b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 88,
+    "artwork_id": 94,
+    "artist_id": "697eb3eb-2c3d-48fc-8f9d-ff97b0327549",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 89,
+    "artwork_id": 96,
+    "artist_id": "697eb3eb-2c3d-48fc-8f9d-ff97b0327549",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 90,
+    "artwork_id": 98,
+    "artist_id": "697eb3eb-2c3d-48fc-8f9d-ff97b0327549",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 91,
+    "artwork_id": 100,
+    "artist_id": "697eb3eb-2c3d-48fc-8f9d-ff97b0327549",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 92,
+    "artwork_id": 102,
+    "artist_id": "697eb3eb-2c3d-48fc-8f9d-ff97b0327549",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 93,
+    "artwork_id": 104,
+    "artist_id": "4fe54855-5a63-4216-b356-ac6886902997",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 94,
+    "artwork_id": 106,
+    "artist_id": "4fe54855-5a63-4216-b356-ac6886902997",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 95,
+    "artwork_id": 108,
+    "artist_id": "4fe54855-5a63-4216-b356-ac6886902997",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 96,
+    "artwork_id": 110,
+    "artist_id": "4fe54855-5a63-4216-b356-ac6886902997",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 97,
+    "artwork_id": 112,
+    "artist_id": "4fe54855-5a63-4216-b356-ac6886902997",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 98,
+    "artwork_id": 114,
+    "artist_id": "4fe54855-5a63-4216-b356-ac6886902997",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 99,
+    "artwork_id": 116,
+    "artist_id": "4fe54855-5a63-4216-b356-ac6886902997",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 100,
+    "artwork_id": 118,
+    "artist_id": "4fe54855-5a63-4216-b356-ac6886902997",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 101,
+    "artwork_id": 120,
+    "artist_id": "4fe54855-5a63-4216-b356-ac6886902997",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 102,
+    "artwork_id": 122,
+    "artist_id": "4fe54855-5a63-4216-b356-ac6886902997",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 103,
+    "artwork_id": 124,
+    "artist_id": "32590801-ba2e-4f51-9260-666d1c12a1ca",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 104,
+    "artwork_id": 126,
+    "artist_id": "32590801-ba2e-4f51-9260-666d1c12a1ca",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 105,
+    "artwork_id": 128,
+    "artist_id": "32590801-ba2e-4f51-9260-666d1c12a1ca",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 106,
+    "artwork_id": 130,
+    "artist_id": "32590801-ba2e-4f51-9260-666d1c12a1ca",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 107,
+    "artwork_id": 132,
+    "artist_id": "32590801-ba2e-4f51-9260-666d1c12a1ca",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 108,
+    "artwork_id": 134,
+    "artist_id": "32590801-ba2e-4f51-9260-666d1c12a1ca",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 109,
+    "artwork_id": 136,
+    "artist_id": "32590801-ba2e-4f51-9260-666d1c12a1ca",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 110,
+    "artwork_id": 138,
+    "artist_id": "32590801-ba2e-4f51-9260-666d1c12a1ca",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 111,
+    "artwork_id": 140,
+    "artist_id": "32590801-ba2e-4f51-9260-666d1c12a1ca",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 112,
+    "artwork_id": 142,
+    "artist_id": "32590801-ba2e-4f51-9260-666d1c12a1ca",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 113,
+    "artwork_id": 144,
+    "artist_id": "5f3cb309-19b2-467c-9ab7-8233a1b816c8",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 114,
+    "artwork_id": 146,
+    "artist_id": "5f3cb309-19b2-467c-9ab7-8233a1b816c8",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 115,
+    "artwork_id": 148,
+    "artist_id": "5f3cb309-19b2-467c-9ab7-8233a1b816c8",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 116,
+    "artwork_id": 150,
+    "artist_id": "5f3cb309-19b2-467c-9ab7-8233a1b816c8",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 117,
+    "artwork_id": 152,
+    "artist_id": "5f3cb309-19b2-467c-9ab7-8233a1b816c8",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 118,
+    "artwork_id": 154,
+    "artist_id": "5f3cb309-19b2-467c-9ab7-8233a1b816c8",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 119,
+    "artwork_id": 156,
+    "artist_id": "5f3cb309-19b2-467c-9ab7-8233a1b816c8",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 120,
+    "artwork_id": 158,
+    "artist_id": "5f3cb309-19b2-467c-9ab7-8233a1b816c8",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 121,
+    "artwork_id": 160,
+    "artist_id": "5f3cb309-19b2-467c-9ab7-8233a1b816c8",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 122,
+    "artwork_id": 155,
+    "artist_id": "7990a470-c6e2-4551-b25a-55bbe799ae1b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 123,
+    "artwork_id": 157,
+    "artist_id": "7990a470-c6e2-4551-b25a-55bbe799ae1b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 124,
+    "artwork_id": 159,
+    "artist_id": "7990a470-c6e2-4551-b25a-55bbe799ae1b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 125,
+    "artwork_id": 161,
+    "artist_id": "7990a470-c6e2-4551-b25a-55bbe799ae1b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 126,
+    "artwork_id": 163,
+    "artist_id": "7990a470-c6e2-4551-b25a-55bbe799ae1b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 127,
+    "artwork_id": 165,
+    "artist_id": "7990a470-c6e2-4551-b25a-55bbe799ae1b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 128,
+    "artwork_id": 188,
+    "artist_id": "831c7f8c-cabe-48e2-a1ba-c4e54a0529c7",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 129,
+    "artwork_id": 190,
+    "artist_id": "831c7f8c-cabe-48e2-a1ba-c4e54a0529c7",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 130,
+    "artwork_id": 192,
+    "artist_id": "831c7f8c-cabe-48e2-a1ba-c4e54a0529c7",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 131,
+    "artwork_id": 194,
+    "artist_id": "831c7f8c-cabe-48e2-a1ba-c4e54a0529c7",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 132,
+    "artwork_id": 196,
+    "artist_id": "831c7f8c-cabe-48e2-a1ba-c4e54a0529c7",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 133,
+    "artwork_id": 198,
+    "artist_id": "831c7f8c-cabe-48e2-a1ba-c4e54a0529c7",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 134,
+    "artwork_id": 200,
+    "artist_id": "831c7f8c-cabe-48e2-a1ba-c4e54a0529c7",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 135,
+    "artwork_id": 202,
+    "artist_id": "831c7f8c-cabe-48e2-a1ba-c4e54a0529c7",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 136,
+    "artwork_id": 204,
+    "artist_id": "831c7f8c-cabe-48e2-a1ba-c4e54a0529c7",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 137,
+    "artwork_id": 206,
+    "artist_id": "831c7f8c-cabe-48e2-a1ba-c4e54a0529c7",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 138,
+    "artwork_id": 208,
+    "artist_id": "32c9aed0-b709-4ed3-bf7d-159bfeb7b221",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 139,
+    "artwork_id": 210,
+    "artist_id": "32c9aed0-b709-4ed3-bf7d-159bfeb7b221",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 140,
+    "artwork_id": 162,
+    "artist_id": "5f3cb309-19b2-467c-9ab7-8233a1b816c8",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 141,
+    "artwork_id": 164,
+    "artist_id": "e5e309f9-ef3a-482a-adfc-f31d4a25d015",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 142,
+    "artwork_id": 166,
+    "artist_id": "e5e309f9-ef3a-482a-adfc-f31d4a25d015",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 143,
+    "artwork_id": 168,
+    "artist_id": "e5e309f9-ef3a-482a-adfc-f31d4a25d015",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 144,
+    "artwork_id": 170,
+    "artist_id": "e5e309f9-ef3a-482a-adfc-f31d4a25d015",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 145,
+    "artwork_id": 172,
+    "artist_id": "e5e309f9-ef3a-482a-adfc-f31d4a25d015",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 146,
+    "artwork_id": 174,
+    "artist_id": "e5e309f9-ef3a-482a-adfc-f31d4a25d015",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 147,
+    "artwork_id": 177,
+    "artist_id": "e5e309f9-ef3a-482a-adfc-f31d4a25d015",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 148,
+    "artwork_id": 179,
+    "artist_id": "e5e309f9-ef3a-482a-adfc-f31d4a25d015",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 149,
+    "artwork_id": 181,
+    "artist_id": "e5e309f9-ef3a-482a-adfc-f31d4a25d015",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 150,
+    "artwork_id": 183,
+    "artist_id": "e5e309f9-ef3a-482a-adfc-f31d4a25d015",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 151,
+    "artwork_id": 185,
+    "artist_id": "e1c789b0-b223-4414-8148-2e5a5063361c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 152,
+    "artwork_id": 187,
+    "artist_id": "e1c789b0-b223-4414-8148-2e5a5063361c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 153,
+    "artwork_id": 189,
+    "artist_id": "e1c789b0-b223-4414-8148-2e5a5063361c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 154,
+    "artwork_id": 191,
+    "artist_id": "e1c789b0-b223-4414-8148-2e5a5063361c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 155,
+    "artwork_id": 193,
+    "artist_id": "e1c789b0-b223-4414-8148-2e5a5063361c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 156,
+    "artwork_id": 195,
+    "artist_id": "e1c789b0-b223-4414-8148-2e5a5063361c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 157,
+    "artwork_id": 197,
+    "artist_id": "e1c789b0-b223-4414-8148-2e5a5063361c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 158,
+    "artwork_id": 199,
+    "artist_id": "e1c789b0-b223-4414-8148-2e5a5063361c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 159,
+    "artwork_id": 201,
+    "artist_id": "e1c789b0-b223-4414-8148-2e5a5063361c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 160,
+    "artwork_id": 203,
+    "artist_id": "e1c789b0-b223-4414-8148-2e5a5063361c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 161,
+    "artwork_id": 205,
+    "artist_id": "08e9ade6-7bfc-4bfd-9a48-84cf3e32755c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 162,
+    "artwork_id": 207,
+    "artist_id": "08e9ade6-7bfc-4bfd-9a48-84cf3e32755c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 163,
+    "artwork_id": 209,
+    "artist_id": "08e9ade6-7bfc-4bfd-9a48-84cf3e32755c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 164,
+    "artwork_id": 211,
+    "artist_id": "08e9ade6-7bfc-4bfd-9a48-84cf3e32755c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 165,
+    "artwork_id": 213,
+    "artist_id": "08e9ade6-7bfc-4bfd-9a48-84cf3e32755c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 166,
+    "artwork_id": 215,
+    "artist_id": "08e9ade6-7bfc-4bfd-9a48-84cf3e32755c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 167,
+    "artwork_id": 217,
+    "artist_id": "08e9ade6-7bfc-4bfd-9a48-84cf3e32755c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 168,
+    "artwork_id": 219,
+    "artist_id": "08e9ade6-7bfc-4bfd-9a48-84cf3e32755c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 169,
+    "artwork_id": 221,
+    "artist_id": "08e9ade6-7bfc-4bfd-9a48-84cf3e32755c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 170,
+    "artwork_id": 223,
+    "artist_id": "08e9ade6-7bfc-4bfd-9a48-84cf3e32755c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 171,
+    "artwork_id": 214,
+    "artist_id": "32c9aed0-b709-4ed3-bf7d-159bfeb7b221",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 172,
+    "artwork_id": 216,
+    "artist_id": "32c9aed0-b709-4ed3-bf7d-159bfeb7b221",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 173,
+    "artwork_id": 218,
+    "artist_id": "32c9aed0-b709-4ed3-bf7d-159bfeb7b221",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 174,
+    "artwork_id": 220,
+    "artist_id": "32c9aed0-b709-4ed3-bf7d-159bfeb7b221",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 175,
+    "artwork_id": 222,
+    "artist_id": "32c9aed0-b709-4ed3-bf7d-159bfeb7b221",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 176,
+    "artwork_id": 224,
+    "artist_id": "32c9aed0-b709-4ed3-bf7d-159bfeb7b221",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 177,
+    "artwork_id": 226,
+    "artist_id": "32c9aed0-b709-4ed3-bf7d-159bfeb7b221",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 178,
+    "artwork_id": 228,
+    "artist_id": "52e0d928-9327-4109-b82f-7a7caa6616d1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 179,
+    "artwork_id": 232,
+    "artist_id": "52e0d928-9327-4109-b82f-7a7caa6616d1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 180,
+    "artwork_id": 234,
+    "artist_id": "52e0d928-9327-4109-b82f-7a7caa6616d1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 181,
+    "artwork_id": 236,
+    "artist_id": "52e0d928-9327-4109-b82f-7a7caa6616d1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 182,
+    "artwork_id": 238,
+    "artist_id": "52e0d928-9327-4109-b82f-7a7caa6616d1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 183,
+    "artwork_id": 240,
+    "artist_id": "52e0d928-9327-4109-b82f-7a7caa6616d1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 184,
+    "artwork_id": 242,
+    "artist_id": "52e0d928-9327-4109-b82f-7a7caa6616d1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 185,
+    "artwork_id": 244,
+    "artist_id": "52e0d928-9327-4109-b82f-7a7caa6616d1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 186,
+    "artwork_id": 246,
+    "artist_id": "52e0d928-9327-4109-b82f-7a7caa6616d1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 187,
+    "artwork_id": 268,
+    "artist_id": "297e960f-2c7f-433a-8b57-3bbd9cd5602d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 188,
+    "artwork_id": 270,
+    "artist_id": "297e960f-2c7f-433a-8b57-3bbd9cd5602d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 189,
+    "artwork_id": 272,
+    "artist_id": "297e960f-2c7f-433a-8b57-3bbd9cd5602d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 190,
+    "artwork_id": 225,
+    "artist_id": "d0e16047-f6be-4426-8470-4d1d465e0f83",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 191,
+    "artwork_id": 227,
+    "artist_id": "d0e16047-f6be-4426-8470-4d1d465e0f83",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 192,
+    "artwork_id": 229,
+    "artist_id": "d0e16047-f6be-4426-8470-4d1d465e0f83",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 193,
+    "artwork_id": 231,
+    "artist_id": "d0e16047-f6be-4426-8470-4d1d465e0f83",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 194,
+    "artwork_id": 233,
+    "artist_id": "d0e16047-f6be-4426-8470-4d1d465e0f83",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 195,
+    "artwork_id": 235,
+    "artist_id": "d0e16047-f6be-4426-8470-4d1d465e0f83",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 196,
+    "artwork_id": 237,
+    "artist_id": "d0e16047-f6be-4426-8470-4d1d465e0f83",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 197,
+    "artwork_id": 239,
+    "artist_id": "d0e16047-f6be-4426-8470-4d1d465e0f83",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 198,
+    "artwork_id": 241,
+    "artist_id": "d0e16047-f6be-4426-8470-4d1d465e0f83",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 199,
+    "artwork_id": 243,
+    "artist_id": "d0e16047-f6be-4426-8470-4d1d465e0f83",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 200,
+    "artwork_id": 245,
+    "artist_id": "43ad68a7-c82d-4ae3-ba80-3bd1b652e848",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 201,
+    "artwork_id": 247,
+    "artist_id": "43ad68a7-c82d-4ae3-ba80-3bd1b652e848",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 202,
+    "artwork_id": 249,
+    "artist_id": "43ad68a7-c82d-4ae3-ba80-3bd1b652e848",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 203,
+    "artwork_id": 251,
+    "artist_id": "43ad68a7-c82d-4ae3-ba80-3bd1b652e848",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 204,
+    "artwork_id": 253,
+    "artist_id": "43ad68a7-c82d-4ae3-ba80-3bd1b652e848",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 205,
+    "artwork_id": 255,
+    "artist_id": "43ad68a7-c82d-4ae3-ba80-3bd1b652e848",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 206,
+    "artwork_id": 257,
+    "artist_id": "43ad68a7-c82d-4ae3-ba80-3bd1b652e848",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 207,
+    "artwork_id": 259,
+    "artist_id": "43ad68a7-c82d-4ae3-ba80-3bd1b652e848",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 208,
+    "artwork_id": 261,
+    "artist_id": "43ad68a7-c82d-4ae3-ba80-3bd1b652e848",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 209,
+    "artwork_id": 263,
+    "artist_id": "43ad68a7-c82d-4ae3-ba80-3bd1b652e848",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 210,
+    "artwork_id": 265,
+    "artist_id": "d7be403c-3fa4-4943-9efe-f51bce143a88",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 211,
+    "artwork_id": 267,
+    "artist_id": "d7be403c-3fa4-4943-9efe-f51bce143a88",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 212,
+    "artwork_id": 269,
+    "artist_id": "d7be403c-3fa4-4943-9efe-f51bce143a88",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 213,
+    "artwork_id": 271,
+    "artist_id": "d7be403c-3fa4-4943-9efe-f51bce143a88",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 214,
+    "artwork_id": 273,
+    "artist_id": "d7be403c-3fa4-4943-9efe-f51bce143a88",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 215,
+    "artwork_id": 275,
+    "artist_id": "d7be403c-3fa4-4943-9efe-f51bce143a88",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 216,
+    "artwork_id": 277,
+    "artist_id": "d7be403c-3fa4-4943-9efe-f51bce143a88",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 217,
+    "artwork_id": 1,
+    "artist_id": "d7be403c-3fa4-4943-9efe-f51bce143a88",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 218,
+    "artwork_id": 32,
+    "artist_id": "96633be1-5c00-4a68-9829-b8dc28cbe6fc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 219,
+    "artwork_id": 276,
+    "artist_id": "297e960f-2c7f-433a-8b57-3bbd9cd5602d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 220,
+    "artwork_id": 278,
+    "artist_id": "297e960f-2c7f-433a-8b57-3bbd9cd5602d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 221,
+    "artwork_id": 280,
+    "artist_id": "297e960f-2c7f-433a-8b57-3bbd9cd5602d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 222,
+    "artwork_id": 282,
+    "artist_id": "297e960f-2c7f-433a-8b57-3bbd9cd5602d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 223,
+    "artwork_id": 284,
+    "artist_id": "297e960f-2c7f-433a-8b57-3bbd9cd5602d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 224,
+    "artwork_id": 286,
+    "artist_id": "297e960f-2c7f-433a-8b57-3bbd9cd5602d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 225,
+    "artwork_id": 288,
+    "artist_id": "e23a9b4a-0228-40c3-a55a-84aa353f267e",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 226,
+    "artwork_id": 290,
+    "artist_id": "e23a9b4a-0228-40c3-a55a-84aa353f267e",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 227,
+    "artwork_id": 294,
+    "artist_id": "e23a9b4a-0228-40c3-a55a-84aa353f267e",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 228,
+    "artwork_id": 296,
+    "artist_id": "e23a9b4a-0228-40c3-a55a-84aa353f267e",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 229,
+    "artwork_id": 298,
+    "artist_id": "e23a9b4a-0228-40c3-a55a-84aa353f267e",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 230,
+    "artwork_id": 300,
+    "artist_id": "e23a9b4a-0228-40c3-a55a-84aa353f267e",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 231,
+    "artwork_id": 302,
+    "artist_id": "e23a9b4a-0228-40c3-a55a-84aa353f267e",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 232,
+    "artwork_id": 304,
+    "artist_id": "e23a9b4a-0228-40c3-a55a-84aa353f267e",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 233,
+    "artwork_id": 306,
+    "artist_id": "e23a9b4a-0228-40c3-a55a-84aa353f267e",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 234,
+    "artwork_id": 307,
+    "artist_id": "c81f4cad-a0db-4c46-82e2-2b0b2cb4e0a0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 235,
+    "artwork_id": 309,
+    "artist_id": "c81f4cad-a0db-4c46-82e2-2b0b2cb4e0a0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 236,
+    "artwork_id": 311,
+    "artist_id": "c81f4cad-a0db-4c46-82e2-2b0b2cb4e0a0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 237,
+    "artwork_id": 313,
+    "artist_id": "c81f4cad-a0db-4c46-82e2-2b0b2cb4e0a0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 238,
+    "artwork_id": 315,
+    "artist_id": "c81f4cad-a0db-4c46-82e2-2b0b2cb4e0a0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 239,
+    "artwork_id": 317,
+    "artist_id": "c81f4cad-a0db-4c46-82e2-2b0b2cb4e0a0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 240,
+    "artwork_id": 319,
+    "artist_id": "c81f4cad-a0db-4c46-82e2-2b0b2cb4e0a0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 241,
+    "artwork_id": 321,
+    "artist_id": "c81f4cad-a0db-4c46-82e2-2b0b2cb4e0a0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 242,
+    "artwork_id": 323,
+    "artist_id": "c81f4cad-a0db-4c46-82e2-2b0b2cb4e0a0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 243,
+    "artwork_id": 325,
+    "artist_id": "c81f4cad-a0db-4c46-82e2-2b0b2cb4e0a0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 244,
+    "artwork_id": 327,
+    "artist_id": "4b5de4e5-16a1-4f94-80bb-079ef2ee5c38",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 245,
+    "artwork_id": 329,
+    "artist_id": "4b5de4e5-16a1-4f94-80bb-079ef2ee5c38",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 246,
+    "artwork_id": 331,
+    "artist_id": "4b5de4e5-16a1-4f94-80bb-079ef2ee5c38",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 247,
+    "artwork_id": 333,
+    "artist_id": "4b5de4e5-16a1-4f94-80bb-079ef2ee5c38",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 248,
+    "artwork_id": 335,
+    "artist_id": "4b5de4e5-16a1-4f94-80bb-079ef2ee5c38",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 249,
+    "artwork_id": 339,
+    "artist_id": "4b5de4e5-16a1-4f94-80bb-079ef2ee5c38",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 250,
+    "artwork_id": 341,
+    "artist_id": "4b5de4e5-16a1-4f94-80bb-079ef2ee5c38",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 251,
+    "artwork_id": 343,
+    "artist_id": "4b5de4e5-16a1-4f94-80bb-079ef2ee5c38",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 252,
+    "artwork_id": 345,
+    "artist_id": "4b5de4e5-16a1-4f94-80bb-079ef2ee5c38",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 253,
+    "artwork_id": 347,
+    "artist_id": "dc8970d2-a36d-4132-9c35-00e86a0bf055",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 254,
+    "artwork_id": 349,
+    "artist_id": "dc8970d2-a36d-4132-9c35-00e86a0bf055",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 255,
+    "artwork_id": 351,
+    "artist_id": "dc8970d2-a36d-4132-9c35-00e86a0bf055",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 256,
+    "artwork_id": 353,
+    "artist_id": "dc8970d2-a36d-4132-9c35-00e86a0bf055",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 257,
+    "artwork_id": 355,
+    "artist_id": "dc8970d2-a36d-4132-9c35-00e86a0bf055",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 258,
+    "artwork_id": 357,
+    "artist_id": "dc8970d2-a36d-4132-9c35-00e86a0bf055",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 259,
+    "artwork_id": 359,
+    "artist_id": "dc8970d2-a36d-4132-9c35-00e86a0bf055",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 260,
+    "artwork_id": 361,
+    "artist_id": "dc8970d2-a36d-4132-9c35-00e86a0bf055",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 261,
+    "artwork_id": 363,
+    "artist_id": "dc8970d2-a36d-4132-9c35-00e86a0bf055",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 262,
+    "artwork_id": 365,
+    "artist_id": "dc8970d2-a36d-4132-9c35-00e86a0bf055",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 263,
+    "artwork_id": 367,
+    "artist_id": "637c43b9-7c3c-45b6-8ae9-4d1af6c7de23",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 264,
+    "artwork_id": 369,
+    "artist_id": "637c43b9-7c3c-45b6-8ae9-4d1af6c7de23",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 265,
+    "artwork_id": 371,
+    "artist_id": "637c43b9-7c3c-45b6-8ae9-4d1af6c7de23",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 266,
+    "artwork_id": 373,
+    "artist_id": "637c43b9-7c3c-45b6-8ae9-4d1af6c7de23",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 267,
+    "artwork_id": 375,
+    "artist_id": "637c43b9-7c3c-45b6-8ae9-4d1af6c7de23",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 268,
+    "artwork_id": 377,
+    "artist_id": "637c43b9-7c3c-45b6-8ae9-4d1af6c7de23",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 269,
+    "artwork_id": 379,
+    "artist_id": "637c43b9-7c3c-45b6-8ae9-4d1af6c7de23",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 270,
+    "artwork_id": 381,
+    "artist_id": "637c43b9-7c3c-45b6-8ae9-4d1af6c7de23",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 271,
+    "artwork_id": 383,
+    "artist_id": "637c43b9-7c3c-45b6-8ae9-4d1af6c7de23",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 272,
+    "artwork_id": 385,
+    "artist_id": "637c43b9-7c3c-45b6-8ae9-4d1af6c7de23",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 273,
+    "artwork_id": 89,
+    "artist_id": "753f49dc-667b-4c99-a6e1-f7aa8fe49117",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 274,
+    "artwork_id": 91,
+    "artist_id": "753f49dc-667b-4c99-a6e1-f7aa8fe49117",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 275,
+    "artwork_id": 153,
+    "artist_id": "7990a470-c6e2-4551-b25a-55bbe799ae1b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 276,
+    "artwork_id": 391,
+    "artist_id": "0e857e84-2659-41bd-a678-5e907e928319",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 277,
+    "artwork_id": 393,
+    "artist_id": "0e857e84-2659-41bd-a678-5e907e928319",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 278,
+    "artwork_id": 395,
+    "artist_id": "0e857e84-2659-41bd-a678-5e907e928319",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 279,
+    "artwork_id": 397,
+    "artist_id": "0e857e84-2659-41bd-a678-5e907e928319",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 280,
+    "artwork_id": 399,
+    "artist_id": "0e857e84-2659-41bd-a678-5e907e928319",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 281,
+    "artwork_id": 401,
+    "artist_id": "0e857e84-2659-41bd-a678-5e907e928319",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 282,
+    "artwork_id": 403,
+    "artist_id": "0e857e84-2659-41bd-a678-5e907e928319",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 283,
+    "artwork_id": 405,
+    "artist_id": "0e857e84-2659-41bd-a678-5e907e928319",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 284,
+    "artwork_id": 426,
+    "artist_id": "537f90d2-70d9-4662-a0b3-0ee7934d29ec",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 285,
+    "artwork_id": 428,
+    "artist_id": "537f90d2-70d9-4662-a0b3-0ee7934d29ec",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 286,
+    "artwork_id": 430,
+    "artist_id": "537f90d2-70d9-4662-a0b3-0ee7934d29ec",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 287,
+    "artwork_id": 432,
+    "artist_id": "537f90d2-70d9-4662-a0b3-0ee7934d29ec",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 288,
+    "artwork_id": 434,
+    "artist_id": "537f90d2-70d9-4662-a0b3-0ee7934d29ec",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 289,
+    "artwork_id": 436,
+    "artist_id": "537f90d2-70d9-4662-a0b3-0ee7934d29ec",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 290,
+    "artwork_id": 438,
+    "artist_id": "537f90d2-70d9-4662-a0b3-0ee7934d29ec",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 291,
+    "artwork_id": 440,
+    "artist_id": "537f90d2-70d9-4662-a0b3-0ee7934d29ec",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 292,
+    "artwork_id": 442,
+    "artist_id": "537f90d2-70d9-4662-a0b3-0ee7934d29ec",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 293,
+    "artwork_id": 444,
+    "artist_id": "537f90d2-70d9-4662-a0b3-0ee7934d29ec",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 294,
+    "artwork_id": 212,
+    "artist_id": "32c9aed0-b709-4ed3-bf7d-159bfeb7b221",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 295,
+    "artwork_id": 466,
+    "artist_id": "66ffcb5a-c877-4f68-b1b8-9079d79821e2",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 296,
+    "artwork_id": 470,
+    "artist_id": "66ffcb5a-c877-4f68-b1b8-9079d79821e2",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 297,
+    "artwork_id": 472,
+    "artist_id": "66ffcb5a-c877-4f68-b1b8-9079d79821e2",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 298,
+    "artwork_id": 474,
+    "artist_id": "66ffcb5a-c877-4f68-b1b8-9079d79821e2",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 299,
+    "artwork_id": 476,
+    "artist_id": "66ffcb5a-c877-4f68-b1b8-9079d79821e2",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 300,
+    "artwork_id": 478,
+    "artist_id": "66ffcb5a-c877-4f68-b1b8-9079d79821e2",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 301,
+    "artwork_id": 480,
+    "artist_id": "66ffcb5a-c877-4f68-b1b8-9079d79821e2",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 302,
+    "artwork_id": 482,
+    "artist_id": "66ffcb5a-c877-4f68-b1b8-9079d79821e2",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 303,
+    "artwork_id": 484,
+    "artist_id": "66ffcb5a-c877-4f68-b1b8-9079d79821e2",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 304,
+    "artwork_id": 486,
+    "artist_id": "0c3c98c3-0651-4a7f-9826-64cb51fc2b80",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 305,
+    "artwork_id": 488,
+    "artist_id": "0c3c98c3-0651-4a7f-9826-64cb51fc2b80",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 306,
+    "artwork_id": 490,
+    "artist_id": "0c3c98c3-0651-4a7f-9826-64cb51fc2b80",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 307,
+    "artwork_id": 492,
+    "artist_id": "0c3c98c3-0651-4a7f-9826-64cb51fc2b80",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 308,
+    "artwork_id": 494,
+    "artist_id": "0c3c98c3-0651-4a7f-9826-64cb51fc2b80",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 309,
+    "artwork_id": 496,
+    "artist_id": "0c3c98c3-0651-4a7f-9826-64cb51fc2b80",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 310,
+    "artwork_id": 498,
+    "artist_id": "0c3c98c3-0651-4a7f-9826-64cb51fc2b80",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 311,
+    "artwork_id": 500,
+    "artist_id": "0c3c98c3-0651-4a7f-9826-64cb51fc2b80",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 312,
+    "artwork_id": 502,
+    "artist_id": "0c3c98c3-0651-4a7f-9826-64cb51fc2b80",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 313,
+    "artwork_id": 546,
+    "artist_id": "03216cef-f541-4d54-95be-67bfb0cdcc77",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 314,
+    "artwork_id": 548,
+    "artist_id": "03216cef-f541-4d54-95be-67bfb0cdcc77",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 315,
+    "artwork_id": 549,
+    "artist_id": "03216cef-f541-4d54-95be-67bfb0cdcc77",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 316,
+    "artwork_id": 551,
+    "artist_id": "03216cef-f541-4d54-95be-67bfb0cdcc77",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 317,
+    "artwork_id": 553,
+    "artist_id": "03216cef-f541-4d54-95be-67bfb0cdcc77",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 318,
+    "artwork_id": 555,
+    "artist_id": "03216cef-f541-4d54-95be-67bfb0cdcc77",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 319,
+    "artwork_id": 557,
+    "artist_id": "03216cef-f541-4d54-95be-67bfb0cdcc77",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 320,
+    "artwork_id": 559,
+    "artist_id": "03216cef-f541-4d54-95be-67bfb0cdcc77",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 321,
+    "artwork_id": 563,
+    "artist_id": "03216cef-f541-4d54-95be-67bfb0cdcc77",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 322,
+    "artwork_id": 230,
+    "artist_id": "52e0d928-9327-4109-b82f-7a7caa6616d1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 323,
+    "artwork_id": 274,
+    "artist_id": "297e960f-2c7f-433a-8b57-3bbd9cd5602d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 324,
+    "artwork_id": 292,
+    "artist_id": "e23a9b4a-0228-40c3-a55a-84aa353f267e",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 325,
+    "artwork_id": 337,
+    "artist_id": "4b5de4e5-16a1-4f94-80bb-079ef2ee5c38",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 326,
+    "artwork_id": 387,
+    "artist_id": "0e857e84-2659-41bd-a678-5e907e928319",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 327,
+    "artwork_id": 389,
+    "artist_id": "0e857e84-2659-41bd-a678-5e907e928319",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 328,
+    "artwork_id": 468,
+    "artist_id": "66ffcb5a-c877-4f68-b1b8-9079d79821e2",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 329,
+    "artwork_id": 561,
+    "artist_id": "03216cef-f541-4d54-95be-67bfb0cdcc77",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 330,
+    "artwork_id": 623,
+    "artist_id": "3f538acb-32c7-40da-8e7c-43de2c36846a",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 331,
+    "artwork_id": 682,
+    "artist_id": "afbb67cf-04b7-406a-bd51-0c4362dd8289",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 332,
+    "artwork_id": 744,
+    "artist_id": "a3bfe822-ccbc-4fb4-a999-1a617616425c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 333,
+    "artwork_id": 504,
+    "artist_id": "0c3c98c3-0651-4a7f-9826-64cb51fc2b80",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 334,
+    "artwork_id": 585,
+    "artist_id": "b457dbe7-1212-4d8c-b639-b0937906ea97",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 335,
+    "artwork_id": 587,
+    "artist_id": "b457dbe7-1212-4d8c-b639-b0937906ea97",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 336,
+    "artwork_id": 589,
+    "artist_id": "b457dbe7-1212-4d8c-b639-b0937906ea97",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 337,
+    "artwork_id": 591,
+    "artist_id": "b457dbe7-1212-4d8c-b639-b0937906ea97",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 338,
+    "artwork_id": 593,
+    "artist_id": "b457dbe7-1212-4d8c-b639-b0937906ea97",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 339,
+    "artwork_id": 595,
+    "artist_id": "b457dbe7-1212-4d8c-b639-b0937906ea97",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 340,
+    "artwork_id": 597,
+    "artist_id": "b457dbe7-1212-4d8c-b639-b0937906ea97",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 341,
+    "artwork_id": 599,
+    "artist_id": "b457dbe7-1212-4d8c-b639-b0937906ea97",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 342,
+    "artwork_id": 601,
+    "artist_id": "b457dbe7-1212-4d8c-b639-b0937906ea97",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 343,
+    "artwork_id": 603,
+    "artist_id": "b457dbe7-1212-4d8c-b639-b0937906ea97",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 344,
+    "artwork_id": 605,
+    "artist_id": "3f538acb-32c7-40da-8e7c-43de2c36846a",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 345,
+    "artwork_id": 607,
+    "artist_id": "3f538acb-32c7-40da-8e7c-43de2c36846a",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 346,
+    "artwork_id": 609,
+    "artist_id": "3f538acb-32c7-40da-8e7c-43de2c36846a",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 347,
+    "artwork_id": 611,
+    "artist_id": "3f538acb-32c7-40da-8e7c-43de2c36846a",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 348,
+    "artwork_id": 613,
+    "artist_id": "3f538acb-32c7-40da-8e7c-43de2c36846a",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 349,
+    "artwork_id": 615,
+    "artist_id": "3f538acb-32c7-40da-8e7c-43de2c36846a",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 350,
+    "artwork_id": 617,
+    "artist_id": "3f538acb-32c7-40da-8e7c-43de2c36846a",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 351,
+    "artwork_id": 619,
+    "artist_id": "3f538acb-32c7-40da-8e7c-43de2c36846a",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 352,
+    "artwork_id": 621,
+    "artist_id": "3f538acb-32c7-40da-8e7c-43de2c36846a",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 353,
+    "artwork_id": 664,
+    "artist_id": "afbb67cf-04b7-406a-bd51-0c4362dd8289",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 354,
+    "artwork_id": 666,
+    "artist_id": "afbb67cf-04b7-406a-bd51-0c4362dd8289",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 355,
+    "artwork_id": 668,
+    "artist_id": "afbb67cf-04b7-406a-bd51-0c4362dd8289",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 356,
+    "artwork_id": 670,
+    "artist_id": "afbb67cf-04b7-406a-bd51-0c4362dd8289",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 357,
+    "artwork_id": 672,
+    "artist_id": "afbb67cf-04b7-406a-bd51-0c4362dd8289",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 358,
+    "artwork_id": 674,
+    "artist_id": "afbb67cf-04b7-406a-bd51-0c4362dd8289",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 359,
+    "artwork_id": 676,
+    "artist_id": "afbb67cf-04b7-406a-bd51-0c4362dd8289",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 360,
+    "artwork_id": 678,
+    "artist_id": "afbb67cf-04b7-406a-bd51-0c4362dd8289",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 361,
+    "artwork_id": 680,
+    "artist_id": "afbb67cf-04b7-406a-bd51-0c4362dd8289",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 362,
+    "artwork_id": 742,
+    "artist_id": "a3bfe822-ccbc-4fb4-a999-1a617616425c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 363,
+    "artwork_id": 746,
+    "artist_id": "a3bfe822-ccbc-4fb4-a999-1a617616425c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 364,
+    "artwork_id": 748,
+    "artist_id": "a3bfe822-ccbc-4fb4-a999-1a617616425c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 365,
+    "artwork_id": 750,
+    "artist_id": "a3bfe822-ccbc-4fb4-a999-1a617616425c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 366,
+    "artwork_id": 754,
+    "artist_id": "a3bfe822-ccbc-4fb4-a999-1a617616425c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 367,
+    "artwork_id": 756,
+    "artist_id": "a3bfe822-ccbc-4fb4-a999-1a617616425c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 368,
+    "artwork_id": 758,
+    "artist_id": "a3bfe822-ccbc-4fb4-a999-1a617616425c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 369,
+    "artwork_id": 760,
+    "artist_id": "a3bfe822-ccbc-4fb4-a999-1a617616425c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 370,
+    "artwork_id": 762,
+    "artist_id": "0104e1a1-3ede-4b9a-852e-3da8aebfe89d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 371,
+    "artwork_id": 764,
+    "artist_id": "0104e1a1-3ede-4b9a-852e-3da8aebfe89d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 372,
+    "artwork_id": 766,
+    "artist_id": "0104e1a1-3ede-4b9a-852e-3da8aebfe89d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 373,
+    "artwork_id": 768,
+    "artist_id": "0104e1a1-3ede-4b9a-852e-3da8aebfe89d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 374,
+    "artwork_id": 770,
+    "artist_id": "0104e1a1-3ede-4b9a-852e-3da8aebfe89d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 375,
+    "artwork_id": 772,
+    "artist_id": "0104e1a1-3ede-4b9a-852e-3da8aebfe89d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 376,
+    "artwork_id": 774,
+    "artist_id": "0104e1a1-3ede-4b9a-852e-3da8aebfe89d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 377,
+    "artwork_id": 776,
+    "artist_id": "0104e1a1-3ede-4b9a-852e-3da8aebfe89d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 378,
+    "artwork_id": 778,
+    "artist_id": "0104e1a1-3ede-4b9a-852e-3da8aebfe89d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 379,
+    "artwork_id": 780,
+    "artist_id": "0104e1a1-3ede-4b9a-852e-3da8aebfe89d",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 380,
+    "artwork_id": 845,
+    "artist_id": "80b6a7f1-c2fa-4ec9-a898-6b754f216dba",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 381,
+    "artwork_id": 849,
+    "artist_id": "80b6a7f1-c2fa-4ec9-a898-6b754f216dba",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 382,
+    "artwork_id": 851,
+    "artist_id": "80b6a7f1-c2fa-4ec9-a898-6b754f216dba",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 383,
+    "artwork_id": 896,
+    "artist_id": "cd4fe9b1-b5ee-477a-81d6-ff3bc9e5cfb1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 384,
+    "artwork_id": 898,
+    "artist_id": "cd4fe9b1-b5ee-477a-81d6-ff3bc9e5cfb1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 385,
+    "artwork_id": 900,
+    "artist_id": "cd4fe9b1-b5ee-477a-81d6-ff3bc9e5cfb1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 386,
+    "artwork_id": 902,
+    "artist_id": "cd4fe9b1-b5ee-477a-81d6-ff3bc9e5cfb1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 387,
+    "artwork_id": 904,
+    "artist_id": "cd4fe9b1-b5ee-477a-81d6-ff3bc9e5cfb1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 388,
+    "artwork_id": 906,
+    "artist_id": "cd4fe9b1-b5ee-477a-81d6-ff3bc9e5cfb1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 389,
+    "artwork_id": 908,
+    "artist_id": "cd4fe9b1-b5ee-477a-81d6-ff3bc9e5cfb1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 390,
+    "artwork_id": 910,
+    "artist_id": "cd4fe9b1-b5ee-477a-81d6-ff3bc9e5cfb1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 391,
+    "artwork_id": 912,
+    "artist_id": "cd4fe9b1-b5ee-477a-81d6-ff3bc9e5cfb1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 392,
+    "artwork_id": 914,
+    "artist_id": "cd4fe9b1-b5ee-477a-81d6-ff3bc9e5cfb1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 393,
+    "artwork_id": 1009,
+    "artist_id": "16174794-86f9-46e5-b344-6b6370f364fb",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 394,
+    "artwork_id": 1011,
+    "artist_id": "16174794-86f9-46e5-b344-6b6370f364fb",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 395,
+    "artwork_id": 1013,
+    "artist_id": "16174794-86f9-46e5-b344-6b6370f364fb",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 396,
+    "artwork_id": 1015,
+    "artist_id": "16174794-86f9-46e5-b344-6b6370f364fb",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 397,
+    "artwork_id": 1017,
+    "artist_id": "16174794-86f9-46e5-b344-6b6370f364fb",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 398,
+    "artwork_id": 1019,
+    "artist_id": "16174794-86f9-46e5-b344-6b6370f364fb",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 399,
+    "artwork_id": 1021,
+    "artist_id": "16174794-86f9-46e5-b344-6b6370f364fb",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 400,
+    "artwork_id": 1023,
+    "artist_id": "16174794-86f9-46e5-b344-6b6370f364fb",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 401,
+    "artwork_id": 1025,
+    "artist_id": "16174794-86f9-46e5-b344-6b6370f364fb",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 402,
+    "artwork_id": 1027,
+    "artist_id": "16174794-86f9-46e5-b344-6b6370f364fb",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 403,
+    "artwork_id": 752,
+    "artist_id": "a3bfe822-ccbc-4fb4-a999-1a617616425c",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 404,
+    "artwork_id": 847,
+    "artist_id": "80b6a7f1-c2fa-4ec9-a898-6b754f216dba",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 405,
+    "artwork_id": 1110,
+    "artist_id": "f1a78d1d-0a45-44e1-bb37-78ceb832d566",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 406,
+    "artwork_id": 1126,
+    "artist_id": "f1a78d1d-0a45-44e1-bb37-78ceb832d566",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 407,
+    "artwork_id": 1170,
+    "artist_id": "a3ed72bd-ceb1-43d9-a2e3-8727a54ac3e1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 408,
+    "artwork_id": 1192,
+    "artist_id": "3fdfffa4-134c-4f47-8af8-ff7e1b37cfbd",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 409,
+    "artwork_id": 1251,
+    "artist_id": "dab4f1f4-49da-47d6-a576-3fd3ce34f3d6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 410,
+    "artwork_id": 1069,
+    "artist_id": "ae3dfdad-452b-47fa-bd25-6c437baecaaa",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 411,
+    "artwork_id": 1071,
+    "artist_id": "ae3dfdad-452b-47fa-bd25-6c437baecaaa",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 412,
+    "artwork_id": 1073,
+    "artist_id": "ae3dfdad-452b-47fa-bd25-6c437baecaaa",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 413,
+    "artwork_id": 1075,
+    "artist_id": "ae3dfdad-452b-47fa-bd25-6c437baecaaa",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 414,
+    "artwork_id": 1077,
+    "artist_id": "ae3dfdad-452b-47fa-bd25-6c437baecaaa",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 415,
+    "artwork_id": 1079,
+    "artist_id": "ae3dfdad-452b-47fa-bd25-6c437baecaaa",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 416,
+    "artwork_id": 1081,
+    "artist_id": "ae3dfdad-452b-47fa-bd25-6c437baecaaa",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 417,
+    "artwork_id": 1083,
+    "artist_id": "ae3dfdad-452b-47fa-bd25-6c437baecaaa",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 418,
+    "artwork_id": 1085,
+    "artist_id": "ae3dfdad-452b-47fa-bd25-6c437baecaaa",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 419,
+    "artwork_id": 1087,
+    "artist_id": "ae3dfdad-452b-47fa-bd25-6c437baecaaa",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 420,
+    "artwork_id": 1089,
+    "artist_id": "ebbc32b5-b270-49ab-9348-11898053252b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 421,
+    "artwork_id": 1091,
+    "artist_id": "ebbc32b5-b270-49ab-9348-11898053252b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 422,
+    "artwork_id": 1093,
+    "artist_id": "ebbc32b5-b270-49ab-9348-11898053252b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 423,
+    "artwork_id": 1095,
+    "artist_id": "ebbc32b5-b270-49ab-9348-11898053252b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 424,
+    "artwork_id": 1097,
+    "artist_id": "ebbc32b5-b270-49ab-9348-11898053252b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 425,
+    "artwork_id": 1099,
+    "artist_id": "ebbc32b5-b270-49ab-9348-11898053252b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 426,
+    "artwork_id": 1101,
+    "artist_id": "ebbc32b5-b270-49ab-9348-11898053252b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 427,
+    "artwork_id": 1103,
+    "artist_id": "ebbc32b5-b270-49ab-9348-11898053252b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 428,
+    "artwork_id": 1105,
+    "artist_id": "ebbc32b5-b270-49ab-9348-11898053252b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 429,
+    "artwork_id": 1107,
+    "artist_id": "ebbc32b5-b270-49ab-9348-11898053252b",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 430,
+    "artwork_id": 1109,
+    "artist_id": "f1a78d1d-0a45-44e1-bb37-78ceb832d566",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 431,
+    "artwork_id": 1112,
+    "artist_id": "f1a78d1d-0a45-44e1-bb37-78ceb832d566",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 432,
+    "artwork_id": 1114,
+    "artist_id": "f1a78d1d-0a45-44e1-bb37-78ceb832d566",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 433,
+    "artwork_id": 1116,
+    "artist_id": "f1a78d1d-0a45-44e1-bb37-78ceb832d566",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 434,
+    "artwork_id": 1118,
+    "artist_id": "f1a78d1d-0a45-44e1-bb37-78ceb832d566",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 435,
+    "artwork_id": 1120,
+    "artist_id": "f1a78d1d-0a45-44e1-bb37-78ceb832d566",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 436,
+    "artwork_id": 1122,
+    "artist_id": "f1a78d1d-0a45-44e1-bb37-78ceb832d566",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 437,
+    "artwork_id": 1124,
+    "artist_id": "f1a78d1d-0a45-44e1-bb37-78ceb832d566",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 438,
+    "artwork_id": 1148,
+    "artist_id": "a997f298-a772-4b27-a533-2c0ac628965f",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 439,
+    "artwork_id": 1150,
+    "artist_id": "a997f298-a772-4b27-a533-2c0ac628965f",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 440,
+    "artwork_id": 1152,
+    "artist_id": "a997f298-a772-4b27-a533-2c0ac628965f",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 441,
+    "artwork_id": 1154,
+    "artist_id": "a997f298-a772-4b27-a533-2c0ac628965f",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 442,
+    "artwork_id": 1156,
+    "artist_id": "a997f298-a772-4b27-a533-2c0ac628965f",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 443,
+    "artwork_id": 1158,
+    "artist_id": "a997f298-a772-4b27-a533-2c0ac628965f",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 444,
+    "artwork_id": 1160,
+    "artist_id": "a997f298-a772-4b27-a533-2c0ac628965f",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 445,
+    "artwork_id": 1162,
+    "artist_id": "a997f298-a772-4b27-a533-2c0ac628965f",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 446,
+    "artwork_id": 1164,
+    "artist_id": "a997f298-a772-4b27-a533-2c0ac628965f",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 447,
+    "artwork_id": 1166,
+    "artist_id": "a997f298-a772-4b27-a533-2c0ac628965f",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 448,
+    "artwork_id": 1168,
+    "artist_id": "a3ed72bd-ceb1-43d9-a2e3-8727a54ac3e1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 449,
+    "artwork_id": 1172,
+    "artist_id": "a3ed72bd-ceb1-43d9-a2e3-8727a54ac3e1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 450,
+    "artwork_id": 1174,
+    "artist_id": "a3ed72bd-ceb1-43d9-a2e3-8727a54ac3e1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 451,
+    "artwork_id": 1176,
+    "artist_id": "a3ed72bd-ceb1-43d9-a2e3-8727a54ac3e1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 452,
+    "artwork_id": 1178,
+    "artist_id": "a3ed72bd-ceb1-43d9-a2e3-8727a54ac3e1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 453,
+    "artwork_id": 1180,
+    "artist_id": "a3ed72bd-ceb1-43d9-a2e3-8727a54ac3e1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 454,
+    "artwork_id": 1182,
+    "artist_id": "a3ed72bd-ceb1-43d9-a2e3-8727a54ac3e1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 455,
+    "artwork_id": 1184,
+    "artist_id": "a3ed72bd-ceb1-43d9-a2e3-8727a54ac3e1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 456,
+    "artwork_id": 1186,
+    "artist_id": "a3ed72bd-ceb1-43d9-a2e3-8727a54ac3e1",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 457,
+    "artwork_id": 1188,
+    "artist_id": "3fdfffa4-134c-4f47-8af8-ff7e1b37cfbd",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 458,
+    "artwork_id": 1190,
+    "artist_id": "3fdfffa4-134c-4f47-8af8-ff7e1b37cfbd",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 459,
+    "artwork_id": 1194,
+    "artist_id": "3fdfffa4-134c-4f47-8af8-ff7e1b37cfbd",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 460,
+    "artwork_id": 1196,
+    "artist_id": "3fdfffa4-134c-4f47-8af8-ff7e1b37cfbd",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 461,
+    "artwork_id": 1198,
+    "artist_id": "3fdfffa4-134c-4f47-8af8-ff7e1b37cfbd",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 462,
+    "artwork_id": 1200,
+    "artist_id": "3fdfffa4-134c-4f47-8af8-ff7e1b37cfbd",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 463,
+    "artwork_id": 1201,
+    "artist_id": "3fdfffa4-134c-4f47-8af8-ff7e1b37cfbd",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 464,
+    "artwork_id": 1203,
+    "artist_id": "3fdfffa4-134c-4f47-8af8-ff7e1b37cfbd",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 465,
+    "artwork_id": 1205,
+    "artist_id": "3fdfffa4-134c-4f47-8af8-ff7e1b37cfbd",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 466,
+    "artwork_id": 1247,
+    "artist_id": "dab4f1f4-49da-47d6-a576-3fd3ce34f3d6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 467,
+    "artwork_id": 1249,
+    "artist_id": "dab4f1f4-49da-47d6-a576-3fd3ce34f3d6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 468,
+    "artwork_id": 1253,
+    "artist_id": "dab4f1f4-49da-47d6-a576-3fd3ce34f3d6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 469,
+    "artwork_id": 1255,
+    "artist_id": "dab4f1f4-49da-47d6-a576-3fd3ce34f3d6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 470,
+    "artwork_id": 1257,
+    "artist_id": "dab4f1f4-49da-47d6-a576-3fd3ce34f3d6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 471,
+    "artwork_id": 1259,
+    "artist_id": "dab4f1f4-49da-47d6-a576-3fd3ce34f3d6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 472,
+    "artwork_id": 1261,
+    "artist_id": "dab4f1f4-49da-47d6-a576-3fd3ce34f3d6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 473,
+    "artwork_id": 1263,
+    "artist_id": "dab4f1f4-49da-47d6-a576-3fd3ce34f3d6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 474,
+    "artwork_id": 1265,
+    "artist_id": "dab4f1f4-49da-47d6-a576-3fd3ce34f3d6",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 475,
+    "artwork_id": 1267,
+    "artist_id": "9012c52e-f77d-46db-84b0-e617f3fa70e0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 476,
+    "artwork_id": 1269,
+    "artist_id": "9012c52e-f77d-46db-84b0-e617f3fa70e0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 477,
+    "artwork_id": 1271,
+    "artist_id": "9012c52e-f77d-46db-84b0-e617f3fa70e0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 478,
+    "artwork_id": 1273,
+    "artist_id": "9012c52e-f77d-46db-84b0-e617f3fa70e0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 479,
+    "artwork_id": 1275,
+    "artist_id": "9012c52e-f77d-46db-84b0-e617f3fa70e0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 480,
+    "artwork_id": 1277,
+    "artist_id": "9012c52e-f77d-46db-84b0-e617f3fa70e0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 481,
+    "artwork_id": 1279,
+    "artist_id": "9012c52e-f77d-46db-84b0-e617f3fa70e0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 482,
+    "artwork_id": 1281,
+    "artist_id": "9012c52e-f77d-46db-84b0-e617f3fa70e0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 483,
+    "artwork_id": 1283,
+    "artist_id": "9012c52e-f77d-46db-84b0-e617f3fa70e0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 484,
+    "artwork_id": 1285,
+    "artist_id": "9012c52e-f77d-46db-84b0-e617f3fa70e0",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 485,
+    "artwork_id": 1287,
+    "artist_id": "41b5c177-5ca0-4e74-9270-105faf6223cc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 486,
+    "artwork_id": 1289,
+    "artist_id": "41b5c177-5ca0-4e74-9270-105faf6223cc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 487,
+    "artwork_id": 1291,
+    "artist_id": "41b5c177-5ca0-4e74-9270-105faf6223cc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 488,
+    "artwork_id": 1293,
+    "artist_id": "41b5c177-5ca0-4e74-9270-105faf6223cc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 489,
+    "artwork_id": 1295,
+    "artist_id": "41b5c177-5ca0-4e74-9270-105faf6223cc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 490,
+    "artwork_id": 1297,
+    "artist_id": "41b5c177-5ca0-4e74-9270-105faf6223cc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 491,
+    "artwork_id": 1299,
+    "artist_id": "41b5c177-5ca0-4e74-9270-105faf6223cc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 492,
+    "artwork_id": 1301,
+    "artist_id": "41b5c177-5ca0-4e74-9270-105faf6223cc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 493,
+    "artwork_id": 1303,
+    "artist_id": "41b5c177-5ca0-4e74-9270-105faf6223cc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  },
+  {
+    "id": 494,
+    "artwork_id": 1305,
+    "artist_id": "41b5c177-5ca0-4e74-9270-105faf6223cc",
+    "role": "artist",
+    "is_primary": true,
+    "display_order": 0,
+    "created_at": "2025-07-26T01:58:53.388Z"
+  }
+]

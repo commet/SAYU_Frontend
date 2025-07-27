@@ -31,7 +31,7 @@ interface ProfileSetupProps {
       G_vs_S: number;
       A_vs_R: number;
       M_vs_E: number;
-      F_vs_S: number;
+      F_vs_C: number;
     };
   };
 }
@@ -49,7 +49,7 @@ export function ProfileSetup({ onComplete, initialData }: ProfileSetupProps) {
       G_vs_S: 75,
       A_vs_R: 70,
       M_vs_E: 65,
-      F_vs_S: 80
+      F_vs_C: 80
     }
   });
   const [suggestedUsernames, setSuggestedUsernames] = useState<string[]>([]);
@@ -268,9 +268,9 @@ export function ProfileSetup({ onComplete, initialData }: ProfileSetupProps) {
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span>감정적 ← → 구조적</span>
-                      <span>{formData.apt_dimensions.F_vs_S}%</span>
+                      <span>{formData.apt_dimensions.F_vs_C}%</span>
                     </div>
-                    <Progress value={formData.apt_dimensions.F_vs_S} className="h-2" />
+                    <Progress value={formData.apt_dimensions.F_vs_C} className="h-2" />
                   </div>
                 </div>
               </div>

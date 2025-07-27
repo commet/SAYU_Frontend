@@ -39,6 +39,8 @@ import { QuickActionsWidget } from '@/components/dashboard/QuickActionsWidget';
 import { DualValueWidget } from '@/components/dashboard/DualValueWidget';
 import { FriendActivityWidget } from '@/components/dashboard/FriendActivityWidget';
 import { ProfileSummaryWidget } from '@/components/dashboard/ProfileSummaryWidget';
+import { JourneyNudgeModal, JourneyProgress } from '@/components/onboarding/JourneyNudge';
+import { getTodaysNudge, markNudgeAsViewed, markNudgeAsClicked, getJourneyStatus } from '@/lib/api/journey';
 
 export default function DashboardPage() {
   const [user, setUser] = useState<any>(null);
@@ -46,6 +48,9 @@ export default function DashboardPage() {
   const [communityStatus, setCommunityStatus] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'journey' | 'social'>('overview');
+  const [todaysNudge, setTodaysNudge] = useState<any>(null);
+  const [journeyStatus, setJourneyStatus] = useState<any>(null);
+  const [showJourneyModal, setShowJourneyModal] = useState(false);
   const supabase = createClientComponentClient();
 
   useEffect(() => {
@@ -67,12 +72,50 @@ export default function DashboardPage() {
         
         setActivityStats(stats);
         setCommunityStatus(status);
+
+        // Load journey data
+        try {
+          const [nudge, journey] = await Promise.all([
+            getTodaysNudge(),
+            getJourneyStatus()
+          ]);
+          
+          setTodaysNudge(nudge);
+          setJourneyStatus(journey);
+          
+          // Show modal if there's a new nudge
+          if (nudge && !showJourneyModal) {
+            setShowJourneyModal(true);
+          }
+        } catch (journeyError) {
+          console.error('Failed to load journey data:', journeyError);
+        }
       }
     } catch (error) {
       console.error('Failed to load dashboard data:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Journey event handlers
+  const handleNudgeViewed = async (dayNumber: number) => {
+    await markNudgeAsViewed(dayNumber);
+    // Refresh journey status
+    const updatedJourney = await getJourneyStatus();
+    setJourneyStatus(updatedJourney);
+  };
+
+  const handleNudgeClicked = async (dayNumber: number) => {
+    await markNudgeAsClicked(dayNumber);
+    setShowJourneyModal(false);
+    // Refresh journey status
+    const updatedJourney = await getJourneyStatus();
+    setJourneyStatus(updatedJourney);
+  };
+
+  const handleJourneyModalDismiss = () => {
+    setShowJourneyModal(false);
   };
 
   if (loading) {
@@ -333,6 +376,26 @@ export default function DashboardPage() {
           />
         </TabsContent>
       </Tabs>
+
+      {/* Journey Nudge Modal */}
+      {showJourneyModal && todaysNudge && (
+        <JourneyNudgeModal
+          nudge={todaysNudge}
+          onViewed={() => handleNudgeViewed(todaysNudge.day_number)}
+          onClicked={() => handleNudgeClicked(todaysNudge.day_number)}
+          onClose={handleJourneyModalDismiss}
+        />
+      )}
+
+      {/* Journey Progress Display */}
+      {journeyStatus && (
+        <div className="fixed bottom-4 right-4 z-40">
+          <JourneyProgress 
+            journeyStatus={journeyStatus}
+            onOpenJourney={() => setShowJourneyModal(true)}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -46,8 +46,8 @@ async function testDataBasedImportance() {
           const indicators = result.personality_indicators;
           console.log(`리더십 성향: ${indicators.leadership_tendency > 0 ? 'Leader' : 'Support'} (${indicators.leadership_tendency.toFixed(2)})`);
           console.log(`행동 지향성: ${indicators.action_orientation > 0 ? 'Action' : 'Reflection'} (${indicators.action_orientation.toFixed(2)})`);
-          console.log(`감정 표현: ${indicators.emotional_expression > 0 ? 'Emotional' : 'Mental'} (${indicators.emotional_expression.toFixed(2)})`);
-          console.log(`유연성: ${indicators.flexibility > 0 ? 'Flexible' : 'Consistent'} (${indicators.flexibility.toFixed(2)})`);
+          console.log(`감정 표현: ${indicators.emotional_expression > 0 ? 'Emotional' : 'Meaning-driven'} (${indicators.emotional_expression.toFixed(2)})`);
+          console.log(`유연성: ${indicators.flexibility > 0 ? 'Flow' : 'Consistent'} (${indicators.flexibility.toFixed(2)})`);
           console.log(`지표 신뢰도: ${indicators.confidence}`);
           
           // 메타데이터

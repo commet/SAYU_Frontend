@@ -53,7 +53,7 @@
     "@use-gesture/react": "^10.3.1",
     "animejs": "^4.1.1",
     "autoprefixer": "^10.4.21",
-    "axios": "^1.10.0",
+    "axios": "^1.11.0",
     "camera-controls": "^2.9.4",
     "canvas": "^3.1.2",
     "canvas-confetti": "^1.9.3",

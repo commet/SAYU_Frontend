@@ -1,8 +1,14 @@
 // Multi-APT Classifier - 다중 성향 분류 시스템
 // 한 작가에 대해 주/부/제3 성향을 분석하여 더 풍부한 프로필 생성
+// CORRECTED SAYU AXIS DEFINITIONS:
+// L/S: Lone (Individual, introspective) vs Social (Interactive, collaborative)
+// A/R: Abstract (Atmospheric, symbolic) vs Representational (Realistic, concrete)
+// E/M: Emotional (Affective, feeling-based) vs Meaning-driven (Analytical, rational)
+// F/C: Flow (Fluid, spontaneous) vs Constructive (Structured, systematic)
 
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const ArtistDataEnricher = require('./artistDataEnricher');
+const { SAYU_TYPES, getSAYUType } = require('../../../shared/SAYUTypeDefinitions');
 
 class MultiAPTClassifier {
   constructor() {
@@ -18,24 +24,15 @@ class MultiAPTClassifier {
       'SREF', 'SREC', 'SRMF', 'SRMC'
     ];
     
-    this.typeInfo = {
-      'LAEF': { title: '몽환적 방랑자', animal: 'fox', name_ko: '여우' },
-      'LAEC': { title: '감성 큐레이터', animal: 'cat', name_ko: '고양이' },
-      'LAMF': { title: '직관적 탐구자', animal: 'owl', name_ko: '올빼미' },
-      'LAMC': { title: '철학적 수집가', animal: 'turtle', name_ko: '거북이' },
-      'LREF': { title: '고독한 관찰자', animal: 'chameleon', name_ko: '카멜레온' },
-      'LREC': { title: '섬세한 감정가', animal: 'hedgehog', name_ko: '고슴도치' },
-      'LRMF': { title: '디지털 탐험가', animal: 'octopus', name_ko: '문어' },
-      'LRMC': { title: '학구적 연구자', animal: 'beaver', name_ko: '비버' },
-      'SAEF': { title: '감성 나눔이', animal: 'butterfly', name_ko: '나비' },
-      'SAEC': { title: '예술 네트워커', animal: 'penguin', name_ko: '펭귄' },
-      'SAMF': { title: '영감 전도사', animal: 'parrot', name_ko: '앵무새' },
-      'SAMC': { title: '문화 기획자', animal: 'deer', name_ko: '사슴' },
-      'SREF': { title: '열정적 관람자', animal: 'dog', name_ko: '강아지' },
-      'SREC': { title: '따뜻한 안내자', animal: 'duck', name_ko: '오리' },
-      'SRMF': { title: '지식 멘토', animal: 'elephant', name_ko: '코끼리' },
-      'SRMC': { title: '체계적 교육자', animal: 'eagle', name_ko: '독수리' }
-    };
+    // Use central SAYU type definitions
+    this.typeInfo = {};
+    Object.entries(SAYU_TYPES).forEach(([code, data]) => {
+      this.typeInfo[code] = {
+        title: data.name,
+        animal: data.animalEn,
+        name_ko: data.animal
+      };
+    });
   }
 
   async classifyArtist(artistData) {
@@ -82,49 +79,49 @@ class MultiAPTClassifier {
 
 각 축에 대해 -100에서 +100 사이의 세부 점수를 매겨주세요:
 
-1. L/S축 (개인적 vs 사회적)
-   - 혼자 조용히 감상 (-100) vs 함께 나누며 감상 (+100)
-   - 세부 요소: 고독성(-), 내향성(-), 사교성(+), 공유성(+)
+1. L/S축 (Lone vs Social)
+   - Lone: 개인적, 내성적 예술 관찰 (-100) vs Social: 상호작용적, 협력적 예술 경험 (+100)
+   - 세부 요소: 개인성(-), 내성적(-), 사교성(+), 협력성(+)
 
-2. A/R축 (추상적 vs 구체적)
-   - 추상적 사색 (-100) vs 구체적 서사 (+100)
-   - 세부 요소: 개념성(-), 상징성(-), 현실성(+), 서사성(+)
+2. A/R축 (Abstract vs Representational)
+   - Abstract: 분위기적, 상징적 작품 선호 (-100) vs Representational: 사실적, 구체적 표현 선호 (+100)
+   - 세부 요소: 분위기성(-), 상징성(-), 현실성(+), 구체성(+)
 
-3. E/M축 (감정적 vs 의미중심)
-   - 감정적 공감 (-100) vs 지적 탐구 (+100)
-   - 세부 요소: 정서성(-), 직관성(-), 분석성(+), 학구성(+)
+3. E/M축 (Emotional vs Meaning-driven)
+   - Emotional: 정서적, 감정 기반 접근 (-100) vs Meaning-driven: 분석적, 이성적 접근 (+100)
+   - 세부 요소: 정서성(-), 감정성(-), 분석성(+), 이성성(+)
 
-4. F/C축 (자유로운 vs 체계적)
-   - 자유로운 해석 (-100) vs 구조적 이해 (+100)
-   - 세부 요소: 유연성(-), 즉흥성(-), 체계성(+), 규칙성(+)
+4. F/C축 (Flow vs Constructive)
+   - Flow: 유동적, 자발적 관람 방식 (-100) vs Constructive: 구조적, 체계적 관람 방식 (+100)
+   - 세부 요소: 유동성(-), 자발성(-), 구조성(+), 체계성(+)
 
 응답 형식:
 L/S 점수: [점수]
-  - 고독성: [점수]
-  - 내향성: [점수]
+  - 개인성: [점수]
+  - 내성적: [점수]
   - 사교성: [점수]
-  - 공유성: [점수]
+  - 협력성: [점수]
   근거: [설명]
 
 A/R 점수: [점수]
-  - 개념성: [점수]
+  - 분위기성: [점수]
   - 상징성: [점수]
   - 현실성: [점수]
-  - 서사성: [점수]
+  - 구체성: [점수]
   근거: [설명]
 
 E/M 점수: [점수]
   - 정서성: [점수]
-  - 직관성: [점수]
+  - 감정성: [점수]
   - 분석성: [점수]
-  - 학구성: [점수]
+  - 이성성: [점수]
   근거: [설명]
 
 F/C 점수: [점수]
-  - 유연성: [점수]
-  - 즉흥성: [점수]
+  - 유동성: [점수]
+  - 자발성: [점수]
+  - 구조성: [점수]
   - 체계성: [점수]
-  - 규칙성: [점수]
   근거: [설명]
 
 종합 분석: [작가의 복합적 성향에 대한 설명]`;
@@ -144,10 +141,10 @@ F/C 점수: [점수]
 
   parseDetailedScores(text) {
     const scores = {
-      L_S: { main: 0, sub: { loneliness: 0, introversion: 0, sociability: 0, sharing: 0 } },
-      A_R: { main: 0, sub: { conceptual: 0, symbolic: 0, realistic: 0, narrative: 0 } },
-      E_M: { main: 0, sub: { emotional: 0, intuitive: 0, analytical: 0, scholarly: 0 } },
-      F_C: { main: 0, sub: { flexible: 0, improvisational: 0, systematic: 0, regular: 0 } },
+      L_S: { main: 0, sub: { individual: 0, introspective: 0, sociability: 0, collaborative: 0 } },
+      A_R: { main: 0, sub: { atmospheric: 0, symbolic: 0, realistic: 0, concrete: 0 } },
+      E_M: { main: 0, sub: { emotional: 0, affective: 0, analytical: 0, rational: 0 } },
+      F_C: { main: 0, sub: { fluid: 0, spontaneous: 0, structured: 0, systematic: 0 } },
       analysis: ''
     };
     
@@ -168,22 +165,22 @@ F/C 점수: [점수]
     
     // 세부 점수 추출
     const subPatterns = {
-      '고독성': (v) => scores.L_S.sub.loneliness = parseInt(v),
-      '내향성': (v) => scores.L_S.sub.introversion = parseInt(v),
+      '개인성': (v) => scores.L_S.sub.individual = parseInt(v),
+      '내성적': (v) => scores.L_S.sub.introspective = parseInt(v),
       '사교성': (v) => scores.L_S.sub.sociability = parseInt(v),
-      '공유성': (v) => scores.L_S.sub.sharing = parseInt(v),
-      '개념성': (v) => scores.A_R.sub.conceptual = parseInt(v),
+      '협력성': (v) => scores.L_S.sub.collaborative = parseInt(v),
+      '분위기성': (v) => scores.A_R.sub.atmospheric = parseInt(v),
       '상징성': (v) => scores.A_R.sub.symbolic = parseInt(v),
       '현실성': (v) => scores.A_R.sub.realistic = parseInt(v),
-      '서사성': (v) => scores.A_R.sub.narrative = parseInt(v),
+      '구체성': (v) => scores.A_R.sub.concrete = parseInt(v),
       '정서성': (v) => scores.E_M.sub.emotional = parseInt(v),
-      '직관성': (v) => scores.E_M.sub.intuitive = parseInt(v),
+      '감정성': (v) => scores.E_M.sub.affective = parseInt(v),
       '분석성': (v) => scores.E_M.sub.analytical = parseInt(v),
-      '학구성': (v) => scores.E_M.sub.scholarly = parseInt(v),
-      '유연성': (v) => scores.F_C.sub.flexible = parseInt(v),
-      '즉흥성': (v) => scores.F_C.sub.improvisational = parseInt(v),
-      '체계성': (v) => scores.F_C.sub.systematic = parseInt(v),
-      '규칙성': (v) => scores.F_C.sub.regular = parseInt(v)
+      '이성성': (v) => scores.E_M.sub.rational = parseInt(v),
+      '유동성': (v) => scores.F_C.sub.fluid = parseInt(v),
+      '자발성': (v) => scores.F_C.sub.spontaneous = parseInt(v),
+      '구조성': (v) => scores.F_C.sub.structured = parseInt(v),
+      '체계성': (v) => scores.F_C.sub.systematic = parseInt(v)
     };
     
     for (const [name, setter] of Object.entries(subPatterns)) {

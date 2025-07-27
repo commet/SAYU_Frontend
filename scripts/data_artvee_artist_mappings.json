@@ -1,0 +1,852 @@
+[
+  {
+    "id": 2,
+    "artvee_artist": "Alfred Sisley",
+    "artist_id": "f2857c7c-1ee7-434f-afd6-d74e02086b09",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:09.741Z",
+    "updated_at": "2025-07-26T01:58:04.270Z"
+  },
+  {
+    "id": 5,
+    "artvee_artist": "Alphonse Mucha",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:35.080Z",
+    "updated_at": "2025-07-26T01:58:05.127Z"
+  },
+  {
+    "id": 1,
+    "artvee_artist": "Albrecht Dürer",
+    "artist_id": "03216cef-f541-4d54-95be-67bfb0cdcc77",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:09.351Z",
+    "updated_at": "2025-07-26T01:58:03.842Z"
+  },
+  {
+    "id": 6,
+    "artvee_artist": "Andrea Mantegna",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:35.876Z",
+    "updated_at": "2025-07-26T01:58:05.984Z"
+  },
+  {
+    "id": 7,
+    "artvee_artist": "André Derain",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:36.672Z",
+    "updated_at": "2025-07-26T01:58:06.846Z"
+  },
+  {
+    "id": 8,
+    "artvee_artist": "Anthony van Dyck",
+    "artist_id": "a3ed72bd-ceb1-43d9-a2e3-8727a54ac3e1",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:37.075Z",
+    "updated_at": "2025-07-26T01:58:07.272Z"
+  },
+  {
+    "id": 9,
+    "artvee_artist": "Arthur Rackham",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:37.873Z",
+    "updated_at": "2025-07-26T01:58:08.126Z"
+  },
+  {
+    "id": 10,
+    "artvee_artist": "Berthe Morisot",
+    "artist_id": "43ad68a7-c82d-4ae3-ba80-3bd1b652e848",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:38.271Z",
+    "updated_at": "2025-07-26T01:58:08.557Z"
+  },
+  {
+    "id": 11,
+    "artvee_artist": "Camille Pissarro",
+    "artist_id": "d7be403c-3fa4-4943-9efe-f51bce143a88",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:38.669Z",
+    "updated_at": "2025-07-26T01:58:08.989Z"
+  },
+  {
+    "id": 12,
+    "artvee_artist": "Caravaggio",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:39.266Z",
+    "updated_at": "2025-07-26T01:58:09.630Z"
+  },
+  {
+    "id": 13,
+    "artvee_artist": "Caspar David Friedrich",
+    "artist_id": "0f96f8ca-479c-4e55-92bb-8e140af5f2c6",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:39.671Z",
+    "updated_at": "2025-07-26T01:58:10.059Z"
+  },
+  {
+    "id": 14,
+    "artvee_artist": "Chaïm Soutine",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:40.469Z",
+    "updated_at": "2025-07-26T01:58:10.914Z"
+  },
+  {
+    "id": 15,
+    "artvee_artist": "Charles Demuth",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:41.265Z",
+    "updated_at": "2025-07-26T01:58:11.768Z"
+  },
+  {
+    "id": 16,
+    "artvee_artist": "Claude Monet",
+    "artist_id": "e5e309f9-ef3a-482a-adfc-f31d4a25d015",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:41.664Z",
+    "updated_at": "2025-07-26T01:58:12.197Z"
+  },
+  {
+    "id": 17,
+    "artvee_artist": "Dante Gabriel Rossetti",
+    "artist_id": "16174794-86f9-46e5-b344-6b6370f364fb",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:42.063Z",
+    "updated_at": "2025-07-26T01:58:12.627Z"
+  },
+  {
+    "id": 18,
+    "artvee_artist": "Dean Cornwell",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:42.861Z",
+    "updated_at": "2025-07-26T01:58:13.480Z"
+  },
+  {
+    "id": 19,
+    "artvee_artist": "Diego Velázquez",
+    "artist_id": "831c7f8c-cabe-48e2-a1ba-c4e54a0529c7",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:43.259Z",
+    "updated_at": "2025-07-26T01:58:13.909Z"
+  },
+  {
+    "id": 20,
+    "artvee_artist": "Edgar Degas",
+    "artist_id": "e1c789b0-b223-4414-8148-2e5a5063361c",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:43.657Z",
+    "updated_at": "2025-07-26T01:58:14.340Z"
+  },
+  {
+    "id": 21,
+    "artvee_artist": "Édouard Manet",
+    "artist_id": "32c9aed0-b709-4ed3-bf7d-159bfeb7b221",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:44.054Z",
+    "updated_at": "2025-07-26T01:58:14.767Z"
+  },
+  {
+    "id": 22,
+    "artvee_artist": "Edvard Munch",
+    "artist_id": "32590801-ba2e-4f51-9260-666d1c12a1ca",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:44.459Z",
+    "updated_at": "2025-07-26T01:58:15.196Z"
+  },
+  {
+    "id": 23,
+    "artvee_artist": "Egon Schiele",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:45.256Z",
+    "updated_at": "2025-07-26T01:58:16.051Z"
+  },
+  {
+    "id": 24,
+    "artvee_artist": "El Lissitzky",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:46.050Z",
+    "updated_at": "2025-07-26T01:58:16.907Z"
+  },
+  {
+    "id": 25,
+    "artvee_artist": "Eugène Delacroix",
+    "artist_id": "0c3c98c3-0651-4a7f-9826-64cb51fc2b80",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:46.449Z",
+    "updated_at": "2025-07-26T01:58:17.335Z"
+  },
+  {
+    "id": 26,
+    "artvee_artist": "François Boucher",
+    "artist_id": "637c43b9-7c3c-45b6-8ae9-4d1af6c7de23",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:46.853Z",
+    "updated_at": "2025-07-26T01:58:17.764Z"
+  },
+  {
+    "id": 27,
+    "artvee_artist": "Frederic Leighton",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:47.658Z",
+    "updated_at": "2025-07-26T01:58:18.619Z"
+  },
+  {
+    "id": 28,
+    "artvee_artist": "George Romney",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:48.451Z",
+    "updated_at": "2025-07-26T01:58:19.476Z"
+  },
+  {
+    "id": 29,
+    "artvee_artist": "Gustave Courbet",
+    "artist_id": "52e0d928-9327-4109-b82f-7a7caa6616d1",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:48.850Z",
+    "updated_at": "2025-07-26T01:58:19.907Z"
+  },
+  {
+    "id": 30,
+    "artvee_artist": "Gustave Doré",
+    "artist_id": "753f49dc-667b-4c99-a6e1-f7aa8fe49117",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:49.251Z",
+    "updated_at": "2025-07-26T01:58:20.335Z"
+  },
+  {
+    "id": 31,
+    "artvee_artist": "Gustave Moreau",
+    "artist_id": "697eb3eb-2c3d-48fc-8f9d-ff97b0327549",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:49.653Z",
+    "updated_at": "2025-07-26T01:58:20.763Z"
+  },
+  {
+    "id": 32,
+    "artvee_artist": "Henri Matisse",
+    "artist_id": "afbb67cf-04b7-406a-bd51-0c4362dd8289",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:50.054Z",
+    "updated_at": "2025-07-26T01:58:21.189Z"
+  },
+  {
+    "id": 33,
+    "artvee_artist": "Howard Pyle",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:50.851Z",
+    "updated_at": "2025-07-26T01:58:22.044Z"
+  },
+  {
+    "id": 34,
+    "artvee_artist": "Jacques Louis David",
+    "artist_id": "3fdfffa4-134c-4f47-8af8-ff7e1b37cfbd",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:51.253Z",
+    "updated_at": "2025-07-26T01:58:22.473Z"
+  },
+  {
+    "id": 35,
+    "artvee_artist": "Jan van Eyck",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:52.050Z",
+    "updated_at": "2025-07-26T01:58:23.330Z"
+  },
+  {
+    "id": 36,
+    "artvee_artist": "Jean Auguste Dominique Ingres",
+    "artist_id": "b457dbe7-1212-4d8c-b639-b0937906ea97",
+    "confidence_score": 1,
+    "mapping_method": "manual_mapping",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:52.448Z",
+    "updated_at": "2025-07-26T01:58:23.763Z"
+  },
+  {
+    "id": 37,
+    "artvee_artist": "Jean-Baptiste Greuze",
+    "artist_id": "537f90d2-70d9-4662-a0b3-0ee7934d29ec",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:52.848Z",
+    "updated_at": "2025-07-26T01:58:24.191Z"
+  },
+  {
+    "id": 38,
+    "artvee_artist": "Jean-François Millet",
+    "artist_id": "e23a9b4a-0228-40c3-a55a-84aa353f267e",
+    "confidence_score": 0.7,
+    "mapping_method": "partial_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:53.645Z",
+    "updated_at": "2025-07-26T01:58:25.046Z"
+  },
+  {
+    "id": 39,
+    "artvee_artist": "Jean-Honoré Fragonard",
+    "artist_id": "dc8970d2-a36d-4132-9c35-00e86a0bf055",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:54.045Z",
+    "updated_at": "2025-07-26T01:58:25.474Z"
+  },
+  {
+    "id": 41,
+    "artvee_artist": "Johannes Vermeer",
+    "artist_id": "96633be1-5c00-4a68-9829-b8dc28cbe6fc",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:54.851Z",
+    "updated_at": "2025-07-26T01:58:26.331Z"
+  },
+  {
+    "id": 42,
+    "artvee_artist": "John Constable",
+    "artist_id": "297e960f-2c7f-433a-8b57-3bbd9cd5602d",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:55.253Z",
+    "updated_at": "2025-07-26T01:58:26.759Z"
+  },
+  {
+    "id": 43,
+    "artvee_artist": "John Singer Sargent",
+    "artist_id": "d0e16047-f6be-4426-8470-4d1d465e0f83",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:55.651Z",
+    "updated_at": "2025-07-26T01:58:27.189Z"
+  },
+  {
+    "id": 44,
+    "artvee_artist": "John William Waterhouse",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:56.446Z",
+    "updated_at": "2025-07-26T01:58:28.042Z"
+  },
+  {
+    "id": 45,
+    "artvee_artist": "Joseph Mallord William Turner",
+    "artist_id": "6a8fa71d-816f-4b4b-8b00-b17e55122d30",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:56.845Z",
+    "updated_at": "2025-07-26T01:58:28.472Z"
+  },
+  {
+    "id": 46,
+    "artvee_artist": "Juan Gris",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:57.645Z",
+    "updated_at": "2025-07-26T01:58:29.328Z"
+  },
+  {
+    "id": 47,
+    "artvee_artist": "Kazimir Malevich",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:58.453Z",
+    "updated_at": "2025-07-26T01:58:30.194Z"
+  },
+  {
+    "id": 48,
+    "artvee_artist": "Lawrence Alma-Tadema",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:59.254Z",
+    "updated_at": "2025-07-26T01:58:31.050Z"
+  },
+  {
+    "id": 49,
+    "artvee_artist": "Leonardo da Vinci",
+    "artist_id": "dab4f1f4-49da-47d6-a576-3fd3ce34f3d6",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:59.654Z",
+    "updated_at": "2025-07-26T01:58:31.477Z"
+  },
+  {
+    "id": 50,
+    "artvee_artist": "Marsden Hartley",
+    "artist_id": "cd4fe9b1-b5ee-477a-81d6-ff3bc9e5cfb1",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:00.074Z",
+    "updated_at": "2025-07-26T01:58:31.914Z"
+  },
+  {
+    "id": 51,
+    "artvee_artist": "Mary Cassatt",
+    "artist_id": "08e9ade6-7bfc-4bfd-9a48-84cf3e32755c",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:00.472Z",
+    "updated_at": "2025-07-26T01:58:32.342Z"
+  },
+  {
+    "id": 52,
+    "artvee_artist": "Maxfield Parrish",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:01.268Z",
+    "updated_at": "2025-07-26T01:58:33.200Z"
+  },
+  {
+    "id": 53,
+    "artvee_artist": "Michelangelo",
+    "artist_id": "9012c52e-f77d-46db-84b0-e617f3fa70e0",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:01.866Z",
+    "updated_at": "2025-07-26T01:58:33.842Z"
+  },
+  {
+    "id": 54,
+    "artvee_artist": "N. C. Wyeth",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:02.520Z",
+    "updated_at": "2025-07-26T01:58:34.487Z"
+  },
+  {
+    "id": 55,
+    "artvee_artist": "Nicolas Poussin",
+    "artist_id": "a997f298-a772-4b27-a533-2c0ac628965f",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:02.920Z",
+    "updated_at": "2025-07-26T01:58:34.916Z"
+  },
+  {
+    "id": 56,
+    "artvee_artist": "Odilon Redon",
+    "artist_id": "b5c79e39-3958-40a7-ad21-2826014c16ac",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:03.322Z",
+    "updated_at": "2025-07-26T01:58:35.344Z"
+  },
+  {
+    "id": 57,
+    "artvee_artist": "Paul Cézanne",
+    "artist_id": "ac402b05-d72b-429b-866b-74dd02ec6c08",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:03.723Z",
+    "updated_at": "2025-07-26T01:58:35.772Z"
+  },
+  {
+    "id": 58,
+    "artvee_artist": "Paul Gauguin",
+    "artist_id": "5f3cb309-19b2-467c-9ab7-8233a1b816c8",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:04.128Z",
+    "updated_at": "2025-07-26T01:58:36.200Z"
+  },
+  {
+    "id": 59,
+    "artvee_artist": "Paul Klee",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:04.725Z",
+    "updated_at": "2025-07-26T01:58:36.842Z"
+  },
+  {
+    "id": 60,
+    "artvee_artist": "Peter Paul Rubens",
+    "artist_id": "f1a78d1d-0a45-44e1-bb37-78ceb832d566",
+    "confidence_score": 0.7,
+    "mapping_method": "partial_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:05.326Z",
+    "updated_at": "2025-07-26T01:58:37.496Z"
+  },
+  {
+    "id": 61,
+    "artvee_artist": "Pierre-Auguste Renoir",
+    "artist_id": "4b5de4e5-16a1-4f94-80bb-079ef2ee5c38",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:05.725Z",
+    "updated_at": "2025-07-26T01:58:37.925Z"
+  },
+  {
+    "id": 62,
+    "artvee_artist": "Piet Mondrian",
+    "artist_id": "a3bfe822-ccbc-4fb4-a999-1a617616425c",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:06.130Z",
+    "updated_at": "2025-07-26T01:58:38.361Z"
+  },
+  {
+    "id": 63,
+    "artvee_artist": "Raoul Dufy",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:06.729Z",
+    "updated_at": "2025-07-26T01:58:39.008Z"
+  },
+  {
+    "id": 64,
+    "artvee_artist": "Raphael",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:07.331Z",
+    "updated_at": "2025-07-26T01:58:39.650Z"
+  },
+  {
+    "id": 65,
+    "artvee_artist": "Rembrandt van Rijn",
+    "artist_id": "ebbc32b5-b270-49ab-9348-11898053252b",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:07.730Z",
+    "updated_at": "2025-07-26T01:58:40.078Z"
+  },
+  {
+    "id": 66,
+    "artvee_artist": "Robert Delaunay",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:08.328Z",
+    "updated_at": "2025-07-26T01:58:40.725Z"
+  },
+  {
+    "id": 67,
+    "artvee_artist": "Sandro Botticelli",
+    "artist_id": "41b5c177-5ca0-4e74-9270-105faf6223cc",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:08.924Z",
+    "updated_at": "2025-07-26T01:58:41.366Z"
+  },
+  {
+    "id": 68,
+    "artvee_artist": "Théodore Géricault",
+    "artist_id": "66ffcb5a-c877-4f68-b1b8-9079d79821e2",
+    "confidence_score": 0.7,
+    "mapping_method": "partial_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:09.523Z",
+    "updated_at": "2025-07-26T01:58:42.007Z"
+  },
+  {
+    "id": 69,
+    "artvee_artist": "Theo van Doesburg",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:10.121Z",
+    "updated_at": "2025-07-26T01:58:42.652Z"
+  },
+  {
+    "id": 70,
+    "artvee_artist": "Thomas Eakins",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:10.717Z",
+    "updated_at": "2025-07-26T01:58:43.293Z"
+  },
+  {
+    "id": 72,
+    "artvee_artist": "Titian",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:11.514Z",
+    "updated_at": "2025-07-26T01:58:44.154Z"
+  },
+  {
+    "id": 73,
+    "artvee_artist": "Vincent van Gogh",
+    "artist_id": "16461492-c53c-4ec5-bf2a-f276d177aa19",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:11.917Z",
+    "updated_at": "2025-07-26T01:58:44.588Z"
+  },
+  {
+    "id": 74,
+    "artvee_artist": "Wassily Kandinsky",
+    "artist_id": "0104e1a1-3ede-4b9a-852e-3da8aebfe89d",
+    "confidence_score": 0.7,
+    "mapping_method": "partial_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:12.514Z",
+    "updated_at": "2025-07-26T01:58:45.229Z"
+  },
+  {
+    "id": 75,
+    "artvee_artist": "William Blake",
+    "artist_id": "4fe54855-5a63-4216-b356-ac6886902997",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:12.913Z",
+    "updated_at": "2025-07-26T01:58:45.660Z"
+  },
+  {
+    "id": 76,
+    "artvee_artist": "William Bouguereau",
+    "artist_id": "3f538acb-32c7-40da-8e7c-43de2c36846a",
+    "confidence_score": 0.7,
+    "mapping_method": "partial_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:13.510Z",
+    "updated_at": "2025-07-26T01:58:46.302Z"
+  },
+  {
+    "id": 77,
+    "artvee_artist": "William Morris",
+    "artist_id": "ae3dfdad-452b-47fa-bd25-6c437baecaaa",
+    "confidence_score": 0.7,
+    "mapping_method": "partial_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:14.108Z",
+    "updated_at": "2025-07-26T01:58:46.946Z"
+  },
+  {
+    "id": 78,
+    "artvee_artist": "Winslow Homer",
+    "artist_id": "c81f4cad-a0db-4c46-82e2-2b0b2cb4e0a0",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:14.507Z",
+    "updated_at": "2025-07-26T01:58:47.375Z"
+  },
+  {
+    "id": 79,
+    "artvee_artist": "Norman Rockwell",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:15.107Z",
+    "updated_at": "2025-07-26T01:58:48.019Z"
+  },
+  {
+    "id": 40,
+    "artvee_artist": "Jean Siméon Chardin",
+    "artist_id": "7990a470-c6e2-4551-b25a-55bbe799ae1b",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:56:54.447Z",
+    "updated_at": "2025-07-26T01:58:25.902Z"
+  },
+  {
+    "id": 71,
+    "artvee_artist": "Thomas Gainsborough",
+    "artist_id": "0e857e84-2659-41bd-a678-5e907e928319",
+    "confidence_score": 1,
+    "mapping_method": "exact_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:11.117Z",
+    "updated_at": "2025-07-26T01:58:43.723Z"
+  },
+  {
+    "id": 80,
+    "artvee_artist": "Edward Hopper",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:15.713Z",
+    "updated_at": "2025-07-26T01:58:48.665Z"
+  },
+  {
+    "id": 81,
+    "artvee_artist": "Georges Braque",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:16.310Z",
+    "updated_at": "2025-07-26T01:58:49.307Z"
+  },
+  {
+    "id": 82,
+    "artvee_artist": "Georgia O’Keeffe",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:16.912Z",
+    "updated_at": "2025-07-26T01:58:49.954Z"
+  },
+  {
+    "id": 83,
+    "artvee_artist": "Grant Wood",
+    "artist_id": "80b6a7f1-c2fa-4ec9-a898-6b754f216dba",
+    "confidence_score": 0.7,
+    "mapping_method": "partial_match",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:17.512Z",
+    "updated_at": "2025-07-26T01:58:50.598Z"
+  },
+  {
+    "id": 84,
+    "artvee_artist": "Piero Della Francesca",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:18.109Z",
+    "updated_at": "2025-07-26T01:58:51.241Z"
+  },
+  {
+    "id": 85,
+    "artvee_artist": "Josef Albers",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:18.711Z",
+    "updated_at": "2025-07-26T01:58:51.884Z"
+  },
+  {
+    "id": 86,
+    "artvee_artist": "Stuart Davis",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:19.308Z",
+    "updated_at": "2025-07-26T01:58:52.529Z"
+  },
+  {
+    "id": 87,
+    "artvee_artist": "Marcel Duchamp",
+    "artist_id": null,
+    "confidence_score": 0,
+    "mapping_method": "unmatched",
+    "verified": false,
+    "created_at": "2025-07-26T01:57:19.906Z",
+    "updated_at": "2025-07-26T01:58:53.172Z"
+  }
+]

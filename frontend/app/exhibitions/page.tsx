@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { Calendar, Grid, List, MapPin } from 'lucide-react';
 import ExhibitionCalendar from '@/components/calendar/ExhibitionCalendar';
+import { AddToCalendarButton } from '@/components/calendar/AddToCalendarButton';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
 import VenueInfoCard from '@/components/venue/VenueInfoCard';
 
@@ -342,13 +343,30 @@ export default function ExhibitionsPage() {
                     <span>❤️ {exhibition.like_count}</span>
                   </div>
 
-                  {/* Visit Button */}
-                  <Link
-                    href={`/exhibitions/${exhibition.id}`}
-                    className="block w-full text-center bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition-colors"
-                  >
-                    자세히 보기 →
-                  </Link>
+                  {/* Action Buttons */}
+                  <div className="space-y-2">
+                    <Link
+                      href={`/exhibitions/${exhibition.id}`}
+                      className="block w-full text-center bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition-colors"
+                    >
+                      자세히 보기 →
+                    </Link>
+                    
+                    {/* Add to Calendar Button */}
+                    <AddToCalendarButton
+                      exhibition={{
+                        title: exhibition.title,
+                        description: exhibition.description,
+                        location: `${exhibition.venue_name}, ${exhibition.venue_city}`,
+                        startDate: new Date(exhibition.start_date),
+                        endDate: new Date(exhibition.end_date),
+                        url: exhibition.venues.website || `${window.location.origin}/exhibitions/${exhibition.id}`
+                      }}
+                      className="w-full"
+                      variant="outline"
+                      size="sm"
+                    />
+                  </div>
                 </div>
               </motion.div>
               ))}

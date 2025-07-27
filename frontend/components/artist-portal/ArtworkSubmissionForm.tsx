@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Upload, Image as ImageIcon, X, Plus } from 'lucide-react';
+import { Upload, Image as ImageIcon, X, Plus, Loader2, AlertCircle } from 'lucide-react';
+import { useImageUpload, useImagePreview } from '@/lib/hooks/useImageUpload';
 
 interface ArtworkSubmissionFormProps {
   profileId: string;
@@ -38,11 +39,30 @@ export function ArtworkSubmissionForm({
     tags: [] as string[]
   });
 
-  const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [newTag, setNewTag] = useState('');
   const [newSubject, setNewSubject] = useState('');
   const [newColor, setNewColor] = useState('');
+
+  // 이미지 업로드 훅
+  const {
+    uploadImage,
+    isUploading,
+    uploadProgress,
+    error: uploadError,
+    clearError
+  } = useImageUpload({
+    category: 'artist_artworks',
+    onSuccess: (image) => {
+      console.log('Image uploaded successfully:', image);
+    },
+    onError: (error) => {
+      console.error('Upload error:', error);
+    }
+  });
+
+  // 이미지 미리보기 훅
+  const { previews, createPreview, removePreview, clearAllPreviews } = useImagePreview();
 
   const handleInputChange = (field: string, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -64,26 +84,27 @@ export function ArtworkSubmissionForm({
   };
 
   const handleImageUpload = async (file: File, isPrimary = false) => {
-    // In a real implementation, this would upload to your storage service
-    // For now, we'll simulate with a placeholder URL
-    setUploading(true);
+    // 에러 초기화
+    clearError();
     
     try {
-      // Simulate upload delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // 실제 Cloudinary 업로드
+      const uploadedImage = await uploadImage(file, `${formData.title || 'artwork'} - ${isPrimary ? 'primary' : 'additional'}`);
       
-      const mockUrl = `https://example.com/images/${Date.now()}-${file.name}`;
-      
-      if (isPrimary) {
-        handleInputChange('primary_image_url', mockUrl);
-      } else {
-        const newImages = [...formData.additional_images, mockUrl];
-        handleInputChange('additional_images', newImages);
+      if (uploadedImage) {
+        if (isPrimary) {
+          handleInputChange('primary_image_url', uploadedImage.url);
+        } else {
+          const newImages = [...formData.additional_images, uploadedImage.url];
+          handleInputChange('additional_images', newImages);
+        }
+        
+        // 미리보기 생성
+        createPreview(file);
       }
     } catch (error) {
       console.error('Upload failed:', error);
-    } finally {
-      setUploading(false);
+      alert(`Upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -146,6 +167,49 @@ export function ArtworkSubmissionForm({
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Upload Error Display */}
+          {uploadError && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 flex items-center gap-3"
+            >
+              <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
+              <div>
+                <p className="text-red-400 font-medium">Upload Error</p>
+                <p className="text-red-300 text-sm">{uploadError}</p>
+              </div>
+              <button
+                type="button"
+                onClick={clearError}
+                className="ml-auto p-1 text-red-400 hover:text-red-300"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </motion.div>
+          )}
+
+          {/* Upload Progress */}
+          {isUploading && uploadProgress && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4"
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <Loader2 className="w-5 h-5 text-purple-400 animate-spin" />
+                <span className="text-purple-400 font-medium">Uploading image...</span>
+                <span className="text-purple-300 text-sm ml-auto">{uploadProgress.percentage}%</span>
+              </div>
+              <div className="w-full bg-gray-700 rounded-full h-2">
+                <div 
+                  className="bg-purple-500 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${uploadProgress.percentage}%` }}
+                />
+              </div>
+            </motion.div>
+          )}
+
           {/* Basic Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -254,14 +318,24 @@ export function ArtworkSubmissionForm({
                   </button>
                 </div>
               ) : (
-                <label className="flex flex-col items-center justify-center w-32 h-32 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer hover:border-purple-500 transition-colors">
-                  <Upload className="w-8 h-8 text-gray-400 mb-2" />
-                  <span className="text-xs text-gray-400">Upload</span>
+                <label className={`flex flex-col items-center justify-center w-32 h-32 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer hover:border-purple-500 transition-colors ${isUploading ? 'opacity-50 pointer-events-none' : ''}`}>
+                  {isUploading ? (
+                    <>
+                      <Loader2 className="w-8 h-8 text-purple-400 mb-2 animate-spin" />
+                      <span className="text-xs text-purple-400">Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-8 h-8 text-gray-400 mb-2" />
+                      <span className="text-xs text-gray-400">Upload</span>
+                    </>
+                  )}
                   <input
                     type="file"
                     accept="image/*"
                     onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0], true)}
                     className="hidden"
+                    disabled={isUploading}
                   />
                 </label>
               )}
@@ -288,13 +362,18 @@ export function ArtworkSubmissionForm({
                 ))}
                 
                 {formData.additional_images.length < 5 && (
-                  <label className="flex flex-col items-center justify-center w-24 h-24 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer hover:border-purple-500 transition-colors">
-                    <Plus className="w-5 h-5 text-gray-400" />
+                  <label className={`flex flex-col items-center justify-center w-24 h-24 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer hover:border-purple-500 transition-colors ${isUploading ? 'opacity-50 pointer-events-none' : ''}`}>
+                    {isUploading ? (
+                      <Loader2 className="w-5 h-5 text-purple-400 animate-spin" />
+                    ) : (
+                      <Plus className="w-5 h-5 text-gray-400" />
+                    )}
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0], false)}
                       className="hidden"
+                      disabled={isUploading}
                     />
                   </label>
                 )}
@@ -473,10 +552,11 @@ export function ArtworkSubmissionForm({
             )}
             <button
               type="submit"
-              disabled={submitting || uploading || !formData.title || !formData.primary_image_url}
-              className="px-6 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+              disabled={submitting || isUploading || !formData.title || !formData.primary_image_url}
+              className="px-6 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center gap-2"
             >
-              {submitting ? 'Submitting...' : 'Submit Artwork'}
+              {(submitting || isUploading) && <Loader2 className="w-4 h-4 animate-spin" />}
+              {submitting ? 'Submitting...' : isUploading ? 'Uploading...' : 'Submit Artwork'}
             </button>
           </div>
         </form>

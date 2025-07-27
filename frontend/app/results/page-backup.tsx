@@ -355,7 +355,7 @@ function ResultsContent() {
                     <span className="font-mono font-bold text-primary text-lg">{results.personalityType[3]}</span>
                     <p className="text-dark-gray mt-xs font-medium">
                       {results.personalityType[3] === 'F' 
-                        ? (language === 'ko' ? '자유로운 (Flexible)' : 'Flexible') 
+                        ? (language === 'ko' ? '유동적인 (Flow)' : 'Flow') 
                         : (language === 'ko' ? '체계적 (Consistent)' : 'Consistent')}
                     </p>
                   </div>
@@ -565,7 +565,7 @@ function ResultsContent() {
               </div>
               <h3 className="font-medium text-sm text-black mb-xs">
                 {results.personalityType[3] === 'F' 
-                  ? (language === 'ko' ? '자유로운 (Flexible)' : 'Flexible') 
+                  ? (language === 'ko' ? '유동적인 (Flow)' : 'Flow') 
                   : (language === 'ko' ? '체계적 (Consistent)' : 'Consistent')}
               </h3>
               <p className="font-body text-xs text-dark-gray leading-relaxed">

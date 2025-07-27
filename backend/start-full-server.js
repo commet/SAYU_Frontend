@@ -1,14 +1,9 @@
-// Start the full SAYU server with artvee support
-require('dotenv').config();
-
-// Set full mode
+// Full SAYU 서버 시작
 process.env.SAYU_MODE = 'full';
-process.env.PORT = process.env.PORT || 3000;
+process.env.NODE_ENV = 'development';
 
-console.log('🚀 Starting SAYU Backend in Full Mode...');
-console.log(`📡 Port: ${process.env.PORT}`);
-console.log(`🎨 Artvee support: Enabled`);
-console.log('');
+console.log('🚀 Starting SAYU Full Server...');
+console.log('📍 Mode:', process.env.SAYU_MODE);
+console.log('📍 Environment:', process.env.NODE_ENV);
 
-// Start the server
 require('./src/server.js');

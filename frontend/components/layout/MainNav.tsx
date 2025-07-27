@@ -12,7 +12,8 @@ import {
   User,
   Lock,
   Menu,
-  X
+  X,
+  Palette
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -57,6 +58,13 @@ const navigation = [
     public: false,
     requiresCommunity: true,
     description: '함께 전시를 관람할 동행을 찾아보세요'
+  },
+  { 
+    name: 'Artist Portal', 
+    href: '/artist-portal', 
+    icon: Palette,
+    public: true,
+    description: '누락된 작가 정보를 제출하거나 작가님이 직접 등록하세요'
   },
   { 
     name: '프로필', 

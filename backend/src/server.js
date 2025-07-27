@@ -333,6 +333,8 @@ app.use('/api/artist-data', artistDataRoutes); // 아티스트 데이터 수집 
 app.use('/api/matching', require('./routes/matchingRoutes')); // 매칭 시스템
 app.use('/api/waitlist', require('./routes/waitlistRoutes')); // 베타 대기 목록
 app.use('/api/art-pulse', require('./routes/artPulseRoutes')); // Art Pulse 실시간 공동 감상
+app.use('/api/pioneer', require('./routes/pioneer')); // Pioneer 번호 시스템
+app.use('/api/journey', require('./routes/journey')); // 7일 여정 시스템
 app.use('/api/venues', venueRoutes); // 다국어 지원 venue API
 app.use('/api/artvee-artworks', artveeArtworkRoutes); // Artvee 작품-작가 연결 API
 app.use('/api/artist-apt', artistAPTRoutes); // 작가 APT 매칭 시스템
