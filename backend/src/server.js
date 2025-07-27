@@ -307,6 +307,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/achievements', achievementRoutes);
 app.use('/api/insights', insightsRoutes);
 app.use('/api/public', publicApiRoutes); // 🔥 공개 API 추가
+app.use('/api/perception-exchange', require('./routes/perceptionExchange')); // 감상 교환 API
 app.use('/api/archive', archiveRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/community', communityRoutes);

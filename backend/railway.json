@@ -5,12 +5,12 @@
     "buildCommand": "npm install"
   },
   "deploy": {
-    "startCommand": "node railway-cron.js",
+    "startCommand": "npm start",
     "numReplicas": 1,
     "sleepApplication": false,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3,
-    "healthcheckPath": "/health",
+    "healthcheckPath": "/api/health",
     "healthcheckTimeout": 30
   }
 }

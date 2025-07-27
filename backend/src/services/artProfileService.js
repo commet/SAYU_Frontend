@@ -604,7 +604,7 @@ class ArtProfileService {
         SELECT id FROM art_profile_likes 
         WHERE art_profile_id = $1 AND user_id = $2
       `;
-      const existing = await db.query(checkQuery, [artProfileId, userId]);
+      const existing = await hybridDB.query(checkQuery, [artProfileId, userId]);
 
       if (existing.rows.length > 0) {
         // 이미 좋아요한 경우 취소
