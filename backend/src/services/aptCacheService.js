@@ -8,12 +8,27 @@ class APTCacheService {
   constructor() {
     this.vectorSystem = new APTVectorSystem();
     this.cacheConfig = {
-      artworkTTL: 3600,        // 1시간 (작품 추천)
-      exhibitionTTL: 7200,     // 2시간 (전시 추천)
-      profileTTL: 86400,       // 24시간 (APT 프로필 데이터)
-      trendingTTL: 1800,       // 30분 (인기 콘텐츠)
-      vectorTTL: 604800,       // 7일 (벡터 데이터)
-      warmupBatchSize: 50      // 워밍업 시 배치 크기
+      artworkTTL: 7200,        // 2시간 (작품 추천) - 증가
+      exhibitionTTL: 14400,    // 4시간 (전시 추천) - 증가
+      profileTTL: 172800,      // 48시간 (APT 프로필 데이터) - 증가
+      trendingTTL: 3600,       // 1시간 (인기 콘텐츠) - 증가
+      vectorTTL: 1209600,      // 14일 (벡터 데이터) - 증가
+      warmupBatchSize: 100,    // 워밍업 시 배치 크기 - 증가
+      // 새로운 캐시 설정
+      similarUsersTTL: 10800,  // 3시간 (유사 사용자)
+      matchingResultTTL: 21600, // 6시간 (매칭 결과)
+      prefetchThreshold: 0.7,  // 70% 만료 시 프리페치
+      maxCacheSize: 1000,      // 최대 캐시 항목 수
+      compressionEnabled: true  // 벡터 압축 활성화
+    };
+    
+    // LRU 캐시 관리를 위한 액세스 추적
+    this.accessTracker = new Map();
+    this.cacheStats = {
+      hits: 0,
+      misses: 0,
+      evictions: 0,
+      prefetches: 0
     };
     
     // 캐시 키 패턴
@@ -34,16 +49,29 @@ class APTCacheService {
   async initialize() {
     console.log('🚀 APT 캐시 시스템 초기화 시작...');
     
-    // 벡터 시스템 초기화
-    await this.vectorSystem.initializePrototypes();
-    
-    // 각 APT 유형별 프로토타입 벡터 캐싱
-    await this.cachePrototypeVectors();
-    
-    // 인기 작품/전시 사전 캐싱
-    await this.warmupPopularContent();
-    
-    console.log('✅ APT 캐시 시스템 초기화 완료');
+    try {
+      // 병렬 초기화로 시작 시간 단축
+      await Promise.all([
+        this.vectorSystem.initializePrototypes(),
+        this.initializeCacheMonitoring(),
+        this.setupCacheEvictionPolicy()
+      ]);
+      
+      // 병렬 캐싱 작업
+      await Promise.all([
+        this.cachePrototypeVectors(),
+        this.warmupPopularContent(),
+        this.preloadFrequentPatterns()
+      ]);
+      
+      // 예측적 캐싱 스케줄러 시작
+      this.startPredictiveCaching();
+      
+      console.log('✅ APT 캐시 시스템 초기화 완료');
+    } catch (error) {
+      console.error('❌ APT 캐시 초기화 실패:', error);
+      // 캐시 없이도 시스템이 동작하도록 함
+    }
   }
 
   async cachePrototypeVectors() {
@@ -81,56 +109,98 @@ class APTCacheService {
       limit = 20,
       offset = 0,
       forceRefresh = false,
-      context = 'general' // general, trending, seasonal, new
+      context = 'general',
+      userId = null
     } = options;
     
     const cacheKey = `${this.cacheKeys.aptArtworks}${aptType}:${context}:${limit}:${offset}`;
     const redis = getRedisClient();
-    if (!redis) return null;
     
-    // 캐시 확인
+    // Redis 없이도 동작
+    if (!redis) {
+      return this.calculateArtworkRecommendations(aptType, options);
+    }
+    
+    // 캐시 확인 및 히트율 추적
     if (!forceRefresh) {
       const cached = await redis.get(cacheKey);
       if (cached) {
+        this.cacheStats.hits++;
+        await this.updateCacheStats('artwork', aptType, 'hit');
+        
+        // 액세스 추적 (LRU)
+        this.trackAccess(cacheKey);
+        
+        // TTL 확인 및 예측적 갱신
+        const ttl = await redis.ttl(cacheKey);
+        if (ttl < this.cacheConfig.artworkTTL * this.cacheConfig.prefetchThreshold) {
+          // 백그라운드에서 갱신
+          this.prefetchInBackground(cacheKey, aptType, options);
+        }
+        
         return JSON.parse(cached);
       }
     }
     
-    // 캐시 미스 - 새로 계산
-    const recommendations = await this.calculateArtworkRecommendations(aptType, options);
+    this.cacheStats.misses++;
     
-    // 결과 캐싱
-    await redis.setex(
-      cacheKey,
-      this.cacheConfig.artworkTTL,
-      JSON.stringify(recommendations)
-    );
+    // 병렬 처리로 계산 최적화
+    const recommendations = await this.calculateArtworkRecommendationsOptimized(aptType, options);
     
-    // 통계 업데이트
-    await this.updateCacheStats('artwork', aptType, 'miss');
+    // 압축 후 캐싱
+    const cacheData = this.cacheConfig.compressionEnabled ? 
+      this.compressData(recommendations) : 
+      JSON.stringify(recommendations);
+    
+    // 파이프라인으로 Redis 작업 최적화
+    const pipeline = redis.pipeline();
+    pipeline.setex(cacheKey, this.cacheConfig.artworkTTL, cacheData);
+    pipeline.hincrby(`${this.cacheKeys.globalStats}:artwork`, `${aptType}:miss`, 1);
+    pipeline.hincrby(`${this.cacheKeys.globalStats}:artwork`, 'total:miss', 1);
+    await pipeline.exec();
+    
+    // 사용자별 패턴 학습
+    if (userId) {
+      this.learnUserPattern(userId, aptType, context);
+    }
     
     return recommendations;
   }
 
-  async calculateArtworkRecommendations(aptType, options) {
+  async calculateArtworkRecommendationsOptimized(aptType, options) {
     const { limit, offset, context } = options;
     
-    // APT 벡터 가져오기
-    const aptVector = await this.getAPTVector(aptType);
+    // 병렬 데이터 로드
+    const [aptVector, artworks] = await Promise.all([
+      this.getAPTVector(aptType),
+      this.getArtworkPool(context)
+    ]);
     
-    // 작품 벡터와 매칭
-    const artworks = await this.getArtworkPool(context);
-    const artworkVectors = await this.getArtworkVectors(artworks);
+    // 작품 벡터 배치 처리 (병렬화)
+    const batchSize = 50;
+    const artworkBatches = [];
+    for (let i = 0; i < artworks.length; i += batchSize) {
+      artworkBatches.push(artworks.slice(i, i + batchSize));
+    }
     
-    // 벡터 유사도 계산
-    const recommendations = await this.vectorSystem.findBestArtworks(
-      aptVector,
-      artworkVectors,
-      limit + offset
+    // 병렬 벡터 생성 및 계산
+    const vectorBatches = await Promise.all(
+      artworkBatches.map(batch => this.getArtworkVectorsBatch(batch))
     );
     
-    // 컨텍스트별 추가 처리
-    const processed = await this.processRecommendations(recommendations, aptType, context);
+    // 플랫화
+    const artworkVectors = vectorBatches.flat();
+    
+    // 최적화된 벡터 매칭 (SIMD 활용)
+    const recommendations = await this.vectorSystem.findBestArtworksOptimized(
+      aptVector,
+      artworkVectors,
+      limit + offset,
+      { useApproximation: artworkVectors.length > 1000 }
+    );
+    
+    // 병렬 후처리
+    const processed = await this.processRecommendationsOptimized(recommendations, aptType, context);
     
     // 페이지네이션 적용
     return processed.slice(offset, offset + limit);
@@ -411,34 +481,67 @@ class APTCacheService {
     return this.vectorSystem.prototypeVectors[aptType];
   }
 
-  async getArtworkVectors(artworks) {
+  async getArtworkVectorsBatch(artworks) {
     const redis = getRedisClient();
-    if (!redis) return null;
+    if (!redis) {
+      // Redis 없이 직접 계산
+      return Promise.all(
+        artworks.map(async artwork => ({
+          ...artwork,
+          vector: await this.vectorSystem.createArtworkVector(artwork)
+        }))
+      );
+    }
+    
+    // 파이프라인으로 배치 조회
+    const pipeline = redis.pipeline();
+    const cacheKeys = artworks.map(a => `${this.cacheKeys.artworkVector}${a.id}`);
+    
+    cacheKeys.forEach(key => pipeline.get(key));
+    const results = await pipeline.exec();
+    
+    // 캐시 미스 항목 수집
+    const missingIndices = [];
     const vectors = [];
     
-    for (const artwork of artworks) {
-      const cacheKey = `${this.cacheKeys.artworkVector}${artwork.id}`;
-      let vector = await redis.get(cacheKey);
-      
-      if (!vector) {
-        // 벡터 생성 및 캐싱
-        vector = await this.vectorSystem.createArtworkVector(artwork);
-        await redis.setex(
-          cacheKey,
-          this.cacheConfig.vectorTTL,
-          JSON.stringify(vector)
-        );
+    results.forEach(([err, data], index) => {
+      if (!err && data) {
+        vectors[index] = {
+          ...artworks[index],
+          vector: JSON.parse(data)
+        };
       } else {
-        vector = JSON.parse(vector);
+        missingIndices.push(index);
       }
+    });
+    
+    // 캐시 미스 항목들 병렬 계산
+    if (missingIndices.length > 0) {
+      const newVectors = await Promise.all(
+        missingIndices.map(async index => {
+          const artwork = artworks[index];
+          const vector = await this.vectorSystem.createArtworkVector(artwork);
+          
+          // 백그라운드 캐싱 (비동기)
+          this.cacheVectorInBackground(
+            `${this.cacheKeys.artworkVector}${artwork.id}`,
+            vector
+          );
+          
+          return {
+            ...artwork,
+            vector
+          };
+        })
+      );
       
-      vectors.push({
-        ...artwork,
-        vector
+      // 결과 병합
+      missingIndices.forEach((originalIndex, i) => {
+        vectors[originalIndex] = newVectors[i];
       });
     }
     
-    return vectors;
+    return vectors.filter(Boolean);
   }
 
   isNewArtwork(createdAt) {
@@ -450,17 +553,32 @@ class APTCacheService {
   // 워밍업 헬퍼
   async warmupArtworksForAPT(typeCode) {
     try {
-      // 각 컨텍스트별로 미리 계산
-      const contexts = ['general', 'trending', 'new'];
+      // 모든 컨텍스트를 병렬로 워밍업
+      const contexts = ['general', 'trending', 'new', 'seasonal'];
+      const limits = [20, 50, 100]; // 다양한 limit 값도 캐싱
       
+      const warmupTasks = [];
       for (const context of contexts) {
-        await this.getArtworkRecommendations(typeCode, {
-          limit: this.cacheConfig.warmupBatchSize,
-          context
-        });
+        for (const limit of limits) {
+          warmupTasks.push(
+            this.getArtworkRecommendations(typeCode, {
+              limit,
+              context,
+              offset: 0
+            }).catch(err => {
+              console.error(`워밍업 실패 ${typeCode}/${context}/${limit}:`, err);
+            })
+          );
+        }
       }
       
-      console.log(`✓ ${typeCode} 작품 추천 워밍업 완료`);
+      // 병렬 실행 (최대 5개씩)
+      const batchSize = 5;
+      for (let i = 0; i < warmupTasks.length; i += batchSize) {
+        await Promise.all(warmupTasks.slice(i, i + batchSize));
+      }
+      
+      console.log(`✓ ${typeCode} 작품 추천 워밍업 완료 (${warmupTasks.length}개 캐시)`);
     } catch (error) {
       console.error(`${typeCode} 작품 워밍업 실패:`, error);
     }
@@ -499,6 +617,219 @@ class APTCacheService {
 
   async calculateExhibitionRecommendations(aptType, options) {
     return aptDataAccess.calculateExhibitionRecommendations(aptType, options);
+  }
+}
+
+  // ==================== 새로운 최적화 메서드들 ====================
+  
+  async initializeCacheMonitoring() {
+    // 캐시 성능 모니터링 초기화
+    setInterval(() => {
+      const hitRate = this.cacheStats.hits / (this.cacheStats.hits + this.cacheStats.misses) || 0;
+      console.log(`📊 캐시 히트율: ${(hitRate * 100).toFixed(2)}%`, {
+        hits: this.cacheStats.hits,
+        misses: this.cacheStats.misses,
+        evictions: this.cacheStats.evictions,
+        prefetches: this.cacheStats.prefetches
+      });
+      
+      // 히트율이 낮으면 경고
+      if (hitRate < 0.7 && this.cacheStats.hits + this.cacheStats.misses > 100) {
+        console.warn('⚠️ 캐시 히트율이 70% 미만입니다. TTL 조정을 고려하세요.');
+      }
+    }, 60000); // 1분마다
+  }
+  
+  async setupCacheEvictionPolicy() {
+    // LRU 기반 캐시 제거 정책
+    setInterval(() => {
+      if (this.accessTracker.size > this.cacheConfig.maxCacheSize) {
+        const sortedKeys = Array.from(this.accessTracker.entries())
+          .sort((a, b) => a[1] - b[1]); // 오래된 순
+        
+        const keysToEvict = sortedKeys
+          .slice(0, Math.floor(this.cacheConfig.maxCacheSize * 0.2))
+          .map(([key]) => key);
+        
+        this.evictKeys(keysToEvict);
+      }
+    }, 30000); // 30초마다
+  }
+  
+  async preloadFrequentPatterns() {
+    // 자주 사용되는 패턴 미리 로드
+    const frequentPatterns = [
+      { aptType: 'LAEF', context: 'general', limit: 20 },
+      { aptType: 'SRMC', context: 'general', limit: 20 },
+      { aptType: 'SAEF', context: 'trending', limit: 20 }
+    ];
+    
+    await Promise.all(
+      frequentPatterns.map(pattern => 
+        this.getArtworkRecommendations(pattern.aptType, pattern)
+      )
+    );
+  }
+  
+  startPredictiveCaching() {
+    // 사용 패턴 기반 예측적 캐싱
+    setInterval(async () => {
+      const predictions = await this.predictNextRequests();
+      
+      for (const prediction of predictions) {
+        if (prediction.probability > 0.7) {
+          this.prefetchInBackground(
+            prediction.cacheKey,
+            prediction.aptType,
+            prediction.options
+          );
+        }
+      }
+    }, 300000); // 5분마다
+  }
+  
+  async prefetchInBackground(cacheKey, aptType, options) {
+    // 백그라운드에서 캐시 갱신
+    setImmediate(async () => {
+      try {
+        this.cacheStats.prefetches++;
+        const recommendations = await this.calculateArtworkRecommendationsOptimized(aptType, options);
+        
+        const redis = getRedisClient();
+        if (redis) {
+          await redis.setex(
+            cacheKey,
+            this.cacheConfig.artworkTTL,
+            JSON.stringify(recommendations)
+          );
+        }
+      } catch (error) {
+        console.error('프리페치 실패:', error);
+      }
+    });
+  }
+  
+  compressData(data) {
+    // 간단한 데이터 압축 (실제로는 zlib 사용 권장)
+    const jsonStr = JSON.stringify(data);
+    // 여기서는 단순화를 위해 그대로 반환
+    return jsonStr;
+  }
+  
+  trackAccess(cacheKey) {
+    this.accessTracker.set(cacheKey, Date.now());
+  }
+  
+  async evictKeys(keys) {
+    const redis = getRedisClient();
+    if (!redis) return;
+    
+    const pipeline = redis.pipeline();
+    keys.forEach(key => {
+      pipeline.del(key);
+      this.accessTracker.delete(key);
+      this.cacheStats.evictions++;
+    });
+    
+    await pipeline.exec();
+  }
+  
+  async learnUserPattern(userId, aptType, context) {
+    // 사용자 패턴 학습 (간단한 구현)
+    const patternKey = `user:pattern:${userId}`;
+    const redis = getRedisClient();
+    if (!redis) return;
+    
+    await redis.hincrby(patternKey, `${aptType}:${context}`, 1);
+    await redis.expire(patternKey, 86400 * 7); // 7일간 유지
+  }
+  
+  async predictNextRequests() {
+    // 다음 요청 예측 (간단한 구현)
+    const redis = getRedisClient();
+    if (!redis) return [];
+    
+    // 최근 패턴 분석
+    const patterns = await redis.hgetall(`${this.cacheKeys.globalStats}:patterns`);
+    
+    return Object.entries(patterns || {})
+      .map(([pattern, count]) => {
+        const [aptType, context] = pattern.split(':');
+        return {
+          cacheKey: `${this.cacheKeys.aptArtworks}${aptType}:${context}:20:0`,
+          aptType,
+          options: { context, limit: 20, offset: 0 },
+          probability: parseInt(count) / 100 // 간단한 확률 계산
+        };
+      })
+      .filter(p => p.probability > 0.5)
+      .sort((a, b) => b.probability - a.probability)
+      .slice(0, 10);
+  }
+  
+  async cacheVectorInBackground(key, vector) {
+    setImmediate(async () => {
+      const redis = getRedisClient();
+      if (redis) {
+        await redis.setex(
+          key,
+          this.cacheConfig.vectorTTL,
+          JSON.stringify(vector)
+        );
+      }
+    });
+  }
+  
+  async processRecommendationsOptimized(recommendations, aptType, context) {
+    // 병렬 처리로 최적화
+    const typeData = SAYU_TYPES[aptType];
+    
+    return Promise.all(
+      recommendations.map(async rec => {
+        let score = rec.matchScore;
+        
+        // 컨텍스트별 점수 조정 (병렬 계산)
+        const adjustments = await Promise.all([
+          this.calculateTrendingBonus(rec, context),
+          this.calculateTypeBonus(rec, aptType),
+          this.calculateFreshnessBonus(rec, context)
+        ]);
+        
+        score += adjustments.reduce((sum, adj) => sum + adj, 0);
+        
+        return {
+          ...rec,
+          finalScore: Math.min(100, score),
+          matchReason: this.generateMatchReason(rec, typeData, score)
+        };
+      })
+    ).then(results => 
+      results.sort((a, b) => b.finalScore - a.finalScore)
+    );
+  }
+  
+  async calculateTrendingBonus(rec, context) {
+    if (context === 'trending' && rec.viewCount > 1000) {
+      return 5;
+    }
+    return 0;
+  }
+  
+  async calculateTypeBonus(rec, aptType) {
+    let bonus = 0;
+    if (aptType[0] === 'L' && rec.solitudeScore > 7) {
+      bonus += 2;
+    } else if (aptType[0] === 'S' && rec.discussionPotential > 7) {
+      bonus += 2;
+    }
+    return bonus;
+  }
+  
+  async calculateFreshnessBonus(rec, context) {
+    if (context === 'new' && this.isNewArtwork(rec.createdAt)) {
+      return 3;
+    }
+    return 0;
   }
 }
 

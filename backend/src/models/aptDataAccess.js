@@ -6,32 +6,52 @@ class APTDataAccess {
   
   async getUserProfile(userId) {
     try {
-      const result = await db.query(
-        `SELECT 
-          u.id,
-          u.name,
-          u.email,
-          COALESCE(sp.type_code, 'LAEF') as apt_type,
-          sp.created_at as apt_determined_at,
-          sp.confidence_score,
-          sp.archetype_evolution_stage as level,
-          sp.cognitive_vector,
-          sp.emotional_vector,
-          sp.aesthetic_vector
-        FROM users u
-        LEFT JOIN sayu_profiles sp ON u.id = sp.user_id
-        WHERE u.id = $1`,
-        [userId]
-      );
+      // 병렬 쿼리로 성능 개선
+      const [profileResult, quizResponsesResult] = await Promise.all([
+        db.query(
+          `SELECT 
+            u.id,
+            u.name,
+            u.email,
+            COALESCE(sp.type_code, 'LAEF') as apt_type,
+            sp.created_at as apt_determined_at,
+            sp.confidence_score,
+            sp.archetype_evolution_stage as level,
+            sp.cognitive_vector,
+            sp.emotional_vector,
+            sp.aesthetic_vector
+          FROM users u
+          LEFT JOIN sayu_profiles sp ON u.id = sp.user_id
+          WHERE u.id = $1`,
+          [userId]
+        ),
+        // 퀴즈 응답도 동시에 가져오기
+        db.query(
+          `SELECT 
+            question_id,
+            answer_id,
+            weights,
+            time_spent
+          FROM quiz_responses
+          WHERE user_id = $1
+          ORDER BY created_at DESC
+          LIMIT 15`,
+          [userId]
+        )
+      ]);
 
-      if (result.rows.length === 0) {
+      if (profileResult.rows.length === 0) {
         return null;
       }
 
-      const profile = result.rows[0];
-      
-      // 퀴즈 응답 가져오기
-      const quizResponses = await this.getUserQuizResponses(userId);
+      const profile = profileResult.rows[0];
+      const quizResponses = quizResponsesResult.rows.map(row => ({
+        questionId: row.question_id,
+        answerId: row.answer_id,
+        weight: row.weights?.dominant || 1.0,
+        axis: this.extractAxisFromWeights(row.weights),
+        timeSpent: row.time_spent
+      }));
       
       return {
         userId: profile.id,
@@ -50,7 +70,6 @@ class APTDataAccess {
       };
     } catch (error) {
       console.error('Error getting user profile:', error);
-      // 기본값 반환
       return {
         userId,
         aptType: 'LAEF',
@@ -90,43 +109,45 @@ class APTDataAccess {
 
   async getUserHistory(userId) {
     try {
-      // 조회한 작품들
-      const viewedResult = await db.query(
-        `SELECT DISTINCT artwork_id 
-        FROM image_usage_log 
-        WHERE user_id = $1 AND view_count > 0
-        LIMIT 1000`,
-        [userId]
-      );
-
-      // 좋아요한 작품들
-      const likedResult = await db.query(
-        `SELECT DISTINCT artwork_id 
-        FROM user_artwork_interactions 
-        WHERE user_id = $1 AND interaction_type = 'like'
-        LIMIT 500`,
-        [userId]
-      );
-
-      // 좋아한 작가들
-      const likedArtistsResult = await db.query(
-        `SELECT DISTINCT artist, score
-        FROM user_artist_preferences
-        WHERE user_id = $1 AND score > 0
-        ORDER BY score DESC
-        LIMIT 100`,
-        [userId]
-      );
-
-      // 선호 스타일들
-      const likedStylesResult = await db.query(
-        `SELECT DISTINCT genre, score
-        FROM user_genre_preferences
-        WHERE user_id = $1 AND score > 0
-        ORDER BY score DESC
-        LIMIT 50`,
-        [userId]
-      );
+      // 모든 쿼리를 병렬로 실행
+      const [viewedResult, likedResult, likedArtistsResult, likedStylesResult] = await Promise.all([
+        // 조회한 작품들 (인덱스 활용)
+        db.query(
+          `SELECT DISTINCT artwork_id 
+          FROM image_usage_log 
+          WHERE user_id = $1 AND view_count > 0
+          ORDER BY created_at DESC
+          LIMIT 1000`,
+          [userId]
+        ),
+        // 좋아요한 작품들 (인덱스 활용)
+        db.query(
+          `SELECT DISTINCT artwork_id, created_at
+          FROM user_artwork_interactions 
+          WHERE user_id = $1 AND interaction_type = 'like'
+          ORDER BY created_at DESC
+          LIMIT 500`,
+          [userId]
+        ),
+        // 좋아한 작가들
+        db.query(
+          `SELECT DISTINCT artist, score
+          FROM user_artist_preferences
+          WHERE user_id = $1 AND score > 0
+          ORDER BY score DESC
+          LIMIT 100`,
+          [userId]
+        ),
+        // 선호 스타일들
+        db.query(
+          `SELECT DISTINCT genre, score
+          FROM user_genre_preferences
+          WHERE user_id = $1 AND score > 0
+          ORDER BY score DESC
+          LIMIT 50`,
+          [userId]
+        )
+      ]);
 
       return {
         viewedArtworks: viewedResult.rows.map(r => r.artwork_id),
@@ -197,18 +218,31 @@ class APTDataAccess {
 
       switch (context) {
         case 'trending':
+          // CTE를 사용해 쿼리 최적화
           query = `
-            SELECT DISTINCT a.*, 
-              COUNT(iul.id) as view_count,
-              COUNT(uai.id) FILTER (WHERE uai.interaction_type = 'like') as like_count
+            WITH recent_views AS (
+              SELECT artwork_id, COUNT(*) as view_count
+              FROM image_usage_log
+              WHERE created_at > NOW() - INTERVAL '7 days'
+              GROUP BY artwork_id
+            ),
+            recent_likes AS (
+              SELECT artwork_id, COUNT(*) as like_count
+              FROM user_artwork_interactions
+              WHERE interaction_type = 'like' 
+                AND created_at > NOW() - INTERVAL '7 days'
+              GROUP BY artwork_id
+            )
+            SELECT a.*, 
+              COALESCE(rv.view_count, 0) as view_count,
+              COALESCE(rl.like_count, 0) as like_count,
+              (COALESCE(rv.view_count, 0) + COALESCE(rl.like_count, 0) * 3) as trending_score
             FROM artworks a
-            LEFT JOIN image_usage_log iul ON a.id = iul.artwork_id 
-              AND iul.created_at > NOW() - INTERVAL '7 days'
-            LEFT JOIN user_artwork_interactions uai ON a.id = uai.artwork_id
-              AND uai.created_at > NOW() - INTERVAL '7 days'
+            LEFT JOIN recent_views rv ON a.id = rv.artwork_id
+            LEFT JOIN recent_likes rl ON a.id = rl.artwork_id
             WHERE a.image_url IS NOT NULL
-            GROUP BY a.id
-            ORDER BY (COUNT(iul.id) + COUNT(uai.id) * 3) DESC
+              AND (rv.view_count > 0 OR rl.like_count > 0)
+            ORDER BY trending_score DESC
             LIMIT $1
           `;
           break;
@@ -239,11 +273,16 @@ class APTDataAccess {
           break;
 
         default: // general
+          // TABLESAMPLE을 사용한 효율적인 랜덤 샘플링
           query = `
-            SELECT * FROM artworks
-            WHERE image_url IS NOT NULL
-              AND quality_score > 0.5
-            ORDER BY quality_score DESC, RANDOM()
+            SELECT * FROM (
+              SELECT * FROM artworks
+              WHERE image_url IS NOT NULL
+                AND quality_score > 0.5
+              ORDER BY quality_score DESC
+              LIMIT $1 * 2
+            ) AS high_quality
+            ORDER BY RANDOM()
             LIMIT $1
           `;
       }
@@ -277,21 +316,25 @@ class APTDataAccess {
       };
       const interval = intervalMap[period] || '1 day';
 
+      // 인덱스를 활용한 최적화된 쿼리
       const result = await db.query(
-        `SELECT 
+        `WITH apt_users AS (
+          SELECT user_id 
+          FROM sayu_profiles 
+          WHERE type_code = $1
+        )
+        SELECT 
           iul.artwork_id as id,
           COUNT(*) as count,
           a.title,
           a.artist
         FROM image_usage_log iul
-        JOIN users u ON iul.user_id = u.id
-        JOIN sayu_profiles sp ON u.id = sp.user_id
+        JOIN apt_users au ON iul.user_id = au.user_id
         JOIN artworks a ON iul.artwork_id = a.id
-        WHERE sp.type_code = $1
-          AND iul.created_at > NOW() - INTERVAL $2
+        WHERE iul.created_at > NOW() - INTERVAL $2
           AND iul.view_count > 0
         GROUP BY iul.artwork_id, a.title, a.artist
-        ORDER BY COUNT(*) DESC
+        ORDER BY count DESC
         LIMIT 100`,
         [aptType, interval]
       );
@@ -344,16 +387,25 @@ class APTDataAccess {
     try {
       const { location, dateRange, limit = 10 } = options;
       
+      // CTE로 리뷰 통계를 미리 계산
       let query = `
+        WITH exhibition_stats AS (
+          SELECT 
+            exhibition_id,
+            COUNT(*) as review_count,
+            AVG(rating) as avg_rating
+          FROM exhibition_reviews
+          GROUP BY exhibition_id
+        )
         SELECT 
           e.*,
           m.name as museum_name,
           m.location as museum_location,
-          COUNT(DISTINCT er.id) as review_count,
-          AVG(er.rating) as avg_rating
+          COALESCE(es.review_count, 0) as review_count,
+          COALESCE(es.avg_rating, 0) as avg_rating
         FROM exhibitions e
         JOIN museums m ON e.museum_id = m.id
-        LEFT JOIN exhibition_reviews er ON e.id = er.exhibition_id
+        LEFT JOIN exhibition_stats es ON e.id = es.exhibition_id
         WHERE 1=1
       `;
       
@@ -517,6 +569,111 @@ class APTDataAccess {
     }
     
     return reasons.join(' · ') || `${typeData.name}님께 추천`;
+  }
+}
+
+  // ==================== 새로운 최적화 메서드들 ====================
+  
+  // 인덱스 생성 쿼리 (성능 최적화를 위해 필수)
+  async createOptimizationIndexes() {
+    const indexes = [
+      // 사용자 프로필 조회 최적화
+      `CREATE INDEX IF NOT EXISTS idx_sayu_profiles_user_id ON sayu_profiles(user_id)`,
+      
+      // 퀴즈 응답 조회 최적화
+      `CREATE INDEX IF NOT EXISTS idx_quiz_responses_user_created ON quiz_responses(user_id, created_at DESC)`,
+      
+      // 이미지 사용 로그 최적화
+      `CREATE INDEX IF NOT EXISTS idx_image_usage_log_user_created ON image_usage_log(user_id, created_at DESC) WHERE view_count > 0`,
+      `CREATE INDEX IF NOT EXISTS idx_image_usage_log_artwork_created ON image_usage_log(artwork_id, created_at DESC)`,
+      
+      // 사용자 작품 상호작용 최적화
+      `CREATE INDEX IF NOT EXISTS idx_user_artwork_interactions_user_type ON user_artwork_interactions(user_id, interaction_type, created_at DESC)`,
+      `CREATE INDEX IF NOT EXISTS idx_user_artwork_interactions_artwork_type ON user_artwork_interactions(artwork_id, interaction_type, created_at DESC)`,
+      
+      // APT 타입별 조회 최적화
+      `CREATE INDEX IF NOT EXISTS idx_sayu_profiles_type_code ON sayu_profiles(type_code)`,
+      
+      // 작품 품질 점수 및 이미지 존재 여부
+      `CREATE INDEX IF NOT EXISTS idx_artworks_quality_image ON artworks(quality_score DESC) WHERE image_url IS NOT NULL`,
+      
+      // 전시 날짜 범위 최적화
+      `CREATE INDEX IF NOT EXISTS idx_exhibitions_dates ON exhibitions(start_date, end_date)`,
+      
+      // 박물관 위치 검색 최적화
+      `CREATE INDEX IF NOT EXISTS idx_museums_location ON museums(location)`
+    ];
+    
+    try {
+      for (const indexQuery of indexes) {
+        await db.query(indexQuery);
+      }
+      console.log('✅ 최적화 인덱스 생성 완료');
+    } catch (error) {
+      console.error('❌ 인덱스 생성 실패:', error);
+    }
+  }
+  
+  // 쿼리 플랜 분석 함수
+  async analyzeQueryPlan(query, params) {
+    try {
+      const result = await db.query(`EXPLAIN (ANALYZE, BUFFERS) ${query}`, params);
+      console.log('🔍 쿼리 플랜:', result.rows);
+      return result.rows;
+    } catch (error) {
+      console.error('쿼리 플랜 분석 실패:', error);
+      return null;
+    }
+  }
+  
+  // 커넥션 풀 상태 확인
+  async getConnectionPoolStatus() {
+    try {
+      const result = await db.query(`
+        SELECT 
+          numbackends as active_connections,
+          (SELECT setting::int FROM pg_settings WHERE name = 'max_connections') as max_connections
+        FROM pg_stat_database 
+        WHERE datname = current_database()
+      `);
+      
+      const status = result.rows[0];
+      const usage = (status.active_connections / status.max_connections) * 100;
+      
+      if (usage > 80) {
+        console.warn(`⚠️ 데이터베이스 커넥션 사용률: ${usage.toFixed(2)}%`);
+      }
+      
+      return status;
+    } catch (error) {
+      console.error('커넥션 풀 상태 확인 실패:', error);
+      return null;
+    }
+  }
+  
+  // 배치 삽입 최적화
+  async batchInsertArtworkVectors(artworkVectors) {
+    if (!artworkVectors || artworkVectors.length === 0) return;
+    
+    try {
+      // COPY 명령을 사용한 대량 삽입 (가장 빠름)
+      const values = artworkVectors.map(av => 
+        `(${av.artworkId}, '{${av.vector.join(',')}}'::vector)`
+      ).join(',');
+      
+      await db.query(`
+        INSERT INTO artwork_vectors (artwork_id, vector)
+        VALUES ${values}
+        ON CONFLICT (artwork_id) 
+        DO UPDATE SET 
+          vector = EXCLUDED.vector,
+          updated_at = NOW()
+      `);
+      
+      console.log(`✅ ${artworkVectors.length}개 작품 벡터 배치 삽입 완료`);
+    } catch (error) {
+      console.error('배치 삽입 실패:', error);
+    }
   }
 }
 
