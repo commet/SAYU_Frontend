@@ -18,7 +18,7 @@ async function setupDatabase() {
     console.log('✅ Connected to PostgreSQL');
     
     // Read schema file
-    const schemaPath = path.join(__dirname, '../../schema-no-vector.sql');
+    const schemaPath = path.join(__dirname, '../../migrations/master-schema.sql');
     const schema = await fs.readFile(schemaPath, 'utf8');
     
     console.log('📝 Applying database schema...');
@@ -28,20 +28,8 @@ async function setupDatabase() {
     
     console.log('✅ Database schema created successfully');
     
-    // Create indexes for better performance
-    const indexes = [
-      'CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);',
-      'CREATE INDEX IF NOT EXISTS idx_user_profiles_user_id ON user_profiles(user_id);',
-      'CREATE INDEX IF NOT EXISTS idx_quiz_sessions_user_id ON quiz_sessions(user_id);',
-      'CREATE INDEX IF NOT EXISTS idx_quiz_sessions_type ON quiz_sessions(session_type);'
-    ];
-    
-    console.log('📝 Creating indexes...');
-    for (const index of indexes) {
-      await client.query(index);
-    }
-    
-    console.log('✅ Indexes created successfully');
+    // Indexes are already created in master-schema.sql
+    console.log('✅ Indexes are created as part of the schema');
     
     client.release();
     console.log('🎉 Database setup complete!');
