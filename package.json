@@ -2,6 +2,9 @@
   "name": "sayu-monorepo",
   "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "echo 'Build completed'",
     "start": "cd backend && node sayu-living-server.js"

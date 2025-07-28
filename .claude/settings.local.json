@@ -3,7 +3,12 @@
     "allow": [
       "Bash(node:*)",
       "Bash(node:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(find:*)",
+      "Bash(npm init:*)",
+      "Bash(git checkout:*)",
+      "Bash(cp:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": []
   }
