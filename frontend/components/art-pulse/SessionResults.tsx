@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { ArtPulseSession, SessionResults as Results, EMOTION_CONFIGS } from '@sayu/shared';
+import { ArtPulseSession, SessionResults as Results, EMOTION_CONFIGS } from '../../../shared';
 import { Trophy, Users, Heart, MessageCircle, X, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 

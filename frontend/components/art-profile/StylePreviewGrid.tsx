@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArtStyle } from '@sayu/shared';
+import { ArtStyle } from '../../../shared';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 

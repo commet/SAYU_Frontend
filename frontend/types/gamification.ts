@@ -92,3 +92,90 @@ export type PointActivityType =
   | 'daily_login'
   | 'invite_friend'
   | 'share_result';
+
+// Additional types for gamification hooks
+export type XPEventType = 
+  | 'daily_login'
+  | 'artwork_view'
+  | 'quiz_complete'
+  | 'follow_user'
+  | 'share_artwork'
+  | 'ai_profile_create'
+  | 'exhibition_visit'
+  | 'review_write';
+
+export type LeaderboardType = 'daily' | 'weekly' | 'monthly' | 'all';
+
+export interface UserStats {
+  userId: string;
+  totalXP: number;
+  level: number;
+  levelName: string;
+  nextLevelXP: number;
+  currentLevelXP: number;
+  progress: number;
+  achievements: Achievement[];
+  recentActivity: PointActivity[];
+}
+
+export interface DailyQuest {
+  id: string;
+  title: string;
+  description: string;
+  xpReward: number;
+  progress: number;
+  target: number;
+  completed: boolean;
+  type: 'daily' | 'weekly' | 'special';
+}
+
+export interface XPResult {
+  xpGained: number;
+  leveledUp?: boolean;
+  level?: number;
+  newAchievements?: Achievement[];
+}
+
+export interface GamificationApiResponse<T> {
+  success: boolean;
+  data: T;
+  error?: string;
+}
+
+// Dashboard specific types
+export interface DashboardStats {
+  level: number;
+  levelName: string;
+  levelName_ko?: string;
+  currentPoints: number;
+  totalPoints: number;
+  nextLevelPoints: number;
+  weeklyStreak: number;
+  totalExhibitions: number;
+  averageDuration: number;
+  mainTitle: string;
+  recentAchievements?: Achievement[];
+  achievements?: Achievement[];
+  upcomingChallenges?: Mission[];
+  challenges?: Mission[];
+  leaderboardRank?: number;
+  friendsActivity?: FriendActivity[];
+  recentActivities?: PointActivity[];
+  recentExhibitions?: ExhibitionVisit[];
+  evaluationStats?: {
+    totalEvaluations: number;
+    averageRating: number;
+  };
+  stats?: {
+    totalVisits: number;
+    totalTime: number;
+    favoriteArtist?: string;
+  };
+}
+
+export interface FriendActivity {
+  userId: string;
+  userName: string;
+  action: string;
+  timestamp: Date;
+}

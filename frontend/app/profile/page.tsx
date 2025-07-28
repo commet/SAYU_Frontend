@@ -150,6 +150,7 @@ export default function ProfilePage() {
   const router = useRouter();
   const { dashboard } = useGamificationDashboard();
   const userPoints = dashboard?.currentPoints || 0;
+  const userStats = dashboard;
   const [activeTab, setActiveTab] = useState<'map' | 'records' | 'badges' | 'share'>('map');
   const [redirecting, setRedirecting] = useState(false);
   const [userPersonalityType, setUserPersonalityType] = useState<string | null>(null);
@@ -442,7 +443,7 @@ export default function ProfilePage() {
           {activeTab === 'share' && (
             <ProfileShareCard
               userInfo={{
-                nickname: user.nickname,
+                nickname: user.nickname || undefined,
                 email: user.auth.email,
                 personalityType: userPersonalityType,
                 level: mockUserStats.level,
@@ -460,7 +461,7 @@ export default function ProfilePage() {
         isOpen={showSettings}
         onClose={() => setShowSettings(false)}
         userInfo={{
-          nickname: user.nickname,
+          nickname: user.nickname || undefined,
           email: user.auth.email,
           personalityType: userPersonalityType
         }}
@@ -475,21 +476,18 @@ export default function ProfilePage() {
         <ProfileIDCard
           personalityType={userPersonalityType}
           userName={user.nickname || user.auth.email || 'SAYU Explorer'}
-          userLevel={userPoints?.level || mockUserStats.level}
-          userPoints={userPoints?.totalPoints || mockUserStats.totalPoints}
+          userLevel={userStats?.level || mockUserStats.level}
+          userPoints={userPoints || mockUserStats.totalPoints}
           stats={{
-            exhibitionsVisited: userPoints?.exhibitionHistory?.length || mockUserStats.totalVisits,
-            achievementsUnlocked: userPoints?.achievements?.filter(a => a.unlockedAt).length || mockBadges.filter(b => b.unlocked).length,
+            exhibitionsVisited: userStats?.totalExhibitions || mockUserStats.totalVisits,
+            achievementsUnlocked: userStats?.achievements?.filter((a: any) => a.unlockedAt).length || mockBadges.filter(b => b.unlocked).length,
             companionsMetCount: 0 // This would come from evaluation system
           }}
           recentExhibitions={
-            userPoints?.exhibitionHistory?.slice(0, 3).map(visit => ({
-              name: visit.exhibitionName,
-              date: new Date(visit.visitDate).toLocaleDateString()
-            })) || mockExhibitionRecords.slice(0, 3).map(record => ({
-              name: record.exhibition,
-              date: record.visitDate
-            }))
+            userStats?.recentAchievements?.slice(0, 3).map((achievement: any) => ({
+              name: achievement.name,
+              date: new Date(achievement.unlockedAt || Date.now()).toLocaleDateString()
+            })) || []
           }
           plannedExhibitions={[
             { name: '모네의 정원: 빛과 색의 향연', venue: '국립현대미술관' },
@@ -497,7 +495,7 @@ export default function ProfilePage() {
             { name: '디지털 아트 페스티벌', venue: '롯데월드타워' }
           ]}
           topAchievements={
-            userPoints?.achievements?.filter(a => a.unlockedAt).slice(0, 3).map(achievement => ({
+            userStats?.achievements?.filter((a: any) => a.unlockedAt).slice(0, 3).map((achievement: any) => ({
               name: language === 'ko' ? achievement.name_ko : achievement.name,
               icon: achievement.icon
             })) || mockBadges.filter(b => b.unlocked).slice(0, 3).map(badge => ({

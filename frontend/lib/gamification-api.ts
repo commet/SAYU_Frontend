@@ -1,46 +1,17 @@
 import { API_CONFIG } from '@/config/api';
-
-export interface DashboardStats {
-  level: number;
-  levelName: string;
-  currentPoints: number;
-  totalPoints: number;
-  nextLevelPoints: number;
-  weeklyStreak: number;
-  totalExhibitions: number;
-  averageDuration: number;
-  mainTitle: string;
-  recentAchievements: Achievement[];
-  upcomingChallenges: Challenge[];
-  leaderboardRank?: number;
-  friendsActivity?: FriendActivity[];
-}
-
-export interface Achievement {
-  id: string;
-  title: string;
-  description: string;
-  earnedAt: Date;
-  points: number;
-  rarity: 'common' | 'rare' | 'epic' | 'legendary';
-}
-
-export interface Challenge {
-  id: string;
-  title: string;
-  description: string;
-  progress: number;
-  target: number;
-  reward: number;
-  expiresAt: Date;
-}
-
-export interface FriendActivity {
-  userId: string;
-  userName: string;
-  action: string;
-  timestamp: Date;
-}
+import {
+  UserStats,
+  DailyQuest,
+  XPEventType,
+  XPResult,
+  LeaderboardEntry,
+  LeaderboardType,
+  GamificationApiResponse,
+  DashboardStats,
+  Achievement,
+  Mission as Challenge,
+  FriendActivity
+} from '@/types/gamification';
 
 export interface UserGamificationStats {
   level: number;
@@ -66,14 +37,6 @@ export interface Title {
   isMain: boolean;
 }
 
-export interface LeaderboardEntry {
-  userId: string;
-  userName: string;
-  points: number;
-  level: number;
-  rank: number;
-}
-
 class GamificationAPI {
   private getAuthHeaders(): HeadersInit {
     const token = localStorage.getItem('token');
@@ -97,18 +60,22 @@ class GamificationAPI {
     // Convert date strings to Date objects
     return {
       ...data,
-      recentAchievements: data.recentAchievements.map((a: any) => ({
+      recentAchievements: data.recentAchievements?.map((a: any) => ({
         ...a,
-        earnedAt: new Date(a.earnedAt)
-      })),
-      upcomingChallenges: data.upcomingChallenges.map((c: any) => ({
+        unlockedAt: a.unlockedAt ? new Date(a.unlockedAt) : undefined
+      })) || [],
+      challenges: data.challenges?.map((c: any) => ({
         ...c,
-        expiresAt: new Date(c.expiresAt)
-      })),
-      friendsActivity: data.friendsActivity?.map((f: any) => ({
-        ...f,
-        timestamp: new Date(f.timestamp)
-      }))
+        expiresAt: c.expiresAt ? new Date(c.expiresAt) : undefined
+      })) || [],
+      recentActivities: data.recentActivities?.map((a: any) => ({
+        ...a,
+        createdAt: new Date(a.createdAt)
+      })) || [],
+      recentExhibitions: data.recentExhibitions?.map((e: any) => ({
+        ...e,
+        visitDate: new Date(e.visitDate)
+      })) || []
     };
   }
 
@@ -124,7 +91,7 @@ class GamificationAPI {
     const data = await response.json();
     return data.map((a: any) => ({
       ...a,
-      earnedAt: new Date(a.earnedAt)
+      unlockedAt: a.unlockedAt ? new Date(a.unlockedAt) : undefined
     }));
   }
 
@@ -140,20 +107,14 @@ class GamificationAPI {
     const data = await response.json();
     return data.map((c: any) => ({
       ...c,
-      expiresAt: new Date(c.expiresAt)
+      expiresAt: c.expiresAt ? new Date(c.expiresAt) : undefined
     }));
   }
 
-  async getLeaderboard(timeframe: 'daily' | 'weekly' | 'monthly' | 'all'): Promise<{
+  async getLeaderboard(timeframe: LeaderboardType): Promise<{
     rank: number;
     total: number;
-    topUsers: Array<{
-      rank: number;
-      userId: string;
-      userName: string;
-      points: number;
-      level: number;
-    }>;
+    topUsers: LeaderboardEntry[];
   }> {
     const response = await fetch(
       `${API_CONFIG.baseUrl}/api/gamification/leaderboard?timeframe=${timeframe}`,
@@ -229,6 +190,7 @@ class GamificationAPI {
         data: {
           level: 1,
           levelName: '첫 발걸음',
+          levelName_ko: '첫 발걸음',
           currentPoints: 0,
           totalPoints: 0,
           nextLevelPoints: 100,
@@ -237,9 +199,20 @@ class GamificationAPI {
           averageDuration: 0,
           mainTitle: '새로운 탐험가',
           recentAchievements: [],
-          upcomingChallenges: [],
+          challenges: [],
           leaderboardRank: 0,
-          friendsActivity: []
+          friendsActivity: [],
+          recentActivities: [],
+          recentExhibitions: [],
+          evaluationStats: {
+            totalEvaluations: 0,
+            averageRating: 0
+          },
+          stats: {
+            totalVisits: 0,
+            totalTime: 0,
+            favoriteArtist: undefined
+          }
         }
       };
     }
@@ -479,6 +452,181 @@ class GamificationAPI {
     return () => {
       eventSource.close();
     };
+  }
+
+  // Additional methods for hooks
+  async getUserStats(): Promise<UserStats> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/stats`, {
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch user stats');
+    }
+
+    return response.json();
+  }
+
+  async getDailyQuests(): Promise<DailyQuest[]> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/quests/daily`, {
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch daily quests');
+    }
+
+    return response.json();
+  }
+
+  async earnXP(eventType: XPEventType, metadata?: any): Promise<XPResult> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/xp`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify({ eventType, metadata }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to earn XP');
+    }
+
+    return response.json();
+  }
+
+  async getUserProfile(userId: string): Promise<UserStats> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/profile/${userId}`, {
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch user profile');
+    }
+
+    return response.json();
+  }
+
+  async processDailyLogin(): Promise<{ data: XPResult }> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/daily-login`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to process daily login');
+    }
+
+    return response.json();
+  }
+
+  async recordArtworkView(artworkId: string): Promise<XPResult> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/artwork-view`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify({ artworkId }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to record artwork view');
+    }
+
+    return response.json();
+  }
+
+  async recordQuizCompletion(quizId: string, score: number): Promise<XPResult> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/quiz-complete`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify({ quizId, score }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to record quiz completion');
+    }
+
+    return response.json();
+  }
+
+  async recordFollowUser(followedUserId: string): Promise<XPResult> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/follow-user`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify({ followedUserId }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to record follow user');
+    }
+
+    return response.json();
+  }
+
+  async recordArtworkShare(artworkId: string, platform: string): Promise<XPResult> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/share-artwork`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify({ artworkId, platform }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to record artwork share');
+    }
+
+    return response.json();
+  }
+
+  async recordAIProfileCreation(): Promise<XPResult> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/ai-profile-create`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to record AI profile creation');
+    }
+
+    return response.json();
+  }
+
+  async recordExhibitionVisit(exhibitionId: string, duration: number): Promise<XPResult> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/exhibition-visit`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify({ exhibitionId, duration }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to record exhibition visit');
+    }
+
+    return response.json();
+  }
+
+  async recordReviewWrite(exhibitionId: string, rating: number): Promise<XPResult> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/review-write`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify({ exhibitionId, rating }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to record review write');
+    }
+
+    return response.json();
+  }
+
+  async initializeUser(userId: string): Promise<UserStats> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/initialize`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify({ userId }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to initialize user');
+    }
+
+    return response.json();
   }
 }
 

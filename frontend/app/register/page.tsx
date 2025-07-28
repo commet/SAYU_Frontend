@@ -35,7 +35,7 @@ function RegisterContent() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
-  const { register } = useAuth();
+  const { signUp } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const { language } = useLanguage();
@@ -75,7 +75,7 @@ function RegisterContent() {
     setLoading(true);
     
     try {
-      await register({ name, email, password });
+      await signUp(email, password, { full_name: name });
       toast.success(language === 'ko' ? '회원가입 성공!' : 'Registration successful!');
       router.push('/quiz');
     } catch (error) {

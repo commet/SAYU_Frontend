@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Heart, TrendingUp, Clock, Grid, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { artProfileAPI } from '@/lib/art-profile-api';
-import { ArtProfileGalleryItem } from '@sayu/shared';
+import { ArtProfileGalleryItem } from '../../../shared';
 import Link from 'next/link';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 

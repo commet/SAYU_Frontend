@@ -7,7 +7,7 @@ import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { apiClient } from '@/lib/api-client';
 import { ChevronRight, Users, Heart } from 'lucide-react';
-import { PublicDomainArtist, LicensedArtist, ContemporaryArtist, VerifiedArtist } from '@sayu/shared';
+import { PublicDomainArtist, LicensedArtist, ContemporaryArtist, VerifiedArtist } from '../../../shared';
 import { BackendArtist, adaptArtistsFromBackend } from '@/lib/artist-adapter';
 
 type Artist = PublicDomainArtist | LicensedArtist | ContemporaryArtist | VerifiedArtist;

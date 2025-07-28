@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Heart, MessageCircle, Users } from 'lucide-react';
-import type { ArtPulseSession, EmotionType } from '@sayu/shared';
+import type { ArtPulseSession, EmotionType } from '../../../shared';
 
 interface OptimizedArtPulseProps {
   session: ArtPulseSession;

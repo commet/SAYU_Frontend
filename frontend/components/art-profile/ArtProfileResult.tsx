@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Download, Share2, RefreshCw, Heart, Instagram, Save } from 'lucide-react';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { ArtProfileResult as ArtProfileResultType } from '@sayu/shared';
+import { ArtProfileResult as ArtProfileResultType } from '../../../shared';
 import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
 import html2canvas from 'html2canvas';

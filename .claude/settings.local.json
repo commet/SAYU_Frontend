@@ -19,7 +19,10 @@
       "Bash(powershell:*)",
       "Bash(npx eslint:*)",
       "Bash(npx @sentry/wizard@latest:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(npm run typecheck:*)",
+      "Bash(npm run build:*)",
+      "Bash(npx tsc:*)"
     ],
     "deny": []
   }

@@ -13,7 +13,8 @@ import {
   Users,
   ArrowRight,
   Download,
-  Star
+  Star,
+  Heart
 } from 'lucide-react';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { getAnimalByType } from '@/data/personality-animals';
@@ -188,13 +189,15 @@ function ResultsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { language } = useLanguage();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [results, setResults] = useState<QuizResults | null>(null);
   const [personality, setPersonality] = useState<any>(null);
   const [animalCharacter, setAnimalCharacter] = useState<any>(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showAPTReveal, setShowAPTReveal] = useState(true);
   const [showChatbot, setShowChatbot] = useState(false);
+  const [showProfileCard, setShowProfileCard] = useState(false);
+  const { dashboard: gamificationData } = useGamificationDashboard();
 
   useEffect(() => {
     const storedResults = localStorage.getItem('quizResults');
@@ -372,14 +375,14 @@ function ResultsContent() {
             className="flex flex-wrap justify-center gap-sm mb-xl"
           >
             <button
-              onClick={shareResult}
+              onClick={() => console.log('Share result')}
               className="flex items-center gap-xs px-md py-sm bg-primary text-white rounded-md hover:bg-primary-dark transition-colors duration-base font-medium text-sm"
             >
               <Share2 size={14} />
               {language === 'ko' ? '결과 공유' : 'Share'}
             </button>
             <button
-              onClick={showProfile}
+              onClick={() => console.log('Show profile')}
               className="flex items-center gap-xs px-md py-sm bg-off-white text-black border border-gray rounded-md hover:bg-light-gray transition-colors duration-base font-medium text-sm"
             >
               <User size={14} />
@@ -822,7 +825,7 @@ function ResultsContent() {
           <div className="flex justify-center gap-4 flex-wrap">
             <EmotionalButton
               variant="primary"
-              onClick={shareResult}
+              onClick={() => console.log('Share result')}
               personality={results.personalityType}
             >
               <Share2 className="w-5 h-5" />
@@ -830,7 +833,7 @@ function ResultsContent() {
             </EmotionalButton>
             <EmotionalButton
               variant="secondary"
-              onClick={showProfile}
+              onClick={() => console.log('Show profile')}
               personality={results.personalityType}
             >
               <User className="w-5 h-5" />
@@ -865,11 +868,11 @@ function ResultsContent() {
           userPoints={gamificationData?.totalPoints || 0}
           stats={{
             exhibitionsVisited: gamificationData?.exhibitionHistory?.length || 0,
-            achievementsUnlocked: gamificationData?.achievements?.filter(a => a.earnedAt).length || 0,
+            achievementsUnlocked: gamificationData?.achievements?.filter((a: any) => a.earnedAt).length || 0,
             companionsMetCount: 0 // This would come from evaluation system
           }}
           recentExhibitions={
-            gamificationData?.recentExhibitions?.slice(0, 3).map(visit => ({
+            gamificationData?.recentExhibitions?.slice(0, 3).map((visit: any) => ({
               name: visit.exhibitionName,
               date: new Date(visit.visitDate).toLocaleDateString()
             })) || []
@@ -879,7 +882,7 @@ function ResultsContent() {
             { name: 'Van Gogh Alive', venue: 'DDP' }
           ]}
           topAchievements={
-            gamificationData?.achievements?.filter(a => a.earnedAt).slice(0, 3).map(achievement => ({
+            gamificationData?.achievements?.filter((a: any) => a.earnedAt).slice(0, 3).map((achievement: any) => ({
               name: language === 'ko' ? achievement.nameKo : achievement.name,
               icon: achievement.icon
             })) || []

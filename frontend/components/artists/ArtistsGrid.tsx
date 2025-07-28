@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Filter, Grid, List } from 'lucide-react';
-import { Artist, CopyrightStatus } from '@sayu/shared';
+import { Artist, CopyrightStatus } from '../../../shared';
 import { ArtistCard } from './ArtistCard';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';

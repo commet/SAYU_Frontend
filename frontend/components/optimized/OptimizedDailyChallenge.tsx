@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Sparkles, Clock } from 'lucide-react';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
-import type { DailyChallenge } from '@sayu/shared';
+import type { DailyChallenge } from '../../../shared';
 
 interface OptimizedDailyChallengeProps {
   challenge: DailyChallenge;

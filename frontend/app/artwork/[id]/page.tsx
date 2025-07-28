@@ -489,17 +489,22 @@ export default function ArtworkDetailPage() {
               onMouseLeave={handleMouseUp}
               style={{ cursor: zoomLevel > 1 ? 'grab' : 'default' }}
             >
-              <OptimizedImage
-                src={artwork.highResImageUrl || artwork.imageUrl}
-                alt={artwork.title}
-                width={1200}
-                height={900}
-                className="max-w-full max-h-[90vh] object-contain"
+              <div
                 style={{
                   transform: `scale(${zoomLevel}) translate(${imagePosition.x / zoomLevel}px, ${imagePosition.y / zoomLevel}px)`,
                   transition: isDragging ? 'none' : 'transform 0.2s ease-out'
-                }} placeholder="blur" quality={90}
-              />
+                }}
+              >
+                <OptimizedImage
+                  src={artwork.highResImageUrl || artwork.imageUrl}
+                  alt={artwork.title}
+                  width={1200}
+                  height={900}
+                  className="max-w-full max-h-[90vh] object-contain"
+                  placeholder="blur"
+                  quality={90}
+                />
+              </div>
             </div>
 
             {/* Zoom Level Indicator */}

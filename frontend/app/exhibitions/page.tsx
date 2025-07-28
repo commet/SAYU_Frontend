@@ -355,14 +355,16 @@ export default function ExhibitionsPage() {
                     {/* Add to Calendar Button */}
                     <AddToCalendarButton
                       exhibition={{
+                        id: exhibition.id,
                         title: exhibition.title,
+                        institution_name: exhibition.venue_name,
+                        address: exhibition.venues?.name || exhibition.venue_name,
+                        city: exhibition.venue_city,
+                        start_date: exhibition.start_date,
+                        end_date: exhibition.end_date,
                         description: exhibition.description,
-                        venue: `${exhibition.venue_name}, ${exhibition.venue_city}`,
-                        startDate: new Date(exhibition.start_date),
-                        endDate: new Date(exhibition.end_date),
-                        url: exhibition.venues.website || `${window.location.origin}/exhibitions/${exhibition.id}`
+                        website_url: exhibition.venues?.website || `${window.location.origin}/exhibitions/${exhibition.id}`
                       }}
-                      className="w-full"
                       variant="minimal"
                       size="sm"
                     />

@@ -17,7 +17,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { dailyChallengeApi } from '@/lib/api/daily-challenge';
 import { useToast } from '@/hooks/use-toast';
 import { EMOTION_TAGS } from '@/types/collection';
-import type { DailyChallenge } from '@sayu/shared';
+import type { DailyChallenge } from '../../../shared';
 import { cn } from '@/lib/utils';
 
 interface EmotionSelectorProps {

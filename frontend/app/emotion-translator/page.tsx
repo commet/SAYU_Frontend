@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import EmotionTranslator from '@/components/emotion/EmotionTranslator';
-import { EmotionInput, ArtworkMatch } from '@sayu/shared';
+import { EmotionInput, ArtworkMatch } from '@/types/emotion-translation';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';

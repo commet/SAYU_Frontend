@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import toast from 'react-hot-toast';
 import * as gamificationApi from '@/lib/gamification-api';
 import type { XPEventType, LeaderboardType } from '@/types/gamification';
 
@@ -119,7 +119,7 @@ export function useRecordArtworkView() {
     onSuccess: (data) => {
       if (data) {
         earnXP.mutate({ 
-          eventType: 'VIEW_ARTWORK', 
+          eventType: 'VIEW_ARTWORK' as XPEventType, 
           metadata: { artworkId: data.userId } 
         });
       }
@@ -153,7 +153,7 @@ export function useRecordFollow() {
     onSuccess: (data) => {
       if (data) {
         earnXP.mutate({ 
-          eventType: 'FOLLOW_USER', 
+          eventType: 'FOLLOW_USER' as XPEventType, 
           metadata: { targetUserId: data.userId } 
         });
       }
@@ -173,7 +173,7 @@ export function useRecordShare() {
     onSuccess: (data) => {
       if (data) {
         earnXP.mutate({ 
-          eventType: 'SHARE_ARTWORK', 
+          eventType: 'SHARE_ARTWORK' as XPEventType, 
           metadata: { artworkId: data.userId } 
         });
         toast.success('공유 완료! XP를 획득했습니다.');

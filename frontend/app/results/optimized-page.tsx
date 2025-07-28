@@ -397,7 +397,6 @@ function OptimizedResultsContent() {
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
         personalityType={results.personalityType}
-        animalEmoji={animalCharacter.emoji}
         userName={user?.nickname || 'SAYU User'}
       />
 

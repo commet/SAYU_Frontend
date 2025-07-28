@@ -24,8 +24,8 @@ import {
   TIME_SLOT_OPTIONS, 
   VIEWING_PACE_OPTIONS, 
   INTERACTION_STYLE_OPTIONS 
-} from '@sayu/shared';
-import type { Exhibition, CompanionRequest } from '@sayu/shared';
+} from '../../../shared';
+import type { Exhibition, CompanionRequest } from '../../../shared';
 import { format, isSameDay } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { cn } from '@/lib/utils';

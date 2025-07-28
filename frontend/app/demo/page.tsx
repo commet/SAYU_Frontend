@@ -112,6 +112,7 @@ export default function DemoPage() {
                   identity={userIdentity}
                   evolutionStage={userIdentity.evolutionStage}
                   evolutionPoints={userIdentity.evolutionPoints}
+                  onUpdate={(update: any) => console.log('Identity update:', update)}
                   journeyMarkers={[
                     {
                       date: '2024-01-15',
@@ -125,7 +126,7 @@ export default function DemoPage() {
                       type: 'community',
                       impact: 'Found Home'
                     }
-                  ]}
+                  ] as any}
                   customizations={{
                     motto: 'Art speaks in whispers',
                     badges: ['Quiz Master', 'Village Explorer']

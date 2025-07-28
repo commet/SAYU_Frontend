@@ -232,7 +232,7 @@ export default function QuizIntroPage() {
       <WelcomeModal 
         isOpen={showWelcomeModal}
         onClose={() => setShowWelcomeModal(false)}
-        userName={user?.nickname}
+        userName={user?.nickname || undefined}
         onPurposeSelected={handlePurposeSelected}
       />
     </div>

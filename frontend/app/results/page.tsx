@@ -875,12 +875,12 @@ function ResultsContent() {
           userLevel={gamificationData?.level || 1}
           userPoints={gamificationData?.totalPoints || 0}
           stats={{
-            exhibitionsVisited: gamificationData?.exhibitionHistory?.length || 0,
-            achievementsUnlocked: gamificationData?.achievements?.filter(a => a.earnedAt).length || 0,
+            exhibitionsVisited: gamificationData?.totalExhibitions || 0,
+            achievementsUnlocked: gamificationData?.achievements?.filter((a: any) => a.unlockedAt).length || 0,
             companionsMetCount: 0 // This would come from evaluation system
           }}
           recentExhibitions={
-            gamificationData?.recentExhibitions?.slice(0, 3).map(visit => ({
+            gamificationData?.recentExhibitions?.slice(0, 3).map((visit: any) => ({
               name: visit.exhibitionName,
               date: new Date(visit.visitDate).toLocaleDateString()
             })) || []
@@ -890,8 +890,8 @@ function ResultsContent() {
             { name: 'Van Gogh Alive', venue: 'DDP' }
           ]}
           topAchievements={
-            gamificationData?.achievements?.filter(a => a.earnedAt).slice(0, 3).map(achievement => ({
-              name: language === 'ko' ? achievement.nameKo : achievement.name,
+            gamificationData?.achievements?.filter((a: any) => a.unlockedAt).slice(0, 3).map((achievement: any) => ({
+              name: language === 'ko' ? achievement.name_ko : achievement.name,
               icon: achievement.icon
             })) || []
           }

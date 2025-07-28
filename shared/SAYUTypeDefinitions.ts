@@ -488,6 +488,9 @@ export const VALID_TYPE_CODES = Object.freeze(Object.keys(SAYU_TYPES)) as readon
 export type SAYUTypeCode = keyof typeof SAYU_TYPES;
 export type SAYUFunctionCode = keyof typeof SAYU_FUNCTIONS;
 
+// Alias for compatibility
+export type PersonalityType = SAYUTypeCode;
+
 // Validation functions
 export function isValidSAYUType(typeCode: string): typeCode is SAYUTypeCode {
   return typeCode in SAYU_TYPES;

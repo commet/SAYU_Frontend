@@ -9,7 +9,7 @@ import ReflectionsList from '@/components/exhibition/ReflectionsList';
 import ReflectionForm from '@/components/exhibition/ReflectionForm';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useUser } from '@/hooks/use-user';
-import { Modal } from '@/components/ui/modal';
+import { Modal, ModalContent, ModalHeader, ModalTitle } from '@/components/ui/modal';
 
 export default function ReflectionsPage() {
   const { language } = useLanguage();
@@ -113,10 +113,13 @@ export default function ReflectionsPage() {
 
       {/* New Reflection Modal */}
       <Modal
-        isOpen={showNewReflection}
-        onClose={() => setShowNewReflection(false)}
-        title={language === 'ko' ? '새 성찰 작성' : 'New Reflection'}
+        open={showNewReflection}
+        onOpenChange={setShowNewReflection}
       >
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>{language === 'ko' ? '새 성찰 작성' : 'New Reflection'}</ModalTitle>
+          </ModalHeader>
         <ReflectionForm
           exhibitionName=""
           onComplete={() => {
@@ -125,6 +128,7 @@ export default function ReflectionsPage() {
             window.location.reload();
           }}
         />
+        </ModalContent>
       </Modal>
     </div>
   );

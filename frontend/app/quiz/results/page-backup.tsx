@@ -277,7 +277,7 @@ function ResultsContent() {
                 당신의 강점
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {displayData.strengths[language].map((strength, index) => (
+                {displayData.strengths[language].map((strength: any, index: number) => (
                   <motion.div 
                     key={index} 
                     initial={{ opacity: 0, x: -20 }}
@@ -318,7 +318,7 @@ function ResultsContent() {
                       선호 사조
                     </h4>
                     <div className="flex flex-wrap gap-3">
-                      {displayData.artPreferences.movements.map((movement, index) => {
+                      {displayData.artPreferences.movements.map((movement: any, index: number) => {
                         const translatedMovement = getTranslatedText('movements', movement, language);
                         const emoji = getArtEmoji('movements', movement);
                         return (
@@ -349,7 +349,7 @@ function ResultsContent() {
                       색상 팔레트
                     </h4>
                     <div className="flex flex-wrap gap-3">
-                      {displayData.artPreferences.colors.map((color, index) => {
+                      {displayData.artPreferences.colors.map((color: any, index: number) => {
                         const translatedColor = getTranslatedText('colors', color, language);
                         const colorCodes = getColorCodes(color);
                         return (
@@ -388,7 +388,7 @@ function ResultsContent() {
                       관심 주제
                     </h4>
                     <div className="flex flex-wrap gap-3">
-                      {displayData.artPreferences.themes.map((theme, index) => {
+                      {displayData.artPreferences.themes.map((theme: any, index: number) => {
                         const translatedTheme = getTranslatedText('themes', theme, language);
                         const emoji = getArtEmoji('themes', theme);
                         return (
@@ -463,11 +463,11 @@ function ResultsContent() {
                   </p>
                   
                   {/* Additional Works Preview */}
-                  {artworkRecommendations.additionalWorks && artworkRecommendations.additionalWorks.length > 0 && (
+                  {'additionalWorks' in artworkRecommendations && artworkRecommendations.additionalWorks && artworkRecommendations.additionalWorks.length > 0 && (
                     <div className="mt-6">
                       <p className="text-sm text-white/60 mb-3">다른 추천 작품들:</p>
                       <div className="flex gap-3">
-                        {artworkRecommendations.additionalWorks.slice(0, 3).map((work, index) => (
+                        {artworkRecommendations?.additionalWorks?.slice(0, 3).map((work: any, index: number) => (
                           <motion.div
                             key={index}
                             initial={{ opacity: 0, y: 10 }}

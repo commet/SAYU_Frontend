@@ -115,7 +115,7 @@ export default function HomePage() {
       name: language === 'ko' ? '나의 컬렉션' : 'My Collection',
       icon: '📚',
       path: '/profile',
-      status: user ? 'available' : 'locked',
+      status: (user ? 'available' : 'locked') as 'available' | 'locked',
       description: language === 'ko' ? '좋아한 작품들을 모아보세요' : 'Collect your favorite artworks',
       category: 'personal'
     },
@@ -123,7 +123,7 @@ export default function HomePage() {
       name: language === 'ko' ? '전시 일기' : 'Exhibition Diary',
       icon: '📝',
       path: '/exhibition/record',
-      status: user ? 'available' : 'locked',
+      status: (user ? 'available' : 'locked') as 'available' | 'locked',
       description: language === 'ko' ? '관람 경험을 기록하세요' : 'Record your viewing experiences',
       category: 'personal'
     },
@@ -131,7 +131,7 @@ export default function HomePage() {
       name: language === 'ko' ? '커뮤니티' : 'Community',
       icon: '👥',
       path: '/community',
-      status: user ? 'available' : 'locked',
+      status: (user ? 'available' : 'locked') as 'available' | 'locked',
       description: language === 'ko' ? '비슷한 취향의 사람들과 소통' : 'Connect with similar tastes',
       category: 'personal'
     }

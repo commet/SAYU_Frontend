@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
-import { EmotionType, EMOTION_CONFIGS } from '@sayu/shared';
+import { EmotionType, EMOTION_CONFIGS } from '../../../shared';
 import { cn } from '@/lib/utils';
 
 interface EmotionSelectorProps {

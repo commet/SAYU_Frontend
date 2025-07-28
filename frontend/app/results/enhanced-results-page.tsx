@@ -36,13 +36,14 @@ function ArtveeRecommendationSection({
   personality: any;
 }) {
   const { language } = useLanguage();
-  const { data: artworks, isLoading } = usePersonalityArtworks(personalityType);
+  const { data: artworksData, isLoading } = usePersonalityArtworks(personalityType);
+  const artworks = (artworksData as any)?.data || [];
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // 작품 3개씩 보여주기
   const itemsPerPage = 3;
-  const totalPages = Math.ceil((artworks?.length || 0) / itemsPerPage);
-  const currentArtworks = artworks?.slice(
+  const totalPages = Math.ceil((artworks.length || 0) / itemsPerPage);
+  const currentArtworks = artworks.slice(
     currentIndex * itemsPerPage, 
     (currentIndex + 1) * itemsPerPage
   ) || [];
@@ -87,7 +88,7 @@ function ArtveeRecommendationSection({
             {/* 작품 캐러셀 */}
             <div className="relative">
               <div className="grid md:grid-cols-3 gap-8 mb-8">
-                {currentArtworks.map((artwork, index) => (
+                {currentArtworks.map((artwork: any, index: number) => (
                   <motion.div
                     key={artwork.artveeId}
                     initial={{ opacity: 0, y: 20 }}
@@ -205,7 +206,7 @@ function getArtworkConnection(personalityType: string, artwork: any, language: '
     // ... 다른 유형들 추가
   };
 
-  return connections[personalityType]?.[language] || 
+  return (connections as any)[personalityType]?.[language] || 
     (language === 'ko' ? '당신의 예술적 감성과 잘 어울리는 작품입니다' : 'This artwork aligns well with your artistic sensibility');
 }
 

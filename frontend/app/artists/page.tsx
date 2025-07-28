@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Artist } from '@sayu/shared';
+import { Artist } from '@/types/artist';
 import { ArtistsGrid } from '@/components/artists/ArtistsGrid';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useArtistFollow } from '@/hooks/useArtistFollow';

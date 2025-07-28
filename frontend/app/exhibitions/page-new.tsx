@@ -419,12 +419,14 @@ export default function ExhibitionsPage() {
       </Tabs>
 
       {/* Create Request Component */}
-      {showCreateModal && (
+      {showCreateModal && selectedExhibition && (
         <CreateCompanionRequest
+          isOpen={showCreateModal}
+          exhibition={selectedExhibition}
           onClose={() => setShowCreateModal(false)}
           onSuccess={() => {
             setShowCreateModal(false);
-            handleCreateRequest();
+            loadExhibitionData();
           }}
         />
       )}

@@ -18,7 +18,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { perceptionExchangeApi } from '@/lib/api/perception-exchange';
 import { useToast } from '@/hooks/use-toast';
-import { PHASE_INFO } from '@sayu/shared';
+import { PHASE_INFO } from '../../../shared';
 
 interface ExchangeInviteModalProps {
   isOpen: boolean;

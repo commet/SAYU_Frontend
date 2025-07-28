@@ -3,7 +3,7 @@
 import { useState, memo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, ExternalLink, Calendar, MapPin, Palette } from 'lucide-react';
-import { Artist, ArtistColorPalette } from '@sayu/shared';
+import { Artist, ArtistColorPalette } from '../../../shared';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';

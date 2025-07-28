@@ -5,7 +5,7 @@ import type {
   ArtPulseAnalytics,
   TouchData,
   ResonanceData 
-} from '@sayu/shared';
+} from '../../../shared';
 
 export class ArtPulseAPI {
   // 오늘의 Art Pulse 세션 가져오기

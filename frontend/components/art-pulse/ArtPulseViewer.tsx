@@ -16,7 +16,7 @@ import {
   ArtPulseReflection,
   TypingIndicator,
   ArtPulseSocketEvents
-} from '@sayu/shared';
+} from '../../../shared';
 import { EmotionBubbleCanvas } from './EmotionBubbleCanvas';
 import { ReflectionFeed } from './ReflectionFeed';
 import { EmotionSelector } from './EmotionSelector';

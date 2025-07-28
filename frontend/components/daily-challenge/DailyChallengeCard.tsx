@@ -10,7 +10,7 @@ import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import { dailyChallengeApi } from '@/lib/api/daily-challenge';
 import { useToast } from '@/hooks/use-toast';
-import type { DailyChallenge, ChallengeProgressState } from '@sayu/shared';
+import type { DailyChallenge, ChallengeProgressState } from '../../../shared';
 import { EmotionSelector } from './EmotionSelector';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
