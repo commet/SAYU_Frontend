@@ -44,78 +44,83 @@
   animation-delay: 4s;
 }
 
-/* 🎯 CSS Custom Properties - Design Token System (2024-2025 Trends) */
+/* SAYU 색상 조합 시스템 */
 :root {
-  /* === LIGHT MODE BASE COLORS === */
-  --color-background-primary: 255 255 255;      /* hsl(0, 0%, 100%) */
-  --color-background-secondary: 249 249 249;    /* hsl(0, 0%, 98%) */
-  --color-background-tertiary: 245 245 245;     /* hsl(0, 0%, 96%) */
-  --color-background-inverse: 10 10 10;         /* hsl(0, 0%, 4%) */
+  /* === 따뜻하고 부드러운 조합 === */
+  --warm-soft-1-primary: 245 217 196;    /* Peach Breeze */
+  --warm-soft-1-secondary: 186 152 212;  /* Lavender Dream */
   
-  --color-foreground-primary: 23 23 23;         /* hsl(0, 0%, 9%) */
-  --color-foreground-secondary: 115 115 115;    /* hsl(0, 0%, 45%) */
-  --color-foreground-tertiary: 166 166 166;     /* hsl(0, 0%, 65%) */
-  --color-foreground-inverse: 250 250 250;      /* hsl(0, 0%, 98%) */
+  --warm-soft-2-primary: 244 207 163;    /* Apricot Whisper */
+  --warm-soft-2-secondary: 245 123 40;   /* Tangerine Zest */
   
-  --color-surface-default: 255 255 255;         /* hsl(0, 0%, 100%) */
-  --color-surface-elevated: 249 249 249;        /* hsl(0, 0%, 98%) */
-  --color-surface-overlay: 255 255 255 / 0.9;   /* hsla(0, 0%, 100%, 0.9) */
-  --color-surface-glass: 255 255 255 / 0.7;     /* hsla(0, 0%, 100%, 0.7) */
+  --warm-soft-3-primary: 246 198 194;    /* Peppermint Pink */
+  --warm-soft-3-secondary: 98 112 159;   /* Silent Night */
   
-  --color-border-default: 232 232 232;          /* hsl(0, 0%, 91%) */
-  --color-border-muted: 240 240 240;            /* hsl(0, 0%, 94%) */
-  --color-border-strong: 204 204 204;           /* hsl(0, 0%, 80%) */
-  --color-border-focus: 59 130 206;             /* hsl(211, 65%, 45%) */
+  --warm-soft-4-primary: 229 200 205;    /* Tea Rose */
+  --warm-soft-4-secondary: 78 114 76;    /* Fern Green */
   
-  /* === SAYU BRAND COLORS === */
-  --color-brand-primary: 245 123 40;            /* Tangerine Zest - Energy & Warmth */
-  --color-brand-secondary: 49 36 62;            /* Dark Purple - Depth & Sophistication */
-  --color-brand-tertiary: 186 152 212;          /* Lavender Dream - Creativity & Imagination */
-  --color-brand-accent: 240 86 146;             /* Double Bounce - Vibrance & Joy */
-  --color-brand-muted: 83 83 80;                /* Urban Smoke - Subtle & Calm */
+  /* === 차분하고 세련된 조합 === */
+  --calm-elegant-1-primary: 195 201 141;   /* Sage */
+  --calm-elegant-1-secondary: 49 36 62;   /* Dark Purple */
   
-  /* === SAYU COLOR PALETTE === */
-  /* Warm & Soft Combinations */
-  --sayu-peach-breeze: 245 217 196;
-  --sayu-lavender-dream: 186 152 212;
-  --sayu-apricot-whisper: 244 207 163;
-  --sayu-tangerine-zest: 245 123 40;
-  --sayu-peppermint-pink: 246 198 194;
-  --sayu-silent-night: 98 112 159;
-  --sayu-tea-rose: 229 200 205;
-  --sayu-fern-green: 78 114 76;
+  --calm-elegant-2-primary: 64 85 75;     /* Dusty Jupiter */
+  --calm-elegant-2-secondary: 214 239 132; /* Lime Cream */
   
-  /* Calm & Sophisticated Combinations */
-  --sayu-sage: 195 201 141;
-  --sayu-dark-purple: 49 36 62;
-  --sayu-dusty-jupiter: 64 85 75;
-  --sayu-lime-cream: 214 239 132;
-  --sayu-dusty-mauve: 119 107 117;
-  --sayu-ivory-mist: 240 237 233;
-  --sayu-powder-blue: 169 199 236;
-  --sayu-urban-smoke: 83 83 80;
+  --calm-elegant-3-primary: 119 107 117;  /* Dusty Mauve */
+  --calm-elegant-3-secondary: 240 237 233; /* Ivory Mist */
   
-  /* Vibrant & Energetic Combinations */
-  --sayu-match-point: 218 222 85;
-  --sayu-double-bounce: 240 86 146;
-  --sayu-soft-melon: 246 207 181;
-  --sayu-astral-blue: 25 27 71;
-  --sayu-ucla-blue: 83 104 149;
-  --sayu-pearl: 219 218 190;
+  --calm-elegant-4-primary: 169 199 236;  /* Powder Blue */
+  --calm-elegant-4-secondary: 83 83 80;   /* Urban Smoke */
   
-  /* SAYU Background & Text Colors */
-  --sayu-bg-primary: 240 237 233;               /* Ivory Mist */
-  --sayu-bg-secondary: 219 218 190;             /* Pearl */
-  --sayu-bg-card: 250 250 248;                  /* Soft White */
-  --sayu-text-primary: 49 36 62;                /* Dark Purple */
-  --sayu-text-secondary: 83 83 80;              /* Urban Smoke */
-  --sayu-text-muted: 119 107 117;               /* Dusty Mauve */
+  /* === 대비가 강한 활기찬 조합 === */
+  --vibrant-contrast-1-primary: 218 222 85;  /* Match Point */
+  --vibrant-contrast-1-secondary: 240 86 146; /* Double Bounce */
   
-  /* === FUNCTIONAL COLORS === */
-  --color-success: 34 197 94;                   /* Green */
-  --color-warning: 245 158 11;                  /* Orange */
-  --color-error: 239 68 68;                     /* Red */
-  --color-info: 59 130 206;                     /* Blue */
+  --vibrant-contrast-2-primary: 246 207 181; /* Soft Melon */
+  --vibrant-contrast-2-secondary: 25 27 71;  /* Astral Blue */
+  
+  --vibrant-contrast-3-primary: 83 104 149;  /* UCLA Blue */
+  --vibrant-contrast-3-secondary: 219 218 190; /* Pearl */
+  
+  /* === 기본 시스템 색상 (심플) === */
+  --background: 255 255 255;
+  --foreground: 23 23 23;
+  --muted: 249 249 249;
+  --muted-foreground: 115 115 115;
+  --border: 232 232 232;
+  --input: 232 232 232;
+  --ring: 59 130 206;
+  
+  /* === 현재 활성 테마 (기본: 따뜻하고 부드러운 1번) === */
+  --primary: var(--warm-soft-1-primary);
+  --primary-foreground: 255 255 255;
+  --secondary: var(--warm-soft-1-secondary);
+  --secondary-foreground: 255 255 255;
+  --accent: var(--warm-soft-1-secondary);
+  --accent-foreground: 49 36 62;
+  
+  /* === 카드 & 팝오버 === */
+  --card: var(--background);
+  --card-foreground: var(--foreground);
+  --popover: var(--background);
+  --popover-foreground: var(--foreground);
+  
+  /* === 상태 색상 === */
+  --destructive: 239 68 68;
+  --destructive-foreground: 255 255 255;
+  
+  /* === 차트 색상 === */
+  --chart-1: var(--primary);
+  --chart-2: var(--secondary);
+  --chart-3: var(--accent);
+  --chart-4: var(--muted);
+  --chart-5: var(--destructive);
+  
+  /* === 기능색상 === */
+  --success: 34 197 94;
+  --warning: 245 158 11;
+  --error: 239 68 68;
+  --info: 59 130 206;
   
   /* === TYPOGRAPHY (Variable Font System) === */
   --font-heading: "Playfair Display", serif;
@@ -241,157 +246,46 @@
   --gradient-hero: linear-gradient(135deg, rgb(59 130 206 / 0.1), rgb(230 57 70 / 0.1), rgb(241 196 15 / 0.1));
 }
 
-/* 🌚 DARK MODE OVERRIDES */
+/* 다크 모드 */
 .dark {
-  --color-background-primary: 10 10 10;         /* hsl(0, 0%, 4%) */
-  --color-background-secondary: 20 20 20;       /* hsl(0, 0%, 8%) */
-  --color-background-tertiary: 31 31 31;        /* hsl(0, 0%, 12%) */
-  --color-background-inverse: 250 250 250;      /* hsl(0, 0%, 98%) */
+  --background: 10 10 10;
+  --foreground: 250 250 250;
+  --muted: 31 31 31;
+  --muted-foreground: 179 179 179;
+  --border: 51 51 51;
+  --input: 51 51 51;
+  --ring: 96 165 250;
   
-  --color-foreground-primary: 250 250 250;      /* hsl(0, 0%, 98%) */
-  --color-foreground-secondary: 179 179 179;    /* hsl(0, 0%, 70%) */
-  --color-foreground-tertiary: 128 128 128;     /* hsl(0, 0%, 50%) */
-  --color-foreground-inverse: 23 23 23;         /* hsl(0, 0%, 9%) */
+  /* 다크 모드에서는 대비가 강한 조합 사용 */
+  --primary: var(--vibrant-contrast-1-secondary); /* Double Bounce */
+  --primary-foreground: 255 255 255;
+  --secondary: var(--vibrant-contrast-3-primary); /* UCLA Blue */
+  --secondary-foreground: 255 255 255;
+  --accent: var(--calm-elegant-3-secondary); /* Ivory Mist */
+  --accent-foreground: 10 10 10;
   
-  --color-surface-default: 20 20 20;            /* hsl(0, 0%, 8%) */
-  --color-surface-elevated: 31 31 31;           /* hsl(0, 0%, 12%) */
-  --color-surface-overlay: 20 20 20 / 0.9;      /* hsla(0, 0%, 8%, 0.9) */
-  --color-surface-glass: 20 20 20 / 0.7;        /* hsla(0, 0%, 8%, 0.7) */
+  --card: 20 20 20;
+  --card-foreground: 250 250 250;
+  --popover: 20 20 20;
+  --popover-foreground: 250 250 250;
   
-  --color-border-default: 51 51 51;             /* hsl(0, 0%, 20%) */
-  --color-border-muted: 41 41 41;               /* hsl(0, 0%, 16%) */
-  --color-border-strong: 77 77 77;              /* hsl(0, 0%, 30%) */
-  --color-border-focus: 96 165 250;             /* hsl(211, 65%, 55%) */
-  
-  /* Functional colors adjusted for dark mode */
-  --color-success: 34 197 94;                   /* Slightly brighter green */
-  --color-warning: 251 191 36;                  /* Brighter yellow */
-  --color-error: 248 113 113;                   /* Softer red */
-  --color-info: 96 165 250;                     /* Brighter blue */
-  
-  /* Dark mode glass morphism */
-  --glass-bg: rgb(10 10 10 / 0.7);
-  --glass-bg-heavy: rgb(10 10 10 / 0.85);
-  --glass-bg-light: rgb(10 10 10 / 0.5);
-  --glass-border: rgb(255 255 255 / 0.08);
-  --glass-shadow: 0 8px 32px rgb(0 0 0 / 0.5);
-  --glass-shadow-hover: 0 12px 48px rgb(0 0 0 / 0.6);
-  
-  /* SAYU Dark mode overrides */
-  --sayu-bg-primary: 26 27 38;                  /* Dark version of Ivory Mist */
-  --sayu-bg-secondary: 36 40 59;                /* Dark version of Pearl */
-  --sayu-bg-card: 46 51 70;                     /* Dark version of Soft White */
-  --sayu-text-primary: 240 237 233;             /* Light version for dark mode */
-  --sayu-text-secondary: 199 199 197;           /* Light version for dark mode */
-  --sayu-text-muted: 154 154 151;               /* Light version for dark mode */
-  
-  /* Dark mode gradients with SAYU colors */
-  --gradient-primary: linear-gradient(135deg, rgb(var(--sayu-tangerine-zest)), rgb(var(--sayu-double-bounce)));
-  --gradient-accent: linear-gradient(135deg, rgb(var(--sayu-lavender-dream)), rgb(var(--sayu-double-bounce)));
-  --gradient-subtle: linear-gradient(135deg, rgb(var(--sayu-bg-secondary)), rgb(var(--sayu-bg-primary)));
-  --gradient-hero: linear-gradient(135deg, rgb(var(--sayu-tangerine-zest) / 0.2), rgb(var(--sayu-lavender-dream) / 0.2), rgb(var(--sayu-double-bounce) / 0.2));
+  --destructive: 248 113 113;
+  --destructive-foreground: 255 255 255;
 }
 
-/* 🎯 BASE LAYER - RESET & FOUNDATIONS */
+/* 기본 스타일 */
 @layer base {
   * {
-    border-color: rgb(var(--color-border-default));
-  }
-  
-  html {
-    scroll-behavior: smooth;
-    /* Prevent flash of unstyled content */
-    visibility: visible;
-    opacity: 1;
-  }
-  
-  html.loading {
-    visibility: hidden;
-    opacity: 0;
+    @apply border-border;
   }
   
   body {
-    /* Use CSS custom properties instead of Tailwind classes */
-    background-color: rgb(var(--color-background-primary));
-    color: rgb(var(--color-foreground-primary));
-    font-family: var(--font-body);
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    line-height: 1.5;
-    
-    /* Prevent scroll issues during transitions */
-    overflow-x: hidden;
-    
-    /* Improve performance */
-    transform: translateZ(0);
-    will-change: transform;
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
   
-  /* Typography hierarchy */
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    color: rgb(var(--color-foreground-primary));
-  }
-  
-  p {
-    color: rgb(var(--color-foreground-primary));
-    line-height: 1.7;
-  }
-  
-  /* Links */
-  a {
-    color: rgb(var(--color-brand-primary));
-    text-decoration: none;
-    transition: color var(--duration-fast) var(--easing-ease);
-  }
-  
-  a:hover {
-    color: rgb(var(--color-brand-secondary));
-  }
-  
-  /* Form elements */
-  input, textarea, select {
-    background-color: rgb(var(--color-surface-default));
-    border: 1px solid rgb(var(--color-border-default));
-    color: rgb(var(--color-foreground-primary));
-    border-radius: var(--radius-md);
-    padding: var(--spacing-sm) var(--spacing-md);
-    transition: border-color var(--duration-fast) var(--easing-ease);
-  }
-  
-  input:focus, textarea:focus, select:focus {
-    outline: none;
-    border-color: rgb(var(--color-border-focus));
-    box-shadow: 0 0 0 3px rgb(var(--color-border-focus) / 0.1);
-  }
-  
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background-color: rgb(var(--color-surface-default));
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background-color: rgb(var(--color-border-default));
-    border-radius: var(--radius-full);
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: rgb(var(--color-border-strong));
-  }
-  
-  /* Selection */
   ::selection {
-    background-color: rgb(var(--color-brand-primary) / 0.2);
-    color: rgb(var(--color-foreground-primary));
+    background-color: hsl(var(--primary) / 0.2);
   }
 }
 
@@ -811,20 +705,6 @@
   
   .gallery-frame {
     padding: var(--spacing-sm);
-  }
-}
-
-/* 🎨 PRINT STYLES */
-@media print {
-  .glass, .glass-heavy, .glass-light {
-    background: rgb(var(--color-surface-default)) !important;
-    backdrop-filter: none !important;
-    box-shadow: none !important;
-  }
-  
-  * {
-    animation: none !important;
-    transition: none !important;
   }
 }
 
