@@ -127,7 +127,7 @@ function normalizeAPTProfile(aptProfile) {
   // 각 primary_type 정규화
   aptProfile.primary_types.forEach(typeObj => {
     const sayuType = getSAYUType(typeObj.type);
-    
+
     // 누락된 한글명 채우기
     if (!typeObj.title_ko) {
       typeObj.title_ko = sayuType.name;
@@ -135,7 +135,7 @@ function normalizeAPTProfile(aptProfile) {
     if (!typeObj.name_ko) {
       typeObj.name_ko = sayuType.animal;
     }
-    
+
     // 영문명 정규화
     if (!typeObj.title) {
       typeObj.title = sayuType.nameEn;
@@ -143,7 +143,7 @@ function normalizeAPTProfile(aptProfile) {
     if (!typeObj.animal) {
       typeObj.animal = sayuType.animalEn?.toLowerCase();
     }
-    
+
     // weight 기본값
     if (!typeObj.weight) {
       typeObj.weight = 0.9;

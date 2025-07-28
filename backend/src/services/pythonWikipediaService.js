@@ -6,7 +6,7 @@ const fs = require('fs').promises;
 
 /**
  * Python Wikipedia API와 Node.js 연동 서비스
- * 
+ *
  * 기능:
  * 1. Python Wikipedia 수집기 실행
  * 2. 결과 데이터 처리
@@ -17,7 +17,7 @@ class PythonWikipediaService {
   constructor() {
     this.pythonScriptPath = path.join(__dirname, 'wikipediaArtistCollector.py');
     this.tempDir = path.join(__dirname, '../../temp');
-    this.ensure
+    this.ensure;
   }
 
   /**
@@ -43,10 +43,10 @@ class PythonWikipediaService {
         try {
           const resultData = await fs.readFile(outputFile, 'utf8');
           const parsedResult = JSON.parse(resultData);
-          
+
           // 임시 파일 정리
           await fs.unlink(outputFile).catch(() => {}); // 실패해도 무시
-          
+
           logger.info(`✅ Python Wikipedia 수집 완료: ${artistName}`);
           return {
             success: true,
@@ -113,7 +113,7 @@ class PythonWikipediaService {
           await fs.unlink(outputFile).catch(() => {});
 
           logger.info(`✅ Python Wikipedia 배치 수집 완료: ${parsedResult.successful?.length || 0}명 성공`);
-          
+
           return {
             success: true,
             results: parsedResult,
@@ -197,13 +197,13 @@ class PythonWikipediaService {
         if (code === 0) {
           resolve({
             success: true,
-            output: output,
+            output,
             error: null
           });
         } else {
           resolve({
             success: false,
-            output: output,
+            output,
             error: errorOutput || `Python script exited with code ${code}`
           });
         }
@@ -213,7 +213,7 @@ class PythonWikipediaService {
         logger.error('Python 프로세스 실행 오류', error);
         resolve({
           success: false,
-          output: output,
+          output,
           error: error.message
         });
       });
@@ -256,20 +256,20 @@ class PythonWikipediaService {
     // Python 결과 처리 (더 정확한 정보로 덮어쓰기)
     if (pythonResult.success && pythonResult.artist) {
       const pythonData = pythonResult.artist.info;
-      
+
       // Python 데이터가 더 상세한 경우 우선 적용
       if (pythonData.biography && pythonData.biography.length > (merged.bio?.length || 0)) {
         merged.bio = pythonData.biography;
       }
-      
+
       if (pythonData.birth_year && !merged.birth_year) {
         merged.birth_year = pythonData.birth_year;
       }
-      
+
       if (pythonData.death_year && !merged.death_year) {
         merged.death_year = pythonData.death_year;
       }
-      
+
       if (pythonData.nationality && !merged.nationality) {
         merged.nationality = pythonData.nationality;
       }
@@ -293,7 +293,7 @@ class PythonWikipediaService {
    */
   async saveMergedArtist(artistData) {
     const client = await pool.connect();
-    
+
     try {
       await client.query('BEGIN');
 
@@ -417,7 +417,7 @@ class PythonWikipediaService {
    */
   determineCopyrightStatus(artistData) {
     const currentYear = new Date().getFullYear();
-    
+
     if (artistData.death_year) {
       const yearsSinceDeath = currentYear - artistData.death_year;
       if (yearsSinceDeath >= 70) return 'public_domain';
@@ -428,7 +428,7 @@ class PythonWikipediaService {
       if (age > 150) return 'public_domain';
       return 'contemporary';
     }
-    
+
     return 'unknown';
   }
 

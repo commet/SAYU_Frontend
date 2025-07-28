@@ -1,13 +1,13 @@
 const router = require('express').Router();
 const authMiddleware = require('../middleware/auth');
 const { Achievement, UserAchievement, ProgressTracker } = require('../models/Achievement');
-const { 
-  validationSchemas, 
-  handleValidationResult, 
-  securityHeaders, 
+const {
+  validationSchemas,
+  handleValidationResult,
+  securityHeaders,
   requestSizeLimiter,
   sanitizeInput,
-  rateLimits 
+  rateLimits
 } = require('../middleware/validation');
 const { log } = require('../config/logger');
 
@@ -18,26 +18,26 @@ router.use(requestSizeLimiter('1mb'));
 router.use(authMiddleware);
 
 // Get all achievements with user progress
-router.get('/', 
+router.get('/',
   rateLimits.lenient,
   async (req, res) => {
     try {
-      const userId = req.userId;
-      
+      const { userId } = req;
+
       // Get all achievements
       const allAchievements = await Achievement.findAll();
-      
+
       // Get user's unlocked achievements
       const userAchievements = await UserAchievement.findByUserId(userId);
       const unlockedIds = new Set(userAchievements.map(ua => ua.achievement_id));
-      
+
       // Combine data
       const achievementsWithProgress = allAchievements.map(achievement => ({
         ...achievement,
         unlocked: unlockedIds.has(achievement.id),
         unlocked_at: userAchievements.find(ua => ua.achievement_id === achievement.id)?.unlocked_at || null
       }));
-      
+
       // Group by category
       const grouped = achievementsWithProgress.reduce((acc, achievement) => {
         if (!acc[achievement.category]) {
@@ -46,13 +46,13 @@ router.get('/',
         acc[achievement.category].push(achievement);
         return acc;
       }, {});
-      
+
       res.json({
         achievements: grouped,
         total_achievements: allAchievements.length,
         unlocked_count: userAchievements.length
       });
-      
+
     } catch (error) {
       log.error('Get achievements error', error, {
         userId: req.userId,
@@ -68,23 +68,23 @@ router.get('/stats',
   rateLimits.lenient,
   async (req, res) => {
     try {
-      const userId = req.userId;
-      
+      const { userId } = req;
+
       // Get comprehensive stats
       const stats = await UserAchievement.getUserStats(userId);
       const progress = await ProgressTracker.getUserProgress(userId);
-      
+
       // Calculate completion percentage
       const totalAchievements = await Achievement.findAll();
-      const completionRate = totalAchievements.length > 0 
+      const completionRate = totalAchievements.length > 0
         ? (stats.total_achievements / totalAchievements.length * 100).toFixed(1)
         : 0;
-      
+
       // Determine user level based on points
       const level = Math.floor(Math.sqrt(stats.total_points / 10)) + 1;
       const nextLevelPoints = Math.pow(level, 2) * 10;
       const pointsToNext = nextLevelPoints - stats.total_points;
-      
+
       res.json({
         ...stats,
         progress: progress || {},
@@ -93,7 +93,7 @@ router.get('/stats',
         next_level_points: nextLevelPoints,
         points_to_next_level: Math.max(0, pointsToNext)
       });
-      
+
     } catch (error) {
       log.error('Get achievement stats error', error, {
         userId: req.userId,
@@ -109,19 +109,19 @@ router.get('/recent',
   rateLimits.lenient,
   async (req, res) => {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const limit = Math.min(parseInt(req.query.limit) || 10, 50);
-      
+
       const achievements = await UserAchievement.findByUserId(userId);
       const recent = achievements
         .sort((a, b) => new Date(b.unlocked_at) - new Date(a.unlocked_at))
         .slice(0, limit);
-      
+
       res.json({
         achievements: recent,
         count: recent.length
       });
-      
+
     } catch (error) {
       log.error('Get recent achievements error', error, {
         userId: req.userId,
@@ -137,26 +137,26 @@ router.get('/category/:category',
   rateLimits.lenient,
   async (req, res) => {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const { category } = req.params;
-      
+
       const achievements = await Achievement.findByCategory(category);
       const userAchievements = await UserAchievement.findByUserId(userId);
       const unlockedIds = new Set(userAchievements.map(ua => ua.achievement_id));
-      
+
       const achievementsWithProgress = achievements.map(achievement => ({
         ...achievement,
         unlocked: unlockedIds.has(achievement.id),
         unlocked_at: userAchievements.find(ua => ua.achievement_id === achievement.id)?.unlocked_at || null
       }));
-      
+
       res.json({
         category,
         achievements: achievementsWithProgress,
         total: achievements.length,
         unlocked: achievementsWithProgress.filter(a => a.unlocked).length
       });
-      
+
     } catch (error) {
       log.error('Get achievements by category error', error, {
         userId: req.userId,
@@ -186,24 +186,24 @@ router.post('/progress',
   handleValidationResult,
   async (req, res) => {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const { action, metadata = {} } = req.body;
-      
+
       // Update progress and check for new achievements
       const updatedProgress = await ProgressTracker.updateUserProgress(userId, action, metadata);
-      
+
       // Log user action for analytics
       log.userAction(userId, action, {
         metadata,
         progressUpdate: true
       });
-      
+
       res.json({
         message: 'Progress updated successfully',
         progress: updatedProgress,
         timestamp: new Date().toISOString()
       });
-      
+
     } catch (error) {
       log.error('Update progress error', error, {
         userId: req.userId,
@@ -221,8 +221,8 @@ router.get('/leaderboard',
   async (req, res) => {
     try {
       const limit = Math.min(parseInt(req.query.limit) || 10, 100);
-      const userId = req.userId;
-      
+      const { userId } = req;
+
       // Get top users by points
       const result = await require('../config/database').pool.query(`
         SELECT 
@@ -249,7 +249,7 @@ router.get('/leaderboard',
         ORDER BY total_points DESC, achievement_count DESC
         LIMIT $1
       `, [limit]);
-      
+
       const leaderboard = result.rows.map((user, index) => ({
         rank: index + 1,
         ...user,
@@ -258,7 +258,7 @@ router.get('/leaderboard',
         level: parseInt(user.level) || 1,
         is_current_user: user.id === userId
       }));
-      
+
       // Find current user's rank if not in top list
       let userRank = null;
       if (!leaderboard.find(u => u.is_current_user)) {
@@ -280,7 +280,7 @@ router.get('/leaderboard',
           FROM ranked_users
           WHERE id = $1
         `, [userId]);
-        
+
         if (userRankResult.rows.length > 0) {
           userRank = {
             rank: parseInt(userRankResult.rows[0].rank),
@@ -289,13 +289,13 @@ router.get('/leaderboard',
           };
         }
       }
-      
+
       res.json({
         leaderboard,
         user_rank: userRank,
         total_users: result.rowCount
       });
-      
+
     } catch (error) {
       log.error('Get leaderboard error', error, {
         userId: req.userId,

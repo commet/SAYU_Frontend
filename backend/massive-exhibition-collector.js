@@ -26,19 +26,19 @@ class MassiveExhibitionCollector {
 
     // 1. 아시아 미술관
     await this.collectAsianMuseums();
-    
+
     // 2. 북미 미술관
     await this.collectNorthAmericanMuseums();
-    
+
     // 3. 유럽 미술관
     await this.collectEuropeanMuseums();
-    
+
     // 4. 남미 미술관
     await this.collectSouthAmericanMuseums();
-    
+
     // 5. 오세아니아 미술관
     await this.collectOceaniaMuseums();
-    
+
     // 6. 중동/아프리카 미술관
     await this.collectMiddleEastAfricaMuseums();
 
@@ -706,7 +706,7 @@ class MassiveExhibitionCollector {
   // 전시 저장 (기존 메서드와 동일)
   async saveExhibition(exhibition) {
     const client = await pool.connect();
-    
+
     try {
       // 중복 확인
       const existing = await client.query(
@@ -744,7 +744,7 @@ class MassiveExhibitionCollector {
       const startDate = new Date(exhibition.start_date);
       const endDate = new Date(exhibition.end_date);
       const now = new Date();
-      
+
       let status;
       if (now < startDate) status = 'upcoming';
       else if (now > endDate) status = 'past';
@@ -858,7 +858,7 @@ class MassiveExhibitionCollector {
       'BR': '🇧🇷 브라질', 'MX': '🇲🇽 멕시코', 'RU': '🇷🇺 러시아', 'IN': '🇮🇳 인도',
       'SG': '🇸🇬 싱가포르', 'HK': '🇭🇰 홍콩', 'AE': '🇦🇪 UAE', 'NZ': '🇳🇿 뉴질랜드'
     };
-    
+
     topCountries.rows.forEach((country, index) => {
       const name = countryNames[country.venue_country] || country.venue_country;
       console.log(`   ${index + 1}. ${name}: ${country.count}개`);
@@ -873,7 +873,7 @@ class MassiveExhibitionCollector {
 
 async function main() {
   const collector = new MassiveExhibitionCollector();
-  
+
   try {
     await collector.collectMassive();
   } catch (error) {

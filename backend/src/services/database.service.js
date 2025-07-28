@@ -18,7 +18,7 @@ class DatabaseService {
    */
   async query(table, operation, params = {}) {
     try {
-      let query = this.client.from(table);
+      const query = this.client.from(table);
       let result;
 
       switch (operation) {
@@ -89,7 +89,7 @@ class DatabaseService {
     if (params.order) {
       const orders = Array.isArray(params.order) ? params.order : [params.order];
       for (const order of orders) {
-        query = query.order(order.column, { 
+        query = query.order(order.column, {
           ascending: order.ascending !== false,
           nullsFirst: order.nullsFirst
         });
@@ -106,9 +106,9 @@ class DatabaseService {
 
     // Execute query
     const { data, error, count } = await query;
-    
+
     if (error) throw error;
-    
+
     return {
       data,
       count,
@@ -132,9 +132,9 @@ class DatabaseService {
     }
 
     const { data, error } = await query;
-    
+
     if (error) throw error;
-    
+
     return {
       data,
       success: true
@@ -166,9 +166,9 @@ class DatabaseService {
     }
 
     const { data, error } = await query;
-    
+
     if (error) throw error;
-    
+
     return {
       data,
       success: true
@@ -189,9 +189,9 @@ class DatabaseService {
     }
 
     const { data, error } = await query;
-    
+
     if (error) throw error;
-    
+
     return {
       data,
       success: true
@@ -217,9 +217,9 @@ class DatabaseService {
     }
 
     const { data, error } = await query;
-    
+
     if (error) throw error;
-    
+
     return {
       data,
       success: true
@@ -231,7 +231,7 @@ class DatabaseService {
    */
   applyAdvancedFilter(query, column, filter) {
     const { operator, value } = filter;
-    
+
     switch (operator) {
       case 'gt':
         return query.gt(column, value);
@@ -263,11 +263,11 @@ class DatabaseService {
     try {
       const { data, error } = await this.client.rpc('exec_sql', {
         query: sql,
-        params: params
+        params
       });
-      
+
       if (error) throw error;
-      
+
       return {
         data,
         success: true
@@ -297,22 +297,22 @@ class DatabaseService {
    */
   async batchInsert(table, records, batchSize = 1000) {
     const results = [];
-    
+
     for (let i = 0; i < records.length; i += batchSize) {
       const batch = records.slice(i, i + batchSize);
       const { data, error } = await this.client
         .from(table)
         .insert(batch)
         .select();
-      
+
       if (error) {
         log.error(`Batch insert error at index ${i}:`, error);
         throw error;
       }
-      
+
       results.push(...data);
     }
-    
+
     return {
       data: results,
       success: true,
@@ -339,9 +339,9 @@ class DatabaseService {
           table_name: table,
           vector_column: vectorColumn
         });
-      
+
       if (error) throw error;
-      
+
       return {
         data,
         success: true
@@ -363,9 +363,9 @@ class DatabaseService {
       const { count, error } = await this.client
         .from(table)
         .select('*', { count: 'exact', head: true });
-      
+
       if (error) throw error;
-      
+
       return {
         table,
         rowCount: count,

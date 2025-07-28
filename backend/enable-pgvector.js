@@ -18,12 +18,12 @@ const pool = new Pool({
 async function enablePgVector() {
   try {
     console.log('Enabling pgvector extension...');
-    
+
     // First, check if pgvector is available
     const checkResult = await pool.query(`
       SELECT * FROM pg_available_extensions WHERE name = 'vector';
     `);
-    
+
     if (checkResult.rows.length > 0) {
       // Try to create the extension
       await pool.query('CREATE EXTENSION IF NOT EXISTS vector;');
@@ -32,7 +32,7 @@ async function enablePgVector() {
       console.log('❌ pgvector extension is not available on this PostgreSQL installation');
       console.log('You may need to use a different PostgreSQL provider or use schema-no-vector.sql');
     }
-    
+
   } catch (error) {
     console.error('Error:', error.message);
   } finally {

@@ -12,16 +12,16 @@ const pool = new Pool({
 // 전시 관련 해시태그들
 const EXHIBITION_HASHTAGS = [
   // 한국어 해시태그
-  '전시', '전시회', '미술관', '갤러리', 
+  '전시', '전시회', '미술관', '갤러리',
   '아트', '아트전시', '전시추천', '전시관람',
   '서울전시', '미술전시', '개인전', '기획전',
   '현대미술', '작품전시', '아트갤러리', '전시정보',
-  
-  // 영어 해시태그  
+
+  // 영어 해시태그
   'exhibition', 'artexhibition', 'gallery', 'museum',
   'contemporaryart', 'artshow', 'seoul_art', 'korea_art',
   'art_gallery', 'art_museum', 'solo_exhibition', 'group_exhibition',
-  
+
   // 미술관별 해시태그
   'mmca', '국립현대미술관', 'leeum', '리움미술관',
   'sac', '예술의전당', 'sema', '서울시립미술관',
@@ -52,13 +52,13 @@ class HashscraperExhibitionCollector {
 
     // 1. 해시스크래퍼 서비스 소개
     this.introduceHashscraper();
-    
+
     // 2. 전시 해시태그 전략 수립
     this.planHashtagStrategy();
-    
+
     // 3. 가상 API 호출 예제 (실제 API 키 있을 때 작동)
     await this.demonstrateApiUsage();
-    
+
     // 4. 데이터 처리 및 전시 추출 로직
     this.demonstrateDataProcessing();
   }
@@ -71,13 +71,13 @@ class HashscraperExhibitionCollector {
     console.log('⚡ 특징: IP 차단 없는 고속 크롤링');
     console.log('📊 데이터: Excel 다운로드 + API 연동');
     console.log('🎯 장점: 비개발자도 쉽게 사용 가능');
-    
+
     console.log('\n✅ 인스타그램 크롤링 기능:');
     console.log('   • 해시태그 기반 포스팅 수집');
     console.log('   • 댓글, 좋아요, 감정 분석');
     console.log('   • 실시간 모니터링 가능');
     console.log('   • API를 통한 자동화 연동');
-    
+
     console.log('\n🎨 전시 정보 수집 활용법:');
     console.log('   • #전시 #미술관 #갤러리 해시태그 모니터링');
     console.log('   • 미술관 공식 계정 포스팅 추적');
@@ -88,12 +88,12 @@ class HashscraperExhibitionCollector {
   planHashtagStrategy() {
     console.log('\n\n🏷️  전시 해시태그 수집 전략');
     console.log('='.repeat(60));
-    
+
     // 해시태그를 카테고리별로 분류
     const categories = {
       '일반 전시': ['전시', '전시회', '전시추천', 'exhibition', 'artexhibition'],
       '장소별': ['미술관', '갤러리', 'museum', 'gallery', 'art_gallery'],
-      '유형별': ['개인전', '기획전', 'solo_exhibition', 'group_exhibition'], 
+      '유형별': ['개인전', '기획전', 'solo_exhibition', 'group_exhibition'],
       '지역별': ['서울전시', 'seoul_art', 'korea_art'],
       '미술관별': ['mmca', 'leeum', 'sac', 'sema', '국립현대미술관', '리움미술관']
     };
@@ -168,7 +168,7 @@ class HashscraperExhibitionCollector {
         posted_at: '2025-07-19T10:30:00Z'
       },
       {
-        id: '12346', 
+        id: '12346',
         caption: '리움미술관 피에르 위그 개인전 너무 좋았다 ✨ #리움미술관 #피에르위그 #현대미술 #전시추천',
         hashtags: ['리움미술관', '피에르위그', '현대미술', '전시추천'],
         likes: 89,
@@ -179,16 +179,16 @@ class HashscraperExhibitionCollector {
 
     console.log('📱 샘플 인스타그램 데이터:');
     sampleInstagramData.forEach((post, i) => {
-      console.log(`\n${i+1}. 포스트 ID: ${post.id}`);
+      console.log(`\n${i + 1}. 포스트 ID: ${post.id}`);
       console.log(`   💬 "${post.caption}"`);
       console.log(`   👍 좋아요: ${post.likes} | 💬 댓글: ${post.comments}`);
     });
 
     console.log('\n🤖 전시정보 추출 알고리즘:');
     const extractedExhibitions = this.extractExhibitionsFromPosts(sampleInstagramData);
-    
+
     extractedExhibitions.forEach((exhibition, i) => {
-      console.log(`\n✅ 추출된 전시 ${i+1}:`);
+      console.log(`\n✅ 추출된 전시 ${i + 1}:`);
       console.log(`   제목: ${exhibition.title}`);
       console.log(`   장소: ${exhibition.venue}`);
       console.log(`   기간: ${exhibition.period}`);
@@ -203,7 +203,7 @@ class HashscraperExhibitionCollector {
 
   extractExhibitionsFromPosts(posts) {
     const exhibitions = [];
-    
+
     posts.forEach(post => {
       // 전시명 추출 패턴
       const exhibitionPatterns = [
@@ -232,8 +232,8 @@ class HashscraperExhibitionCollector {
 
       if (title && venue !== '미상') {
         exhibitions.push({
-          title: title,
-          venue: venue,
+          title,
+          venue,
           period: dates.length > 0 ? `${dates[0][0]}` : '기간 미상',
           confidence: this.calculateConfidence(post, title, venue),
           source: 'instagram_hashscraper',
@@ -247,38 +247,38 @@ class HashscraperExhibitionCollector {
 
   calculateConfidence(post, title, venue) {
     let confidence = 50; // 기본 신뢰도
-    
+
     // 좋아요/댓글 수에 따른 가중치
     if (post.likes > 100) confidence += 20;
     else if (post.likes > 50) confidence += 10;
-    
+
     // 해시태그 관련성
     const relevantHashtags = ['전시', '미술관', '갤러리', 'exhibition'];
-    const matchingTags = post.hashtags.filter(tag => 
+    const matchingTags = post.hashtags.filter(tag =>
       relevantHashtags.some(relevant => tag.includes(relevant))
     );
     confidence += matchingTags.length * 5;
-    
+
     // 미술관명 정확도
     if (venue !== '미상') confidence += 15;
-    
+
     return Math.min(confidence, 95); // 최대 95%
   }
 }
 
 async function main() {
   const collector = new HashscraperExhibitionCollector();
-  
+
   try {
     await collector.startCollection();
-    
+
     console.log('\n\n💡 다음 단계:');
     console.log('1. 해시스크래퍼 가입 및 API 키 발급');
     console.log('2. 환경변수 설정 (HASHSCRAPER_API_KEY)');
     console.log('3. 실제 해시태그 모니터링 시작');
     console.log('4. 추출된 데이터 검증 및 DB 저장');
     console.log('5. 정기 수집 스케줄러 구축');
-    
+
   } catch (error) {
     console.error('실행 실패:', error);
   } finally {

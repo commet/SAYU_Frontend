@@ -7,20 +7,20 @@ class HybridAPTClassifier {
   constructor() {
     // 추론 엔진
     this.inferenceEngine = new ArtistAPTInferenceEngine();
-    
+
     // AI API 클라이언트
     this.gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-    
+
     // 하이브리드 전략 설정
     this.strategy = {
       // 데이터 풍부도에 따른 전략
       richData: 'full_ai_analysis',      // 1000자+ bio
-      mediumData: 'hybrid_analysis',     // 100-1000자 bio  
+      mediumData: 'hybrid_analysis',     // 100-1000자 bio
       limitedData: 'inference_with_ai',  // 1-100자 bio
       noData: 'pure_inference'           // bio 없음
     };
-    
+
     // APT 축 정의
     this.axisDefinitions = {
       L_S: {
@@ -49,16 +49,16 @@ class HybridAPTClassifier {
   // 메인 분류 함수
   async classifyArtist(artistData) {
     console.log(`🎨 하이브리드 분류 시작: ${artistData.name}`);
-    
+
     try {
       // 1. 데이터 풍부도 평가
       const dataRichness = this.evaluateDataRichness(artistData);
       console.log(`📊 데이터 풍부도: ${dataRichness.level} (${dataRichness.score}점)`);
-      
+
       // 2. 전략 선택
       const strategy = this.strategy[dataRichness.level];
       console.log(`🎯 선택된 전략: ${strategy}`);
-      
+
       // 3. 전략별 분석 실행
       let result;
       switch (strategy) {
@@ -75,15 +75,15 @@ class HybridAPTClassifier {
           result = await this.pureInferenceAnalysis(artistData);
           break;
       }
-      
+
       // 4. 결과 검증 및 정제
       result = await this.validateAndRefine(result, artistData);
-      
+
       // 5. 신뢰도 재계산
       result.confidence = this.calculateFinalConfidence(result, dataRichness);
-      
+
       return result;
-      
+
     } catch (error) {
       console.error(`❌ 분류 실패: ${error.message}`);
       // 실패 시 순수 추론으로 폴백
@@ -94,8 +94,8 @@ class HybridAPTClassifier {
   // 데이터 풍부도 평가
   evaluateDataRichness(artistData) {
     let score = 0;
-    let factors = [];
-    
+    const factors = [];
+
     // Bio 길이 (최대 40점)
     if (artistData.bio) {
       const bioLength = artistData.bio.length;
@@ -113,7 +113,7 @@ class HybridAPTClassifier {
         factors.push('매우 짧은 전기');
       }
     }
-    
+
     // 작품 데이터 (최대 20점)
     if (artistData.artwork_count) {
       if (artistData.artwork_count >= 20) {
@@ -127,7 +127,7 @@ class HybridAPTClassifier {
         factors.push('소수 작품');
       }
     }
-    
+
     // 기본 정보 (각 10점)
     if (artistData.birth_year) {
       score += 10;
@@ -145,30 +145,30 @@ class HybridAPTClassifier {
       score += 10;
       factors.push('매체');
     }
-    
+
     // 레벨 결정
     let level;
     if (score >= 70) level = 'richData';
     else if (score >= 40) level = 'mediumData';
     else if (score >= 20) level = 'limitedData';
     else level = 'noData';
-    
+
     return { score, level, factors };
   }
 
   // 전략 1: 풍부한 데이터 - AI 전체 분석
   async fullAIAnalysis(artistData) {
     console.log('🤖 AI 전체 분석 시작...');
-    
+
     // 1. 추론 엔진으로 초기 분석
     const inferenceResult = this.inferenceEngine.inferAPTFromLimitedData(artistData);
-    
+
     // 2. OpenAI로 심층 분석
     const openAIResult = await this.analyzeWithOpenAI(artistData, inferenceResult);
-    
+
     // 3. Gemini로 교차 검증
     const geminiResult = await this.analyzeWithGemini(artistData, inferenceResult);
-    
+
     // 4. 결과 통합
     return this.mergeAnalysisResults({
       inference: inferenceResult,
@@ -180,16 +180,16 @@ class HybridAPTClassifier {
   // 전략 2: 중간 데이터 - 하이브리드 분석
   async hybridAnalysis(artistData) {
     console.log('🔀 하이브리드 분석 시작...');
-    
+
     // 1. 추론 엔진으로 기본 분석
     const inferenceResult = this.inferenceEngine.inferAPTFromLimitedData(artistData);
-    
+
     // 2. 가장 불확실한 축에 대해서만 AI 검증
     const uncertainAxes = this.findUncertainAxes(inferenceResult.axisScores);
-    
+
     // 3. Gemini로 불확실한 축 검증 (무료 API 활용)
     const aiValidation = await this.validateAxesWithGemini(artistData, uncertainAxes);
-    
+
     // 4. 결과 병합
     return this.mergeHybridResults(inferenceResult, aiValidation);
   }
@@ -197,13 +197,13 @@ class HybridAPTClassifier {
   // 전략 3: 제한된 데이터 - 추론 + AI 보조
   async inferenceWithAISupport(artistData) {
     console.log('🔍 AI 보조 추론 시작...');
-    
+
     // 1. 추론 엔진 실행
     const inferenceResult = this.inferenceEngine.inferAPTFromLimitedData(artistData);
-    
+
     // 2. 추론 결과를 AI에게 검증 요청 (간단한 프롬프트)
     const validation = await this.quickValidateWithGemini(inferenceResult, artistData);
-    
+
     // 3. 검증 결과 반영
     if (validation.isValid) {
       inferenceResult.confidence += 10;
@@ -212,18 +212,18 @@ class HybridAPTClassifier {
       inferenceResult.confidence -= 10;
       inferenceResult.warnings = validation.concerns;
     }
-    
+
     return inferenceResult;
   }
 
   // 전략 4: 데이터 없음 - 순수 추론
   async pureInferenceAnalysis(artistData) {
     console.log('🧠 순수 추론 분석...');
-    
+
     const result = this.inferenceEngine.inferAPTFromLimitedData(artistData);
     result.analysisType = 'pure_inference';
     result.warning = '제한된 데이터로 인한 추론 기반 분류';
-    
+
     return result;
   }
 
@@ -257,15 +257,15 @@ JSON 형식으로 응답:
 }`;
 
       const response = await this.openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [{ role: "user", content: prompt }],
-        response_format: { type: "json_object" },
+        model: 'gpt-4o-mini',
+        messages: [{ role: 'user', content: prompt }],
+        response_format: { type: 'json_object' },
         max_tokens: 1000,
         temperature: 0.3
       });
 
       return JSON.parse(response.choices[0].message.content);
-      
+
     } catch (error) {
       console.error('OpenAI 분석 실패:', error.message);
       return null;
@@ -275,8 +275,8 @@ JSON 형식으로 응답:
   // Gemini 분석
   async analyzeWithGemini(artistData, initialInference) {
     try {
-      const model = this.gemini.getGenerativeModel({ model: "gemini-1.5-flash" });
-      
+      const model = this.gemini.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
       const prompt = `
 작가의 APT(Art Persona Type) 분류를 도와주세요.
 
@@ -296,10 +296,10 @@ JSON 형식으로 응답:
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-      
+
       // 텍스트 응답 파싱
       return this.parseGeminiResponse(text);
-      
+
     } catch (error) {
       console.error('Gemini 분석 실패:', error.message);
       return null;
@@ -314,7 +314,7 @@ JSON 형식으로 응답:
       E_M: 0,
       F_C: 0
     };
-    
+
     // 점수 추출 정규식
     const scorePatterns = {
       L_S: /L\/S[:\s]+(-?\d+)/i,
@@ -322,18 +322,18 @@ JSON 형식으로 응답:
       E_M: /E\/M[:\s]+(-?\d+)/i,
       F_C: /F\/C[:\s]+(-?\d+)/i
     };
-    
+
     for (const [axis, pattern] of Object.entries(scorePatterns)) {
       const match = text.match(pattern);
       if (match) {
         scores[axis] = parseInt(match[1]);
       }
     }
-    
+
     // APT 코드 추출
     const aptMatch = text.match(/\b([LS][AR][EM][FC])\b/);
     const aptType = aptMatch ? aptMatch[1] : this.calculateAPTFromScores(scores);
-    
+
     return {
       axisScores: scores,
       aptType,
@@ -354,7 +354,7 @@ JSON 형식으로 응답:
   // 불확실한 축 찾기
   findUncertainAxes(axisScores) {
     const uncertain = [];
-    
+
     for (const [axis, score] of Object.entries(axisScores)) {
       if (Math.abs(score) < 30) {
         uncertain.push({
@@ -364,22 +364,22 @@ JSON 형식으로 응답:
         });
       }
     }
-    
+
     return uncertain.sort((a, b) => b.uncertainty - a.uncertainty);
   }
 
   // Gemini로 특정 축 검증
   async validateAxesWithGemini(artistData, uncertainAxes) {
     if (uncertainAxes.length === 0) return null;
-    
+
     try {
-      const model = this.gemini.getGenerativeModel({ model: "gemini-1.5-flash" });
-      
+      const model = this.gemini.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
       const axisQuestions = uncertainAxes.map(item => {
         const def = this.axisDefinitions[item.axis];
         return `${item.axis}: ${def.name} - 현재 점수 ${item.score}가 적절한가요?`;
       }).join('\n');
-      
+
       const prompt = `
 작가 ${artistData.name}의 다음 특성들이 맞는지 검증해주세요:
 
@@ -392,9 +392,9 @@ ${this.summarizeArtistData(artistData)}
 
       const result = await model.generateContent(prompt);
       const response = await result.response;
-      
+
       return this.parseGeminiResponse(response.text());
-      
+
     } catch (error) {
       console.error('축 검증 실패:', error.message);
       return null;
@@ -404,8 +404,8 @@ ${this.summarizeArtistData(artistData)}
   // 빠른 검증 (Gemini)
   async quickValidateWithGemini(inferenceResult, artistData) {
     try {
-      const model = this.gemini.getGenerativeModel({ model: "gemini-1.5-flash" });
-      
+      const model = this.gemini.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
       const prompt = `
 작가 ${artistData.name}을 ${inferenceResult.primaryAPT[0]} 유형으로 분류했습니다.
 이것이 적절한 분류인지 간단히 평가해주세요.
@@ -420,14 +420,14 @@ ${this.summarizeArtistData(artistData)}
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-      
+
       const isValid = text.includes('적절함') && !text.includes('부적절함');
-      
+
       return {
         isValid,
         reason: text.trim()
       };
-      
+
     } catch (error) {
       console.error('빠른 검증 실패:', error.message);
       return { isValid: true, reason: 'AI 검증 실패, 추론 결과 유지' };
@@ -437,35 +437,35 @@ ${this.summarizeArtistData(artistData)}
   // 결과 병합 (전체 분석)
   mergeAnalysisResults(results, strategy) {
     const { inference, openai, gemini } = results;
-    
+
     // 축 점수 평균 계산
     const mergedScores = { L_S: 0, A_R: 0, E_M: 0, F_C: 0 };
     let validResults = 0;
-    
+
     if (inference?.axisScores) {
       for (const axis in mergedScores) {
         mergedScores[axis] += inference.axisScores[axis] * 0.3; // 30% 가중치
       }
       validResults++;
     }
-    
+
     if (openai?.axisScores) {
       for (const axis in mergedScores) {
         mergedScores[axis] += openai.axisScores[axis] * 0.4; // 40% 가중치
       }
       validResults++;
     }
-    
+
     if (gemini?.axisScores) {
       for (const axis in mergedScores) {
         mergedScores[axis] += gemini.axisScores[axis] * 0.3; // 30% 가중치
       }
       validResults++;
     }
-    
+
     // APT 타입 결정
     const finalAPT = this.calculateAPTFromScores(mergedScores);
-    
+
     // 종합 결과
     return {
       aptType: finalAPT,
@@ -493,10 +493,10 @@ ${this.summarizeArtistData(artistData)}
   // 하이브리드 결과 병합
   mergeHybridResults(inferenceResult, aiValidation) {
     if (!aiValidation) return inferenceResult;
-    
+
     // AI 검증된 축 점수 업데이트
     const updatedScores = { ...inferenceResult.axisScores };
-    
+
     if (aiValidation.axisScores) {
       for (const [axis, score] of Object.entries(aiValidation.axisScores)) {
         if (score !== 0) {
@@ -505,10 +505,10 @@ ${this.summarizeArtistData(artistData)}
         }
       }
     }
-    
+
     // 새로운 APT 계산
     const newAPT = this.calculateAPTFromScores(updatedScores);
-    
+
     return {
       ...inferenceResult,
       aptType: newAPT,
@@ -522,7 +522,7 @@ ${this.summarizeArtistData(artistData)}
   // 보조 APT 찾기
   findSecondaryAPTs(axisScores) {
     const secondary = [];
-    
+
     // 각 축에서 점수가 애매한 경우 대안 생성
     for (const [axis, score] of Object.entries(axisScores)) {
       if (Math.abs(score) < 30) {
@@ -536,14 +536,14 @@ ${this.summarizeArtistData(artistData)}
         }
       }
     }
-    
+
     return [...new Set(secondary)].slice(0, 3);
   }
 
   // 작가 데이터 요약
   summarizeArtistData(artistData) {
     const parts = [];
-    
+
     if (artistData.nationality) parts.push(`국적: ${artistData.nationality}`);
     if (artistData.era) parts.push(`시대: ${artistData.era}`);
     if (artistData.birth_year) {
@@ -553,7 +553,7 @@ ${this.summarizeArtistData(artistData)}
     if (artistData.bio) {
       parts.push(`소개: ${artistData.bio.substring(0, 200)}...`);
     }
-    
+
     return parts.join(', ');
   }
 
@@ -561,41 +561,41 @@ ${this.summarizeArtistData(artistData)}
   async validateAndRefine(result, artistData) {
     // APT 타입 유효성 검증
     const validTypes = ['LAEF', 'LAEC', 'LAMF', 'LAMC', 'LREF', 'LREC', 'LRMF', 'LRMC',
-                        'SAEF', 'SAEC', 'SAMF', 'SAMC', 'SREF', 'SREC', 'SRMF', 'SRMC'];
-    
+      'SAEF', 'SAEC', 'SAMF', 'SAMC', 'SREF', 'SREC', 'SRMF', 'SRMC'];
+
     if (!validTypes.includes(result.aptType)) {
       console.warn(`⚠️ 잘못된 APT 타입: ${result.aptType}`);
       result.aptType = result.primaryAPT[0] || 'UNKNOWN';
     }
-    
+
     // 축 점수 정규화
     for (const axis in result.axisScores) {
       result.axisScores[axis] = Math.max(-100, Math.min(100, result.axisScores[axis]));
     }
-    
+
     return result;
   }
 
   // 최종 신뢰도 계산
   calculateFinalConfidence(result, dataRichness) {
     let confidence = result.confidence || 50;
-    
+
     // 데이터 풍부도 반영
     confidence += (dataRichness.score / 100) * 20;
-    
+
     // AI 소스 개수 반영
     if (result.analysis?.sources) {
       const aiSources = Object.values(result.analysis.sources).filter(Boolean).length;
       confidence += aiSources * 5;
     }
-    
+
     // 축 점수 명확성 반영
     let clarity = 0;
     for (const score of Object.values(result.axisScores)) {
       if (Math.abs(score) > 50) clarity++;
     }
     confidence += clarity * 2.5;
-    
+
     return Math.min(95, Math.round(confidence));
   }
 }

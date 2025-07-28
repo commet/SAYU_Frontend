@@ -6,7 +6,7 @@ class AgentController {
   async chat(req, res) {
     try {
       const { message, context } = req.body;
-      const userId = req.userId;
+      const { userId } = req;
 
       // Get user profile
       const profile = await ProfileModel.findByUserId(userId);
@@ -57,7 +57,7 @@ class AgentController {
 
   async getMemory(req, res) {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const conversationKey = `conversation:${userId}`;
       const history = await redisClient().get(conversationKey);
 

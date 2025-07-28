@@ -40,20 +40,20 @@ async function runSQLFile(filename) {
 async function initDatabase() {
   try {
     console.log('🚀 Starting Supabase database initialization...\n');
-    
+
     // Test connection first
     const testResult = await pool.query('SELECT version()');
     console.log('✓ Connected to PostgreSQL:', testResult.rows[0].version);
-    
+
     // Check for pgvector
     const vectorCheck = await pool.query(`
       SELECT * FROM pg_available_extensions WHERE name = 'vector';
     `);
-    
+
     if (vectorCheck.rows.length > 0) {
       console.log('✓ pgvector is available!');
     }
-    
+
     // Run files in order
     await runSQLFile('schema.sql'); // Can use the full schema with pgvector!
     await runSQLFile('migrations/add-oauth-accounts.sql');
@@ -61,9 +61,9 @@ async function initDatabase() {
     await runSQLFile('migrations/add-community-features.sql');
     await runSQLFile('migrations/add-email-system.sql');
     await runSQLFile('migrations/performance-indexes.sql');
-    
+
     console.log('\n✅ Supabase database initialization completed successfully!');
-    
+
     // Verify tables were created
     const result = await pool.query(`
       SELECT table_name 
@@ -72,19 +72,19 @@ async function initDatabase() {
       AND table_type = 'BASE TABLE'
       ORDER BY table_name;
     `);
-    
+
     console.log('\nCreated tables:');
     result.rows.forEach(row => console.log(`  - ${row.table_name}`));
-    
+
     // Check if pgvector extension was created
     const extensions = await pool.query(`
       SELECT extname FROM pg_extension WHERE extname = 'vector';
     `);
-    
+
     if (extensions.rows.length > 0) {
       console.log('\n✓ pgvector extension is active!');
     }
-    
+
   } catch (error) {
     console.error('\n❌ Database initialization failed:', error);
     process.exit(1);

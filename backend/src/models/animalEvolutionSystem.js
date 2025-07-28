@@ -127,21 +127,21 @@ class AnimalEvolutionSystem {
   }
 
   // ==================== 동물 상태 계산 ====================
-  
+
   getAnimalState(userProfile) {
     const evolutionPoints = userProfile.evolutionPoints || 0;
     const stage = this.getEvolutionStage(evolutionPoints);
     const stageProgress = this.getStageProgress(evolutionPoints, stage);
-    
+
     // 기본 상태
     const state = {
       animalType: userProfile.aptType,
       animalEmoji: SAYU_TYPES[userProfile.aptType].emoji,
       animalName: SAYU_TYPES[userProfile.aptType].animal,
-      stage: stage,
+      stage,
       stageData: this.evolutionStages[stage],
       progress: stageProgress,
-      
+
       // 시각적 속성
       visual: {
         size: this.evolutionStages[stage].sizeScale,
@@ -151,24 +151,24 @@ class AnimalEvolutionSystem {
         features: this.evolutionStages[stage].features,
         specialEffects: []
       },
-      
+
       // 애니메이션 상태
       animation: {
         idle: this.getIdleAnimation(stage),
         interaction: null,
         mood: this.getAnimalMood(userProfile)
       },
-      
+
       // 업적 표시
       achievements: {
         badges: this.getVisibleBadges(userProfile),
         titles: this.getEarnedTitles(userProfile)
       }
     };
-    
+
     // 최근 행동에 따른 임시 효과 추가
     this.addRecentActionEffects(state, userProfile.recentActions);
-    
+
     return state;
   }
 
@@ -185,24 +185,24 @@ class AnimalEvolutionSystem {
   getStageProgress(points, currentStage) {
     const current = this.evolutionStages[currentStage];
     const next = this.evolutionStages[currentStage + 1];
-    
+
     if (!next) return 100; // 최고 단계
-    
+
     const stagePoints = points - current.requiredPoints;
     const stageTotal = next.requiredPoints - current.requiredPoints;
-    
+
     return Math.round((stagePoints / stageTotal) * 100);
   }
 
   // ==================== 시각적 요소 계산 ====================
-  
+
   getAnimalBaseColor(aptType) {
     // APT의 첫 글자에 따른 기본 색상
     const baseColors = this.aptColorPalettes[aptType[0]];
-    
+
     // 두 번째 글자에 따른 색상 조정
     const glowColor = this.aptColorPalettes[aptType[1]]?.glow;
-    
+
     return {
       primary: baseColors.primary,
       secondary: baseColors.secondary,
@@ -214,7 +214,7 @@ class AnimalEvolutionSystem {
   getTastePattern(userProfile) {
     // 사용자의 취향 다양성에 따른 패턴 결정
     const diversityScore = userProfile.tasteDiversity || 0;
-    
+
     if (diversityScore < 0.3) return 'dots';
     if (diversityScore < 0.5) return 'stripes';
     if (diversityScore < 0.7) return 'swirls';
@@ -236,14 +236,14 @@ class AnimalEvolutionSystem {
       4: 'float',        // 숙련가: 우아하게 떠있기
       5: 'glow_pulse'    // 마스터: 빛나며 맥동
     };
-    
+
     return animations[stage] || 'breathe';
   }
 
   getAnimalMood(userProfile) {
     // 최근 활동에 따른 기분 상태
     const recentPoints = userProfile.weeklyPoints || 0;
-    
+
     if (recentPoints > 100) return 'excited';
     if (recentPoints > 50) return 'happy';
     if (recentPoints > 10) return 'content';
@@ -252,16 +252,16 @@ class AnimalEvolutionSystem {
   }
 
   // ==================== 특수 효과 ====================
-  
+
   addRecentActionEffects(state, recentActions = []) {
     if (!recentActions || recentActions.length === 0) return;
-    
+
     const now = Date.now();
-    
+
     recentActions.forEach(action => {
       const actionTime = new Date(action.timestamp).getTime();
       const timeSince = now - actionTime;
-      
+
       const effect = this.temporaryEffects[action.type];
       if (effect && timeSince < effect.duration) {
         state.visual.specialEffects.push({
@@ -274,11 +274,11 @@ class AnimalEvolutionSystem {
   }
 
   // ==================== 업적 시각화 ====================
-  
+
   getVisibleBadges(userProfile) {
     const badges = [];
     const milestones = userProfile.milestones || [];
-    
+
     // 주요 마일스톤 뱃지 (최대 3개 표시)
     const badgeMap = {
       'first_evolution': { icon: '🌱', position: 'left' },
@@ -286,20 +286,20 @@ class AnimalEvolutionSystem {
       'art_connoisseur': { icon: '👑', position: 'top' },
       'taste_master': { icon: '✨', position: 'center' }
     };
-    
+
     milestones.forEach(milestone => {
       if (badgeMap[milestone] && badges.length < 3) {
         badges.push(badgeMap[milestone]);
       }
     });
-    
+
     return badges;
   }
 
   getEarnedTitles(userProfile) {
     const stage = this.getEvolutionStage(userProfile.evolutionPoints || 0);
     const aptData = SAYU_TYPES[userProfile.aptType];
-    
+
     return {
       stage: this.evolutionStages[stage].name,
       apt: aptData.name,
@@ -316,7 +316,7 @@ class AnimalEvolutionSystem {
   }
 
   // ==================== 진화 애니메이션 ====================
-  
+
   getEvolutionAnimation(oldStage, newStage) {
     return {
       type: 'stage_up',
@@ -343,7 +343,7 @@ class AnimalEvolutionSystem {
   }
 
   // ==================== 효율적 렌더링을 위한 데이터 ====================
-  
+
   getOptimizedRenderData(animalState) {
     // SVG 레이어 기반 렌더링을 위한 최적화된 데이터
     return {
@@ -353,7 +353,7 @@ class AnimalEvolutionSystem {
         emoji: animalState.animalEmoji,
         scale: animalState.visual.size
       },
-      
+
       // 색상 레이어 (CSS 변수로 제어)
       colors: {
         '--primary': animalState.visual.baseColor.primary,
@@ -361,36 +361,36 @@ class AnimalEvolutionSystem {
         '--accent': animalState.visual.baseColor.accent,
         '--glow': animalState.visual.baseColor.glow
       },
-      
+
       // 패턴 레이어
       pattern: {
         type: animalState.visual.patternType,
         opacity: animalState.visual.patternOpacity
       },
-      
+
       // 애니메이션 클래스
       animations: [
         `idle-${animalState.animation.idle}`,
         `mood-${animalState.animation.mood}`,
         animalState.stage > 3 ? 'has-aura' : ''
       ].filter(Boolean),
-      
+
       // 액세서리와 효과
       accessories: animalState.visual.features.accessory,
       effects: animalState.visual.specialEffects,
-      
+
       // 배경 환경
       environment: animalState.visual.features.environment
     };
   }
 
   // ==================== 저장용 간소화 데이터 ====================
-  
+
   getCompactState(fullState) {
     // DB 저장용 최소 데이터
     return {
       s: fullState.stage,  // stage
-      p: fullState.progress, // progress  
+      p: fullState.progress, // progress
       m: fullState.animation.mood, // mood
       e: fullState.visual.specialEffects.map(e => e.type) // effects
     };
@@ -400,7 +400,7 @@ class AnimalEvolutionSystem {
     // 압축된 상태에서 전체 상태 복원
     return {
       stage: compact.s,
-      progress: compact.p,
+      progress: compact.p
       // ... 나머지는 aptType과 stage로부터 재생성
     };
   }

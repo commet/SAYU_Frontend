@@ -18,7 +18,7 @@ const EXHIBITION_INFO_SITES = {
     type: 'public_listings',
     description: '서울 지역 갤러리 전시 정보 통합 제공'
   },
-  
+
   // 국립현대미술관 공식
   'mmca': {
     name: '국립현대미술관',
@@ -26,7 +26,7 @@ const EXHIBITION_INFO_SITES = {
     type: 'official_museum',
     description: '국립현대미술관 공식 진행 전시 목록'
   },
-  
+
   // 예술의전당 공식
   'sac': {
     name: '예술의전당',
@@ -34,7 +34,7 @@ const EXHIBITION_INFO_SITES = {
     type: 'official_venue',
     description: '예술의전당 공식 월간 전시 일정'
   },
-  
+
   // 아트114 - 공개 전시 DB
   'art114': {
     name: '아트114',
@@ -53,14 +53,14 @@ const EXHIBITION_BLOGGERS = {
     description: '디자인 및 전시 전문 매거진',
     sample_post: 'https://design.co.kr/article/105122' // 2025년 주목 전시
   },
-  
+
   'art_insight': {
     name: '아트인사이트',
     url: 'https://www.artinsight.co.kr/',
     type: 'art_magazine',
     description: '미술 전문 온라인 매거진'
   },
-  
+
   'monthly_art': {
     name: '월간미술',
     url: 'https://monthlyart.com/',
@@ -85,20 +85,20 @@ class ExhibitionInfoCollector {
 
     // 1. robots.txt 확인
     await this.checkRobotsTxt();
-    
+
     // 2. 공개 API/RSS 확인
     await this.checkPublicApis();
-    
+
     // 3. 사이트 접근성 테스트
     await this.testSiteAccessibility();
-    
+
     // 4. 추천 수집 전략 제시
     this.recommendStrategy();
   }
 
   async checkRobotsTxt() {
     console.log('🤖 robots.txt 확인 중...');
-    
+
     const sitesToCheck = [
       'https://www.daljin.com',
       'https://design.co.kr',
@@ -110,31 +110,31 @@ class ExhibitionInfoCollector {
       try {
         const robotsUrl = `${siteUrl}/robots.txt`;
         const response = await axios.get(robotsUrl, { timeout: 5000 });
-        
+
         console.log(`   ✅ ${siteUrl}/robots.txt 확인`);
-        
+
         // Disallow 규칙 확인
         const disallowRules = response.data.split('\n')
           .filter(line => line.toLowerCase().includes('disallow'))
           .slice(0, 3); // 처음 3개만
-          
+
         if (disallowRules.length > 0) {
           console.log(`      금지 규칙: ${disallowRules.join(', ')}`);
         } else {
           console.log(`      🟢 크롤링 제한 없음`);
         }
-        
+
       } catch (error) {
         console.log(`   ❌ ${siteUrl} robots.txt 접근 실패`);
       }
-      
+
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
   }
 
   async checkPublicApis() {
     console.log('\n📡 공개 API/RSS 피드 확인 중...');
-    
+
     const publicEndpoints = [
       {
         name: '국립현대미술관 RSS',
@@ -142,7 +142,7 @@ class ExhibitionInfoCollector {
         type: 'rss'
       },
       {
-        name: '예술의전당 RSS', 
+        name: '예술의전당 RSS',
         url: 'https://www.sac.or.kr/rss.do',
         type: 'rss'
       },
@@ -155,31 +155,31 @@ class ExhibitionInfoCollector {
 
     for (const endpoint of publicEndpoints) {
       try {
-        const response = await axios.get(endpoint.url, { 
+        const response = await axios.get(endpoint.url, {
           timeout: 10000,
           headers: {
             'User-Agent': 'Mozilla/5.0 (compatible; SAYU-ExhibitionBot/1.0)'
           }
         });
-        
+
         console.log(`   ✅ ${endpoint.name} 접근 성공 (${response.status})`);
         console.log(`      데이터 크기: ${response.data.length} bytes`);
-        
+
         if (endpoint.type === 'rss' && response.data.includes('<?xml')) {
           console.log(`      🟢 유효한 RSS 피드 확인`);
         }
-        
+
       } catch (error) {
         console.log(`   ❌ ${endpoint.name} 접근 실패: ${error.message}`);
       }
-      
+
       await new Promise(resolve => setTimeout(resolve, 1500));
     }
   }
 
   async testSiteAccessibility() {
     console.log('\n🌐 사이트 접근성 테스트...');
-    
+
     for (const [key, site] of Object.entries(EXHIBITION_INFO_SITES)) {
       try {
         const response = await axios.get(site.url, {
@@ -188,27 +188,27 @@ class ExhibitionInfoCollector {
             'User-Agent': 'Mozilla/5.0 (compatible; SAYU-ExhibitionBot/1.0)'
           }
         });
-        
+
         console.log(`   ✅ ${site.name} 접근 성공`);
         console.log(`      응답 크기: ${response.data.length} bytes`);
-        
+
         // HTML에서 전시 관련 키워드 찾기
         const exhibitionKeywords = ['전시', 'exhibition', '갤러리', 'gallery'];
-        const foundKeywords = exhibitionKeywords.filter(keyword => 
+        const foundKeywords = exhibitionKeywords.filter(keyword =>
           response.data.toLowerCase().includes(keyword)
         );
-        
+
         if (foundKeywords.length > 0) {
           console.log(`      🎨 전시 관련 콘텐츠 확인: ${foundKeywords.join(', ')}`);
         }
-        
+
         this.stats.success++;
-        
+
       } catch (error) {
         console.log(`   ❌ ${site.name} 접근 실패: ${error.message}`);
         this.stats.errors++;
       }
-      
+
       this.stats.sites_checked++;
       await new Promise(resolve => setTimeout(resolve, 2000));
     }
@@ -217,7 +217,7 @@ class ExhibitionInfoCollector {
   recommendStrategy() {
     console.log('\n\n💡 추천 수집 전략:');
     console.log('='.repeat(60));
-    
+
     console.log('🎯 1순위: 공식 미술관 사이트');
     console.log('   • 국립현대미술관, 리움미술관, 예술의전당 등');
     console.log('   • robots.txt 준수하며 공개 전시 정보 수집');
@@ -248,7 +248,7 @@ class ExhibitionInfoCollector {
 
 async function main() {
   const collector = new ExhibitionInfoCollector();
-  
+
   try {
     await collector.collectFromInfoSites();
   } catch (error) {

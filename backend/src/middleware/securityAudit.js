@@ -13,28 +13,28 @@ class SecurityAuditService {
       // SQL Injection patterns
       /(\b(union|select|insert|delete|drop|create|alter|exec|execute)\b)/i,
       /(--|\/\*|\*\/|;|'|")/,
-      
+
       // XSS patterns
       /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
       /javascript:/i,
       /on\w+\s*=/i,
       /<iframe\b[^>]*>/i,
-      
+
       // Path traversal
       /(\.\.[\/\\]){2,}/,
       /(\/|\\)\.\.(\/|\\)/,
-      
+
       // Command injection
       /[;&|`$(){}[\]]/,
       /\b(wget|curl|nc|netcat|bash|sh|cmd|powershell)\b/i,
-      
+
       // LDAP injection
       /[*()\\]/,
-      
+
       // NoSQL injection
       /\$where|\$ne|\$gt|\$lt/i
     ];
-    
+
     this.rateLimitViolations = new Map();
     this.ipWhitelist = new Set(['127.0.0.1', '::1']); // Add trusted IPs
     this.ipBlacklist = new Set(); // Blocked IPs
@@ -123,7 +123,7 @@ class SecurityAuditService {
     }
 
     if (obj && typeof obj === 'object') {
-      return Object.values(obj).some(value => 
+      return Object.values(obj).some(value =>
         this.checkSuspiciousContent(value, depth + 1)
       );
     }
@@ -134,24 +134,24 @@ class SecurityAuditService {
   // Rate limiting check
   async checkRateLimit(ip, endpoint) {
     const limit = this.getRateLimitForEndpoint(endpoint);
-    
+
     if (!redisClient || typeof redisClient !== 'function') {
       return { exceeded: false, current: 0, limit, resetTime: Date.now() + 60000 };
     }
-    
+
     try {
       const redis = redisClient();
       if (!redis) {
         return { exceeded: false, current: 0, limit, resetTime: Date.now() + 60000 };
       }
-      
+
       const key = `rate_limit:${ip}:${endpoint}`;
       const current = await redis.incr(key);
-      
+
       if (current === 1) {
         await redis.expire(key, 60); // 1 minute window
       }
-      
+
       return {
         exceeded: current > limit,
         current,
@@ -193,7 +193,7 @@ class SecurityAuditService {
       'bot', 'crawler', 'spider', 'scraper', 'curl', 'wget',
       'python-requests', 'http', 'java', 'go-http-client'
     ];
-    
+
     if (botUserAgents.some(bot => userAgent.toLowerCase().includes(bot))) {
       score += 0.5;
     }
@@ -215,7 +215,7 @@ class SecurityAuditService {
   // Block malicious requests
   blockRequest(res, reason, auditData) {
     this.logSecurityEvent('REQUEST_BLOCKED', { ...auditData, reason });
-    
+
     return res.status(403).json({
       error: 'Request blocked for security reasons',
       code: reason,
@@ -262,7 +262,7 @@ class SecurityAuditService {
   async logRequest(auditData) {
     // Only log to Redis if it's an important endpoint
     const importantEndpoints = ['/api/auth/', '/api/quiz/', '/api/agent/'];
-    
+
     if (importantEndpoints.some(endpoint => auditData.url.includes(endpoint))) {
       if (redisClient && typeof redisClient === 'function') {
         try {
@@ -280,9 +280,9 @@ class SecurityAuditService {
 
   // Utility methods
   getClientIP(req) {
-    return req.headers['x-forwarded-for'] || 
-           req.headers['x-real-ip'] || 
-           req.connection.remoteAddress || 
+    return req.headers['x-forwarded-for'] ||
+           req.headers['x-real-ip'] ||
+           req.connection.remoteAddress ||
            req.socket.remoteAddress ||
            req.ip ||
            'unknown';
@@ -291,7 +291,7 @@ class SecurityAuditService {
   sanitizeHeaders(headers) {
     const sensitive = ['authorization', 'cookie', 'x-api-key'];
     const sanitized = {};
-    
+
     for (const [key, value] of Object.entries(headers)) {
       if (sensitive.includes(key.toLowerCase())) {
         sanitized[key] = '[REDACTED]';
@@ -299,7 +299,7 @@ class SecurityAuditService {
         sanitized[key] = value;
       }
     }
-    
+
     return sanitized;
   }
 
@@ -307,7 +307,7 @@ class SecurityAuditService {
   async getSecurityStats() {
     const stats = {};
     const eventTypes = ['SUSPICIOUS_URL', 'SUSPICIOUS_PAYLOAD', 'REQUEST_BLOCKED', 'POTENTIAL_BOT'];
-    
+
     if (redisClient && typeof redisClient === 'function') {
       try {
         const redis = redisClient();
@@ -316,12 +316,12 @@ class SecurityAuditService {
             const pattern = `security_count:${eventType}:*`;
             const keys = await redis.keys(pattern);
             let total = 0;
-            
+
             for (const key of keys) {
               const count = await redis.get(key);
               total += parseInt(count || 0);
             }
-            
+
             stats[eventType] = total;
           }
         }
@@ -329,7 +329,7 @@ class SecurityAuditService {
         // Return empty stats if Redis is not available
       }
     }
-    
+
     return stats;
   }
 
@@ -370,17 +370,17 @@ class SecurityAuditService {
 
   async getRecentSecurityEvents(limit = 100) {
     const events = [];
-    
+
     if (redisClient && typeof redisClient === 'function') {
       try {
         const redis = redisClient();
         if (redis) {
           const pattern = 'security_events:*';
           const keys = await redis.keys(pattern);
-          
+
           // Sort keys by timestamp (newest first)
           keys.sort().reverse();
-          
+
           for (const key of keys.slice(0, limit)) {
             const event = await redis.get(key);
             if (event) {
@@ -392,7 +392,7 @@ class SecurityAuditService {
         // Return empty events if Redis is not available
       }
     }
-    
+
     return events;
   }
 }

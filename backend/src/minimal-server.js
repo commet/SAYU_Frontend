@@ -26,7 +26,7 @@ const emailJobs = {
         FROM profiles 
         WHERE email_preferences->>'weekly_insights' = 'true'
       `);
-      
+
       // 이메일 발송 로직
       for (const user of users) {
         // TODO: 실제 이메일 발송 구현
@@ -47,7 +47,7 @@ const emailJobs = {
         WHERE last_login < NOW() - INTERVAL '30 days'
         AND email_preferences->>'re_engagement' = 'true'
       `);
-      
+
       for (const user of inactiveUsers) {
         console.log(`Sending re-engagement email to ${user.email}`);
       }
@@ -65,7 +65,7 @@ const emailJobs = {
         FROM profiles 
         WHERE email_preferences->>'monthly_picks' = 'true'
       `);
-      
+
       for (const user of users) {
         console.log(`Sending monthly picks to ${user.email}`);
       }
@@ -84,13 +84,13 @@ const museumSyncJob = cron.schedule('0 3 * * *', async () => {
       'https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=11'
     );
     const metData = await metResponse.json();
-    
+
     // 데이터 처리 및 저장
     console.log(`Synced ${metData.objectIDs?.length || 0} objects from Met Museum`);
-    
+
     // Cleveland Museum API 동기화
     // Rijksmuseum API 동기화
-    
+
   } catch (error) {
     console.error('Museum sync job error:', error);
   }
@@ -110,11 +110,11 @@ app.listen(PORT, () => {
 // Graceful shutdown
 process.on('SIGTERM', () => {
   console.log('SIGTERM received, shutting down gracefully...');
-  
+
   // 모든 크론 작업 중지
   Object.values(emailJobs).forEach(job => job.stop());
   museumSyncJob.stop();
-  
+
   // 데이터베이스 연결 종료
   pool.end(() => {
     console.log('Database pool closed');

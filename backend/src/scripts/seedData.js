@@ -5,54 +5,54 @@ require('dotenv').config();
 
 const sampleArtworks = [
   {
-    title: "The Starry Night",
-    artist: "Vincent van Gogh",
+    title: 'The Starry Night',
+    artist: 'Vincent van Gogh',
     year: 1889,
-    medium: "Oil on canvas",
-    description: "A swirling night sky over a quiet town",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
-    emotionalTags: ["dreamy", "turbulent", "contemplative", "mystical"],
-    movement: "Post-Impressionism"
+    medium: 'Oil on canvas',
+    description: 'A swirling night sky over a quiet town',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg',
+    emotionalTags: ['dreamy', 'turbulent', 'contemplative', 'mystical'],
+    movement: 'Post-Impressionism'
   },
   {
-    title: "The Great Wave off Kanagawa",
-    artist: "Katsushika Hokusai",
+    title: 'The Great Wave off Kanagawa',
+    artist: 'Katsushika Hokusai',
     year: 1831,
-    medium: "Woodblock print",
-    description: "Iconic wave threatening boats near Mount Fuji",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/1280px-The_Great_Wave_off_Kanagawa.jpg",
-    emotionalTags: ["powerful", "dynamic", "threatening", "majestic"],
-    movement: "Ukiyo-e"
+    medium: 'Woodblock print',
+    description: 'Iconic wave threatening boats near Mount Fuji',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/1280px-The_Great_Wave_off_Kanagawa.jpg',
+    emotionalTags: ['powerful', 'dynamic', 'threatening', 'majestic'],
+    movement: 'Ukiyo-e'
   },
   {
-    title: "Girl with a Pearl Earring",
-    artist: "Johannes Vermeer",
+    title: 'Girl with a Pearl Earring',
+    artist: 'Johannes Vermeer',
     year: 1665,
-    medium: "Oil on canvas",
-    description: "Mysterious portrait of a girl with a pearl earring",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/800px-1665_Girl_with_a_Pearl_Earring.jpg",
-    emotionalTags: ["mysterious", "intimate", "serene", "captivating"],
-    movement: "Dutch Golden Age"
+    medium: 'Oil on canvas',
+    description: 'Mysterious portrait of a girl with a pearl earring',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/800px-1665_Girl_with_a_Pearl_Earring.jpg',
+    emotionalTags: ['mysterious', 'intimate', 'serene', 'captivating'],
+    movement: 'Dutch Golden Age'
   }
 ];
 
 async function seedData() {
   console.log('🌱 Starting data seeding...');
-  
+
   const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
   });
 
   try {
     const client = await pool.connect();
     console.log('✅ Connected to PostgreSQL');
-    
+
     // Create demo user
     console.log('👤 Creating demo user...');
     const hashedPassword = await bcrypt.hash('demo123', 10);
     const userId = uuidv4();
-    
+
     await client.query(`
       INSERT INTO users (
         id, email, password_hash, nickname, age, location,
@@ -70,9 +70,9 @@ async function seedData() {
       'explorer',
       'discovering'
     ]);
-    
+
     console.log('✅ Demo user created (email: demo@sayu.art, password: demo123)');
-    
+
     // Create artworks table if it doesn't exist
     console.log('🎨 Setting up artworks...');
     await client.query(`
@@ -90,7 +90,7 @@ async function seedData() {
         created_at TIMESTAMPTZ DEFAULT NOW()
       )
     `);
-    
+
     // Insert sample artworks
     for (const artwork of sampleArtworks) {
       await client.query(`
@@ -110,12 +110,12 @@ async function seedData() {
         artwork.movement
       ]);
     }
-    
+
     console.log('✅ Sample artworks added');
-    
+
     // Create additional tables that might be needed
     console.log('📊 Creating additional tables...');
-    
+
     // User interactions table
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_interactions (
@@ -128,7 +128,7 @@ async function seedData() {
         created_at TIMESTAMPTZ DEFAULT NOW()
       )
     `);
-    
+
     // Reflections table
     await client.query(`
       CREATE TABLE IF NOT EXISTS reflections (
@@ -142,7 +142,7 @@ async function seedData() {
         created_at TIMESTAMPTZ DEFAULT NOW()
       )
     `);
-    
+
     // Recommendations table
     await client.query(`
       CREATE TABLE IF NOT EXISTS recommendations (
@@ -155,12 +155,12 @@ async function seedData() {
         created_at TIMESTAMPTZ DEFAULT NOW()
       )
     `);
-    
+
     console.log('✅ Additional tables created');
-    
+
     client.release();
     console.log('🎉 Data seeding complete!');
-    
+
   } catch (error) {
     console.error('❌ Data seeding failed:', error);
     throw error;

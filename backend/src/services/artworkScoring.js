@@ -5,66 +5,66 @@ class ArtworkScoringService {
   constructor() {
     // Tag mappings for artwork questions Q1-Q12
     this.questionTags = {
-      "Q1": {
-        "A": ["symbolic_complexity", "emotional_resonance"], 
-        "B": ["clear_narrative", "representational_form"]
+      'Q1': {
+        'A': ['symbolic_complexity', 'emotional_resonance'],
+        'B': ['clear_narrative', 'representational_form']
       },
-      "Q2": {
-        "A": ["spatial_complexity", "vivid_color"], 
-        "B": ["material_detail", "calm_mood"]
+      'Q2': {
+        'A': ['spatial_complexity', 'vivid_color'],
+        'B': ['material_detail', 'calm_mood']
       },
-      "Q3": {
-        "A": ["symbolic_complexity", "material_detail"], 
-        "B": ["clear_narrative", "representational_form"]
+      'Q3': {
+        'A': ['symbolic_complexity', 'material_detail'],
+        'B': ['clear_narrative', 'representational_form']
       },
-      "Q4": {
-        "A": ["vivid_color", "emotional_resonance"], 
-        "B": ["calm_mood", "representational_form"]
+      'Q4': {
+        'A': ['vivid_color', 'emotional_resonance'],
+        'B': ['calm_mood', 'representational_form']
       },
-      "Q5": {
-        "A": ["symbolic_complexity", "spatial_complexity"], 
-        "B": ["clear_narrative", "material_detail"]
+      'Q5': {
+        'A': ['symbolic_complexity', 'spatial_complexity'],
+        'B': ['clear_narrative', 'material_detail']
       },
-      "Q6": {
-        "A": ["vivid_color", "representational_form"], 
-        "B": ["calm_mood", "symbolic_complexity"]
+      'Q6': {
+        'A': ['vivid_color', 'representational_form'],
+        'B': ['calm_mood', 'symbolic_complexity']
       },
-      "Q7": {
-        "A": ["emotional_resonance", "material_detail"], 
-        "B": ["representational_form", "clear_narrative"]
+      'Q7': {
+        'A': ['emotional_resonance', 'material_detail'],
+        'B': ['representational_form', 'clear_narrative']
       },
-      "Q8": {
-        "A": ["symbolic_complexity", "vivid_color"], 
-        "B": ["clear_narrative", "calm_mood"]
+      'Q8': {
+        'A': ['symbolic_complexity', 'vivid_color'],
+        'B': ['clear_narrative', 'calm_mood']
       },
-      "Q9": {
-        "A": ["spatial_complexity", "material_detail"], 
-        "B": ["representational_form", "calm_mood"]
+      'Q9': {
+        'A': ['spatial_complexity', 'material_detail'],
+        'B': ['representational_form', 'calm_mood']
       },
-      "Q10": {
-        "A": ["emotional_resonance", "spatial_complexity"], 
-        "B": ["clear_narrative", "material_detail"]
+      'Q10': {
+        'A': ['emotional_resonance', 'spatial_complexity'],
+        'B': ['clear_narrative', 'material_detail']
       },
-      "Q11": {
-        "A": ["symbolic_complexity", "calm_mood"], 
-        "B": ["clear_narrative", "vivid_color"]
+      'Q11': {
+        'A': ['symbolic_complexity', 'calm_mood'],
+        'B': ['clear_narrative', 'vivid_color']
       },
-      "Q12": {
-        "A": ["representational_form", "emotional_resonance"], 
-        "B": ["symbolic_complexity", "spatial_complexity"]
+      'Q12': {
+        'A': ['representational_form', 'emotional_resonance'],
+        'B': ['symbolic_complexity', 'spatial_complexity']
       }
     };
 
     // Image generation prompt templates for each tag
     this.promptTemplates = {
-      "symbolic_complexity": "An abstract, multi-layered artwork filled with symbolic objects, inspired by surrealism",
-      "clear_narrative": "A figurative painting depicting a clear storyline with visible characters and action",
-      "material_detail": "A close-up of a sculpture or texture-rich installation, emphasizing physical material",
-      "spatial_complexity": "A complex 3D installation with varied depth and overlapping structures, playing with space",
-      "vivid_color": "A vibrant, high-saturation painting with energetic brushstrokes and intense hues",
-      "calm_mood": "A minimalist artwork in soft tones, evoking a serene and meditative atmosphere",
-      "emotional_resonance": "An emotionally charged artwork that evokes nostalgia or inner reflection",
-      "representational_form": "A highly realistic painting or photograph capturing tangible everyday moments"
+      'symbolic_complexity': 'An abstract, multi-layered artwork filled with symbolic objects, inspired by surrealism',
+      'clear_narrative': 'A figurative painting depicting a clear storyline with visible characters and action',
+      'material_detail': 'A close-up of a sculpture or texture-rich installation, emphasizing physical material',
+      'spatial_complexity': 'A complex 3D installation with varied depth and overlapping structures, playing with space',
+      'vivid_color': 'A vibrant, high-saturation painting with energetic brushstrokes and intense hues',
+      'calm_mood': 'A minimalist artwork in soft tones, evoking a serene and meditative atmosphere',
+      'emotional_resonance': 'An emotionally charged artwork that evokes nostalgia or inner reflection',
+      'representational_form': 'A highly realistic painting or photograph capturing tangible everyday moments'
     };
   }
 
@@ -76,15 +76,15 @@ class ArtworkScoringService {
   calculateArtworkPreferences(responses) {
     // Initialize tag counter
     const tagCounter = {};
-    
+
     // Count tags from each response
     Object.entries(responses).forEach(([questionId, answer]) => {
       // Map core questions (C1-C8) to Q1-Q8, and other sections accordingly
       const mappedQuestionId = this.mapQuestionId(questionId);
-      
+
       if (this.questionTags[mappedQuestionId]) {
         const tags = this.questionTags[mappedQuestionId][answer.answer || answer];
-        
+
         if (tags) {
           tags.forEach(tag => {
             tagCounter[tag] = (tagCounter[tag] || 0) + 1;
@@ -100,7 +100,7 @@ class ArtworkScoringService {
 
     // Get top 2 tags for image generation
     const topTags = resultVector.slice(0, 2).map(item => item.tag);
-    
+
     // Generate artwork recommendation prompt
     const artworkPrompt = this.generateArtworkPrompt(topTags);
 
@@ -130,7 +130,7 @@ class ArtworkScoringService {
         return `Q${num}`;
       }
     }
-    
+
     // Map painting questions P1-P4 to Q9-Q12
     if (questionId.startsWith('P')) {
       const num = parseInt(questionId.substring(1));
@@ -138,7 +138,7 @@ class ArtworkScoringService {
         return `Q${num + 8}`;
       }
     }
-    
+
     // For multidimensional and mixed, use fallback mapping
     if (questionId.startsWith('M') || questionId.startsWith('X')) {
       // Use modulo to map to existing questions
@@ -148,7 +148,7 @@ class ArtworkScoringService {
       }, 0);
       return `Q${Math.abs(hashCode % 12) + 1}`;
     }
-    
+
     return 'Q1'; // Default fallback
   }
 
@@ -159,11 +159,11 @@ class ArtworkScoringService {
    */
   generateArtworkPrompt(topTags) {
     if (topTags.length === 0) {
-      return "A beautiful, contemplative artwork that evokes emotional connection";
+      return 'A beautiful, contemplative artwork that evokes emotional connection';
     }
-    
-    const prompts = topTags.map(tag => this.promptTemplates[tag] || "artistic expression");
-    return prompts.join(" + ");
+
+    const prompts = topTags.map(tag => this.promptTemplates[tag] || 'artistic expression');
+    return prompts.join(' + ');
   }
 
   /**
@@ -173,7 +173,7 @@ class ArtworkScoringService {
    */
   createPreferenceProfile(tagCounter) {
     const totalResponses = Object.values(tagCounter).reduce((sum, count) => sum + count, 0);
-    
+
     // Calculate percentages
     const preferences = {};
     Object.entries(tagCounter).forEach(([tag, count]) => {
@@ -210,13 +210,13 @@ class ArtworkScoringService {
     const material_score = (tagCounter.material_detail || 0) + (tagCounter.vivid_color || 0);
 
     const maxScore = Math.max(abstract_score, realistic_score, emotional_score, material_score);
-    
-    if (maxScore === abstract_score) return "Abstract Conceptual";
-    if (maxScore === realistic_score) return "Realistic Narrative";
-    if (maxScore === emotional_score) return "Emotional Expressive";
-    if (maxScore === material_score) return "Material Focused";
-    
-    return "Balanced Aesthetic";
+
+    if (maxScore === abstract_score) return 'Abstract Conceptual';
+    if (maxScore === realistic_score) return 'Realistic Narrative';
+    if (maxScore === emotional_score) return 'Emotional Expressive';
+    if (maxScore === material_score) return 'Material Focused';
+
+    return 'Balanced Aesthetic';
   }
 
   /**
@@ -226,12 +226,12 @@ class ArtworkScoringService {
    */
   getArtworkRecommendations(preferences) {
     const { topTags, dominantStyle, categories } = preferences;
-    
+
     const recommendations = [];
-    
+
     // Add primary recommendation based on dominant style
     recommendations.push({
-      type: "primary",
+      type: 'primary',
       style: dominantStyle,
       prompt: this.generateArtworkPrompt(topTags),
       confidence: this.calculateConfidence(categories)
@@ -245,8 +245,8 @@ class ArtworkScoringService {
 
     if (secondaryTags.length > 0) {
       recommendations.push({
-        type: "secondary",
-        style: "Alternative Style",
+        type: 'secondary',
+        style: 'Alternative Style',
         prompt: this.generateArtworkPrompt(secondaryTags),
         confidence: 0.7
       });
@@ -263,7 +263,7 @@ class ArtworkScoringService {
   calculateConfidence(categories) {
     const total = Object.values(categories).reduce((sum, val) => sum + val, 0);
     const maxCategory = Math.max(...Object.values(categories));
-    
+
     if (total === 0) return 0.5;
     return Math.min(0.95, 0.5 + (maxCategory / total) * 0.45);
   }

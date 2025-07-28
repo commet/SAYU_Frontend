@@ -27,8 +27,8 @@ router.get('/recommend', authenticateToken, async (req, res) => {
 
     // 사용자가 이미 본 작가 제외
     const userId = req.user?.id;
-    let excludeIds = [];
-    
+    const excludeIds = [];
+
     if (userId) {
       // 사용자 활동 기록에서 최근 본 작가 가져오기
       // TODO: user_artist_interactions 테이블 구현
@@ -46,7 +46,7 @@ router.get('/recommend', authenticateToken, async (req, res) => {
       success: true,
       data: recommendations
     });
-    
+
   } catch (error) {
     console.error('추천 오류:', error);
     res.status(500).json({
@@ -64,9 +64,9 @@ router.get('/recommend/era/:era', async (req, res) => {
   try {
     const { era } = req.params;
     const { limit = 10 } = req.query;
-    
+
     const artists = await recommender.recommendByEra(era, parseInt(limit));
-    
+
     res.json({
       success: true,
       data: {
@@ -75,7 +75,7 @@ router.get('/recommend/era/:era', async (req, res) => {
         count: artists.length
       }
     });
-    
+
   } catch (error) {
     console.error('시대별 추천 오류:', error);
     res.status(500).json({
@@ -93,14 +93,14 @@ router.get('/recommend/era/:era', async (req, res) => {
 router.get('/educational-path', async (req, res) => {
   try {
     const { level = 'beginner' } = req.query;
-    
+
     const path = await recommender.getEducationalPath(level);
-    
+
     res.json({
       success: true,
       data: path
     });
-    
+
   } catch (error) {
     console.error('학습 경로 오류:', error);
     res.status(500).json({
@@ -117,9 +117,9 @@ router.get('/educational-path', async (req, res) => {
 router.get('/diverse', async (req, res) => {
   try {
     const { limit = 20 } = req.query;
-    
+
     const artists = await recommender.getDiverseRecommendations(parseInt(limit));
-    
+
     res.json({
       success: true,
       data: {
@@ -130,7 +130,7 @@ router.get('/diverse', async (req, res) => {
         }
       }
     });
-    
+
   } catch (error) {
     console.error('다양성 추천 오류:', error);
     res.status(500).json({
@@ -147,7 +147,7 @@ router.get('/diverse', async (req, res) => {
 router.get('/masters', async (req, res) => {
   try {
     const { pool } = require('../config/database');
-    
+
     const masters = await pool.query(`
       SELECT 
         id, name, nationality, era, birth_year, death_year,
@@ -156,7 +156,7 @@ router.get('/masters', async (req, res) => {
       WHERE importance_tier = 1
       ORDER BY importance_score DESC, name
     `);
-    
+
     res.json({
       success: true,
       data: {
@@ -164,7 +164,7 @@ router.get('/masters', async (req, res) => {
         count: masters.rows.length
       }
     });
-    
+
   } catch (error) {
     console.error('거장 목록 오류:', error);
     res.status(500).json({

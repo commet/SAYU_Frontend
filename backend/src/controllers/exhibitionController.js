@@ -24,7 +24,7 @@ function setCache(key, data) {
     data,
     timestamp: Date.now()
   });
-  
+
   // 캐시 정리 (10분마다)
   if (cache.size > 100) {
     const now = Date.now();
@@ -47,9 +47,9 @@ const exhibitionController = {
         return res.json(cachedData);
       }
 
-      const { 
-        page = 1, 
-        limit = 20, 
+      const {
+        page = 1,
+        limit = 20,
         status,
         city,
         venue_id,
@@ -166,14 +166,14 @@ const exhibitionController = {
 
       // 캐시에 저장
       setCache(cacheKey, response);
-      
+
       res.json(response);
 
     } catch (error) {
       console.error('Error in getExhibitions:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Internal server error' 
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
       });
     }
   },
@@ -193,11 +193,11 @@ const exhibitionController = {
       `;
 
       const result = await pool.query(query, [id]);
-      
+
       if (result.rows.length === 0) {
-        return res.status(404).json({ 
-          success: false, 
-          message: 'Exhibition not found' 
+        return res.status(404).json({
+          success: false,
+          message: 'Exhibition not found'
         });
       }
 
@@ -216,9 +216,9 @@ const exhibitionController = {
 
     } catch (error) {
       console.error('Error in getExhibition:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Internal server error' 
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
       });
     }
   },
@@ -245,8 +245,8 @@ const exhibitionController = {
 
       // Validate required fields
       if (!exhibitionTitle || !venueName || !startDate || !endDate || !submitterEmail) {
-        return res.status(400).json({ 
-          error: 'Missing required fields: exhibitionTitle, venueName, startDate, endDate, submitterEmail' 
+        return res.status(400).json({
+          error: 'Missing required fields: exhibitionTitle, venueName, startDate, endDate, submitterEmail'
         });
       }
 
@@ -258,7 +258,7 @@ const exhibitionController = {
       );
 
       if (existingSubmission) {
-        return res.status(409).json({ 
+        return res.status(409).json({
           error: 'This exhibition has already been submitted',
           submissionId: existingSubmission.id
         });
@@ -294,7 +294,7 @@ const exhibitionController = {
           'UPDATE users SET points = COALESCE(points, 0) + 100 WHERE id = $1',
           [req.user.id]
         );
-        
+
         await ExhibitionSubmissionModel.awardPoints(submission.id, 100);
       }
 
@@ -363,7 +363,7 @@ const exhibitionController = {
         }
 
         // Parse artists
-        const artists = submission.artists 
+        const artists = submission.artists
           ? submission.artists.split(',').map(a => ({ name: a.trim() }))
           : [];
 
@@ -397,7 +397,7 @@ const exhibitionController = {
             'UPDATE users SET points = COALESCE(points, 0) + 400 WHERE id = $1',
             [submission.submitter_id]
           );
-          
+
           await ExhibitionSubmissionModel.awardPoints(id, 400);
         }
 
@@ -463,7 +463,7 @@ const exhibitionController = {
   async getVenues(req, res) {
     try {
       const { city, country = 'KR', type, tier, search, limit = 50 } = req.query;
-      
+
       let query = 'SELECT * FROM venues WHERE is_active = true';
       const queryParams = [];
       let paramIndex = 1;
@@ -507,12 +507,12 @@ const exhibitionController = {
         success: true,
         data: result.rows
       });
-      
+
     } catch (error) {
       console.error('Get venues error:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Internal server error' 
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
       });
     }
   },
@@ -524,9 +524,9 @@ const exhibitionController = {
       const userId = req.user?.id;
 
       if (!userId) {
-        return res.status(401).json({ 
-          success: false, 
-          message: 'Authentication required' 
+        return res.status(401).json({
+          success: false,
+          message: 'Authentication required'
         });
       }
 
@@ -564,9 +564,9 @@ const exhibitionController = {
 
     } catch (error) {
       console.error('Error in likeExhibition:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Internal server error' 
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
       });
     }
   },
@@ -576,9 +576,9 @@ const exhibitionController = {
     try {
       const userId = req.user?.id;
       if (!userId) {
-        return res.status(401).json({ 
-          success: false, 
-          message: 'Authentication required' 
+        return res.status(401).json({
+          success: false,
+          message: 'Authentication required'
         });
       }
 
@@ -625,7 +625,7 @@ const exhibitionController = {
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
          RETURNING *`,
         [title, venue_name, venue_city, venue_country, start_date, end_date, description,
-         JSON.stringify(artists || []), admission_fee || 0, source_url, contact_info, userId, 'pending']
+          JSON.stringify(artists || []), admission_fee || 0, source_url, contact_info, userId, 'pending']
       );
 
       const submission = insertResult.rows[0];
@@ -638,9 +638,9 @@ const exhibitionController = {
 
     } catch (error) {
       console.error('Error in submitExhibition:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Internal server error' 
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
       });
     }
   },
@@ -649,7 +649,7 @@ const exhibitionController = {
   async getCityStats(req, res) {
     try {
       const result = await pool.query('SELECT venue_city, status FROM exhibitions');
-      
+
       const cityStats = result.rows.reduce((acc, ex) => {
         if (!acc[ex.venue_city]) {
           acc[ex.venue_city] = {
@@ -671,9 +671,9 @@ const exhibitionController = {
 
     } catch (error) {
       console.error('Error in getCityStats:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Internal server error' 
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
       });
     }
   },
@@ -702,9 +702,9 @@ const exhibitionController = {
 
     } catch (error) {
       console.error('Error in getPopularExhibitions:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Internal server error' 
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
       });
     }
   }

@@ -10,7 +10,7 @@ const pool = new Pool({
 
 async function showFinalStatus() {
   const client = await pool.connect();
-  
+
   try {
     // 1. 전체 통계
     const totalStats = await client.query(`
@@ -80,7 +80,7 @@ async function showFinalStatus() {
 
     console.log('\n🏛️ 도시별 전시 분포 (상위 10개):');
     cityStats.rows.forEach((city, i) => {
-      console.log(`   ${i+1}. ${city.venue_city}: ${city.count}개`);
+      console.log(`   ${i + 1}. ${city.venue_city}: ${city.count}개`);
     });
 
     console.log('\n📋 데이터 소스별 분포:');
@@ -101,7 +101,7 @@ async function showFinalStatus() {
     console.log('   • 개인전/기획전/비엔날레 등 다양한 형태');
     console.log('   • 모든 데이터 검증 완료 (실제 방문 가능)');
     console.log('   • 미술관급 대형 전시부터 갤러리 소규모 전시까지');
-    
+
     console.log('\n🚀 배포 후 기대 효과:');
     console.log('   • 사용자들이 실제 방문할 수 있는 풍부한 선택지');
     console.log('   • 지역별 특색 있는 전시 정보 제공');

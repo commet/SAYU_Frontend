@@ -12,14 +12,14 @@ const { SAYU_TYPES } = require('@sayu/shared');
 /**
  * GET /api/apt/artworks
  * APT 기반 작품 추천 (로그인 선택적)
- * 
+ *
  * Query params:
  * - aptType: APT 유형 (필수, 로그인하지 않은 경우)
  * - limit: 결과 개수 (기본 20)
  * - offset: 시작 위치 (기본 0)
  * - context: general, trending, seasonal, new (기본 general)
  */
-router.get('/artworks', 
+router.get('/artworks',
   optionalAuth,
   asyncHandler(async (req, res) => {
     await aptRecommendationController.getArtworkRecommendations(req, res);
@@ -29,7 +29,7 @@ router.get('/artworks',
 /**
  * GET /api/apt/exhibitions
  * APT 기반 전시 추천
- * 
+ *
  * Query params:
  * - aptType: APT 유형 (필수)
  * - location: 지역 (기본 seoul)
@@ -46,7 +46,7 @@ router.get('/exhibitions',
 /**
  * GET /api/apt/trending
  * APT별 인기 콘텐츠
- * 
+ *
  * Query params:
  * - aptType: APT 유형 (필수)
  * - period: daily, weekly, monthly (기본 daily)
@@ -60,7 +60,7 @@ router.get('/trending',
 /**
  * GET /api/apt/artwork/:artworkId/match
  * 특정 작품과 APT의 매칭 점수
- * 
+ *
  * Query params:
  * - aptType: APT 유형 (필수)
  */
@@ -75,7 +75,7 @@ router.get('/artwork/:artworkId/match',
 /**
  * POST /api/apt/behavior
  * 사용자 행동 기록 및 벡터 업데이트
- * 
+ *
  * Body:
  * {
  *   actions: [
@@ -114,19 +114,19 @@ router.post('/cache/warmup',
   asyncHandler(async (req, res) => {
     // TODO: 관리자 권한 체크
     const { aptTypes = Object.keys(SAYU_TYPES) } = req.body;
-    
+
     // 백그라운드에서 실행
     setImmediate(async () => {
       const cacheService = require('../services/aptCacheService');
       const service = new cacheService();
       await service.initialize();
-      
+
       for (const aptType of aptTypes) {
         await service.warmupArtworksForAPT(aptType);
         await service.warmupExhibitionsForAPT(aptType);
       }
     });
-    
+
     res.json({
       success: true,
       message: `Cache warmup started for ${aptTypes.length} APT types`
@@ -145,9 +145,9 @@ router.delete('/cache/:aptType',
     const { aptType } = req.params;
     const cacheService = require('../services/aptCacheService');
     const service = new cacheService();
-    
+
     await service.invalidateAPTCache(aptType);
-    
+
     res.json({
       success: true,
       message: `Cache invalidated for APT type: ${aptType}`
@@ -162,8 +162,8 @@ router.delete('/cache/:aptType',
  * 모든 APT 유형 정보
  */
 router.get('/types', (req, res) => {
-  
-  
+
+
   res.json({
     success: true,
     data: {
@@ -185,16 +185,16 @@ router.get('/types', (req, res) => {
  * 특정 APT 유형 상세 정보
  */
 router.get('/types/:aptType', (req, res) => {
-  
+
   const { aptType } = req.params;
-  
+
   if (!SAYU_TYPES[aptType]) {
     return res.status(404).json({
       error: 'APT type not found',
       validTypes: Object.keys(SAYU_TYPES)
     });
   }
-  
+
   res.json({
     success: true,
     data: SAYU_TYPES[aptType]

@@ -716,7 +716,7 @@ class MassiveDataSeeder {
 
 async function main() {
   const seeder = new MassiveDataSeeder();
-  
+
   try {
     await seeder.seedMassiveData();
   } catch (error) {

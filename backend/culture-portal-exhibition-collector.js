@@ -35,18 +35,18 @@ class CulturePortalExhibitionCollector {
     try {
       while (hasMore && pageNo <= 10) { // 최대 10페이지까지
         console.log(`\n📄 페이지 ${pageNo} 조회 중...`);
-        
+
         const params = {
           serviceKey: this.serviceKey,
-          numOfRows: numOfRows,
-          pageNo: pageNo,
+          numOfRows,
+          pageNo
           // 검색 조건 추가 가능
           // keyword: '미술',
           // period: '202507'
         };
 
         const response = await axios.get(this.baseUrl + this.endpoints.exhibition, {
-          params: params,
+          params,
           headers: {
             'Accept': 'application/xml'
           }
@@ -54,11 +54,11 @@ class CulturePortalExhibitionCollector {
 
         if (response.data) {
           const exhibitions = await this.parseExhibitionData(response.data);
-          
+
           if (exhibitions && exhibitions.length > 0) {
             console.log(`✅ ${exhibitions.length}개 전시 발견`);
             allExhibitions.push(...exhibitions);
-            
+
             if (exhibitions.length < numOfRows) {
               hasMore = false;
             } else {
@@ -92,7 +92,7 @@ class CulturePortalExhibitionCollector {
         console.error('응답 상태:', error.response.status);
         console.error('응답 데이터:', error.response.data?.substring(0, 500));
       }
-      
+
       console.log('\n🔧 문제 해결 방법:');
       console.log('1. API 키가 올바른지 확인');
       console.log('2. 일일 호출 제한 확인 (1000건)');
@@ -114,8 +114,8 @@ class CulturePortalExhibitionCollector {
         return [];
       }
 
-      const body = result.response.body;
-      
+      const { body } = result.response;
+
       // 에러 체크
       if (body.resultCode && body.resultCode !== '00') {
         console.error(`❌ API 에러: ${body.resultCode} - ${body.resultMsg}`);
@@ -148,7 +148,7 @@ class CulturePortalExhibitionCollector {
       const now = new Date();
       const start = new Date(startDate);
       const end = new Date(endDate);
-      
+
       if (now < start) return 'upcoming';
       if (now > end) return 'ended';
       return 'ongoing';
@@ -185,7 +185,7 @@ class CulturePortalExhibitionCollector {
 
   async collectFacilities() {
     console.log('\n🏛️ 문화시설 정보 수집...');
-    
+
     try {
       const params = {
         serviceKey: this.serviceKey,
@@ -195,7 +195,7 @@ class CulturePortalExhibitionCollector {
       };
 
       const response = await axios.get(this.baseUrl + this.endpoints.facility, {
-        params: params,
+        params,
         headers: {
           'Accept': 'application/xml'
         }
@@ -204,7 +204,7 @@ class CulturePortalExhibitionCollector {
       if (response.data) {
         const facilities = await this.parseFacilityData(response.data);
         console.log(`✅ ${facilities.length}개 문화시설 정보 수집`);
-        
+
         // venues 테이블 업데이트
         await this.updateVenues(facilities);
       }
@@ -329,7 +329,7 @@ class CulturePortalExhibitionCollector {
 
   async updateVenues(facilities) {
     const client = await pool.connect();
-    
+
     try {
       for (const facility of facilities) {
         // venues 테이블이 있다면 업데이트
@@ -363,7 +363,7 @@ class CulturePortalExhibitionCollector {
   // 월별 전시 수집 (특정 기간)
   async collectByPeriod(yearMonth) {
     console.log(`\n📅 ${yearMonth} 전시 정보 수집...`);
-    
+
     const params = {
       serviceKey: this.serviceKey,
       numOfRows: 100,
@@ -373,7 +373,7 @@ class CulturePortalExhibitionCollector {
 
     try {
       const response = await axios.get(this.baseUrl + this.endpoints.exhibition, {
-        params: params,
+        params,
         headers: {
           'Accept': 'application/xml'
         }
@@ -394,17 +394,17 @@ class CulturePortalExhibitionCollector {
   // 지역별 전시 수집
   async collectByArea(keyword) {
     console.log(`\n📍 "${keyword}" 지역 전시 정보 수집...`);
-    
+
     const params = {
       serviceKey: this.serviceKey,
       numOfRows: 100,
       pageNo: 1,
-      keyword: keyword // 예: '서울', '부산', '국립'
+      keyword // 예: '서울', '부산', '국립'
     };
 
     try {
       const response = await axios.get(this.baseUrl + this.endpoints.exhibition, {
-        params: params,
+        params,
         headers: {
           'Accept': 'application/xml'
         }
@@ -426,7 +426,7 @@ class CulturePortalExhibitionCollector {
 // 실행
 async function main() {
   const collector = new CulturePortalExhibitionCollector();
-  
+
   console.log('🇰🇷 한국문화포털 전시 정보 수집 시스템');
   console.log('=' .repeat(50));
   console.log('✅ 실시간 전국 전시 정보');

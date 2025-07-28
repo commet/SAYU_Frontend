@@ -92,7 +92,7 @@ const expandedVenues = [
     website: 'https://www.museum.go.kr',
     address: '서울시 용산구 서빙고로 137'
   },
-  
+
   // === 서울 - 사립 미술관 (대형) ===
   {
     name: '리움미술관',
@@ -165,7 +165,7 @@ const expandedVenues = [
     address: '서울시 강남구 압구정로75길 6',
     instagram: '@songeunartspace'
   },
-  
+
   // === 서울 - 사립 미술관 (중형) ===
   {
     name: 'OCI미술관',
@@ -246,7 +246,7 @@ const expandedVenues = [
     website: 'https://www.altspaceloop.com',
     address: '서울시 마포구 와우산로29나길 20'
   },
-  
+
   // === 서울 - 주요 갤러리 ===
   {
     name: '국제갤러리',
@@ -330,7 +330,7 @@ const expandedVenues = [
     website: 'https://www.leeahngallery.com',
     address: '서울시 종로구 창성동 122-9'
   },
-  
+
   // === 서울 - 대안공간/소규모 갤러리 ===
   {
     name: '아트선재센터',
@@ -389,7 +389,7 @@ const expandedVenues = [
     website: 'https://www.totalmuseum.org',
     address: '서울시 종로구 평창32길 8'
   },
-  
+
   // === 예술의전당 내 미술관/갤러리 ===
   {
     name: '예술의전당 한가람미술관',
@@ -425,7 +425,7 @@ const expandedVenues = [
     website: 'https://www.sac.or.kr',
     address: '서울시 서초구 남부순환로 2406'
   },
-  
+
   // === 경기도 주요 미술관 ===
   {
     name: '국립현대미술관 과천',
@@ -488,7 +488,7 @@ const expandedVenues = [
     website: 'https://www.koreanfolk.co.kr',
     address: '경기도 용인시 기흥구 민속촌로 90'
   },
-  
+
   // === 부산 ===
   {
     name: '부산시립미술관',
@@ -548,7 +548,7 @@ const expandedVenues = [
     website: 'https://www.bscc.or.kr',
     address: '부산시 남구 유엔평화로 76번길 1'
   },
-  
+
   // === 대구 ===
   {
     name: '대구미술관',
@@ -584,7 +584,7 @@ const expandedVenues = [
     website: 'https://bongsanart.jung.daegu.kr',
     address: '대구시 중구 봉산문화길 77'
   },
-  
+
   // === 인천 ===
   {
     name: '인천아트플랫폼',
@@ -609,7 +609,7 @@ const expandedVenues = [
     website: 'https://www.triplestreet.com',
     address: '인천시 연수구 송도과학로16번길 33-4'
   },
-  
+
   // === 광주 ===
   {
     name: '국립아시아문화전당',
@@ -658,7 +658,7 @@ const expandedVenues = [
     website: 'https://ujam.gwangju.go.kr',
     address: '광주시 동구 운림동 148-2'
   },
-  
+
   // === 대전 ===
   {
     name: '대전시립미술관',
@@ -695,7 +695,7 @@ const expandedVenues = [
     address: '대전시 서구 둔산대로 157',
     instagram: '@leeungnomuseum'
   },
-  
+
   // === 울산 ===
   {
     name: '울산시립미술관',
@@ -709,7 +709,7 @@ const expandedVenues = [
     address: '울산시 중구 종가로 304',
     instagram: '@ulsanartmuseum'
   },
-  
+
   // === 강원도 ===
   {
     name: '강릉시립미술관',
@@ -742,7 +742,7 @@ const expandedVenues = [
     address: '강원도 원주시 지정면 오크밸리2길 260',
     instagram: '@museum_san'
   },
-  
+
   // === 충청도 ===
   {
     name: '국립현대미술관 청주',
@@ -774,7 +774,7 @@ const expandedVenues = [
     website: 'https://www.cheonanart.or.kr',
     address: '충청남도 천안시 동남구 성남면 종합휴양지로 185'
   },
-  
+
   // === 전라도 ===
   {
     name: '전북도립미술관',
@@ -816,7 +816,7 @@ const expandedVenues = [
     website: 'https://www.mokpo.go.kr/art',
     address: '전라남도 목포시 남농로 102'
   },
-  
+
   // === 경상도 ===
   {
     name: '포항시립미술관',
@@ -849,7 +849,7 @@ const expandedVenues = [
     website: 'https://www.gasc.or.kr',
     address: '경상남도 김해시 김해대로 2060'
   },
-  
+
   // === 제주 ===
   {
     name: '제주도립미술관',
@@ -897,10 +897,10 @@ const expandedVenues = [
 // 데이터베이스에 venue 추가
 async function seedExpandedVenues() {
   const client = await pool.connect();
-  
+
   try {
     console.log('🎨 Starting expanded venue seeding...');
-    
+
     let addedCount = 0;
     let skippedCount = 0;
     let errorCount = 0;

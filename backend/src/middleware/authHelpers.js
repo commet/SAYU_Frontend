@@ -7,7 +7,7 @@ const optionalAuth = (req, res, next) => {
     req.user = null;
     return next();
   }
-  
+
   authenticateToken(req, res, (err) => {
     if (err) {
       req.user = null;

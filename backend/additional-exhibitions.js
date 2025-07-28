@@ -436,7 +436,7 @@ class AdditionalDataSeeder {
 
 async function main() {
   const seeder = new AdditionalDataSeeder();
-  
+
   try {
     await seeder.seedAdditionalData();
   } catch (error) {

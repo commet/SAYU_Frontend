@@ -120,7 +120,7 @@ async function createPerceptionExchangeTables() {
     `);
 
     logger.info('✅ Perception exchange tables created successfully');
-    
+
     // 테이블 상태 확인
     const tablesResult = await hybridDB.query(`
       SELECT table_name 

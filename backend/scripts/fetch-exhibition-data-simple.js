@@ -80,7 +80,7 @@ async function importExhibitions() {
     let institutionsCreated = 0;
     let exhibitionsCreated = 0;
     let errors = 0;
-    
+
     // 각 전시를 개별적으로 처리
     for (const exhibition of exhibitions) {
       try {
@@ -90,7 +90,7 @@ async function importExhibitions() {
           'SELECT id FROM institutions WHERE name_en = $1',
           [exhibition.institution_en]
         );
-        
+
         if (instResult.rows.length > 0) {
           institutionId = instResult.rows[0].id;
         } else {
@@ -108,7 +108,7 @@ async function importExhibitions() {
               'museum'
             ]
           );
-          
+
           if (newInst.rows.length > 0) {
             institutionId = newInst.rows[0].id;
             institutionsCreated++;
@@ -121,11 +121,11 @@ async function importExhibitions() {
             institutionId = recheck.rows[0].id;
           }
         }
-        
+
         // 2. 전시 정보 삽입
-        const status = new Date(exhibition.start_date) > new Date() ? 'upcoming' : 
+        const status = new Date(exhibition.start_date) > new Date() ? 'upcoming' :
                       new Date(exhibition.end_date) < new Date() ? 'past' : 'current';
-        
+
         await pool.query(
           `INSERT INTO exhibitions (
             institution_id,
@@ -155,16 +155,16 @@ async function importExhibitions() {
             exhibition.title_ko ? ['한국미술', '현대미술'] : ['International', 'Contemporary']
           ]
         );
-        
+
         exhibitionsCreated++;
         log.info(`Added exhibition: ${exhibition.title_en || exhibition.title_ko}`);
-        
+
       } catch (err) {
         errors++;
         log.error(`Error processing exhibition: ${err.message}`);
       }
     }
-    
+
     // 통계 출력
     const stats = await pool.query(`
       SELECT 
@@ -174,10 +174,10 @@ async function importExhibitions() {
         COUNT(CASE WHEN e.status = 'upcoming' THEN 1 END) as upcoming_exhibitions
       FROM exhibitions e
     `);
-    
+
     log.info(`Import complete: ${institutionsCreated} institutions created, ${exhibitionsCreated} exhibitions processed, ${errors} errors`);
     log.info('Current stats:', stats.rows[0]);
-    
+
   } catch (error) {
     log.error('Import failed:', error);
   } finally {

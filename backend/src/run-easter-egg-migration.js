@@ -9,9 +9,9 @@ const path = require('path');
 const { Pool } = require('pg');
 
 // Create database connection
-const sslConfig = process.env.DATABASE_URL?.includes('railway') 
+const sslConfig = process.env.DATABASE_URL?.includes('railway')
   ? { rejectUnauthorized: false }
-  : process.env.NODE_ENV === 'production' 
+  : process.env.NODE_ENV === 'production'
     ? { rejectUnauthorized: process.env.DATABASE_SSL_REJECT_UNAUTHORIZED !== 'false' }
     : false;
 
@@ -22,29 +22,29 @@ const pool = new Pool({
 
 async function runMigration() {
   console.log('🐣 Running Easter Egg Migration...');
-  
+
   try {
     // Read migration file
     const migrationPath = path.join(__dirname, 'migrations', 'create_easter_egg_tables.sql');
     const migrationSQL = await fs.readFile(migrationPath, 'utf8');
-    
+
     // Split by semicolons but keep them for PostgreSQL
     const statements = migrationSQL
       .split(/;\s*$(?=\n)/m)
       .filter(stmt => stmt.trim())
       .map(stmt => stmt.trim() + (stmt.trim().endsWith(';') ? '' : ';'));
-    
+
     console.log(`📄 Found ${statements.length} SQL statements to execute`);
-    
+
     // Execute each statement
     for (let i = 0; i < statements.length; i++) {
       const statement = statements[i];
-      
+
       // Skip empty statements
       if (!statement.trim() || statement.trim() === ';') {
         continue;
       }
-      
+
       // Log progress for longer migrations
       if (statement.includes('CREATE TABLE')) {
         const tableMatch = statement.match(/CREATE TABLE (?:IF NOT EXISTS )?(\w+)/i);
@@ -59,7 +59,7 @@ async function runMigration() {
           console.log(`🔍 Creating index: ${indexMatch[1]}`);
         }
       }
-      
+
       try {
         await pool.query(statement);
       } catch (error) {
@@ -73,12 +73,12 @@ async function runMigration() {
           console.log(`⚠️  Column already exists, skipping...`);
         } else {
           console.error(`❌ Error executing statement ${i + 1}:`, error.message);
-          console.error('Statement:', statement.substring(0, 100) + '...');
+          console.error('Statement:', `${statement.substring(0, 100)}...`);
           throw error;
         }
       }
     }
-    
+
     // Verify migration success
     const tableCheck = await pool.query(`
       SELECT COUNT(*) as table_count 
@@ -86,13 +86,13 @@ async function runMigration() {
       WHERE table_schema = 'public' 
       AND table_name IN ('easter_eggs', 'user_easter_eggs')
     `);
-    
+
     const eggCount = await pool.query('SELECT COUNT(*) FROM easter_eggs');
-    
+
     console.log('\n✅ Migration completed successfully!');
     console.log(`📊 Tables created: ${tableCheck.rows[0].table_count}/2`);
     console.log(`🥚 Easter eggs inserted: ${eggCount.rows[0].count}`);
-    
+
   } catch (error) {
     console.error('\n❌ Migration failed:', error);
     throw error;

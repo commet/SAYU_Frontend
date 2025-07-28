@@ -10,28 +10,28 @@ class EmotionTranslationController {
       // 유효성 검사
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({ 
-          success: false, 
-          errors: errors.array() 
+        return res.status(400).json({
+          success: false,
+          errors: errors.array()
         });
       }
-      
+
       const { emotionInput } = req.body;
       const userId = req.user?.id;
-      
+
       console.log('Translating emotion for user:', userId);
       console.log('Emotion input:', JSON.stringify(emotionInput, null, 2));
-      
+
       // 1. 감정 해석
       const interpretationResult = await emotionTranslationService.interpretEmotion(emotionInput);
-      
+
       // 2. 예술 작품 매칭
       const matches = await emotionTranslationService.findMatchingArtworks(
         interpretationResult.vector,
         interpretationResult.interpretation,
         10 // 최대 10개 작품
       );
-      
+
       // 3. 세션 저장 (로그인한 사용자만)
       let sessionId = null;
       if (userId) {
@@ -42,7 +42,7 @@ class EmotionTranslationController {
           matches
         );
       }
-      
+
       // 4. 응답 반환
       res.json({
         success: true,
@@ -70,7 +70,7 @@ class EmotionTranslationController {
           timestamp: new Date()
         }
       });
-      
+
     } catch (error) {
       console.error('Error in emotion translation:', error);
       res.status(500).json({
@@ -80,7 +80,7 @@ class EmotionTranslationController {
       });
     }
   }
-  
+
   /**
    * 사용자의 감정 번역 기록 조회
    */
@@ -88,7 +88,7 @@ class EmotionTranslationController {
     try {
       const userId = req.user.id;
       const { limit = 10, offset = 0 } = req.query;
-      
+
       const query = `
         SELECT 
           id,
@@ -101,9 +101,9 @@ class EmotionTranslationController {
         ORDER BY created_at DESC
         LIMIT $2 OFFSET $3
       `;
-      
+
       const result = await req.db.query(query, [userId, limit, offset]);
-      
+
       const sessions = result.rows.map(row => ({
         id: row.id,
         emotionInput: row.emotion_input,
@@ -111,7 +111,7 @@ class EmotionTranslationController {
         matches: row.matches,
         createdAt: row.created_at
       }));
-      
+
       res.json({
         success: true,
         data: {
@@ -123,7 +123,7 @@ class EmotionTranslationController {
           }
         }
       });
-      
+
     } catch (error) {
       console.error('Error fetching translation history:', error);
       res.status(500).json({
@@ -132,7 +132,7 @@ class EmotionTranslationController {
       });
     }
   }
-  
+
   /**
    * 특정 번역 세션 상세 조회
    */
@@ -140,7 +140,7 @@ class EmotionTranslationController {
     try {
       const { sessionId } = req.params;
       const userId = req.user.id;
-      
+
       const query = `
         SELECT 
           id,
@@ -152,18 +152,18 @@ class EmotionTranslationController {
         FROM emotion_translation_sessions
         WHERE id = $1 AND user_id = $2
       `;
-      
+
       const result = await req.db.query(query, [sessionId, userId]);
-      
+
       if (result.rows.length === 0) {
         return res.status(404).json({
           success: false,
           error: 'Translation session not found'
         });
       }
-      
+
       const session = result.rows[0];
-      
+
       res.json({
         success: true,
         data: {
@@ -175,7 +175,7 @@ class EmotionTranslationController {
           userFeedback: session.user_feedback
         }
       });
-      
+
     } catch (error) {
       console.error('Error fetching translation session:', error);
       res.status(500).json({
@@ -184,7 +184,7 @@ class EmotionTranslationController {
       });
     }
   }
-  
+
   /**
    * 번역 결과에 대한 피드백 저장
    */
@@ -193,22 +193,22 @@ class EmotionTranslationController {
       const { sessionId } = req.params;
       const { selectedMatchId, resonanceScore, notes } = req.body;
       const userId = req.user.id;
-      
+
       // 세션 소유권 확인
       const checkQuery = `
         SELECT id FROM emotion_translation_sessions
         WHERE id = $1 AND user_id = $2
       `;
-      
+
       const checkResult = await req.db.query(checkQuery, [sessionId, userId]);
-      
+
       if (checkResult.rows.length === 0) {
         return res.status(404).json({
           success: false,
           error: 'Translation session not found'
         });
       }
-      
+
       // 피드백 저장
       const updateQuery = `
         UPDATE emotion_translation_sessions
@@ -223,19 +223,19 @@ class EmotionTranslationController {
         WHERE id = $4
         RETURNING id
       `;
-      
+
       await req.db.query(updateQuery, [
         selectedMatchId,
         resonanceScore,
         notes,
         sessionId
       ]);
-      
+
       res.json({
         success: true,
         message: 'Feedback saved successfully'
       });
-      
+
     } catch (error) {
       console.error('Error saving translation feedback:', error);
       res.status(500).json({
@@ -244,14 +244,14 @@ class EmotionTranslationController {
       });
     }
   }
-  
+
   /**
    * 감정 색상 통계 조회
    */
   async getEmotionColorStats(req, res) {
     try {
       const userId = req.user?.id;
-      
+
       // 전체 사용자 또는 특정 사용자의 색상 통계
       const query = userId ? `
         SELECT 
@@ -271,9 +271,9 @@ class EmotionTranslationController {
         ORDER BY count DESC
         LIMIT 10
       `;
-      
+
       const result = await req.db.query(query, userId ? [userId] : []);
-      
+
       res.json({
         success: true,
         data: {
@@ -281,7 +281,7 @@ class EmotionTranslationController {
           userId: userId || 'all'
         }
       });
-      
+
     } catch (error) {
       console.error('Error fetching emotion color stats:', error);
       res.status(500).json({

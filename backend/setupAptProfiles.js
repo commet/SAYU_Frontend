@@ -5,9 +5,9 @@ const { pool } = require('./src/config/database');
 
 async function setupAptProfiles() {
   console.log('🔧 APT 프로필 테이블 설정 중...');
-  
+
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
 
@@ -45,7 +45,7 @@ async function setupAptProfiles() {
         updated_at TIMESTAMP DEFAULT NOW()
       )
     `);
-    
+
     await client.query(`
       INSERT INTO system_stats (key, value) 
       VALUES ('total_apt_profiles', '0')

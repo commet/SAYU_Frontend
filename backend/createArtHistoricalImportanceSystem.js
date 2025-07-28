@@ -98,7 +98,7 @@ async function updateArtHistoricalImportance() {
   console.log('='.repeat(70));
 
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
 
@@ -138,7 +138,7 @@ async function updateArtHistoricalImportance() {
     await client.query('COMMIT');
 
     // 결과 요약
-    console.log('\n\n' + '='.repeat(70));
+    console.log(`\n\n${'='.repeat(70)}`);
     console.log('✅ 예술사적 중요도 업데이트 완료!');
     console.log(`   총 ${updateCount}명의 작가 티어 조정`);
 
@@ -200,10 +200,10 @@ async function updateArtistTier(client, artistName, targetTier, minScore, maxSco
     }
 
     const artist = searchQuery.rows[0];
-    
+
     // 점수 계산 (Wikipedia 데이터와 예술사적 중요도 혼합)
     let newScore = minScore;
-    
+
     // Wikipedia 조회수가 있으면 범위 내에서 조정
     if (artist.wiki_views) {
       const tierRange = maxScore - minScore;
@@ -245,7 +245,7 @@ async function updateArtistTier(client, artistName, targetTier, minScore, maxSco
       previousTier: artist.importance_tier,
       newTier: targetTier,
       previousScore: artist.importance_score,
-      newScore: newScore
+      newScore
     };
 
   } catch (error) {

@@ -25,17 +25,17 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/api/auth/google/callback"
+    callbackURL: '/api/auth/google/callback'
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
       // Check if user exists
       let user = await User.findByOAuth('google', profile.id);
-      
+
       if (!user) {
         // Check if email is already registered
         const existingUser = await User.findByEmail(profile.emails[0].value);
-        
+
         if (existingUser) {
           // Link OAuth account to existing user
           await User.linkOAuthAccount(existingUser.id, 'google', profile.id);
@@ -51,7 +51,7 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
           });
         }
       }
-      
+
       return done(null, user);
     } catch (error) {
       logger.error('Google OAuth error:', error);
@@ -65,22 +65,22 @@ if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
   passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "/api/auth/github/callback"
+    callbackURL: '/api/auth/github/callback'
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
       let user = await User.findByOAuth('github', profile.id);
-      
+
       if (!user) {
         const email = profile.emails?.[0]?.value || `${profile.username}@github.local`;
         const existingUser = await User.findByEmail(email);
-        
+
         if (existingUser) {
           await User.linkOAuthAccount(existingUser.id, 'github', profile.id);
           user = existingUser;
         } else {
           user = await User.createOAuthUser({
-            email: email,
+            email,
             displayName: profile.displayName || profile.username,
             provider: 'github',
             providerId: profile.id,
@@ -88,7 +88,7 @@ if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
           });
         }
       }
-      
+
       return done(null, user);
     } catch (error) {
       logger.error('GitHub OAuth error:', error);
@@ -111,11 +111,11 @@ if (process.env.APPLE_CLIENT_ID && process.env.APPLE_TEAM_ID && process.env.APPL
   async (req, accessToken, refreshToken, decodedIdToken, profile, done) => {
     try {
       let user = await User.findByOAuth('apple', profile.id);
-      
+
       if (!user) {
         const email = decodedIdToken.email;
         const existingUser = await User.findByEmail(email);
-        
+
         if (existingUser) {
           await User.linkOAuthAccount(existingUser.id, 'apple', profile.id);
           user = existingUser;
@@ -128,7 +128,7 @@ if (process.env.APPLE_CLIENT_ID && process.env.APPLE_TEAM_ID && process.env.APPL
           });
         }
       }
-      
+
       return done(null, user);
     } catch (error) {
       logger.error('Apple OAuth error:', error);

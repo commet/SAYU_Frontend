@@ -4,7 +4,7 @@ const axios = require('axios');
 
 /**
  * SAYU 향상된 아티스트 정보 수집 및 저장 서비스
- * 
+ *
  * 기능:
  * 1. 다중 소스에서 아티스트 정보 수집 (Wikipedia, DBpedia, Wikidata, 미술관 API)
  * 2. AI 기반 감정 시그니처 생성
@@ -36,8 +36,8 @@ class EnhancedArtistCollectorService {
 
     // 16가지 동물 성격 유형
     this.animalTypes = [
-      'wolf', 'fox', 'owl', 'dolphin', 'lion', 'elephant', 
-      'rabbit', 'eagle', 'bear', 'cat', 'dog', 'horse', 
+      'wolf', 'fox', 'owl', 'dolphin', 'lion', 'elephant',
+      'rabbit', 'eagle', 'bear', 'cat', 'dog', 'horse',
       'tiger', 'penguin', 'butterfly', 'turtle'
     ];
 
@@ -153,7 +153,7 @@ class EnhancedArtistCollectorService {
 
       const response = await axios.get(this.sources.wikidata.apiUrl, {
         params: {
-          query: query,
+          query,
           format: 'json'
         },
         headers: {
@@ -165,7 +165,7 @@ class EnhancedArtistCollectorService {
       if (results.length === 0) return null;
 
       const result = results[0]; // 첫 번째 결과 사용
-      
+
       return {
         name: result.artistLabel?.value,
         birth_date: result.birthDate?.value,
@@ -201,7 +201,7 @@ class EnhancedArtistCollectorService {
 
       const response = await axios.get(this.sources.dbpedia.apiUrl, {
         params: {
-          query: query,
+          query,
           format: 'json'
         }
       });
@@ -210,7 +210,7 @@ class EnhancedArtistCollectorService {
       if (results.length === 0) return null;
 
       const result = results[0];
-      
+
       return {
         biography: result.abstract?.value,
         birth_place: result.birthPlace?.value,
@@ -243,7 +243,7 @@ class EnhancedArtistCollectorService {
 
         if (metSearch.data.total > 0) {
           const objectIds = metSearch.data.objectIDs.slice(0, 5); // 최대 5개 작품
-          
+
           for (const objectId of objectIds) {
             const artwork = await axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectId}`);
             if (artwork.data.primaryImage) {
@@ -266,7 +266,7 @@ class EnhancedArtistCollectorService {
       // Cleveland Museum API
       try {
         const clevelandSearch = await axios.get(`https://openaccess-api.clevelandart.org/api/artworks/`, {
-          params: { 
+          params: {
             artists: artistName,
             has_image: 1,
             limit: 5
@@ -481,7 +481,7 @@ class EnhancedArtistCollectorService {
    */
   async saveArtistToDatabase(artistData) {
     const client = await pool.connect();
-    
+
     try {
       await client.query('BEGIN');
 
@@ -494,7 +494,7 @@ class EnhancedArtistCollectorService {
       if (existingCheck.rows.length > 0) {
         // 기존 아티스트 업데이트
         const artistId = existingCheck.rows[0].id;
-        
+
         const updateQuery = `
           UPDATE artists SET
             name_ko = COALESCE($2, name_ko),
@@ -531,7 +531,7 @@ class EnhancedArtistCollectorService {
         ]);
 
         await client.query('COMMIT');
-        
+
         logger.info(`✅ 기존 아티스트 정보 업데이트: ${artistData.name}`);
         return result.rows[0];
 
@@ -642,7 +642,7 @@ class EnhancedArtistCollectorService {
       birth: /born\s+(\d{4})/i,
       death: /died\s+(\d{4})/i
     };
-    
+
     const match = text.match(patterns[type]);
     return match ? match[1] : null;
   }
@@ -668,7 +668,7 @@ class EnhancedArtistCollectorService {
 
   determineCopyrightStatus(artistData) {
     const currentYear = new Date().getFullYear();
-    
+
     if (artistData.death_year) {
       const yearsSinceDeath = currentYear - artistData.death_year;
       if (yearsSinceDeath >= 70) {
@@ -686,15 +686,15 @@ class EnhancedArtistCollectorService {
         return 'contemporary';
       }
     }
-    
+
     return 'unknown';
   }
 
   classifyEra(birthYear, deathYear) {
     if (!birthYear) return 'Contemporary';
-    
+
     const activeYear = deathYear || new Date().getFullYear();
-    
+
     if (activeYear < 1400) return 'Medieval';
     if (activeYear < 1600) return 'Renaissance';
     if (activeYear < 1750) return 'Baroque';
@@ -722,7 +722,7 @@ class EnhancedArtistCollectorService {
   expandEmotionVector(emotionScores) {
     // 16개 기본 감정을 512차원으로 확장
     const baseVector = new Array(16).fill(0);
-    
+
     Object.entries(emotionScores).forEach(([emotion, score], index) => {
       if (index < 16) {
         baseVector[index] = score / 10; // 0-1 범위로 정규화
@@ -742,7 +742,7 @@ class EnhancedArtistCollectorService {
 
   calculatePersonalityAffinity(aiMatches) {
     const affinity = {};
-    
+
     // 모든 동물 유형을 기본값으로 초기화
     this.animalTypes.forEach(animal => {
       affinity[animal] = 20; // 기본 점수

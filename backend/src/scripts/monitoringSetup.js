@@ -72,7 +72,7 @@ class MonitoringSetup {
     // Performance check every 5 minutes
     cron.schedule('*/5 * * * *', async () => {
       if (!this.isRunning) return;
-      
+
       try {
         await alertingService.checkPerformanceMetrics();
         log('debug', 'Performance metrics check completed');
@@ -94,7 +94,7 @@ class MonitoringSetup {
     // Health check every minute
     cron.schedule('* * * * *', async () => {
       if (!this.isRunning) return;
-      
+
       try {
         await this.performHealthCheck();
       } catch (error) {
@@ -110,7 +110,7 @@ class MonitoringSetup {
     // Daily system health report
     cron.schedule('0 9 * * *', async () => {
       if (!this.isRunning) return;
-      
+
       try {
         await this.sendDailyHealthReport();
       } catch (error) {
@@ -121,7 +121,7 @@ class MonitoringSetup {
     // Weekly metrics summary
     cron.schedule('0 9 * * 1', async () => {
       if (!this.isRunning) return;
-      
+
       try {
         await this.sendWeeklyMetricsSummary();
       } catch (error) {
@@ -143,13 +143,13 @@ class MonitoringSetup {
     try {
       // Check Redis connectivity
       health.checks.redis = await this.checkRedis();
-      
+
       // Check alerting system
       health.checks.alerting = await alertingService.healthCheck();
-      
+
       // Check memory usage
       health.checks.memory = this.checkMemoryUsage();
-      
+
       // Check disk space (basic)
       health.checks.disk = this.checkDiskUsage();
 
@@ -157,7 +157,7 @@ class MonitoringSetup {
       const failedChecks = Object.values(health.checks).filter(check => !check.healthy);
       if (failedChecks.length > 0) {
         health.status = failedChecks.length === Object.keys(health.checks).length ? 'critical' : 'degraded';
-        
+
         // Send alert for failed health checks
         await alertingService.sendAlert(
           health.status === 'critical' ? 'critical' : 'warning',
@@ -279,7 +279,7 @@ class MonitoringSetup {
   // Get weekly metrics (placeholder for more sophisticated metrics)
   async getWeeklyMetrics() {
     const dailyMetrics = await this.getDailyMetrics();
-    
+
     return {
       period: 'week',
       ...dailyMetrics,
@@ -293,7 +293,7 @@ class MonitoringSetup {
       await redisClient().set('metrics:requests:count', '0');
       await redisClient().set('metrics:errors:count', '0');
       await redisClient().set('metrics:response:total', '0');
-      
+
       log('debug', 'Hourly metrics reset completed');
     } catch (error) {
       log('error', 'Failed to reset hourly metrics', { error: error.message });
@@ -325,7 +325,7 @@ class MonitoringSetup {
   async shutdown() {
     log('info', 'Shutting down monitoring system...');
     this.isRunning = false;
-    
+
     await alertingService.sendAlert(
       'info',
       'SAYU Monitoring System Stopped',
@@ -335,7 +335,7 @@ class MonitoringSetup {
         uptime: process.uptime()
       }
     );
-    
+
     log('info', 'Monitoring system shutdown complete');
   }
 }
@@ -348,14 +348,14 @@ if (require.main === module) {
   monitoringSetup.initialize()
     .then(() => {
       console.log('✅ SAYU monitoring system started successfully');
-      
+
       // Keep the process alive
       process.on('SIGINT', async () => {
         console.log('\\n🛑 Received SIGINT, shutting down gracefully...');
         await monitoringSetup.shutdown();
         process.exit(0);
       });
-      
+
       process.on('SIGTERM', async () => {
         console.log('\\n🛑 Received SIGTERM, shutting down gracefully...');
         await monitoringSetup.shutdown();

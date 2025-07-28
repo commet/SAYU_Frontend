@@ -33,12 +33,12 @@ class ImportanceBasedRecommendation {
 
     try {
       // 교육 모드일 경우 중요도 가중치 증가
-      const weights = educationalMode 
+      const weights = educationalMode
         ? { ...this.defaultWeights, importance: 0.6, aptMatch: 0.2 }
         : this.defaultWeights;
 
       // 기본 쿼리 구성
-      let query = `
+      const query = `
         WITH artist_scores AS (
           SELECT 
             a.id,
@@ -70,7 +70,7 @@ class ImportanceBasedRecommendation {
             COALESCE(a.popularity_score, 30) * ${weights.popularity} as popularity_weight
           FROM artists a
           WHERE 1=1
-            ${excludeIds.length > 0 ? 'AND a.id NOT IN (' + excludeIds.join(',') + ')' : ''}
+            ${excludeIds.length > 0 ? `AND a.id NOT IN (${excludeIds.join(',')})` : ''}
             ${!includeModern ? 'AND (a.birth_year < 1900 OR a.birth_year IS NULL)' : ''}
             AND a.importance_score > 0
         )
@@ -106,10 +106,10 @@ class ImportanceBasedRecommendation {
       `;
 
       const result = await pool.query(query, [userAPT, limit]);
-      
+
       // 결과 포맷팅
       return this.formatRecommendations(result.rows, weights);
-      
+
     } catch (error) {
       console.error('추천 오류:', error);
       throw error;
@@ -130,7 +130,7 @@ class ImportanceBasedRecommendation {
       ORDER BY importance_score DESC
       LIMIT $2
     `;
-    
+
     const result = await pool.query(query, [`%${era}%`, limit]);
     return result.rows;
   }
@@ -144,9 +144,9 @@ class ImportanceBasedRecommendation {
       intermediate: { minTier: 1, maxTier: 2, limit: 20 },
       advanced: { minTier: 1, maxTier: 3, limit: 30 }
     };
-    
+
     const config = levels[level] || levels.beginner;
-    
+
     const query = `
       WITH era_representatives AS (
         SELECT DISTINCT ON (era) 
@@ -165,13 +165,13 @@ class ImportanceBasedRecommendation {
         END
       LIMIT $3
     `;
-    
+
     const result = await pool.query(query, [
-      config.minTier, 
-      config.maxTier, 
+      config.minTier,
+      config.maxTier,
       config.limit
     ]);
-    
+
     return {
       level,
       path: result.rows,
@@ -201,7 +201,7 @@ class ImportanceBasedRecommendation {
       ORDER BY importance_score DESC
       LIMIT $1
     `;
-    
+
     const result = await pool.query(query, [limit]);
     return result.rows;
   }
@@ -218,7 +218,7 @@ class ImportanceBasedRecommendation {
           name: artist.name,
           nationality: artist.nationality,
           era: artist.era,
-          lifespan: artist.birth_year && artist.death_year 
+          lifespan: artist.birth_year && artist.death_year
             ? `${artist.birth_year}-${artist.death_year}`
             : null,
           bio: artist.bio_excerpt,
@@ -242,7 +242,7 @@ class ImportanceBasedRecommendation {
       })),
       metadata: {
         totalCount: artists.length,
-        weights: weights,
+        weights,
         timestamp: new Date().toISOString()
       }
     };
@@ -261,21 +261,21 @@ class ImportanceBasedRecommendation {
 
   generateRecommendationReason(artist) {
     const reasons = [];
-    
+
     if (artist.importance_tier === 1) {
       reasons.push('미술사의 핵심 인물');
     } else if (artist.importance_tier === 2) {
       reasons.push('미술사적으로 중요한 작가');
     }
-    
+
     if (artist.apt_match_weight > 20) {
       reasons.push('당신의 성향과 잘 맞음');
     }
-    
+
     if (artist.era) {
       reasons.push(`${artist.era} 시대 대표 작가`);
     }
-    
+
     return reasons.join(', ') || '다양한 관점에서 추천';
   }
 }

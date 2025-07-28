@@ -25,7 +25,7 @@ async function findMissingData() {
       AND table_type = 'BASE TABLE'
       ORDER BY table_name
     `);
-    
+
     console.log(`📊 총 ${tables.rows.length}개 테이블 발견:`);
     tables.rows.forEach(table => {
       console.log(`   - ${table.table_name}`);
@@ -33,18 +33,18 @@ async function findMissingData() {
 
     // 2. Exhibition 관련 테이블들 상세 체크
     console.log('\n🎨 Exhibition 관련 테이블 상세 검사:');
-    const exhibitionTables = tables.rows.filter(t => 
-      t.table_name.includes('exhibition') || 
-      t.table_name.includes('event') || 
+    const exhibitionTables = tables.rows.filter(t =>
+      t.table_name.includes('exhibition') ||
+      t.table_name.includes('event') ||
       t.table_name.includes('show') ||
       t.table_name.includes('artmap')
     );
-    
+
     for (const table of exhibitionTables) {
       try {
         const count = await pool.query(`SELECT COUNT(*) FROM ${table.table_name}`);
         console.log(`   ${table.table_name}: ${count.rows[0].count}개 레코드`);
-        
+
         // 컬럼 구조도 확인
         const columns = await pool.query(`
           SELECT column_name 
@@ -53,7 +53,7 @@ async function findMissingData() {
           ORDER BY ordinal_position
         `);
         console.log(`     컬럼: ${columns.rows.map(c => c.column_name).join(', ')}`);
-        
+
       } catch (e) {
         console.log(`   ${table.table_name}: 오류 - ${e.message}`);
       }
@@ -66,7 +66,7 @@ async function findMissingData() {
         const count = await pool.query(`SELECT COUNT(*) FROM ${table.table_name}`);
         if (parseInt(count.rows[0].count) >= 500) {
           console.log(`   ${table.table_name}: ${count.rows[0].count}개 레코드 ⭐`);
-          
+
           // data_source 컬럼이 있는지 확인
           const hasDataSource = await pool.query(`
             SELECT column_name 
@@ -74,7 +74,7 @@ async function findMissingData() {
             WHERE table_name = '${table.table_name}' 
             AND column_name = 'data_source'
           `);
-          
+
           if (hasDataSource.rows.length > 0) {
             const sources = await pool.query(`
               SELECT data_source, COUNT(*) 
@@ -97,7 +97,7 @@ async function findMissingData() {
     console.log('\n🏛️  global_venues 상세 검사:');
     const venueCount = await pool.query('SELECT COUNT(*) FROM global_venues');
     console.log(`   총 venues: ${venueCount.rows[0].count}개`);
-    
+
     const venueSources = await pool.query(`
       SELECT data_source, COUNT(*) 
       FROM global_venues 
@@ -128,7 +128,7 @@ async function findMissingData() {
       GROUP BY data_source
       ORDER BY count DESC
     `);
-    
+
     if (recentVenues.rows.length > 0) {
       console.log('   오늘 생성된 venues:');
       recentVenues.rows.forEach(r => {
@@ -145,7 +145,7 @@ async function findMissingData() {
       GROUP BY data_source
       ORDER BY count DESC
     `);
-    
+
     if (recentExhibitions.rows.length > 0) {
       console.log('   오늘 생성된 exhibitions:');
       recentExhibitions.rows.forEach(r => {

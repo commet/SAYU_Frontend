@@ -1,5 +1,5 @@
 const { pool } = require('../config/database');
-const { logger } = require("../config/logger");
+const { logger } = require('../config/logger');
 
 class CommunityService {
   // Forum management
@@ -15,20 +15,20 @@ class CommunityService {
       GROUP BY f.id
       ORDER BY f.name
     `;
-    
+
     const result = await pool.query(query);
     return result.rows;
   }
 
   async createForum(data) {
     const { name, description, slug, category } = data;
-    
+
     const query = `
       INSERT INTO forums (name, description, slug, category)
       VALUES ($1, $2, $3, $4)
       RETURNING *
     `;
-    
+
     const result = await pool.query(query, [name, description, slug, category]);
     return result.rows[0];
   }
@@ -53,7 +53,7 @@ class CommunityService {
       ORDER BY ft.is_pinned DESC, ft.last_reply_at DESC
       LIMIT $2 OFFSET $3
     `;
-    
+
     const result = await pool.query(query, [forumId, limit, offset]);
     return result.rows;
   }
@@ -86,7 +86,7 @@ class CommunityService {
       WHERE ft.id = $1
       GROUP BY ft.id, u.id, u.nickname, f.name, f.slug${userId ? ', user_likes.id' : ''}
     `;
-    
+
     const params = userId ? [topicId, userId] : [topicId];
     const result = await pool.query(query, params);
     return result.rows[0];
@@ -94,13 +94,13 @@ class CommunityService {
 
   async createTopic(data) {
     const { forumId, userId, title, content } = data;
-    
+
     const query = `
       INSERT INTO forum_topics (forum_id, user_id, title, content)
       VALUES ($1, $2, $3, $4)
       RETURNING *
     `;
-    
+
     const result = await pool.query(query, [forumId, userId, title, content]);
     return result.rows[0];
   }
@@ -127,7 +127,7 @@ class CommunityService {
       ORDER BY fr.created_at ASC
       LIMIT $2 OFFSET $3
     `;
-    
+
     const params = userId ? [topicId, limit, offset, userId] : [topicId, limit, offset];
     const result = await pool.query(query, params);
     return result.rows;
@@ -135,21 +135,21 @@ class CommunityService {
 
   async createReply(data) {
     const { topicId, userId, content, parentReplyId = null } = data;
-    
+
     const client = await pool.connect();
-    
+
     try {
       await client.query('BEGIN');
-      
+
       // Insert reply
       const replyQuery = `
         INSERT INTO forum_replies (topic_id, user_id, content, parent_reply_id)
         VALUES ($1, $2, $3, $4)
         RETURNING *
       `;
-      
+
       const replyResult = await client.query(replyQuery, [topicId, userId, content, parentReplyId]);
-      
+
       // Update topic reply count and last reply info
       const updateQuery = `
         UPDATE forum_topics 
@@ -159,12 +159,12 @@ class CommunityService {
           last_reply_user_id = $2
         WHERE id = $1
       `;
-      
+
       await client.query(updateQuery, [topicId, userId]);
-      
+
       await client.query('COMMIT');
       return replyResult.rows[0];
-      
+
     } catch (error) {
       await client.query('ROLLBACK');
       throw error;
@@ -184,10 +184,10 @@ class CommunityService {
       WHERE user_id = $1 AND 
       ${topicId ? 'topic_id = $2' : 'reply_id = $2'}
     `;
-    
+
     const targetId = topicId || replyId;
     const existingLike = await pool.query(checkQuery, [userId, targetId]);
-    
+
     if (existingLike.rows.length > 0) {
       // Unlike
       const deleteQuery = `
@@ -195,7 +195,7 @@ class CommunityService {
         WHERE user_id = $1 AND 
         ${topicId ? 'topic_id = $2' : 'reply_id = $2'}
       `;
-      
+
       await pool.query(deleteQuery, [userId, targetId]);
       return { liked: false };
     } else {
@@ -205,7 +205,7 @@ class CommunityService {
         VALUES ($1, $2)
         RETURNING *
       `;
-      
+
       await pool.query(insertQuery, [userId, targetId]);
       return { liked: true };
     }
@@ -223,7 +223,7 @@ class CommunityService {
       ON CONFLICT (follower_id, following_id) DO NOTHING
       RETURNING *
     `;
-    
+
     const result = await pool.query(query, [followerId, followingId]);
     return result.rows[0];
   }
@@ -234,7 +234,7 @@ class CommunityService {
       WHERE follower_id = $1 AND following_id = $2
       RETURNING *
     `;
-    
+
     const result = await pool.query(query, [followerId, followingId]);
     return result.rows[0];
   }
@@ -251,7 +251,7 @@ class CommunityService {
       WHERE uf.follower_id = $1
       ORDER BY uf.followed_at DESC
     `;
-    
+
     const result = await pool.query(query, [userId]);
     return result.rows;
   }
@@ -268,7 +268,7 @@ class CommunityService {
       WHERE uf.following_id = $1
       ORDER BY uf.followed_at DESC
     `;
-    
+
     const result = await pool.query(query, [userId]);
     return result.rows;
   }
@@ -276,7 +276,7 @@ class CommunityService {
   // Content moderation
   async reportContent(data) {
     const { reporterId, reportedUserId, topicId, replyId, reason, description } = data;
-    
+
     const query = `
       INSERT INTO user_reports (
         reporter_id, reported_user_id, topic_id, reply_id, reason, description
@@ -284,11 +284,11 @@ class CommunityService {
       VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *
     `;
-    
+
     const result = await pool.query(query, [
       reporterId, reportedUserId, topicId, replyId, reason, description
     ]);
-    
+
     logger.info(`Content reported: ${reason} by user ${reporterId}`);
     return result.rows[0];
   }
@@ -309,7 +309,7 @@ class CommunityService {
       WHERE ur.status = 'pending'
       ORDER BY ur.created_at DESC
     `;
-    
+
     const result = await pool.query(query);
     return result.rows;
   }
@@ -323,7 +323,7 @@ class CommunityService {
       DO UPDATE SET badge_name = $3, description = $4, color = $5
       RETURNING *
     `;
-    
+
     const result = await pool.query(query, [userId, badgeType, badgeName, description, color]);
     return result.rows[0];
   }
@@ -334,7 +334,7 @@ class CommunityService {
       WHERE user_id = $1 
       ORDER BY earned_at DESC
     `;
-    
+
     const result = await pool.query(query, [userId]);
     return result.rows;
   }
@@ -349,7 +349,7 @@ class CommunityService {
         (SELECT COUNT(*) FROM user_follows) as total_follows,
         (SELECT COUNT(*) FROM post_likes) as total_likes
     `;
-    
+
     const result = await pool.query(query);
     return result.rows[0];
   }

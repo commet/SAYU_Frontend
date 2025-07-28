@@ -1,7 +1,7 @@
 /**
- * SAYU APT 매칭 정확도 향상을 위한 
+ * SAYU APT 매칭 정확도 향상을 위한
  * 웹 검색 기반 아티스트 심층 분석 시스템
- * 
+ *
  * 목표:
  * - 각 아티스트별 500단어 이상의 상세 전기 수집
  * - 작품 스타일과 개인 성격 분리 분석
@@ -19,7 +19,7 @@ class IntelligentArtistAnalyzer {
       connectionString: process.env.DATABASE_URL,
       ssl: { rejectUnauthorized: false }
     });
-    
+
     // LAREMFC 차원 정의
     this.laremfcDimensions = {
       L: { name: 'Lively', description: '활발함 vs 조용함', range: [-1, 1] },
@@ -30,13 +30,13 @@ class IntelligentArtistAnalyzer {
       F: { name: 'Focused', description: '집중형 vs 다면형', range: [-1, 1] },
       C: { name: 'Creative', description: '창조적 vs 전통적', range: [-1, 1] }
     };
-    
+
     // APT 동물 유형 매핑
     this.animalTypes = [
       'wolf', 'fox', 'bear', 'deer', 'rabbit', 'cat', 'dog', 'horse',
       'eagle', 'owl', 'dove', 'peacock', 'lion', 'tiger', 'elephant', 'whale'
     ];
-    
+
     this.searchKeywords = {
       biography: '[artist_name] biography psychology personality traits character',
       artStyle: '[artist_name] art style painting technique artistic method',
@@ -52,7 +52,7 @@ class IntelligentArtistAnalyzer {
    */
   async searchArtistInformation(artistName) {
     console.log(`🔍 ${artistName} 정보 수집 시작...`);
-    
+
     const searchResults = {
       biography: '',
       artStyle: '',
@@ -82,7 +82,7 @@ class IntelligentArtistAnalyzer {
       console.log(`📊 Perplexity 심층 분석: ${artistName}`);
       // Note: Perplexity API call would go here
       // For now, we'll use mock data structure
-      
+
       // Tavily 검색을 통한 추가 정보
       const tavilyQueries = [
         `${artistName} personality psychology analysis`,
@@ -99,7 +99,7 @@ class IntelligentArtistAnalyzer {
       }
 
       return searchResults;
-      
+
     } catch (error) {
       console.error(`❌ ${artistName} 정보 수집 실패:`, error);
       return null;
@@ -111,7 +111,7 @@ class IntelligentArtistAnalyzer {
    */
   async analyzePersonalityTraits(artistData) {
     const { biography, artStyle, personality, philosophy } = artistData;
-    
+
     const analysisPrompt = `
       Based on the following information about an artist, analyze their personality 
       and map it to the LAREMFC 7-dimensional model:
@@ -142,7 +142,7 @@ class IntelligentArtistAnalyzer {
 
     // Here we would use GPT-4 or similar AI for analysis
     console.log('🧠 심리학적 특성 분석 중...');
-    
+
     // Mock analysis structure
     return {
       laremfc: {
@@ -170,10 +170,10 @@ class IntelligentArtistAnalyzer {
    */
   async mapToAPTType(personalityAnalysis) {
     const { laremfc, animalTypes } = personalityAnalysis;
-    
+
     // LAREMFC 점수를 기반으로 APT 동물 유형 결정
     const aptMapping = {
-      wolf: { 
+      wolf: {
         typical: { L: 0.7, A: -0.3, R: 0.5, E: 0.2, M: 0.6, F: 0.8, C: 0.4 },
         description: '독립적이고 리더십이 강한 타입'
       },
@@ -184,7 +184,7 @@ class IntelligentArtistAnalyzer {
       bear: {
         typical: { L: -0.2, A: 0.6, R: 0.8, E: 0.3, M: 0.7, F: 0.5, C: 0.2 },
         description: '신중하고 보호적인 타입'
-      },
+      }
       // ... 나머지 동물 유형들
     };
 
@@ -219,7 +219,7 @@ class IntelligentArtistAnalyzer {
    */
   async processBatch(batchSize = 10) {
     console.log('🚀 아티스트 배치 분석 시작...\n');
-    
+
     // 분석이 필요한 아티스트들 선택 (APT 프로필이 없는 아티스트)
     const artistsToAnalyze = await this.pool.query(`
       SELECT id, name, name_ko, nationality, birth_year, death_year, bio
@@ -289,7 +289,7 @@ class IntelligentArtistAnalyzer {
 
     // 6. 배치 결과 저장
     await this.saveBatchResults(results);
-    
+
     console.log(`\n🎉 배치 분석 완료: ${results.length}/${artistsToAnalyze.rows.length}명 성공`);
     return results;
   }
@@ -358,7 +358,7 @@ class IntelligentArtistAnalyzer {
   calculateAPTDistribution(results) {
     const distribution = {};
     results.forEach(result => {
-      const aptType = result.aptMapping.aptType;
+      const { aptType } = result.aptMapping;
       distribution[aptType] = (distribution[aptType] || 0) + 1;
     });
     return distribution;
@@ -426,22 +426,22 @@ class IntelligentArtistAnalyzer {
 // 실행 스크립트
 async function main() {
   const analyzer = new IntelligentArtistAnalyzer();
-  
+
   try {
     console.log('🎨 SAYU APT 아티스트 분석 시스템 시작\n');
-    
+
     // 현재 상태 리포트
     await analyzer.generateAnalysisReport();
-    
+
     console.log('\n🚀 첫 번째 배치 분석 시작...');
-    
+
     // 첫 10명 분석
     const results = await analyzer.processBatch(10);
-    
+
     // 최종 리포트
     console.log('\n📈 최종 분석 리포트');
     await analyzer.generateAnalysisReport();
-    
+
   } catch (error) {
     console.error('❌ 시스템 오류:', error);
   } finally {

@@ -1,4 +1,4 @@
-const { logger } = require("../config/logger");
+const { logger } = require('../config/logger');
 
 class SocialShareService {
   constructor() {
@@ -76,10 +76,10 @@ class SocialShareService {
   generateArtworkShareData(artwork, userProfile) {
     const baseUrl = process.env.FRONTEND_URL || 'https://sayu.app';
     const artworkUrl = `${baseUrl}/artworks/${artwork.id}`;
-    
+
     const title = `Check out this amazing artwork: ${artwork.title}`;
     const description = `I discovered "${artwork.title}" by ${artwork.artist_display_name || 'Unknown Artist'} through my aesthetic journey on SAYU. ${artwork.medium ? `Medium: ${artwork.medium}` : ''}`;
-    
+
     return {
       url: artworkUrl,
       title,
@@ -97,11 +97,11 @@ class SocialShareService {
   generateQuizShareData(quizResult, userProfile) {
     const baseUrl = process.env.FRONTEND_URL || 'https://sayu.app';
     const profileUrl = `${baseUrl}/profile/${userProfile.id}`;
-    
+
     const archetypeName = userProfile.archetype_name || 'Aesthetic Explorer';
     const title = `I discovered my aesthetic archetype: ${archetypeName}`;
     const description = `I just completed my aesthetic journey quiz on SAYU and discovered I'm a ${archetypeName}! Find out your aesthetic personality and explore art that resonates with your unique perspective.`;
-    
+
     return {
       url: profileUrl,
       title,
@@ -119,12 +119,12 @@ class SocialShareService {
   generateExhibitionShareData(exhibition, userReflection) {
     const baseUrl = process.env.FRONTEND_URL || 'https://sayu.app';
     const exhibitionUrl = exhibition.web_url || `${baseUrl}/exhibitions/${exhibition.id}`;
-    
+
     const title = `Visited: ${exhibition.title}`;
-    const description = userReflection 
+    const description = userReflection
       ? `I just visited "${exhibition.title}" and had an incredible experience. ${userReflection.slice(0, 100)}...`
       : `I just visited "${exhibition.title}" - an amazing exhibition that resonated with my aesthetic journey.`;
-    
+
     return {
       url: exhibitionUrl,
       title,
@@ -142,10 +142,10 @@ class SocialShareService {
   generateAchievementShareData(achievement, userProfile) {
     const baseUrl = process.env.FRONTEND_URL || 'https://sayu.app';
     const profileUrl = `${baseUrl}/profile/${userProfile.id}`;
-    
+
     const title = `Achievement Unlocked: ${achievement.name}`;
     const description = `I just unlocked the "${achievement.name}" achievement on my SAYU aesthetic journey! ${achievement.description}`;
-    
+
     return {
       url: profileUrl,
       title,
@@ -162,10 +162,10 @@ class SocialShareService {
   generateCommunityShareData(topic, forum) {
     const baseUrl = process.env.FRONTEND_URL || 'https://sayu.app';
     const topicUrl = `${baseUrl}/community/topics/${topic.id}`;
-    
+
     const title = `Join the discussion: ${topic.title}`;
     const description = `Join our community discussion about "${topic.title}" in the ${forum.name} forum. Share your perspective on aesthetic experiences and connect with fellow art lovers.`;
-    
+
     return {
       url: topicUrl,
       title,
@@ -203,7 +203,7 @@ class SocialShareService {
     }
 
     const platformUrls = {};
-    
+
     for (const platform of Object.keys(this.platforms)) {
       try {
         platformUrls[platform] = this.generateShareUrl(platform, shareData);
@@ -224,19 +224,19 @@ class SocialShareService {
   async trackShare(userId, contentType, contentId, platform) {
     try {
       const { pool } = require('../config/database');
-      
+
       const query = `
         INSERT INTO social_shares (
           user_id, content_type, content_id, platform, shared_at
         ) VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP)
         RETURNING id
       `;
-      
+
       const result = await pool.query(query, [userId, contentType, contentId, platform]);
-      
+
       logger.info(`Social share tracked: ${platform} share of ${contentType} ${contentId} by user ${userId}`);
       return result.rows[0];
-      
+
     } catch (error) {
       logger.error('Failed to track social share:', error);
       throw error;
@@ -247,7 +247,7 @@ class SocialShareService {
   async getShareAnalytics(userId, timeframe = '30d') {
     try {
       const { pool } = require('../config/database');
-      
+
       const timeCondition = timeframe === '7d' ? "shared_at >= NOW() - INTERVAL '7 days'" :
                            timeframe === '30d' ? "shared_at >= NOW() - INTERVAL '30 days'" :
                            timeframe === '90d' ? "shared_at >= NOW() - INTERVAL '90 days'" :
@@ -264,10 +264,10 @@ class SocialShareService {
         GROUP BY platform, content_type
         ORDER BY share_count DESC
       `;
-      
+
       const result = await pool.query(query, [userId]);
       return result.rows;
-      
+
     } catch (error) {
       logger.error('Failed to get share analytics:', error);
       throw error;
@@ -276,8 +276,8 @@ class SocialShareService {
 
   // Generate native share data (for Web Share API)
   generateNativeShareData(contentType, data, additionalData = {}) {
-    const shareData = this.generateAllPlatformUrls(contentType, data, additionalData).shareData;
-    
+    const { shareData } = this.generateAllPlatformUrls(contentType, data, additionalData);
+
     return {
       title: shareData.title,
       text: shareData.text || shareData.description,

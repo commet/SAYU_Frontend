@@ -11,14 +11,14 @@ async function checkArtists() {
     // 전체 아티스트 수
     const totalResult = await pool.query('SELECT COUNT(*) FROM artists');
     console.log(`\n📊 전체 아티스트 수: ${totalResult.rows[0].count}명`);
-    
+
     // APT 프로필이 있는 아티스트
     const aptResult = await pool.query(`
       SELECT COUNT(*) FROM artists 
       WHERE apt_primary_type IS NOT NULL
     `);
     console.log(`🎯 APT 프로필 보유: ${aptResult.rows[0].count}명`);
-    
+
     // 데이터 소스별 통계
     const sourceResult = await pool.query(`
       SELECT 
@@ -36,7 +36,7 @@ async function checkArtists() {
     sourceResult.rows.forEach(row => {
       console.log(`  ${row.data_source}: ${row.count}명`);
     });
-    
+
     // 최근 추가된 아티스트
     const recentResult = await pool.query(`
       SELECT name, apt_primary_type, created_at 
@@ -53,7 +53,7 @@ async function checkArtists() {
         console.log(`  - ${row.name}: ${row.apt_primary_type || 'APT 미설정'} (${row.created_at.toLocaleDateString()})`);
       });
     }
-    
+
     // APT 타입 분포
     const distributionResult = await pool.query(`
       SELECT apt_primary_type, COUNT(*) as count
@@ -70,14 +70,14 @@ async function checkArtists() {
         console.log(`  ${row.apt_primary_type}: ${row.count}명`);
       });
     }
-    
+
     // importance_score가 있는 아티스트
     const importanceResult = await pool.query(`
       SELECT COUNT(*) FROM artists 
       WHERE importance_score IS NOT NULL
     `);
     console.log(`\n⭐ 중요도 점수 보유: ${importanceResult.rows[0].count}명`);
-    
+
     // 상위 중요 아티스트
     const topArtistsResult = await pool.query(`
       SELECT name, importance_score, apt_primary_type
@@ -90,7 +90,7 @@ async function checkArtists() {
     topArtistsResult.rows.forEach((row, idx) => {
       console.log(`  ${idx + 1}. ${row.name} (점수: ${row.importance_score}, APT: ${row.apt_primary_type || '미설정'})`);
     });
-    
+
   } catch (error) {
     console.error('❌ DB 조회 오류:', error.message);
   } finally {

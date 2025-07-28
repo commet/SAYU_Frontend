@@ -6,9 +6,9 @@ const ArtistDataEnricher = require('./artistDataEnricher');
 class EnrichedComprehensiveClassifier {
   constructor() {
     this.gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    this.model = this.gemini.getGenerativeModel({ model: "gemini-1.5-flash" });
+    this.model = this.gemini.getGenerativeModel({ model: 'gemini-1.5-flash' });
     this.enricher = new ArtistDataEnricher();
-    
+
     // 세션 통계
     this.sessionStats = {
       aptDistribution: {},
@@ -20,28 +20,28 @@ class EnrichedComprehensiveClassifier {
 
   async classifyArtist(artistData) {
     console.log(`\n🎨 강화 분류: ${artistData.name}`);
-    
+
     try {
       // 1단계: 외부 데이터 수집
       const enrichedData = await this.enricher.enrichArtistData(
         this.extractActualArtistName(artistData.name),
         artistData
       );
-      
+
       if (enrichedData.sources.length > 0) {
         console.log(`   ✅ 외부 소스: ${enrichedData.sources.join(', ')}`);
         this.sessionStats.enrichmentSuccess++;
       } else {
         this.sessionStats.enrichmentFailed++;
       }
-      
+
       // 2단계: 데이터 품질 평가
       const dataQuality = this.assessEnrichedDataQuality(enrichedData);
       console.log(`   📊 데이터 품질: ${dataQuality}`);
-      
+
       // 3단계: 분류 전략 선택
       let result;
-      
+
       if (dataQuality === 'excellent') {
         // 매우 풍부한 데이터: 정밀 AI 분석
         result = await this.performDeepAnalysis(enrichedData);
@@ -55,17 +55,17 @@ class EnrichedComprehensiveClassifier {
         // 부족한 데이터: 지능형 추론
         result = this.performIntelligentInference(enrichedData);
       }
-      
+
       // 4단계: SRMC 억제 및 다양성 보장
       if (result && result.aptType === 'SRMC' && this.shouldDiversify()) {
         result = this.diversifyResult(result, enrichedData);
       }
-      
+
       // 통계 업데이트
       this.updateStatistics(result.aptType);
-      
+
       return this.formatFinalResult(result, enrichedData);
-      
+
     } catch (error) {
       console.error(`   ❌ 분류 오류: ${error.message}`);
       return this.createFallbackResult(artistData);
@@ -74,32 +74,32 @@ class EnrichedComprehensiveClassifier {
 
   assessEnrichedDataQuality(data) {
     let score = 0;
-    
+
     // 기본 정보
     if (data.bio && data.bio.length > 1500) score += 30;
     else if (data.bio && data.bio.length > 800) score += 20;
     else if (data.bio && data.bio.length > 400) score += 10;
     else if (data.bio && data.bio.length > 200) score += 5;
-    
+
     // 메타데이터
     if (data.nationality) score += 5;
     if (data.era) score += 10;
     if (data.movement) score += 10;
     if (data.birth_year && data.death_year) score += 5;
-    
+
     // 외부 소스 데이터
     if (data.sources.includes('wikipedia')) score += 15;
     if (data.sources.includes('artnet')) score += 10;
     if (data.sources.includes('metmuseum')) score += 10;
-    
+
     // 시장/전시 데이터
     if (data.auctionRecords > 100) score += 10;
     if (data.exhibitions > 50) score += 10;
     if (data.worksInMet > 10) score += 5;
-    
+
     // 컨텍스트 정보
     if (data.contextualInfo && data.contextualInfo.length > 3) score += 10;
-    
+
     if (score >= 80) return 'excellent';
     if (score >= 50) return 'good';
     if (score >= 25) return 'moderate';
@@ -109,7 +109,7 @@ class EnrichedComprehensiveClassifier {
   async performDeepAnalysis(data) {
     console.log('   💎 심층 분석 수행');
     this.sessionStats.apiCalls++;
-    
+
     const prompt = `당신은 미술사 전문가입니다. 다음 작가의 풍부한 정보를 바탕으로 정밀한 APT 분류를 수행하세요.
 
 작가: ${data.name}
@@ -126,7 +126,7 @@ ${data.bio || '없음'}
 시장/전시 데이터:
 - 경매 기록: ${data.auctionRecords || 0}건
 - 전시 이력: ${data.exhibitions || 0}회
-- Artnet 순위: ${data.ranking ? '#' + data.ranking : '순위 없음'}
+- Artnet 순위: ${data.ranking ? `#${data.ranking}` : '순위 없음'}
 - Met Museum 소장: ${data.worksInMet || 0}점
 
 컨텍스트:
@@ -170,9 +170,9 @@ F/C: [점수] - [구체적 근거]
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-      
+
       return this.parseDetailedResponse(text);
-      
+
     } catch (error) {
       console.error('   ⚠️ AI 분석 오류:', error.message);
       return null;
@@ -182,9 +182,9 @@ F/C: [점수] - [구체적 근거]
   async performStandardAnalysis(data) {
     console.log('   🔍 표준 분석 수행');
     this.sessionStats.apiCalls++;
-    
+
     const artistType = this.categorizeArtist(data);
-    
+
     const prompt = `작가를 APT로 분류하세요.
 
 작가: ${data.name}
@@ -192,7 +192,7 @@ F/C: [점수] - [구체적 근거]
 정보: 
 - ${data.nationality || '국적 불명'}, ${data.era || '시대 불명'}
 - ${data.movement || '사조 불명'}
-- ${data.bio ? data.bio.substring(0, 500) + '...' : '전기 없음'}
+- ${data.bio ? `${data.bio.substring(0, 500)}...` : '전기 없음'}
 
 추가 정보:
 - 전시: ${data.exhibitions || 0}회
@@ -212,9 +212,9 @@ APT: [4글자]`;
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-      
+
       return this.parseResponse(text);
-      
+
     } catch (error) {
       console.error('   ⚠️ AI 분석 오류:', error.message);
       return null;
@@ -223,37 +223,37 @@ APT: [4글자]`;
 
   async performContextualAnalysis(data) {
     console.log('   🎯 컨텍스트 분석 수행');
-    
+
     const artistType = this.categorizeArtist(data);
     const contextPrompt = this.generateContextPrompt(data, artistType);
-    
+
     // API 호출 최소화 - 30% 확률로만 API 사용
     if (Math.random() < 0.3 && this.sessionStats.apiCalls < 50) {
       this.sessionStats.apiCalls++;
-      
+
       try {
         const result = await this.model.generateContent(contextPrompt);
         const response = await result.response;
         const text = response.text();
-        
+
         return this.parseResponse(text);
       } catch (error) {
         console.error('   ⚠️ AI 오류, 추론 사용');
       }
     }
-    
+
     // 컨텍스트 기반 추론
     return this.contextBasedInference(data, artistType);
   }
 
   performIntelligentInference(data) {
     console.log('   🧠 지능형 추론 적용');
-    
+
     const artistType = this.categorizeArtist(data);
-    
+
     // 풍부한 유형별 매핑
     const typePatterns = {
-      'ancient': { 
+      'ancient': {
         types: ['SREC', 'SRMF', 'SAMC', 'SRMC'],
         weights: [0.3, 0.3, 0.2, 0.2],
         scores: { L_S: 40, A_R: 85, E_M: 40, F_C: 70 }
@@ -344,21 +344,21 @@ APT: [4글자]`;
         scores: { L_S: 60, A_R: 70, E_M: -40, F_C: 30 }
       }
     };
-    
+
     const pattern = typePatterns[artistType] || {
       types: ['LREC', 'LAEC', 'SAEC', 'SREF'],
       weights: [0.25, 0.25, 0.25, 0.25],
       scores: { L_S: 0, A_R: 20, E_M: -20, F_C: 0 }
     };
-    
+
     // 가중치 기반 선택
     const selectedType = this.weightedSelection(pattern.types, pattern.weights);
-    
+
     // 시장 데이터 기반 조정
     if (data.auctionRecords > 200 || data.exhibitions > 100) {
       pattern.scores.L_S += 20; // 더 사회적
     }
-    
+
     return {
       aptType: selectedType,
       axisScores: pattern.scores,
@@ -382,13 +382,13 @@ APT: [4글자]`;
         'baroque': 'baroque',
         'renaissance': 'renaissance'
       };
-      
+
       const movement = data.movement.toLowerCase();
       for (const [key, value] of Object.entries(movementMap)) {
         if (movement.includes(key)) return value;
       }
     }
-    
+
     if (data.era) {
       const era = data.era.toLowerCase();
       if (era.includes('medieval')) return 'medieval';
@@ -399,12 +399,12 @@ APT: [4글자]`;
       if (era.includes('modern')) return 'modern';
       if (era.includes('contemporary')) return 'contemporary';
     }
-    
+
     const name = data.name.toLowerCase();
     if (name.match(/attributed|after|follower|workshop/i)) {
       return 'attribution';
     }
-    
+
     if (data.birth_year) {
       if (data.birth_year < 1400) return 'medieval';
       if (data.birth_year < 1600) return 'renaissance';
@@ -414,29 +414,29 @@ APT: [4글자]`;
       if (data.birth_year < 1945) return 'modern';
       return 'contemporary';
     }
-    
+
     return 'unknown';
   }
 
   weightedSelection(types, weights) {
     const total = weights.reduce((a, b) => a + b, 0);
     let random = Math.random() * total;
-    
+
     for (let i = 0; i < types.length; i++) {
       random -= weights[i];
       if (random <= 0) {
         return types[i];
       }
     }
-    
+
     return types[0];
   }
 
   contextBasedInference(data, artistType) {
     // 컨텍스트 정보 활용
     const scores = { L_S: 0, A_R: 0, E_M: 0, F_C: 0 };
-    let suggestedTypes = [];
-    
+    const suggestedTypes = [];
+
     // 시장 활동성
     if (data.auctionRecords > 500) {
       scores.L_S += 40;
@@ -444,7 +444,7 @@ APT: [4글자]`;
     } else if (data.auctionRecords > 100) {
       scores.L_S += 20;
     }
-    
+
     // 미술관 소장
     if (data.worksInMet > 50) {
       scores.F_C += 30;
@@ -453,26 +453,26 @@ APT: [4글자]`;
     } else if (data.worksInMet > 10) {
       scores.F_C += 15;
     }
-    
+
     // 전시 활동
     if (data.exhibitions > 100) {
       scores.L_S += 30;
       scores.A_R += 10;
       suggestedTypes.push('SAEC', 'SAMF');
     }
-    
+
     // 시대별 기본값 적용
     const typeDefaults = this.getTypeDefaults(artistType);
     Object.keys(scores).forEach(axis => {
       scores[axis] += typeDefaults.scores[axis] * 0.7;
     });
-    
+
     // 최종 APT 결정
     const calculatedAPT = this.calculateAPT(scores);
-    const finalAPT = suggestedTypes.includes(calculatedAPT) ? 
-      calculatedAPT : 
+    const finalAPT = suggestedTypes.includes(calculatedAPT) ?
+      calculatedAPT :
       this.selectLeastUsedType([...suggestedTypes, ...typeDefaults.types]);
-    
+
     return {
       aptType: finalAPT,
       axisScores: scores,
@@ -490,10 +490,10 @@ APT: [4글자]`;
       'impressionist': {
         types: ['LAEF', 'LREF', 'SAEF'],
         scores: { L_S: -20, A_R: 20, E_M: -70, F_C: -60 }
-      },
+      }
       // ... 다른 시대들
     };
-    
+
     return defaults[artistType] || {
       types: ['LREC', 'LAEC', 'SAEC'],
       scores: { L_S: 0, A_R: 20, E_M: -20, F_C: 0 }
@@ -504,13 +504,13 @@ APT: [4글자]`;
     const total = Object.values(this.sessionStats.aptDistribution)
       .reduce((a, b) => a + b, 0);
     const srmcCount = this.sessionStats.aptDistribution['SRMC'] || 0;
-    
+
     return total > 0 && (srmcCount / total) > 0.12;
   }
 
   diversifyResult(result, data) {
     console.log('   🔄 다양성 조정');
-    
+
     const alternatives = {
       'baroque': ['SREC', 'SREF'],
       'romantic': ['LREF', 'LAEF'],
@@ -518,23 +518,23 @@ APT: [4글자]`;
       'modern': ['LAMF', 'LAEC'],
       'contemporary': ['LAEC', 'SAEC']
     };
-    
+
     const artistType = this.categorizeArtist(data);
     const altTypes = alternatives[artistType] || ['LREC', 'LAEC'];
     const newType = this.selectLeastUsedType(altTypes);
-    
+
     return {
       ...result,
       aptType: newType,
       confidence: result.confidence - 5,
-      reasoning: result.reasoning + ' (다양성을 위해 조정됨)'
+      reasoning: `${result.reasoning} (다양성을 위해 조정됨)`
     };
   }
 
   selectLeastUsedType(candidates) {
     let minCount = Infinity;
     let selected = candidates[0];
-    
+
     for (const type of candidates) {
       const count = this.sessionStats.aptDistribution[type] || 0;
       if (count < minCount) {
@@ -542,7 +542,7 @@ APT: [4글자]`;
         selected = type;
       }
     }
-    
+
     return selected;
   }
 
@@ -554,7 +554,7 @@ APT: [4글자]`;
         reasoning: '',
         confidence: 75
       };
-      
+
       // 축 점수 추출
       const patterns = {
         L_S: /L\/S:\s*([+-]?\d+)/i,
@@ -562,14 +562,14 @@ APT: [4글자]`;
         E_M: /E\/M:\s*([+-]?\d+)/i,
         F_C: /F\/C:\s*([+-]?\d+)/i
       };
-      
+
       for (const [axis, pattern] of Object.entries(patterns)) {
         const match = text.match(pattern);
         if (match) {
           result.axisScores[axis] = parseInt(match[1]);
         }
       }
-      
+
       // APT 추출
       const aptMatch = text.match(/최종 APT:\s*([LS][AR][EM][FC])/i);
       if (aptMatch) {
@@ -577,16 +577,16 @@ APT: [4글자]`;
       } else {
         result.aptType = this.calculateAPT(result.axisScores);
       }
-      
+
       // 종합 분석 추출
       const analysisMatch = text.match(/종합 분석:\s*(.+?)$/ims);
       if (analysisMatch) {
         result.reasoning = analysisMatch[1].trim();
         result.confidence = 85;
       }
-      
+
       return result;
-      
+
     } catch (error) {
       return null;
     }
@@ -600,30 +600,30 @@ APT: [4글자]`;
         reasoning: '',
         confidence: 65
       };
-      
+
       const patterns = {
         L_S: /L\/S:\s*([+-]?\d+)/i,
         A_R: /A\/R:\s*([+-]?\d+)/i,
         E_M: /E\/M:\s*([+-]?\d+)/i,
         F_C: /F\/C:\s*([+-]?\d+)/i
       };
-      
+
       for (const [axis, pattern] of Object.entries(patterns)) {
         const match = text.match(pattern);
         if (match) {
           result.axisScores[axis] = parseInt(match[1]);
         }
       }
-      
+
       const aptMatch = text.match(/APT:\s*([LS][AR][EM][FC])/i);
       if (aptMatch) {
         result.aptType = aptMatch[1].toUpperCase();
       } else {
         result.aptType = this.calculateAPT(result.axisScores);
       }
-      
+
       return result;
-      
+
     } catch (error) {
       return null;
     }
@@ -650,7 +650,7 @@ APT: [SRMC 제외]`;
   }
 
   updateStatistics(aptType) {
-    this.sessionStats.aptDistribution[aptType] = 
+    this.sessionStats.aptDistribution[aptType] =
       (this.sessionStats.aptDistribution[aptType] || 0) + 1;
   }
 
@@ -660,7 +660,7 @@ APT: [SRMC 제외]`;
       'School of ', 'Workshop of ', 'Studio of ', 'Manner of ',
       'Style of ', 'Copy after ', 'Imitator of ', 'In the style of '
     ];
-    
+
     let actualName = fullName;
     for (const attr of attributions) {
       if (actualName.startsWith(attr)) {
@@ -668,14 +668,14 @@ APT: [SRMC 제외]`;
         break;
       }
     }
-    
+
     return actualName.trim();
   }
 
   createFallbackResult(artistData) {
     const fallbackTypes = ['LREC', 'LAEC', 'SAEC', 'SREF'];
     const randomType = fallbackTypes[Math.floor(Math.random() * fallbackTypes.length)];
-    
+
     return {
       aptType: randomType,
       axisScores: { L_S: 0, A_R: 20, E_M: -20, F_C: 0 },

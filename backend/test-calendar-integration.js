@@ -21,7 +21,7 @@ const sampleExhibition = {
 function generateGoogleCalendarUrl(exhibition) {
   const startDate = new Date(exhibition.start_date);
   const endDate = new Date(exhibition.end_date);
-  
+
   const googleParams = new URLSearchParams({
     action: 'TEMPLATE',
     text: exhibition.title,
@@ -39,7 +39,7 @@ function generateGoogleCalendarUrl(exhibition) {
 function generateICSContent(exhibition) {
   const startDate = new Date(exhibition.start_date);
   const endDate = new Date(exhibition.end_date);
-  
+
   return `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//SAYU//Exhibition Calendar//EN
@@ -60,7 +60,7 @@ END:VCALENDAR`;
 function generateOutlookUrl(exhibition) {
   const startDate = new Date(exhibition.start_date);
   const endDate = new Date(exhibition.end_date);
-  
+
   const outlookParams = new URLSearchParams({
     path: '/calendar/action/compose',
     rru: 'addevent',
@@ -75,7 +75,7 @@ function generateOutlookUrl(exhibition) {
 }
 
 function formatDateForGoogle(date) {
-  return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  return `${date.toISOString().replace(/[-:]/g, '').split('.')[0]}Z`;
 }
 
 function formatDateForICS(date) {
@@ -107,7 +107,7 @@ app.get('/api/calendar/outlook/:exhibitionId', (req, res) => {
 
 app.get('/api/calendar/ics/:exhibitionId', (req, res) => {
   const icsContent = generateICSContent(sampleExhibition);
-  
+
   res.setHeader('Content-Type', 'text/calendar');
   res.setHeader('Content-Disposition', `attachment; filename="${sampleExhibition.title}.ics"`);
   res.send(icsContent);
@@ -136,29 +136,29 @@ app.listen(PORT, () => {
   console.log(`   GET  http://localhost:${PORT}/api/calendar/google/test-exhibition-001`);
   console.log(`   GET  http://localhost:${PORT}/api/calendar/outlook/test-exhibition-001`);
   console.log(`   GET  http://localhost:${PORT}/api/calendar/ics/test-exhibition-001`);
-  
+
   console.log('\n🧪 Testing calendar integration...');
-  
+
   // 자동 테스트
   setTimeout(async () => {
     try {
       console.log('\n1️⃣ Testing calendar URL generation...');
-      
+
       const googleUrl = generateGoogleCalendarUrl(sampleExhibition);
       console.log('✅ Google Calendar URL generated');
       console.log(`   ${googleUrl.substring(0, 100)}...`);
-      
+
       const outlookUrl = generateOutlookUrl(sampleExhibition);
       console.log('✅ Outlook Calendar URL generated');
       console.log(`   ${outlookUrl.substring(0, 100)}...`);
-      
+
       const icsContent = generateICSContent(sampleExhibition);
       console.log('✅ ICS file content generated');
       console.log(`   ${icsContent.split('\n')[0]}...`);
-      
+
       console.log('\n2️⃣ Calendar integration test completed!');
       console.log('🎉 All calendar features are working correctly!');
-      
+
     } catch (error) {
       console.error('❌ Calendar test failed:', error);
     }

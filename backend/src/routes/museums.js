@@ -2,7 +2,7 @@ const router = require('express').Router();
 const authMiddleware = require('../middleware/auth');
 const { adminMiddleware: requireAdmin } = require('../middleware/auth');
 const museumAPIService = require('../services/museumAPIService');
-const { logger } = require("../config/logger");
+const { logger } = require('../config/logger');
 const { museumApiLimiter } = require('../middleware/rateLimiter');
 
 // Public routes (no auth required)
@@ -35,7 +35,7 @@ router.get('/search', museumApiLimiter, async (req, res) => {
     };
 
     const artworks = await museumAPIService.searchArtworks(searchParams);
-    
+
     res.json({
       artworks,
       pagination: {
@@ -54,7 +54,7 @@ router.get('/search', museumApiLimiter, async (req, res) => {
 router.get('/artworks/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     const query = `
       SELECT ae.*, m.name as museum_name, m.short_name as museum_short_name,
              m.website_url as museum_website, m.location as museum_location
@@ -62,14 +62,14 @@ router.get('/artworks/:id', async (req, res) => {
       LEFT JOIN museums m ON ae.museum_id = m.id
       WHERE ae.id = $1
     `;
-    
+
     const { pool } = require('../config/database');
     const result = await pool.query(query, [id]);
-    
+
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Artwork not found' });
     }
-    
+
     res.json(result.rows[0]);
 
   } catch (error) {
@@ -81,7 +81,7 @@ router.get('/artworks/:id', async (req, res) => {
 router.get('/museums', async (req, res) => {
   try {
     const { status = 'active' } = req.query;
-    
+
     const query = `
       SELECT m.*, 
              COUNT(ae.id) as artwork_count,
@@ -92,10 +92,10 @@ router.get('/museums', async (req, res) => {
       GROUP BY m.id
       ORDER BY artwork_count DESC, m.name
     `;
-    
+
     const { pool } = require('../config/database');
     const result = await pool.query(query, [status]);
-    
+
     res.json(result.rows);
 
   } catch (error) {
@@ -108,27 +108,27 @@ router.get('/museums/:id/artworks', async (req, res) => {
   try {
     const { id } = req.params;
     const { limit = 20, offset = 0, hasImage = 'true' } = req.query;
-    
+
     let query = `
       SELECT ae.*, m.name as museum_name
       FROM artworks_extended ae
       LEFT JOIN museums m ON ae.museum_id = m.id
       WHERE ae.museum_id = $1
     `;
-    
+
     const values = [id];
-    let paramCount = 2;
-    
+    const paramCount = 2;
+
     if (hasImage === 'true') {
       query += ` AND ae.primary_image_url IS NOT NULL`;
     }
-    
+
     query += ` ORDER BY ae.is_highlight DESC, ae.created_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
     values.push(parseInt(limit), parseInt(offset));
-    
+
     const { pool } = require('../config/database');
     const result = await pool.query(query, values);
-    
+
     res.json({
       artworks: result.rows,
       pagination: {
@@ -165,7 +165,7 @@ router.post('/sync/all', requireAdmin, async (req, res) => {
     museumAPIService.syncAllMuseums().catch(error => {
       logger.error('Background museum sync failed:', error);
     });
-    
+
     res.json({ message: 'Museum sync started in background' });
   } catch (error) {
     logger.error('Failed to start museum sync:', error);
@@ -176,22 +176,22 @@ router.post('/sync/all', requireAdmin, async (req, res) => {
 router.post('/sync/:source', requireAdmin, async (req, res) => {
   try {
     const { source } = req.params;
-    
+
     const syncMethods = {
       met: () => museumAPIService.syncMetMuseum(),
       cleveland: () => museumAPIService.syncClevelandMuseum(),
       rijks: () => museumAPIService.syncRijksmuseum()
     };
-    
+
     if (!syncMethods[source]) {
       return res.status(400).json({ error: 'Invalid museum source' });
     }
-    
+
     // Start sync in background
     syncMethods[source]().catch(error => {
       logger.error(`Background ${source} sync failed:`, error);
     });
-    
+
     res.json({ message: `${source} sync started in background` });
   } catch (error) {
     logger.error(`Failed to start ${req.params.source} sync:`, error);
@@ -309,10 +309,10 @@ router.get('/analytics/overview', requireAdmin, async (req, res) => {
         (SELECT COUNT(DISTINCT api_source) FROM artworks_extended) as api_sources,
         (SELECT COUNT(DISTINCT artist_display_name) FROM artworks_extended WHERE artist_display_name IS NOT NULL) as unique_artists
     `;
-    
+
     const { pool } = require('../config/database');
     const result = await pool.query(query);
-    
+
     res.json(result.rows[0]);
 
   } catch (error) {
@@ -335,10 +335,10 @@ router.get('/analytics/sources', requireAdmin, async (req, res) => {
       GROUP BY api_source
       ORDER BY artwork_count DESC
     `;
-    
+
     const { pool } = require('../config/database');
     const result = await pool.query(query);
-    
+
     res.json(result.rows);
 
   } catch (error) {

@@ -12,7 +12,7 @@ class EnhancedMajorSourcesCrawler {
     this.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36';
     this.requestDelay = 2000;
     this.lastRequestTime = 0;
-    
+
     // 확장된 major exhibition 소스들
     this.enhancedSources = {
       // 1. 공식 관광청 (신뢰도 최고)
@@ -116,7 +116,7 @@ class EnhancedMajorSourcesCrawler {
 
   async fetchPage(url) {
     await this.respectRateLimit();
-    
+
     try {
       console.log(`🔄 Fetching: ${url}`);
       const response = await axios.get(url, {
@@ -138,9 +138,9 @@ class EnhancedMajorSourcesCrawler {
 
   async smartCrawlSource(source, city, config) {
     console.log(`\n🎨 Smart crawling ${source} - ${city}...`);
-    
+
     let html = null;
-    
+
     // 여러 URL 시도 (generic_patterns의 경우)
     if (config.urls) {
       for (const url of config.urls) {
@@ -153,7 +153,7 @@ class EnhancedMajorSourcesCrawler {
     } else {
       html = await this.fetchPage(config.url);
     }
-    
+
     if (!html) return [];
 
     const $ = cheerio.load(html);
@@ -161,26 +161,26 @@ class EnhancedMajorSourcesCrawler {
 
     // 스마트 선택자 시도
     const exhibitionSelectors = config.selectors.exhibitions.split(', ');
-    
+
     for (const selector of exhibitionSelectors) {
       const found = $(selector);
       console.log(`   Trying "${selector}": ${found.length} elements`);
-      
+
       if (found.length > 0) {
         let validCount = 0;
-        
+
         found.each((i, element) => {
           if (exhibitions.length >= 25) return false; // 최대 25개
-          
+
           const $el = $(element);
           const result = this.extractExhibitionData($el, config.selectors, city, source);
-          
+
           if (result && this.isValidExhibition(result)) {
             exhibitions.push(result);
             validCount++;
           }
         });
-        
+
         if (validCount > 0) {
           console.log(`   ✅ Found ${validCount} valid exhibitions with "${selector}"`);
           break;
@@ -195,16 +195,16 @@ class EnhancedMajorSourcesCrawler {
   extractExhibitionData($el, selectors, city, source) {
     // 제목 추출 (더 스마트하게)
     let title = this.smartExtractText($el, selectors.title);
-    
+
     // venue 추출
     let venue = this.smartExtractText($el, selectors.venue);
-    
+
     // 날짜 추출
     let dates = this.smartExtractText($el, selectors.dates);
-    
+
     // 설명 추출
     let description = this.smartExtractText($el, selectors.description);
-    
+
     // 링크 추출
     const link = $el.find('a').first().attr('href') || $el.attr('href');
     let fullUrl = '';
@@ -215,20 +215,20 @@ class EnhancedMajorSourcesCrawler {
         fullUrl = '';
       }
     }
-    
+
     // 데이터 정제
     title = this.cleanText(title);
     venue = this.cleanText(venue);
     dates = this.cleanText(dates);
     description = this.cleanText(description);
-    
+
     if (!title || title.length < 3) return null;
-    
+
     return {
       title,
       venue: {
         name: venue || this.extractVenueFromTitle(title),
-        city: city
+        city
       },
       dates: {
         original: dates
@@ -249,15 +249,15 @@ class EnhancedMajorSourcesCrawler {
       const text = $el.find(sel).first().text().trim();
       if (text && text.length > 2) return text;
     }
-    
+
     // 2. 직접 텍스트
     const directText = $el.text().trim();
     if (directText && directText.length > 2) return directText;
-    
+
     // 3. alt 텍스트
     const altText = $el.find('img').first().attr('alt');
     if (altText && altText.length > 2) return altText;
-    
+
     return '';
   }
 
@@ -268,47 +268,47 @@ class EnhancedMajorSourcesCrawler {
       /\|\s*([^,\n]+)/,
       /-\s*([^,\n]+)/
     ];
-    
+
     for (const pattern of venuePatterns) {
       const match = title.match(pattern);
       if (match && match[1]) {
         return match[1].trim();
       }
     }
-    
+
     return 'Unknown Venue';
   }
 
   assessQuality(title, venue, description) {
     let score = 0;
-    
+
     // 유명 미술관/갤러리 키워드
     const famousVenues = [
       'tate', 'moma', 'national gallery', 'royal academy', 'v&a', 'british museum',
       'serpentine', 'hayward', 'whitechapel', 'saatchi', 'barbican', 'ica'
     ];
-    
-    // 유명 아티스트 키워드  
+
+    // 유명 아티스트 키워드
     const famousArtists = [
       'picasso', 'monet', 'van gogh', 'warhol', 'hockney', 'kusama', 'banksy',
       'ai weiwei', 'koons', 'hirst', 'giacometti', 'nara', 'basquiat'
     ];
-    
+
     // venue 점수
     if (famousVenues.some(v => (title + venue).toLowerCase().includes(v))) {
       score += 3;
     }
-    
+
     // 아티스트 점수
     if (famousArtists.some(a => title.toLowerCase().includes(a))) {
       score += 2;
     }
-    
+
     // 설명 길이 점수
     if (description && description.length > 50) {
       score += 1;
     }
-    
+
     if (score >= 3) return 'world_class';
     if (score >= 2) return 'high';
     if (score >= 1) return 'medium';
@@ -322,19 +322,19 @@ class EnhancedMajorSourcesCrawler {
       'contact', 'subscribe', 'newsletter', 'follow', 'share', 'menu', 'search',
       'login', 'sign up', 'book now', 'buy tickets', 'view all'
     ];
-    
+
     const title = exhibition.title.toLowerCase();
-    
+
     // 너무 짧거나 네비게이션 아이템인 경우 제외
     if (title.length < 3 || navItems.some(nav => title.includes(nav))) {
       return false;
     }
-    
+
     // 숫자만 있는 제목 제외
     if (/^\d+\.?\s*$/.test(title)) {
       return false;
     }
-    
+
     return true;
   }
 
@@ -361,22 +361,22 @@ class EnhancedMajorSourcesCrawler {
     for (const [source, cities] of Object.entries(this.enhancedSources)) {
       console.log(`\n📰 ${source.toUpperCase()} 크롤링`);
       console.log('='.repeat(40));
-      
+
       results[source] = {};
-      
+
       for (const [city, config] of Object.entries(cities)) {
         try {
           const exhibitions = await this.smartCrawlSource(source, city, config);
           results[source][city] = exhibitions;
           allExhibitions.push(...exhibitions);
-          
+
           if (exhibitions.length > 0) {
             const worldClass = exhibitions.filter(ex => ex.quality === 'world_class').length;
             console.log(`   🎯 ${city}: ${exhibitions.length}개 전시 (world-class: ${worldClass}개)`);
           } else {
             console.log(`   ⚠️  ${city}: 전시 없음`);
           }
-          
+
         } catch (error) {
           console.error(`   ❌ ${city} 크롤링 실패:`, error.message);
           results[source][city] = [];
@@ -396,7 +396,7 @@ class EnhancedMajorSourcesCrawler {
     // 결과 저장
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const filename = `enhanced-sources-collection-${timestamp}.json`;
-    
+
     const finalResult = {
       metadata: {
         collectionDate: new Date().toISOString(),
@@ -442,10 +442,10 @@ class EnhancedMajorSourcesCrawler {
 // 실행
 async function main() {
   const crawler = new EnhancedMajorSourcesCrawler();
-  
+
   try {
     await crawler.crawlAllEnhancedSources();
-    
+
   } catch (error) {
     console.error('Enhanced crawler error:', error);
   }

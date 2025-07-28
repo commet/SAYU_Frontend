@@ -12,10 +12,10 @@ class CulturePortalIntegration {
     this.apiKey = process.env.CULTURE_API_KEY;
     this.dailyLimit = 1000;
     this.currentUsage = 0;
-    
+
     // 수집 우선순위 지역
     this.priorityRegions = [
-      '서울특별시', '경기도', '부산광역시', '대구광역시', 
+      '서울특별시', '경기도', '부산광역시', '대구광역시',
       '인천광역시', '광주광역시', '대전광역시', '제주특별자치도'
     ];
   }
@@ -43,7 +43,7 @@ class CulturePortalIntegration {
       // 1. 현재 진행 중인 전시 우선 수집
       const ongoingExhibitions = await this.fetchOngoingExhibitions();
       results.total += ongoingExhibitions.length;
-      
+
       // 2. 지역별 순환 수집 (일일 한도 고려)
       for (const region of this.priorityRegions) {
         if (this.currentUsage >= this.dailyLimit * 0.9) {
@@ -54,7 +54,7 @@ class CulturePortalIntegration {
         const regionResults = await this.fetchRegionExhibitions(region);
         results.regions[region] = regionResults;
         results.total += regionResults.count;
-        
+
         // API 호출 제한 관리
         await this.rateLimitDelay();
       }
@@ -66,7 +66,7 @@ class CulturePortalIntegration {
       results.errors = saveResults.errors;
 
       logger.info(`Culture Portal collection completed: ${results.total} total, ${results.new} new, ${results.updated} updated`);
-      
+
       return { success: true, data: results };
 
     } catch (error) {
@@ -81,7 +81,7 @@ class CulturePortalIntegration {
   async fetchOngoingExhibitions() {
     const today = new Date();
     const nextMonth = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
-    
+
     const params = {
       serviceKey: this.apiKey,
       realmCode: 'A', // 미술 분야
@@ -93,20 +93,20 @@ class CulturePortalIntegration {
 
     const exhibitions = [];
     let hasMore = true;
-    
+
     while (hasMore && this.currentUsage < this.dailyLimit) {
       try {
         const response = await axios.get(this.baseUrl, { params });
         this.currentUsage++;
-        
+
         if (response.data?.response?.body?.items?.item) {
-          const items = Array.isArray(response.data.response.body.items.item) 
-            ? response.data.response.body.items.item 
+          const items = Array.isArray(response.data.response.body.items.item)
+            ? response.data.response.body.items.item
             : [response.data.response.body.items.item];
-          
+
           exhibitions.push(...items.map(item => this.standardizeExhibition(item)));
         }
-        
+
         // 페이지네이션
         const totalCount = response.data?.response?.body?.totalCount || 0;
         if (exhibitions.length >= totalCount || params.pageNo * params.rows >= totalCount) {
@@ -114,13 +114,13 @@ class CulturePortalIntegration {
         } else {
           params.pageNo++;
         }
-        
+
       } catch (error) {
         logger.error(`Failed to fetch page ${params.pageNo}:`, error);
         hasMore = false;
       }
     }
-    
+
     return exhibitions;
   }
 
@@ -129,7 +129,7 @@ class CulturePortalIntegration {
    */
   async fetchRegionExhibitions(region) {
     const results = { count: 0, exhibitions: [] };
-    
+
     try {
       const params = {
         serviceKey: this.apiKey,
@@ -141,20 +141,20 @@ class CulturePortalIntegration {
 
       const response = await axios.get(this.baseUrl, { params });
       this.currentUsage++;
-      
+
       if (response.data?.response?.body?.items?.item) {
-        const items = Array.isArray(response.data.response.body.items.item) 
-          ? response.data.response.body.items.item 
+        const items = Array.isArray(response.data.response.body.items.item)
+          ? response.data.response.body.items.item
           : [response.data.response.body.items.item];
-        
+
         results.exhibitions = items.map(item => this.standardizeExhibition(item));
         results.count = results.exhibitions.length;
       }
-      
+
     } catch (error) {
       logger.error(`Failed to fetch exhibitions for ${region}:`, error);
     }
-    
+
     return results;
   }
 
@@ -188,7 +188,7 @@ class CulturePortalIntegration {
       source: 'culture_portal',
       apiId: rawData.seq,
       collectDate: new Date(),
-      
+
       // SAYU 특화 필드
       emotionProfile: null, // AI 분석 예정
       personalityMatch: null, // 성격 유형 매칭 예정
@@ -202,19 +202,19 @@ class CulturePortalIntegration {
    */
   async saveExhibitionsToDB(exhibitions) {
     const results = { new: 0, updated: 0, errors: [] };
-    
+
     for (const exhibition of exhibitions) {
       const client = await pool.connect();
-      
+
       try {
         await client.query('BEGIN');
-        
+
         // 중복 확인 (API ID 기반)
         const existing = await client.query(
           'SELECT id FROM exhibitions WHERE source = $1 AND api_id = $2',
           ['culture_portal', exhibition.apiId]
         );
-        
+
         if (existing.rows.length > 0) {
           // 기존 전시 업데이트
           await this.updateExhibition(client, existing.rows[0].id, exhibition);
@@ -224,9 +224,9 @@ class CulturePortalIntegration {
           await this.createExhibition(client, exhibition);
           results.new++;
         }
-        
+
         await client.query('COMMIT');
-        
+
       } catch (error) {
         await client.query('ROLLBACK');
         logger.error(`Failed to save exhibition "${exhibition.title}":`, error);
@@ -238,7 +238,7 @@ class CulturePortalIntegration {
         client.release();
       }
     }
-    
+
     return results;
   }
 
@@ -248,7 +248,7 @@ class CulturePortalIntegration {
   async createExhibition(client, exhibition) {
     // 1. 장소 찾기/생성
     const venue = await this.findOrCreateVenue(client, exhibition.venue);
-    
+
     // 2. 전시 생성
     const exhibitionResult = await client.query(`
       INSERT INTO exhibitions (
@@ -271,7 +271,7 @@ class CulturePortalIntegration {
       exhibition.apiId,
       exhibition.status
     ]);
-    
+
     // 3. 이미지 저장
     if (exhibition.images.length > 0) {
       for (const imageUrl of exhibition.images) {
@@ -281,7 +281,7 @@ class CulturePortalIntegration {
         );
       }
     }
-    
+
     return exhibitionResult.rows[0].id;
   }
 
@@ -319,7 +319,7 @@ class CulturePortalIntegration {
       'SELECT * FROM venues WHERE name = $1',
       [venueData.name]
     );
-    
+
     if (venue.rows.length === 0) {
       // 새 장소 생성
       const newVenue = await client.query(`
@@ -337,10 +337,10 @@ class CulturePortalIntegration {
         this.determineTier(venueData.name),
         true
       ]);
-      
+
       venue = newVenue;
     }
-    
+
     return venue.rows[0];
   }
 
@@ -349,7 +349,7 @@ class CulturePortalIntegration {
    */
   parseDate(dateStr) {
     if (!dateStr) return null;
-    
+
     try {
       // YYYY-MM-DD 형식으로 변환
       const cleanDate = dateStr.replace(/[^\d-]/g, '');
@@ -362,14 +362,14 @@ class CulturePortalIntegration {
   parseAdmissionFee(priceStr) {
     if (!priceStr) return 0;
     if (priceStr.includes('무료') || priceStr.includes('free')) return 0;
-    
+
     const match = priceStr.match(/[\d,]+/);
     return match ? parseInt(match[0].replace(/,/g, '')) : 0;
   }
 
   extractCity(region) {
     if (!region) return '서울';
-    
+
     const cityMap = {
       '서울': '서울',
       '부산': '부산',
@@ -389,17 +389,17 @@ class CulturePortalIntegration {
       '경남': '경남',
       '제주': '제주'
     };
-    
+
     for (const [key, value] of Object.entries(cityMap)) {
       if (region.includes(key)) return value;
     }
-    
+
     return '서울'; // 기본값
   }
 
   extractTags(rawData) {
     const tags = [];
-    
+
     // 제목에서 키워드 추출
     if (rawData.title) {
       if (rawData.title.includes('개인전')) tags.push('개인전');
@@ -411,7 +411,7 @@ class CulturePortalIntegration {
       if (rawData.title.includes('미디어')) tags.push('미디어아트');
       if (rawData.title.includes('현대')) tags.push('현대미술');
     }
-    
+
     return tags;
   }
 
@@ -419,7 +419,7 @@ class CulturePortalIntegration {
     const now = new Date();
     const start = new Date(startDate);
     const end = new Date(endDate);
-    
+
     if (now < start) return 'upcoming';
     if (now > end) return 'ended';
     return 'ongoing';
@@ -428,15 +428,15 @@ class CulturePortalIntegration {
   determineTier(venueName) {
     const tier1 = ['국립', '시립', '도립', '문화예술회관'];
     const tier2 = ['미술관', '박물관', '갤러리'];
-    
+
     for (const keyword of tier1) {
       if (venueName.includes(keyword)) return 1;
     }
-    
+
     for (const keyword of tier2) {
       if (venueName.includes(keyword)) return 2;
     }
-    
+
     return 3;
   }
 
@@ -450,7 +450,7 @@ class CulturePortalIntegration {
    */
   async getCollectionStatus() {
     const today = new Date().toISOString().split('T')[0];
-    
+
     const result = await pool.query(`
       SELECT 
         COUNT(*) as total_today,
@@ -459,7 +459,7 @@ class CulturePortalIntegration {
       FROM exhibitions 
       WHERE source = 'culture_portal'
     `, [today]);
-    
+
     return {
       currentUsage: this.currentUsage,
       dailyLimit: this.dailyLimit,

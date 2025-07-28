@@ -5,7 +5,7 @@ const waitlistController = require('../controllers/waitlistController');
 const rateLimiter = require('../middleware/rateLimiter');
 
 // 대기 목록 가입
-router.post('/join', 
+router.post('/join',
   rateLimiter({ windowMs: 15 * 60 * 1000, max: 5 }), // 15분당 5회
   [
     body('email').isEmail().normalizeEmail(),

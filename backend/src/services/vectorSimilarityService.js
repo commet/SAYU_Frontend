@@ -30,7 +30,7 @@ class VectorSimilarityService {
     } = options;
 
     const cacheKey = `${this.cachePrefix}users:${userId}:${threshold}:${limit}`;
-    
+
     try {
       // Check cache first
       if (this.redis) {
@@ -45,9 +45,9 @@ class VectorSimilarityService {
       const query = `
         SELECT * FROM find_similar_users($1, $2, $3)
       `;
-      
+
       const result = await pool.query(query, [userId, threshold, limit]);
-      
+
       const similarUsers = result.rows.map(row => ({
         userId: row.user_id,
         similarities: {
@@ -67,7 +67,7 @@ class VectorSimilarityService {
       log.info('Vector similarity search completed', {
         userId,
         foundUsers: similarUsers.length,
-        avgSimilarity: similarUsers.length > 0 
+        avgSimilarity: similarUsers.length > 0
           ? (similarUsers.reduce((sum, u) => sum + u.similarities.overall, 0) / similarUsers.length).toFixed(3)
           : 0
       });
@@ -94,7 +94,7 @@ class VectorSimilarityService {
     } = options;
 
     const cacheKey = `${this.cachePrefix}artworks:${Buffer.from(searchText).toString('base64')}:${threshold}:${limit}`;
-    
+
     try {
       // Check cache first
       if (this.redis) {
@@ -113,13 +113,13 @@ class VectorSimilarityService {
 
       // Convert array to vector format for PostgreSQL
       const vectorString = `[${searchEmbedding.join(',')}]`;
-      
+
       const query = `
         SELECT * FROM find_similar_artworks($1, $2::vector, $3, $4)
       `;
-      
+
       const result = await pool.query(query, [searchText, vectorString, threshold, limit]);
-      
+
       const similarArtworks = result.rows.map(row => ({
         artworkId: row.artwork_id,
         title: row.title,
@@ -136,7 +136,7 @@ class VectorSimilarityService {
       log.info('Artwork similarity search completed', {
         searchText: searchText.substring(0, 50),
         foundArtworks: similarArtworks.length,
-        avgSimilarity: similarArtworks.length > 0 
+        avgSimilarity: similarArtworks.length > 0
           ? (similarArtworks.reduce((sum, a) => sum + a.similarityScore, 0) / similarArtworks.length).toFixed(3)
           : 0
       });
@@ -157,26 +157,26 @@ class VectorSimilarityService {
    */
   async updateUserVectors(userId, vectors) {
     const { cognitive, emotional, aesthetic } = vectors;
-    
+
     try {
       // Convert arrays to vector format
       const cognitiveVector = `[${cognitive.join(',')}]`;
       const emotionalVector = `[${emotional.join(',')}]`;
       const aestheticVector = `[${aesthetic.join(',')}]`;
-      
+
       const query = `
         SELECT update_user_vectors($1, $2::vector, $3::vector, $4::vector)
       `;
-      
+
       const result = await pool.query(query, [
         userId,
         cognitiveVector,
         emotionalVector,
         aestheticVector
       ]);
-      
+
       const success = result.rows[0].update_user_vectors;
-      
+
       if (success) {
         // Invalidate cache for this user
         if (this.redis) {
@@ -186,12 +186,12 @@ class VectorSimilarityService {
             await this.redis.del(...keys);
           }
         }
-        
+
         log.info('User vectors updated successfully', { userId });
       }
-      
+
       return success;
-      
+
     } catch (error) {
       log.error('Failed to update user vectors', error, { userId });
       throw new Error('Failed to update user vectors');
@@ -206,16 +206,16 @@ class VectorSimilarityService {
     try {
       const query = `SELECT * FROM vector_stats`;
       const result = await pool.query(query);
-      
+
       const stats = {
         tables: result.rows,
         timestamp: new Date().toISOString(),
         cacheStatus: this.redis ? 'connected' : 'disconnected'
       };
-      
+
       log.debug('Vector stats retrieved', stats);
       return stats;
-      
+
     } catch (error) {
       log.error('Failed to get vector stats', error);
       throw new Error('Failed to get vector statistics');
@@ -230,18 +230,18 @@ class VectorSimilarityService {
    */
   async semanticSearch(query, options = {}) {
     const { limit = 10, threshold = 0.6 } = options;
-    
+
     try {
       // Generate embedding for the search query
       const queryEmbedding = await openaiService.generateEmbedding(query);
-      
+
       // Search in parallel across different content types
       const [artworks, users] = await Promise.all([
         this.findSimilarArtworks(query, queryEmbedding, { limit, threshold }),
         // Could add user search based on profile text
         Promise.resolve([]) // Placeholder for user search
       ]);
-      
+
       const results = {
         query,
         results: {
@@ -254,15 +254,15 @@ class VectorSimilarityService {
           threshold
         }
       };
-      
+
       log.info('Semantic search completed', {
         query: query.substring(0, 50),
         artworkResults: artworks.length,
         userResults: users.length
       });
-      
+
       return results;
-      
+
     } catch (error) {
       log.error('Semantic search failed', error, { query: query.substring(0, 50) });
       throw new Error('Semantic search failed');
@@ -275,7 +275,7 @@ class VectorSimilarityService {
    */
   categorizeMatch(row) {
     const { cognitive_similarity, emotional_similarity, aesthetic_similarity } = row;
-    
+
     if (cognitive_similarity > 0.9) return 'cognitive_twin';
     if (emotional_similarity > 0.9) return 'emotional_match';
     if (aesthetic_similarity > 0.9) return 'aesthetic_soulmate';
@@ -302,16 +302,16 @@ class VectorSimilarityService {
    */
   async clearCache(pattern = '*') {
     if (!this.redis) return false;
-    
+
     try {
       const fullPattern = `${this.cachePrefix}${pattern}`;
       const keys = await this.redis.keys(fullPattern);
-      
+
       if (keys.length > 0) {
         await this.redis.del(...keys);
         log.info('Vector similarity cache cleared', { pattern: fullPattern, keysCleared: keys.length });
       }
-      
+
       return true;
     } catch (error) {
       log.error('Failed to clear vector cache', error, { pattern });

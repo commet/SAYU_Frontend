@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const authMiddleware = require('../middleware/auth');
 const socialShareService = require('../services/socialShareService');
-const { logger } = require("../config/logger");
+const { logger } = require('../config/logger');
 
 router.use(authMiddleware);
 
@@ -9,7 +9,7 @@ router.use(authMiddleware);
 router.post('/generate', async (req, res) => {
   try {
     const { contentType, contentId, additionalData = {} } = req.body;
-    
+
     if (!contentType || !contentId) {
       return res.status(400).json({ error: 'Content type and ID are required' });
     }
@@ -23,11 +23,11 @@ router.post('/generate', async (req, res) => {
         const artworkQuery = 'SELECT * FROM artworks WHERE id = $1';
         const artworkResult = await pool.query(artworkQuery, [contentId]);
         content = artworkResult.rows[0];
-        
+
         if (!content) {
           return res.status(404).json({ error: 'Artwork not found' });
         }
-        
+
         // Get user profile if not provided
         if (!additionalData.userProfile) {
           const profileQuery = 'SELECT * FROM user_profiles WHERE user_id = $1';
@@ -40,11 +40,11 @@ router.post('/generate', async (req, res) => {
         const quizQuery = 'SELECT * FROM quiz_sessions WHERE id = $1 AND user_id = $2';
         const quizResult = await pool.query(quizQuery, [contentId, req.userId]);
         content = quizResult.rows[0];
-        
+
         if (!content) {
           return res.status(404).json({ error: 'Quiz session not found' });
         }
-        
+
         // Get user profile
         const profileQuery = 'SELECT * FROM user_profiles WHERE user_id = $1';
         const profileResult = await pool.query(profileQuery, [req.userId]);
@@ -55,7 +55,7 @@ router.post('/generate', async (req, res) => {
         const exhibitionQuery = 'SELECT * FROM exhibitions WHERE id = $1';
         const exhibitionResult = await pool.query(exhibitionQuery, [contentId]);
         content = exhibitionResult.rows[0];
-        
+
         if (!content) {
           return res.status(404).json({ error: 'Exhibition not found' });
         }
@@ -70,11 +70,11 @@ router.post('/generate', async (req, res) => {
         `;
         const achievementResult = await pool.query(achievementQuery, [contentId, req.userId]);
         content = achievementResult.rows[0];
-        
+
         if (!content) {
           return res.status(404).json({ error: 'Achievement not found' });
         }
-        
+
         // Get user profile
         const userProfileQuery = 'SELECT * FROM user_profiles WHERE user_id = $1';
         const userProfileResult = await pool.query(userProfileQuery, [req.userId]);
@@ -90,11 +90,11 @@ router.post('/generate', async (req, res) => {
         `;
         const topicResult = await pool.query(topicQuery, [contentId]);
         content = topicResult.rows[0];
-        
+
         if (!content) {
           return res.status(404).json({ error: 'Topic not found' });
         }
-        
+
         additionalData.forum = {
           name: content.forum_name,
           slug: content.forum_slug
@@ -107,13 +107,13 @@ router.post('/generate', async (req, res) => {
 
     // Generate share URLs
     const shareUrls = socialShareService.generateAllPlatformUrls(
-      contentType, 
-      content, 
+      contentType,
+      content,
       additionalData
     );
 
     res.json(shareUrls);
-    
+
   } catch (error) {
     logger.error('Failed to generate share URLs:', error);
     res.status(500).json({ error: 'Failed to generate share URLs' });
@@ -124,7 +124,7 @@ router.post('/generate', async (req, res) => {
 router.post('/native', async (req, res) => {
   try {
     const { contentType, contentId, additionalData = {} } = req.body;
-    
+
     if (!contentType || !contentId) {
       return res.status(400).json({ error: 'Content type and ID are required' });
     }
@@ -138,7 +138,7 @@ router.post('/native', async (req, res) => {
         const artworkQuery = 'SELECT * FROM artworks WHERE id = $1';
         const artworkResult = await pool.query(artworkQuery, [contentId]);
         content = artworkResult.rows[0];
-        
+
         if (!additionalData.userProfile) {
           const profileQuery = 'SELECT * FROM user_profiles WHERE user_id = $1';
           const profileResult = await pool.query(profileQuery, [req.userId]);
@@ -156,13 +156,13 @@ router.post('/native', async (req, res) => {
     }
 
     const nativeShareData = socialShareService.generateNativeShareData(
-      contentType, 
-      content, 
+      contentType,
+      content,
       additionalData
     );
 
     res.json(nativeShareData);
-    
+
   } catch (error) {
     logger.error('Failed to generate native share data:', error);
     res.status(500).json({ error: 'Failed to generate native share data' });
@@ -173,20 +173,20 @@ router.post('/native', async (req, res) => {
 router.post('/track', async (req, res) => {
   try {
     const { contentType, contentId, platform } = req.body;
-    
+
     if (!contentType || !contentId || !platform) {
       return res.status(400).json({ error: 'Content type, ID, and platform are required' });
     }
 
     const trackingResult = await socialShareService.trackShare(
-      req.userId, 
-      contentType, 
-      contentId, 
+      req.userId,
+      contentType,
+      contentId,
       platform
     );
 
     res.json({ success: true, trackingId: trackingResult.id });
-    
+
   } catch (error) {
     logger.error('Failed to track share:', error);
     res.status(500).json({ error: 'Failed to track share' });
@@ -197,11 +197,11 @@ router.post('/track', async (req, res) => {
 router.get('/analytics', async (req, res) => {
   try {
     const { timeframe = '30d' } = req.query;
-    
+
     const analytics = await socialShareService.getShareAnalytics(req.userId, timeframe);
-    
+
     res.json({ analytics });
-    
+
   } catch (error) {
     logger.error('Failed to get share analytics:', error);
     res.status(500).json({ error: 'Failed to get share analytics' });
@@ -213,15 +213,15 @@ router.get('/url/:platform', async (req, res) => {
   try {
     const { platform } = req.params;
     const { contentType, contentId, text, url, title } = req.query;
-    
+
     if (!contentType && (!text || !url)) {
-      return res.status(400).json({ 
-        error: 'Either contentType/contentId or text/url/title must be provided' 
+      return res.status(400).json({
+        error: 'Either contentType/contentId or text/url/title must be provided'
       });
     }
 
     let shareData;
-    
+
     if (contentType && contentId) {
       // Generate from content
       // This would require fetching content again - simplified for now
@@ -232,9 +232,9 @@ router.get('/url/:platform', async (req, res) => {
     }
 
     const shareUrl = socialShareService.generateShareUrl(platform, shareData);
-    
+
     res.json({ shareUrl });
-    
+
   } catch (error) {
     logger.error(`Failed to generate ${req.params.platform} share URL:`, error);
     res.status(500).json({ error: 'Failed to generate share URL' });

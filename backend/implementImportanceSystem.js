@@ -29,7 +29,7 @@ const artistTiers = {
       'Yayoi Kusama', 'Ai Weiwei', 'Marina Abramović'
     ]
   },
-  
+
   tier2: {
     score: 80,
     artists: [
@@ -55,7 +55,7 @@ const artistTiers = {
       'William Kentridge', 'Kehinde Wiley', 'KAWS', 'Takashi Murakami'
     ]
   },
-  
+
   tier3: {
     score: 65,
     artists: [
@@ -84,20 +84,20 @@ const koreanArtists = [
 async function implementImportanceSystem() {
   try {
     console.log('🎯 작가 중요도 시스템 구현 시작');
-    console.log('=' + '='.repeat(70));
-    
+    console.log(`=${'='.repeat(70)}`);
+
     // 1. 스키마 업데이트
     console.log('\n📊 데이터베이스 스키마 업데이트...');
     const migrationSQL = await require('fs').promises.readFile(
-      './src/migrations/add_importance_score.sql', 
+      './src/migrations/add_importance_score.sql',
       'utf8'
     );
     await pool.query(migrationSQL);
     console.log('✅ 스키마 업데이트 완료');
-    
+
     // 2. 티어별 점수 할당
     let updatedCount = 0;
-    
+
     // 티어 1 작가들
     console.log('\n🥇 티어 1 작가 업데이트...');
     for (const artist of artistTiers.tier1.artists) {
@@ -109,13 +109,13 @@ async function implementImportanceSystem() {
         WHERE LOWER(name) LIKE $2
         RETURNING name
       `, [artistTiers.tier1.score, `%${artist.toLowerCase()}%`]);
-      
+
       if (result.rowCount > 0) {
         updatedCount += result.rowCount;
         console.log(`   ✓ ${result.rows[0].name}`);
       }
     }
-    
+
     // 티어 2 작가들
     console.log('\n🥈 티어 2 작가 업데이트...');
     for (const artist of artistTiers.tier2.artists) {
@@ -128,13 +128,13 @@ async function implementImportanceSystem() {
         AND importance_tier > 2
         RETURNING name
       `, [artistTiers.tier2.score, `%${artist.toLowerCase()}%`]);
-      
+
       if (result.rowCount > 0) {
         updatedCount += result.rowCount;
         console.log(`   ✓ ${result.rows[0].name}`);
       }
     }
-    
+
     // 티어 3 작가들
     console.log('\n🥉 티어 3 작가 업데이트...');
     for (const artist of artistTiers.tier3.artists) {
@@ -147,13 +147,13 @@ async function implementImportanceSystem() {
         AND importance_tier > 3
         RETURNING name
       `, [artistTiers.tier3.score, `%${artist.toLowerCase()}%`]);
-      
+
       if (result.rowCount > 0) {
         updatedCount += result.rowCount;
         console.log(`   ✓ ${result.rows[0].name}`);
       }
     }
-    
+
     // 3. 한국 작가 보너스 점수
     console.log('\n🇰🇷 한국 작가 보너스 점수...');
     for (const artist of koreanArtists) {
@@ -164,12 +164,12 @@ async function implementImportanceSystem() {
         AND nationality IN ('Korea', 'South Korea', 'Korean')
         RETURNING name, importance_score
       `, [`%${artist}%`, `%${artist.replace(/[가-힣]/g, '')}%`]);
-      
+
       if (result.rowCount > 0) {
         console.log(`   ✓ ${result.rows[0].name} → ${result.rows[0].importance_score}점`);
       }
     }
-    
+
     // 4. 여성 작가 보너스 점수
     console.log('\n👩‍🎨 여성 작가 보너스 점수...');
     const femaleArtists = [
@@ -180,7 +180,7 @@ async function implementImportanceSystem() {
       'Cindy Sherman', 'Kara Walker', 'Marina Abramović', 'Louise Nevelson',
       'Barbara Hepworth', 'Frida Kahlo', 'Tracey Emin', 'Sarah Lucas'
     ];
-    
+
     for (const artist of femaleArtists) {
       await pool.query(`
         UPDATE artists 
@@ -188,7 +188,7 @@ async function implementImportanceSystem() {
         WHERE LOWER(name) LIKE $1
       `, [`%${artist.toLowerCase()}%`]);
     }
-    
+
     // 5. 현대 작가 보너스 (1950년 이후 출생)
     console.log('\n🆕 현대 작가 보너스 점수...');
     await pool.query(`
@@ -197,7 +197,7 @@ async function implementImportanceSystem() {
       WHERE birth_year >= 1950
       AND importance_score > 0
     `);
-    
+
     // 6. 통계
     const stats = await pool.query(`
       SELECT 
@@ -211,15 +211,15 @@ async function implementImportanceSystem() {
       GROUP BY importance_tier
       ORDER BY importance_tier
     `);
-    
+
     console.log('\n\n📊 최종 통계:');
     console.log('-'.repeat(70));
     stats.rows.forEach(row => {
       console.log(`티어 ${row.importance_tier}: ${row.count}명 (평균 ${Math.round(row.avg_score)}점)`);
     });
-    
+
     console.log(`\n✅ 총 ${updatedCount}명의 작가 중요도 업데이트 완료`);
-    
+
   } catch (error) {
     console.error('오류:', error);
   } finally {

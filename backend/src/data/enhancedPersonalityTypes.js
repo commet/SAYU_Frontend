@@ -14,7 +14,7 @@ const enhancedPersonalityTypes = {
     communitySize: '전체의 8%',
     rarityBadge: '💎 레어'
   },
-  
+
   // Group + Active + Methodical + Conventional
   GAMC: {
     code: 'GAMC',
@@ -57,7 +57,7 @@ const enhancedPersonalityTypes = {
     rarityBadge: '🌟 유니크'
   },
 
-  // Solo + Reflective + Methodical + Conventional  
+  // Solo + Reflective + Methodical + Conventional
   SRMC: {
     code: 'SRMC',
     name: '미술 연구가',
@@ -84,27 +84,27 @@ const enhancedPersonalityTypes = {
     communitySize: '전체의 7%',
     rarityBadge: '🎨 아티스틱'
   }
-  
+
   // ... 나머지 10개 타입도 동일한 형식으로 정의
 };
 
 // 타입별 매칭 점수 계산
 const calculateTypeMatch = (responses) => {
   const scores = {};
-  
+
   Object.entries(enhancedPersonalityTypes).forEach(([code, type]) => {
-    let matchScore = 0;
-    
+    const matchScore = 0;
+
     // 응답과 타입 특성 비교
     // ... 매칭 로직
-    
+
     scores[code] = {
       score: matchScore,
       percentage: Math.round(matchScore * 100),
-      type: type
+      type
     };
   });
-  
+
   return scores;
 };
 
@@ -112,7 +112,7 @@ const calculateTypeMatch = (responses) => {
 const getRarityInfo = (typeCode) => {
   const type = enhancedPersonalityTypes[typeCode];
   const percentage = parseFloat(type.communitySize);
-  
+
   if (percentage < 5) return { level: 'LEGENDARY', color: '#FFD700', bonus: '전설적인 취향!' };
   if (percentage < 8) return { level: 'EPIC', color: '#9B59B6', bonus: '독특한 감성!' };
   if (percentage < 12) return { level: 'RARE', color: '#3498DB', bonus: '특별한 시각!' };
@@ -123,21 +123,21 @@ const getRarityInfo = (typeCode) => {
 const calculateCompatibility = (type1, type2) => {
   const t1 = enhancedPersonalityTypes[type1];
   const t2 = enhancedPersonalityTypes[type2];
-  
+
   let compatibility = 50; // 기본 궁합
-  
+
   // 같은 차원 비교
   if (type1[0] === type2[0]) compatibility += 10; // Group/Solo
   if (type1[1] === type2[1]) compatibility += 10; // Active/Reflective
-  
+
   // 보완적 차원
   if (type1[2] !== type2[2]) compatibility += 15; // Methodical/Emotional
   if (type1[3] !== type2[3]) compatibility += 15; // Free/Conventional
-  
+
   return {
     score: compatibility,
-    message: compatibility > 80 ? '환상의 궁합!' : 
-             compatibility > 60 ? '좋은 시너지!' : 
+    message: compatibility > 80 ? '환상의 궁합!' :
+             compatibility > 60 ? '좋은 시너지!' :
              '서로 다른 매력!'
   };
 };

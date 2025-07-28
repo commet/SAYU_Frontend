@@ -16,37 +16,37 @@ const vectorSimilarityService = require('../src/services/vectorSimilarityService
 
 async function implementPgVector() {
   const client = await pool.connect();
-  
+
   try {
     console.log('🤖 Starting pgvector implementation...');
     log.info('Starting pgvector implementation');
-    
+
     // Read the migration SQL file
     const sqlPath = path.join(__dirname, '../migrations/pgvector-implementation.sql');
     const sqlContent = fs.readFileSync(sqlPath, 'utf8');
-    
+
     console.log('📄 Executing pgvector migration...');
-    
+
     // Execute the entire migration as a transaction
     await client.query('BEGIN');
-    
+
     try {
       // Split into statements and execute each one
       const statements = sqlContent
         .split(';')
         .map(stmt => stmt.trim())
-        .filter(stmt => 
-          stmt.length > 0 && 
-          !stmt.startsWith('--') && 
+        .filter(stmt =>
+          stmt.length > 0 &&
+          !stmt.startsWith('--') &&
           !stmt.startsWith('/*') &&
           !stmt.toLowerCase().includes('select ') // Skip SELECT statements
         );
-      
+
       console.log(`🔧 Executing ${statements.length} migration statements...`);
-      
+
       for (let i = 0; i < statements.length; i++) {
         const statement = statements[i];
-        
+
         if (statement.trim()) {
           try {
             console.log(`   ${i + 1}/${statements.length}: ${extractOperation(statement)}`);
@@ -61,38 +61,38 @@ async function implementPgVector() {
           }
         }
       }
-      
+
       await client.query('COMMIT');
       console.log('✅ pgvector migration completed successfully!');
-      
+
     } catch (error) {
       await client.query('ROLLBACK');
       throw error;
     }
-    
+
     // Test the vector system
     console.log('\n🧪 Testing vector similarity system...');
     await testVectorSystem();
-    
+
     // Show statistics
     console.log('\n📊 Vector system statistics:');
     const stats = await vectorSimilarityService.getVectorStats();
-    
+
     stats.tables.forEach(table => {
       console.log(`   ${table.table_name}:`);
       console.log(`     Total rows: ${table.total_rows}`);
       console.log(`     Vector coverage: ${table.vector_coverage_pct}%`);
     });
-    
+
     console.log('\n🎉 pgvector implementation completed successfully!');
     console.log('\n💡 Benefits now available:');
     console.log('   - Semantic search across artworks and users');
     console.log('   - 10x faster similarity calculations');
     console.log('   - Advanced AI recommendation engine');
     console.log('   - Real-time personality matching');
-    
+
     log.info('pgvector implementation completed successfully');
-    
+
   } catch (error) {
     console.error('❌ pgvector implementation failed:', error.message);
     log.error('pgvector implementation failed', error);
@@ -112,35 +112,35 @@ async function testVectorSystem() {
       FROM pg_proc 
       WHERE proname LIKE '%vector%' OR proname IN ('find_similar_users', 'find_similar_artworks')
     `;
-    
+
     const result = await pool.query(testQuery);
-    
+
     if (result.rows[0].vector_functions > 0) {
       console.log('   ✅ Vector functions are available');
     } else {
       console.log('   ⚠️  Vector functions not found');
     }
-    
+
     // Test vector indexes
     const indexQuery = `
       SELECT COUNT(*) as vector_indexes
       FROM pg_indexes 
       WHERE indexname LIKE '%vector%'
     `;
-    
+
     const indexResult = await pool.query(indexQuery);
     console.log(`   ✅ Vector indexes created: ${indexResult.rows[0].vector_indexes}`);
-    
+
     // Test basic vector operations
     const vectorTestQuery = `
       SELECT 
         '[1,2,3]'::vector <=> '[1,2,4]'::vector as cosine_distance,
         '[1,2,3]'::vector <-> '[1,2,4]'::vector as l2_distance
     `;
-    
+
     const vectorResult = await pool.query(vectorTestQuery);
     console.log(`   ✅ Vector operations working: cosine distance = ${vectorResult.rows[0].cosine_distance}`);
-    
+
   } catch (error) {
     console.log(`   ❌ Vector system test failed: ${error.message}`);
   }
@@ -161,7 +161,7 @@ function extractOperation(statement) {
     if (stmt.includes('UPDATE_USER_VECTORS')) return 'Create vector update function';
   }
   if (stmt.startsWith('CREATE OR REPLACE VIEW')) return 'Create vector stats view';
-  return statement.substring(0, 50) + '...';
+  return `${statement.substring(0, 50)}...`;
 }
 
 // Run the script if called directly

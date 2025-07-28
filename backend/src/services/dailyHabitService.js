@@ -43,7 +43,7 @@ class DailyHabitService {
         updated_at = NOW()
       RETURNING *
     `;
-    
+
     const values = [
       userId,
       settings.morningTime || '08:00',
@@ -57,7 +57,7 @@ class DailyHabitService {
       settings.timezone || 'Asia/Seoul',
       settings.activeDays || [1, 2, 3, 4, 5]
     ];
-    
+
     const result = await pool.query(query, values);
     return result.rows[0];
   }
@@ -95,7 +95,7 @@ class DailyHabitService {
         updated_at = NOW()
       RETURNING *
     `;
-    
+
     const result = await pool.query(query, [userId, date]);
     return result.rows[0];
   }
@@ -120,16 +120,16 @@ class DailyHabitService {
       WHERE user_id = $1 AND entry_date = $2
       RETURNING *
     `;
-    
+
     const values = [
-      userId, 
+      userId,
       date,
       data.artworkId,
       data.question,
       data.response,
       data.color
     ];
-    
+
     const result = await pool.query(query, values);
     return result.rows[0];
   }
@@ -153,7 +153,7 @@ class DailyHabitService {
       WHERE user_id = $1 AND entry_date = $2
       RETURNING *
     `;
-    
+
     const values = [
       userId,
       date,
@@ -161,12 +161,12 @@ class DailyHabitService {
       data.artworkId,
       data.reason
     ];
-    
+
     const result = await pool.query(query, values);
-    
+
     // 감정 체크인 기록
     await this.recordEmotionCheckin(userId, 'lunch', data.emotion, data.artworkId);
-    
+
     return result.rows[0];
   }
 
@@ -189,7 +189,7 @@ class DailyHabitService {
       WHERE user_id = $1 AND entry_date = $2
       RETURNING *
     `;
-    
+
     const values = [
       userId,
       date,
@@ -197,7 +197,7 @@ class DailyHabitService {
       data.reflection,
       data.moodTags || []
     ];
-    
+
     const result = await pool.query(query, values);
     return result.rows[0];
   }
@@ -211,7 +211,7 @@ class DailyHabitService {
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *
     `;
-    
+
     const values = [
       userId,
       timeOfDay,
@@ -222,7 +222,7 @@ class DailyHabitService {
       additionalData.stressLevel || null,
       additionalData.notes || null
     ];
-    
+
     const result = await pool.query(query, values);
     return result.rows[0];
   }
@@ -247,9 +247,9 @@ class DailyHabitService {
       WHERE aq.user_id = $1 AND aq.queue_date = $2 AND aq.time_slot = $3
       AND aq.is_used = false
     `;
-    
+
     const queueResult = await pool.query(queueQuery, [userId, date, timeSlot]);
-    
+
     if (queueResult.rows.length > 0) {
       // 사용 표시
       await pool.query(
@@ -258,7 +258,7 @@ class DailyHabitService {
       );
       return queueResult.rows[0];
     }
-    
+
     // 큐가 비어있으면 새로운 추천 생성
     return this.generateArtworkRecommendation(userId, timeSlot);
   }
@@ -290,7 +290,7 @@ class DailyHabitService {
       ORDER BY RANDOM()
       LIMIT 1
     `;
-    
+
     const result = await pool.query(query, [userId]);
     return result.rows[0];
   }
@@ -308,7 +308,7 @@ class DailyHabitService {
         updated_at = NOW()
       RETURNING *
     `;
-    
+
     const values = [
       userId,
       subscription.endpoint,
@@ -316,7 +316,7 @@ class DailyHabitService {
       subscription.keys.auth,
       subscription.userAgent || null
     ];
-    
+
     const result = await pool.query(query, values);
     return result.rows[0];
   }
@@ -328,9 +328,9 @@ class DailyHabitService {
       'SELECT * FROM push_subscriptions WHERE user_id = $1',
       [userId]
     );
-    
+
     const notifications = [];
-    
+
     for (const sub of subscriptions.rows) {
       const pushSubscription = {
         endpoint: sub.endpoint,
@@ -339,13 +339,13 @@ class DailyHabitService {
           auth: sub.auth
         }
       };
-      
+
       try {
         await webpush.sendNotification(
           pushSubscription,
           JSON.stringify(payload)
         );
-        
+
         // 알림 로그 기록
         await this.logNotification(userId, notificationType, 'sent', payload);
         notifications.push({ success: true, endpoint: sub.endpoint });
@@ -355,7 +355,7 @@ class DailyHabitService {
         notifications.push({ success: false, endpoint: sub.endpoint, error: error.message });
       }
     }
-    
+
     return notifications;
   }
 
@@ -367,7 +367,7 @@ class DailyHabitService {
         payload, error_message
       ) VALUES ($1, $2, NOW(), $3, $4, $5)
     `;
-    
+
     await pool.query(query, [
       userId,
       notificationType,
@@ -381,27 +381,27 @@ class DailyHabitService {
   async checkAndGrantRewards(userId) {
     const streak = await this.getUserStreak(userId);
     if (!streak) return [];
-    
+
     const rewards = [];
-    
+
     // 7일 달성
     if (streak.current_streak >= 7 && !streak.achieved_7_days) {
       await this.grantReward(userId, 'badge', '일주일의 예술가', 7);
       rewards.push({ type: 'badge', name: '일주일의 예술가', days: 7 });
     }
-    
+
     // 30일 달성
     if (streak.current_streak >= 30 && !streak.achieved_30_days) {
       await this.grantReward(userId, 'exhibition_invite', '특별 전시 초대권', 30);
       rewards.push({ type: 'exhibition_invite', name: '특별 전시 초대권', days: 30 });
     }
-    
+
     // 100일 달성
     if (streak.current_streak >= 100 && !streak.achieved_100_days) {
       await this.grantReward(userId, 'mentor_match', '아트 멘토 매칭', 100);
       rewards.push({ type: 'mentor_match', name: '아트 멘토 매칭', days: 100 });
     }
-    
+
     return rewards;
   }
 
@@ -413,7 +413,7 @@ class DailyHabitService {
       ) VALUES ($1, $2, $3, $4)
       ON CONFLICT (user_id, reward_type, milestone_days) DO NOTHING
     `;
-    
+
     await pool.query(query, [userId, rewardType, rewardName, milestoneDays]);
   }
 
@@ -430,7 +430,7 @@ class DailyHabitService {
       WHERE user_id = $1
       ORDER BY activity_count DESC
     `;
-    
+
     const result = await pool.query(query, [userId]);
     return result.rows;
   }
@@ -451,7 +451,7 @@ class DailyHabitService {
       AND EXTRACT(YEAR FROM entry_date) = $2
       AND EXTRACT(MONTH FROM entry_date) = $3
     `;
-    
+
     const result = await pool.query(query, [userId, year, month]);
     return result.rows[0];
   }

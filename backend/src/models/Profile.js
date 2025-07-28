@@ -20,9 +20,9 @@ class ProfileModel {
       interactionStyle,
       generatedImageUrl
     } = profileData;
-    
+
     const id = uuidv4();
-    
+
     const query = `
       INSERT INTO user_profiles (
         id, user_id, type_code, archetype_name, archetype_description,
@@ -35,7 +35,7 @@ class ProfileModel {
       )
       RETURNING *
     `;
-    
+
     const values = [
       id,
       userId,
@@ -53,16 +53,16 @@ class ProfileModel {
       interactionStyle,
       generatedImageUrl
     ];
-    
+
     const result = await pool.query(query, values);
     const profile = result.rows[0];
-    
+
     // Cache the new profile and warm related caches
     if (profile) {
       await CacheService.setUserProfile(userId, profile, 7200); // 2 hours
       await CacheService.warmUserCache(userId, profile);
     }
-    
+
     return profile;
   }
 
@@ -72,17 +72,17 @@ class ProfileModel {
     if (cached) {
       return cached;
     }
-    
+
     // If not in cache, fetch from database
     const query = 'SELECT * FROM user_profiles WHERE user_id = $1 ORDER BY created_at DESC LIMIT 1';
     const result = await pool.query(query, [userId]);
     const profile = result.rows[0];
-    
+
     // Cache the result if found
     if (profile) {
       await CacheService.setUserProfile(userId, profile, 3600); // 1 hour
     }
-    
+
     return profile;
   }
 
@@ -135,11 +135,11 @@ class ProfileModel {
   async deleteProfile(userId) {
     const query = 'DELETE FROM user_profiles WHERE user_id = $1 RETURNING *';
     const result = await pool.query(query, [userId]);
-    
+
     // Clear all related caches
     await CacheService.invalidateUserProfile(userId);
     await CacheService.clearPattern(`*:${userId}:*`);
-    
+
     return result.rows[0];
   }
 

@@ -56,13 +56,13 @@ class EmailService {
   // Replace template variables with actual values
   interpolateTemplate(template, variables) {
     let interpolated = template;
-    
+
     // Replace all {{variable}} patterns
     Object.keys(variables).forEach(key => {
       const regex = new RegExp(`{{${key}}}`, 'g');
       interpolated = interpolated.replace(regex, variables[key] || '');
     });
-    
+
     return interpolated;
   }
 
@@ -92,7 +92,7 @@ class EmailService {
       };
 
       const result = await this.transporter.sendMail(mailOptions);
-      
+
       // Log preview URL for development
       if (process.env.NODE_ENV !== 'production') {
         console.info('Email preview URL:', nodemailer.getTestMessageUrl(result));
@@ -122,7 +122,7 @@ class EmailService {
   // Email verification
   async sendVerificationEmail(user, verificationToken) {
     const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
-    
+
     return this.sendEmail({
       to: user.email,
       subject: '✨ Verify Your SAYU Account',
@@ -157,10 +157,10 @@ class EmailService {
   // Re-engagement email for inactive users
   async sendReEngagementEmail(user, daysSinceLastVisit) {
     const templateName = daysSinceLastVisit > 30 ? 'comeback' : 'nudge';
-    
+
     return this.sendEmail({
       to: user.email,
-      subject: daysSinceLastVisit > 30 
+      subject: daysSinceLastVisit > 30
         ? '🎭 We miss you! New art discoveries await'
         : '🎨 Continue your aesthetic journey',
       templateName,
@@ -222,7 +222,7 @@ class EmailService {
   // Password reset email
   async sendPasswordResetEmail(user, resetToken) {
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
-    
+
     return this.sendEmail({
       to: user.email,
       subject: '🔐 Reset Your SAYU Password',

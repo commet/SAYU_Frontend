@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
     commit: '1afa006', // 🔥 최신 커밋 해시
     endpoints: {
       public: '/api/public/*',
-      docs: '/api-docs', 
+      docs: '/api-docs',
       health: '/api/health'
     },
     railway: {
@@ -61,25 +61,25 @@ try {
   console.log('✅ Public API routes loaded');
 } catch (error) {
   console.warn('⚠️ Public API routes failed to load:', error.message);
-  
+
   // 폴백 API
   app.get('/api/public/health', (req, res) => {
-    res.json({ 
-      status: 'ok', 
+    res.json({
+      status: 'ok',
       message: 'Fallback API active',
       timestamp: new Date().toISOString(),
       server: 'simple-server.js'
     });
   });
-  
+
   app.get('/api/public/personality-types', (req, res) => {
     res.json({
       success: true,
       data: {
-        "VISIONARY": { description: "Big picture thinker" },
-        "EXPLORER": { description: "Adventurous spirit" },
-        "CURATOR": { description: "Thoughtful collector" },
-        "SOCIAL": { description: "Community-minded enthusiast" }
+        'VISIONARY': { description: 'Big picture thinker' },
+        'EXPLORER': { description: 'Adventurous spirit' },
+        'CURATOR': { description: 'Thoughtful collector' },
+        'SOCIAL': { description: 'Community-minded enthusiast' }
       },
       fallback: true
     });
@@ -101,7 +101,7 @@ app.get('/api-docs', (req, res) => {
         example: `curl ${req.protocol}://${req.get('host')}/api/public/health`
       },
       {
-        method: 'GET', 
+        method: 'GET',
         path: '/api/public/personality-types',
         description: 'Get all personality types',
         auth: 'none',
@@ -145,7 +145,7 @@ app.use((req, res) => {
     path: req.path,
     availableEndpoints: [
       '/',
-      '/api/health', 
+      '/api/health',
       '/api/public/health',
       '/api/public/personality-types',
       '/api-docs'

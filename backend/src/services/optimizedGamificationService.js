@@ -187,7 +187,7 @@ class OptimizedGamificationService {
     const client = await pool.connect();
     try {
       const quests = [];
-      
+
       for (const questDef of this.dailyQuests) {
         const progress = await client.query(`
           SELECT progress, completed FROM user_quests 
@@ -219,7 +219,7 @@ class OptimizedGamificationService {
   // 퀘스트 진행도 업데이트 (내부 함수)
   async updateQuestProgressInternal(client, userId, eventType) {
     const today = format(new Date(), 'yyyy-MM-dd');
-    
+
     // 이벤트 타입과 퀘스트 매핑
     const questMapping = {
       'DAILY_LOGIN': 'daily_login',
@@ -486,7 +486,7 @@ class OptimizedGamificationService {
       LIMIT $1
     `;
 
-    const params = type === 'weekly' 
+    const params = type === 'weekly'
       ? [startOfWeek(new Date(), { weekStartsOn: 1 }), limit]
       : [limit];
 
@@ -555,7 +555,7 @@ class OptimizedGamificationService {
       const userStats = stats.rows[0];
       const currentLevel = this.calculateLevel(userStats.total_xp);
       const nextLevel = this.levels[Math.min(currentLevel.level, this.levels.length - 1)];
-      const progressToNextLevel = currentLevel.level < 5 
+      const progressToNextLevel = currentLevel.level < 5
         ? ((userStats.total_xp - currentLevel.minXP) / (nextLevel.minXP - currentLevel.minXP)) * 100
         : 100;
 
@@ -640,7 +640,7 @@ class OptimizedGamificationService {
       const client = await pool.connect();
       try {
         const reward = rewards[newLevel];
-        
+
         // 보상 정의 확인/생성
         const rewardDef = await client.query(`
           INSERT INTO reward_definitions (reward_type, name, description)

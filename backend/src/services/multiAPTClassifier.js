@@ -13,9 +13,9 @@ const { SAYU_TYPES, getSAYUType } = require('../../../shared/SAYUTypeDefinitions
 class MultiAPTClassifier {
   constructor() {
     this.gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    this.model = this.gemini.getGenerativeModel({ model: "gemini-1.5-flash" });
+    this.model = this.gemini.getGenerativeModel({ model: 'gemini-1.5-flash' });
     this.enricher = new ArtistDataEnricher();
-    
+
     // 16개 APT 유형 정의
     this.aptTypes = [
       'LAEF', 'LAEC', 'LAMF', 'LAMC',
@@ -23,7 +23,7 @@ class MultiAPTClassifier {
       'SAEF', 'SAEC', 'SAMF', 'SAMC',
       'SREF', 'SREC', 'SRMF', 'SRMC'
     ];
-    
+
     // Use central SAYU type definitions
     this.typeInfo = {};
     Object.entries(SAYU_TYPES).forEach(([code, data]) => {
@@ -37,25 +37,25 @@ class MultiAPTClassifier {
 
   async classifyArtist(artistData) {
     console.log(`\n🎨 다중 APT 분류: ${artistData.name}`);
-    
+
     try {
       // 1. 외부 데이터 수집
       const enrichedData = await this.enricher.enrichArtistData(
         this.extractActualArtistName(artistData.name),
         artistData
       );
-      
+
       // 2. 축별 세부 점수 계산
       const detailedScores = await this.calculateDetailedScores(enrichedData);
-      
+
       // 3. 상위 3개 APT 유형 도출
       const topAPTs = this.calculateTopAPTs(detailedScores);
-      
+
       // 4. 각 유형별 설명 생성
       const enrichedAPTs = await this.enrichAPTDescriptions(topAPTs, enrichedData);
-      
+
       return this.formatMultiAPTResult(enrichedAPTs, detailedScores, enrichedData);
-      
+
     } catch (error) {
       console.error(`   ❌ 분류 오류: ${error.message}`);
       return this.createFallbackResult(artistData);
@@ -65,12 +65,12 @@ class MultiAPTClassifier {
   async calculateDetailedScores(data) {
     const dataQuality = this.assessDataQuality(data);
     console.log(`   📊 데이터 품질: ${dataQuality}`);
-    
+
     if (dataQuality === 'poor') {
       // 데이터가 부족한 경우 기본 추론
       return this.inferDetailedScores(data);
     }
-    
+
     // AI를 통한 정밀 분석
     const prompt = `작가의 작품을 감상하는 사람의 관점에서 16가지 APT 성향을 분석해주세요.
 
@@ -130,9 +130,9 @@ F/C 점수: [점수]
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-      
+
       return this.parseDetailedScores(text);
-      
+
     } catch (error) {
       console.error('   ⚠️ AI 분석 오류:', error.message);
       return this.inferDetailedScores(data);
@@ -147,7 +147,7 @@ F/C 점수: [점수]
       F_C: { main: 0, sub: { fluid: 0, spontaneous: 0, structured: 0, systematic: 0 } },
       analysis: ''
     };
-    
+
     // 주 점수 추출
     const mainPatterns = {
       L_S: /L\/S 점수:\s*([+-]?\d+)/i,
@@ -155,14 +155,14 @@ F/C 점수: [점수]
       E_M: /E\/M 점수:\s*([+-]?\d+)/i,
       F_C: /F\/C 점수:\s*([+-]?\d+)/i
     };
-    
+
     for (const [axis, pattern] of Object.entries(mainPatterns)) {
       const match = text.match(pattern);
       if (match) {
         scores[axis].main = parseInt(match[1]);
       }
     }
-    
+
     // 세부 점수 추출
     const subPatterns = {
       '개인성': (v) => scores.L_S.sub.individual = parseInt(v),
@@ -182,7 +182,7 @@ F/C 점수: [점수]
       '구조성': (v) => scores.F_C.sub.structured = parseInt(v),
       '체계성': (v) => scores.F_C.sub.systematic = parseInt(v)
     };
-    
+
     for (const [name, setter] of Object.entries(subPatterns)) {
       const pattern = new RegExp(`${name}:\\s*([+-]?\\d+)`, 'i');
       const match = text.match(pattern);
@@ -190,13 +190,13 @@ F/C 점수: [점수]
         setter(match[1]);
       }
     }
-    
+
     // 종합 분석 추출
     const analysisMatch = text.match(/종합 분석:\s*(.+?)$/ims);
     if (analysisMatch) {
       scores.analysis = analysisMatch[1].trim();
     }
-    
+
     return scores;
   }
 
@@ -204,7 +204,7 @@ F/C 점수: [점수]
     // 기본 추론 로직
     const artistType = this.categorizeArtist(data);
     const baseScores = this.getTypeBaseScores(artistType);
-    
+
     // 세부 점수 추론
     return {
       L_S: {
@@ -249,20 +249,20 @@ F/C 점수: [점수]
 
   calculateTopAPTs(detailedScores) {
     const aptScores = [];
-    
+
     // 16개 모든 APT에 대해 점수 계산
     for (const aptType of this.aptTypes) {
       const score = this.calculateAPTScore(aptType, detailedScores);
       aptScores.push({ type: aptType, score, details: this.getAPTDetails(aptType, detailedScores) });
     }
-    
+
     // 점수 순으로 정렬하여 상위 3개 선택
     aptScores.sort((a, b) => b.score - a.score);
     const top3 = aptScores.slice(0, 3);
-    
+
     // 가중치 계산 (상대적 비중)
     const totalScore = top3.reduce((sum, apt) => sum + apt.score, 0);
-    
+
     return top3.map((apt, index) => ({
       ...apt,
       weight: totalScore > 0 ? apt.score / totalScore : 0.33,
@@ -273,16 +273,16 @@ F/C 점수: [점수]
   calculateAPTScore(aptType, scores) {
     // APT 유형과 점수의 매칭 정도 계산
     const targetScores = this.getAPTTargetScores(aptType);
-    
+
     let totalDifference = 0;
     totalDifference += Math.abs(scores.L_S.main - targetScores.L_S) * 0.25;
     totalDifference += Math.abs(scores.A_R.main - targetScores.A_R) * 0.25;
     totalDifference += Math.abs(scores.E_M.main - targetScores.E_M) * 0.25;
     totalDifference += Math.abs(scores.F_C.main - targetScores.F_C) * 0.25;
-    
+
     // 세부 점수도 고려
     const subScoreMatch = this.calculateSubScoreMatch(aptType, scores);
-    
+
     // 100점 만점으로 변환 (차이가 적을수록 높은 점수)
     const mainMatch = Math.max(0, 100 - totalDifference);
     return mainMatch * 0.7 + subScoreMatch * 0.3;
@@ -308,7 +308,7 @@ F/C 점수: [점수]
       'SRMF': { L_S: 60, A_R: 60, E_M: 60, F_C: -20 },
       'SRMC': { L_S: 40, A_R: 90, E_M: 80, F_C: 90 }
     };
-    
+
     return targets[aptType] || { L_S: 0, A_R: 0, E_M: 0, F_C: 0 };
   }
 
@@ -318,23 +318,23 @@ F/C 점수: [점수]
     const emphasisMap = {
       'LAEF': ['loneliness', 'conceptual', 'emotional', 'flexible'],
       'LREC': ['introversion', 'realistic', 'emotional', 'systematic'],
-      'SRMC': ['sharing', 'narrative', 'scholarly', 'regular'],
+      'SRMC': ['sharing', 'narrative', 'scholarly', 'regular']
       // ... 나머지 유형들
     };
-    
+
     const emphasis = emphasisMap[aptType] || [];
-    let matchScore = 50; // 기본 점수
-    
+    const matchScore = 50; // 기본 점수
+
     // 강조 요소들의 매칭 정도 계산
     // (간단한 구현)
-    
+
     return matchScore;
   }
 
   getAPTDetails(aptType, scores) {
     // APT와 현재 점수의 세부 매칭 정보
     const targetScores = this.getAPTTargetScores(aptType);
-    
+
     return {
       L_S_match: 100 - Math.abs(scores.L_S.main - targetScores.L_S),
       A_R_match: 100 - Math.abs(scores.A_R.main - targetScores.A_R),
@@ -346,10 +346,10 @@ F/C 점수: [점수]
   async enrichAPTDescriptions(topAPTs, artistData) {
     // 각 APT에 대한 설명 생성
     const enrichedAPTs = [];
-    
+
     for (const apt of topAPTs) {
       const typeInfo = this.typeInfo[apt.type];
-      
+
       enrichedAPTs.push({
         type: apt.type,
         title: typeInfo.title,
@@ -362,7 +362,7 @@ F/C 점수: [점수]
         matchDetails: apt.details
       });
     }
-    
+
     return enrichedAPTs;
   }
 
@@ -371,10 +371,10 @@ F/C 점수: [점수]
     const descriptions = {
       'LAEF': `${artistData.name}의 작품은 내면의 꿈과 환상을 탐구하며, 관람자에게 개인적이고 몽환적인 경험을 선사합니다.`,
       'LREC': `${artistData.name}는 섬세한 감정의 뉘앙스를 포착하여, 조용히 관찰하는 이들에게 깊은 울림을 전달합니다.`,
-      'SRMC': `${artistData.name}의 작품은 체계적인 구조와 교육적 가치를 지니며, 함께 감상하고 학습하는 경험을 제공합니다.`,
+      'SRMC': `${artistData.name}의 작품은 체계적인 구조와 교육적 가치를 지니며, 함께 감상하고 학습하는 경험을 제공합니다.`
       // ... 나머지 유형들
     };
-    
+
     return descriptions[apt.type] || `${artistData.name}의 ${this.typeInfo[apt.type].title} 성향`;
   }
 
@@ -386,14 +386,14 @@ F/C 점수: [점수]
       if (movement.includes('cubism')) return 'cubist';
       // ...
     }
-    
+
     if (data.era) {
       const era = data.era.toLowerCase();
       if (era.includes('renaissance')) return 'renaissance';
       if (era.includes('baroque')) return 'baroque';
       // ...
     }
-    
+
     return 'unknown';
   }
 
@@ -405,22 +405,22 @@ F/C 점수: [점수]
       'baroque': { L_S: 50, A_R: 90, E_M: -60, F_C: 40 },
       'unknown': { L_S: 0, A_R: 20, E_M: -20, F_C: 0 }
     };
-    
+
     return typeScores[artistType] || typeScores['unknown'];
   }
 
   assessDataQuality(data) {
     let score = 0;
-    
+
     if (data.bio && data.bio.length > 500) score += 40;
     else if (data.bio && data.bio.length > 200) score += 20;
-    
+
     if (data.nationality) score += 10;
     if (data.era) score += 10;
     if (data.movement) score += 20;
     if (data.exhibitions > 50) score += 10;
     if (data.auctionRecords > 100) score += 10;
-    
+
     if (score >= 60) return 'good';
     if (score >= 30) return 'moderate';
     return 'poor';
@@ -432,7 +432,7 @@ F/C 점수: [점수]
       'School of ', 'Workshop of ', 'Studio of ', 'Manner of ',
       'Style of ', 'Copy after ', 'Imitator of '
     ];
-    
+
     let actualName = fullName;
     for (const attr of attributions) {
       if (actualName.startsWith(attr)) {
@@ -440,7 +440,7 @@ F/C 점수: [점수]
         break;
       }
     }
-    
+
     return actualName.trim();
   }
 
@@ -459,7 +459,7 @@ F/C 점수: [점수]
         F: Math.round(50 - detailedScores.F_C.main / 2),
         C: Math.round(50 + detailedScores.F_C.main / 2)
       },
-      detailedScores: detailedScores,
+      detailedScores,
       analysis: {
         strategy: 'multi_apt_v1',
         reasoning: detailedScores.analysis,

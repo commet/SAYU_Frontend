@@ -28,18 +28,18 @@ class WaitlistService {
 
       // 레퍼럴 코드 생성
       const newReferralCode = this.generateReferralCode();
-      
+
       // 레퍼럴 확인
       let referrer = null;
       if (referralCode) {
-        referrer = await Waitlist.findOne({ 
-          where: { referralCode } 
+        referrer = await Waitlist.findOne({
+          where: { referralCode }
         });
-        
+
         if (referrer) {
           // 레퍼럴 카운트 증가
           await referrer.increment('referralCount');
-          
+
           // 3명 초대 시 보상
           if (referrer.referralCount >= 3 && !referrer.accessGranted) {
             await this.grantAccess(referrer.id);
@@ -83,7 +83,7 @@ class WaitlistService {
   async completeAptTest(email, aptScore) {
     try {
       const waitlistEntry = await Waitlist.findOne({ where: { email } });
-      
+
       if (!waitlistEntry) {
         throw new Error('대기 목록에서 찾을 수 없습니다.');
       }
@@ -123,7 +123,7 @@ class WaitlistService {
   async grantAccess(waitlistId, accessLevel = 'full') {
     try {
       const entry = await Waitlist.findByPk(waitlistId);
-      
+
       if (!entry) {
         return false;
       }
@@ -196,10 +196,10 @@ class WaitlistService {
         expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30일 유효
       });
     }
-    
+
     // DB에 저장 (InviteCode 모델이 있다고 가정)
     // await InviteCode.bulkCreate(codes);
-    
+
     return codes.map(c => c.code);
   }
 
@@ -236,11 +236,11 @@ class WaitlistService {
   async updateRealtimeCount() {
     try {
       const count = await Waitlist.count();
-      
+
       if (redisClient && redisClient.set) {
         await redisClient.set('waitlist:total:count', count, 'EX', 300); // 5분 캐시
       }
-      
+
       // 실시간 이벤트 발행 (Socket.io나 SSE로 전달)
       if (global.io) {
         global.io.emit('waitlist:update', { total: count });
@@ -361,7 +361,7 @@ class WaitlistService {
   async getPosition(email) {
     try {
       const entry = await Waitlist.findOne({ where: { email } });
-      
+
       if (!entry) {
         return null;
       }
@@ -390,7 +390,7 @@ class WaitlistService {
   // 레퍼럴 통계 조회
   async getReferralStats(referralCode) {
     try {
-      const referrer = await Waitlist.findOne({ 
+      const referrer = await Waitlist.findOne({
         where: { referralCode },
         include: [{
           model: Waitlist,
@@ -398,7 +398,7 @@ class WaitlistService {
           attributes: ['id', 'email', 'createdAt']
         }]
       });
-      
+
       return referrer;
     } catch (error) {
       console.error('Get referral stats error:', error);

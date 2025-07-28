@@ -5,7 +5,7 @@ const optionalAuth = (req, res, next) => {
   // Optional auth - proceed even without token
   const authHeader = req.headers.authorization;
   if (!authHeader) return next();
-  
+
   authenticateToken(req, res, (err) => {
     if (err) req.user = null;
     next();
@@ -29,7 +29,7 @@ router.get('/monthly',
   async (req, res) => {
     try {
       const { year, month, location, genres, showPersonalizedOnly } = req.query;
-      
+
       const options = {
         userId: req.user?.id,
         location,

@@ -12,22 +12,22 @@ async function addMissingArtists() {
       { name: 'Pieter Bruegel the Elder', nationality: 'Flemish', era: 'Northern Renaissance', bio: 'Master of peasant scenes and landscapes', importance: 92 },
       { name: 'Masaccio', nationality: 'Italian', era: 'Early Renaissance', bio: 'Pioneer of perspective in painting', importance: 91 },
       { name: 'Piero della Francesca', nationality: 'Italian', era: 'Renaissance', bio: 'Master of mathematical perspective', importance: 90 },
-      
+
       // 바로크 거장들
       { name: 'Peter Paul Rubens', nationality: 'Flemish', era: 'Baroque', bio: 'Master of Baroque movement and color', importance: 94 },
       { name: 'Anthony van Dyck', nationality: 'Flemish', era: 'Baroque', bio: 'Portrait painter to royalty', importance: 88 },
       { name: 'Frans Hals', nationality: 'Dutch', era: 'Baroque', bio: 'Master of lively portraiture', importance: 89 },
-      
+
       // 낭만주의/현실주의
       { name: 'Theodore Géricault', nationality: 'French', era: 'Romanticism', bio: 'Pioneer of French Romantic painting', importance: 88 },
       { name: 'Jean-Auguste-Dominique Ingres', nationality: 'French', era: 'Neoclassicism', bio: 'Master of line and form', importance: 89 },
       { name: 'Jean-François Millet', nationality: 'French', era: 'Realism', bio: 'Painter of peasant life', importance: 87 },
-      
+
       // 인상파/후기인상파
       { name: 'Berthe Morisot', nationality: 'French', era: 'Impressionism', bio: 'Leading female Impressionist', importance: 86 },
       { name: 'Mary Cassatt', nationality: 'American', era: 'Impressionism', bio: 'American Impressionist master', importance: 85 },
       { name: 'Georges Seurat', nationality: 'French', era: 'Post-Impressionism', bio: 'Pioneer of Pointillism', importance: 90 },
-      
+
       // 20세기 거장들
       { name: 'Edward Hopper', nationality: 'American', era: 'Modern', bio: 'Master of American urban solitude', importance: 92 },
       { name: 'Alberto Giacometti', nationality: 'Swiss', era: 'Modern', bio: 'Sculptor of elongated human forms', importance: 91 },
@@ -36,7 +36,7 @@ async function addMissingArtists() {
       { name: 'Francis Bacon', nationality: 'British', era: 'Modern', bio: 'Painter of human anguish', importance: 91 },
       { name: 'Willem de Kooning', nationality: 'Dutch-American', era: 'Abstract Expressionism', bio: 'Leading Abstract Expressionist', importance: 92 },
       { name: 'Mark Rothko', nationality: 'American', era: 'Abstract Expressionism', bio: 'Master of color field painting', importance: 93 },
-      
+
       // 한국 현대미술
       { name: '백남준', nationality: 'Korean', era: 'Contemporary', bio: '비디오 아트의 선구자', importance: 94 },
       { name: '김환기', nationality: 'Korean', era: 'Modern', bio: '한국 추상미술의 선구자', importance: 88 },
@@ -55,7 +55,7 @@ async function addMissingArtists() {
         );
 
         if (existing.rows.length === 0) {
-          const result = await pool.query(
+          const _result = await pool.query(
             `INSERT INTO artists (name, nationality, era, bio, importance_score, created_at, updated_at)
              VALUES ($1, $2, $3, $4, $5, NOW(), NOW())
              RETURNING id, name`,
@@ -82,7 +82,7 @@ async function addMissingArtists() {
     console.log('📝 Salvador Dalí 중요도 점수 조정: 95');
 
     console.log('\n✅ 누락된 작가 추가 완료!');
-    
+
   } catch (error) {
     console.error('오류:', error);
   } finally {

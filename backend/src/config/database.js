@@ -1,14 +1,14 @@
 const { Pool } = require('pg');
 
 // SSL configuration for Railway PostgreSQL
-const sslConfig = process.env.DATABASE_URL?.includes('railway') 
+const sslConfig = process.env.DATABASE_URL?.includes('railway')
   ? {
-      rejectUnauthorized: false, // Railway uses self-signed certificates
-    }
-  : process.env.NODE_ENV === 'production' 
+    rejectUnauthorized: false // Railway uses self-signed certificates
+  }
+  : process.env.NODE_ENV === 'production'
     ? {
-        rejectUnauthorized: process.env.DATABASE_SSL_REJECT_UNAUTHORIZED !== 'false',
-      }
+      rejectUnauthorized: process.env.DATABASE_SSL_REJECT_UNAUTHORIZED !== 'false'
+    }
     : false;
 
 const pool = new Pool({
@@ -24,7 +24,7 @@ const pool = new Pool({
   createTimeoutMillis: 8000,  // 8 seconds - faster creation
   destroyTimeoutMillis: 3000, // 3 seconds - faster cleanup
   reapIntervalMillis: 30000,  // 30 seconds - less frequent reaping
-  createRetryIntervalMillis: 100, // 100ms - faster retry cycles
+  createRetryIntervalMillis: 100 // 100ms - faster retry cycles
 });
 
 async function connectDatabase() {
@@ -63,7 +63,7 @@ function getPoolStats() {
     waitingCount: pool.waitingCount,
     maxConnections: pool.options.max,
     minConnections: pool.options.min,
-    utilization: ((pool.totalCount - pool.idleCount) / pool.options.max * 100).toFixed(2) + '%'
+    utilization: `${((pool.totalCount - pool.idleCount) / pool.options.max * 100).toFixed(2)}%`
   };
 }
 
@@ -90,10 +90,10 @@ if (process.env.NODE_ENV === 'production') {
   }, 5 * 60 * 1000); // 5 minutes
 }
 
-module.exports = { 
-  pool, 
-  connectDatabase, 
-  withTransaction, 
-  getPoolStats, 
-  logPoolStats 
+module.exports = {
+  pool,
+  connectDatabase,
+  withTransaction,
+  getPoolStats,
+  logPoolStats
 };

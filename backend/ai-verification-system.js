@@ -14,7 +14,7 @@ class AIVerificationSystem {
   constructor() {
     this.gptApiKey = process.env.OPENAI_API_KEY;
     this.geminiApiKey = process.env.GOOGLE_AI_API_KEY;
-    
+
     this.stats = {
       exhibitions_processed: 0,
       verified_by_ai: 0,
@@ -32,19 +32,19 @@ class AIVerificationSystem {
     try {
       // 1. API 연결 테스트
       await this.testAIAPIs();
-      
+
       // 2. 기존 전시 데이터 로드
       const exhibitions = await this.loadExistingExhibitions();
-      
+
       // 3. AI 검증 및 보강
       await this.verifyExhibitionsWithAI(exhibitions);
-      
+
       // 4. 추가 전시 정보 생성
       await this.generateAdditionalExhibitions();
-      
+
       // 5. 결과 요약
       await this.showVerificationResults();
-      
+
     } catch (error) {
       console.error('❌ AI 검증 중 오류:', error.message);
     }
@@ -52,7 +52,7 @@ class AIVerificationSystem {
 
   async testAIAPIs() {
     console.log('🔍 AI API 연결 테스트...');
-    
+
     // GPT API 테스트
     try {
       const gptResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
@@ -71,14 +71,14 @@ class AIVerificationSystem {
         },
         timeout: 10000
       });
-      
+
       console.log('   ✅ GPT API 연결 성공');
       console.log(`   📝 응답: ${gptResponse.data.choices[0].message.content}`);
-      
+
     } catch (error) {
       console.log('   ❌ GPT API 연결 실패:', error.response?.data?.error?.message || error.message);
     }
-    
+
     // Gemini API 테스트 (올바른 엔드포인트)
     try {
       const geminiResponse = await axios.post(
@@ -97,10 +97,10 @@ class AIVerificationSystem {
           timeout: 10000
         }
       );
-      
+
       console.log('   ✅ Gemini API 연결 성공');
       console.log(`   📝 응답: ${geminiResponse.data.candidates[0].content.parts[0].text}`);
-      
+
     } catch (error) {
       console.log('   ❌ Gemini API 연결 실패:', error.response?.data?.error?.message || error.message);
     }
@@ -108,9 +108,9 @@ class AIVerificationSystem {
 
   async loadExistingExhibitions() {
     console.log('\n📊 기존 전시 데이터 로드 중...');
-    
+
     const client = await pool.connect();
-    
+
     try {
       const result = await client.query(`
         SELECT id, title_en, title_local, venue_name, venue_city, venue_country,
@@ -118,23 +118,23 @@ class AIVerificationSystem {
         FROM exhibitions
         ORDER BY collected_at DESC
       `);
-      
+
       console.log(`   ✅ ${result.rows.length}개 전시 데이터 로드됨`);
-      
+
       const sourceStats = await client.query(`
         SELECT source, COUNT(*) as count
         FROM exhibitions
         GROUP BY source
         ORDER BY count DESC
       `);
-      
+
       console.log('   📋 소스별 현황:');
       sourceStats.rows.forEach(row => {
         console.log(`      ${row.source}: ${row.count}개`);
       });
-      
+
       return result.rows;
-      
+
     } finally {
       client.release();
     }
@@ -142,32 +142,32 @@ class AIVerificationSystem {
 
   async verifyExhibitionsWithAI(exhibitions) {
     console.log('\n🤖 AI 검증 및 보강 프로세스...');
-    
+
     // 샘플로 처음 10개만 처리 (비용 절약)
     const sampleExhibitions = exhibitions.slice(0, 10);
-    
+
     for (const exhibition of sampleExhibitions) {
       try {
         console.log(`\n🔍 "${exhibition.title_en}" 검증 중...`);
-        
+
         // GPT로 전시 정보 검증 및 보강
         const enhancedData = await this.enhanceExhibitionWithGPT(exhibition);
-        
+
         if (enhancedData) {
           // 보강된 정보로 DB 업데이트
           await this.updateExhibitionData(exhibition.id, enhancedData);
           this.stats.verified_by_ai++;
-          
+
           if (enhancedData.description !== exhibition.description) {
             this.stats.enhanced_descriptions++;
           }
         }
-        
+
         this.stats.exhibitions_processed++;
-        
+
         // API 요청 간격 (비용 절약)
         await new Promise(resolve => setTimeout(resolve, 2000));
-        
+
       } catch (error) {
         console.log(`   ❌ "${exhibition.title_en}" 처리 실패: ${error.message}`);
         this.stats.errors++;
@@ -218,18 +218,18 @@ Respond in JSON format:
           timeout: 15000
         }
       );
-      
+
       let aiResponse = response.data.candidates[0].content.parts[0].text;
-      
+
       // Gemini가 코드 블록으로 감싸는 경우 처리
       aiResponse = aiResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-      
+
       // JSON 파싱 시도
       try {
         const enhancedData = JSON.parse(aiResponse);
-        
+
         console.log(`   ✅ AI 검증 완료 (신뢰도: ${enhancedData.credibility_score}/10)`);
-        
+
         if (enhancedData.credibility_score >= 7 && enhancedData.is_realistic) {
           return {
             description: enhancedData.enhanced_description,
@@ -241,12 +241,12 @@ Respond in JSON format:
           console.log(`   ⚠️ 신뢰도 낮음 (${enhancedData.credibility_score}/10)`);
           return null;
         }
-        
+
       } catch (parseError) {
         console.log(`   ⚠️ AI 응답 파싱 실패: ${parseError.message}`);
         return null;
       }
-      
+
     } catch (error) {
       throw error;
     }
@@ -254,7 +254,7 @@ Respond in JSON format:
 
   async updateExhibitionData(exhibitionId, enhancedData) {
     const client = await pool.connect();
-    
+
     try {
       await client.query(`
         UPDATE exhibitions 
@@ -270,9 +270,9 @@ Respond in JSON format:
         enhancedData.ai_confidence,
         exhibitionId
       ]);
-      
+
       console.log(`   📝 데이터 업데이트 완료`);
-      
+
     } catch (error) {
       console.log(`   ❌ DB 업데이트 실패: ${error.message}`);
     } finally {
@@ -282,7 +282,7 @@ Respond in JSON format:
 
   async generateAdditionalExhibitions() {
     console.log('\n🎨 AI 기반 추가 전시 정보 생성...');
-    
+
     try {
       const prompt = `
 Create 5 realistic art exhibitions that could be happening at major museums around the world in 2025. 
@@ -315,26 +315,26 @@ Respond in JSON format as an array of exhibitions.
           timeout: 15000
         }
       );
-      
+
       let aiResponse = response.data.candidates[0].content.parts[0].text;
-      
+
       // Gemini가 코드 블록으로 감싸는 경우 처리
       aiResponse = aiResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-      
+
       try {
         const generatedExhibitions = JSON.parse(aiResponse);
-        
+
         if (Array.isArray(generatedExhibitions) && generatedExhibitions.length > 0) {
           console.log(`   ✅ AI가 ${generatedExhibitions.length}개 전시 생성`);
-          
+
           // DB에 저장
           await this.saveGeneratedExhibitions(generatedExhibitions);
         }
-        
+
       } catch (parseError) {
         console.log(`   ⚠️ AI 생성 전시 파싱 실패: ${parseError.message}`);
       }
-      
+
     } catch (error) {
       console.log(`   ❌ AI 전시 생성 실패: ${error.message}`);
       this.stats.errors++;
@@ -343,17 +343,17 @@ Respond in JSON format as an array of exhibitions.
 
   async saveGeneratedExhibitions(exhibitions) {
     const client = await pool.connect();
-    
+
     try {
       await client.query('BEGIN');
-      
+
       for (const exhibition of exhibitions) {
         // 중복 확인
         const existingCheck = await client.query(
           'SELECT id FROM exhibitions WHERE title_en = $1 AND venue_name = $2',
           [exhibition.title, exhibition.museum]
         );
-        
+
         if (existingCheck.rows.length === 0) {
           await client.query(`
             INSERT INTO exhibitions (
@@ -378,13 +378,13 @@ Respond in JSON format as an array of exhibitions.
             true,
             0.85
           ]);
-          
+
           console.log(`   📝 "${exhibition.title}" 저장됨`);
         }
       }
-      
+
       await client.query('COMMIT');
-      
+
     } catch (error) {
       await client.query('ROLLBACK');
       console.error('❌ AI 생성 전시 저장 실패:', error.message);
@@ -395,7 +395,7 @@ Respond in JSON format as an array of exhibitions.
 
   async showVerificationResults() {
     const client = await pool.connect();
-    
+
     try {
       const totalExhibitions = await client.query('SELECT COUNT(*) as count FROM exhibitions');
       const aiVerified = await client.query(`
@@ -403,14 +403,14 @@ Respond in JSON format as an array of exhibitions.
         FROM exhibitions 
         WHERE ai_verified = true
       `);
-      
+
       const allSources = await client.query(`
         SELECT source, COUNT(*) as count 
         FROM exhibitions 
         GROUP BY source 
         ORDER BY count DESC
       `);
-      
+
       console.log('\n\n🎉 AI 검증 및 보강 시스템 완료!');
       console.log('='.repeat(60));
       console.log(`📊 검증 통계:`);
@@ -420,18 +420,18 @@ Respond in JSON format as an array of exhibitions.
       console.log(`   오류: ${this.stats.errors}개`);
       console.log(`   총 DB 전시 수: ${totalExhibitions.rows[0].count}개`);
       console.log(`   AI 검증 전시: ${aiVerified.rows[0].count}개`);
-      
+
       console.log('\n📋 최종 소스별 데이터:');
       allSources.rows.forEach(row => {
         console.log(`   ${row.source}: ${row.count}개`);
       });
-      
+
       console.log('\n✅ AI 검증 성과:');
       console.log('   • GPT-4 기반 품질 검증');
       console.log('   • 전시 설명 자동 보강');
       console.log('   • 신뢰도 기반 필터링');
       console.log('   • 추가 전시 정보 생성');
-      
+
     } finally {
       client.release();
     }
@@ -440,7 +440,7 @@ Respond in JSON format as an array of exhibitions.
 
 async function main() {
   const verifier = new AIVerificationSystem();
-  
+
   try {
     await verifier.verifyAndEnhanceData();
   } catch (error) {

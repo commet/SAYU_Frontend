@@ -3,13 +3,13 @@ const authMiddleware = require('../middleware/auth');
 const { pool } = require('../config/database');
 const { redisClient } = require('../config/redis');
 const { logger } = require('../config/logger');
-const { 
-  validationSchemas, 
-  handleValidationResult, 
-  securityHeaders, 
+const {
+  validationSchemas,
+  handleValidationResult,
+  securityHeaders,
   requestSizeLimiter,
   sanitizeInput,
-  rateLimits 
+  rateLimits
 } = require('../middleware/validation');
 const { query, param, body } = require('express-validator');
 
@@ -37,13 +37,13 @@ const artworkIdValidation = [
 ];
 
 // Get user's personal gallery
-router.get('/personal', 
+router.get('/personal',
   rateLimits.lenient,
   galleryListValidation,
   handleValidationResult,
   async (req, res) => {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const {
         page = 1,
         limit = 20,
@@ -57,7 +57,7 @@ router.get('/personal',
       } = req.query;
 
       const offset = (parseInt(page) - 1) * parseInt(limit);
-      
+
       // Build WHERE clause
       const whereConditions = ['ua.user_id = $1'];
       const queryParams = [userId];
@@ -90,7 +90,7 @@ router.get('/personal',
       }
 
       const whereClause = whereConditions.join(' AND ');
-      
+
       // Build ORDER BY clause
       const orderByMap = {
         title: 'a.title',
@@ -98,7 +98,7 @@ router.get('/personal',
         createdAt: 'ua.created_at',
         updatedAt: 'ua.updated_at'
       };
-      
+
       const orderBy = `ORDER BY ${orderByMap[sortBy] || 'ua.created_at'} ${sortOrder.toUpperCase()}`;
 
       // Main query
@@ -170,7 +170,7 @@ router.get('/liked',
   handleValidationResult,
   async (req, res) => {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const {
         page = 1,
         limit = 20,
@@ -181,7 +181,7 @@ router.get('/liked',
       } = req.query;
 
       const offset = (parseInt(page) - 1) * parseInt(limit);
-      
+
       // Build WHERE clause
       const whereConditions = ['ua.user_id = $1', 'ua.is_liked = true'];
       const queryParams = [userId];
@@ -199,14 +199,14 @@ router.get('/liked',
       }
 
       const whereClause = whereConditions.join(' AND ');
-      
+
       const orderByMap = {
         title: 'a.title',
         artist: 'a.artist',
         createdAt: 'ua.created_at',
         updatedAt: 'ua.updated_at'
       };
-      
+
       const orderBy = `ORDER BY ${orderByMap[sortBy] || 'ua.created_at'} ${sortOrder.toUpperCase()}`;
 
       const mainQuery = `
@@ -276,7 +276,7 @@ router.get('/archived',
   handleValidationResult,
   async (req, res) => {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const {
         page = 1,
         limit = 20,
@@ -287,7 +287,7 @@ router.get('/archived',
       } = req.query;
 
       const offset = (parseInt(page) - 1) * parseInt(limit);
-      
+
       // Build WHERE clause
       const whereConditions = ['ua.user_id = $1', 'ua.is_archived = true'];
       const queryParams = [userId];
@@ -305,14 +305,14 @@ router.get('/archived',
       }
 
       const whereClause = whereConditions.join(' AND ');
-      
+
       const orderByMap = {
         title: 'a.title',
         artist: 'a.artist',
         createdAt: 'ua.created_at',
         updatedAt: 'ua.updated_at'
       };
-      
+
       const orderBy = `ORDER BY ${orderByMap[sortBy] || 'ua.created_at'} ${sortOrder.toUpperCase()}`;
 
       const mainQuery = `
@@ -383,7 +383,7 @@ router.post('/artworks/:id/like',
   async (req, res) => {
     try {
       const { id: artworkId } = req.params;
-      const userId = req.userId;
+      const { userId } = req;
 
       // Check if artwork exists
       const artworkCheck = await pool.query('SELECT id FROM artworks WHERE id = $1', [artworkId]);
@@ -416,7 +416,7 @@ router.delete('/artworks/:id/unlike',
   async (req, res) => {
     try {
       const { id: artworkId } = req.params;
-      const userId = req.userId;
+      const { userId } = req;
 
       // Update user artwork to remove like
       await pool.query(`
@@ -442,7 +442,7 @@ router.post('/artworks/:id/archive',
   async (req, res) => {
     try {
       const { id: artworkId } = req.params;
-      const userId = req.userId;
+      const { userId } = req;
 
       // Check if artwork exists
       const artworkCheck = await pool.query('SELECT id FROM artworks WHERE id = $1', [artworkId]);
@@ -475,7 +475,7 @@ router.delete('/artworks/:id/unarchive',
   async (req, res) => {
     try {
       const { id: artworkId } = req.params;
-      const userId = req.userId;
+      const { userId } = req;
 
       // Update user artwork to remove archive
       await pool.query(`
@@ -498,8 +498,8 @@ router.get('/followed-artists',
   rateLimits.lenient,
   async (req, res) => {
     try {
-      const userId = req.userId;
-      
+      const { userId } = req;
+
       const query = `
         SELECT 
           a.id,
@@ -517,7 +517,7 @@ router.get('/followed-artists',
       `;
 
       const result = await pool.query(query, [userId]);
-      
+
       res.json(result.rows);
 
     } catch (error) {
@@ -532,8 +532,8 @@ router.get('/stats',
   rateLimits.lenient,
   async (req, res) => {
     try {
-      const userId = req.userId;
-      
+      const { userId } = req;
+
       const queries = [
         'SELECT COUNT(*) as total FROM user_artworks WHERE user_id = $1',
         'SELECT COUNT(*) as liked FROM user_artworks WHERE user_id = $1 AND is_liked = true',

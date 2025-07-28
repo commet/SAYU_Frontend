@@ -56,6 +56,13 @@
 
 /* SAYU 색상 조합 시스템 */
 :root {
+  /* === Rainbow Button Colors === */
+  --color-1: 0 100% 63%;
+  --color-2: 270 100% 63%;
+  --color-3: 210 100% 63%;
+  --color-4: 195 100% 63%;
+  --color-5: 90 100% 63%;
+  
   /* === 따뜻하고 부드러운 조합 === */
   --warm-soft-1-primary: 245 217 196;    /* Peach Breeze */
   --warm-soft-1-secondary: 186 152 212;  /* Lavender Dream */
@@ -708,6 +715,14 @@
   font-size: 0.75rem;
   z-index: 9999;
   border-bottom-left-radius: var(--radius-md);
+}
+
+/* 🎬 ANIMATED AI CHAT STYLES */
+.lab-bg::before {
+  overflow: hidden;
+  max-width: 100vw;
+  max-height: 100vh;
+  box-sizing: border-box;
 }
 
 /* 📱 RESPONSIVE DESIGN */

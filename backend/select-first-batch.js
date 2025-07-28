@@ -13,13 +13,13 @@ const pool = new Pool({
 async function selectFirstBatch() {
   try {
     console.log('🎯 첫 번째 배치 분석용 아티스트 선택 중...\n');
-    
+
     // 분석 우선순위:
     // 1. 팔로워가 있는 아티스트
     // 2. 최근 추가된 아티스트
     // 3. 다양한 국적 대표
     // 4. 현재 APT 프로필이 없는 아티스트
-    
+
     const candidates = await pool.query(`
       SELECT 
         id,
@@ -57,12 +57,12 @@ async function selectFirstBatch() {
     for (const artist of candidates.rows) {
       const nationality = artist.nationality || 'Unknown';
       const currentCount = nationalityCount[nationality] || 0;
-      
+
       if (selectedArtists.length < 10 && currentCount < maxPerNationality) {
         selectedArtists.push(artist);
         nationalityCount[nationality] = currentCount + 1;
       }
-      
+
       if (selectedArtists.length === 10) break;
     }
 
@@ -77,7 +77,7 @@ async function selectFirstBatch() {
       console.log(`    팔로워: ${artist.follow_count || 0}명`);
       console.log(`    저작권: ${artist.copyright_status}`);
       console.log(`    등록일: ${new Date(artist.created_at).toLocaleDateString('ko-KR')}`);
-      
+
       // 기존 bio 길이 확인
       const bioLength = artist.bio ? artist.bio.length : 0;
       console.log(`    기존 전기: ${bioLength}자 ${bioLength < 100 ? '⚠️ 부족' : bioLength < 300 ? '⚠️ 보통' : '✅ 충분'}`);
@@ -90,7 +90,7 @@ async function selectFirstBatch() {
       const nat = artist.nationality || 'Unknown';
       nationalityDist[nat] = (nationalityDist[nat] || 0) + 1;
     });
-    
+
     Object.entries(nationalityDist).forEach(([nationality, count]) => {
       console.log(`   ${nationality}: ${count}명`);
     });
@@ -98,7 +98,7 @@ async function selectFirstBatch() {
     // 분석 예상 시간 계산
     const estimatedTimePerArtist = 3; // 분
     const totalEstimatedTime = selectedArtists.length * estimatedTimePerArtist;
-    
+
     console.log('\n⏱️ 예상 분석 시간:');
     console.log(`   아티스트당: ${estimatedTimePerArtist}분`);
     console.log(`   전체 배치: ${totalEstimatedTime}분 (약 ${Math.ceil(totalEstimatedTime / 60)}시간)`);

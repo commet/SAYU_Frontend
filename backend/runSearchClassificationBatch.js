@@ -10,7 +10,7 @@ async function runSearchClassificationBatch(batchSize = 50, offset = 0) {
   console.log('🚀 Gemini Search Classification (배치 모드) 시작');
   console.log('=====================================');
   console.log(`배치 크기: ${batchSize}, 오프셋: ${offset}\n`);
-  
+
   const classifier = new GeminiSearchClassifier();
   const stats = {
     total: 0,
@@ -20,7 +20,7 @@ async function runSearchClassificationBatch(batchSize = 50, offset = 0) {
     searchUsed: 0,
     attributions: 0
   };
-  
+
   try {
     // 분류되지 않은 작가들 중 일부만 선택
     const artists = await pool.query(`
@@ -37,64 +37,64 @@ async function runSearchClassificationBatch(batchSize = 50, offset = 0) {
         a.id
       LIMIT $1 OFFSET $2
     `, [batchSize, offset]);
-    
+
     stats.total = artists.rows.length;
-    
+
     if (stats.total === 0) {
       console.log('🎉 처리할 작가가 없습니다!');
       return;
     }
-    
+
     console.log(`📊 이번 배치 분류 대상: ${stats.total}명\n`);
-    
+
     // 각 작가 처리
     for (const artist of artists.rows) {
       stats.processed++;
-      
+
       console.log(`\n${'='.repeat(60)}`);
       console.log(`[${stats.processed}/${stats.total}] ${artist.name}`);
-      
+
       const isAttribution = artist.name.match(/Attributed|Follower|Workshop|After/);
       if (isAttribution) {
         stats.attributions++;
         console.log(`   🏷️ 귀속 작품`);
       }
-      
+
       try {
         const result = await classifier.classifyArtist(artist);
-        
+
         console.log(`✅ APT: ${result.aptType} (신뢰도: ${result.confidence}%)`);
         console.log(`   전략: ${result.analysis.strategy}`);
-        
+
         if (result.analysis.searchInfo) {
           console.log(`   🔍 검색 사용됨`);
           stats.searchUsed++;
         }
-        
+
         // DB 저장
         await saveResult(artist, result);
         stats.successful++;
-        
+
       } catch (error) {
         console.error(`❌ 실패: ${error.message}`);
         stats.failed++;
       }
-      
+
       // API 제한 관리
       if (stats.processed % 10 === 0 && stats.processed < stats.total) {
         console.log('\n⏸️  API 제한 대기 (2초)...');
         await new Promise(resolve => setTimeout(resolve, 2000));
       }
     }
-    
+
     // 배치 통계
-    console.log('\n\n' + '='.repeat(60));
-    console.log(`📊 배치 #${Math.floor(offset/batchSize) + 1} 완료`);
+    console.log(`\n\n${'='.repeat(60)}`);
+    console.log(`📊 배치 #${Math.floor(offset / batchSize) + 1} 완료`);
     console.log('='.repeat(60));
     console.log(`처리: ${stats.successful}/${stats.total} 성공`);
     console.log(`검색 사용: ${stats.searchUsed}회`);
     console.log(`귀속 작품: ${stats.attributions}개`);
-    
+
     // 전체 진행 상황 확인
     const totalCount = await pool.query(`
       SELECT COUNT(*) as total
@@ -102,9 +102,9 @@ async function runSearchClassificationBatch(batchSize = 50, offset = 0) {
       WHERE apt_profile IS NULL
          OR CAST(apt_profile->'primary_types'->0->>'confidence' AS FLOAT) < 60
     `);
-    
+
     console.log(`\n📈 전체 진행: ${totalCount.rows[0].total}명 남음`);
-    
+
   } catch (error) {
     console.error('실행 오류:', error);
   } finally {
@@ -131,9 +131,9 @@ async function saveResult(artist, result) {
     'SRMF': { title: '지식 멘토', animal: 'elephant', name_ko: '코끼리' },
     'SRMC': { title: '체계적 교육자', animal: 'eagle', name_ko: '독수리' }
   };
-  
+
   const typeInfo = typeMap[result.aptType] || { title: 'Unknown', animal: 'unknown', name_ko: '알 수 없음' };
-  
+
   const aptProfile = {
     dimensions: {
       L: Math.round(50 - result.axisScores.L_S / 2),
@@ -162,7 +162,7 @@ async function saveResult(artist, result) {
       reasoning: result.analysis.reasoning
     }
   };
-  
+
   await pool.query(
     'UPDATE artists SET apt_profile = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $1',
     [artist.id, JSON.stringify(aptProfile)]

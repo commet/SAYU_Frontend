@@ -7,12 +7,12 @@ class RealtimeNotificationService {
     this.clients = new Map(); // WebSocket 클라이언트 관리
     this.sseClients = new Map(); // SSE 클라이언트 관리
     this.rooms = new Map(); // 룸 기반 그룹 알림
-    
+
     this.setupRedisSubscription();
   }
 
   // ==================== Redis Pub/Sub 설정 ====================
-  
+
   setupRedisSubscription() {
     const redis = getRedisClient();
     if (!redis) {
@@ -22,13 +22,13 @@ class RealtimeNotificationService {
 
     // Redis subscriber 클라이언트 생성
     const subscriber = redis.duplicate();
-    
+
     // 사용자별 알림 구독
     subscriber.psubscribe('user:*:notifications');
-    
+
     // 매칭 관련 알림 구독
     subscriber.psubscribe('matching:*');
-    
+
     // 전시 관련 알림 구독
     subscriber.psubscribe('exhibition:*');
 
@@ -49,11 +49,11 @@ class RealtimeNotificationService {
       // 개별 사용자 알림
       const userId = channel.split(':')[1];
       this.sendToUser(userId, data);
-      
+
     } else if (pattern === 'matching:*') {
       // 매칭 관련 알림
       this.handleMatchingNotification(channel, data);
-      
+
     } else if (pattern === 'exhibition:*') {
       // 전시 관련 알림
       this.handleExhibitionNotification(channel, data);
@@ -61,7 +61,7 @@ class RealtimeNotificationService {
   }
 
   // ==================== WebSocket 클라이언트 관리 ====================
-  
+
   addWebSocketClient(userId, ws) {
     if (!this.clients.has(userId)) {
       this.clients.set(userId, new Set());
@@ -93,7 +93,7 @@ class RealtimeNotificationService {
   }
 
   // ==================== Server-Sent Events 클라이언트 관리 ====================
-  
+
   addSSEClient(userId, res) {
     if (!this.sseClients.has(userId)) {
       this.sseClients.set(userId, new Set());
@@ -134,7 +134,7 @@ class RealtimeNotificationService {
   }
 
   // ==================== 알림 전송 ====================
-  
+
   async sendToUser(userId, notification) {
     // WebSocket 클라이언트에 전송
     if (this.clients.has(userId)) {
@@ -179,7 +179,7 @@ class RealtimeNotificationService {
   }
 
   // ==================== 매칭 관련 알림 ====================
-  
+
   async handleMatchingNotification(channel, data) {
     const channelParts = channel.split(':');
     const eventType = channelParts[1];
@@ -202,10 +202,10 @@ class RealtimeNotificationService {
 
   async notifyPotentialMatches(data) {
     const { matchRequestId, hostUserId, exhibitionId } = data;
-    
+
     // 호환 가능한 사용자들에게 새로운 매칭 기회 알림
     const potentialMatches = await this.findPotentialMatches(matchRequestId);
-    
+
     for (const match of potentialMatches) {
       await this.sendToUser(match.userId, {
         type: 'new_match_opportunity',
@@ -224,7 +224,7 @@ class RealtimeNotificationService {
 
   async notifyMatchFound(data) {
     const { hostUserId, matches } = data;
-    
+
     await this.sendToUser(hostUserId, {
       type: 'matches_found',
       title: `${matches.length}명의 동행자 후보를 찾았어요!`,
@@ -239,7 +239,7 @@ class RealtimeNotificationService {
 
   async notifyMatchAccepted(data) {
     const { hostUserId, matchedUserId, exhibitionName, matchDate } = data;
-    
+
     // 호스트에게 알림
     await this.sendToUser(hostUserId, {
       type: 'match_confirmed',
@@ -271,7 +271,7 @@ class RealtimeNotificationService {
 
   async notifyMatchRejected(data) {
     const { hostUserId, reason } = data;
-    
+
     await this.sendToUser(hostUserId, {
       type: 'match_update',
       title: '매칭 상태 업데이트',
@@ -282,7 +282,7 @@ class RealtimeNotificationService {
   }
 
   // ==================== 전시 관련 알림 ====================
-  
+
   async handleExhibitionNotification(channel, data) {
     const channelParts = channel.split(':');
     const eventType = channelParts[1];
@@ -302,7 +302,7 @@ class RealtimeNotificationService {
 
   async sendExhibitionReminder(data) {
     const { userId, exhibitionName, matchDate, timeSlot } = data;
-    
+
     await this.sendToUser(userId, {
       type: 'exhibition_reminder',
       title: '전시 관람 알림',
@@ -319,7 +319,7 @@ class RealtimeNotificationService {
 
   async sendCheckinReminder(data) {
     const { userId, venueInfo } = data;
-    
+
     await this.sendToUser(userId, {
       type: 'safety_checkin',
       title: '안전 체크인 요청',
@@ -333,7 +333,7 @@ class RealtimeNotificationService {
   }
 
   // ==================== 그룹 및 룸 알림 ====================
-  
+
   joinRoom(userId, roomId) {
     if (!this.rooms.has(roomId)) {
       this.rooms.set(roomId, new Set());
@@ -359,10 +359,10 @@ class RealtimeNotificationService {
   }
 
   // ==================== 데이터 저장 및 관리 ====================
-  
+
   async saveNotificationHistory(userId, notification) {
     const client = await pool.connect();
-    
+
     try {
       await client.query(`
         INSERT INTO notification_history (user_id, type, title, body, data, created_at)
@@ -374,7 +374,7 @@ class RealtimeNotificationService {
         notification.body || '',
         JSON.stringify(notification.data || {})
       ]);
-      
+
     } catch (error) {
       console.error('알림 이력 저장 오류:', error);
     } finally {
@@ -384,7 +384,7 @@ class RealtimeNotificationService {
 
   async getUserNotificationHistory(userId, limit = 50, offset = 0) {
     const client = await pool.connect();
-    
+
     try {
       const result = await client.query(`
         SELECT * FROM notification_history
@@ -394,7 +394,7 @@ class RealtimeNotificationService {
       `, [userId, limit, offset]);
 
       return result.rows;
-      
+
     } finally {
       client.release();
     }
@@ -402,21 +402,21 @@ class RealtimeNotificationService {
 
   async markNotificationAsRead(userId, notificationId) {
     const client = await pool.connect();
-    
+
     try {
       await client.query(`
         UPDATE notification_history
         SET read_at = NOW()
         WHERE user_id = $1 AND id = $2 AND read_at IS NULL
       `, [userId, notificationId]);
-      
+
     } finally {
       client.release();
     }
   }
 
   // ==================== 푸시 알림 ====================
-  
+
   async sendPushNotification(userId, notification) {
     // 실제 푸시 알림 구현 (FCM, APNS 등)
     // 여기서는 콘솔 로그로 대체
@@ -428,10 +428,10 @@ class RealtimeNotificationService {
     // FCM 구현 예시 (실제 구현 시)
     /*
     const admin = require('firebase-admin');
-    
+
     // 사용자의 FCM 토큰 조회
     const tokens = await this.getUserFCMTokens(userId);
-    
+
     if (tokens.length > 0) {
       const message = {
         notification: {
@@ -441,24 +441,24 @@ class RealtimeNotificationService {
         data: notification.data || {},
         tokens
       };
-      
+
       await admin.messaging().sendMulticast(message);
     }
     */
   }
 
   // ==================== 헬퍼 함수 ====================
-  
+
   formatTimeRemaining(targetDate) {
     const now = new Date();
     const target = new Date(targetDate);
     const diff = target - now;
-    
+
     if (diff < 0) return '지났음';
-    
+
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    
+
     if (hours > 24) {
       const days = Math.floor(hours / 24);
       return `${days}일 후`;
@@ -476,7 +476,7 @@ class RealtimeNotificationService {
   }
 
   // ==================== 통계 및 모니터링 ====================
-  
+
   getConnectionStats() {
     return {
       websocketClients: this.clients.size,
@@ -488,7 +488,7 @@ class RealtimeNotificationService {
   }
 
   // ==================== 정리 및 종료 ====================
-  
+
   cleanup() {
     // 모든 연결 정리
     for (const [userId, wsSet] of this.clients) {

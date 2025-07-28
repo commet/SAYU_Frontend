@@ -59,7 +59,7 @@ function translateNationality(nationality) {
     'Swiss': '스위스',
     'Mexican': '멕시코'
   };
-  
+
   return translations[nationality] || nationality;
 }
 
@@ -68,10 +68,10 @@ function determineCopyrightStatus(deathYear) {
   if (!deathYear) {
     return 'contemporary'; // 생존 작가
   }
-  
+
   const currentYear = new Date().getFullYear();
   const yearsSinceDeath = currentYear - deathYear;
-  
+
   if (yearsSinceDeath > 70) {
     return 'public_domain';
   } else if (yearsSinceDeath > 50) {
@@ -86,23 +86,23 @@ async function importArtists() {
     // JSON 파일 읽기
     const collectionPath = path.join(__dirname, '../../met-crawler/met-artworks-data/maximized-collection-2025-07-17T11-22-19-710Z.json');
     const artworksData = JSON.parse(fs.readFileSync(collectionPath, 'utf8'));
-    
+
     log.info(`Found ${artworksData.artworks.length} artworks to process`);
-    
+
     // 작가별로 그룹화
     const artistMap = new Map();
-    
+
     for (const artwork of artworksData.artworks) {
       if (!artwork.artist || artwork.artist === 'Unknown') continue;
-      
+
       const artistInfo = extractArtistInfo(artwork.artist);
       if (!artistInfo) continue;
-      
+
       // 이름이 너무 긴 경우 잘라내기
       if (artistInfo.name.length > 255) {
-        artistInfo.name = artistInfo.name.substring(0, 252) + '...';
+        artistInfo.name = `${artistInfo.name.substring(0, 252)}...`;
       }
-      
+
       // 작가별로 작품 수 카운트
       const key = artistInfo.name.toLowerCase();
       if (!artistMap.has(key)) {
@@ -115,25 +115,25 @@ async function importArtists() {
         artistMap.get(key).artworkCount++;
       }
     }
-    
+
     log.info(`Found ${artistMap.size} unique artists`);
-    
+
     // 데이터베이스에 삽입
     let inserted = 0;
     let updated = 0;
     let errors = 0;
-    
+
     for (const [key, artist] of artistMap) {
       try {
         const copyrightStatus = determineCopyrightStatus(artist.deathYear);
         const nationalityKo = artist.nationality ? translateNationality(artist.nationality) : null;
-        
+
         // 기존 작가 확인
         const existingArtist = await pool.query(
           'SELECT id FROM artists WHERE LOWER(name) = LOWER($1)',
           [artist.name]
         );
-        
+
         if (existingArtist.rows.length > 0) {
           // 업데이트 (기본 정보만 업데이트)
           await pool.query(
@@ -181,16 +181,16 @@ async function importArtists() {
           );
           inserted++;
         }
-        
+
       } catch (error) {
         log.error(`Error processing artist ${artist.name}:`, error.message);
         console.error(error);
         errors++;
       }
     }
-    
+
     log.info(`Import complete: ${inserted} inserted, ${updated} updated, ${errors} errors`);
-    
+
     // 통계 출력
     const statsQuery = await pool.query(`
       SELECT 
@@ -200,15 +200,15 @@ async function importArtists() {
       GROUP BY copyright_status
       ORDER BY count DESC
     `);
-    
+
     log.info('Artist statistics by copyright status:');
     statsQuery.rows.forEach(row => {
       log.info(`  ${row.copyright_status}: ${row.count} artists`);
     });
-    
+
     const totalArtists = await pool.query('SELECT COUNT(*) as total FROM artists');
     log.info(`Total artists in database: ${totalArtists.rows[0].total}`);
-    
+
   } catch (error) {
     log.error('Import failed:', error);
   } finally {

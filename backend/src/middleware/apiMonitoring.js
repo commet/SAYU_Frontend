@@ -11,7 +11,7 @@ class APIMonitor {
     this.metrics = new Map();
     this.errorCounts = new Map();
     this.performanceData = new Map();
-    
+
     // Cleanup old metrics every 5 minutes
     setInterval(() => this.cleanupMetrics(), 5 * 60 * 1000);
   }
@@ -19,13 +19,13 @@ class APIMonitor {
   // Track API request metrics
   trackRequest(req, res, responseTime) {
     const endpoint = `${req.method} ${req.route?.path || req.path}`;
-    const statusCode = res.statusCode;
+    const { statusCode } = res;
     const timestamp = new Date().toISOString();
-    
+
     // Track basic metrics
     const key = `${endpoint}:${statusCode}`;
     const current = this.metrics.get(key) || { count: 0, totalTime: 0 };
-    
+
     this.metrics.set(key, {
       count: current.count + 1,
       totalTime: current.totalTime + responseTime,
@@ -91,7 +91,7 @@ class APIMonitor {
     // Process metrics
     for (const [key, data] of this.metrics) {
       const [endpoint, statusCode] = key.split(':');
-      
+
       if (!stats.endpoints[endpoint]) {
         stats.endpoints[endpoint] = {
           totalRequests: 0,
@@ -103,7 +103,7 @@ class APIMonitor {
 
       stats.endpoints[endpoint].totalRequests += data.count;
       stats.endpoints[endpoint].statusCodes[statusCode] = data.count;
-      stats.endpoints[endpoint].averageResponseTime = 
+      stats.endpoints[endpoint].averageResponseTime =
         (stats.endpoints[endpoint].averageResponseTime + data.avgTime) / 2;
 
       totalRequests += data.count;
@@ -121,8 +121,8 @@ class APIMonitor {
 
     // Calculate error rates
     for (const [endpoint, data] of Object.entries(stats.endpoints)) {
-      stats.errorRates[endpoint] = data.totalRequests > 0 
-        ? (data.totalErrors / data.totalRequests) * 100 
+      stats.errorRates[endpoint] = data.totalRequests > 0
+        ? (data.totalErrors / data.totalRequests) * 100
         : 0;
     }
 
@@ -143,7 +143,7 @@ class APIMonitor {
   // Clean up old metrics
   cleanupMetrics() {
     const cutoff = Date.now() - (60 * 60 * 1000); // 1 hour ago
-    
+
     for (const [key, data] of this.performanceData) {
       if (new Date(data.timestamp).getTime() < cutoff) {
         this.performanceData.delete(key);
@@ -155,7 +155,7 @@ class APIMonitor {
   getHealthData() {
     const stats = this.getStats();
     const now = Date.now();
-    
+
     return {
       status: this.determineHealthStatus(stats),
       timestamp: new Date().toISOString(),
@@ -163,7 +163,7 @@ class APIMonitor {
         totalRequests: stats.totalRequests,
         totalErrors: stats.totalErrors,
         averageResponseTime: Math.round(stats.averageResponseTime),
-        errorRate: stats.totalRequests > 0 ? 
+        errorRate: stats.totalRequests > 0 ?
           (stats.totalErrors / stats.totalRequests) * 100 : 0
       },
       alerts: this.generateAlerts(stats)
@@ -172,9 +172,9 @@ class APIMonitor {
 
   // Determine overall health status
   determineHealthStatus(stats) {
-    const errorRate = stats.totalRequests > 0 ? 
+    const errorRate = stats.totalRequests > 0 ?
       (stats.totalErrors / stats.totalRequests) * 100 : 0;
-    
+
     if (errorRate > 10 || stats.averageResponseTime > 2000) {
       return 'critical';
     } else if (errorRate > 5 || stats.averageResponseTime > 1000) {
@@ -187,11 +187,11 @@ class APIMonitor {
   // Generate alerts based on metrics
   generateAlerts(stats) {
     const alerts = [];
-    
+
     // Error rate alerts
-    const errorRate = stats.totalRequests > 0 ? 
+    const errorRate = stats.totalRequests > 0 ?
       (stats.totalErrors / stats.totalRequests) * 100 : 0;
-    
+
     if (errorRate > 10) {
       alerts.push({
         type: 'error_rate',
@@ -227,9 +227,9 @@ class APIMonitor {
 
     // Endpoint-specific alerts
     for (const [endpoint, data] of Object.entries(stats.endpoints)) {
-      const endpointErrorRate = data.totalRequests > 0 ? 
+      const endpointErrorRate = data.totalRequests > 0 ?
         (data.totalErrors / data.totalRequests) * 100 : 0;
-      
+
       if (endpointErrorRate > 20) {
         alerts.push({
           type: 'endpoint_error',
@@ -251,29 +251,29 @@ const apiMonitor = new APIMonitor();
 // Performance tracking middleware
 const performanceTracker = (req, res, next) => {
   const startTime = Date.now();
-  
+
   // Track request start
   req.startTime = startTime;
-  
+
   // Override res.end to capture response time
   const originalEnd = res.end;
   res.end = function(chunk, encoding) {
     const responseTime = Date.now() - startTime;
-    
+
     // Track the request
     apiMonitor.trackRequest(req, res, responseTime);
-    
+
     // Call original end
     originalEnd.call(res, chunk, encoding);
   };
-  
+
   next();
 };
 
 // Request logging middleware
 const requestLogger = (req, res, next) => {
   const startTime = Date.now();
-  
+
   // Log request
   log.info('API Request', {
     method: req.method,
@@ -283,12 +283,12 @@ const requestLogger = (req, res, next) => {
     userId: req.userId || null,
     timestamp: new Date().toISOString()
   });
-  
+
   // Override res.end to log response
   const originalEnd = res.end;
   res.end = function(chunk, encoding) {
     const responseTime = Date.now() - startTime;
-    
+
     log.info('API Response', {
       method: req.method,
       path: req.path,
@@ -297,10 +297,10 @@ const requestLogger = (req, res, next) => {
       userId: req.userId || null,
       timestamp: new Date().toISOString()
     });
-    
+
     originalEnd.call(res, chunk, encoding);
   };
-  
+
   next();
 };
 
@@ -309,7 +309,7 @@ const usageAnalytics = (req, res, next) => {
   // Track API usage patterns
   const endpoint = `${req.method} ${req.route?.path || req.path}`;
   const timestamp = new Date().toISOString();
-  
+
   // Store usage data in Redis if available
   if (redisClient) {
     const usageKey = `api_usage:${endpoint}:${new Date().toISOString().slice(0, 10)}`;
@@ -317,7 +317,7 @@ const usageAnalytics = (req, res, next) => {
       log.warn('Failed to track API usage', { error: err.message });
     });
   }
-  
+
   next();
 };
 
@@ -344,7 +344,7 @@ const getHealthCheck = (req, res) => {
   try {
     const health = apiMonitor.getHealthData();
     const statusCode = health.status === 'critical' ? 503 : 200;
-    
+
     res.status(statusCode).json({
       success: true,
       data: health

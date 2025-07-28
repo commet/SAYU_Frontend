@@ -7,38 +7,38 @@ const requiredEnvVars = [
   'DATABASE_URL',
   'JWT_SECRET',
   'JWT_REFRESH_SECRET',
-  'SESSION_SECRET',
+  'SESSION_SECRET'
 ];
 
 const optionalEnvVars = [
   // Frontend
   'FRONTEND_URL',
-  
+
   // Database & Cache
   'REDIS_URL',
   'DATABASE_SSL_REJECT_UNAUTHORIZED',
-  
+
   // APIs
   'OPENAI_API_KEY',
   'REPLICATE_API_TOKEN',
-  
+
   // OAuth
   'GOOGLE_CLIENT_ID',
   'GOOGLE_CLIENT_SECRET',
   'GITHUB_CLIENT_ID',
   'GITHUB_CLIENT_SECRET',
-  
+
   // Email
   'EMAIL_SERVICE',
   'EMAIL_USER',
   'EMAIL_PASSWORD',
   'EMAIL_FROM',
-  
+
   // Storage
   'CLOUDINARY_CLOUD_NAME',
   'CLOUDINARY_API_KEY',
   'CLOUDINARY_API_SECRET',
-  
+
   // Supabase
   'SUPABASE_URL',
   'SUPABASE_ANON_KEY',
@@ -46,14 +46,14 @@ const optionalEnvVars = [
   'ENABLE_SUPABASE',
   'MIGRATE_TO_SUPABASE',
   'SUPABASE_SERVICES',
-  
+
   // Monitoring
   'SENTRY_DSN',
-  
+
   // Features
   'ENABLE_EMAIL_AUTOMATION',
   'ART_PROFILE_FREE_MONTHLY_LIMIT',
-  'ART_PROFILE_PREMIUM_MONTHLY_LIMIT',
+  'ART_PROFILE_PREMIUM_MONTHLY_LIMIT'
 ];
 
 function validateEnv() {
@@ -103,7 +103,7 @@ function validateEnv() {
     if (process.env.JWT_SECRET === 'your-super-secret-jwt-key-change-this') {
       errors.push('Default JWT_SECRET detected in production! Please set a secure secret');
     }
-    
+
     if (!process.env.SENTRY_DSN) {
       warnings.push('SENTRY_DSN not set for production. Error tracking will be disabled');
     }
@@ -115,7 +115,7 @@ function validateEnv() {
     console.error('\n❌ Environment Validation Failed:\n');
     errors.forEach(error => console.error(`   - ${error}`));
     console.error('\n');
-    
+
     if (process.env.NODE_ENV === 'production') {
       process.exit(1);
     }

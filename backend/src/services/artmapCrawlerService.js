@@ -32,7 +32,7 @@ class ArtmapCrawlerService {
    */
   async fetchPage(url) {
     await this.respectRateLimit();
-    
+
     try {
       const response = await axios.get(url, {
         headers: {
@@ -56,7 +56,7 @@ class ArtmapCrawlerService {
   async crawlInstitutionsList(letter = 'a') {
     const url = `${this.baseUrl}/venues/institutions/${letter}/worldwide`;
     const html = await this.fetchPage(url);
-    
+
     if (!html) return [];
 
     const $ = cheerio.load(html);
@@ -92,11 +92,11 @@ class ArtmapCrawlerService {
   async crawlInstitutionDetail(urlPath) {
     const contactUrl = `${this.baseUrl}${urlPath}/contact`;
     const html = await this.fetchPage(contactUrl);
-    
+
     if (!html) return null;
 
     const $ = cheerio.load(html);
-    
+
     // 상세 정보 추출
     const details = {
       name: $('h1').first().text().trim(),
@@ -173,7 +173,7 @@ class ArtmapCrawlerService {
   async crawlExhibitionsList(venueType = 'institutions', sortBy = 'opening') {
     const url = `${this.baseUrl}/exhibitions/${venueType}/${sortBy}/worldwide`;
     const html = await this.fetchPage(url);
-    
+
     if (!html) return [];
 
     const $ = cheerio.load(html);
@@ -191,7 +191,7 @@ class ArtmapCrawlerService {
       // 날짜 정보 추출 (형식: "24.01. - 04.05.2025")
       const dateText = $row.text();
       const dateMatch = dateText.match(/(\d{2}\.\d{2}\.)\s*-\s*(\d{2}\.\d{2}\.\d{4})/);
-      
+
       if (title && urlPath) {
         exhibitions.push({
           title,
@@ -214,11 +214,11 @@ class ArtmapCrawlerService {
   async crawlExhibitionDetail(urlPath) {
     const url = `${this.baseUrl}${urlPath}`;
     const html = await this.fetchPage(url);
-    
+
     if (!html) return null;
 
     const $ = cheerio.load(html);
-    
+
     const details = {
       title: $('h1').first().text().trim(),
       description: '',
@@ -295,7 +295,7 @@ class ArtmapCrawlerService {
       institution.coordinates?.lat,
       institution.coordinates?.lng,
       'artmap',
-      institution.urlPath,
+      institution.urlPath
     ];
 
     try {
@@ -312,7 +312,7 @@ class ArtmapCrawlerService {
    */
   async crawlAll() {
     console.log('Starting Artmap.com crawling...');
-    
+
     // 1. 알파벳별로 기관 목록 수집
     const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
     const allInstitutions = [];
@@ -321,12 +321,12 @@ class ArtmapCrawlerService {
       console.log(`Crawling institutions starting with ${letter.toUpperCase()}...`);
       const institutions = await this.crawlInstitutionsList(letter);
       allInstitutions.push(...institutions);
-      
+
       // 각 기관의 상세 정보 수집
       for (const inst of institutions) {
         console.log(`Fetching details for ${inst.name}...`);
         const details = await this.crawlInstitutionDetail(inst.urlPath);
-        
+
         if (details) {
           const fullInfo = { ...inst, ...details };
           await this.saveInstitution(fullInfo);
@@ -337,7 +337,7 @@ class ArtmapCrawlerService {
     // 2. 전시 정보 수집
     console.log('Crawling current exhibitions...');
     const exhibitions = await this.crawlExhibitionsList();
-    
+
     for (const exhibition of exhibitions.slice(0, 50)) { // 처음 50개만
       const details = await this.crawlExhibitionDetail(exhibition.urlPath);
       if (details) {

@@ -16,7 +16,7 @@ class ChatbotController {
       }
 
       const { message, artworkId } = req.body;
-      const userId = req.userId;
+      const { userId } = req;
       const userType = req.user?.personalityType || 'LAEF';
 
       // Get artwork details (in real implementation, fetch from database)
@@ -60,7 +60,7 @@ class ChatbotController {
   async getHistory(req, res) {
     try {
       const { artworkId } = req.params;
-      const userId = req.userId;
+      const { userId } = req;
 
       const history = await chatbotService.getConversationHistory(userId, artworkId);
 
@@ -78,7 +78,7 @@ class ChatbotController {
   // Clear conversation sessions
   async clearSessions(req, res) {
     try {
-      const userId = req.userId;
+      const { userId } = req;
 
       const result = await chatbotService.clearUserSessions(userId);
 
@@ -101,7 +101,7 @@ class ChatbotController {
   async saveFeedback(req, res) {
     try {
       const { sessionId, messageId, rating, feedback } = req.body;
-      const userId = req.userId;
+      const { userId } = req;
 
       // In production, save to database
       logger.info('Chatbot feedback', {
@@ -130,7 +130,7 @@ class ChatbotController {
   async getSuggestions(req, res) {
     try {
       const { artworkId } = req.params;
-      const userId = req.userId;
+      const { userId } = req;
       const userType = req.user?.personalityType || 'LAEF';
 
       // Get artwork details
@@ -164,7 +164,7 @@ class ChatbotController {
   async healthCheck(req, res) {
     try {
       const isHealthy = chatbotService.model !== null;
-      
+
       return res.status(isHealthy ? 200 : 503).json({
         success: isHealthy,
         status: isHealthy ? 'operational' : 'unavailable',

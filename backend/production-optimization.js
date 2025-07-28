@@ -29,7 +29,7 @@ class SAYUProductionOptimizer {
       await this.setupProductionCaching();
       await this.configureProcessLimits();
       await this.setupMonitoring();
-      
+
       await this.generateOptimizationReport();
     } catch (error) {
       console.error('❌ 최적화 실패:', error);
@@ -39,7 +39,7 @@ class SAYUProductionOptimizer {
 
   async optimizeMemoryUsage() {
     console.log('📊 메모리 사용량 최적화...');
-    
+
     // Node.js 메모리 옵션 설정
     const memoryConfig = {
       maxOldSpaceSize: 2048,  // 2GB 제한
@@ -50,28 +50,28 @@ class SAYUProductionOptimizer {
     // package.json 스크립트 업데이트
     const packagePath = path.join(__dirname, 'package.json');
     const packageJson = JSON.parse(await fs.readFile(packagePath, 'utf8'));
-    
+
     packageJson.scripts.start = `NODE_OPTIONS='--max-old-space-size=2048 --optimize-for-size' node sayu-living-server.js`;
     packageJson.scripts['start:production'] = `NODE_ENV=production NODE_OPTIONS='--max-old-space-size=2048 --optimize-for-size' node sayu-living-server.js`;
-    
+
     await fs.writeFile(packagePath, JSON.stringify(packageJson, null, 2));
-    
+
     this.optimizations.memoryOptimization = true;
     console.log('✅ 메모리 최적화 완료');
   }
 
   async optimizeDatabaseConnections() {
     console.log('🗄️ 데이터베이스 연결 최적화...');
-    
+
     // 이미 database.js에서 최적화 완료됨
     console.log('✅ 데이터베이스 연결 풀 최적화 완료 (max: 30, optimized timeouts)');
-    
+
     this.optimizations.databaseOptimization = true;
   }
 
   async setupProductionCaching() {
     console.log('⚡ 프로덕션 캐싱 전략 설정...');
-    
+
     // APT 캐시 설정 최적화
     const cacheConfig = {
       artworkTTL: 14400,      // 4시간 (증가)
@@ -82,14 +82,14 @@ class SAYUProductionOptimizer {
     };
 
     await this.updateCacheConfig(cacheConfig);
-    
+
     this.optimizations.cacheOptimization = true;
     console.log('✅ 프로덕션 캐싱 전략 설정 완료');
   }
 
   async configureProcessLimits() {
     console.log('⚙️ 프로세스 제한 구성...');
-    
+
     // PM2 ecosystem 파일 생성 (Railway에서 사용 가능)
     const pm2Config = {
       apps: [{
@@ -124,7 +124,7 @@ class SAYUProductionOptimizer {
 
   async setupMonitoring() {
     console.log('📈 프로덕션 모니터링 설정...');
-    
+
     // 환경 변수 기반 모니터링 설정
     const monitoringConfig = `
 # 프로덕션 모니터링 설정
@@ -160,7 +160,7 @@ ENABLE_CACHE_WARMING=true
 
   async generateOptimizationReport() {
     console.log('\n📋 최적화 보고서 생성...');
-    
+
     const report = {
       timestamp: new Date().toISOString(),
       optimizations: this.optimizations,
@@ -197,7 +197,7 @@ ENABLE_CACHE_WARMING=true
     console.log('\n🎉 SAYU 프로덕션 최적화 완료!');
     console.log('📄 상세 보고서: optimization-report.json');
     console.log('\n🚀 배포 준비 완료 체크리스트:');
-    
+
     Object.entries(this.optimizations).forEach(([key, value]) => {
       console.log(`${value ? '✅' : '❌'} ${key}`);
     });

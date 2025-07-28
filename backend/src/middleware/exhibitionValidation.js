@@ -107,10 +107,10 @@ const exhibitionValidation = [
       // Validate image URL format
       const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
       const lowercaseUrl = value.toLowerCase();
-      const hasValidExtension = imageExtensions.some(ext => 
+      const hasValidExtension = imageExtensions.some(ext =>
         lowercaseUrl.includes(ext) || lowercaseUrl.includes('cloudinary.com')
       );
-      
+
       if (!hasValidExtension) {
         throw new Error('Image URL must point to a valid image file');
       }
@@ -122,9 +122,9 @@ const exhibitionValidation = [
     .isArray({ max: 20 })
     .withMessage('Tags must be an array with maximum 20 items')
     .custom((tags) => {
-      if (tags.some(tag => 
-        typeof tag !== 'string' || 
-        tag.length < 1 || 
+      if (tags.some(tag =>
+        typeof tag !== 'string' ||
+        tag.length < 1 ||
         tag.length > 50 ||
         /<script|javascript:/gi.test(tag)
       )) {
@@ -232,7 +232,7 @@ const exhibitionQueryValidation = [
         /(\-\-|\#|\/\*|\*\/)/gi,
         /(\bOR\b|\bAND\b)\s+\d+\s*=\s*\d+/gi
       ];
-      
+
       if (dangerousPatterns.some(pattern => pattern.test(value))) {
         throw new Error('Search term contains invalid characters');
       }
@@ -308,13 +308,13 @@ const exhibitionInteractionValidation = [
       if (stringified.length > 1000) {
         throw new Error('Metadata too large');
       }
-      
+
       const allowedKeys = ['source', 'device', 'referrer', 'duration'];
       const keys = Object.keys(value);
       if (keys.some(key => !allowedKeys.includes(key))) {
         throw new Error('Invalid metadata keys');
       }
-      
+
       return true;
     })
 ];
@@ -322,7 +322,7 @@ const exhibitionInteractionValidation = [
 // Validation result handler with enhanced logging
 const handleExhibitionValidationResult = (req, res, next) => {
   const errors = validationResult(req);
-  
+
   if (!errors.isEmpty()) {
     const errorDetails = errors.array().map(error => ({
       field: error.path || error.param,
@@ -351,7 +351,7 @@ const handleExhibitionValidationResult = (req, res, next) => {
       timestamp: new Date().toISOString()
     });
   }
-  
+
   next();
 };
 
@@ -363,7 +363,7 @@ function sanitizeLogData(data) {
 
   const sensitiveFields = ['password', 'token', 'secret', 'key'];
   const sanitized = { ...data };
-  
+
   sensitiveFields.forEach(field => {
     if (sanitized[field]) {
       sanitized[field] = '[REDACTED]';
@@ -378,10 +378,10 @@ const sanitizeExhibitionInput = (req, res, next) => {
   if (req.body) {
     // Sanitize string fields
     const stringFields = [
-      'title', 'description', 'venue_name', 'venue_address', 
+      'title', 'description', 'venue_name', 'venue_address',
       'venue_city', 'submitter_name', 'organization'
     ];
-    
+
     stringFields.forEach(field => {
       if (req.body[field] && typeof req.body[field] === 'string') {
         // Remove HTML tags and normalize whitespace

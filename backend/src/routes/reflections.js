@@ -10,7 +10,7 @@ const cloudinary = require('cloudinary').v2;
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB limit
+    fileSize: 10 * 1024 * 1024 // 10MB limit
   },
   fileFilter: (req, file, cb) => {
     // Accept audio files
@@ -20,7 +20,7 @@ const upload = multer({
     } else {
       cb(new Error('Invalid file type. Only audio files are allowed.'));
     }
-  },
+  }
 });
 
 router.use(authMiddleware);
@@ -323,7 +323,7 @@ router.get('/stats/summary', async (req, res) => {
     // Calculate statistics
     const stats = {
       totalReflections: reflections.length,
-      averageRating: reflections.length > 0 
+      averageRating: reflections.length > 0
         ? reflections.reduce((sum, r) => sum + (r.overall_rating || 0), 0) / reflections.filter(r => r.overall_rating).length
         : 0,
       totalVisitTime: reflections.reduce((sum, r) => sum + (r.visit_duration || 0), 0),
@@ -407,10 +407,10 @@ router.post('/:id/voice-note', upload.single('audio'), async (req, res) => {
 
     if (error) throw error;
 
-    res.json({ 
+    res.json({
       message: 'Voice note uploaded successfully',
       voice_note_url: uploadResult.secure_url,
-      reflection 
+      reflection
     });
   } catch (error) {
     logger.error('Error uploading voice note:', error);

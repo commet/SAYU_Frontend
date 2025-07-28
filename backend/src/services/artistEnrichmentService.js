@@ -9,11 +9,11 @@ class ArtistEnrichmentService {
     this.pool = new Pool({
       connectionString: process.env.DATABASE_URL
     });
-    
+
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY
     });
-    
+
     // 16가지 성격 유형
     this.personalityTypes = [
       'wolf', 'sheep', 'deer', 'horse', 'cow', 'pig',
@@ -33,19 +33,19 @@ class ArtistEnrichmentService {
 
       // 2. 감정 프로필 생성
       const emotionalProfile = await this.generateEmotionalProfile(artist);
-      
+
       // 3. 성격 유형 친화도 계산
       const personalityAffinity = await this.calculatePersonalityAffinity(artist);
-      
+
       // 4. 대표작 정보 수집
       const representativeWorks = await this.collectRepresentativeWorks(artist);
-      
+
       // 5. 주요 테마 분석
       const themesSubjects = await this.analyzeThemes(artist, representativeWorks);
-      
+
       // 6. 색상 분석 (대표작 기반)
       const artisticStyle = await this.analyzeArtisticStyle(artist, representativeWorks);
-      
+
       // 7. DB 업데이트
       await this.updateArtistProfile(artistId, {
         emotional_profile: emotionalProfile,
@@ -54,7 +54,7 @@ class ArtistEnrichmentService {
         themes_subjects: themesSubjects,
         artistic_style: artisticStyle
       });
-      
+
       return {
         success: true,
         artistId,
@@ -93,13 +93,13 @@ class ArtistEnrichmentService {
       `;
 
       const response = await this.openai.chat.completions.create({
-        model: "gpt-4",
-        messages: [{ role: "user", content: prompt }],
-        response_format: { type: "json_object" }
+        model: 'gpt-4',
+        messages: [{ role: 'user', content: prompt }],
+        response_format: { type: 'json_object' }
       });
 
       const result = JSON.parse(response.choices[0].message.content);
-      
+
       return {
         primary_emotions: result.primary_emotions || [],
         emotional_intensity: result.emotional_intensity || 5,
@@ -154,13 +154,13 @@ class ArtistEnrichmentService {
       `;
 
       const response = await this.openai.chat.completions.create({
-        model: "gpt-4",
-        messages: [{ role: "user", content: prompt }],
-        response_format: { type: "json_object" }
+        model: 'gpt-4',
+        messages: [{ role: 'user', content: prompt }],
+        response_format: { type: 'json_object' }
       });
 
       const result = JSON.parse(response.choices[0].message.content);
-      
+
       return {
         scores: result.scores || {},
         best_match_types: result.best_match_types || [],
@@ -183,20 +183,20 @@ class ArtistEnrichmentService {
     try {
       // Met Museum API에서 작품 검색
       const metWorks = await this.searchMetMuseum(artist.name);
-      
+
       // Cleveland Museum API에서 작품 검색
       const clevelandWorks = await this.searchClevelandMuseum(artist.name);
-      
+
       // 중복 제거 및 상위 10개 선택
       const allWorks = [...metWorks, ...clevelandWorks];
       const uniqueWorks = this.deduplicateWorks(allWorks);
       const topWorks = uniqueWorks.slice(0, 10);
-      
+
       // 각 작품에 감정 태그 추가
       const enrichedWorks = await Promise.all(
         topWorks.map(work => this.addEmotionalTags(work))
       );
-      
+
       return enrichedWorks;
     } catch (error) {
       console.error('Error collecting representative works:', error);
@@ -211,11 +211,11 @@ class ArtistEnrichmentService {
     try {
       const searchUrl = `https://collectionapi.metmuseum.org/public/collection/v1/search?artistOrCulture=true&q=${encodeURIComponent(artistName)}`;
       const searchResponse = await axios.get(searchUrl);
-      
+
       if (!searchResponse.data.objectIDs || searchResponse.data.objectIDs.length === 0) {
         return [];
       }
-      
+
       // 상위 5개 작품만 상세 정보 가져오기
       const objectIds = searchResponse.data.objectIDs.slice(0, 5);
       const works = await Promise.all(
@@ -224,7 +224,7 @@ class ArtistEnrichmentService {
             const objectUrl = `https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`;
             const objectResponse = await axios.get(objectUrl);
             const obj = objectResponse.data;
-            
+
             return {
               title: obj.title || 'Untitled',
               year: obj.objectDate ? parseInt(obj.objectDate) : null,
@@ -238,7 +238,7 @@ class ArtistEnrichmentService {
           }
         })
       );
-      
+
       return works.filter(work => work !== null);
     } catch (error) {
       console.error('Error searching Met Museum:', error);
@@ -253,11 +253,11 @@ class ArtistEnrichmentService {
     try {
       const searchUrl = `https://openaccess-api.clevelandart.org/api/artworks?artists=${encodeURIComponent(artistName)}&limit=5`;
       const response = await axios.get(searchUrl);
-      
+
       if (!response.data.data || response.data.data.length === 0) {
         return [];
       }
-      
+
       return response.data.data.map(obj => ({
         title: obj.title || 'Untitled',
         year: obj.creation_date ? parseInt(obj.creation_date) : null,
@@ -305,13 +305,13 @@ class ArtistEnrichmentService {
       `;
 
       const response = await this.openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: prompt }],
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: prompt }],
         max_tokens: 100
       });
 
       const tags = JSON.parse(response.choices[0].message.content);
-      
+
       return {
         ...work,
         emotional_tags: tags
@@ -331,7 +331,7 @@ class ArtistEnrichmentService {
   async analyzeThemes(artist, works) {
     try {
       const workTitles = works.map(w => w.title).join(', ');
-      
+
       const prompt = `
       아티스트: ${artist.name}
       대표작: ${workTitles}
@@ -347,13 +347,13 @@ class ArtistEnrichmentService {
       `;
 
       const response = await this.openai.chat.completions.create({
-        model: "gpt-4",
-        messages: [{ role: "user", content: prompt }],
-        response_format: { type: "json_object" }
+        model: 'gpt-4',
+        messages: [{ role: 'user', content: prompt }],
+        response_format: { type: 'json_object' }
       });
 
       const result = JSON.parse(response.choices[0].message.content);
-      
+
       return {
         primary_themes: result.primary_themes || [],
         recurring_motifs: result.recurring_motifs || [],
@@ -379,14 +379,14 @@ class ArtistEnrichmentService {
       const colorAnalyses = await Promise.all(
         worksWithImages.slice(0, 3).map(work => this.analyzeImageColors(work.image_url))
       );
-      
+
       // 가장 많이 나타나는 색상들 추출
       const allColors = colorAnalyses.flat();
       const dominantColors = this.findDominantColors(allColors);
-      
+
       // AI를 통한 스타일 분석
       const styleAnalysis = await this.analyzeStyleWithAI(artist, dominantColors);
-      
+
       return {
         movements: styleAnalysis.movements || [],
         techniques: styleAnalysis.techniques || [],
@@ -412,20 +412,20 @@ class ArtistEnrichmentService {
   async analyzeImageColors(imageUrl) {
     try {
       if (!imageUrl) return [];
-      
+
       // 이미지 다운로드
       const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
       const buffer = Buffer.from(response.data);
-      
+
       // Sharp로 이미지 처리 및 색상 추출
       const { dominant } = await sharp(buffer).stats();
-      
+
       // RGB를 HEX로 변환
-      const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
+      const rgbToHex = (r, g, b) => `#${[r, g, b].map(x => {
         const hex = x.toString(16);
-        return hex.length === 1 ? '0' + hex : hex;
-      }).join('');
-      
+        return hex.length === 1 ? `0${hex}` : hex;
+      }).join('')}`;
+
       return [rgbToHex(dominant.r, dominant.g, dominant.b)];
     } catch (error) {
       console.error('Error analyzing image colors:', error);
@@ -444,7 +444,7 @@ class ArtistEnrichmentService {
         colorFrequency[color] = (colorFrequency[color] || 0) + 1;
       }
     });
-    
+
     // 빈도순으로 정렬하여 상위 5개 반환
     return Object.entries(colorFrequency)
       .sort(([, a], [, b]) => b - a)
@@ -472,9 +472,9 @@ class ArtistEnrichmentService {
       `;
 
       const response = await this.openai.chat.completions.create({
-        model: "gpt-4",
-        messages: [{ role: "user", content: prompt }],
-        response_format: { type: "json_object" }
+        model: 'gpt-4',
+        messages: [{ role: 'user', content: prompt }],
+        response_format: { type: 'json_object' }
       });
 
       return JSON.parse(response.choices[0].message.content);
@@ -508,7 +508,7 @@ class ArtistEnrichmentService {
         updated_at = CURRENT_TIMESTAMP
       WHERE id = $1
     `;
-    
+
     await this.pool.query(query, [
       artistId,
       enrichedData.emotional_profile,
@@ -531,12 +531,12 @@ class ArtistEnrichmentService {
         ORDER BY follow_count DESC
         LIMIT 10
       `;
-      
+
       const result = await this.pool.query(query);
       const artists = result.rows;
-      
+
       console.log(`Found ${artists.length} artists to enrich`);
-      
+
       const results = [];
       for (const artist of artists) {
         console.log(`Enriching ${artist.name}...`);
@@ -544,7 +544,7 @@ class ArtistEnrichmentService {
           const enrichResult = await this.enrichArtist(artist.id);
           results.push(enrichResult);
           console.log(`✓ Successfully enriched ${artist.name}`);
-          
+
           // API 제한을 위한 대기
           await new Promise(resolve => setTimeout(resolve, 2000));
         } catch (error) {
@@ -552,7 +552,7 @@ class ArtistEnrichmentService {
           results.push({ success: false, artistId: artist.id, error: error.message });
         }
       }
-      
+
       return {
         total: artists.length,
         succeeded: results.filter(r => r.success).length,

@@ -34,13 +34,13 @@ class AuthController {
 
       // Generate token pair
       const sessionInfo = TokenService.generateSessionInfo(req);
-      const tokenPayload = { 
-        userId: user.id, 
-        email: user.email, 
+      const tokenPayload = {
+        userId: user.id,
+        email: user.email,
         role: user.role || 'user',
         jti: require('crypto').randomUUID()
       };
-      
+
       const accessToken = TokenService.generateAccessToken(tokenPayload);
       const { refreshToken } = await TokenService.generateRefreshToken(user.id);
 
@@ -81,13 +81,13 @@ class AuthController {
 
       // Generate token pair
       const sessionInfo = TokenService.generateSessionInfo(req);
-      const tokenPayload = { 
-        userId: user.id, 
-        email: user.email, 
+      const tokenPayload = {
+        userId: user.id,
+        email: user.email,
         role: user.role || 'user',
         jti: require('crypto').randomUUID()
       };
-      
+
       const accessToken = TokenService.generateAccessToken(tokenPayload);
       const { refreshToken } = await TokenService.generateRefreshToken(user.id);
 
@@ -139,18 +139,18 @@ class AuthController {
   async refreshToken(req, res) {
     try {
       const { refreshToken } = req.body;
-      
+
       if (!refreshToken) {
         return res.status(401).json({ error: 'Refresh token required' });
       }
 
       // Get user data for new token
       const sessionInfo = TokenService.generateSessionInfo(req);
-      
+
       // Verify refresh token and get user data
       const tokenData = await TokenService.verifyRefreshToken(
-        refreshToken, 
-        sessionInfo.userAgent, 
+        refreshToken,
+        sessionInfo.userAgent,
         sessionInfo.ipAddress
       );
 
@@ -211,7 +211,7 @@ class AuthController {
 
   async logoutAll(req, res) {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const authHeader = req.headers.authorization;
       const accessToken = authHeader && authHeader.split(' ')[1];
 
@@ -232,7 +232,7 @@ class AuthController {
 
   async getSessions(req, res) {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const sessions = await TokenService.getUserSessions(userId);
 
       res.json({
@@ -253,7 +253,7 @@ class AuthController {
 
   async revokeSession(req, res) {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const { tokenId } = req.params;
 
       const revoked = await TokenService.revokeSession(userId, tokenId);
@@ -271,7 +271,7 @@ class AuthController {
 
   async updateUserPurpose(req, res) {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const { userPurpose } = req.body;
 
       if (!userPurpose) {
@@ -284,12 +284,12 @@ class AuthController {
       }
 
       const updatedUser = await UserModel.updateUserPurpose(userId, userPurpose);
-      
+
       if (!updatedUser) {
         return res.status(404).json({ error: 'User not found' });
       }
 
-      res.json({ 
+      res.json({
         message: 'User purpose updated successfully',
         userPurpose: updatedUser.user_purpose
       });

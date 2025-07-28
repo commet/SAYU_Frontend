@@ -17,15 +17,15 @@ class SAYUQuizController {
 
   async startSAYUQuiz(req, res) {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const { language = 'ko' } = req.body;
 
       // Create SAYU quiz session
       const session = this.sayuQuizService.createSession(userId, language);
-      
+
       // Store in database for consistency with existing system
       const dbSession = await QuizModel.createSession(userId, 'sayu');
-      
+
       // Cache session mapping
       await redisClient().setEx(
         `sayu:${session.sessionId}`,
@@ -97,20 +97,20 @@ class SAYUQuizController {
     try {
       const { sessionId } = req.body;
       const session = this.sayuQuizService.getSession(sessionId);
-      
+
       if (!session || !session.result) {
         return res.status(400).json({ error: 'Invalid session state' });
       }
 
       const { personalityType, dimensions, confidence } = session.result;
-      
+
       // Get SAYU type info
       const typeInfo = this.sayuTypes.getTypeInfo(personalityType.code);
       const growthAreas = this.sayuTypes.getGrowthAreas(personalityType.code);
-      
+
       // Get best matches
       const bestMatches = this.sayuRelationships.getBestMatches(personalityType.code, 3);
-      
+
       // Generate artwork recommendations
       const artworkRecommendations = this.generateArtworkRecommendations(
         personalityType.code,
@@ -151,12 +151,12 @@ class SAYUQuizController {
           description: personalityType.description,
           archetype: personalityType.archetype,
           characteristics: personalityType.characteristics,
-          growthAreas: growthAreas,
-          bestMatches: bestMatches,
-          artworkRecommendations: artworkRecommendations,
+          growthAreas,
+          bestMatches,
+          artworkRecommendations,
           visualScene: personalityType.visualScene,
           galleryBehavior: personalityType.galleryBehavior,
-          confidence: confidence,
+          confidence,
           dimensions: this.sayuQuizService.getDimensionSnapshot(dimensions)
         },
         nextStep: 'view_profile'
@@ -171,7 +171,7 @@ class SAYUQuizController {
     try {
       // Check if profile exists
       let profile = await ProfileModel.findByUserId(userId);
-      
+
       const profileData = {
         userId,
         typeCode: personalityType.code,
@@ -249,7 +249,7 @@ class SAYUQuizController {
       }
     ];
 
-    const scores = this.sayuArtworkMatcher.analyzeArtworkForTypes({ 
+    const scores = this.sayuArtworkMatcher.analyzeArtworkForTypes({
       ...preferences,
       abstractionLevel: typeCode[1] === 'A' ? 0.8 : 0.2,
       emotionalIntensity: typeCode[2] === 'E' ? 0.8 : 0.3,
@@ -278,7 +278,7 @@ class SAYUQuizController {
       'A': 'abstract',
       'R': 'classic'
     };
-    return themes[typeCode[0]] + '_' + themes[typeCode[1]];
+    return `${themes[typeCode[0]]}_${themes[typeCode[1]]}`;
   }
 
   getPaceForType(typeCode) {
@@ -288,26 +288,26 @@ class SAYUQuizController {
 
   getPreferredStylesForType(typeCode) {
     const styles = [];
-    
+
     if (typeCode[1] === 'A') {
       styles.push('Abstract Expressionism', 'Contemporary', 'Conceptual');
     } else {
       styles.push('Realism', 'Classical', 'Figurative');
     }
-    
+
     if (typeCode[2] === 'E') {
       styles.push('Impressionism', 'Fauvism');
     } else {
       styles.push('Minimalism', 'Geometric Abstraction');
     }
-    
+
     return styles;
   }
 
   async getSAYUTypes(req, res) {
     try {
       const types = this.sayuQuizService.getAllPersonalityTypes('ko');
-      
+
       res.json({
         types: types.map(type => ({
           ...type,
@@ -323,13 +323,13 @@ class SAYUQuizController {
   async compareTypes(req, res) {
     try {
       const { type1, type2 } = req.query;
-      
+
       const comparison = this.sayuQuizService.comparePersonalityTypes(type1, type2, 'ko');
       const relationship = this.sayuRelationships.relationships[`${type1}-${type2}`];
-      
+
       res.json({
         ...comparison,
-        relationship: relationship
+        relationship
       });
     } catch (error) {
       console.error('Compare types error:', error);

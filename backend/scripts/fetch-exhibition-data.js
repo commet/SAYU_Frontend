@@ -98,23 +98,23 @@ async function fetchMetExhibitions() {
 
 async function importExhibitions() {
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
-    
+
     // 기관 정보 먼저 확인/삽입
     const institutionMap = new Map();
-    
+
     // 한국 미술관 처리
     for (const museum of koreanMuseumExhibitions) {
       let institutionId;
-      
+
       // 기관 조회
       const instResult = await client.query(
         'SELECT id FROM institutions WHERE name_local = $1 OR name_en = $2',
         [museum.institution, museum.institution_en]
       );
-      
+
       if (instResult.rows.length > 0) {
         institutionId = instResult.rows[0].id;
       } else {
@@ -134,9 +134,9 @@ async function importExhibitions() {
         );
         institutionId = newInst.rows[0].id;
       }
-      
+
       institutionMap.set(museum.institution, institutionId);
-      
+
       // 전시 정보 삽입
       for (const exhibition of museum.exhibitions) {
         try {
@@ -174,18 +174,18 @@ async function importExhibitions() {
         }
       }
     }
-    
+
     // 해외 미술관 처리
     const metExhibitions = await fetchMetExhibitions();
     for (const museum of metExhibitions) {
       let institutionId;
-      
+
       // Met Museum 기관 조회/생성
       const instResult = await client.query(
         'SELECT id FROM institutions WHERE name_en = $1',
         [museum.institution]
       );
-      
+
       if (instResult.rows.length > 0) {
         institutionId = instResult.rows[0].id;
       } else {
@@ -198,7 +198,7 @@ async function importExhibitions() {
         );
         institutionId = newInst.rows[0].id;
       }
-      
+
       // 전시 삽입
       for (const exhibition of museum.exhibitions) {
         try {
@@ -232,9 +232,9 @@ async function importExhibitions() {
         }
       }
     }
-    
+
     await client.query('COMMIT');
-    
+
     // 통계 출력
     const stats = await client.query(`
       SELECT 
@@ -244,9 +244,9 @@ async function importExhibitions() {
         COUNT(CASE WHEN status = 'upcoming' THEN 1 END) as upcoming_exhibitions
       FROM exhibitions
     `);
-    
+
     log.info('Exhibition import complete:', stats.rows[0]);
-    
+
   } catch (error) {
     await client.query('ROLLBACK');
     log.error('Import failed:', error);

@@ -11,7 +11,7 @@ class DataBasedImportanceCalculator {
   async calculateImportanceScore(artistName) {
     try {
       console.log(`🔍 ${artistName}의 중요도 분석 시작...`);
-      
+
       // 1단계: 다중 소스에서 데이터 수집
       const [wikipediaData, metMuseumData] = await Promise.all([
         this.wikipediaCollector.getArtistInfo(artistName),
@@ -20,15 +20,15 @@ class DataBasedImportanceCalculator {
 
       // 2단계: 데이터 통합
       const consolidatedData = this.consolidateData(wikipediaData, metMuseumData, artistName);
-      
+
       // 3단계: 중요도 점수 계산
       const importanceScore = this.computeImportanceScore(consolidatedData);
-      
+
       // 4단계: APT 추정을 위한 특징 분석
       const personalityIndicators = this.analyzePersonalityIndicators(consolidatedData);
 
       console.log(`✅ ${artistName} 중요도 분석 완료: ${importanceScore}점`);
-      
+
       return {
         artist_name: artistName,
         importance_score: importanceScore,
@@ -87,7 +87,7 @@ class DataBasedImportanceCalculator {
     // Met Museum 데이터 통합
     if (metMuseumData) {
       consolidated.sources.push(metMuseumData.source);
-      
+
       // 정보 보완 (Wikipedia 정보가 없는 경우)
       if (!consolidated.nationality && metMuseumData.nationality) {
         consolidated.nationality = metMuseumData.nationality;
@@ -98,7 +98,7 @@ class DataBasedImportanceCalculator {
       if (!consolidated.death_year && metMuseumData.death_year) {
         consolidated.death_year = metMuseumData.death_year;
       }
-      
+
       consolidated.art_movements.push(...(metMuseumData.art_movements || []));
       consolidated.mediums.push(...(metMuseumData.mediums || []));
       consolidated.notable_works.push(...(metMuseumData.notable_works || []));
@@ -155,7 +155,7 @@ class DataBasedImportanceCalculator {
     if (!data.birth_year) return 5; // 기본 점수
 
     const birthYear = data.birth_year;
-    
+
     // 시대별 가중치
     if (birthYear >= 1400 && birthYear <= 1600) return 15; // 르네상스
     if (birthYear >= 1600 && birthYear <= 1750) return 12; // 바로크
@@ -173,7 +173,7 @@ class DataBasedImportanceCalculator {
 
     // 주요 예술 운동 참여 보너스
     const majorMovements = ['Renaissance', 'Impressionism', 'Cubism', 'Surrealism', 'Abstract Expressionism'];
-    const participatedMajorMovements = data.art_movements.filter(movement => 
+    const participatedMajorMovements = data.art_movements.filter(movement =>
       majorMovements.some(major => movement.includes(major))
     );
     bonus += participatedMajorMovements.length * 2;
@@ -195,51 +195,51 @@ class DataBasedImportanceCalculator {
       const value = data[field];
       return value && (Array.isArray(value) ? value.length > 0 : true);
     });
-    
+
     return Math.round((completedFields.length / fields.length) * 100);
   }
 
   analyzePersonalityIndicators(data) {
     const indicators = {
       leadership_tendency: 0,    // L vs S
-      action_orientation: 0,     // A vs R  
+      action_orientation: 0,     // A vs R
       emotional_expression: 0,   // E vs M
       flexibility: 0,            // F vs C
       confidence: 'medium'
     };
 
     // Bio와 특징에서 성격 지표 추출
-    const text = (data.bio + ' ' + data.characteristics.join(' ')).toLowerCase();
+    const text = (`${data.bio} ${data.characteristics.join(' ')}`).toLowerCase();
 
     // Leadership vs Support 지표
     const leadershipKeywords = ['pioneer', 'revolutionary', 'founded', 'established', 'innovative', 'influential'];
     const supportKeywords = ['traditional', 'follower', 'influenced by', 'student of', 'collaborative'];
-    
+
     indicators.leadership_tendency = this.calculateKeywordScore(text, leadershipKeywords, supportKeywords);
 
-    // Action vs Reflection 지표  
+    // Action vs Reflection 지표
     const actionKeywords = ['experimental', 'bold', 'dramatic', 'energetic', 'spontaneous'];
     const reflectionKeywords = ['contemplative', 'meditative', 'quiet', 'philosophical', 'thoughtful'];
-    
+
     indicators.action_orientation = this.calculateKeywordScore(text, actionKeywords, reflectionKeywords);
 
     // Emotional vs Meaning-driven 지표
     const emotionalKeywords = ['emotional', 'passionate', 'expressive', 'feeling', 'intuitive'];
     const mentalKeywords = ['analytical', 'intellectual', 'rational', 'systematic', 'logical'];
-    
+
     indicators.emotional_expression = this.calculateKeywordScore(text, emotionalKeywords, mentalKeywords);
 
     // Flow vs Consistent 지표
     const flexibleKeywords = ['versatile', 'changing', 'experimental', 'varied', 'diverse'];
     const consistentKeywords = ['consistent', 'systematic', 'methodical', 'disciplined', 'structured'];
-    
+
     indicators.flexibility = this.calculateKeywordScore(text, flexibleKeywords, consistentKeywords);
 
     // 신뢰도 설정
-    const totalKeywords = leadershipKeywords.length + supportKeywords.length + actionKeywords.length + 
+    const totalKeywords = leadershipKeywords.length + supportKeywords.length + actionKeywords.length +
                          reflectionKeywords.length + emotionalKeywords.length + mentalKeywords.length +
                          flexibleKeywords.length + consistentKeywords.length;
-    
+
     const foundKeywords = this.countFoundKeywords(text, [
       ...leadershipKeywords, ...supportKeywords, ...actionKeywords, ...reflectionKeywords,
       ...emotionalKeywords, ...mentalKeywords, ...flexibleKeywords, ...consistentKeywords
@@ -255,9 +255,9 @@ class DataBasedImportanceCalculator {
   calculateKeywordScore(text, positiveKeywords, negativeKeywords) {
     const positiveCount = positiveKeywords.filter(keyword => text.includes(keyword)).length;
     const negativeCount = negativeKeywords.filter(keyword => text.includes(keyword)).length;
-    
+
     if (positiveCount + negativeCount === 0) return 0;
-    
+
     // -1 (완전 negative) ~ +1 (완전 positive) 범위로 정규화
     return (positiveCount - negativeCount) / (positiveCount + negativeCount);
   }

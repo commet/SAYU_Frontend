@@ -61,7 +61,7 @@ class AnimalEvolutionVisual {
       // 3. 추가 장식 요소 (SVG 오버레이)
       decorations: {
         badges: {
-          'first_evolution': { 
+          'first_evolution': {
             svg: '<circle cx="20" cy="20" r="15" fill="#FFD700" opacity="0.8"/><text x="20" y="25" text-anchor="middle" fill="#FFF" font-size="20">★</text>',
             position: { bottom: '10%', right: '10%' }
           },
@@ -74,7 +74,7 @@ class AnimalEvolutionVisual {
             position: { top: '5%', left: '50%', transform: 'translateX(-50%)' }
           }
         },
-        
+
         accessories: {
           'scarf': {
             svg: '<path d="M10,35 Q20,40 30,35" stroke="#E74C3C" stroke-width="3" fill="none" opacity="0.7"/>',
@@ -148,7 +148,7 @@ class AnimalEvolutionVisual {
     const baseImage = this.imagePaths[aptType];
     const stageFilter = this.visualStrategy.stageFilters[evolutionStage];
     const overlay = this.visualStrategy.overlayEffects[evolutionStage];
-    
+
     const visualData = {
       baseImage,
       containerStyles: {
@@ -156,14 +156,14 @@ class AnimalEvolutionVisual {
         opacity: stageFilter.opacity,
         transform: `scale(${0.7 + (evolutionStage * 0.075)})` // 0.7 → 1.075
       },
-      
+
       overlayStyles: {
         background: overlay.gradient,
         animation: overlay.animation
       },
-      
+
       decorations: [],
-      
+
       cssClasses: [
         `evolution-stage-${evolutionStage}`,
         `apt-type-${aptType.toLowerCase()}`
@@ -187,7 +187,7 @@ class AnimalEvolutionVisual {
         data: this.visualStrategy.decorations.accessories.scarf
       });
     }
-    
+
     if (evolutionStage >= 4 && this.visualStrategy.decorations.accessories.crown) {
       visualData.decorations.push({
         type: 'accessory',
@@ -249,14 +249,14 @@ class AnimalEvolutionVisual {
   calculateParticleStart(basePos, path, index) {
     const angle = (360 / 8) * index;
     const radius = 20;
-    
+
     if (path === 'explode') {
       return {
         x: basePos.x + Math.cos(angle * Math.PI / 180) * radius,
         y: basePos.y + Math.sin(angle * Math.PI / 180) * radius
       };
     }
-    
+
     return basePos;
   }
 
@@ -285,7 +285,7 @@ class AnimalEvolutionVisual {
         options: { duration: duration * 2, iterations: Infinity }
       }
     };
-    
+
     return animations[path] || animations['float-up'];
   }
 }

@@ -4,12 +4,12 @@ const { pool } = require('../src/config/database');
 
 describe('Exhibition Matching System', () => {
   let matchingService;
-  let testUsers = [];
+  const testUsers = [];
   let testExhibition;
 
   beforeAll(async () => {
     matchingService = new ExhibitionMatchingService();
-    
+
     // 테스트 사용자 생성
     await setupTestUsers();
     await setupTestExhibition();
@@ -29,7 +29,7 @@ describe('Exhibition Matching System', () => {
 
     test('모든 APT 타입이 자기 자신과 90점 이상의 호환성을 가져야 함', () => {
       const aptTypes = Object.keys(matchingService.compatibilityMatrix);
-      
+
       aptTypes.forEach(type => {
         const selfCompatibility = matchingService.compatibilityMatrix[type][type];
         expect(selfCompatibility).toBeGreaterThanOrEqual(90);
@@ -38,7 +38,7 @@ describe('Exhibition Matching System', () => {
 
     test('호환성 매트릭스가 대칭적이어야 함', () => {
       const aptTypes = Object.keys(matchingService.compatibilityMatrix);
-      
+
       aptTypes.forEach(typeA => {
         aptTypes.forEach(typeB => {
           const compatibilityAB = matchingService.compatibilityMatrix[typeA][typeB];
@@ -60,7 +60,7 @@ describe('Exhibition Matching System', () => {
       };
 
       const result = await matchingService.createMatchRequest(testUsers[0].id, matchData);
-      
+
       expect(result).toBeDefined();
       expect(result.exhibition_id).toBe(testExhibition.id);
       expect(result.host_user_id).toBe(testUsers[0].id);
@@ -76,7 +76,7 @@ describe('Exhibition Matching System', () => {
 
       // 첫 번째 요청
       await matchingService.createMatchRequest(testUsers[1].id, matchData);
-      
+
       // 중복 요청 - 에러가 발생해야 함
       await expect(
         matchingService.createMatchRequest(testUsers[1].id, matchData)
@@ -94,13 +94,13 @@ describe('Exhibition Matching System', () => {
       };
 
       const matchRequest = await matchingService.createMatchRequest(testUsers[2].id, matchData);
-      
+
       // 매칭 찾기
       const matches = await matchingService.findCompatibleMatches(matchRequest.id);
-      
+
       expect(Array.isArray(matches)).toBe(true);
       expect(matches.length).toBeGreaterThan(0);
-      
+
       // 매칭 점수가 있어야 함
       matches.forEach(match => {
         expect(match.matchScore).toBeGreaterThan(0);
@@ -117,9 +117,9 @@ describe('Exhibition Matching System', () => {
 
       const matchRequest = await matchingService.createMatchRequest(testUsers[3].id, matchData);
       const matches = await matchingService.findCompatibleMatches(matchRequest.id);
-      
+
       for (let i = 1; i < matches.length; i++) {
-        expect(matches[i-1].matchScore).toBeGreaterThanOrEqual(matches[i].matchScore);
+        expect(matches[i - 1].matchScore).toBeGreaterThanOrEqual(matches[i].matchScore);
       }
     });
   });
@@ -129,7 +129,7 @@ describe('Exhibition Matching System', () => {
       const score5km = matchingService.calculateLocationScore(5, 50);
       const score20km = matchingService.calculateLocationScore(20, 50);
       const score40km = matchingService.calculateLocationScore(40, 50);
-      
+
       expect(score5km).toBeGreaterThan(score20km);
       expect(score20km).toBeGreaterThan(score40km);
     });
@@ -150,13 +150,13 @@ describe('Exhibition Matching System', () => {
 
       const matchRequest = await matchingService.createMatchRequest(testUsers[4].id, matchData);
       const candidateUserId = testUsers[5].id;
-      
+
       const result = await matchingService.acceptMatch(
         matchRequest.id,
         candidateUserId,
         testUsers[4].id // 호스트가 수락
       );
-      
+
       expect(result.success).toBe(true);
       expect(result.matchId).toBe(matchRequest.id);
     });
@@ -170,13 +170,13 @@ describe('Exhibition Matching System', () => {
 
       const matchRequest = await matchingService.createMatchRequest(testUsers[6].id, matchData);
       const candidateUserId = testUsers[7].id;
-      
+
       const result = await matchingService.rejectMatch(
         matchRequest.id,
         candidateUserId,
         testUsers[6].id
       );
-      
+
       expect(result.success).toBe(true);
     });
   });
@@ -184,11 +184,11 @@ describe('Exhibition Matching System', () => {
   describe('매칭 품질 분석', () => {
     test('사용자의 매칭 분석 데이터를 조회할 수 있어야 함', async () => {
       const analytics = await matchingService.getMatchingAnalytics(testUsers[0].id);
-      
+
       expect(analytics).toBeDefined();
       expect(analytics.matchingStats).toBeDefined();
       expect(analytics.feedbackStats).toBeDefined();
-      
+
       expect(typeof analytics.matchingStats.total_requests).toBe('string');
       expect(typeof analytics.matchingStats.successful_matches).toBe('string');
     });
@@ -198,7 +198,7 @@ describe('Exhibition Matching System', () => {
 
   async function setupTestUsers() {
     const aptTypes = ['LAEF', 'SREF', 'SAEC', 'LRMC', 'SAMF', 'LREC', 'SRMC', 'SAEF'];
-    
+
     for (let i = 0; i < 8; i++) {
       const user = await createTestUser({
         nickname: `testuser${i}`,
@@ -213,10 +213,10 @@ describe('Exhibition Matching System', () => {
 
   async function createTestUser(userData) {
     const client = await pool.connect();
-    
+
     try {
       await client.query('BEGIN');
-      
+
       // 사용자 생성
       const userResult = await client.query(`
         INSERT INTO users (nickname, age, email, location, latitude, longitude)
@@ -245,7 +245,7 @@ describe('Exhibition Matching System', () => {
 
       await client.query('COMMIT');
       return user;
-      
+
     } catch (error) {
       await client.query('ROLLBACK');
       throw error;
@@ -256,7 +256,7 @@ describe('Exhibition Matching System', () => {
 
   async function setupTestExhibition() {
     const client = await pool.connect();
-    
+
     try {
       const result = await client.query(`
         INSERT INTO global_venues (name, location, latitude, longitude, venue_type)
@@ -271,7 +271,7 @@ describe('Exhibition Matching System', () => {
       ]);
 
       testExhibition = result.rows[0];
-      
+
     } finally {
       client.release();
     }
@@ -293,21 +293,21 @@ describe('Exhibition Matching System', () => {
 
   async function cleanupTestData() {
     const client = await pool.connect();
-    
+
     try {
       // 테스트 데이터 삭제
       const userIds = testUsers.map(user => user.id);
-      
+
       if (userIds.length > 0) {
         await client.query(`DELETE FROM exhibition_matches WHERE host_user_id = ANY($1)`, [userIds]);
         await client.query(`DELETE FROM user_profiles WHERE user_id = ANY($1)`, [userIds]);
         await client.query(`DELETE FROM users WHERE id = ANY($1)`, [userIds]);
       }
-      
+
       if (testExhibition) {
         await client.query(`DELETE FROM global_venues WHERE id = $1`, [testExhibition.id]);
       }
-      
+
     } catch (error) {
       console.error('테스트 데이터 정리 오류:', error);
     } finally {
@@ -320,7 +320,7 @@ describe('Exhibition Matching System', () => {
 describe('Performance Tests', () => {
   test('100명의 후보자 중에서 매칭을 1초 내에 완료해야 함', async () => {
     const startTime = Date.now();
-    
+
     // 실제로는 mock 데이터나 별도의 성능 테스트 환경에서 수행
     const mockCandidates = Array.from({ length: 100 }, (_, i) => ({
       id: `user${i}`,
@@ -329,7 +329,7 @@ describe('Performance Tests', () => {
     }));
 
     const matchingService = new ExhibitionMatchingService();
-    
+
     // 모의 매칭 점수 계산
     const scores = await Promise.all(
       mockCandidates.map(async candidate => {
@@ -342,7 +342,7 @@ describe('Performance Tests', () => {
 
     const endTime = Date.now();
     const duration = endTime - startTime;
-    
+
     expect(duration).toBeLessThan(1000); // 1초 미만
     expect(scores.length).toBe(100);
   });

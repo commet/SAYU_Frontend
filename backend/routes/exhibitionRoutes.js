@@ -28,24 +28,24 @@ router.post('/exhibitions/:id/images', authenticate, upload.array('images', 5), 
   try {
     const { id } = req.params;
     const ExhibitionModel = require('../src/models/exhibitionModel');
-    
+
     const exhibition = await ExhibitionModel.findById(id);
     if (!exhibition) {
       return res.status(404).json({ error: 'Exhibition not found' });
     }
-    
+
     // Check permission
     if (exhibition.submitted_by !== req.user.id && !['admin', 'moderator'].includes(req.user.role)) {
       return res.status(403).json({ error: 'Unauthorized' });
     }
-    
+
     // Add uploaded image URLs to exhibition
     const imageUrls = req.files.map(file => file.location || file.path);
     const currentImages = exhibition.images || [];
     const updatedImages = [...currentImages, ...imageUrls];
-    
+
     await ExhibitionModel.update(id, { images: updatedImages });
-    
+
     res.json({ images: updatedImages });
   } catch (error) {
     res.status(500).json({ error: error.message });

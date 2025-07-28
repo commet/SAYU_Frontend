@@ -8,15 +8,15 @@ let subClient = null;
 
 function createRedisClient() {
   if (redisClient || connectionAttempted) return redisClient;
-  
+
   connectionAttempted = true;
-  
+
   // Skip Redis if not available in development
   if (process.env.NODE_ENV === 'development' && !process.env.REDIS_URL) {
     log.warn('Redis URL not configured - running without Redis cache');
     return null;
   }
-  
+
   try {
     // 최적화된 Redis 설정
     const redisOptions = {
@@ -24,19 +24,19 @@ function createRedisClient() {
       maxRetriesPerRequest: 3,
       enableReadyCheck: true,
       enableOfflineQueue: true,
-      
+
       // 성능 최적화
       connectTimeout: 10000,
       commandTimeout: 5000,
       keepAlive: 10000,
-      
+
       // 메모리 최적화
       dropBufferSupport: true,
-      
+
       // 파이프라이닝 설정
       enableAutoPipelining: true,
       autoPipeliningIgnoredCommands: ['info', 'ping'],
-      
+
       // 재시도 전략
       retryStrategy: (times) => {
         if (times > 3) {
@@ -45,7 +45,7 @@ function createRedisClient() {
         }
         return Math.min(times * 100, 3000);
       },
-      
+
       // 에러 핸들링
       reconnectOnError: (err) => {
         const targetErrors = ['READONLY', 'ECONNRESET', 'ETIMEDOUT'];
@@ -55,17 +55,17 @@ function createRedisClient() {
         return false;
       }
     };
-    
+
     redisClient = new Redis(process.env.REDIS_URL || 'redis://localhost:6379', redisOptions);
-    
+
     // 클러스터 모드 지원 (필요한 경우)
     if (process.env.REDIS_CLUSTER === 'true') {
       redisClient = new Redis.Cluster(
-        [{host: process.env.REDIS_HOST, port: process.env.REDIS_PORT}],
+        [{ host: process.env.REDIS_HOST, port: process.env.REDIS_PORT }],
         { redisOptions }
       );
     }
-    
+
     // 이벤트 핸들러
     redisClient.on('error', (err) => {
       log.error('Redis error:', err);
@@ -74,31 +74,31 @@ function createRedisClient() {
         redisClient = null;
       }
     });
-    
+
     redisClient.on('connect', () => {
       log.info('Redis connected successfully');
     });
-    
+
     redisClient.on('ready', () => {
       log.info('Redis ready to accept commands');
       // 초기 설정
       setupRedisOptimizations();
     });
-    
+
     redisClient.on('close', () => {
       log.warn('Redis connection closed');
     });
-    
+
     redisClient.on('reconnecting', (delay) => {
       log.info(`Redis reconnecting in ${delay}ms`);
     });
-    
+
     // Pub/Sub 클라이언트 (필요한 경우)
     if (process.env.ENABLE_PUBSUB === 'true') {
       pubClient = redisClient.duplicate();
       subClient = redisClient.duplicate();
     }
-    
+
     return redisClient;
   } catch (error) {
     log.error('Redis initialization failed:', error);
@@ -109,21 +109,21 @@ function createRedisClient() {
 // Redis 최적화 설정
 async function setupRedisOptimizations() {
   if (!redisClient) return;
-  
+
   try {
     // 프로덕션 메모리 최적화 설정
     await redisClient.config('SET', 'maxmemory-policy', 'allkeys-lru');
     await redisClient.config('SET', 'maxmemory', '256mb'); // Railway 메모리 제한 고려
-    
+
     // 프로덕션 성능 최적화
     await redisClient.config('SET', 'tcp-keepalive', '30');
     await redisClient.config('SET', 'timeout', '180'); // 더 짧은 타임아웃
-    
+
     // 레플리카 설정 (필요한 경우)
     if (process.env.REDIS_REPLICA) {
       await redisClient.readonly();
     }
-    
+
     log.info('Redis optimizations applied');
   } catch (error) {
     log.warn('Failed to apply Redis optimizations:', error);
@@ -142,7 +142,7 @@ const redisHelpers = {
       return null;
     }
   },
-  
+
   // 안전한 set
   async safeSet(key, value, ttl) {
     try {
@@ -158,7 +158,7 @@ const redisHelpers = {
       return false;
     }
   },
-  
+
   // 배치 작업
   async batchGet(keys) {
     try {
@@ -169,7 +169,7 @@ const redisHelpers = {
       return [];
     }
   },
-  
+
   // 파이프라인 실행
   async executePipeline(commands) {
     try {
@@ -182,11 +182,11 @@ const redisHelpers = {
       return [];
     }
   },
-  
+
   // 스캔 작업 (메모리 효율적)
   async* scan(pattern, count = 100) {
     if (!redisClient) return;
-    
+
     let cursor = '0';
     do {
       try {
@@ -196,7 +196,7 @@ const redisHelpers = {
           'COUNT', count
         );
         cursor = newCursor;
-        
+
         for (const key of keys) {
           yield key;
         }

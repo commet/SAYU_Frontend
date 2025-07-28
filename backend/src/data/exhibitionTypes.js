@@ -6,7 +6,7 @@
 // 'L' = Lone (Individual, introspective) — prefers personal, individual engagement with art
 // 'S' = Social (Interactive, collaborative) — prefers social, collaborative art experiences
 
-// Axis 2: A vs R  
+// Axis 2: A vs R
 // 'A' = Abstract (Atmospheric, symbolic) — drawn to conceptual, symbolic, non-representational art
 // 'R' = Representational (Realistic, concrete) — prefers figurative, representational, narrative art
 

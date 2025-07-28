@@ -54,8 +54,8 @@ class RealtimeGalleryService {
   async handleJoinGallery(socket, { userId, galleryId, aptType, userName }) {
     try {
       // 기존 세션 확인 또는 새 세션 생성
-      let sessionId = await this.findOrCreateSession(galleryId);
-      
+      const sessionId = await this.findOrCreateSession(galleryId);
+
       // 사용자를 세션에 추가
       const participant = {
         userId,
@@ -195,7 +195,7 @@ class RealtimeGalleryService {
     if (!userId || !sessionId) return;
 
     await this.removeParticipant(userId, sessionId);
-    
+
     // 다른 참가자들에게 알림
     socket.to(sessionId).emit('participant-left', { userId });
   }
@@ -267,9 +267,9 @@ class RealtimeGalleryService {
     });
 
     // 초기 연결 메시지
-    response.write(`data: ${JSON.stringify({ 
-      type: 'connected', 
-      message: 'SSE connection established' 
+    response.write(`data: ${JSON.stringify({
+      type: 'connected',
+      message: 'SSE connection established'
     })}\n\n`);
 
     // 갤러리 업데이트 구독

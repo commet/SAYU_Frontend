@@ -9,11 +9,11 @@ const pool = new Pool({
 
 async function showExhibitionsSimple() {
   const client = await pool.connect();
-  
+
   try {
     console.log('🎨 SAYU 전시 데이터베이스 목록\n');
     console.log('='.repeat(80));
-    
+
     // 전체 전시 조회
     const result = await client.query(`
       SELECT 
@@ -36,16 +36,16 @@ async function showExhibitionsSimple() {
         END,
         start_date DESC
     `);
-    
+
     console.log(`총 ${result.rows.length}개의 전시\n`);
-    
+
     // 상태별로 분류
     const ongoing = result.rows.filter(ex => ex.status === '진행중');
     const upcoming = result.rows.filter(ex => ex.status === '예정');
     const ended = result.rows.filter(ex => ex.status === '종료');
-    
+
     // 진행 중인 전시
-    console.log('\n🟢 현재 진행 중인 전시 (' + ongoing.length + '개)');
+    console.log(`\n🟢 현재 진행 중인 전시 (${ongoing.length}개)`);
     console.log('-'.repeat(80));
     ongoing.forEach((ex, idx) => {
       const start = formatDate(ex.start_date);
@@ -53,9 +53,9 @@ async function showExhibitionsSimple() {
       console.log(`${(idx + 1).toString().padStart(2, '0')}. ${ex.title_en}`);
       console.log(`    ${ex.venue_name} (${ex.venue_city}) | ${start} ~ ${end}`);
     });
-    
+
     // 예정된 전시
-    console.log('\n\n🔵 예정된 전시 (' + upcoming.length + '개)');
+    console.log(`\n\n🔵 예정된 전시 (${upcoming.length}개)`);
     console.log('-'.repeat(80));
     upcoming.forEach((ex, idx) => {
       const start = formatDate(ex.start_date);
@@ -63,9 +63,9 @@ async function showExhibitionsSimple() {
       console.log(`${(idx + 1).toString().padStart(2, '0')}. ${ex.title_en}`);
       console.log(`    ${ex.venue_name} (${ex.venue_city}) | ${start} ~ ${end}`);
     });
-    
+
     // 종료된 전시
-    console.log('\n\n⚫ 종료된 전시 (' + ended.length + '개)');
+    console.log(`\n\n⚫ 종료된 전시 (${ended.length}개)`);
     console.log('-'.repeat(80));
     ended.forEach((ex, idx) => {
       const start = formatDate(ex.start_date);
@@ -73,12 +73,12 @@ async function showExhibitionsSimple() {
       console.log(`${(idx + 1).toString().padStart(2, '0')}. ${ex.title_en}`);
       console.log(`    ${ex.venue_name} (${ex.venue_city}) | ${start} ~ ${end}`);
     });
-    
+
     // 통계
     console.log('\n\n📊 요약 통계');
     console.log('-'.repeat(80));
     console.log(`진행 중: ${ongoing.length}개 | 예정: ${upcoming.length}개 | 종료: ${ended.length}개`);
-    
+
     // 도시별 통계
     const cityStats = await client.query(`
       SELECT venue_city, COUNT(*) as count
@@ -87,18 +87,18 @@ async function showExhibitionsSimple() {
       ORDER BY count DESC
       LIMIT 5
     `);
-    
+
     console.log('\n도시별 TOP 5:');
     cityStats.rows.forEach(row => {
       console.log(`  ${row.venue_city}: ${row.count}개`);
     });
-    
+
   } catch (error) {
     console.error('오류:', error.message);
   } finally {
     client.release();
   }
-  
+
   process.exit(0);
 }
 

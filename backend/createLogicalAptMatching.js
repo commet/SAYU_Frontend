@@ -11,19 +11,19 @@ const APT_TYPES = {
   'VNCM': { name: '독수리', traits: ['비전', '자유', '독립적'] },
   'VSRT': { name: '공작', traits: ['화려함', '표현력', '자신감'] },
   'VSCM': { name: '용', traits: ['신비로움', '창조적', '카리스마'] },
-  
+
   // Harmony Connectors (HCs)
   'HNRT': { name: '코끼리', traits: ['공감', '지혜', '안정감'] },
   'HNCM': { name: '돌고래', traits: ['소통', '유연함', '긍정적'] },
   'HSRT': { name: '나비', traits: ['변화', '아름다움', '섬세함'] },
   'HSCM': { name: '백조', traits: ['우아함', '평화', '조화'] },
-  
+
   // Sensory Realists (SRs)
   'SRRT': { name: '곰', traits: ['실용적', '신중함', '끈기'] },
   'SRCM': { name: '늑대', traits: ['충성', '협동', '직관'] },
   'SRMC': { name: '거북이', traits: ['인내', '지속성', '차분함'] },
   'SRMF': { name: '올빼미', traits: ['관찰력', '지성', '침착함'] },
-  
+
   // Dynamic Explorers (DEs)
   'DERT': { name: '치타', traits: ['속도', '민첩성', '도전'] },
   'DECM': { name: '원숭이', traits: ['호기심', '재치', '활발함'] },
@@ -156,7 +156,7 @@ class LonealAptMatcher {
   // 데이터 기반 매칭 로직
   async matchArtistToApt(artistData) {
     const { name, dailyViews, languages } = artistData;
-    
+
     // 사전 정의된 매칭이 있는 경우
     if (this.matchingRules[name]) {
       return this.matchingRules[name];
@@ -168,7 +168,7 @@ class LonealAptMatcher {
 
   dataBasedMatching(artistData) {
     const { dailyViews, languages, categories = [] } = artistData;
-    
+
     let primary, secondary, tertiary;
     let reasoning = '';
 
@@ -223,7 +223,7 @@ async function createLonealMatching() {
     const csvData = await fs.readFile('./major_artists_wiki_data.csv', 'utf-8');
     const lines = csvData.split('\n').filter(line => line.trim());
     const headers = lines[0].split(',');
-    
+
     const artists = lines.slice(1).map(line => {
       const values = line.match(/(".*?"|[^,]+)/g) || [];
       const obj = {};
@@ -248,7 +248,7 @@ async function createLonealMatching() {
       };
 
       const matching = await matcher.matchArtistToApt(artistData);
-      
+
       results.push({
         ...artistData,
         ...matching,
@@ -283,7 +283,7 @@ async function createLonealMatching() {
     // 분포 분석
     console.log('\n📈 APT 유형 분포 분석:');
     console.log('='.repeat(70));
-    
+
     const distribution = jsonOutput.aptDistribution;
     Object.entries(distribution.primary).sort((a, b) => b[1] - a[1]).forEach(([type, count]) => {
       console.log(`${APT_TYPES[type].name} (${type}): ${count}명`);

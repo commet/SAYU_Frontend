@@ -51,8 +51,8 @@ const importantWomenArtists = [
   'Bridget Riley', 'Yayoi Kusama', 'Louise Nevelson', 'Barbara Hepworth'
 ];
 
-// 한국 중요 작가들
-const koreanMasters = [
+// 한국 중요 작가들 (현재 사용되지 않지만 향후 확장용)
+const _koreanMasters = [
   '김환기', '박수근', '이중섭', '천경자', '김기창', '박래현',
   '유영국', '이우환', '백남준', '박서보', '정상화', '하종현',
   '김창열', '이불', '서도호', '김수자'
@@ -61,8 +61,8 @@ const koreanMasters = [
 async function checkImportantArtists() {
   try {
     console.log('🎨 SAYU 중요 작가 DB 점검 시작');
-    console.log('=' + '='.repeat(70));
-    
+    console.log(`=${'='.repeat(70)}`);
+
     // 전체 작가 목록 가져오기
     const allArtists = await pool.query(`
       SELECT name, nationality, era, birth_year, death_year,
@@ -76,15 +76,15 @@ async function checkImportantArtists() {
       FROM artists
       ORDER BY name
     `);
-    
+
     const dbArtistNames = allArtists.rows.map(a => a.name.toLowerCase());
-    
+
     // 누락된 중요 작가 찾기
     console.log('\n❌ 누락된 티어 1 작가들:');
     const missingTier1 = [];
     tier1Artists.forEach(artist => {
-      const found = dbArtistNames.some(dbName => 
-        dbName.includes(artist.toLowerCase()) || 
+      const found = dbArtistNames.some(dbName =>
+        dbName.includes(artist.toLowerCase()) ||
         artist.toLowerCase().includes(dbName)
       );
       if (!found) {
@@ -92,12 +92,12 @@ async function checkImportantArtists() {
         console.log(`   - ${artist}`);
       }
     });
-    
+
     console.log('\n❌ 누락된 티어 2 작가들:');
     const missingTier2 = [];
     tier2Artists.forEach(artist => {
-      const found = dbArtistNames.some(dbName => 
-        dbName.includes(artist.toLowerCase()) || 
+      const found = dbArtistNames.some(dbName =>
+        dbName.includes(artist.toLowerCase()) ||
         artist.toLowerCase().includes(dbName)
       );
       if (!found) {
@@ -105,12 +105,12 @@ async function checkImportantArtists() {
         console.log(`   - ${artist}`);
       }
     });
-    
+
     console.log('\n❌ 누락된 중요 여성 작가들:');
     const missingWomen = [];
     importantWomenArtists.forEach(artist => {
-      const found = dbArtistNames.some(dbName => 
-        dbName.includes(artist.toLowerCase()) || 
+      const found = dbArtistNames.some(dbName =>
+        dbName.includes(artist.toLowerCase()) ||
         artist.toLowerCase().includes(dbName)
       );
       if (!found) {
@@ -118,18 +118,18 @@ async function checkImportantArtists() {
         console.log(`   - ${artist}`);
       }
     });
-    
+
     // 통계
     console.log('\n\n📊 DB 현황:');
     console.log(`   전체 작가 수: ${allArtists.rows.length}명`);
     console.log(`   APT 분류 완료: ${allArtists.rows.filter(a => a.has_apt).length}명`);
     console.log(`   풍부한 bio: ${allArtists.rows.filter(a => a.bio_quality === 'rich').length}명`);
-    
+
     console.log('\n📊 누락 현황:');
     console.log(`   티어 1 누락: ${missingTier1.length}/${tier1Artists.length}명`);
     console.log(`   티어 2 누락: ${missingTier2.length}/${tier2Artists.length}명`);
     console.log(`   여성 작가 누락: ${missingWomen.length}/${importantWomenArtists.length}명`);
-    
+
     // 우선순위 필드 추가 제안
     console.log('\n\n💡 우선순위 시스템 구현 제안:');
     console.log('1. artists 테이블에 importance_score 필드 추가 (0-100)');
@@ -142,7 +142,7 @@ async function checkImportantArtists() {
     console.log('   - 여성 작가: +10점 (역사적 저평가 보정)');
     console.log('   - 한국 작가: +10점 (로컬 중요도)');
     console.log('   - 현대 작가 (1950년 이후 출생): +5점 (현재 활동성)');
-    
+
     // SQL 생성
     console.log('\n\n🔧 구현을 위한 SQL:');
     console.log(`
@@ -165,14 +165,14 @@ WHERE LOWER(name) LIKE '%picasso%'
    OR LOWER(name) LIKE '%van gogh%'
    OR LOWER(name) LIKE '%monet%';
     `);
-    
+
     return {
       total: allArtists.rows.length,
       missingTier1,
       missingTier2,
       missingWomen
     };
-    
+
   } catch (error) {
     console.error('오류:', error);
   } finally {
@@ -181,6 +181,6 @@ WHERE LOWER(name) LIKE '%picasso%'
 }
 
 // 실행
-checkImportantArtists().then(result => {
+checkImportantArtists().then(_result => {
   console.log('\n\n✅ 점검 완료');
 });

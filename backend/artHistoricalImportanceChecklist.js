@@ -16,7 +16,7 @@ const ART_HISTORICAL_MASTERS = {
       'Donatello', 'Masaccio', 'Fra Angelico', 'Filippo Brunelleschi'
     ]
   },
-  
+
   // 바로크 (1600-1750)
   baroque: {
     tier1: [
@@ -28,7 +28,7 @@ const ART_HISTORICAL_MASTERS = {
       'Bartolomé Esteban Murillo', 'Jusepe de Ribera'
     ]
   },
-  
+
   // 낭만주의 (1770-1850)
   romanticism: {
     tier1: [
@@ -39,7 +39,7 @@ const ART_HISTORICAL_MASTERS = {
       'John Constable', 'Henry Fuseli', 'Jean-Auguste-Dominique Ingres'
     ]
   },
-  
+
   // 인상주의 (1860-1890)
   impressionism: {
     tier1: [
@@ -51,7 +51,7 @@ const ART_HISTORICAL_MASTERS = {
       'Gustave Caillebotte', 'Frédéric Bazille'
     ]
   },
-  
+
   // 후기인상주의 (1880-1915)
   postImpressionism: {
     tier1: [
@@ -63,7 +63,7 @@ const ART_HISTORICAL_MASTERS = {
       'Édouard Vuillard'
     ]
   },
-  
+
   // 표현주의 (1905-1925)
   expressionism: {
     tier1: [
@@ -75,7 +75,7 @@ const ART_HISTORICAL_MASTERS = {
       'Amedeo Modigliani'
     ]
   },
-  
+
   // 입체파 (1907-1920)
   cubism: {
     tier1: [
@@ -85,7 +85,7 @@ const ART_HISTORICAL_MASTERS = {
       'Fernand Léger', 'Robert Delaunay', 'Marcel Duchamp'
     ]
   },
-  
+
   // 초현실주의 (1920-1950)
   surrealism: {
     tier1: [
@@ -97,7 +97,7 @@ const ART_HISTORICAL_MASTERS = {
       'Kay Sage', 'Remedios Varo'
     ]
   },
-  
+
   // 추상표현주의 (1940-1960)
   abstractExpressionism: {
     tier1: [
@@ -109,7 +109,7 @@ const ART_HISTORICAL_MASTERS = {
       'Lee Krasner', 'Joan Mitchell', 'Philip Guston'
     ]
   },
-  
+
   // 팝아트 (1950-1970)
   popArt: {
     tier1: [
@@ -121,7 +121,7 @@ const ART_HISTORICAL_MASTERS = {
       'Ed Ruscha', 'Richard Hamilton'
     ]
   },
-  
+
   // 현대미술 (1960-현재)
   contemporary: {
     tier1: [
@@ -133,7 +133,7 @@ const ART_HISTORICAL_MASTERS = {
       'Kehinde Wiley', 'KAWS', 'Jenny Saville', 'David Hume'
     ]
   },
-  
+
   // 조각가
   sculpture: {
     tier1: [
@@ -145,7 +145,7 @@ const ART_HISTORICAL_MASTERS = {
       'Isamu Noguchi', 'David Smith'
     ]
   },
-  
+
   // 사진가
   photography: {
     tier1: [
@@ -157,7 +157,7 @@ const ART_HISTORICAL_MASTERS = {
       'Cindy Sherman', 'Andreas Gursky'
     ]
   },
-  
+
   // 한국 미술
   korean: {
     tier1: [
@@ -182,7 +182,7 @@ function calculateHistoricalImportance(movement, tier) {
     tier2: 75,
     contemporary: 70
   };
-  
+
   const movementMultipliers = {
     renaissance: 1.1,
     baroque: 1.05,
@@ -193,48 +193,48 @@ function calculateHistoricalImportance(movement, tier) {
     contemporary: 0.95,
     korean: 0.9
   };
-  
+
   const baseScore = baseScores[tier] || 60;
   const multiplier = movementMultipliers[movement] || 1.0;
-  
+
   return Math.round(baseScore * multiplier);
 }
 
 async function performComprehensiveCheck() {
   try {
     console.log('🎨 예술사적 중요 작가 종합 체크리스트');
-    console.log('=' + '='.repeat(70));
-    
+    console.log(`=${'='.repeat(70)}`);
+
     let totalMissing = 0;
     let totalFound = 0;
     const missingByMovement = {};
-    
+
     // 각 운동별로 체크
     for (const [movement, tiers] of Object.entries(ART_HISTORICAL_MASTERS)) {
       console.log(`\n\n📌 ${movement.toUpperCase()}`);
       console.log('-'.repeat(50));
-      
+
       missingByMovement[movement] = [];
-      
+
       for (const [tier, artists] of Object.entries(tiers)) {
         console.log(`\n  [${tier.toUpperCase()}]`);
-        
+
         // 데이터베이스에서 확인
         const result = await pool.query(
           'SELECT name, importance_score, apt_profile IS NOT NULL as has_apt FROM artists WHERE name = ANY($1)',
           [artists]
         );
-        
+
         const foundNames = result.rows.map(r => r.name);
         const missing = artists.filter(name => !foundNames.includes(name));
-        
+
         // 결과 출력
         console.log(`  ✅ 등록됨: ${result.rows.length}/${artists.length}`);
         result.rows.forEach(artist => {
           const aptStatus = artist.has_apt ? '✓' : '✗';
           console.log(`     - ${artist.name} (점수: ${artist.importance_score}, APT: ${aptStatus})`);
         });
-        
+
         if (missing.length > 0) {
           console.log(`  ❌ 누락됨: ${missing.length}명`);
           missing.forEach(name => {
@@ -242,30 +242,30 @@ async function performComprehensiveCheck() {
             missingByMovement[movement].push({ name, tier });
           });
         }
-        
+
         totalFound += result.rows.length;
         totalMissing += missing.length;
       }
     }
-    
+
     // 종합 통계
-    console.log('\n\n' + '='.repeat(70));
+    console.log(`\n\n${'='.repeat(70)}`);
     console.log('📊 종합 통계');
     console.log('='.repeat(70));
     console.log(`✅ 등록된 핵심 작가: ${totalFound}명`);
     console.log(`❌ 누락된 핵심 작가: ${totalMissing}명`);
     console.log(`📈 등록률: ${((totalFound / (totalFound + totalMissing)) * 100).toFixed(1)}%`);
-    
+
     // 누락 작가 SQL 생성
     if (totalMissing > 0) {
       console.log('\n\n💾 누락 작가 추가용 SQL 생성');
-      console.log('=' + '='.repeat(70));
-      
+      console.log(`=${'='.repeat(70)}`);
+
       const insertStatements = [];
-      
+
       for (const [movement, artists] of Object.entries(missingByMovement)) {
         if (artists.length === 0) continue;
-        
+
         console.log(`\n-- ${movement} 누락 작가 추가`);
         artists.forEach(({ name, tier }) => {
           const importance = calculateHistoricalImportance(movement, tier);
@@ -274,17 +274,17 @@ async function performComprehensiveCheck() {
           insertStatements.push({ name, importance, movement });
         });
       }
-      
+
       // 파일로 저장
       const fs = require('fs');
-      const sqlContent = insertStatements.map(({ name, importance, movement }) => 
+      const sqlContent = insertStatements.map(({ name, importance, movement }) =>
         `INSERT INTO artists (name, importance_score, era) VALUES ('${name}', ${importance}, '${movement}');`
       ).join('\n');
-      
+
       fs.writeFileSync('missing_artists_insert.sql', sqlContent);
       console.log('\n✅ missing_artists_insert.sql 파일 생성 완료');
     }
-    
+
     // APT 분석이 필요한 작가들
     const needsAPT = await pool.query(`
       SELECT name, importance_score, era
@@ -294,13 +294,13 @@ async function performComprehensiveCheck() {
       ORDER BY importance_score DESC
       LIMIT 20
     `);
-    
+
     console.log('\n\n🔬 APT 분석이 필요한 상위 작가');
-    console.log('=' + '='.repeat(70));
+    console.log(`=${'='.repeat(70)}`);
     needsAPT.rows.forEach(artist => {
       console.log(`- ${artist.name} (${artist.importance_score}점, ${artist.era || '시대 미상'})`);
     });
-    
+
   } catch (error) {
     console.error('오류:', error);
   } finally {

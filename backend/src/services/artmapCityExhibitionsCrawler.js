@@ -13,7 +13,7 @@ class ArtmapCityExhibitionsCrawler {
     this.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
     this.requestDelay = 2000; // 2초 딜레이
     this.lastRequestTime = 0;
-    
+
     // 주요 도시 목록
     this.targetCities = [
       'seoul',
@@ -46,7 +46,7 @@ class ArtmapCityExhibitionsCrawler {
    */
   async fetchPage(url) {
     await this.respectRateLimit();
-    
+
     try {
       console.log(`Fetching: ${url}`);
       const response = await axios.get(url, {
@@ -62,7 +62,7 @@ class ArtmapCityExhibitionsCrawler {
         timeout: 15000,
         maxRedirects: 5
       });
-      
+
       console.log(`Response status: ${response.status}`);
       return response.data;
     } catch (error) {
@@ -96,12 +96,12 @@ class ArtmapCityExhibitionsCrawler {
       if (html) {
         console.log(`\nAnalyzing ${city} page structure from: ${url}`);
         const $ = cheerio.load(html);
-        
+
         // 페이지 구조 분석
         console.log('Page title:', $('title').text());
         console.log('H1 tags:', $('h1').map((i, el) => $(el).text().trim()).get());
         console.log('H2 tags:', $('h2').length);
-        
+
         // 가능한 전시 컨테이너 찾기
         const possibleSelectors = [
           '.exhibition-list',
@@ -127,11 +127,11 @@ class ArtmapCityExhibitionsCrawler {
           const elements = $(selector);
           if (elements.length > 0) {
             console.log(`Found ${elements.length} elements with selector: ${selector}`);
-            
+
             // 첫 번째 요소의 구조 분석
             const firstElement = elements.first();
             console.log('First element HTML preview:');
-            console.log(firstElement.html()?.substring(0, 500) + '...');
+            console.log(`${firstElement.html()?.substring(0, 500)}...`);
           }
         }
 
@@ -140,28 +140,28 @@ class ArtmapCityExhibitionsCrawler {
           const href = $(el).attr('href') || '';
           return href.includes('/exhibition') || href.includes('/show') || href.includes('/event');
         });
-        
+
         if (exhibitionLinks.length > 0) {
           console.log(`\nFound ${exhibitionLinks.length} potential exhibition links`);
           exhibitionLinks.slice(0, 5).each((i, el) => {
             console.log(`- ${$(el).text().trim()} -> ${$(el).attr('href')}`);
           });
         }
-        
+
         // 실제 전시 정보 수집 (분석된 링크에서)
         const exhibitionData = [];
         exhibitionLinks.each((i, el) => {
           const $link = $(el);
           const href = $link.attr('href');
           const title = $link.text().trim();
-          
+
           // 부모 요소에서 추가 정보 찾기
           const $parent = $link.closest('div, article, li, tr, td');
           const parentText = $parent.text();
-          
+
           // 날짜 패턴 찾기
           const dateMatch = parentText.match(/(\d{1,2}\.\d{1,2}\.)\s*[-–]\s*(\d{1,2}\.\d{1,2}\.\d{4})/);
-          
+
           if (title && href && title.length > 3) {
             exhibitionData.push({
               title,
@@ -171,7 +171,7 @@ class ArtmapCityExhibitionsCrawler {
             });
           }
         });
-        
+
         if (exhibitionData.length > 0) {
           console.log(`\nExtracted ${exhibitionData.length} exhibitions from links`);
           return { url, html, $, exhibitions: exhibitionData };
@@ -189,15 +189,15 @@ class ArtmapCityExhibitionsCrawler {
    */
   async crawlWorldwideExhibitions(filterCity = null, maxPages = 5) {
     const exhibitions = [];
-    
+
     // 여러 페이지 크롤링
     for (let page = 1; page <= maxPages; page++) {
       const url = `${this.baseUrl}/exhibitions/institutions/`;
       const pageUrl = page > 1 ? `${url}?page=${page}` : url;
-      
+
       console.log(`Fetching exhibitions page ${page}...`);
       const html = await this.fetchPage(pageUrl);
-      
+
       if (!html) {
         console.log(`Could not fetch page ${page}`);
         break;
@@ -210,19 +210,19 @@ class ArtmapCityExhibitionsCrawler {
       $('tr').each((index, row) => {
         const $row = $(row);
         const links = $row.find('a');
-        
+
         // 전시 링크가 있는 행인지 확인
         const hasExhibitionLink = links.toArray().some(link => {
           const href = $(link).attr('href') || '';
           return href.includes('/exhibition/');
         });
-        
+
         if (hasExhibitionLink && links.length >= 2) {
           const exhibition = this.extractExhibitionFromArtmapRow($, $row);
-          
+
           if (exhibition) {
             // 도시 필터링
-            if (!filterCity || 
+            if (!filterCity ||
                 (exhibition.venue && exhibition.venue.toLowerCase().includes(filterCity.toLowerCase())) ||
                 (exhibition.city && exhibition.city.toLowerCase().includes(filterCity.toLowerCase()))) {
               exhibitions.push(exhibition);
@@ -233,7 +233,7 @@ class ArtmapCityExhibitionsCrawler {
       });
 
       console.log(`Found ${pageExhibitions} exhibitions on page ${page}`);
-      
+
       // 페이지에 전시가 없으면 중단
       if (pageExhibitions === 0) {
         break;
@@ -242,18 +242,18 @@ class ArtmapCityExhibitionsCrawler {
 
     return exhibitions;
   }
-  
+
   /**
    * Artmap 행에서 전시 정보 추출 (개선된 버전)
    */
   extractExhibitionFromArtmapRow($, $row) {
     const links = $row.find('a');
     if (links.length < 2) return null;
-    
+
     // 링크 분석
     let venueLink = null;
     let exhibitionLink = null;
-    
+
     links.each((i, link) => {
       const href = $(link).attr('href') || '';
       if (href.includes('/exhibition/')) {
@@ -262,24 +262,24 @@ class ArtmapCityExhibitionsCrawler {
         venueLink = $(link);
       }
     });
-    
+
     if (!exhibitionLink) return null;
-    
+
     const title = exhibitionLink.text().trim();
     const exhibitionUrl = exhibitionLink.attr('href');
     const venue = venueLink ? venueLink.text().trim() : '';
     const venueUrl = venueLink ? venueLink.attr('href') : '';
-    
+
     // 날짜 추출
     const rowText = $row.text();
     const dateMatch = rowText.match(/(\d{1,2}\s+\w{3})\s*[-–]\s*(\d{1,2}\s+\w{3}\s+\d{4})/);
-    
+
     // 도시 추출 (venue에서)
     let city = '';
     if (venue) {
       const cityMatch = venue.match(/,\s*([^,]+)$/);
       city = cityMatch ? cityMatch[1].trim() : '';
-      
+
       // 특별한 경우 처리
       if (venue.toLowerCase().includes('seoul')) city = 'Seoul';
       if (venue.toLowerCase().includes('new york')) city = 'New York';
@@ -288,7 +288,7 @@ class ArtmapCityExhibitionsCrawler {
       if (venue.toLowerCase().includes('tokyo')) city = 'Tokyo';
       if (venue.toLowerCase().includes('berlin')) city = 'Berlin';
     }
-    
+
     return {
       title,
       url: exhibitionUrl ? (exhibitionUrl.startsWith('http') ? exhibitionUrl : `${this.baseUrl}${exhibitionUrl}`) : '',
@@ -313,19 +313,19 @@ class ArtmapCityExhibitionsCrawler {
     }
 
     const { url, html, $, exhibitions: analyzedExhibitions } = result;
-    
+
     // 분석 단계에서 이미 전시 정보를 찾았다면 반환
     if (analyzedExhibitions && analyzedExhibitions.length > 0) {
       console.log(`Using ${analyzedExhibitions.length} exhibitions from page analysis`);
       return analyzedExhibitions;
     }
-    
+
     let exhibitions = [];
-    
+
     // 전세계 전시에서 도시별로 필터링 시도
     console.log(`Trying worldwide exhibitions filtered by ${city}...`);
     exhibitions = await this.crawlWorldwideExhibitions(city);
-    
+
     if (exhibitions.length > 0) {
       console.log(`Found ${exhibitions.length} exhibitions via worldwide filter`);
       return exhibitions;
@@ -358,18 +358,18 @@ class ArtmapCityExhibitionsCrawler {
         const $link = $(link);
         const href = $link.attr('href');
         const title = $link.text().trim();
-        
+
         if (href && exhibitionPattern.test(href) && title && title.length > 5) {
           // 부모 요소에서 추가 정보 찾기
           const $parent = $link.closest('div, article, li, tr');
           const exhibition = {
-            title: title,
+            title,
             url: href.startsWith('http') ? href : `${this.baseUrl}${href}`,
             venue: this.extractVenueFromParent($, $parent),
             dates: this.extractDatesFromParent($, $parent),
-            city: city
+            city
           };
-          
+
           if (exhibition.venue || exhibition.dates) {
             exhibitions.push(exhibition);
           }
@@ -388,27 +388,27 @@ class ArtmapCityExhibitionsCrawler {
     // 모든 링크 찾기
     const links = $row.find('a');
     if (links.length < 2) return null; // 최소 2개 링크 필요 (전시명, 장소)
-    
+
     // 첫 번째 링크는 보통 장소
     const venueLink = links.eq(0);
     const venueName = venueLink.text().trim();
     const venueUrl = venueLink.attr('href');
-    
+
     // 두 번째 링크는 보통 전시명
     const titleLink = links.eq(1);
     const title = titleLink.text().trim();
     const exhibitionUrl = titleLink.attr('href');
-    
+
     // 날짜 정보 추출
     const rowText = $row.text();
     const dateMatch = rowText.match(/(\d{1,2}\.\d{1,2}\.)\s*[-–]\s*(\d{1,2}\.\d{1,2}\.\d{4})/);
-    
+
     // 도시 정보 추출 (장소명에서)
     const cityMatch = venueName.match(/,\s*([^,]+)$/);
     const city = cityMatch ? cityMatch[1].trim() : '';
-    
+
     if (!title || !exhibitionUrl) return null;
-    
+
     return {
       title,
       url: exhibitionUrl ? (exhibitionUrl.startsWith('http') ? exhibitionUrl : `${this.baseUrl}${exhibitionUrl}`) : '',
@@ -427,13 +427,13 @@ class ArtmapCityExhibitionsCrawler {
   extractExhibitionFromItem($, $item) {
     const titleElement = $item.find('h2, h3, h4, .title, .exhibition-title').first();
     const title = titleElement.text().trim() || $item.find('a').first().text().trim();
-    
+
     const link = $item.find('a').first();
     const url = link.attr('href');
-    
+
     const venue = $item.find('.venue, .location, .institution').text().trim();
     const dates = $item.find('.dates, .date, .period').text().trim();
-    
+
     return {
       title,
       url: url ? (url.startsWith('http') ? url : `${this.baseUrl}${url}`) : '',
@@ -452,13 +452,13 @@ class ArtmapCityExhibitionsCrawler {
       const venue = $parent.find(selector).text().trim();
       if (venue) return venue;
     }
-    
+
     // 두 번째 링크가 보통 장소인 경우가 많음
     const secondLink = $parent.find('a').eq(1);
     if (secondLink.length && !secondLink.attr('href')?.includes('/exhibition')) {
       return secondLink.text().trim();
     }
-    
+
     return '';
   }
 
@@ -471,14 +471,14 @@ class ArtmapCityExhibitionsCrawler {
       const dates = $parent.find(selector).text().trim();
       if (dates) return dates;
     }
-    
+
     // 텍스트에서 날짜 패턴 찾기
     const text = $parent.text();
     const dateMatch = text.match(/(\d{1,2}[\.\/]\d{1,2}[\.\/]?\d{0,4})\s*[-–]\s*(\d{1,2}[\.\/]\d{1,2}[\.\/]\d{2,4})/);
     if (dateMatch) {
       return `${dateMatch[1]} - ${dateMatch[2]}`;
     }
-    
+
     return '';
   }
 
@@ -503,7 +503,7 @@ class ArtmapCityExhibitionsCrawler {
     if (!html) return null;
 
     const $ = cheerio.load(html);
-    
+
     const details = {
       title: $('h1').first().text().trim(),
       subtitle: $('h2').first().text().trim(),
@@ -536,7 +536,7 @@ class ArtmapCityExhibitionsCrawler {
       '.content',
       'article p'
     ];
-    
+
     for (const selector of descriptionSelectors) {
       const desc = $(selector).text().trim();
       if (desc && desc.length > 50) {
@@ -607,12 +607,12 @@ class ArtmapCityExhibitionsCrawler {
    */
   parseDate(dateString) {
     if (!dateString) return null;
-    
+
     // 다양한 날짜 형식 처리
     const patterns = [
       /(\d{2})\.(\d{2})\.(\d{4})/, // DD.MM.YYYY
       /(\d{2})\/(\d{2})\/(\d{4})/, // DD/MM/YYYY
-      /(\d{4})-(\d{2})-(\d{2})/,   // YYYY-MM-DD
+      /(\d{4})-(\d{2})-(\d{2})/   // YYYY-MM-DD
     ];
 
     for (const pattern of patterns) {
@@ -636,7 +636,7 @@ class ArtmapCityExhibitionsCrawler {
    */
   async crawlCity(city, limit = 100) {
     console.log(`\n========== Crawling ${city.toUpperCase()} ==========`);
-    
+
     const exhibitions = await this.crawlCityExhibitions(city);
     console.log(`Found ${exhibitions.length} exhibitions in ${city}`);
 
@@ -646,7 +646,7 @@ class ArtmapCityExhibitionsCrawler {
     for (let i = 0; i < exhibitionsToProcess.length; i++) {
       const exhibition = exhibitionsToProcess[i];
       console.log(`\n[${i + 1}/${exhibitionsToProcess.length}] Processing: ${exhibition.title}`);
-      
+
       // 상세 정보 가져오기
       if (exhibition.url) {
         const details = await this.crawlExhibitionDetail(exhibition.url);
@@ -669,7 +669,7 @@ class ArtmapCityExhibitionsCrawler {
    */
   async crawlAllCities() {
     const results = {};
-    
+
     for (const city of this.targetCities) {
       try {
         const exhibitions = await this.crawlCity(city, 100);
@@ -698,13 +698,13 @@ class ArtmapCityExhibitionsCrawler {
    */
   async testCrawl(city = 'seoul') {
     console.log(`Testing crawler with ${city}...`);
-    
+
     // 1. 페이지 구조 분석
     await this.analyzeCityPage(city);
-    
+
     // 2. 전시 목록 수집
     const exhibitions = await this.crawlCityExhibitions(city);
-    
+
     // 3. 처음 5개 전시 상세 정보
     for (let i = 0; i < Math.min(5, exhibitions.length); i++) {
       const exhibition = exhibitions[i];
@@ -713,12 +713,12 @@ class ArtmapCityExhibitionsCrawler {
       console.log('Venue:', exhibition.venue);
       console.log('Dates:', exhibition.dates || `${exhibition.startDate} - ${exhibition.endDate}`);
       console.log('URL:', exhibition.url);
-      
+
       if (exhibition.url) {
         const details = await this.crawlExhibitionDetail(exhibition.url);
         if (details) {
           console.log('Artists:', details.artists.join(', '));
-          console.log('Description:', details.description?.substring(0, 200) + '...');
+          console.log('Description:', `${details.description?.substring(0, 200)}...`);
         }
       }
     }

@@ -7,10 +7,10 @@ const { log } = require('../config/logger');
 const requestContext = (req, res, next) => {
   // Generate unique request ID
   req.id = uuidv4();
-  
+
   // Add request ID to response headers
   res.setHeader('X-Request-ID', req.id);
-  
+
   // Extract request metadata
   req.startTime = Date.now();
   req.metadata = {
@@ -40,7 +40,7 @@ const requestContext = (req, res, next) => {
   const originalJson = res.json;
   res.json = function(data) {
     const duration = Date.now() - req.startTime;
-    
+
     // Log response
     log.debug('Request completed', {
       requestId: req.id,
@@ -60,11 +60,11 @@ const requestContext = (req, res, next) => {
 // Enhanced request logging middleware
 const enhancedRequestLogger = (req, res, next) => {
   const startTime = Date.now();
-  
+
   // Capture original send and json methods
   const originalSend = res.send;
   const originalJson = res.json;
-  
+
   let responseBody;
   let responseSize = 0;
 
@@ -85,7 +85,7 @@ const enhancedRequestLogger = (req, res, next) => {
   // Log when response finishes
   res.on('finish', () => {
     const duration = Date.now() - startTime;
-    
+
     const logData = {
       requestId: req.id,
       method: req.method,
@@ -106,7 +106,7 @@ const enhancedRequestLogger = (req, res, next) => {
     // Add error details for error responses
     if (res.statusCode >= 400) {
       logData.errorResponse = typeof responseBody === 'object' ? responseBody : { message: responseBody };
-      
+
       // Log as warning for client errors, error for server errors
       if (res.statusCode >= 500) {
         log.error('Request failed with server error', null, logData);
@@ -195,7 +195,7 @@ const securityContext = (req, res, next) => {
   // Log suspicious patterns
   const userAgent = req.headers['user-agent'] || '';
   const suspiciousBots = ['sqlmap', 'nikto', 'nmap', 'masscan', 'zap'];
-  
+
   if (suspiciousBots.some(bot => userAgent.toLowerCase().includes(bot))) {
     log.security('Suspicious user agent detected', {
       requestId: req.id,

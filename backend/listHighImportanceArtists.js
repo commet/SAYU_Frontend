@@ -24,10 +24,10 @@ async function listHighImportanceArtists() {
       WHERE importance_score >= 90
       ORDER BY importance_score DESC, name
     `);
-    
+
     console.log('🌟 중요도 90+ 아티스트 전체 명단\n');
     console.log(`총 ${result.rows.length}명\n`);
-    
+
     // 중요도별 그룹핑
     const groups = {
       95: [],
@@ -37,7 +37,7 @@ async function listHighImportanceArtists() {
       91: [],
       90: []
     };
-    
+
     result.rows.forEach(artist => {
       const score = artist.importance_score;
       if (!groups[score]) {
@@ -45,23 +45,23 @@ async function listHighImportanceArtists() {
       }
       groups[score].push(artist);
     });
-    
+
     // 중요도별 출력
     Object.keys(groups).sort((a, b) => b - a).forEach(score => {
       if (groups[score].length > 0) {
         console.log(`\n📊 중요도 ${score} (${groups[score].length}명)\n`);
-        
+
         groups[score].forEach((artist, idx) => {
-          const apt = artist.apt_type ? 
-            `${artist.apt_type} - ${artist.apt_title} (${artist.apt_animal})` : 
+          const apt = artist.apt_type ?
+            `${artist.apt_type} - ${artist.apt_title} (${artist.apt_animal})` :
             'APT 미설정';
-          
-          const years = artist.birth_year ? 
-            `${artist.birth_year || '?'}-${artist.death_year || '현재'}` : 
+
+          const years = artist.birth_year ?
+            `${artist.birth_year || '?'}-${artist.death_year || '현재'}` :
             '';
-          
+
           const nationality = artist.nationality || '국적 미상';
-          
+
           console.log(`${idx + 1}. ${artist.name}`);
           console.log(`   ${nationality} ${years}`);
           console.log(`   APT: ${apt}`);
@@ -72,21 +72,21 @@ async function listHighImportanceArtists() {
         });
       }
     });
-    
+
     // APT 타입별 분포
     const aptDistribution = {};
     result.rows.forEach(artist => {
       const type = artist.apt_type || '미설정';
       aptDistribution[type] = (aptDistribution[type] || 0) + 1;
     });
-    
+
     console.log('\n📈 APT 타입 분포:');
     Object.entries(aptDistribution)
       .sort((a, b) => b[1] - a[1])
       .forEach(([type, count]) => {
         console.log(`  ${type}: ${count}명`);
       });
-    
+
   } catch (error) {
     console.error('Error:', error.message);
   } finally {

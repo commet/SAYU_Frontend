@@ -4,7 +4,7 @@ const { logger } = require('../config/logger');
 // 환경별 허용 도메인 설정
 const getAllowedOrigins = () => {
   const isDevelopment = process.env.NODE_ENV === 'development';
-  
+
   if (isDevelopment) {
     return [
       'http://localhost:3000',
@@ -15,7 +15,7 @@ const getAllowedOrigins = () => {
       'https://localhost:3001'
     ];
   }
-  
+
   // 프로덕션 환경
   return [
     'https://sayu.art',
@@ -31,12 +31,12 @@ const getAllowedOrigins = () => {
 const artistPortalCorsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = getAllowedOrigins();
-    
+
     // 개발 환경에서는 origin이 없는 요청도 허용 (Postman 등)
     if (process.env.NODE_ENV === 'development' && !origin) {
       return callback(null, true);
     }
-    
+
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -68,11 +68,11 @@ const artistPortalCorsOptions = {
 const generalCorsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = getAllowedOrigins();
-    
+
     if (process.env.NODE_ENV === 'development' && !origin) {
       return callback(null, true);
     }
-    
+
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -97,16 +97,16 @@ const generalCorsOptions = {
 const corsSecurityCheck = (req, res, next) => {
   const origin = req.get('Origin') || req.get('Referer');
   const userAgent = req.get('User-Agent') || 'unknown';
-  
+
   // 의심스러운 요청 패턴 감지
   const suspiciousPatterns = [
     /bot|crawl|spider|scrape/i,
     /python-requests|curl|wget/i,
     /scanner|exploit|hack/i
   ];
-  
+
   const isSuspicious = suspiciousPatterns.some(pattern => pattern.test(userAgent));
-  
+
   if (isSuspicious) {
     logger.warn('Suspicious CORS request detected:', {
       origin,
@@ -115,36 +115,36 @@ const corsSecurityCheck = (req, res, next) => {
       path: req.path,
       method: req.method
     });
-    
+
     // 의심스러운 요청은 차단하지 않지만 로깅
     // 필요시 return res.status(403).json({ error: 'Request blocked' });
   }
-  
+
   // Origin 헤더 검증
   if (origin) {
     try {
       const url = new URL(origin);
-      
+
       // localhost가 아닌 HTTP 요청 차단 (개발 환경 제외)
-      if (process.env.NODE_ENV === 'production' && 
-          url.protocol === 'http:' && 
+      if (process.env.NODE_ENV === 'production' &&
+          url.protocol === 'http:' &&
           !url.hostname.includes('localhost')) {
         logger.warn('Insecure HTTP origin blocked:', { origin, ip: req.ip });
         return res.status(403).json({ error: 'HTTPS required' });
       }
-      
+
     } catch (error) {
       logger.warn('Invalid origin header:', { origin, error: error.message });
     }
   }
-  
+
   next();
 };
 
 // 환경별 CORS 미들웨어 팩토리
 const createCorsMiddleware = (options = {}) => {
   const corsOptions = options.strict ? artistPortalCorsOptions : generalCorsOptions;
-  
+
   return [
     corsSecurityCheck,
     cors(corsOptions)

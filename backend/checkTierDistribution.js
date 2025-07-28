@@ -54,7 +54,7 @@ async function checkTierDistribution() {
       `, [tier.min, tier.max]);
 
       console.log(`전체 작가 수: ${totalResult.rows[0].total}명`);
-      
+
       // APT 프로필이 없는 작가
       const noAptResult = await pool.query(`
         SELECT name, importance_score
@@ -74,7 +74,7 @@ async function checkTierDistribution() {
     }
 
     // 전체 APT 분포
-    console.log('\n' + '='.repeat(80));
+    console.log(`\n${'='.repeat(80)}`);
     console.log('전체 APT 유형 분포:');
     console.log('-'.repeat(60));
 
@@ -103,7 +103,7 @@ async function checkTierDistribution() {
       'SAMC': 5, 'LAMC': 4, 'LAUC': 2, 'LAUF': 2
     };
 
-    console.log('\n' + '='.repeat(80));
+    console.log(`\n${'='.repeat(80)}`);
     console.log('목표 분포와의 차이:');
     console.log('-'.repeat(60));
 

@@ -40,30 +40,30 @@ async function findFamousArtists() {
       ORDER BY fame_score DESC
       LIMIT 30
     `);
-    
+
     console.log('🌟 정보가 풍부한 유명 작가들');
     console.log('=====================================\n');
-    
+
     let famousFound = 0;
     let bioRichFound = 0;
     let metadataFound = 0;
-    
+
     result.rows.forEach((artist, idx) => {
       if (artist.fame_score >= 3000) famousFound++;
       else if (artist.bio_length >= 500) bioRichFound++;
       else if (artist.nationality && artist.era) metadataFound++;
-      
+
       console.log(`${idx + 1}. ${artist.name}`);
       console.log(`   ${artist.nationality || '국적불명'} | ${artist.era || '시대불명'} | ${artist.birth_year || '?'}-${artist.death_year || '?'}`);
       console.log(`   Bio: ${artist.bio_length}자 | 현재: ${artist.current_type || '미분류'}`);
       console.log('');
     });
-    
+
     console.log('\n📊 요약:');
     console.log(`   유명 작가: ${famousFound}명`);
     console.log(`   풍부한 전기: ${bioRichFound}명`);
     console.log(`   메타데이터 있음: ${metadataFound}명`);
-    
+
   } catch (error) {
     console.error('오류:', error);
   } finally {

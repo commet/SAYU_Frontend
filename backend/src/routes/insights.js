@@ -11,7 +11,7 @@ const captureException = (error, context) => {
 router.post('/track-viewing', authenticate, async (req, res, next) => {
   try {
     const { artworkId, ...behaviorData } = req.body;
-    
+
     await BehavioralInsightsService.trackViewingBehavior(
       req.userId,
       artworkId,
@@ -28,7 +28,7 @@ router.post('/track-viewing', authenticate, async (req, res, next) => {
 router.get('/viewing-patterns', authenticate, async (req, res, next) => {
   try {
     const { timeframe = '30d' } = req.query;
-    
+
     const patterns = await BehavioralInsightsService.analyzeViewingPatterns(
       req.userId,
       timeframe
@@ -44,7 +44,7 @@ router.get('/viewing-patterns', authenticate, async (req, res, next) => {
 router.get('/gallery-path/:sessionId', authenticate, async (req, res, next) => {
   try {
     const { sessionId } = req.params;
-    
+
     const pathAnalysis = await BehavioralInsightsService.getGalleryPathAnalysis(
       req.userId,
       sessionId
@@ -60,7 +60,7 @@ router.get('/gallery-path/:sessionId', authenticate, async (req, res, next) => {
 router.get('/emotional-journey', authenticate, async (req, res, next) => {
   try {
     const { timeframe = '30d' } = req.query;
-    
+
     const emotionalJourney = await BehavioralInsightsService.mapEmotionalJourney(
       req.userId,
       timeframe
@@ -101,7 +101,7 @@ router.get('/summary', authenticate, async (req, res, next) => {
       growthMetrics
     });
 
-    res.json({ 
+    res.json({
       summary: {
         patterns,
         emotionalJourney,
@@ -121,7 +121,7 @@ function generatePersonalizedInsights(data) {
   // Viewing pattern insights
   if (data.patterns?.dailyAverages) {
     const avgTime = Object.values(data.patterns.dailyAverages)
-      .reduce((sum, day) => sum + day.avgTimeSpent, 0) / 
+      .reduce((sum, day) => sum + day.avgTimeSpent, 0) /
       Object.keys(data.patterns.dailyAverages).length;
 
     if (avgTime > 120) {

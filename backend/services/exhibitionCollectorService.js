@@ -49,10 +49,10 @@ class ExhibitionCollectorService {
   // Naver Search API collection
   async collectFromNaver() {
     const results = { success: 0, failed: 0, exhibitions: [] };
-    
+
     // Get active venues for searching
     const venues = await Venue.findAll({
-      where: { 
+      where: {
         isActive: true,
         country: 'KR'
       },
@@ -62,7 +62,7 @@ class ExhibitionCollectorService {
     for (const venue of venues) {
       try {
         const exhibitions = await this.searchNaverForVenue(venue);
-        
+
         for (const exhibitionData of exhibitions) {
           try {
             const exhibition = await this.createOrUpdateExhibition(exhibitionData, venue);
@@ -73,7 +73,7 @@ class ExhibitionCollectorService {
             results.failed++;
           }
         }
-        
+
         // Respect API rate limits
         await this.delay(100);
       } catch (error) {
@@ -136,7 +136,7 @@ class ExhibitionCollectorService {
       const response = await axios.get('https://openapi.naver.com/v1/search/blog', {
         headers: this.naverHeaders,
         params: {
-          query: query,
+          query,
           display: 20,
           sort: 'date'
         }
@@ -154,7 +154,7 @@ class ExhibitionCollectorService {
       const response = await axios.get('https://openapi.naver.com/v1/search/news', {
         headers: this.naverHeaders,
         params: {
-          query: query,
+          query,
           display: 10,
           sort: 'date'
         }
@@ -180,17 +180,17 @@ class ExhibitionCollectorService {
     searchResults.items?.forEach(item => {
       try {
         const content = this.stripHtml(item.description || item.title);
-        
+
         // Extract exhibition title
         const titleMatch = content.match(patterns.title);
         const title = titleMatch ? (titleMatch[1] || titleMatch[2] || titleMatch[3] || titleMatch[4]) : null;
-        
+
         if (!title) return;
 
         // Extract dates
         const dateMatch = content.match(patterns.dateRange);
         let startDate = null, endDate = null;
-        
+
         if (dateMatch) {
           startDate = new Date(dateMatch[1], dateMatch[2] - 1, dateMatch[3]);
           endDate = new Date(dateMatch[4], dateMatch[5] - 1, dateMatch[6]);
@@ -206,8 +206,8 @@ class ExhibitionCollectorService {
 
         // Extract admission fee
         const admissionMatch = content.match(patterns.admission);
-        const admissionFee = admissionMatch ? 
-          (admissionMatch[1].includes('무료') || admissionMatch[1].toLowerCase() === 'free' ? 0 : 
+        const admissionFee = admissionMatch ?
+          (admissionMatch[1].includes('무료') || admissionMatch[1].toLowerCase() === 'free' ? 0 :
            parseInt(admissionMatch[1].replace(/[^\d]/g, ''))) : null;
 
         exhibitions.push({
@@ -294,10 +294,10 @@ class ExhibitionCollectorService {
   // Collect international exhibitions from art media sites
   async collectInternationalExhibitions() {
     const results = { success: 0, failed: 0, exhibitions: [] };
-    
+
     // This would be implemented with puppeteer or playwright
     // for scraping international art media sites
-    
+
     return results;
   }
 }

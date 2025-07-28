@@ -38,32 +38,32 @@ router.get('/recommendations/artworks/:aptType',
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    
+
     const startTime = Date.now();
     const { aptType } = req.params;
     const { limit = 20, offset = 0, context = 'general' } = req.query;
-    
+
     try {
       // 성능 모니터링
       const queryStart = Date.now();
-      
+
       const recommendations = await aptCache.getArtworkRecommendations(aptType, {
         limit: parseInt(limit),
         offset: parseInt(offset),
         context,
         userId: req.user.id
       });
-      
+
       // 쿼리 시간 추적
       monitor.trackQuery('artwork_recommendations', queryStart, {
         aptType,
         context,
         limit
       });
-      
+
       // 응답 시간 추적
       const responseTime = Date.now() - startTime;
-      
+
       res.json({
         success: true,
         data: {
@@ -100,28 +100,28 @@ router.get('/recommendations/exhibitions/:aptType',
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    
+
     const startTime = Date.now();
     const { aptType } = req.params;
     const { limit = 10, location = 'all', dateRange = 'current' } = req.query;
-    
+
     try {
       const queryStart = Date.now();
-      
+
       const exhibitions = await aptCache.getExhibitionRecommendations(aptType, {
         limit: parseInt(limit),
         location,
         dateRange
       });
-      
+
       monitor.trackQuery('exhibition_recommendations', queryStart, {
         aptType,
         location,
         dateRange
       });
-      
+
       const responseTime = Date.now() - startTime;
-      
+
       res.json({
         success: true,
         data: {
@@ -155,23 +155,23 @@ router.get('/trending/:aptType',
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    
+
     const startTime = Date.now();
     const { aptType } = req.params;
     const { period = 'daily' } = req.query;
-    
+
     try {
       const queryStart = Date.now();
-      
+
       const trending = await aptCache.getTrendingForAPT(aptType, period);
-      
+
       monitor.trackQuery('trending_content', queryStart, {
         aptType,
         period
       });
-      
+
       const responseTime = Date.now() - startTime;
-      
+
       res.json({
         success: true,
         data: {
@@ -204,11 +204,11 @@ router.get('/cache/stats',
         error: '관리자 권한이 필요합니다.'
       });
     }
-    
+
     try {
       const cacheStats = await aptCache.getCacheStats();
       const performanceReport = monitor.generateReport();
-      
+
       res.json({
         success: true,
         data: {
@@ -236,7 +236,7 @@ router.post('/cache/warmup',
         error: '관리자 권한이 필요합니다.'
       });
     }
-    
+
     try {
       // 백그라운드에서 워밍업 실행
       setImmediate(async () => {
@@ -244,7 +244,7 @@ router.post('/cache/warmup',
         await aptCache.warmupPopularContent();
         console.log('✅ 캐시 워밍업 완료');
       });
-      
+
       res.json({
         success: true,
         message: '캐시 워밍업이 시작되었습니다.'
@@ -270,12 +270,12 @@ router.delete('/cache/:aptType',
         error: '관리자 권한이 필요합니다.'
       });
     }
-    
+
     const { aptType } = req.params;
-    
+
     try {
       await aptCache.invalidateAPTCache(aptType);
-      
+
       res.json({
         success: true,
         message: `${aptType} 캐시가 무효화되었습니다.`
@@ -295,21 +295,21 @@ router.post('/user/vector/update',
   authenticateToken,
   asyncHandler(async (req, res) => {
     const { actions } = req.body;
-    
+
     if (!actions || !Array.isArray(actions)) {
       return res.status(400).json({
         success: false,
         error: 'actions 배열이 필요합니다.'
       });
     }
-    
+
     try {
       const startTime = Date.now();
-      
+
       const updatedVector = await aptCache.updateUserVector(req.user.id, actions);
-      
+
       monitor.trackVectorOperation('user_vector_update', updatedVector.length, startTime);
-      
+
       res.json({
         success: true,
         message: '사용자 벡터가 업데이트되었습니다.',
@@ -338,10 +338,10 @@ router.get('/performance/dashboard',
         error: '관리자 권한이 필요합니다.'
       });
     }
-    
+
     try {
       const dashboardData = await monitor.getDashboardData();
-      
+
       res.json({
         success: true,
         data: dashboardData
@@ -366,19 +366,19 @@ router.get('/performance/endpoint/:path',
         error: '관리자 권한이 필요합니다.'
       });
     }
-    
+
     const { path } = req.params;
-    
+
     try {
       const analysis = monitor.analyzeEndpoint(path);
-      
+
       if (!analysis) {
         return res.status(404).json({
           success: false,
           error: '해당 엔드포인트에 대한 데이터가 없습니다.'
         });
       }
-      
+
       res.json({
         success: true,
         data: analysis
@@ -398,12 +398,12 @@ router.get('/health',
   asyncHandler(async (req, res) => {
     const report = monitor.generateReport();
     const cacheStats = await aptCache.getCacheStats();
-    
-    const isHealthy = 
+
+    const isHealthy =
       report.summary.avgCpuUsage < 80 &&
       report.summary.avgMemoryUsage < 80 &&
       parseFloat(cacheStats.hitRate?.artwork || 0) > 50;
-    
+
     res.status(isHealthy ? 200 : 503).json({
       status: isHealthy ? 'healthy' : 'unhealthy',
       timestamp: new Date(),
@@ -420,7 +420,7 @@ router.get('/health',
         api: {
           totalRequests: report.summary.totalRequests,
           avgLatency: Object.values(report.apiEndpoints)
-            .reduce((sum, endpoint) => sum + endpoint.avgTime, 0) / 
+            .reduce((sum, endpoint) => sum + endpoint.avgTime, 0) /
             Object.keys(report.apiEndpoints).length || 0
         }
       }

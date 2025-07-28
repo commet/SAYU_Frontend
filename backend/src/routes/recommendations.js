@@ -8,16 +8,16 @@ router.use(authMiddleware);
 // Get personalized artwork recommendations
 router.get('/', async (req, res) => {
   try {
-    const userId = req.userId;
+    const { userId } = req;
     const profile = await ProfileModel.findByUserId(userId);
-    
+
     if (!profile) {
       return res.status(404).json({ error: 'Profile not found' });
     }
 
     // Parse artwork scores and preferences
-    const artworkScores = typeof profile.artwork_scores === 'string' 
-      ? JSON.parse(profile.artwork_scores) 
+    const artworkScores = typeof profile.artwork_scores === 'string'
+      ? JSON.parse(profile.artwork_scores)
       : profile.artwork_scores;
 
     // Generate recommendations based on profile
@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
       userPreferences: {
         dominantStyle: profile.dominant_artwork_style,
         topTags: mockPreferences.topTags,
-        artworkScores: artworkScores
+        artworkScores
       },
       generatePrompt: ArtworkScoringService.generateArtworkPrompt(mockPreferences.topTags)
     });
@@ -56,9 +56,9 @@ router.get('/', async (req, res) => {
 // Generate new artwork based on user preferences
 router.post('/generate', async (req, res) => {
   try {
-    const userId = req.userId;
+    const { userId } = req;
     const { style, tags } = req.body;
-    
+
     const profile = await ProfileModel.findByUserId(userId);
     if (!profile) {
       return res.status(404).json({ error: 'Profile not found' });
@@ -67,10 +67,10 @@ router.post('/generate', async (req, res) => {
     // Use provided tags or fall back to user's top preferences
     let targetTags = tags;
     if (!targetTags) {
-      const artworkScores = typeof profile.artwork_scores === 'string' 
-        ? JSON.parse(profile.artwork_scores) 
+      const artworkScores = typeof profile.artwork_scores === 'string'
+        ? JSON.parse(profile.artwork_scores)
         : profile.artwork_scores;
-      
+
       targetTags = Object.entries(artworkScores)
         .sort(([,a], [,b]) => b - a)
         .slice(0, 2)

@@ -18,14 +18,14 @@ class ExhibitionHybridService {
       ) VALUES ($1, $2, $3, $4, NOW())
       RETURNING id
     `;
-    
+
     const values = [
       crawlData.source,
       crawlData.venueName,
       crawlData.rawContent,
       JSON.stringify(crawlData.parsed)
     ];
-    
+
     const result = await this.railway.query(query, values);
     return result.rows[0];
   }
@@ -96,7 +96,7 @@ class ExhibitionHybridService {
         $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13
       ) RETURNING *
     `;
-    
+
     const values = [
       exhibitionData.title,
       exhibitionData.venueId,
@@ -221,7 +221,7 @@ class ExhibitionHybridService {
             ...row.parsed_data,
             rawDataId: row.id
           };
-          
+
           await this.processAndMoveToSupabase(exhibitionData);
           console.log(`Synced exhibition: ${exhibitionData.title}`);
         } catch (error) {
@@ -248,7 +248,7 @@ class ExhibitionHybridService {
       WHERE processing_status = 'completed' 
       AND created_at < NOW() - INTERVAL '7 days'
     `);
-    
+
     console.log(`Cleaned up ${result.rowCount} old records`);
   }
 
@@ -259,7 +259,7 @@ class ExhibitionHybridService {
     const now = new Date();
     const start = new Date(startDate);
     const end = new Date(endDate);
-    
+
     if (now < start) return 'upcoming';
     if (now > end) return 'ended';
     return 'ongoing';

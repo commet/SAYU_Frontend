@@ -9,7 +9,7 @@ const OpenAI = require('openai');
 class IntelligentCurationEngine {
   constructor() {
     this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-    
+
     // 16가지 성격 유형별 예술 선호도 매핑
     this.personalityArtMapping = {
       // 분석가 그룹 (NT)
@@ -37,7 +37,7 @@ class IntelligentCurationEngine {
         avoidTopics: ['conservative', 'single_narrative'],
         matchThreshold: 0.8
       },
-      
+
       // 외교관 그룹 (NF)
       'advocate': {
         preferredStyles: ['symbolic', 'spiritual', 'expressive'],
@@ -63,7 +63,7 @@ class IntelligentCurationEngine {
         avoidTopics: ['restrictive', 'traditional'],
         matchThreshold: 0.75
       },
-      
+
       // 관리자 그룹 (SJ)
       'logistician': {
         preferredStyles: ['classical', 'well_crafted', 'documented'],
@@ -89,7 +89,7 @@ class IntelligentCurationEngine {
         avoidTopics: ['exclusive', 'difficult'],
         matchThreshold: 0.8
       },
-      
+
       // 탐험가 그룹 (SP)
       'virtuoso': {
         preferredStyles: ['craftsmanship', 'technical', 'hands_on'],
@@ -116,7 +116,7 @@ class IntelligentCurationEngine {
         matchThreshold: 0.8
       }
     };
-    
+
     // 감정 상태별 예술 매칭
     this.emotionArtMapping = {
       'stress': ['calming', 'nature', 'meditation', 'gentle'],
@@ -139,22 +139,22 @@ class IntelligentCurationEngine {
     try {
       // 1. 사용자 프로필 및 상태 분석
       const userContext = await this.analyzeUserContext(userId);
-      
+
       // 2. 후보 전시 필터링
       const candidateExhibitions = await this.getCandidateExhibitions(userContext, options);
-      
+
       // 3. AI 기반 매칭 스코어 계산
       const scoredExhibitions = await this.calculateMatchingScores(candidateExhibitions, userContext);
-      
+
       // 4. 다양성 및 균형 보장
       const balancedRecommendations = this.ensureRecommendationDiversity(scoredExhibitions, userContext);
-      
+
       // 5. 개인화된 설명 생성
       const finalRecommendations = await this.generatePersonalizedDescriptions(balancedRecommendations, userContext);
-      
+
       // 6. 추천 로그 저장
       await this.logRecommendation(userId, finalRecommendations);
-      
+
       return {
         success: true,
         recommendations: finalRecommendations,
@@ -169,7 +169,7 @@ class IntelligentCurationEngine {
           generatedAt: new Date()
         }
       };
-      
+
     } catch (error) {
       logger.error('Curation engine error:', error);
       return {
@@ -190,13 +190,13 @@ class IntelligentCurationEngine {
              last_emotion_state, visit_history
       FROM users WHERE id = $1
     `, [userId]);
-    
+
     if (userProfile.rows.length === 0) {
       throw new Error('User not found');
     }
-    
+
     const user = userProfile.rows[0];
-    
+
     // 최근 활동 분석
     const recentActivity = await pool.query(`
       SELECT exhibition_id, liked, visited, rating, review_sentiment
@@ -204,13 +204,13 @@ class IntelligentCurationEngine {
       WHERE user_id = $1 AND created_at > NOW() - INTERVAL '30 days'
       ORDER BY created_at DESC LIMIT 20
     `, [userId]);
-    
+
     // 현재 감정 상태 (최근 감정 로그 또는 기본값)
     const currentEmotion = await this.getCurrentEmotionalState(userId);
-    
+
     // 위치 기반 접근 가능한 지역
     const accessibleRegions = this.getAccessibleRegions(user.location);
-    
+
     return {
       personality: user.personality_type,
       personalityProfile: this.personalityArtMapping[user.personality_type],
@@ -233,7 +233,7 @@ class IntelligentCurationEngine {
       maxDistance = 50, // km
       statusFilter = ['ongoing', 'upcoming']
     } = options;
-    
+
     let query = `
       SELECT e.*, v.name as venue_name, v.city as venue_city, v.type as venue_type,
              v.tier as venue_tier, v.latitude, v.longitude,
@@ -248,23 +248,23 @@ class IntelligentCurationEngine {
       LEFT JOIN tags t ON et.tag_id = t.id
       WHERE e.status = ANY($1)
     `;
-    
+
     const queryParams = [statusFilter];
     let paramIndex = 2;
-    
+
     // 지역 필터
     if (userContext.accessibleRegions.length > 0) {
       query += ` AND (v.city = ANY($${paramIndex}) OR e.is_online = true)`;
       queryParams.push(userContext.accessibleRegions);
       paramIndex++;
     }
-    
+
     // 사용자가 이미 본 전시 제외
     if (userContext.visitHistory.length > 0) {
       query += ` AND e.id NOT IN (${userContext.visitHistory.map(() => `$${paramIndex++}`).join(',')})`;
       queryParams.push(...userContext.visitHistory);
     }
-    
+
     query += `
       GROUP BY e.id, v.id
       ORDER BY 
@@ -273,9 +273,9 @@ class IntelligentCurationEngine {
         e.created_at DESC
       LIMIT $${paramIndex}
     `;
-    
+
     queryParams.push(limit);
-    
+
     const result = await pool.query(query, queryParams);
     return result.rows;
   }
@@ -285,7 +285,7 @@ class IntelligentCurationEngine {
    */
   async calculateMatchingScores(exhibitions, userContext) {
     const scoredExhibitions = [];
-    
+
     for (const exhibition of exhibitions) {
       const scores = {
         personality: this.calculatePersonalityMatch(exhibition, userContext),
@@ -295,23 +295,23 @@ class IntelligentCurationEngine {
         accessibility: this.calculateAccessibilityScore(exhibition, userContext),
         freshness: this.calculateFreshnessScore(exhibition, userContext)
       };
-      
+
       // 가중 평균으로 최종 스코어 계산
-      const totalScore = 
+      const totalScore =
         scores.personality * 0.25 +
         scores.emotion * 0.25 +
         scores.preference * 0.20 +
         scores.diversity * 0.10 +
         scores.accessibility * 0.10 +
         scores.freshness * 0.10;
-      
+
       scoredExhibitions.push({
         ...exhibition,
         matchScore: totalScore,
         scoreBreakdown: scores
       });
     }
-    
+
     // 스코어 순으로 정렬
     return scoredExhibitions.sort((a, b) => b.matchScore - a.matchScore);
   }
@@ -322,19 +322,19 @@ class IntelligentCurationEngine {
   calculatePersonalityMatch(exhibition, userContext) {
     const { personalityProfile } = userContext;
     if (!personalityProfile) return 0.5;
-    
+
     let score = 0;
     let factors = 0;
-    
+
     // 전시 스타일 매칭
     if (exhibition.style_tags) {
-      const matchingStyles = exhibition.style_tags.filter(style => 
+      const matchingStyles = exhibition.style_tags.filter(style =>
         personalityProfile.preferredStyles.includes(style)
       );
       score += (matchingStyles.length / personalityProfile.preferredStyles.length) * 0.4;
       factors += 0.4;
     }
-    
+
     // 감정적 공명 매칭
     if (exhibition.emotion_profile) {
       const emotionMatch = personalityProfile.emotionalResonance.some(emotion =>
@@ -343,7 +343,7 @@ class IntelligentCurationEngine {
       score += emotionMatch ? 0.3 : 0;
       factors += 0.3;
     }
-    
+
     // 회피 토픽 확인
     if (exhibition.topics) {
       const hasAvoidTopic = exhibition.topics.some(topic =>
@@ -352,7 +352,7 @@ class IntelligentCurationEngine {
       score += hasAvoidTopic ? 0 : 0.3;
       factors += 0.3;
     }
-    
+
     return factors > 0 ? score / factors : 0.5;
   }
 
@@ -362,16 +362,16 @@ class IntelligentCurationEngine {
   calculateEmotionalMatch(exhibition, userContext) {
     const { currentMood } = userContext;
     if (!currentMood || !this.emotionArtMapping[currentMood]) return 0.5;
-    
+
     const recommendedTypes = this.emotionArtMapping[currentMood];
-    
+
     if (exhibition.emotion_profile) {
       const matches = exhibition.emotion_profile.filter(emotion =>
         recommendedTypes.includes(emotion)
       );
       return matches.length / recommendedTypes.length;
     }
-    
+
     return 0.5;
   }
 
@@ -383,29 +383,29 @@ class IntelligentCurationEngine {
     const recommendations = [];
     const usedVenues = new Set();
     const usedStyles = new Set();
-    
+
     for (const exhibition of scoredExhibitions) {
       if (recommendations.length >= maxRecommendations) break;
-      
+
       // 다양성 체크
       const venueId = exhibition.venue_id;
       const style = exhibition.primary_style;
-      
+
       // 같은 미술관에서 너무 많이 추천하지 않기
       const venueCount = recommendations.filter(r => r.venue_id === venueId).length;
       if (venueCount >= 2) continue;
-      
+
       // 스타일 다양성 보장
       if (usedStyles.has(style) && usedStyles.size < 5) {
         // 이미 사용된 스타일이지만 아직 다양성이 부족한 경우 스킵
         continue;
       }
-      
+
       recommendations.push(exhibition);
       usedVenues.add(venueId);
       if (style) usedStyles.add(style);
     }
-    
+
     return recommendations;
   }
 
@@ -414,24 +414,24 @@ class IntelligentCurationEngine {
    */
   async generatePersonalizedDescriptions(exhibitions, userContext) {
     const results = [];
-    
+
     for (const exhibition of exhibitions) {
       try {
         const personalizedDescription = await this.generateCuratorNote(exhibition, userContext);
-        
+
         results.push({
           ...exhibition,
           curatorNote: personalizedDescription,
           recommendationReason: this.generateRecommendationReason(exhibition, userContext),
           personalizedHighlights: this.extractPersonalizedHighlights(exhibition, userContext)
         });
-        
+
         // API 호출 제한
         await new Promise(resolve => setTimeout(resolve, 500));
-        
+
       } catch (error) {
         logger.error(`Failed to generate description for exhibition ${exhibition.id}:`, error);
-        
+
         // 기본 설명 사용
         results.push({
           ...exhibition,
@@ -441,7 +441,7 @@ class IntelligentCurationEngine {
         });
       }
     }
-    
+
     return results;
   }
 
@@ -467,8 +467,8 @@ class IntelligentCurationEngine {
 길이: 2-3문장`;
 
     const response = await this.openai.chat.completions.create({
-      model: "gpt-4",
-      messages: [{ role: "user", content: prompt }],
+      model: 'gpt-4',
+      messages: [{ role: 'user', content: prompt }],
       max_tokens: 200,
       temperature: 0.7
     });
@@ -483,12 +483,12 @@ class IntelligentCurationEngine {
     const personalityTraits = {
       'architect': '논리적이고 체계적인',
       'advocate': '의미있고 깊이 있는',
-      'entertainer': '즐겁고 역동적인',
+      'entertainer': '즐겁고 역동적인'
       // ... 다른 성격 유형들
     };
-    
+
     const trait = personalityTraits[userContext.personality] || '흥미로운';
-    
+
     return `${trait} 성향의 당신에게 특별히 추천하는 ${exhibition.title} 전시입니다. ${exhibition.venue_name}에서 만나보세요.`;
   }
 
@@ -506,12 +506,12 @@ class IntelligentCurationEngine {
         })),
         created_at: new Date()
       };
-      
+
       await pool.query(
         'INSERT INTO recommendation_logs (user_id, recommendations, created_at) VALUES ($1, $2, $3)',
         [userId, JSON.stringify(logData.recommendations), logData.created_at]
       );
-      
+
     } catch (error) {
       logger.error('Failed to log recommendation:', error);
     }
@@ -528,7 +528,7 @@ class IntelligentCurationEngine {
       ORDER BY created_at DESC 
       LIMIT 1
     `, [userId]);
-    
+
     return recentEmotion.rows[0]?.emotion_state || 'curious';
   }
 
@@ -544,7 +544,7 @@ class IntelligentCurationEngine {
       '광주': ['광주', '전남'],
       '대전': ['대전', '충남', '충북']
     };
-    
+
     return cityGroups[userLocation] || [userLocation];
   }
 
@@ -560,7 +560,7 @@ class IntelligentCurationEngine {
       ORDER BY e.views DESC
       LIMIT 5
     `;
-    
+
     const result = await pool.query(query);
     return result.rows.map(ex => ({
       ...ex,
@@ -593,25 +593,25 @@ class IntelligentCurationEngine {
 
   generateRecommendationReason(exhibition, userContext) {
     const reasons = [];
-    
+
     if (exhibition.scoreBreakdown.personality > 0.8) {
       reasons.push('당신의 성격과 완벽하게 맞습니다');
     }
-    
+
     if (exhibition.scoreBreakdown.emotion > 0.7) {
       reasons.push('현재 감정 상태에 도움이 될 것 같습니다');
     }
-    
+
     if (exhibition.venue_tier === 1) {
       reasons.push('유명한 미술관의 특별 전시입니다');
     }
-    
+
     return reasons.join(', ') || '당신에게 추천하는 전시입니다';
   }
 
   extractPersonalizedHighlights(exhibition, userContext) {
     const highlights = [];
-    
+
     // 성격 기반 하이라이트
     const personalityProfile = this.personalityArtMapping[userContext.personality];
     if (personalityProfile) {
@@ -621,16 +621,16 @@ class IntelligentCurationEngine {
         }
       });
     }
-    
+
     // 기본 하이라이트
     if (exhibition.artists?.length > 0) {
       highlights.push(`${exhibition.artists[0]} 작가`);
     }
-    
+
     if (exhibition.venue_tier === 1) {
       highlights.push('프리미엄 미술관');
     }
-    
+
     return highlights.slice(0, 3); // 최대 3개
   }
 }

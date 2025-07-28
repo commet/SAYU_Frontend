@@ -6,13 +6,13 @@ const rateLimit = require('../middleware/rateLimiter');
 // ==================== 기존 매칭 시스템 (레거시) ====================
 
 // Get compatible users based on purpose
-router.get('/compatible', 
+router.get('/compatible',
   authMiddleware,
   matchingController.getCompatibleUsers
 );
 
 // Get users by specific purpose
-router.get('/purpose/:purpose', 
+router.get('/purpose/:purpose',
   authMiddleware,
   matchingController.getUsersByPurpose
 );

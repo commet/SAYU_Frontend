@@ -121,7 +121,7 @@ class ExhibitionDataCollectorService {
       try {
         const exhibitions = await this.collectFromSource(source);
         const imported = await this.importExhibitions(exhibitions, source.name);
-        
+
         results.collected += imported.success;
         results.failed += imported.failed;
         results.sources.push({
@@ -185,7 +185,7 @@ class ExhibitionDataCollectorService {
   // 단일 전시 임포트
   async importSingleExhibition(exhibitionData, sourceName) {
     const client = await pool.connect();
-    
+
     try {
       await client.query('BEGIN');
 
@@ -201,7 +201,7 @@ class ExhibitionDataCollectorService {
       }
 
       // 장소 정보 찾기 또는 생성
-      let venue = await client.query(
+      const venue = await client.query(
         'SELECT id FROM venues WHERE name = $1',
         [exhibitionData.venue_name]
       );
@@ -228,7 +228,7 @@ class ExhibitionDataCollectorService {
       const now = new Date();
       const startDate = new Date(exhibitionData.start_date);
       const endDate = new Date(exhibitionData.end_date);
-      
+
       let status;
       if (now < startDate) {
         status = 'upcoming';
@@ -280,7 +280,7 @@ class ExhibitionDataCollectorService {
       if (exhibitionData.artists && Array.isArray(exhibitionData.artists)) {
         for (const artistName of exhibitionData.artists) {
           // 작가 찾기 또는 생성
-          let artist = await client.query(
+          const artist = await client.query(
             'SELECT id FROM artists WHERE name = $1',
             [artistName]
           );
@@ -307,7 +307,7 @@ class ExhibitionDataCollectorService {
       }
 
       await client.query('COMMIT');
-      
+
       log.info(`Successfully imported exhibition: ${exhibitionData.title}`);
       return { success: true, exhibitionId };
 
@@ -322,7 +322,7 @@ class ExhibitionDataCollectorService {
   // 전시 상태 업데이트 (진행중 -> 종료 등)
   async updateExhibitionStatuses() {
     const now = new Date();
-    
+
     try {
       // 상태 업데이트
       const updateResults = await pool.query(`

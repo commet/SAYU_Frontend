@@ -4,7 +4,7 @@ const { Client } = require('pg');
 async function testJourneySystem() {
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.DATABASE_URL?.includes('railway') 
+    ssl: process.env.DATABASE_URL?.includes('railway')
       ? { rejectUnauthorized: false }
       : false
   });
@@ -25,10 +25,10 @@ async function testJourneySystem() {
 
     // Initialize journey for test user
     console.log('\n1️⃣ Initializing 7-day journey...');
-    
+
     // Clear existing journey for clean test
     await client.query('DELETE FROM journey_nudges WHERE user_id = $1', [testUser.id]);
-    
+
     // Initialize journey manually (simulating the service)
     const insertQuery = `
       INSERT INTO journey_nudges (user_id, day_number, nudge_type, title, message, cta_text, cta_link)
@@ -44,7 +44,7 @@ async function testJourneySystem() {
       WHERE jt.is_active = true
       ORDER BY jt.day_number
     `;
-    
+
     await client.query(insertQuery, [testUser.id]);
     console.log('✅ Journey initialized for user');
 
@@ -83,7 +83,7 @@ async function testJourneySystem() {
         day: nudge.day_number,
         type: nudge.nudge_type,
         title: nudge.title,
-        message: nudge.message.substring(0, 50) + '...',
+        message: `${nudge.message.substring(0, 50)}...`,
         cta: nudge.cta_text
       });
     } else {
@@ -98,7 +98,7 @@ async function testJourneySystem() {
       WHERE user_id = $1 AND day_number = 1
       RETURNING day_number, viewed_at
     `, [testUser.id]);
-    
+
     if (viewResult.rows.length > 0) {
       console.log('✅ Day 1 nudge marked as viewed:', viewResult.rows[0].viewed_at);
     }
@@ -110,7 +110,7 @@ async function testJourneySystem() {
       WHERE user_id = $1 AND day_number = 2
       RETURNING day_number, sent_at
     `, [testUser.id]);
-    
+
     if (nextDay.rows.length > 0) {
       console.log('✅ Day 2 nudge scheduled for:', nextDay.rows[0].sent_at);
     }

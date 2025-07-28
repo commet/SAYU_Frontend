@@ -61,7 +61,7 @@ class AIRecommendationService {
 
       // 사용자 프로필 정보 수집
       const userProfile = await this.getUserProfile(userId);
-      
+
       // 하이브리드 추천 알고리즘 실행
       const contentBased = await this.getContentBasedRecommendations(userProfile, limit / 3);
       const collaborative = await this.getCollaborativeRecommendations(userId, limit / 3);
@@ -182,24 +182,24 @@ class AIRecommendationService {
         threshold: 0.7,
         limit: 20
       });
-      
+
       // Fall back to traditional method if vector search fails
-      const similarUsers = vectorUsers.length > 0 
-        ? vectorUsers 
+      const similarUsers = vectorUsers.length > 0
+        ? vectorUsers
         : await this.findSimilarUsers(userId);
-      
+
       log.info('Collaborative filtering using vectors', {
         userId,
         vectorUsersFound: vectorUsers.length,
         totalSimilarUsers: similarUsers.length,
         method: vectorUsers.length > 0 ? 'vector_similarity' : 'traditional'
       });
-    
-    if (similarUsers.length === 0) {
-      return [];
-    }
 
-    const query = `
+      if (similarUsers.length === 0) {
+        return [];
+      }
+
+      const query = `
       SELECT DISTINCT e.*, 
              i.name as institution_name,
              i.city, i.country,
@@ -220,21 +220,21 @@ class AIRecommendationService {
       LIMIT $3
     `;
 
-    // Extract user IDs based on the data structure (vector vs traditional)
-    const userIds = similarUsers.map(u => u.userId || u.user_id);
-    
-    const result = await db.query(query, [
-      userIds,
-      userId,
-      limit
-    ]);
+      // Extract user IDs based on the data structure (vector vs traditional)
+      const userIds = similarUsers.map(u => u.userId || u.user_id);
 
-    return result.rows.map(row => ({
-      ...row,
-      recommendation_type: 'collaborative',
-      recommendation_reason: `비슷한 취향의 ${row.similar_user_visits}명이 방문한 전시예요`
-    }));
-    
+      const result = await db.query(query, [
+        userIds,
+        userId,
+        limit
+      ]);
+
+      return result.rows.map(row => ({
+        ...row,
+        recommendation_type: 'collaborative',
+        recommendation_reason: `비슷한 취향의 ${row.similar_user_visits}명이 방문한 전시예요`
+      }));
+
     } catch (error) {
       log.error('Collaborative recommendations failed', { userId, error: error.message });
       return [];
@@ -244,20 +244,20 @@ class AIRecommendationService {
   // Semantic Search (New Vector-Powered Feature)
   async getSemanticRecommendations(query, userId, options = {}) {
     const { limit = 10, threshold = 0.7 } = options;
-    
+
     try {
       // Use vector similarity service for semantic search
       const semanticResults = await vectorSimilarityService.semanticSearch(query, {
         limit,
         threshold
       });
-      
+
       log.info('Semantic recommendations generated', {
         userId,
         query: query.substring(0, 50),
         artworkResults: semanticResults.results.artworks.length
       });
-      
+
       return semanticResults.results.artworks.map(artwork => ({
         ...artwork,
         recommendation_type: 'semantic',
@@ -265,7 +265,7 @@ class AIRecommendationService {
         similarity_score: artwork.similarityScore,
         relevance: artwork.relevanceCategory
       }));
-      
+
     } catch (error) {
       log.error('Semantic recommendations failed', error, { userId, query });
       return [];
@@ -428,7 +428,7 @@ class AIRecommendationService {
   // 최종 점수 계산
   calculateFinalScore(recommendation, userProfile) {
     let score = recommendation.relevance_score || 0;
-    
+
     // 사용자 레벨에 따른 난이도 조정
     if (userProfile.level < 10) {
       // 초보자는 접근하기 쉬운 전시 선호
@@ -460,7 +460,7 @@ class AIRecommendationService {
     });
 
     let bonus = 0;
-    
+
     // 장르 다양성
     recommendation.genres?.forEach(genre => {
       if (genreCount[genre] <= 2) bonus += 0.5;
@@ -478,7 +478,7 @@ class AIRecommendationService {
 
     try {
       const userProfile = await this.getUserProfile(userId);
-      
+
       let baseQuery;
       let queryParams;
 
@@ -514,7 +514,7 @@ class AIRecommendationService {
           ORDER BY relevance_score DESC, a.created_at DESC
           LIMIT $3
         `;
-        
+
         const personalityTags = [userProfile.personalityType];
         const moodTags = this.getPersonalityMoodTags(userProfile.personalityType);
         queryParams = [personalityTags, moodTags, limit];
@@ -562,29 +562,29 @@ class AIRecommendationService {
   // 헬퍼 메소드들
   generateContentReason(exhibition, preferences) {
     const reasons = [];
-    
+
     if (exhibition.genres?.some(g => preferences.genres.includes(g))) {
       reasons.push('선호하는 장르');
     }
     if (exhibition.mood_tags?.some(m => preferences.moods.includes(m))) {
       reasons.push('취향에 맞는 분위기');
     }
-    
-    return reasons.length > 0 
+
+    return reasons.length > 0
       ? `${reasons.join(', ')}가 잘 맞는 전시예요`
       : '당신의 성격 유형에 추천하는 전시입니다';
   }
 
   generateKnowledgeReason(exhibition, season) {
     const reasons = [];
-    
+
     if (exhibition.seasonal_tags?.includes(season)) {
       reasons.push(`${season} 시즌에 어울리는`);
     }
     if (!exhibition.ticket_price?.adult) {
       reasons.push('무료 관람 가능한');
     }
-    
+
     return reasons.length > 0
       ? `${reasons.join(', ')} 전시예요`
       : '지금 시기에 추천하는 전시입니다';
@@ -618,7 +618,7 @@ class AIRecommendationService {
       ORDER BY uev.visited_at DESC
       LIMIT $2
     `;
-    
+
     const result = await db.query(query, [userId, limit]);
     return result.rows;
   }

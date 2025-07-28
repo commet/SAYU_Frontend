@@ -26,15 +26,15 @@ class TokenService {
       tokenId: crypto.randomUUID(),
       type: 'refresh'
     };
-    
+
     const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
       expiresIn: this.refreshTokenExpiry,
       issuer: 'sayu-app',
       audience: 'sayu-refresh'
     });
-    
-    const tokenId = payload.tokenId;
-    
+
+    const { tokenId } = payload;
+
     const tokenData = {
       userId,
       tokenId,
@@ -47,7 +47,7 @@ class TokenService {
     // Store in Redis with expiry
     const key = this.getRefreshTokenKey(refreshToken);
     await redisClient().setEx(key, this.refreshTokenRedisExpiry, JSON.stringify(tokenData));
-    
+
     // Also store a reverse lookup for user cleanup
     const userTokensKey = this.getUserTokensKey(userId);
     await redisClient().sAdd(userTokensKey, refreshToken);
@@ -80,30 +80,30 @@ class TokenService {
     } catch (error) {
       throw new Error('Invalid refresh token signature');
     }
-    
+
     // Then check if it exists in Redis (for revocation)
     const key = this.getRefreshTokenKey(refreshToken);
     const tokenDataStr = await redisClient().get(key);
-    
+
     if (!tokenDataStr) {
       throw new Error('Invalid or expired refresh token');
     }
 
     const tokenData = JSON.parse(tokenDataStr);
-    
+
     // Verify token data matches JWT payload
     if (tokenData.userId !== decoded.userId || tokenData.tokenId !== decoded.tokenId) {
       throw new Error('Token data mismatch');
     }
-    
+
     // Update last used timestamp and metadata
     tokenData.lastUsed = Date.now();
     tokenData.userAgent = userAgent;
     tokenData.ipAddress = ipAddress;
-    
+
     // Update in Redis
     await redisClient().setEx(key, this.refreshTokenRedisExpiry, JSON.stringify(tokenData));
-    
+
     return tokenData;
   }
 
@@ -111,20 +111,20 @@ class TokenService {
   async refreshTokens(refreshToken, userPayload, userAgent, ipAddress) {
     // Verify the refresh token
     const tokenData = await this.verifyRefreshToken(refreshToken, userAgent, ipAddress);
-    
+
     if (tokenData.userId !== userPayload.userId) {
       throw new Error('Token user mismatch');
     }
 
     // Generate new access token
     const newAccessToken = this.generateAccessToken(userPayload);
-    
+
     // Optionally rotate refresh token for enhanced security
     let newRefreshToken = refreshToken;
     if (this.shouldRotateRefreshToken(tokenData)) {
       // Invalidate old refresh token
       await this.revokeRefreshToken(refreshToken);
-      
+
       // Generate new refresh token
       const { refreshToken: rotatedToken } = await this.generateRefreshToken(userPayload.userId);
       newRefreshToken = rotatedToken;
@@ -142,7 +142,7 @@ class TokenService {
     // Always rotate refresh tokens for maximum security
     // This prevents token replay attacks and session hijacking
     return true;
-    
+
     // Alternative: Rotate after each use or time-based
     // const ageThreshold = 24 * 60 * 60 * 1000; // 1 day (reduced from 3 days)
     // const age = Date.now() - tokenData.createdAt;
@@ -153,15 +153,15 @@ class TokenService {
   async revokeRefreshToken(refreshToken) {
     const key = this.getRefreshTokenKey(refreshToken);
     const tokenDataStr = await redisClient().get(key);
-    
+
     if (tokenDataStr) {
       const tokenData = JSON.parse(tokenDataStr);
-      
+
       // Remove from user's token set
       const userTokensKey = this.getUserTokensKey(tokenData.userId);
       await redisClient().sRem(userTokensKey, refreshToken);
     }
-    
+
     // Delete the token
     await redisClient().del(key);
   }
@@ -170,14 +170,14 @@ class TokenService {
   async revokeAllUserTokens(userId) {
     const userTokensKey = this.getUserTokensKey(userId);
     const userTokens = await redisClient().sMembers(userTokensKey);
-    
+
     if (userTokens.length > 0) {
       // Delete all refresh tokens
-      const deletePromises = userTokens.map(token => 
+      const deletePromises = userTokens.map(token =>
         redisClient().del(this.getRefreshTokenKey(token))
       );
       await Promise.all(deletePromises);
-      
+
       // Clear the user tokens set
       await redisClient().del(userTokensKey);
     }
@@ -187,12 +187,12 @@ class TokenService {
   async getUserSessions(userId) {
     const userTokensKey = this.getUserTokensKey(userId);
     const userTokens = await redisClient().sMembers(userTokensKey);
-    
+
     const sessions = [];
     for (const token of userTokens) {
       const key = this.getRefreshTokenKey(token);
       const tokenDataStr = await redisClient().get(key);
-      
+
       if (tokenDataStr) {
         const tokenData = JSON.parse(tokenDataStr);
         sessions.push({
@@ -205,7 +205,7 @@ class TokenService {
         });
       }
     }
-    
+
     return sessions.sort((a, b) => b.lastUsed - a.lastUsed);
   }
 
@@ -213,11 +213,11 @@ class TokenService {
   async revokeSession(userId, tokenId) {
     const userTokensKey = this.getUserTokensKey(userId);
     const userTokens = await redisClient().sMembers(userTokensKey);
-    
+
     for (const token of userTokens) {
       const key = this.getRefreshTokenKey(token);
       const tokenDataStr = await redisClient().get(key);
-      
+
       if (tokenDataStr) {
         const tokenData = JSON.parse(tokenDataStr);
         if (tokenData.tokenId === tokenId) {
@@ -226,7 +226,7 @@ class TokenService {
         }
       }
     }
-    
+
     return false;
   }
 
@@ -236,7 +236,7 @@ class TokenService {
       const decoded = this.verifyAccessToken(token);
       const key = this.getBlacklistKey(token);
       const expiry = decoded.exp - Math.floor(Date.now() / 1000);
-      
+
       if (expiry > 0) {
         await redisClient().setEx(key, expiry, JSON.stringify({
           reason,
@@ -261,14 +261,14 @@ class TokenService {
     const pattern = 'refresh_token:*';
     const keys = await redisClient().keys(pattern);
     let cleanedCount = 0;
-    
+
     for (const key of keys) {
       const ttl = await redisClient().ttl(key);
       if (ttl === -2) { // Key doesn't exist (expired)
         cleanedCount++;
       }
     }
-    
+
     return cleanedCount;
   }
 
@@ -277,13 +277,13 @@ class TokenService {
     const refreshTokenPattern = 'refresh_token:*';
     const blacklistPattern = 'blacklist:*';
     const userTokensPattern = 'user_tokens:*';
-    
+
     const [refreshTokens, blacklistedTokens, userTokenSets] = await Promise.all([
       redisClient().keys(refreshTokenPattern),
       redisClient().keys(blacklistPattern),
       redisClient().keys(userTokensPattern)
     ]);
-    
+
     return {
       activeRefreshTokens: refreshTokens.length,
       blacklistedTokens: blacklistedTokens.length,

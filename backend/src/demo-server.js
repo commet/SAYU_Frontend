@@ -52,14 +52,14 @@ const demoResponses = {
   }
 };
 
-let responseIndex = {};
+const responseIndex = {};
 
 // Demo chatbot endpoint
 app.post('/api/chatbot/message', (req, res) => {
   const { message, artworkId } = req.body;
-  
+
   console.log('Received message:', message, 'for artwork:', artworkId);
-  
+
   // Get demo responses for this artwork
   const artworkData = demoResponses[artworkId];
   if (!artworkData) {
@@ -68,16 +68,16 @@ app.post('/api/chatbot/message', (req, res) => {
       message: '죄송해요, 이 작품에 대한 정보가 없어요.'
     });
   }
-  
+
   // Get next response
   if (!responseIndex[artworkId]) {
     responseIndex[artworkId] = 0;
   }
-  
-  const responses = artworkData.responses;
+
+  const { responses } = artworkData;
   const response = responses[responseIndex[artworkId] % responses.length];
   responseIndex[artworkId]++;
-  
+
   // Simulate AI processing delay
   setTimeout(() => {
     res.json({
@@ -89,7 +89,7 @@ app.post('/api/chatbot/message', (req, res) => {
         '다른 작품과의 차이점은?',
         '작가의 다른 작품도 보여줘요'
       ],
-      sessionId: 'demo-session-' + Date.now()
+      sessionId: `demo-session-${Date.now()}`
     });
   }, 1000);
 });
@@ -97,7 +97,7 @@ app.post('/api/chatbot/message', (req, res) => {
 // Demo suggestions endpoint
 app.get('/api/chatbot/suggestions/:artworkId', (req, res) => {
   const { artworkId } = req.params;
-  
+
   const artworkData = demoResponses[artworkId];
   if (!artworkData) {
     return res.json({
@@ -105,7 +105,7 @@ app.get('/api/chatbot/suggestions/:artworkId', (req, res) => {
       suggestions: []
     });
   }
-  
+
   res.json({
     success: true,
     suggestions: [

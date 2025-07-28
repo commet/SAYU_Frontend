@@ -21,7 +21,7 @@ router.get('/points', authenticate, async (req, res) => {
 });
 
 // 포인트 추가 (관리자용 또는 시스템 이벤트)
-router.post('/points/add', 
+router.post('/points/add',
   authenticate,
   [
     body('activity').isString().notEmpty(),
@@ -40,7 +40,7 @@ router.post('/points/add',
         activity,
         metadata
       );
-      
+
       res.json({
         success: true,
         ...result
@@ -72,7 +72,7 @@ router.post('/missions/progress',
         missionId,
         progress
       );
-      
+
       res.json({
         success: true,
         ...result
@@ -102,7 +102,7 @@ router.post('/achievements/unlock',
         req.user.id,
         achievementId
       );
-      
+
       if (achievement) {
         res.json({
           success: true,
@@ -144,7 +144,7 @@ router.post('/exhibitions/visit',
         req.user.id,
         req.body
       );
-      
+
       res.json({
         success: true,
         visit
@@ -160,11 +160,11 @@ router.post('/exhibitions/visit',
 router.get('/leaderboard', authenticate, async (req, res) => {
   try {
     const { period = 'all', limit = 50 } = req.query;
-    
-    const UserPoints = require('../models/Gamification').UserPoints;
-    const User = require('../models/User').User;
-    
-    let whereClause = {};
+
+    const { UserPoints } = require('../models/Gamification');
+    const { User } = require('../models/User');
+
+    const whereClause = {};
     if (period === 'weekly') {
       const weekAgo = new Date();
       weekAgo.setDate(weekAgo.getDate() - 7);
@@ -174,7 +174,7 @@ router.get('/leaderboard', authenticate, async (req, res) => {
       monthAgo.setMonth(monthAgo.getMonth() - 1);
       whereClause.updatedAt = { [Op.gte]: monthAgo };
     }
-    
+
     const leaderboard = await UserPoints.findAll({
       where: whereClause,
       order: [['totalPoints', 'DESC']],
@@ -184,7 +184,7 @@ router.get('/leaderboard', authenticate, async (req, res) => {
         attributes: ['id', 'nickname', 'email']
       }]
     });
-    
+
     // 현재 사용자 순위
     const userRank = await UserPoints.count({
       where: {
@@ -193,7 +193,7 @@ router.get('/leaderboard', authenticate, async (req, res) => {
         }
       }
     }) + 1;
-    
+
     res.json({
       leaderboard: leaderboard.map((entry, index) => ({
         rank: index + 1,
@@ -215,13 +215,13 @@ router.get('/leaderboard', authenticate, async (req, res) => {
 // 사용자 통계
 router.get('/stats', authenticate, async (req, res) => {
   try {
-    const PointActivity = require('../models/Gamification').PointActivity;
+    const { PointActivity } = require('../models/Gamification');
     const { Op } = require('sequelize');
-    
+
     // 최근 30일 활동
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    
+
     const activities = await PointActivity.findAll({
       where: {
         userId: req.user.id,
@@ -229,7 +229,7 @@ router.get('/stats', authenticate, async (req, res) => {
       },
       order: [['createdAt', 'DESC']]
     });
-    
+
     // 활동 유형별 통계
     const activityStats = {};
     activities.forEach(activity => {
@@ -242,7 +242,7 @@ router.get('/stats', authenticate, async (req, res) => {
       activityStats[activity.activityType].count++;
       activityStats[activity.activityType].totalPoints += activity.points;
     });
-    
+
     res.json({
       recentActivities: activities.slice(0, 10),
       activityStats,

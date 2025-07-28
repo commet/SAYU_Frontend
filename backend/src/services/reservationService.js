@@ -1,5 +1,5 @@
 const { pool } = require('../config/database');
-const { logger } = require("../config/logger");
+const { logger } = require('../config/logger');
 const emailService = require('./emailService');
 
 class ReservationService {
@@ -160,7 +160,7 @@ class ReservationService {
       `;
 
       const confirmationCode = this.generateConfirmationCode();
-      
+
       const reservationResult = await client.query(reservationQuery, [
         userId, exhibition_id, reservation_provider_id, visit_date,
         visit_time, party_size, ticket_type, total_cost, currency,
@@ -171,9 +171,9 @@ class ReservationService {
 
       // Schedule confirmation email
       await this.scheduleReservationReminder(
-        client, 
-        reservation.id, 
-        'booking_confirmation', 
+        client,
+        reservation.id,
+        'booking_confirmation',
         new Date()
       );
 
@@ -262,8 +262,8 @@ class ReservationService {
       `;
 
       const result = await client.query(updateQuery, [
-        reservationId, 
-        userId, 
+        reservationId,
+        userId,
         reason ? ` | Cancellation reason: ${reason}` : ''
       ]);
 
@@ -384,7 +384,7 @@ class ReservationService {
     for (const reminder of reminders) {
       try {
         await this.sendReminder(reminder);
-        
+
         // Mark as sent
         await pool.query(
           'UPDATE reservation_reminders SET status = $1, sent_at = CURRENT_TIMESTAMP WHERE id = $2',
@@ -393,7 +393,7 @@ class ReservationService {
 
       } catch (error) {
         logger.error(`Failed to send reminder ${reminder.id}:`, error);
-        
+
         // Mark as failed
         await pool.query(
           'UPDATE reservation_reminders SET status = $1 WHERE id = $2',

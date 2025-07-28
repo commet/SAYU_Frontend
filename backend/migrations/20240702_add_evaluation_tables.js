@@ -275,8 +275,8 @@ module.exports = {
     });
 
     // 인덱스 추가
-    await queryInterface.addIndex('companion_evaluations', 
-      ['exhibition_visit_id', 'evaluator_id', 'evaluated_id'], 
+    await queryInterface.addIndex('companion_evaluations',
+      ['exhibition_visit_id', 'evaluator_id', 'evaluated_id'],
       { unique: true }
     );
     await queryInterface.addIndex('companion_evaluations', ['evaluator_id']);

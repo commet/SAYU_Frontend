@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const authMiddleware = require('../middleware/auth');
 const communityService = require('../services/communityService');
-const { logger } = require("../config/logger");
+const { logger } = require('../config/logger');
 
 router.use(authMiddleware);
 
@@ -19,7 +19,7 @@ router.get('/forums', async (req, res) => {
 router.post('/forums', async (req, res) => {
   try {
     const { name, description, slug, category } = req.body;
-    
+
     if (!name || !slug) {
       return res.status(400).json({ error: 'Name and slug are required' });
     }
@@ -27,7 +27,7 @@ router.post('/forums', async (req, res) => {
     const forum = await communityService.createForum({
       name, description, slug, category
     });
-    
+
     res.status(201).json(forum);
   } catch (error) {
     logger.error('Failed to create forum:', error);
@@ -41,7 +41,7 @@ router.get('/forums/:forumId/topics', async (req, res) => {
     const { forumId } = req.params;
     const { page = 1, limit = 20 } = req.query;
     const offset = (page - 1) * limit;
-    
+
     const topics = await communityService.getTopics(forumId, parseInt(limit), offset);
     res.json(topics);
   } catch (error) {
@@ -54,11 +54,11 @@ router.get('/topics/:topicId', async (req, res) => {
   try {
     const { topicId } = req.params;
     const topic = await communityService.getTopic(topicId, req.userId);
-    
+
     if (!topic) {
       return res.status(404).json({ error: 'Topic not found' });
     }
-    
+
     res.json(topic);
   } catch (error) {
     logger.error('Failed to get topic:', error);
@@ -70,7 +70,7 @@ router.post('/forums/:forumId/topics', async (req, res) => {
   try {
     const { forumId } = req.params;
     const { title, content } = req.body;
-    
+
     if (!title || !content) {
       return res.status(400).json({ error: 'Title and content are required' });
     }
@@ -78,7 +78,7 @@ router.post('/forums/:forumId/topics', async (req, res) => {
     const topic = await communityService.createTopic({
       forumId, userId: req.userId, title, content
     });
-    
+
     res.status(201).json(topic);
   } catch (error) {
     logger.error('Failed to create topic:', error);
@@ -92,11 +92,11 @@ router.get('/topics/:topicId/replies', async (req, res) => {
     const { topicId } = req.params;
     const { page = 1, limit = 50 } = req.query;
     const offset = (page - 1) * limit;
-    
+
     const replies = await communityService.getReplies(
       topicId, parseInt(limit), offset, req.userId
     );
-    
+
     res.json(replies);
   } catch (error) {
     logger.error('Failed to get replies:', error);
@@ -108,7 +108,7 @@ router.post('/topics/:topicId/replies', async (req, res) => {
   try {
     const { topicId } = req.params;
     const { content, parentReplyId } = req.body;
-    
+
     if (!content) {
       return res.status(400).json({ error: 'Content is required' });
     }
@@ -116,7 +116,7 @@ router.post('/topics/:topicId/replies', async (req, res) => {
     const reply = await communityService.createReply({
       topicId, userId: req.userId, content, parentReplyId
     });
-    
+
     res.status(201).json(reply);
   } catch (error) {
     logger.error('Failed to create reply:', error);
@@ -196,7 +196,7 @@ router.get('/users/:userId/followers', async (req, res) => {
 router.post('/report', async (req, res) => {
   try {
     const { reportedUserId, topicId, replyId, reason, description } = req.body;
-    
+
     if (!reason) {
       return res.status(400).json({ error: 'Reason is required' });
     }
@@ -209,7 +209,7 @@ router.post('/report', async (req, res) => {
       reason,
       description
     });
-    
+
     res.status(201).json(report);
   } catch (error) {
     logger.error('Failed to create report:', error);

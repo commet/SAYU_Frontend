@@ -12,7 +12,7 @@ class CloudinaryArtveeService {
       api_key: process.env.CLOUDINARY_API_KEY || '257249284342124',
       api_secret: process.env.CLOUDINARY_API_SECRET || '-JUkBhI-apD5r704sg1X0Uq8lNU'
     });
-    
+
     this.cloudinaryUrlsPath = path.join(__dirname, '../../../artvee-crawler/data/cloudinary-urls.json');
     this.localArtworksPath = path.join(__dirname, '../../../artvee-crawler/data/famous-artists-artworks.json');
     this.cloudinaryUrls = null;
@@ -40,7 +40,7 @@ class CloudinaryArtveeService {
       const allArtworks = JSON.parse(artworksData);
 
       // 성격 유형에 맞는 작품 필터링
-      let filteredArtworks = allArtworks.filter(artwork => 
+      let filteredArtworks = allArtworks.filter(artwork =>
         artwork.sayuType === personalityType
       );
 
@@ -70,14 +70,14 @@ class CloudinaryArtveeService {
       // Cloudinary URL 추가
       const artworksWithCloudinary = selected.map(artwork => {
         const cloudinaryData = (this.cloudinaryUrls && this.cloudinaryUrls[artwork.artveeId]) || {};
-        
+
         return {
           ...artwork,
           imageUrl: this.getCloudinaryUrl(artwork.artveeId, 'full'),
           thumbnailUrl: this.getCloudinaryUrl(artwork.artveeId, 'thumbnail'),
           cdnUrl: cloudinaryData.full?.secure_url,
           cdnThumbnailUrl: cloudinaryData.thumbnail?.secure_url,
-          cloudinaryData: cloudinaryData
+          cloudinaryData
         };
       });
 
@@ -103,10 +103,10 @@ class CloudinaryArtveeService {
     // 업로드된 URL이 없으면 Cloudinary fetch URL 사용
     const folder = type === 'thumbnail' ? 'thumbnails' : 'full';
     const publicId = `artvee/${folder}/${artveeId}`;
-    
+
     // Cloudinary fetch URL - 원본 이미지를 프록시로 가져와서 변환
     const originalUrl = `https://artvee.com/dl/${artveeId}/`;
-    
+
     if (type === 'thumbnail') {
       return cloudinary.url(originalUrl, {
         type: 'fetch',
@@ -131,21 +131,21 @@ class CloudinaryArtveeService {
     try {
       const artworksData = await fs.readFile(this.localArtworksPath, 'utf8');
       const allArtworks = JSON.parse(artworksData);
-      
+
       const artwork = allArtworks.find(a => a.artveeId === artveeId);
       if (!artwork) {
         return null;
       }
 
       const cloudinaryData = this.cloudinaryUrls[artveeId] || {};
-      
+
       return {
         ...artwork,
         imageUrl: this.getCloudinaryUrl(artveeId, 'full'),
         thumbnailUrl: this.getCloudinaryUrl(artveeId, 'thumbnail'),
         cdnUrl: cloudinaryData.full?.secure_url,
         cdnThumbnailUrl: cloudinaryData.thumbnail?.secure_url,
-        cloudinaryData: cloudinaryData
+        cloudinaryData
       };
     } catch (error) {
       log.error('Error getting artwork by ID:', error);
@@ -158,20 +158,20 @@ class CloudinaryArtveeService {
     try {
       const artworksData = await fs.readFile(this.localArtworksPath, 'utf8');
       const allArtworks = JSON.parse(artworksData);
-      
+
       const shuffled = allArtworks.sort(() => 0.5 - Math.random());
       const selected = shuffled.slice(0, limit);
 
       return selected.map(artwork => {
         const cloudinaryData = (this.cloudinaryUrls && this.cloudinaryUrls[artwork.artveeId]) || {};
-        
+
         return {
           ...artwork,
           imageUrl: this.getCloudinaryUrl(artwork.artveeId, 'full'),
           thumbnailUrl: this.getCloudinaryUrl(artwork.artveeId, 'thumbnail'),
           cdnUrl: cloudinaryData.full?.secure_url,
           cdnThumbnailUrl: cloudinaryData.thumbnail?.secure_url,
-          cloudinaryData: cloudinaryData
+          cloudinaryData
         };
       });
     } catch (error) {
@@ -185,21 +185,21 @@ class CloudinaryArtveeService {
     try {
       const artworksData = await fs.readFile(this.localArtworksPath, 'utf8');
       const allArtworks = JSON.parse(artworksData);
-      
+
       const artistArtworks = allArtworks
         .filter(a => a.artist.toLowerCase().includes(artist.toLowerCase()))
         .slice(0, limit);
 
       return artistArtworks.map(artwork => {
         const cloudinaryData = (this.cloudinaryUrls && this.cloudinaryUrls[artwork.artveeId]) || {};
-        
+
         return {
           ...artwork,
           imageUrl: this.getCloudinaryUrl(artwork.artveeId, 'full'),
           thumbnailUrl: this.getCloudinaryUrl(artwork.artveeId, 'thumbnail'),
           cdnUrl: cloudinaryData.full?.secure_url,
           cdnThumbnailUrl: cloudinaryData.thumbnail?.secure_url,
-          cloudinaryData: cloudinaryData
+          cloudinaryData
         };
       });
     } catch (error) {
@@ -213,7 +213,7 @@ class CloudinaryArtveeService {
     try {
       const artworksData = await fs.readFile(this.localArtworksPath, 'utf8');
       const allArtworks = JSON.parse(artworksData);
-      
+
       const stats = {
         totalArtworks: allArtworks.length,
         uploadedToCloudinary: Object.keys(this.cloudinaryUrls).length,
@@ -233,7 +233,7 @@ class CloudinaryArtveeService {
       allArtworks.forEach(artwork => {
         artistCounts[artwork.artist] = (artistCounts[artwork.artist] || 0) + 1;
       });
-      
+
       stats.byArtist = Object.entries(artistCounts)
         .sort(([,a], [,b]) => b - a)
         .slice(0, 10)

@@ -241,7 +241,7 @@ export const realtimeAPI = {
 };
 
 // Export all APIs
-export default {
+const api = {
   quiz: quizAPI,
   exhibitions: exhibitionAPI,
   artProfile: artProfileAPI,
@@ -250,3 +250,6 @@ export default {
   auth: authAPI,
   realtime: realtimeAPI
 };
+
+export { api };
+export default api;

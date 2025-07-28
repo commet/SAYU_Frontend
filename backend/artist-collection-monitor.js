@@ -1,6 +1,6 @@
 /**
  * SAYU 아티스트 수집 실시간 모니터링 대시보드
- * 
+ *
  * 수집 과정을 실시간으로 모니터링하고
  * 상세한 진행 상황과 통계를 제공합니다.
  */
@@ -29,7 +29,7 @@ class ArtistCollectionMonitor {
       const queries = await Promise.all([
         // 전체 아티스트 수
         pool.query('SELECT COUNT(*) as total FROM artists'),
-        
+
         // 시대별 분포
         pool.query(`
           SELECT era, COUNT(*) as count 
@@ -38,7 +38,7 @@ class ArtistCollectionMonitor {
           GROUP BY era 
           ORDER BY count DESC
         `),
-        
+
         // 국적별 분포 (상위 15개)
         pool.query(`
           SELECT nationality, COUNT(*) as count 
@@ -48,14 +48,14 @@ class ArtistCollectionMonitor {
           ORDER BY count DESC 
           LIMIT 15
         `),
-        
+
         // 최근 24시간 추가된 아티스트
         pool.query(`
           SELECT COUNT(*) as recent_count 
           FROM artists 
           WHERE created_at > NOW() - INTERVAL '24 hours'
         `),
-        
+
         // 데이터 품질 지표
         pool.query(`
           SELECT 
@@ -66,7 +66,7 @@ class ArtistCollectionMonitor {
             COUNT(CASE WHEN (images->>'portrait') IS NOT NULL THEN 1 END) as has_portrait
           FROM artists
         `),
-        
+
         // 저작권 상태 분포
         pool.query(`
           SELECT copyright_status, COUNT(*) as count 
@@ -106,9 +106,9 @@ class ArtistCollectionMonitor {
    */
   displayDashboard(data) {
     console.clear();
-    
+
     const timestamp = new Date().toLocaleString('ko-KR');
-    
+
     console.log('='.repeat(80));
     console.log('🎨 SAYU 글로벌 아티스트 컬렉션 모니터링 대시보드');
     console.log(`📅 ${timestamp}`);
@@ -119,13 +119,13 @@ class ArtistCollectionMonitor {
     console.log('─'.repeat(40));
     console.log(`총 아티스트 수: ${data.total.toLocaleString()}명`);
     console.log(`24시간 신규 추가: ${data.recentlyAdded}명`);
-    
+
     // === 데이터 품질 지표 ===
     const quality = data.qualityMetrics;
     const bioRate = ((quality.has_bio / quality.total) * 100).toFixed(1);
     const birthYearRate = ((quality.has_birth_year / quality.total) * 100).toFixed(1);
     const portraitRate = ((quality.has_portrait / quality.total) * 100).toFixed(1);
-    
+
     console.log('\n📈 데이터 품질 지표');
     console.log('─'.repeat(40));
     console.log(`약력 보유율: ${bioRate}% (${quality.has_bio}/${quality.total})`);
@@ -167,7 +167,7 @@ class ArtistCollectionMonitor {
       console.log(`${(index + 1).toString().padStart(2)}. ${artist.name?.padEnd(25) || '이름 없음'.padEnd(25)} | ${artist.nationality?.padEnd(12) || '국적 미상'.padEnd(12)} | ${artist.era?.padEnd(12) || '시대 미상'.padEnd(12)} | ${addedTime}`);
     });
 
-    console.log('\n' + '='.repeat(80));
+    console.log(`\n${'='.repeat(80)}`);
     console.log('💡 명령어: [Enter] 새로고침 | [q] 종료 | [s] 상세통계 | [c] 수집시작');
     console.log('='.repeat(80));
   }
@@ -316,7 +316,7 @@ class ArtistCollectionMonitor {
    */
   async startInteractiveMonitoring() {
     this.monitoring = true;
-    
+
     console.log('🎨 SAYU 아티스트 컬렉션 모니터링을 시작합니다...\n');
 
     // 초기 대시보드 표시
@@ -403,7 +403,7 @@ class ArtistCollectionMonitor {
 // CLI 실행
 async function main() {
   const monitor = new ArtistCollectionMonitor();
-  
+
   try {
     await monitor.startInteractiveMonitoring();
   } catch (error) {

@@ -25,7 +25,7 @@ class RailwayCronService {
     const enabled = (process.env.ENABLED_CRON_JOBS || 'all').split(',');
     return enabled.includes('all') ? [
       'exhibition-collection',
-      'data-backup', 
+      'data-backup',
       'system-maintenance',
       'status-update'
     ] : enabled;
@@ -37,10 +37,10 @@ class RailwayCronService {
 
     const job = cron.schedule('0 6 * * *', async () => {
       log.info('🎨 Starting automated exhibition collection...');
-      
+
       try {
         const collector = new SupabaseExhibitionCollector();
-        
+
         // Naver API에서 전시 데이터 수집
         const results = await collector.collectExhibitionsFromNaver({
           maxResults: 50, // 하루 최대 50개
@@ -88,16 +88,16 @@ class RailwayCronService {
 
     const job = cron.schedule('0 2 * * *', async () => {
       log.info('💾 Starting automated data backup...');
-      
+
       try {
         const backup = new DatabaseBackup();
-        
+
         // 전시 데이터 백업
         const result = await backup.backupExhibitionData();
-        
+
         // 오래된 백업 정리 (30일 이상)
         const cleaned = await backup.cleanupOldBackups(30);
-        
+
         log.info('Data backup completed', {
           backupFile: result.filename,
           cleanedBackups: cleaned.deletedCount,
@@ -135,7 +135,7 @@ class RailwayCronService {
 
     const job = cron.schedule('0 3 * * 0', async () => {
       log.info('🔧 Starting system maintenance...');
-      
+
       try {
         const tasks = [];
 
@@ -152,7 +152,7 @@ class RailwayCronService {
         tasks.push(this.clearExpiredCache());
 
         const results = await Promise.allSettled(tasks);
-        
+
         const summary = {
           total: results.length,
           success: results.filter(r => r.status === 'fulfilled').length,
@@ -192,7 +192,7 @@ class RailwayCronService {
 
     const job = cron.schedule('0 9 * * *', async () => {
       log.info('📊 Starting exhibition status update...');
-      
+
       try {
         const { createClient } = require('@supabase/supabase-js');
         const supabase = createClient(
@@ -201,7 +201,7 @@ class RailwayCronService {
         );
 
         const today = new Date().toISOString().split('T')[0];
-        
+
         // 진행 중으로 변경 (시작일이 오늘 이전이고 종료일이 오늘 이후)
         const { data: ongoing, error: ongoingError } = await supabase
           .from('exhibitions')
@@ -265,10 +265,10 @@ class RailwayCronService {
     );
 
     const today = new Date().toISOString().split('T')[0];
-    
+
     const { data, error } = await supabase
       .from('exhibitions')
-      .update({ 
+      .update({
         status: 'ended',
         updated_at: new Date().toISOString()
       })
@@ -277,7 +277,7 @@ class RailwayCronService {
       .select('id');
 
     if (error) throw error;
-    
+
     log.info(`Updated ${data?.length || 0} expired exhibitions to 'ended' status`);
     return data?.length || 0;
   }
@@ -403,7 +403,7 @@ class RailwayCronService {
 
     app.get('/jobs/trigger/:jobName', async (req, res) => {
       const { jobName } = req.params;
-      
+
       if (!this.jobs.has(jobName)) {
         return res.status(404).json({ error: 'Job not found' });
       }
@@ -411,7 +411,7 @@ class RailwayCronService {
       try {
         // 수동으로 작업 실행 (테스트용)
         log.info(`Manual trigger requested for job: ${jobName}`);
-        
+
         // 작업별 수동 실행 로직
         if (jobName === 'exhibition-collection') {
           const collector = new SupabaseExhibitionCollector();
@@ -439,7 +439,7 @@ class RailwayCronService {
   // 모든 작업 중지
   stopAllJobs() {
     log.info('🛑 Stopping all cron jobs...');
-    
+
     this.jobs.forEach((job, name) => {
       job.stop();
       log.info(`❌ Stopped job: ${name}`);
@@ -452,7 +452,7 @@ class RailwayCronService {
 // Railway에서 실행될 때
 if (require.main === module) {
   const cronService = new RailwayCronService();
-  
+
   // Graceful shutdown
   process.on('SIGTERM', () => {
     log.info('🏁 Received SIGTERM, shutting down gracefully...');

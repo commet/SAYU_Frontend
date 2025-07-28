@@ -8,11 +8,11 @@ class GeminiOnlyClassifier {
   constructor() {
     // 추론 엔진
     this.inferenceEngine = new ArtistAPTInferenceEngine();
-    
+
     // Gemini API 클라이언트
     this.gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    this.model = this.gemini.getGenerativeModel({ model: "gemini-1.5-flash" });
-    
+    this.model = this.gemini.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
     // APT 정보
     this.aptTypes = {
       'LAEF': { title: '몽환적 방랑자', desc: '혼자서 추상 작품을 감정적으로 자유롭게' },
@@ -37,25 +37,25 @@ class GeminiOnlyClassifier {
   // 메인 분류 함수
   async classifyArtist(artistData) {
     console.log(`🎨 Gemini 분류 시작: ${artistData.name}`);
-    
+
     try {
       // 1. 추론 엔진으로 초기 분석
       const inferenceResult = this.inferenceEngine.inferAPTFromLimitedData(artistData);
       console.log(`   📊 추론 결과: ${inferenceResult.primaryAPT[0]} (신뢰도: ${inferenceResult.confidence}%)`);
-      
+
       // 2. 데이터가 충분하면 Gemini로 검증/강화
       if (artistData.bio && artistData.bio.length > 100) {
         const geminiResult = await this.analyzeWithGemini(artistData, inferenceResult);
-        
+
         if (geminiResult) {
           // Gemini 결과와 추론 결과 병합
           return this.mergeResults(inferenceResult, geminiResult);
         }
       }
-      
+
       // 3. Gemini 실패 시 추론 결과 반환
       return this.formatResult(inferenceResult);
-      
+
     } catch (error) {
       console.error(`❌ 분류 실패: ${error.message}`);
       // 모든 실패 시 기본 추론 반환
@@ -97,9 +97,9 @@ APT: [4글자 코드]
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-      
+
       return this.parseGeminiResponse(text);
-      
+
     } catch (error) {
       console.error('   ⚠️ Gemini 분석 실패:', error.message);
       return null;
@@ -113,7 +113,7 @@ APT: [4글자 코드]
       const scores = { L_S: 0, A_R: 0, E_M: 0, F_C: 0 };
       let aptType = null;
       let reasoning = '';
-      
+
       for (const line of lines) {
         // 축 점수 추출
         if (line.includes('L/S:')) {
@@ -129,31 +129,31 @@ APT: [4글자 코드]
           const match = line.match(/F\/C:\s*(-?\d+)/);
           if (match) scores.F_C = parseInt(match[1]);
         }
-        
+
         // APT 코드 추출
         if (line.includes('APT:')) {
           const match = line.match(/APT:\s*([LSAR][AREF][EMFC])/);
           if (match) aptType = match[1];
         }
-        
+
         // 이유 추출
         if (line.includes('이유:')) {
           reasoning = line.split('이유:')[1].trim();
         }
       }
-      
+
       // APT가 없으면 점수로 계산
       if (!aptType) {
         aptType = this.calculateAPTFromScores(scores);
       }
-      
+
       return {
         axisScores: scores,
         aptType,
         reasoning,
         source: 'gemini'
       };
-      
+
     } catch (error) {
       console.error('   ⚠️ 응답 파싱 실패:', error.message);
       return null;
@@ -176,23 +176,23 @@ APT: [4글자 코드]
     const mergedScores = {};
     const inferenceWeight = 0.4;
     const geminiWeight = 0.6;
-    
+
     for (const axis of ['L_S', 'A_R', 'E_M', 'F_C']) {
       mergedScores[axis] = Math.round(
         (inferenceResult.axisScores[axis] * inferenceWeight) +
         (geminiResult.axisScores[axis] * geminiWeight)
       );
     }
-    
+
     // 최종 APT 결정
     const finalAPT = this.calculateAPTFromScores(mergedScores);
-    
+
     // 신뢰도 계산
     const baseConfidence = inferenceResult.confidence;
     const geminiBoost = 20;
     const consistency = finalAPT === inferenceResult.primaryAPT[0] ? 10 : 0;
     const confidence = Math.min(95, baseConfidence + geminiBoost + consistency);
-    
+
     return {
       aptType: finalAPT,
       axisScores: mergedScores,
@@ -235,7 +235,7 @@ APT: [4글자 코드]
   findSecondaryAPTs(axisScores) {
     const secondary = [];
     const primary = this.calculateAPTFromScores(axisScores);
-    
+
     // 각 축에서 점수가 -20 ~ 20 사이면 대안 생성
     for (const [axis, score] of Object.entries(axisScores)) {
       if (Math.abs(score) < 20) {
@@ -247,7 +247,7 @@ APT: [4글자 코드]
         }
       }
     }
-    
+
     return secondary.slice(0, 2);
   }
 }

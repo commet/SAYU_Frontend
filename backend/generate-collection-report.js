@@ -9,21 +9,21 @@ class CollectionReportGenerator {
   constructor() {
     this.targetArtists = [
       // 우선순위 아티스트 (20명)
-      "Leonardo da Vinci", "Pablo Picasso", "Vincent van Gogh", "Claude Monet", "Frida Kahlo",
-      "Andy Warhol", "Yayoi Kusama", "Banksy", "Jackson Pollock", "Michelangelo",
-      "Katsushika Hokusai", "Lee Ufan", "Takashi Murakami", "Ai Weiwei", "Paik Nam-june",
-      "Damien Hirst", "Jeff Koons", "David Hockney", "Gerhard Richter", "Marina Abramović",
+      'Leonardo da Vinci', 'Pablo Picasso', 'Vincent van Gogh', 'Claude Monet', 'Frida Kahlo',
+      'Andy Warhol', 'Yayoi Kusama', 'Banksy', 'Jackson Pollock', 'Michelangelo',
+      'Katsushika Hokusai', 'Lee Ufan', 'Takashi Murakami', 'Ai Weiwei', 'Paik Nam-june',
+      'Damien Hirst', 'Jeff Koons', 'David Hockney', 'Gerhard Richter', 'Marina Abramović',
 
       // 여성 아티스트 (15명)
-      "Georgia O'Keeffe", "Louise Bourgeois", "Artemisia Gentileschi", "Mary Cassatt",
-      "Berthe Morisot", "Élisabeth Vigée Le Brun", "Tamara de Lempicka", "Agnes Martin",
-      "Helen Frankenthaler", "Bridget Riley", "Marlene Dumas", "Elizabeth Peyton",
-      "Amy Sillman", "Cecily Brown",
+      "Georgia O'Keeffe", 'Louise Bourgeois', 'Artemisia Gentileschi', 'Mary Cassatt',
+      'Berthe Morisot', 'Élisabeth Vigée Le Brun', 'Tamara de Lempicka', 'Agnes Martin',
+      'Helen Frankenthaler', 'Bridget Riley', 'Marlene Dumas', 'Elizabeth Peyton',
+      'Amy Sillman', 'Cecily Brown',
 
       // 현대 글로벌 스타 (15명)
-      "Kaws", "Kehinde Wiley", "Kerry James Marshall", "Yinka Shonibare", "Anselm Kiefer",
-      "Cindy Sherman", "Andreas Gursky", "Olafur Eliasson", "Shirin Neshat", "Kara Walker",
-      "Richard Prince"
+      'Kaws', 'Kehinde Wiley', 'Kerry James Marshall', 'Yinka Shonibare', 'Anselm Kiefer',
+      'Cindy Sherman', 'Andreas Gursky', 'Olafur Eliasson', 'Shirin Neshat', 'Kara Walker',
+      'Richard Prince'
     ];
   }
 
@@ -111,7 +111,7 @@ class CollectionReportGenerator {
         COUNT(CASE WHEN sources IS NOT NULL THEN 1 END) as has_sources
       FROM artists
     `);
-    
+
     const data = result.rows[0];
     return {
       ...data,
@@ -200,7 +200,7 @@ class CollectionReportGenerator {
     console.log(`목표: ${targetArtistStats.target_count}명`);
     console.log(`수집 완료: ${targetArtistStats.collected_count}명`);
     console.log(`달성률: ${targetArtistStats.collection_rate}%`);
-    
+
     if (targetArtistStats.collection_rate >= 80) {
       console.log('🎉 목표 달성률 80% 이상! 훌륭한 성과입니다!');
     } else if (targetArtistStats.collection_rate >= 60) {
@@ -247,21 +247,21 @@ class CollectionReportGenerator {
     // === 주요 성과 하이라이트 ===
     console.log('\n🏆 주요 성과 하이라이트');
     console.log('─'.repeat(50));
-    
+
     const highlights = [];
-    
+
     if (targetArtistStats.collection_rate >= 90) {
       highlights.push('✨ 글로벌 A급 아티스트 90% 이상 수집 완료');
     }
-    
+
     if (qualityMetrics.bio_rate >= 95) {
       highlights.push('📚 95% 이상의 아티스트가 완전한 전기 정보 보유');
     }
-    
+
     if (overallStats.total_artists >= 1000) {
       highlights.push('🎯 1,000명 이상의 방대한 아티스트 컬렉션 구축');
     }
-    
+
     if (recentAdditions.length >= 30) {
       highlights.push('🚀 24시간 내 30명 이상 신규 아티스트 추가');
     }
@@ -275,23 +275,23 @@ class CollectionReportGenerator {
     // === 다음 단계 제안 ===
     console.log('\n💡 다음 단계 제안');
     console.log('─'.repeat(50));
-    
+
     if (targetArtistStats.collection_rate < 100) {
       console.log(`1. 남은 ${targetArtistStats.target_count - targetArtistStats.collected_count}명의 목표 아티스트 수집 완료`);
     }
-    
+
     if (qualityMetrics.portrait_rate < 50) {
-      console.log('2. 아티스트 초상화 이미지 보강 (현재 ' + qualityMetrics.portrait_rate + '%)');
+      console.log(`2. 아티스트 초상화 이미지 보강 (현재 ${qualityMetrics.portrait_rate}%)`);
     }
-    
+
     if (qualityMetrics.birth_year_rate < 80) {
-      console.log('3. 출생연도 정보 보완 (현재 ' + qualityMetrics.birth_year_rate + '%)');
+      console.log(`3. 출생연도 정보 보완 (현재 ${qualityMetrics.birth_year_rate}%)`);
     }
-    
+
     console.log('4. AI 기반 감정 시그니처 및 성격 매칭 정확도 개선');
     console.log('5. 추가 지역 아티스트 발굴 (아프리카, 남미, 동남아시아)');
 
-    console.log('\n' + '='.repeat(80));
+    console.log(`\n${'='.repeat(80)}`);
     console.log('🎨 SAYU가 전 세계 예술의 보고가 되어가고 있습니다!');
     console.log('각 아티스트는 사용자와 예술을 연결하는 소중한 다리입니다.');
     console.log('='.repeat(80));

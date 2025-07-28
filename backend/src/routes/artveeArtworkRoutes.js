@@ -50,9 +50,9 @@ router.get('/artists/:artistId/artworks', async (req, res) => {
 
   } catch (error) {
     console.error('Error fetching artist artworks:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: 'Failed to fetch artist artworks' 
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch artist artworks'
     });
   }
 });
@@ -105,9 +105,9 @@ router.get('/recommendations/personality/:type', async (req, res) => {
 
   } catch (error) {
     console.error('Error fetching personality recommendations:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: 'Failed to fetch personality recommendations' 
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch personality recommendations'
     });
   }
 });
@@ -117,8 +117,8 @@ router.get('/random', async (req, res) => {
   try {
     const { count = 1, matchedOnly = false } = req.query;
 
-    const whereClause = matchedOnly === 'true' 
-      ? 'WHERE aaa.artist_id IS NOT NULL' 
+    const whereClause = matchedOnly === 'true'
+      ? 'WHERE aaa.artist_id IS NOT NULL'
       : '';
 
     const result = await pool.query(`
@@ -154,9 +154,9 @@ router.get('/random', async (req, res) => {
 
   } catch (error) {
     console.error('Error fetching random artworks:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: 'Failed to fetch random artworks' 
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch random artworks'
     });
   }
 });
@@ -208,9 +208,9 @@ router.get('/artists/search', async (req, res) => {
 
   } catch (error) {
     console.error('Error searching artists:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: 'Failed to search artists' 
+    res.status(500).json({
+      success: false,
+      error: 'Failed to search artists'
     });
   }
 });
@@ -233,7 +233,7 @@ router.get('/stats', async (req, res) => {
         FROM artvee_artworks aa
         LEFT JOIN artvee_artwork_artists aaa ON aa.id = aaa.artwork_id
       `),
-      
+
       // 매칭 방법별 통계
       pool.query(`
         SELECT 
@@ -245,7 +245,7 @@ router.get('/stats', async (req, res) => {
         GROUP BY mapping_method
         ORDER BY count DESC
       `),
-      
+
       // 상위 작가들
       pool.query(`
         SELECT 
@@ -271,9 +271,9 @@ router.get('/stats', async (req, res) => {
 
   } catch (error) {
     console.error('Error fetching stats:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: 'Failed to fetch statistics' 
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch statistics'
     });
   }
 });
@@ -328,9 +328,9 @@ router.get('/artworks/:artworkId', async (req, res) => {
 
   } catch (error) {
     console.error('Error fetching artwork:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: 'Failed to fetch artwork' 
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch artwork'
     });
   }
 });

@@ -58,7 +58,7 @@ const GALLERY_CONFIGS = {
       link: 'a'
     }
   },
-  
+
   // 해외 주요 갤러리들
   'gagosian': {
     name: 'Gagosian',
@@ -134,7 +134,7 @@ class GalleryWebsiteScraper {
 
     for (const [key, config] of Object.entries(GALLERY_CONFIGS)) {
       console.log(`\n🏛️  ${config.name} 스크래핑...`);
-      
+
       try {
         // robots.txt 확인
         const robotsAllowed = await this.checkRobotsTxt(config.url);
@@ -146,12 +146,12 @@ class GalleryWebsiteScraper {
         // 스크래핑 실행
         const exhibitions = await this.scrapeGallery(key, config);
         this.exhibitions.push(...exhibitions);
-        
+
         console.log(`   ✅ ${exhibitions.length}개 전시 발견`);
-        
+
         // 요청 간격 유지
         await this.delay(3000);
-        
+
       } catch (error) {
         console.log(`   ❌ 오류: ${error.message}`);
       }
@@ -159,7 +159,7 @@ class GalleryWebsiteScraper {
 
     // 데이터베이스 저장
     await this.saveToDatabase();
-    
+
     return this.exhibitions;
   }
 
@@ -167,16 +167,16 @@ class GalleryWebsiteScraper {
     try {
       const urlObj = new URL(url);
       const robotsUrl = `${urlObj.protocol}//${urlObj.host}/robots.txt`;
-      
-      const response = await axios.get(robotsUrl, { 
+
+      const response = await axios.get(robotsUrl, {
         headers: this.headers,
-        timeout: 5000 
+        timeout: 5000
       });
-      
+
       // 간단한 체크 (실제로는 robotparser 사용 권장)
-      const disallowed = response.data.includes('Disallow: /exhibitions') || 
+      const disallowed = response.data.includes('Disallow: /exhibitions') ||
                         response.data.includes('Disallow: /');
-                        
+
       return !disallowed;
     } catch (error) {
       // robots.txt가 없으면 허용된 것으로 간주
@@ -186,19 +186,19 @@ class GalleryWebsiteScraper {
 
   async scrapeGallery(key, config) {
     const exhibitions = [];
-    
+
     try {
-      const response = await axios.get(config.url, { 
+      const response = await axios.get(config.url, {
         headers: this.headers,
-        timeout: 10000 
+        timeout: 10000
       });
-      
+
       const $ = cheerio.load(response.data);
-      
+
       // 전시 항목 추출
       $(config.selectors.container).each((i, elem) => {
         const $elem = $(elem);
-        
+
         const exhibition = {
           gallery_key: key,
           gallery_name: config.name,
@@ -255,24 +255,24 @@ class GalleryWebsiteScraper {
 
   async scrapeExhibitionDetail(exhibition) {
     try {
-      const response = await axios.get(exhibition.detail_url, { 
+      const response = await axios.get(exhibition.detail_url, {
         headers: this.headers,
-        timeout: 10000 
+        timeout: 10000
       });
-      
+
       const $ = cheerio.load(response.data);
-      
+
       // 상세 정보 추출 (갤러리마다 다름)
       exhibition.description = $('.exhibition-description, .description, .text').first().text().trim();
-      
+
       // 이미지 URL (저작권 주의)
       const imageUrl = $('.exhibition-image img, .main-image img').first().attr('src');
       if (imageUrl) {
         exhibition.image_url = new URL(imageUrl, exhibition.detail_url).href;
       }
-      
+
       console.log(`      ✅ 상세 정보: ${exhibition.title}`);
-      
+
     } catch (error) {
       console.log(`      ⚠️  상세 정보 실패: ${exhibition.title}`);
     }
@@ -360,10 +360,10 @@ class GalleryWebsiteScraper {
             exhibition.artist ? [exhibition.artist] : null,
             exhibition.source,
             exhibition.source_url,
-            new Date(exhibition.start_date) <= new Date() && new Date(exhibition.end_date) >= new Date() 
+            new Date(exhibition.start_date) <= new Date() && new Date(exhibition.end_date) >= new Date()
               ? 'ongoing' : 'upcoming'
           ]);
-          
+
           saved++;
         }
       }

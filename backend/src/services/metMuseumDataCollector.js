@@ -7,10 +7,10 @@ class MetMuseumDataCollector {
   async getArtistInfo(artistName) {
     try {
       console.log(`🎨 Met Museum에서 ${artistName} 정보 수집 중...`);
-      
+
       // 1단계: 작가 이름으로 작품 검색
       const artworks = await this.searchArtworks(artistName);
-      
+
       if (!artworks || artworks.length === 0) {
         console.log(`❌ Met Museum에서 ${artistName} 작품을 찾을 수 없음`);
         return null;
@@ -18,7 +18,7 @@ class MetMuseumDataCollector {
 
       // 2단계: 작품 상세 정보에서 작가 정보 추출
       const artistData = await this.extractArtistData(artworks, artistName);
-      
+
       console.log(`✅ Met Museum에서 ${artistName} 정보 수집 완료`);
       return artistData;
     } catch (error) {
@@ -32,13 +32,13 @@ class MetMuseumDataCollector {
       // 작가명으로 검색
       const searchUrl = `${this.baseUrl}/search?q=${encodeURIComponent(artistName)}&hasImages=true`;
       const searchResponse = await fetch(searchUrl);
-      
+
       if (!searchResponse.ok) {
         return null;
       }
-      
+
       const searchData = await searchResponse.json();
-      
+
       if (!searchData.objectIDs || searchData.objectIDs.length === 0) {
         return null;
       }
@@ -51,16 +51,16 @@ class MetMuseumDataCollector {
         try {
           const objectUrl = `${this.baseUrl}/objects/${objectId}`;
           const objectResponse = await fetch(objectUrl);
-          
+
           if (objectResponse.ok) {
             const objectData = await objectResponse.json();
-            
+
             // 작가명이 일치하는지 확인
             if (this.isArtistMatch(objectData.artistDisplayName, artistName)) {
               artworks.push(objectData);
             }
           }
-          
+
           // API 요청 제한 고려 (100ms 대기)
           await new Promise(resolve => setTimeout(resolve, 100));
         } catch (err) {
@@ -77,13 +77,13 @@ class MetMuseumDataCollector {
 
   isArtistMatch(displayName, searchName) {
     if (!displayName || !searchName) return false;
-    
+
     const normalize = (name) => name.toLowerCase().replace(/[^a-z\s]/g, '').trim();
     const normalizedDisplay = normalize(displayName);
     const normalizedSearch = normalize(searchName);
-    
+
     // 완전 일치 또는 부분 일치 확인
-    return normalizedDisplay.includes(normalizedSearch) || 
+    return normalizedDisplay.includes(normalizedSearch) ||
            normalizedSearch.includes(normalizedDisplay);
   }
 
@@ -153,7 +153,7 @@ class MetMuseumDataCollector {
 
     // 예술 운동 추정
     data.art_movements = this.estimateArtMovements(data);
-    
+
     // 신뢰도 조정
     if (data.works_count >= 5) data.reliability += 2;
     if (data.nationality && data.birth_year) data.reliability += 1;
@@ -170,7 +170,7 @@ class MetMuseumDataCollector {
 
   categorizeMedium(mediumString) {
     const mediumString_lower = mediumString.toLowerCase();
-    
+
     if (mediumString_lower.includes('oil') || mediumString_lower.includes('canvas')) {
       return 'Oil Painting';
     } else if (mediumString_lower.includes('watercolor')) {
@@ -182,13 +182,13 @@ class MetMuseumDataCollector {
     } else if (mediumString_lower.includes('drawing') || mediumString_lower.includes('pencil')) {
       return 'Drawing';
     }
-    
+
     return 'Mixed Media';
   }
 
   estimateArtMovements(data) {
     const movements = [];
-    
+
     // 시대별 운동 추정
     if (data.birth_year) {
       if (data.birth_year >= 1400 && data.birth_year <= 1600) {

@@ -9,7 +9,7 @@ app.use(express.json());
 // 데이터베이스 연결
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL?.includes('railway') 
+  ssl: process.env.DATABASE_URL?.includes('railway')
     ? { rejectUnauthorized: false }
     : false
 });
@@ -57,7 +57,7 @@ app.get('/api/pioneer/stats', async (req, res) => {
 app.post('/api/test/create-pioneer', async (req, res) => {
   try {
     const testEmail = `pioneer_test_${Date.now()}@test.com`;
-    
+
     const result = await client.query(`
       INSERT INTO users (email, password_hash, nickname, created_at)
       VALUES ($1, $2, $3, NOW())
@@ -112,7 +112,7 @@ const PORT = 3006;
 
 async function startServer() {
   await connectDB();
-  
+
   app.listen(PORT, () => {
     console.log(`🚀 SAYU Test Server running on http://localhost:${PORT}`);
     console.log('📊 Available endpoints:');

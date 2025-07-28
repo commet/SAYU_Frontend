@@ -232,13 +232,13 @@ class ArtistAPTInferenceEngine {
       era: 0.35,           // 시대/예술사조 - 감상 모드의 근본 결정
       lifePattern: 0.20,   // 생애 패턴 - 작품의 정서적 톤과 강도
       medium: 0.15,        // 매체/기법 - 물리적 감상 경험
-      
+
       // 보조 지표 (30%)
       biography: 0.15,     // 전기 내용 - 키워드 기반 성향 추출
       nationality: 0.10,   // 국적 - 문화적 맥락 참고
       productivity: 0.05   // 생산성 - 감상 전략 참고
     };
-    
+
     // 전기 텍스트 분석을 위한 확장된 키워드
     this.biographyKeywords = {
       // L/S 축 (혼자 vs 함께)
@@ -263,7 +263,7 @@ class ArtistAPTInferenceEngine {
         'member', 'association', 'movement', 'circle', 'network', 'friends',
         'colleague', 'collaborator', 'assistant', 'studio assistant', 'workshop'
       ],
-      
+
       // A/R 축 (추상 vs 구상)
       A: [
         // 스타일 용어
@@ -287,7 +287,7 @@ class ArtistAPTInferenceEngine {
         'observation', 'study from life', 'plein air', 'photorealistic', 'illusionistic',
         'perspective', 'anatomy', 'proportion', 'likeness', 'resemblance'
       ],
-      
+
       // E/M 축 (감정 vs 의미)
       E: [
         // 감정 표현
@@ -311,7 +311,7 @@ class ArtistAPTInferenceEngine {
         'research', 'study', 'reference', 'quotation', 'appropriation', 'context',
         'history', 'culture', 'society', 'philosophy', 'theory', 'idea'
       ],
-      
+
       // F/C 축 (자유 vs 체계)
       F: [
         // 혁신성
@@ -445,8 +445,8 @@ class ArtistAPTInferenceEngine {
   inferLifePattern(artistData) {
     if (!artistData.birth_year) return null;
 
-    const lifespan = artistData.death_year 
-      ? artistData.death_year - artistData.birth_year 
+    const lifespan = artistData.death_year
+      ? artistData.death_year - artistData.birth_year
       : new Date().getFullYear() - artistData.birth_year;
 
     // 짧고 비극적
@@ -539,14 +539,14 @@ class ArtistAPTInferenceEngine {
     // 빈도순 정렬
     const sortedAPT = Object.entries(aptFrequency)
       .sort(([,a], [,b]) => b - a)
-      .map(([apt,]) => apt);
+      .map(([apt]) => apt);
 
     // 상위 3개를 primary로
     inference.primaryAPT = sortedAPT.slice(0, 3);
-    
+
     // 다음 3개를 secondary로
     inference.secondaryAPT = sortedAPT.slice(3, 6);
-    
+
     // 신뢰도 조정
     inference.confidence = Math.min(95, inference.confidence);
   }
@@ -592,7 +592,7 @@ class ArtistAPTInferenceEngine {
     const bioLower = bio.toLowerCase();
     const axisScores = { L_S: 0, A_R: 0, E_M: 0, F_C: 0 };
     const foundKeywords = { L: [], S: [], A: [], R: [], E: [], M: [], F: [], C: [] };
-    
+
     // 각 축의 키워드 검색 및 점수 계산
     for (const [axis, keywords] of Object.entries(this.biographyKeywords)) {
       keywords.forEach(keyword => {
@@ -600,7 +600,7 @@ class ArtistAPTInferenceEngine {
         const regex = new RegExp(`\\b${keyword}\\b`, 'i');
         if (regex.test(bioLower)) {
           foundKeywords[axis].push(keyword);
-          
+
           // 축별 점수 조정
           switch(axis) {
             case 'L': axisScores.L_S -= 15; break;
@@ -615,15 +615,15 @@ class ArtistAPTInferenceEngine {
         }
       });
     }
-    
+
     // 점수 정규화
     Object.keys(axisScores).forEach(axis => {
       axisScores[axis] = Math.max(-100, Math.min(100, axisScores[axis]));
     });
-    
+
     // APT 유형 추론
     const aptCode = this.determineAPTFromScores(axisScores);
-    
+
     return {
       primaryAPT: [aptCode],
       axisScores,
@@ -652,32 +652,32 @@ class ArtistAPTInferenceEngine {
     } else if (foundKeywords.S.length > 0) {
       summary.push(`사회적(${foundKeywords.S.slice(0, 3).join(', ')})`);
     }
-    
+
     if (foundKeywords.A.length > foundKeywords.R.length) {
       summary.push(`추상적(${foundKeywords.A.slice(0, 3).join(', ')})`);
     } else if (foundKeywords.R.length > 0) {
       summary.push(`구상적(${foundKeywords.R.slice(0, 3).join(', ')})`);
     }
-    
+
     if (foundKeywords.E.length > foundKeywords.M.length) {
       summary.push(`감성적(${foundKeywords.E.slice(0, 3).join(', ')})`);
     } else if (foundKeywords.M.length > 0) {
       summary.push(`의미중심(${foundKeywords.M.slice(0, 3).join(', ')})`);
     }
-    
+
     if (foundKeywords.F.length > foundKeywords.C.length) {
       summary.push(`자유로운(${foundKeywords.F.slice(0, 3).join(', ')})`);
     } else if (foundKeywords.C.length > 0) {
       summary.push(`체계적(${foundKeywords.C.slice(0, 3).join(', ')})`);
     }
-    
+
     return summary.join(', ');
   }
 
   // 키워드 발견 해석
   interpretKeywordFindings(foundKeywords) {
     const dominantTraits = [];
-    
+
     // 가장 많이 발견된 특성 파악
     const counts = {};
     Object.entries(foundKeywords).forEach(([key, keywords]) => {
@@ -685,7 +685,7 @@ class ArtistAPTInferenceEngine {
         counts[key] = keywords.length;
       }
     });
-    
+
     // 상위 특성 추출
     const sorted = Object.entries(counts).sort(([,a], [,b]) => b - a);
     sorted.slice(0, 3).forEach(([trait, count]) => {
@@ -701,23 +701,23 @@ class ArtistAPTInferenceEngine {
       };
       dominantTraits.push(traitMap[trait]);
     });
-    
+
     return dominantTraits.join(', ');
   }
 
   // 매체로부터 추론
   inferFromMedium(medium) {
     if (!medium) return null;
-    
+
     const mediumLower = medium.toLowerCase();
-    
+
     // 매체별 매칭
     for (const [key, data] of Object.entries(this.inferenceRules.mediumToSensory)) {
       if (mediumLower.includes(key)) {
         return data;
       }
     }
-    
+
     // 추가 매체 매칭
     if (mediumLower.includes('digital') || mediumLower.includes('video')) {
       return {
@@ -728,7 +728,7 @@ class ArtistAPTInferenceEngine {
         favoredAPT: ['A', 'F']
       };
     }
-    
+
     if (mediumLower.includes('installation')) {
       return {
         texture: 'environmental',
@@ -738,7 +738,7 @@ class ArtistAPTInferenceEngine {
         favoredAPT: ['S', 'F']
       };
     }
-    
+
     return null;
   }
 
@@ -751,7 +751,7 @@ class ArtistAPTInferenceEngine {
         inference.primaryAPT.push(...matchingAPTs);
       });
     }
-    
+
     if (mediumData.viewingDistance) {
       inference.viewingExperience.physicalEngagement = mediumData.viewingDistance;
     }
@@ -761,21 +761,21 @@ class ArtistAPTInferenceEngine {
   findAPTsWithTrait(trait) {
     const aptTypes = [];
     const allTypes = ['LAEF', 'LAEC', 'LAMF', 'LAMC', 'LREF', 'LREC', 'LRMF', 'LRMC',
-                      'SAEF', 'SAEC', 'SAMF', 'SAMC', 'SREF', 'SREC', 'SRMF', 'SRMC'];
-    
+      'SAEF', 'SAEC', 'SAMF', 'SAMC', 'SREF', 'SREC', 'SRMF', 'SRMC'];
+
     allTypes.forEach(type => {
       if (type.includes(trait)) {
         aptTypes.push(type);
       }
     });
-    
+
     return aptTypes.slice(0, 2); // 상위 2개만 반환
   }
 
   // 생산성으로부터 추론
   inferFromProductivity(productivityEstimate) {
     const level = parseInt(productivityEstimate);
-    
+
     if (level > 1000) {
       return this.inferenceRules.productivityToDepth.prolific;
     } else if (level < 100) {
@@ -791,7 +791,7 @@ class ArtistAPTInferenceEngine {
     if (this.inferenceRules.nationalityToContext[nationality]) {
       return this.inferenceRules.nationalityToContext[nationality];
     }
-    
+
     // 유사 국적 찾기
     const nationalityMap = {
       'USA': 'American',
@@ -807,12 +807,12 @@ class ArtistAPTInferenceEngine {
       'United Kingdom': 'British',
       'England': 'British'
     };
-    
+
     const mapped = nationalityMap[nationality];
     if (mapped && this.inferenceRules.nationalityToContext[mapped]) {
       return this.inferenceRules.nationalityToContext[mapped];
     }
-    
+
     // 기본값
     return {
       themes: ['universal'],
@@ -827,7 +827,7 @@ class ArtistAPTInferenceEngine {
     if (!pattern || !this.inferenceRules.lifePatternToWork[pattern]) {
       return null;
     }
-    
+
     const patternData = this.inferenceRules.lifePatternToWork[pattern];
     return {
       primaryAPT: patternData.primaryAPT || [],

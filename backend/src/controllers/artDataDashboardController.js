@@ -8,7 +8,7 @@ const enhancedExhibitionCollector = require('../services/enhancedExhibitionColle
  * 아트 데이터 통합 모니터링 대시보드 컨트롤러
  */
 class ArtDataDashboardController {
-  
+
   /**
    * 종합 데이터 상태 대시보드
    */
@@ -225,10 +225,10 @@ class ArtDataDashboardController {
   async getDataSourceStats() {
     // API 동기화 상태
     const apiSyncStatus = await museumAPIService.getSyncStatus();
-    
+
     // 문화포털 수집 상태
     const culturePortalStatus = await culturePortalIntegration.getCollectionStatus();
-    
+
     // 크롤링 성공률
     const crawlingStats = await pool.query(`
       SELECT 
@@ -349,10 +349,10 @@ class ArtDataDashboardController {
   async getSystemHealth() {
     // 데이터베이스 연결 상태
     const dbHealth = await this.checkDatabaseHealth();
-    
+
     // API 상태 확인
     const apiHealth = await this.checkAPIHealth();
-    
+
     // 디스크 사용량 (근사치)
     const storageStats = await pool.query(`
       SELECT 
@@ -448,7 +448,7 @@ class ArtDataDashboardController {
    */
   async searchData(req, res) {
     try {
-      const { 
+      const {
         type, // 'exhibitions', 'artworks', 'artists', 'venues'
         query,
         filters = {},
@@ -519,10 +519,10 @@ class ArtDataDashboardController {
 
   async generateQualityRecommendations() {
     const recommendations = [];
-    
+
     // 데이터 품질 메트릭 기반 추천사항 생성 로직
     const qualityMetrics = await this.getDataQualityMetrics();
-    
+
     if (qualityMetrics.duplicates.potential_duplicates > 10) {
       recommendations.push({
         priority: 'high',
@@ -530,7 +530,7 @@ class ArtDataDashboardController {
         message: `${qualityMetrics.duplicates.potential_duplicates}개의 중복 가능 전시가 발견되었습니다. 중복 제거 작업이 필요합니다.`
       });
     }
-    
+
     return recommendations;
   }
 

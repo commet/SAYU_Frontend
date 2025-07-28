@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { pool } = require('../config/database');
-const { logger } = require("../config/logger");
+const { logger } = require('../config/logger');
 
 class MuseumAPIService {
   constructor() {
@@ -43,7 +43,7 @@ class MuseumAPIService {
       cleveland: 22, // ~4000 per day = 22ms between requests
       rijks: 9 // ~10000 per day = 9ms between requests
     };
-    
+
     const delay = delayMap[apiSource] || 1000;
     await new Promise(resolve => setTimeout(resolve, delay));
   }
@@ -52,46 +52,46 @@ class MuseumAPIService {
   async syncMetMuseum() {
     try {
       await this.updateSyncStatus('met', 'artworks', 'running');
-      
+
       // Get all object IDs
       const objectsResponse = await axios.get(`${this.apis.met.baseUrl}/objects`);
-      const objectIDs = objectsResponse.data.objectIDs;
-      
+      const { objectIDs } = objectsResponse.data;
+
       await this.updateSyncStatus('met', 'artworks', 'running', {
         total_records: objectIDs.length
       });
 
       let processed = 0;
       const batchSize = 100;
-      
+
       for (let i = 0; i < objectIDs.length; i += batchSize) {
         const batch = objectIDs.slice(i, i + batchSize);
-        
+
         await Promise.all(batch.map(async (id) => {
           try {
             await this.rateLimitDelay('met');
             const objectResponse = await axios.get(`${this.apis.met.baseUrl}/objects/${id}`);
             const artwork = objectResponse.data;
-            
+
             if (artwork.isPublicDomain && artwork.primaryImage) {
               await this.saveArtwork('met', artwork, this.transformMetArtwork(artwork));
             }
-            
+
             processed++;
           } catch (error) {
             logger.error(`Failed to sync Met object ${id}:`, error.message);
           }
         }));
-        
+
         await this.updateSyncStatus('met', 'artworks', 'running', {
           processed_records: processed
         });
-        
+
         logger.info(`Met Museum sync: ${processed}/${objectIDs.length} processed`);
       }
-      
+
       await this.updateSyncStatus('met', 'artworks', 'completed');
-      
+
     } catch (error) {
       logger.error('Met Museum sync failed:', error);
       await this.updateSyncStatus('met', 'artworks', 'failed', { error: error.message });
@@ -104,15 +104,15 @@ class MuseumAPIService {
   async syncClevelandMuseum() {
     try {
       await this.updateSyncStatus('cleveland', 'artworks', 'running');
-      
+
       let skip = 0;
       const limit = 100;
       let hasMore = true;
       let processed = 0;
-      
+
       while (hasMore) {
         await this.rateLimitDelay('cleveland');
-        
+
         const response = await axios.get(`${this.apis.cleveland.baseUrl}/artworks`, {
           params: {
             has_image: 1,
@@ -120,14 +120,14 @@ class MuseumAPIService {
             skip
           }
         });
-        
+
         const artworks = response.data.data;
-        
+
         if (artworks.length === 0) {
           hasMore = false;
           break;
         }
-        
+
         for (const artwork of artworks) {
           try {
             if (artwork.images && artwork.images.web) {
@@ -138,20 +138,20 @@ class MuseumAPIService {
             logger.error(`Failed to save Cleveland artwork ${artwork.id}:`, error.message);
           }
         }
-        
+
         await this.updateSyncStatus('cleveland', 'artworks', 'running', {
           processed_records: processed
         });
-        
+
         skip += limit;
         logger.info(`Cleveland Museum sync: ${processed} processed`);
-        
+
         // Limit for demo
         if (skip >= 5000) hasMore = false;
       }
-      
+
       await this.updateSyncStatus('cleveland', 'artworks', 'completed');
-      
+
     } catch (error) {
       logger.error('Cleveland Museum sync failed:', error);
       await this.updateSyncStatus('cleveland', 'artworks', 'failed', { error: error.message });
@@ -167,13 +167,13 @@ class MuseumAPIService {
 
     try {
       await this.updateSyncStatus('rijks', 'artworks', 'running');
-      
+
       let page = 1;
       let processed = 0;
-      
+
       while (page <= 100) { // Limit pages for demo
         await this.rateLimitDelay('rijks');
-        
+
         const response = await axios.get(this.apis.rijks.baseUrl, {
           params: {
             key: this.apis.rijks.apiKey,
@@ -183,15 +183,15 @@ class MuseumAPIService {
             toppieces: true
           }
         });
-        
-        const data = response.data;
-        
+
+        const { data } = response;
+
         if (page === 1) {
           await this.updateSyncStatus('rijks', 'artworks', 'running', {
             total_records: Math.min(data.count, 10000) // Limit total
           });
         }
-        
+
         for (const artwork of data.artObjects) {
           try {
             // Get detailed object info
@@ -199,28 +199,28 @@ class MuseumAPIService {
             const detailResponse = await axios.get(`${this.apis.rijks.baseUrl}/${artwork.objectNumber}`, {
               params: { key: this.apis.rijks.apiKey }
             });
-            
+
             const detailedArtwork = detailResponse.data.artObject;
             await this.saveArtwork('rijks', detailedArtwork, this.transformRijksArtwork(detailedArtwork));
             processed++;
-            
+
           } catch (error) {
             logger.error(`Failed to save Rijks artwork ${artwork.objectNumber}:`, error.message);
           }
         }
-        
+
         await this.updateSyncStatus('rijks', 'artworks', 'running', {
           processed_records: processed
         });
-        
+
         if (data.artObjects.length < 100) break;
         page++;
-        
+
         logger.info(`Rijksmuseum sync: page ${page}, ${processed} processed`);
       }
-      
+
       await this.updateSyncStatus('rijks', 'artworks', 'completed');
-      
+
     } catch (error) {
       logger.error('Rijksmuseum sync failed:', error);
       await this.updateSyncStatus('rijks', 'artworks', 'failed', { error: error.message });
@@ -394,7 +394,7 @@ class MuseumAPIService {
   // Public methods for scheduled syncing
   async syncAllMuseums() {
     logger.info('Starting museum API sync for all commercially-licensed sources...');
-    
+
     const syncPromises = [
       this.syncMetMuseum(),
       this.syncClevelandMuseum(),
@@ -412,7 +412,7 @@ class MuseumAPIService {
       FROM api_sync_status
       ORDER BY api_source, resource_type
     `;
-    
+
     const result = await pool.query(query);
     return result.rows;
   }
@@ -432,8 +432,8 @@ class MuseumAPIService {
       offset = 0
     } = searchParams;
 
-    let whereConditions = [];
-    let values = [];
+    const whereConditions = [];
+    const values = [];
     let paramCount = 1;
 
     if (hasImage) {

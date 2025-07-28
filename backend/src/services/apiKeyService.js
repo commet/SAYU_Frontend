@@ -90,8 +90,8 @@ class APIKeyService {
       return { valid: false, reason: 'Daily limit exceeded' };
     }
 
-    return { 
-      valid: true, 
+    return {
+      valid: true,
       keyData,
       usageToday: todayUsage,
       remainingToday: keyData.dailyLimit - todayUsage
@@ -124,7 +124,7 @@ class APIKeyService {
   logUsage(apiKey, endpoint) {
     const logEntry = {
       timestamp: new Date().toISOString(),
-      apiKey: apiKey.substring(0, 8) + '***', // 일부만 로깅
+      apiKey: `${apiKey.substring(0, 8)}***`, // 일부만 로깅
       endpoint,
       ip: 'hidden' // IP는 별도 처리 필요
     };
@@ -135,13 +135,13 @@ class APIKeyService {
     }
 
     const logFile = path.join(logDir, 'api-usage.log');
-    fs.appendFileSync(logFile, JSON.stringify(logEntry) + '\n');
+    fs.appendFileSync(logFile, `${JSON.stringify(logEntry)}\n`);
   }
 
   generateAPIKey(name, tier = 'free') {
     const keyId = crypto.randomBytes(16).toString('hex');
     const apiKey = `sayu_${tier}_${keyId}`;
-    
+
     const keyData = {
       name,
       tier,
@@ -152,7 +152,7 @@ class APIKeyService {
 
     const keys = this.getKeys();
     keys[apiKey] = keyData;
-    
+
     try {
       fs.writeFileSync(this.keysFile, JSON.stringify(keys, null, 2));
       return { apiKey, ...keyData };

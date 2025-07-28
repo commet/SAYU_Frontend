@@ -13,7 +13,7 @@ async function convertExhibitionsToDb() {
 
   // 최신 수집된 데이터 파일 읽기
   const filename = 'major-sources-collection-2025-07-26T13-55-03-731Z.json';
-  
+
   if (!fs.existsSync(filename)) {
     console.error('❌ 데이터 파일을 찾을 수 없습니다:', filename);
     return;
@@ -31,7 +31,7 @@ async function convertExhibitionsToDb() {
     // 처리할 전시들 필터링 (유의미한 제목이 있는 것만)
     const validExhibitions = data.allExhibitions.filter(ex => {
       const title = ex.title.trim();
-      return title.length > 5 && 
+      return title.length > 5 &&
              !title.toLowerCase().includes('imagetitle') &&
              !title.toLowerCase().includes('museums') &&
              !title.includes('Newsletter');
@@ -46,8 +46,8 @@ async function convertExhibitionsToDb() {
       try {
         // 1. Venue 추출 및 정제
         let venueName = 'Unknown Venue';
-        let venueCity = 'London';
-        
+        const venueCity = 'London';
+
         // 제목에서 venue 추출
         if (exhibition.title.includes(' at ')) {
           const parts = exhibition.title.split(' at ');
@@ -63,7 +63,7 @@ async function convertExhibitionsToDb() {
 
         // 제목 정제 (번호 제거)
         let cleanTitle = exhibition.title.replace(/^\d+\.\s*/, '').trim();
-        
+
         // Venue 이름에서 venue 부분 제거
         if (cleanTitle.includes(' at ')) {
           cleanTitle = cleanTitle.split(' at ')[0].trim();
@@ -107,7 +107,7 @@ async function convertExhibitionsToDb() {
             75,
             'unverified'
           ]);
-          
+
           venueId = venueResult.rows[0].id;
           insertedVenues++;
           console.log(`✅ 새 venue 삽입: ${venueName} (ID: ${venueId})`);

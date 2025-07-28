@@ -1,0 +1,132 @@
+name: Frontend Deploy to Vercel
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'frontend/**'
+      - '.github/workflows/frontend-deploy.yml'
+  pull_request:
+    branches: [ main ]
+    paths: 
+      - 'frontend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+    
+    - name: Install dependencies
+      run: |
+        cd frontend
+        npm ci --legacy-peer-deps
+    
+    - name: Run TypeScript check
+      run: |
+        cd frontend
+        npx tsc --noEmit
+    
+    - name: Run ESLint
+      run: |
+        cd frontend
+        npx next lint --max-warnings 100
+    
+    - name: Build application
+      run: |
+        cd frontend
+        npm run build
+      env:
+        SKIP_ENV_VALIDATION: true
+        NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+        NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+        SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        GOOGLE_AI_API_KEY: ${{ secrets.GOOGLE_AI_API_KEY }}
+        REPLICATE_API_TOKEN: ${{ secrets.REPLICATE_API_TOKEN }}
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        working-directory: frontend
+        vercel-args: '--prod'
+      env:
+        # Public Environment Variables
+        NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+        NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+        NEXT_PUBLIC_APP_NAME: SAYU
+        
+        # Server-side Environment Variables
+        SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        GOOGLE_AI_API_KEY: ${{ secrets.GOOGLE_AI_API_KEY }}
+        REPLICATE_API_TOKEN: ${{ secrets.REPLICATE_API_TOKEN }}
+        
+        # Optional
+        SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+        NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+        
+        # Build Configuration
+        SKIP_ENV_VALIDATION: true
+        NODE_ENV: production
+
+  lighthouse:
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run Lighthouse CI
+      uses: treosh/lighthouse-ci-action@v10
+      with:
+        urls: |
+          ${{ secrets.NEXT_PUBLIC_APP_URL }}
+          ${{ secrets.NEXT_PUBLIC_APP_URL }}/gallery
+          ${{ secrets.NEXT_PUBLIC_APP_URL }}/exhibitions
+        configPath: './frontend/.lighthouserc.js'
+        uploadArtifacts: true
+        temporaryPublicStorage: true
+
+  notify:
+    needs: [test, deploy, lighthouse]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Notify deployment status
+      run: |
+        if [ "${{ needs.deploy.result }}" == "success" ]; then
+          echo "🚀 Frontend deployment successful!"
+          echo "✅ Tests passed: ${{ needs.test.result }}"
+          echo "✅ Deploy status: ${{ needs.deploy.result }}"
+          echo "📊 Lighthouse: ${{ needs.lighthouse.result }}"
+        else
+          echo "❌ Frontend deployment failed!"
+          echo "Tests: ${{ needs.test.result }}"
+          echo "Deploy: ${{ needs.deploy.result }}"
+          echo "Lighthouse: ${{ needs.lighthouse.result }}"
+          exit 1
+        fi

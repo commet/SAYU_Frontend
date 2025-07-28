@@ -168,7 +168,7 @@ module.exports = { seedGamificationData };
 // Run if called directly
 if (require.main === module) {
   const { connectDatabase } = require('../src/config/database');
-  
+
   connectDatabase().then(() => {
     seedGamificationData().then(() => {
       process.exit(0);

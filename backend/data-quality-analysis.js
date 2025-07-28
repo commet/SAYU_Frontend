@@ -10,7 +10,7 @@ const pool = new Pool({
 
 async function analyzeDataQuality() {
   const client = await pool.connect();
-  
+
   try {
     // 1. 전체 데이터 현황
     const totalStats = await client.query(`
@@ -43,13 +43,13 @@ async function analyzeDataQuality() {
     `);
 
     console.log('📋 소스별 데이터 품질 분석:');
-    console.log('소스명'.padEnd(25) + '| 개수 | 제목 | 장소 | 시작일 | 종료일 | 작가 | 설명 | URL | 완성도');
+    console.log(`${'소스명'.padEnd(25)}| 개수 | 제목 | 장소 | 시작일 | 종료일 | 작가 | 설명 | URL | 완성도`);
     console.log('-'.repeat(95));
-    
+
     sourceStats.rows.forEach(row => {
       const fields = [row.valid_title, row.has_venue, row.has_start_date, row.has_end_date, row.has_artists, row.has_description, row.has_source_url];
       const completeness = Math.round((fields.reduce((a, b) => a + b, 0) / (row.count * 7)) * 100);
-      
+
       const line = [
         row.source.padEnd(25),
         row.count.toString().padStart(4),
@@ -62,7 +62,7 @@ async function analyzeDataQuality() {
         row.has_source_url.toString().padStart(3),
         `${completeness}%`.padStart(6)
       ].join(' | ');
-      
+
       console.log(line);
     });
 
@@ -77,10 +77,10 @@ async function analyzeDataQuality() {
     `);
 
     bestQuality.rows.forEach((ex, i) => {
-      console.log(`${i+1}. "${ex.title_local}" - ${ex.venue_name}`);
+      console.log(`${i + 1}. "${ex.title_local}" - ${ex.venue_name}`);
       console.log(`   📅 ${ex.start_date} ~ ${ex.end_date}`);
       console.log(`   🎨 ${ex.artists ? ex.artists.join(', ') : 'N/A'}`);
-      console.log(`   📝 ${ex.description ? ex.description.substring(0, 60) + '...' : 'N/A'}`);
+      console.log(`   📝 ${ex.description ? `${ex.description.substring(0, 60)}...` : 'N/A'}`);
       console.log();
     });
 
@@ -95,15 +95,15 @@ async function analyzeDataQuality() {
     `);
 
     worstQuality.rows.forEach((ex, i) => {
-      console.log(`${i+1}. "${ex.title_local}" - ${ex.venue_name}`);
+      console.log(`${i + 1}. "${ex.title_local}" - ${ex.venue_name}`);
       console.log(`   📅 ${ex.start_date}`);
-      console.log(`   📝 ${ex.description ? ex.description.substring(0, 60) + '...' : 'N/A'}`);
+      console.log(`   📝 ${ex.description ? `${ex.description.substring(0, 60)}...` : 'N/A'}`);
       console.log();
     });
 
     // 5. 표준화 문제점 분석
     console.log('\n⚠️  표준화 문제점 분석:');
-    
+
     // 날짜 형식 문제
     const dateIssues = await client.query(`
       SELECT COUNT(*) as count

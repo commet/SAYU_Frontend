@@ -4,7 +4,7 @@ const { DataTypes } = require('sequelize');
 async function createWaitlistTable() {
   try {
     console.log('Creating waitlist table...');
-    
+
     await sequelize.query(`
       CREATE TABLE IF NOT EXISTS waitlists (
         id UUID DEFAULT gen_random_uuid() PRIMARY KEY,

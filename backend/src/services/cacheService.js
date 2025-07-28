@@ -222,17 +222,17 @@ class CacheService {
     try {
       // Cache user profile
       await this.setUserProfile(userId, profile);
-      
+
       // Pre-cache common recommendations
       const categories = ['paintings', 'sculpture', 'modern', 'photography'];
-      const promises = categories.map(category => 
+      const promises = categories.map(category =>
         this.setRecommendations(userId, category, {
           searchTerms: this.getSearchTermsForProfile(profile),
           departmentIds: this.getDepartmentIdsForProfile(profile),
           category
         })
       );
-      
+
       await Promise.all(promises);
       return true;
     } catch (error) {
@@ -246,7 +246,7 @@ class CacheService {
     try {
       const info = await redisClient().info('memory');
       const keyspace = await redisClient().info('keyspace');
-      
+
       return {
         memory: this.parseRedisInfo(info),
         keyspace: this.parseRedisInfo(keyspace),
@@ -263,22 +263,22 @@ class CacheService {
     try {
       let cursor = 0;
       let deletedCount = 0;
-      
+
       do {
         const result = await redisClient().scan(cursor, {
           MATCH: pattern,
           COUNT: 100
         });
-        
+
         cursor = result.cursor;
-        const keys = result.keys;
-        
+        const { keys } = result;
+
         if (keys.length > 0) {
           await redisClient().del(keys);
           deletedCount += keys.length;
         }
       } while (cursor !== 0);
-      
+
       return deletedCount;
     } catch (error) {
       console.error('Clear pattern error:', error);
@@ -316,10 +316,10 @@ class CacheService {
 
   getSearchTermsForProfile(profile) {
     if (!profile) return ['art', 'painting', 'masterpiece'];
-    
+
     const emotionalTags = profile.emotional_tags || [];
     const typeCode = profile.type_code || '';
-    
+
     const searchMapping = {
       'contemplative': ['meditation', 'peaceful', 'serene'],
       'energetic': ['dynamic', 'vibrant', 'movement'],
@@ -328,35 +328,35 @@ class CacheService {
       'emotional': ['expressionism', 'abstract', 'color'],
       'analytical': ['geometric', 'structure', 'composition']
     };
-    
-    let terms = [];
-    
+
+    const terms = [];
+
     emotionalTags.forEach(tag => {
       if (searchMapping[tag.toLowerCase()]) {
         terms.push(...searchMapping[tag.toLowerCase()]);
       }
     });
-    
+
     if (typeCode.includes('A')) terms.push('abstract', 'modern');
     if (typeCode.includes('R')) terms.push('realistic', 'portrait');
     if (typeCode.includes('E')) terms.push('expressive', 'emotional');
     if (typeCode.includes('M')) terms.push('classical', 'detailed');
-    
+
     return terms.length > 0 ? [...new Set(terms)] : ['art', 'painting'];
   }
 
   getDepartmentIdsForProfile(profile) {
     if (!profile) return [11];
-    
+
     const typeCode = profile.type_code || '';
     const emotionalTags = profile.emotional_tags || [];
-    
-    let departments = [11]; // Always include American Paintings
-    
+
+    const departments = [11]; // Always include American Paintings
+
     if (typeCode.includes('A')) departments.push(21); // Modern Art
     if (typeCode.includes('S')) departments.push(6);  // Asian Art
     if (emotionalTags.includes('traditional')) departments.push(14); // European Paintings
-    
+
     return [...new Set(departments)];
   }
 }

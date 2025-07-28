@@ -127,7 +127,7 @@ function sanitizeCacheKey(key) {
   if (typeof key === 'string') {
     // Remove user IDs and sensitive data from cache keys for logging
     return key.replace(/user:\d+/g, 'user:[ID]')
-              .replace(/token:[a-f0-9-]+/g, 'token:[TOKEN]');
+      .replace(/token:[a-f0-9-]+/g, 'token:[TOKEN]');
   }
   return key;
 }

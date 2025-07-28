@@ -12,7 +12,7 @@ class MassiveArtMapCollector {
       errors: [],
       startTime: new Date().toISOString()
     };
-    
+
     // 대량 수집을 위한 설정 (보수적으로 조정)
     this.config = {
       maxVenuesPerType: 50, // 각 타입별 최대 50개 venue (처음엔 보수적으로)
@@ -43,7 +43,7 @@ class MassiveArtMapCollector {
       ],
       // 4순위 - 아시아 태평양 (각 30개씩)
       priority4: [
-        'tokyo', 'hongkong', 'shanghai', 'singapore', 'beijing', 
+        'tokyo', 'hongkong', 'shanghai', 'singapore', 'beijing',
         'taipei', 'bangkok', 'sydney', 'melbourne', 'dubai'
       ]
     };
@@ -57,7 +57,7 @@ class MassiveArtMapCollector {
       priority3: { maxVenues: 10, venueTypes: ['institutions'] },
       priority4: { maxVenues: 8, venueTypes: ['institutions'] }
     };
-    
+
     return configs[priority] || configs.priority4;
   }
 
@@ -67,11 +67,11 @@ class MassiveArtMapCollector {
     console.log('====================================');
     console.log(`Start Time: ${this.results.startTime}`);
     console.log(`Config: ${JSON.stringify(this.config, null, 2)}`);
-    
+
     const cities = this.getPriorityCities();
     let totalCities = 0;
     let processedCities = 0;
-    
+
     // 총 도시 수 계산
     Object.values(cities).forEach(cityList => totalCities += cityList.length);
     console.log(`Total cities to process: ${totalCities}`);
@@ -80,43 +80,43 @@ class MassiveArtMapCollector {
       // 우선순위별 순차 처리
       for (const [priority, cityList] of Object.entries(cities)) {
         console.log(`\n📍 Processing ${priority}: ${cityList.length} cities`);
-        
+
         for (const city of cityList) {
           try {
             console.log(`\n[${processedCities + 1}/${totalCities}] Processing ${city} (${priority})`);
-            
+
             const cityConfig = this.getCityConfig(city, priority);
-            
+
             // 도시별 크롤링 실행
             const result = await this.crawler.crawlCity(city, cityConfig);
-            
+
             // 결과 저장
             this.results.cityResults[city] = {
               priority,
               ...result
             };
-            
+
             this.results.totalExhibitions += result.exhibitionsSaved;
             this.results.totalVenues += result.venuesProcessed;
-            
+
             processedCities++;
-            
+
             // 중간 저장
             if (processedCities % this.config.saveInterval === 0) {
               await this.saveIntermediateResults();
             }
-            
+
             // 진행 상황 출력
             const successRate = ((processedCities / totalCities) * 100).toFixed(1);
             console.log(`✅ ${city} completed. Progress: ${successRate}% (${processedCities}/${totalCities})`);
             console.log(`📊 Total collected: ${this.results.totalExhibitions} exhibitions, ${this.results.totalVenues} venues`);
-            
+
             // 도시 간 대기 (서버 부하 방지)
             if (processedCities < totalCities) {
               console.log('⏳ Waiting 15 seconds before next city...');
               await this.delay(15000);
             }
-            
+
           } catch (error) {
             console.error(`❌ Error processing ${city}:`, error.message);
             this.results.errors.push({
@@ -127,14 +127,14 @@ class MassiveArtMapCollector {
             });
           }
         }
-        
+
         // 우선순위 그룹 간 긴 대기 (서버 부하 방지)
         if (Object.keys(cities).indexOf(priority) < Object.keys(cities).length - 1) {
           console.log('⏳ Waiting 30 seconds before next priority group...');
           await this.delay(30000);
         }
       }
-      
+
     } catch (error) {
       console.error('💥 Critical error in massive collection:', error);
       this.results.errors.push({
@@ -146,7 +146,7 @@ class MassiveArtMapCollector {
 
     // 최종 결과 저장
     await this.saveFinalResults();
-    
+
     console.log('\n🎉 MASSIVE COLLECTION COMPLETED');
     console.log('==============================');
     this.printFinalStats();
@@ -158,10 +158,10 @@ class MassiveArtMapCollector {
       const timestamp = new Date().toISOString().replace(/:/g, '-');
       const filename = `massive_collection_intermediate_${timestamp}.json`;
       const filepath = path.join(__dirname, 'collection_results', filename);
-      
+
       await fs.mkdir(path.dirname(filepath), { recursive: true });
       await fs.writeFile(filepath, JSON.stringify(this.results, null, 2));
-      
+
       console.log(`💾 Intermediate results saved: ${filename}`);
     } catch (error) {
       console.error('Error saving intermediate results:', error);
@@ -173,25 +173,25 @@ class MassiveArtMapCollector {
     try {
       this.results.endTime = new Date().toISOString();
       this.results.duration = (new Date(this.results.endTime) - new Date(this.results.startTime)) / 1000;
-      
+
       const timestamp = new Date().toISOString().replace(/:/g, '-');
-      
+
       // 전체 결과 저장
       const fullResultsFile = `massive_collection_full_${timestamp}.json`;
       const fullResultsPath = path.join(__dirname, 'collection_results', fullResultsFile);
       await fs.mkdir(path.dirname(fullResultsPath), { recursive: true });
       await fs.writeFile(fullResultsPath, JSON.stringify(this.results, null, 2));
-      
+
       // 요약 리포트 저장
       const summary = this.generateSummaryReport();
       const summaryFile = `massive_collection_summary_${timestamp}.json`;
       const summaryPath = path.join(__dirname, 'collection_results', summaryFile);
       await fs.writeFile(summaryPath, JSON.stringify(summary, null, 2));
-      
+
       console.log(`📁 Final results saved:`);
       console.log(`   Full: ${fullResultsFile}`);
       console.log(`   Summary: ${summaryFile}`);
-      
+
     } catch (error) {
       console.error('Error saving final results:', error);
     }
@@ -202,7 +202,7 @@ class MassiveArtMapCollector {
     const cityStats = {};
     let totalExhibitionsFound = 0;
     let totalVenuesWithCoordinates = 0;
-    
+
     Object.entries(this.results.cityResults).forEach(([city, data]) => {
       cityStats[city] = {
         country: data.country,
@@ -214,7 +214,7 @@ class MassiveArtMapCollector {
         errors: data.errors?.length || 0,
         duration: data.duration
       };
-      
+
       totalExhibitionsFound += data.exhibitionsFound || 0;
       totalVenuesWithCoordinates += data.venuesWithCoordinates || 0;
     });
@@ -238,7 +238,7 @@ class MassiveArtMapCollector {
   // 최종 통계 출력
   printFinalStats() {
     const summary = this.generateSummaryReport();
-    
+
     console.log('\n📊 FINAL STATISTICS');
     console.log('==================');
     console.log(`Cities processed: ${summary.summary.totalCitiesProcessed}`);
@@ -249,15 +249,15 @@ class MassiveArtMapCollector {
     console.log(`Success rate: ${summary.summary.successRate}%`);
     console.log(`Duration: ${summary.summary.duration} seconds`);
     console.log(`Errors: ${summary.summary.totalErrors}`);
-    
+
     // 도시별 TOP 10 출력
     console.log('\n🏆 TOP 10 CITIES BY EXHIBITIONS');
     console.log('==============================');
-    
+
     const topCities = Object.entries(summary.cityStats)
       .sort(([,a], [,b]) => b.exhibitionsSaved - a.exhibitionsSaved)
       .slice(0, 10);
-    
+
     topCities.forEach(([city, stats], index) => {
       console.log(`${index + 1}. ${city}: ${stats.exhibitionsSaved} exhibitions (${stats.venuesProcessed} venues)`);
     });
@@ -306,7 +306,7 @@ async function main() {
       console.log('🚀 Starting massive ArtMap collection...');
       console.log('This will take several hours. You can stop with Ctrl+C.');
       console.log('Progress will be saved periodically.');
-      
+
       await collector.startMassiveCollection();
     } else {
       console.log('Use --start to begin collection or --help for usage info');

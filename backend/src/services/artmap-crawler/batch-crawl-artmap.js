@@ -22,7 +22,7 @@ class ArtMapBatchCrawler {
   async saveProgress(progress) {
     try {
       await fs.writeFile(
-        this.progressFile, 
+        this.progressFile,
         JSON.stringify(progress, null, 2)
       );
     } catch (error) {
@@ -52,7 +52,7 @@ class ArtMapBatchCrawler {
   async saveLog(citySlug, result) {
     const timestamp = new Date().toISOString().replace(/:/g, '-');
     const logFile = path.join(this.logDir, `${citySlug}_${timestamp}.json`);
-    
+
     try {
       await fs.writeFile(logFile, JSON.stringify(result, null, 2));
       console.log(`Log saved: ${logFile}`);
@@ -99,13 +99,13 @@ class ArtMapBatchCrawler {
 
     await this.ensureLogDir();
     const progress = await this.loadProgress();
-    
+
     console.log('=== ArtMap Batch Crawler ===');
     console.log(`Starting time: ${new Date().toISOString()}`);
     console.log(`Selected tiers: ${tiers.join(', ')}`);
     console.log(`Max venues per type: ${maxVenuesPerType}`);
     console.log(`Venue types: ${venueTypes.join(', ')}`);
-    
+
     if (progress.completedCities.length > 0) {
       console.log(`Previously completed cities: ${progress.completedCities.join(', ')}`);
     }
@@ -143,7 +143,7 @@ class ArtMapBatchCrawler {
     // 각 도시 크롤링
     for (let i = startIndex; i < citiesToCrawl.length; i++) {
       const city = citiesToCrawl[i];
-      
+
       // 이미 완료된 도시는 건너뛰기
       if (progress.completedCities.includes(city)) {
         console.log(`\nSkipping ${city} (already completed)`);
@@ -151,21 +151,21 @@ class ArtMapBatchCrawler {
       }
 
       console.log(`\n[${i + 1}/${citiesToCrawl.length}] Crawling ${city}...`);
-      
+
       try {
         const result = await this.crawler.crawlCity(city, {
           maxVenues: maxVenuesPerType,
-          venueTypes: venueTypes
+          venueTypes
         });
 
         // 결과 저장
         await this.saveLog(city, result);
-        
+
         // 통계 업데이트
         results.totalStats.exhibitions += result.exhibitionsFound;
         results.totalStats.venues += result.venuesProcessed;
         results.totalStats.errors += result.errors.length;
-        
+
         results.successful.push({
           city,
           stats: result
@@ -176,7 +176,7 @@ class ArtMapBatchCrawler {
         progress.totalStats.exhibitions += result.exhibitionsFound;
         progress.totalStats.venues += result.venuesProcessed;
         progress.lastRun = new Date().toISOString();
-        
+
         await this.saveProgress(progress);
 
         // 도시 간 휴식 시간 (서버 부하 방지)
@@ -209,7 +209,7 @@ class ArtMapBatchCrawler {
 
     // 최종 결과 저장
     const summaryFile = path.join(
-      this.logDir, 
+      this.logDir,
       `batch_summary_${new Date().toISOString().replace(/:/g, '-')}.json`
     );
     await fs.writeFile(summaryFile, JSON.stringify(results, null, 2));

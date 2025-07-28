@@ -14,7 +14,7 @@ class CultureDataPortalAPI {
     // 공공데이터포털 API
     this.serviceKey = '+wfa+sUFfXVTtQtcbqA2cFvHiWWKJh2jLQzuMZywhdM0LfcNiHbuX9DkLvJJ5JDFa+3+DxNM7RHCETyzDMbzmA==';
     this.baseUrl = 'https://apis.data.go.kr/B553457/cultureinfo';
-    
+
     this.stats = {
       total: 0,
       saved: 0,
@@ -39,7 +39,7 @@ class CultureDataPortalAPI {
       };
 
       console.log('\n🔍 전시정보 API 테스트...');
-      const response = await axios.get(testUrl, { 
+      const response = await axios.get(testUrl, {
         params,
         headers: {
           'Accept': 'application/xml'
@@ -49,11 +49,11 @@ class CultureDataPortalAPI {
 
       console.log('✅ 응답 상태:', response.status);
       console.log('📄 응답 타입:', response.headers['content-type']);
-      
+
       // 응답 내용 일부 출력
       const responseData = response.data;
       console.log('📝 응답 샘플:', typeof responseData === 'string' ? responseData.substring(0, 200) : 'JSON 응답');
-      
+
       return true;
 
     } catch (error) {
@@ -77,16 +77,16 @@ class CultureDataPortalAPI {
     try {
       while (hasMore && pageNo <= 10) {
         console.log(`📄 페이지 ${pageNo} 조회 중...`);
-        
+
         const url = `${this.baseUrl}/displayinfo/displayinfoList`;
         const params = {
           serviceKey: this.serviceKey,
-          numOfRows: numOfRows,
-          pageNo: pageNo
+          numOfRows,
+          pageNo
         };
 
         try {
-          const response = await axios.get(url, { 
+          const response = await axios.get(url, {
             params,
             headers: {
               'Accept': 'application/xml'
@@ -96,11 +96,11 @@ class CultureDataPortalAPI {
 
           if (response.data) {
             const exhibitions = await this.parseResponse(response.data);
-            
+
             if (exhibitions && exhibitions.length > 0) {
               console.log(`   ✅ ${exhibitions.length}개 전시 발견`);
               allExhibitions.push(...exhibitions);
-              
+
               if (exhibitions.length < numOfRows) {
                 hasMore = false;
               } else {
@@ -126,7 +126,7 @@ class CultureDataPortalAPI {
 
     this.stats.total = allExhibitions.length;
     console.log(`\n📊 총 ${allExhibitions.length}개 전시 정보 수집`);
-    
+
     return allExhibitions;
   }
 
@@ -146,8 +146,8 @@ class CultureDataPortalAPI {
           return [];
         }
 
-        const body = result.response.body;
-        
+        const { body } = result.response;
+
         // 에러 체크
         if (result.response.header?.resultCode !== '00') {
           console.error(`❌ API 에러: ${result.response.header?.resultMsg}`);
@@ -185,28 +185,28 @@ class CultureDataPortalAPI {
     // 날짜 형식 처리
     const formatDate = (dateStr) => {
       if (!dateStr) return null;
-      
+
       // YYYYMMDD 형식인 경우
       if (dateStr.length === 8) {
         return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
       }
-      
+
       // YYYY-MM-DD 형식인 경우
       if (dateStr.includes('-')) {
         return dateStr.split(' ')[0]; // 시간 부분 제거
       }
-      
+
       return dateStr;
     };
 
     // 상태 결정
     const determineStatus = (startDate, endDate) => {
       if (!startDate || !endDate) return 'unknown';
-      
+
       const now = new Date();
       const start = new Date(startDate);
       const end = new Date(endDate);
-      
+
       if (now < start) return 'upcoming';
       if (now > end) return 'ended';
       return 'ongoing';
@@ -239,9 +239,9 @@ class CultureDataPortalAPI {
 
   async saveToDatabase(exhibitions) {
     console.log('\n💾 데이터베이스 저장 시작...');
-    
+
     const client = await pool.connect();
-    
+
     try {
       for (const exhibition of exhibitions) {
         try {
@@ -284,21 +284,21 @@ class CultureDataPortalAPI {
               exhibition.status,
               exhibition.source
             ]);
-            
+
             this.stats.saved++;
             console.log(`   ✅ 저장: ${exhibition.title_local}`);
           } else {
             console.log(`   ⏭️  중복: ${exhibition.title_local}`);
           }
-          
+
         } catch (err) {
           console.log(`   ❌ 저장 실패: ${exhibition.title_local} - ${err.message}`);
           this.stats.errors++;
         }
       }
-      
+
       console.log(`\n✅ 저장 완료: ${this.stats.saved}개 전시`);
-      
+
     } catch (error) {
       console.error('❌ DB 오류:', error.message);
     } finally {
@@ -322,18 +322,18 @@ class CultureDataPortalAPI {
     const isConnected = await this.testConnection();
     if (!isConnected) {
       console.log('\n⚠️  API 연결 실패. 다른 엔드포인트를 시도합니다...');
-      
+
       // 다른 가능한 엔드포인트들
       const endpoints = [
         '/exhibitionAPI/request',
         '/cultureAPI/request',
         '/performanceAPI/request'
       ];
-      
+
       for (const endpoint of endpoints) {
         console.log(`\n🔄 ${endpoint} 시도 중...`);
-        this.baseUrl = 'https://apis.data.go.kr/B553457/cultureinfo' + endpoint;
-        
+        this.baseUrl = `https://apis.data.go.kr/B553457/cultureinfo${endpoint}`;
+
         const success = await this.testConnection();
         if (success) break;
       }
@@ -354,7 +354,7 @@ class CultureDataPortalAPI {
     }
 
     // 결과 요약
-    console.log('\n' + '=' .repeat(60));
+    console.log(`\n${'=' .repeat(60)}`);
     console.log('📊 최종 결과:');
     console.log(`   📥 수집된 전시: ${this.stats.total}개`);
     console.log(`   💾 저장된 전시: ${this.stats.saved}개`);

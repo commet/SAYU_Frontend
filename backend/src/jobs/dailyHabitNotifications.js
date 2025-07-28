@@ -54,7 +54,7 @@ async function getUsersForTimeSlot(timeSlot) {
     AND uhs.push_enabled = true
     AND EXTRACT(DOW FROM NOW() AT TIME ZONE uhs.timezone) = ANY(uhs.active_days)
   `;
-  
+
   const result = await pool.query(query);
   return result.rows;
 }
@@ -73,7 +73,7 @@ async function sendTimeSlotNotifications(timeSlot) {
           timeSlot,
           template
         );
-        
+
         log.info(`${timeSlot} notification sent to user ${user.id}`);
       } catch (error) {
         log.error(`Failed to send ${timeSlot} notification to user ${user.id}:`, error);
@@ -88,7 +88,7 @@ async function sendTimeSlotNotifications(timeSlot) {
 async function checkStreakRewards() {
   try {
     log.info('Checking streak rewards...');
-    
+
     const query = `
       SELECT 
         us.user_id,
@@ -100,9 +100,9 @@ async function checkStreakRewards() {
       WHERE us.current_streak >= 7
       AND us.last_activity_date = CURRENT_DATE
     `;
-    
+
     const result = await pool.query(query);
-    
+
     for (const streak of result.rows) {
       try {
         // 7일 달성 알림
@@ -114,7 +114,7 @@ async function checkStreakRewards() {
           );
           log.info(`7-day streak notification sent to user ${streak.user_id}`);
         }
-        
+
         // 30일 달성 알림
         if (streak.current_streak === 30 && !streak.achieved_30_days) {
           await dailyHabitService.sendPushNotification(
@@ -124,7 +124,7 @@ async function checkStreakRewards() {
           );
           log.info(`30-day streak notification sent to user ${streak.user_id}`);
         }
-        
+
         // 100일 달성 알림
         if (streak.current_streak === 100 && !streak.achieved_100_days) {
           await dailyHabitService.sendPushNotification(
@@ -147,11 +147,11 @@ async function checkStreakRewards() {
 async function generateDailyArtworkQueue() {
   try {
     log.info('Generating daily artwork queue...');
-    
+
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const tomorrowStr = tomorrow.toISOString().split('T')[0];
-    
+
     // 활성 사용자 조회
     const usersQuery = `
       SELECT DISTINCT u.id, up.type_code, up.emotional_tags
@@ -161,12 +161,12 @@ async function generateDailyArtworkQueue() {
       WHERE (uhs.morning_enabled = true OR uhs.lunch_enabled = true OR uhs.night_enabled = true)
       AND uhs.push_enabled = true
     `;
-    
+
     const usersResult = await pool.query(usersQuery);
-    
+
     for (const user of usersResult.rows) {
       const timeSlots = ['morning', 'lunch', 'night'];
-      
+
       for (const timeSlot of timeSlots) {
         try {
           // 각 시간대별로 추천 작품 생성
@@ -184,12 +184,12 @@ async function generateDailyArtworkQueue() {
             ORDER BY RANDOM()
             LIMIT 1
           `;
-          
+
           const artworkResult = await pool.query(artworkQuery, [user.id]);
-          
+
           if (artworkResult.rows.length > 0) {
             const artwork = artworkResult.rows[0];
-            
+
             // 큐에 추가
             await pool.query(`
               INSERT INTO daily_artwork_queue (
@@ -211,7 +211,7 @@ async function generateDailyArtworkQueue() {
         }
       }
     }
-    
+
     log.info('Daily artwork queue generation completed');
   } catch (error) {
     log.error('Failed to generate daily artwork queue:', error);
@@ -222,25 +222,25 @@ async function generateDailyArtworkQueue() {
 async function cleanupOldData() {
   try {
     log.info('Cleaning up old data...');
-    
+
     // 90일 이상 된 알림 로그 삭제
     await pool.query(`
       DELETE FROM notification_logs
       WHERE created_at < NOW() - INTERVAL '90 days'
     `);
-    
+
     // 30일 이상 된 사용되지 않은 큐 삭제
     await pool.query(`
       DELETE FROM daily_artwork_queue
       WHERE queue_date < CURRENT_DATE - INTERVAL '30 days'
     `);
-    
+
     // 180일 이상 된 감정 체크인 기록 삭제
     await pool.query(`
       DELETE FROM emotion_checkins
       WHERE created_at < NOW() - INTERVAL '180 days'
     `);
-    
+
     log.info('Old data cleanup completed');
   } catch (error) {
     log.error('Failed to cleanup old data:', error);
@@ -251,7 +251,7 @@ async function cleanupOldData() {
 async function generateWeeklyReports() {
   try {
     log.info('Generating weekly reports...');
-    
+
     const query = `
       SELECT 
         u.id,
@@ -268,9 +268,9 @@ async function generateWeeklyReports() {
       WHERE uhs.email_reminder = true
       GROUP BY u.id, u.email, u.nickname, us.current_streak, us.longest_streak
     `;
-    
+
     const result = await pool.query(query);
-    
+
     for (const user of result.rows) {
       // 여기서 이메일 서비스를 통해 주간 리포트 발송
       // 실제 구현에서는 emailService.sendWeeklyReport() 등을 호출

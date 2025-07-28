@@ -199,3 +199,6 @@ export function useThemeAwareLayout() {
     shadows: theme?.layout.shadows || '0 4px 16px rgba(0, 0, 0, 0.1)'
   };
 }
+
+// Alias for compatibility
+export const useTheme = usePersonalizedTheme;

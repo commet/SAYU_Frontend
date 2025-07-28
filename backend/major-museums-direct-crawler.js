@@ -12,7 +12,7 @@ class MajorMuseumsDirectCrawler {
     this.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36';
     this.requestDelay = 3000;
     this.lastRequestTime = 0;
-    
+
     // 세계 주요 미술관들 공식 사이트
     this.majorMuseums = {
       // 뉴욕
@@ -48,7 +48,7 @@ class MajorMuseumsDirectCrawler {
           }
         }
       ],
-      
+
       // 런던
       london: [
         {
@@ -82,7 +82,7 @@ class MajorMuseumsDirectCrawler {
           }
         }
       ],
-      
+
       // 파리
       paris: [
         {
@@ -132,7 +132,7 @@ class MajorMuseumsDirectCrawler {
 
   async fetchPage(url) {
     await this.respectRateLimit();
-    
+
     try {
       console.log(`🔄 Fetching: ${url}`);
       const response = await axios.get(url, {
@@ -152,7 +152,7 @@ class MajorMuseumsDirectCrawler {
 
   async crawlMuseum(museum, city) {
     console.log(`\n🏛️  Crawling ${museum.name}...`);
-    
+
     const html = await this.fetchPage(museum.url);
     if (!html) return [];
 
@@ -161,27 +161,27 @@ class MajorMuseumsDirectCrawler {
 
     // 다양한 선택자로 전시 찾기
     const exhibitionSelectors = museum.selectors.exhibitions.split(', ');
-    
+
     for (const selector of exhibitionSelectors) {
       console.log(`   Trying selector: ${selector}`);
       const found = $(selector);
       console.log(`   Found: ${found.length} elements`);
-      
+
       if (found.length > 0) {
         found.each((i, element) => {
           if (exhibitions.length >= 10) return false; // 최대 10개
-          
+
           const $el = $(element);
-          
+
           // 제목 추출
-          let title = this.extractText($el, museum.selectors.title);
-          
+          const title = this.extractText($el, museum.selectors.title);
+
           // 날짜 추출
-          let dates = this.extractText($el, museum.selectors.dates);
-          
+          const dates = this.extractText($el, museum.selectors.dates);
+
           // 설명 추출
-          let description = this.extractText($el, museum.selectors.description);
-          
+          const description = this.extractText($el, museum.selectors.description);
+
           // 링크 추출
           const link = $el.find('a').first().attr('href');
           let fullUrl = '';
@@ -192,13 +192,13 @@ class MajorMuseumsDirectCrawler {
               fullUrl = museum.url + link;
             }
           }
-          
+
           if (title && title.length > 3) {
             exhibitions.push({
               title: this.cleanText(title),
               venue: {
                 name: museum.name,
-                city: city,
+                city,
                 url: museum.url
               },
               dates: {
@@ -213,7 +213,7 @@ class MajorMuseumsDirectCrawler {
             });
           }
         });
-        
+
         if (exhibitions.length > 0) {
           console.log(`   ✅ Success with selector "${selector}"`);
           break;
@@ -256,9 +256,9 @@ class MajorMuseumsDirectCrawler {
     for (const [city, museums] of Object.entries(this.majorMuseums)) {
       console.log(`\n📍 ${city.toUpperCase()} MAJOR MUSEUMS`);
       console.log('='.repeat(40));
-      
+
       results[city] = [];
-      
+
       for (const museum of museums) {
         try {
           const exhibitions = await this.crawlMuseum(museum, city);
@@ -268,7 +268,7 @@ class MajorMuseumsDirectCrawler {
           console.error(`❌ Error crawling ${museum.name}:`, error.message);
         }
       }
-      
+
       console.log(`\n🎯 ${city} 총 수집: ${results[city].length}개 전시`);
     }
 
@@ -278,7 +278,7 @@ class MajorMuseumsDirectCrawler {
     // 결과 저장
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const filename = `major-museums-official-${timestamp}.json`;
-    
+
     const finalResult = {
       metadata: {
         collectionDate: new Date().toISOString(),
@@ -324,10 +324,10 @@ class MajorMuseumsDirectCrawler {
 // 실행
 async function main() {
   const crawler = new MajorMuseumsDirectCrawler();
-  
+
   try {
     await crawler.crawlAllMajorMuseums();
-    
+
   } catch (error) {
     console.error('Major museums official crawler error:', error);
   }

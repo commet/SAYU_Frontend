@@ -231,7 +231,7 @@ class EvolutionRewardSystem {
   }
 
   // ==================== 마일스톤 체크 ====================
-  
+
   async checkMilestones(userId, userStats) {
     const achievedMilestones = [];
     const userMilestones = userStats.unlockedMilestones || [];
@@ -288,9 +288,9 @@ class EvolutionRewardSystem {
   }
 
   // ==================== 포인트 계산 ====================
-  
+
   calculatePoints(action, context = {}) {
-    let basePoints = this.actionPoints[action] || 0;
+    const basePoints = this.actionPoints[action] || 0;
     let totalMultiplier = 1.0;
 
     // 보너스 조건 체크
@@ -356,17 +356,17 @@ class EvolutionRewardSystem {
 
   getTimeBonus() {
     const hour = new Date().getHours();
-    
+
     // 아침 (6-9시) 또는 저녁 (18-21시) 감상 보너스
     if ((hour >= 6 && hour <= 9) || (hour >= 18 && hour <= 21)) {
       return 1.1;
     }
-    
+
     return 1.0;
   }
 
   // ==================== 일일 보상 ====================
-  
+
   getDailyReward(dayCount) {
     const day = (dayCount % 7) || 7; // 1-7 순환
     return this.dailyRewards[day];
@@ -374,16 +374,16 @@ class EvolutionRewardSystem {
 
   calculateWeeklyBonus(weekStreak) {
     if (weekStreak === 0) return 0;
-    
+
     // 주차별 누적 보너스
     const baseBonus = 100;
     const streakMultiplier = Math.min(weekStreak, 10); // 최대 10주
-    
+
     return baseBonus * streakMultiplier;
   }
 
   // ==================== 보상 지급 ====================
-  
+
   async grantRewards(userId, rewards) {
     const grantedItems = [];
 
@@ -438,17 +438,17 @@ class EvolutionRewardSystem {
   }
 
   // ==================== 데이터베이스 연동 ====================
-  
+
   async addPoints(userId, points) {
     const db = require('../config/database');
-    
+
     await db.query(
       `UPDATE sayu_profiles 
        SET evolution_points = evolution_points + $2
        WHERE user_id = $1`,
       [userId, points]
     );
-    
+
     // 통계 업데이트
     await db.query(
       `UPDATE evolution_statistics 
@@ -462,7 +462,7 @@ class EvolutionRewardSystem {
 
   async grantBadge(userId, badge) {
     const db = require('../config/database');
-    
+
     await db.query(
       `INSERT INTO user_badges (user_id, badge_icon, badge_type, granted_at)
        VALUES ($1, $2, 'milestone', NOW())
@@ -473,7 +473,7 @@ class EvolutionRewardSystem {
 
   async grantTitle(userId, title) {
     const db = require('../config/database');
-    
+
     await db.query(
       `INSERT INTO user_titles (user_id, title, granted_at, is_active)
        VALUES ($1, $2, NOW(), false)
@@ -484,7 +484,7 @@ class EvolutionRewardSystem {
 
   async unlockFeature(userId, feature) {
     const db = require('../config/database');
-    
+
     await db.query(
       `INSERT INTO user_unlocks (user_id, feature_key, unlocked_at)
        VALUES ($1, $2, NOW())
@@ -495,7 +495,7 @@ class EvolutionRewardSystem {
 
   async applyAnimalReward(userId, rewards) {
     const db = require('../config/database');
-    
+
     const updates = [];
     const values = [userId];
     let paramIndex = 2;
@@ -523,12 +523,12 @@ class EvolutionRewardSystem {
   }
 
   // ==================== 리더보드 ====================
-  
+
   async getLeaderboard(aptType, period = 'weekly') {
     const db = require('../config/database');
-    
+
     const periodColumn = period === 'weekly' ? 'weekly_points' : 'monthly_points';
-    
+
     const result = await db.query(
       `SELECT 
         u.id,
@@ -547,7 +547,7 @@ class EvolutionRewardSystem {
        LIMIT 100`,
       [aptType]
     );
-    
+
     return result.rows.map((row, index) => ({
       rank: index + 1,
       userId: row.id,

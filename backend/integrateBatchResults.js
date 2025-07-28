@@ -18,21 +18,21 @@ class BatchResultsIntegrator {
       .filter(file => file.startsWith('batch_collection_results_'))
       .sort()
       .reverse();
-    
+
     if (files.length === 0) {
       throw new Error('배치 수집 결과 파일을 찾을 수 없습니다.');
     }
 
     const latestFile = files[0];
     console.log(`📄 통합 대상: ${latestFile}`);
-    
+
     const data = JSON.parse(fs.readFileSync(path.join(__dirname, latestFile), 'utf8'));
     return data.results;
   }
 
   filterReadyArtists(results) {
     // medium 이상 신뢰도를 가진 작가들만 선택
-    return results.filter(result => 
+    return results.filter(result =>
       result.reliabilityGrade === 'medium' || result.reliabilityGrade === 'high'
     );
   }
@@ -78,7 +78,7 @@ class BatchResultsIntegrator {
       cultural_context: original.culturalSignificance,
       period: this.determinePeriod(wiki.birth_year || met.birth_year),
       style_characteristics: (wiki.characteristics || []).join(', '),
-      
+
       // 메타데이터
       data_sources: JSON.stringify({
         wikipedia: !!wiki.confidence,
@@ -93,7 +93,7 @@ class BatchResultsIntegrator {
       apt_secondary_types: null,
       apt_confidence_score: null,
       apt_analysis_notes: 'Awaiting APT classification',
-      
+
       created_at: new Date(),
       updated_at: new Date()
     };
@@ -101,14 +101,14 @@ class BatchResultsIntegrator {
 
   determinePeriod(birthYear) {
     if (!birthYear) return 'Contemporary';
-    
+
     if (birthYear >= 1400 && birthYear <= 1600) return 'Renaissance';
     if (birthYear >= 1600 && birthYear <= 1750) return 'Baroque';
     if (birthYear >= 1750 && birthYear <= 1850) return 'Classical/Romantic';
     if (birthYear >= 1850 && birthYear <= 1900) return 'Modern Early';
     if (birthYear >= 1900 && birthYear <= 1950) return 'Modern';
     if (birthYear >= 1950) return 'Contemporary';
-    
+
     return 'Contemporary';
   }
 
@@ -174,10 +174,10 @@ class BatchResultsIntegrator {
 
       console.log(`   ✅ ${artistName} 성공적으로 추가됨 (ID: ${insertedArtist.id})`);
       console.log(`      신뢰도: ${result.reliabilityGrade}, 점수: ${result.reliabilityScore}`);
-      
-      return { 
-        status: 'success', 
-        artistId: insertedArtist.id, 
+
+      return {
+        status: 'success',
+        artistId: insertedArtist.id,
         data: artistData,
         originalResult: result
       };
@@ -185,20 +185,20 @@ class BatchResultsIntegrator {
     } catch (error) {
       console.error(`   ❌ ${artistName} 통합 실패:`, error.message);
       this.errors.push({ artist: artistName, error: error.message });
-      
-      return { 
-        status: 'failed', 
-        artistName, 
-        error: error.message 
+
+      return {
+        status: 'failed',
+        artistName,
+        error: error.message
       };
     }
   }
 
   async createAptProfiles(processedArtists) {
     console.log('\n🧠 APT 프로필 테이블 연동 준비...');
-    
+
     const successfulArtists = processedArtists.filter(p => p.status === 'success');
-    
+
     for (const processed of successfulArtists) {
       try {
         // apt_profiles 테이블에 기본 엔트리 생성 (상세 분석은 별도 스크립트에서)
@@ -208,7 +208,7 @@ class BatchResultsIntegrator {
           ) VALUES ($1, $2, 'pending', NOW(), NOW())
           ON CONFLICT (artist_id) DO NOTHING
         `, [processed.artistId, processed.data.name]);
-        
+
         console.log(`   📋 ${processed.data.name} APT 프로필 슬롯 생성됨`);
       } catch (error) {
         console.error(`   ⚠️ APT 프로필 생성 실패 (${processed.data.name}):`, error.message);
@@ -244,10 +244,10 @@ class BatchResultsIntegrator {
 
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const filename = `integration_summary_${timestamp}.json`;
-    
+
     fs.writeFileSync(path.join(__dirname, filename), JSON.stringify(summary, null, 2));
     console.log(`\n💾 통합 요약 저장: ${filename}`);
-    
+
     return summary;
   }
 
@@ -258,7 +258,7 @@ class BatchResultsIntegrator {
     console.log(`   ✅ 성공: ${summary.successful}명`);
     console.log(`   ⏭️ 건너뜀: ${summary.skipped}명 (이미 존재)`);
     console.log(`   ❌ 실패: ${summary.failed}명`);
-    
+
     if (summary.successful > 0) {
       console.log('\n🏆 새로 추가된 작가들:');
       summary.successfulArtists.forEach((artist, index) => {
@@ -281,11 +281,11 @@ class BatchResultsIntegrator {
 
   async run() {
     console.log('🚀 배치 결과 데이터베이스 통합 시작!');
-    
+
     try {
       // 1. 결과 로딩
       const allResults = await this.loadLatestResults();
-      
+
       // 2. 준비된 작가들 필터링
       const readyArtists = this.filterReadyArtists(allResults);
       console.log(`📋 통합 대상: ${readyArtists.length}명 (신뢰도 medium 이상)`);
@@ -325,7 +325,7 @@ class BatchResultsIntegrator {
 // 실행 스크립트
 async function main() {
   const integrator = new BatchResultsIntegrator();
-  
+
   try {
     const summary = await integrator.run();
     process.exit(0);

@@ -5,7 +5,7 @@ const fs = require('fs');
 async function runMigration() {
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.DATABASE_URL?.includes('railway') 
+    ssl: process.env.DATABASE_URL?.includes('railway')
       ? { rejectUnauthorized: false }
       : false
   });
@@ -17,14 +17,14 @@ async function runMigration() {
 
     // Read and execute migration
     const migrationSQL = fs.readFileSync('./src/migrations/add_pioneer_system.sql', 'utf8');
-    
+
     console.log('🚀 Running Pioneer system migration...');
     await client.query(migrationSQL);
     console.log('✅ Pioneer system migration completed');
 
     // Test the migration
     console.log('🧪 Testing Pioneer system...');
-    
+
     // Check if tables exist
     const tableCheck = await client.query(`
       SELECT table_name 
@@ -32,7 +32,7 @@ async function runMigration() {
       WHERE table_schema = 'public' 
       AND table_name IN ('journey_nudges', 'journey_templates')
     `);
-    
+
     console.log('📊 Created tables:', tableCheck.rows.map(r => r.table_name));
 
     // Check users table has pioneer_number column
@@ -42,7 +42,7 @@ async function runMigration() {
       WHERE table_name = 'users' 
       AND column_name = 'pioneer_number'
     `);
-    
+
     if (columnCheck.rows.length > 0) {
       console.log('✅ pioneer_number column added to users table');
     }

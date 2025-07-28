@@ -18,17 +18,17 @@ const completeVenueData = {
     website: 'https://www.mmca.go.kr',
     rating: 4.5, review_count: 2847,
     opening_hours: {
-      "monday": "휴관",
-      "tuesday": "10:00-18:00",
-      "wednesday": "10:00-18:00",
-      "thursday": "10:00-18:00",
-      "friday": "10:00-21:00",
-      "saturday": "10:00-18:00",
-      "sunday": "10:00-18:00"
+      'monday': '휴관',
+      'tuesday': '10:00-18:00',
+      'wednesday': '10:00-18:00',
+      'thursday': '10:00-18:00',
+      'friday': '10:00-21:00',
+      'saturday': '10:00-18:00',
+      'sunday': '10:00-18:00'
     },
-    admission_fee: {"adult": 4000, "youth": 2000, "child": 0}
+    admission_fee: { 'adult': 4000, 'youth': 2000, 'child': 0 }
   },
-  
+
   '리움미술관': {
     latitude: 37.5347, longitude: 126.9978,
     address: '서울특별시 용산구 이태원로55길 60-16',
@@ -36,15 +36,15 @@ const completeVenueData = {
     website: 'https://www.leeum.org',
     rating: 4.6, review_count: 1923,
     opening_hours: {
-      "monday": "휴관",
-      "tuesday": "10:00-18:00",
-      "wednesday": "10:00-18:00",
-      "thursday": "10:00-18:00",
-      "friday": "10:00-18:00",
-      "saturday": "10:00-18:00",
-      "sunday": "10:00-18:00"
+      'monday': '휴관',
+      'tuesday': '10:00-18:00',
+      'wednesday': '10:00-18:00',
+      'thursday': '10:00-18:00',
+      'friday': '10:00-18:00',
+      'saturday': '10:00-18:00',
+      'sunday': '10:00-18:00'
     },
-    admission_fee: {"adult": 20000, "youth": 16000, "child": 10000}
+    admission_fee: { 'adult': 20000, 'youth': 16000, 'child': 10000 }
   },
 
   '서울시립미술관': {
@@ -54,15 +54,15 @@ const completeVenueData = {
     website: 'https://sema.seoul.go.kr',
     rating: 4.2, review_count: 1456,
     opening_hours: {
-      "monday": "휴관",
-      "tuesday": "10:00-20:00",
-      "wednesday": "10:00-20:00",
-      "thursday": "10:00-20:00",
-      "friday": "10:00-20:00",
-      "saturday": "10:00-18:00",
-      "sunday": "10:00-18:00"
+      'monday': '휴관',
+      'tuesday': '10:00-20:00',
+      'wednesday': '10:00-20:00',
+      'thursday': '10:00-20:00',
+      'friday': '10:00-20:00',
+      'saturday': '10:00-18:00',
+      'sunday': '10:00-18:00'
     },
-    admission_fee: {"adult": 0, "note": "무료관람"}
+    admission_fee: { 'adult': 0, 'note': '무료관람' }
   },
 
   '국제갤러리': {
@@ -72,15 +72,15 @@ const completeVenueData = {
     website: 'https://www.kukjegallery.com',
     rating: 4.3, review_count: 234,
     opening_hours: {
-      "monday": "10:00-18:00",
-      "tuesday": "10:00-18:00",
-      "wednesday": "10:00-18:00",
-      "thursday": "10:00-18:00",
-      "friday": "10:00-18:00",
-      "saturday": "10:00-18:00",
-      "sunday": "휴관"
+      'monday': '10:00-18:00',
+      'tuesday': '10:00-18:00',
+      'wednesday': '10:00-18:00',
+      'thursday': '10:00-18:00',
+      'friday': '10:00-18:00',
+      'saturday': '10:00-18:00',
+      'sunday': '휴관'
     },
-    admission_fee: {"adult": 0, "note": "무료관람"}
+    admission_fee: { 'adult': 0, 'note': '무료관람' }
   },
 
   '갤러리현대': {
@@ -90,15 +90,15 @@ const completeVenueData = {
     website: 'https://www.galleryhyundai.com',
     rating: 4.1, review_count: 156,
     opening_hours: {
-      "monday": "10:00-18:00",
-      "tuesday": "10:00-18:00",
-      "wednesday": "10:00-18:00",
-      "thursday": "10:00-18:00",
-      "friday": "10:00-18:00",
-      "saturday": "10:00-18:00",
-      "sunday": "휴관"
+      'monday': '10:00-18:00',
+      'tuesday': '10:00-18:00',
+      'wednesday': '10:00-18:00',
+      'thursday': '10:00-18:00',
+      'friday': '10:00-18:00',
+      'saturday': '10:00-18:00',
+      'sunday': '휴관'
     },
-    admission_fee: {"adult": 0, "note": "무료관람"}
+    admission_fee: { 'adult': 0, 'note': '무료관람' }
   },
 
   // 🇺🇸 미국 주요 미술관
@@ -109,15 +109,15 @@ const completeVenueData = {
     website: 'https://www.moma.org',
     rating: 4.7, review_count: 18924,
     opening_hours: {
-      "monday": "10:30-17:30",
-      "tuesday": "10:30-17:30",
-      "wednesday": "10:30-17:30",
-      "thursday": "10:30-17:30",
-      "friday": "10:30-20:00",
-      "saturday": "10:30-19:00",
-      "sunday": "10:30-17:30"
+      'monday': '10:30-17:30',
+      'tuesday': '10:30-17:30',
+      'wednesday': '10:30-17:30',
+      'thursday': '10:30-17:30',
+      'friday': '10:30-20:00',
+      'saturday': '10:30-19:00',
+      'sunday': '10:30-17:30'
     },
-    admission_fee: {"adult": 25, "student": 14, "senior": 18, "child": 0}
+    admission_fee: { 'adult': 25, 'student': 14, 'senior': 18, 'child': 0 }
   },
 
   'The Metropolitan Museum of Art': {
@@ -127,15 +127,15 @@ const completeVenueData = {
     website: 'https://www.metmuseum.org',
     rating: 4.8, review_count: 45231,
     opening_hours: {
-      "monday": "10:00-17:00",
-      "tuesday": "10:00-17:00",
-      "wednesday": "10:00-17:00",
-      "thursday": "10:00-17:00",
-      "friday": "10:00-21:00",
-      "saturday": "10:00-21:00",
-      "sunday": "10:00-17:00"
+      'monday': '10:00-17:00',
+      'tuesday': '10:00-17:00',
+      'wednesday': '10:00-17:00',
+      'thursday': '10:00-17:00',
+      'friday': '10:00-21:00',
+      'saturday': '10:00-21:00',
+      'sunday': '10:00-17:00'
     },
-    admission_fee: {"adult": 30, "student": 12, "senior": 22, "child": 0}
+    admission_fee: { 'adult': 30, 'student': 12, 'senior': 22, 'child': 0 }
   },
 
   // 🇬🇧 영국 주요 미술관
@@ -146,15 +146,15 @@ const completeVenueData = {
     website: 'https://www.tate.org.uk',
     rating: 4.6, review_count: 23451,
     opening_hours: {
-      "sunday": "10:00-18:00",
-      "monday": "10:00-18:00",
-      "tuesday": "10:00-18:00",
-      "wednesday": "10:00-18:00",
-      "thursday": "10:00-18:00",
-      "friday": "10:00-22:00",
-      "saturday": "10:00-22:00"
+      'sunday': '10:00-18:00',
+      'monday': '10:00-18:00',
+      'tuesday': '10:00-18:00',
+      'wednesday': '10:00-18:00',
+      'thursday': '10:00-18:00',
+      'friday': '10:00-22:00',
+      'saturday': '10:00-22:00'
     },
-    admission_fee: {"adult": 0, "note": "Collection free, special exhibitions charged"}
+    admission_fee: { 'adult': 0, 'note': 'Collection free, special exhibitions charged' }
   },
 
   // 🇯🇵 일본 주요 미술관
@@ -165,15 +165,15 @@ const completeVenueData = {
     website: 'https://www.tnm.jp',
     rating: 4.4, review_count: 5234,
     opening_hours: {
-      "monday": "휴관",
-      "tuesday": "09:30-17:00",
-      "wednesday": "09:30-17:00",
-      "thursday": "09:30-17:00",
-      "friday": "09:30-21:00",
-      "saturday": "09:30-17:00",
-      "sunday": "09:30-17:00"
+      'monday': '휴관',
+      'tuesday': '09:30-17:00',
+      'wednesday': '09:30-17:00',
+      'thursday': '09:30-17:00',
+      'friday': '09:30-21:00',
+      'saturday': '09:30-17:00',
+      'sunday': '09:30-17:00'
     },
-    admission_fee: {"adult": 1000, "university": 500, "child": 0}
+    admission_fee: { 'adult': 1000, 'university': 500, 'child': 0 }
   },
 
   // 🇫🇷 프랑스 주요 미술관
@@ -184,15 +184,15 @@ const completeVenueData = {
     website: 'https://www.louvre.fr',
     rating: 4.6, review_count: 89234,
     opening_hours: {
-      "monday": "09:00-18:00",
-      "tuesday": "휴관",
-      "wednesday": "09:00-21:45",
-      "thursday": "09:00-18:00",
-      "friday": "09:00-21:45",
-      "saturday": "09:00-18:00",
-      "sunday": "09:00-18:00"
+      'monday': '09:00-18:00',
+      'tuesday': '휴관',
+      'wednesday': '09:00-21:45',
+      'thursday': '09:00-18:00',
+      'friday': '09:00-21:45',
+      'saturday': '09:00-18:00',
+      'sunday': '09:00-18:00'
     },
-    admission_fee: {"adult": 17, "youth": 0, "child": 0}
+    admission_fee: { 'adult': 17, 'youth': 0, 'child': 0 }
   }
 };
 
@@ -316,7 +316,7 @@ async function populateCompleteMetadata() {
 
 function getCountryFlag(country) {
   const flags = {
-    'KR': '🇰🇷', 'US': '🇺🇸', 'GB': '🇬🇧', 'JP': '🇯🇵', 
+    'KR': '🇰🇷', 'US': '🇺🇸', 'GB': '🇬🇧', 'JP': '🇯🇵',
     'FR': '🇫🇷', 'DE': '🇩🇪', 'IT': '🇮🇹', 'ES': '🇪🇸'
   };
   return flags[country] || '🏛️';

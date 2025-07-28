@@ -10,7 +10,7 @@ async function showExhibitionsByCategory() {
   try {
     console.log('\n📊 SAYU 전시 데이터베이스 카테고리별 요약\n');
     console.log('=' .repeat(80));
-    
+
     // 1. 국가별 분포
     console.log('\n🌍 국가별 전시 분포:\n');
     const countryStats = await pool.query(`
@@ -22,12 +22,12 @@ async function showExhibitionsByCategory() {
       GROUP BY venue_country
       ORDER BY count DESC
     `);
-    
+
     countryStats.rows.forEach(stat => {
       console.log(`${stat.venue_country}: ${stat.count}개 전시`);
       console.log(`  도시: ${stat.cities}`);
     });
-    
+
     // 2. 주요 미술관별
     console.log('\n🏛️  주요 기관별 전시 (3개 이상):\n');
     const venueStats = await pool.query(`
@@ -37,11 +37,11 @@ async function showExhibitionsByCategory() {
       HAVING COUNT(*) >= 3
       ORDER BY count DESC
     `);
-    
+
     venueStats.rows.forEach(stat => {
       console.log(`${stat.venue_name} (${stat.venue_city}): ${stat.count}개`);
     });
-    
+
     // 3. 전시 유형별
     console.log('\n🎨 전시 유형별 분포:\n');
     const typeStats = await pool.query(`
@@ -51,11 +51,11 @@ async function showExhibitionsByCategory() {
       GROUP BY exhibition_type
       ORDER BY count DESC
     `);
-    
+
     typeStats.rows.forEach(stat => {
       console.log(`${stat.exhibition_type}: ${stat.count}개`);
     });
-    
+
     // 4. 2025년 주요 비엔날레/특별전
     console.log('\n🌟 2025년 주요 비엔날레 및 특별전:\n');
     const biennales = await pool.query(`
@@ -65,13 +65,13 @@ async function showExhibitionsByCategory() {
       AND start_date >= '2025-01-01'
       ORDER BY start_date
     `);
-    
+
     biennales.rows.forEach(ex => {
       const date = new Date(ex.start_date).toLocaleDateString('ko-KR');
       console.log(`• ${ex.title_local}`);
       console.log(`  @ ${ex.venue_name}, ${ex.venue_city} (${date})`);
     });
-    
+
     // 5. 블록버스터 전시 (유명 작가)
     console.log('\n⭐ 주요 작가 전시:\n');
     const famousArtists = await pool.query(`
@@ -87,13 +87,13 @@ async function showExhibitionsByCategory() {
         title_local LIKE '%모네%' OR title_local LIKE '%Monet%'
       ORDER BY start_date
     `);
-    
+
     famousArtists.rows.forEach(ex => {
       const date = ex.start_date ? new Date(ex.start_date).toLocaleDateString('ko-KR') : 'N/A';
       console.log(`• ${ex.title_local} [${ex.status}]`);
       console.log(`  @ ${ex.venue_name}, ${ex.venue_city} (${date})`);
     });
-    
+
     // 6. 한국 주요 미술관 전시
     console.log('\n🇰🇷 한국 주요 미술관 현재/예정 전시:\n');
     const koreanMajorVenues = await pool.query(`
@@ -109,7 +109,7 @@ async function showExhibitionsByCategory() {
       AND status IN ('ongoing', 'upcoming')
       ORDER BY venue_name, start_date
     `);
-    
+
     let currentVenue = '';
     koreanMajorVenues.rows.forEach(ex => {
       if (currentVenue !== ex.venue_name) {
@@ -120,7 +120,7 @@ async function showExhibitionsByCategory() {
       const end = ex.end_date ? new Date(ex.end_date).toLocaleDateString('ko-KR') : 'N/A';
       console.log(`• ${ex.title_local} (${start} ~ ${end})`);
     });
-    
+
     // 7. 해외 주요 미술관 전시
     console.log('\n\n🌐 해외 주요 미술관 현재/예정 전시:\n');
     const internationalMajorVenues = await pool.query(`
@@ -136,7 +136,7 @@ async function showExhibitionsByCategory() {
       ORDER BY venue_name, start_date
       LIMIT 20
     `);
-    
+
     currentVenue = '';
     internationalMajorVenues.rows.forEach(ex => {
       if (currentVenue !== ex.venue_name) {
@@ -146,9 +146,9 @@ async function showExhibitionsByCategory() {
       const date = ex.start_date ? new Date(ex.start_date).toLocaleDateString('ko-KR') : 'N/A';
       console.log(`• ${ex.title_en} (${date})`);
     });
-    
-    console.log('\n' + '=' .repeat(80) + '\n');
-    
+
+    console.log(`\n${'=' .repeat(80)}\n`);
+
   } catch (error) {
     console.error('Error:', error);
   } finally {

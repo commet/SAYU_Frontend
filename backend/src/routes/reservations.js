@@ -2,7 +2,7 @@ const router = require('express').Router();
 const authMiddleware = require('../middleware/auth');
 const { adminMiddleware: requireAdmin } = require('../middleware/auth');
 const reservationService = require('../services/reservationService');
-const { logger } = require("../config/logger");
+const { logger } = require('../config/logger');
 
 router.use(authMiddleware);
 
@@ -11,11 +11,11 @@ router.get('/exhibitions/:exhibitionId', async (req, res) => {
   try {
     const { exhibitionId } = req.params;
     const reservationInfo = await reservationService.getExhibitionReservationInfo(exhibitionId);
-    
+
     if (!reservationInfo) {
       return res.status(404).json({ error: 'No reservation information available for this exhibition' });
     }
-    
+
     res.json(reservationInfo);
   } catch (error) {
     logger.error('Failed to get exhibition reservation info:', error);
@@ -28,13 +28,13 @@ router.get('/exhibitions/:exhibitionId/availability', async (req, res) => {
   try {
     const { exhibitionId } = req.params;
     const { from_date, to_date } = req.query;
-    
+
     const availability = await reservationService.getExhibitionAvailability(
-      exhibitionId, 
-      from_date, 
+      exhibitionId,
+      from_date,
       to_date
     );
-    
+
     res.json(availability);
   } catch (error) {
     logger.error('Failed to get exhibition availability:', error);
@@ -100,7 +100,7 @@ router.get('/my-reservations', async (req, res) => {
 router.get('/:reservationId', async (req, res) => {
   try {
     const { reservationId } = req.params;
-    
+
     const query = `
       SELECT ur.*, e.title as exhibition_title, e.description as exhibition_description,
              e.start_date, e.end_date, e.primary_image_url,
@@ -151,8 +151,8 @@ router.patch('/:reservationId/status', async (req, res) => {
     }
 
     const reservation = await reservationService.updateReservationStatus(
-      reservationId, 
-      status, 
+      reservationId,
+      status,
       metadata
     );
 
@@ -170,8 +170,8 @@ router.post('/:reservationId/cancel', async (req, res) => {
     const { reason } = req.body;
 
     const reservation = await reservationService.cancelReservation(
-      reservationId, 
-      req.userId, 
+      reservationId,
+      req.userId,
       reason
     );
 
@@ -242,7 +242,7 @@ router.post('/admin/exhibitions/:exhibitionId/setup', requireAdmin, async (req, 
     const reservationData = req.body;
 
     const setup = await reservationService.setupExhibitionReservation(
-      exhibitionId, 
+      exhibitionId,
       reservationData
     );
 
@@ -281,7 +281,7 @@ router.post('/admin/exhibitions/:exhibitionId/availability', requireAdmin, async
     const availabilityData = req.body;
 
     const availability = await reservationService.updateExhibitionAvailability(
-      exhibitionId, 
+      exhibitionId,
       availabilityData
     );
 
@@ -319,7 +319,7 @@ router.get('/admin/analytics', requireAdmin, async (req, res) => {
 router.get('/admin/all', requireAdmin, async (req, res) => {
   try {
     const { status, limit = 50, offset = 0 } = req.query;
-    
+
     let query = `
       SELECT ur.*, u.email as user_email, u.nickname as user_name,
              e.title as exhibition_title, m.name as museum_name

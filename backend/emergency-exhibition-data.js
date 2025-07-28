@@ -14,7 +14,7 @@ const EMERGENCY_EXHIBITIONS = [
   // 국립현대미술관 확인된 전시들
   {
     title_local: '론 뮤익',
-    title_en: 'Ron Mueck', 
+    title_en: 'Ron Mueck',
     venue_name: '국립현대미술관',
     venue_city: '서울',
     start_date: '2025-03-06',
@@ -25,13 +25,13 @@ const EMERGENCY_EXHIBITIONS = [
     source: 'emergency_verified',
     source_url: 'https://www.mmca.go.kr'
   },
-  
-  // 예술의전당 확인된 전시들  
+
+  // 예술의전당 확인된 전시들
   {
     title_local: '마르크 샤갈 특별전: Beyond Time',
     title_en: 'Marc Chagall: Beyond Time',
     venue_name: '예술의전당',
-    venue_city: '서울', 
+    venue_city: '서울',
     start_date: '2025-05-23',
     end_date: '2025-09-21',
     description: '20세기 거장 마르크 샤갈의 대규모 회고전. 200여 점의 작품 전시',
@@ -47,12 +47,12 @@ const EMERGENCY_EXHIBITIONS = [
     title_en: 'Pierre Huyghe',
     venue_name: '리움미술관',
     venue_city: '서울',
-    start_date: '2025-02-27', 
+    start_date: '2025-02-27',
     end_date: '2025-07-06',
     description: '프랑스 현대미술가 피에르 위그의 아시아 첫 개인전',
     artists: ['Pierre Huyghe'],
     exhibition_type: 'solo',
-    source: 'emergency_verified', 
+    source: 'emergency_verified',
     source_url: 'https://www.leeum.org'
   },
 
@@ -63,7 +63,7 @@ const EMERGENCY_EXHIBITIONS = [
     venue_name: '세종문화회관',
     venue_city: '서울',
     start_date: '2025-05-16',
-    end_date: '2025-08-31', 
+    end_date: '2025-08-31',
     description: '요하네스버그 아트 갤러리 소장품으로 구성된 서양미술사 대표작 전시',
     artists: ['Claude Monet', 'Andy Warhol', 'Pablo Picasso'],
     exhibition_type: 'group',
@@ -102,7 +102,7 @@ const EMERGENCY_EXHIBITIONS = [
 
   {
     title_local: '공-존',
-    title_en: 'Co-existence', 
+    title_en: 'Co-existence',
     venue_name: '학고재갤러리',
     venue_city: '서울',
     start_date: '2025-07-09',
@@ -118,7 +118,7 @@ const EMERGENCY_EXHIBITIONS = [
     title_local: 'Beyond Iridescence',
     title_en: 'Beyond Iridescence',
     venue_name: '갤러리현대',
-    venue_city: '서울', 
+    venue_city: '서울',
     start_date: '2025-06-28',
     end_date: '2025-08-17',
     description: '색채와 빛의 미학을 탐구하는 현대미술 전시',
@@ -137,7 +137,7 @@ const EMERGENCY_EXHIBITIONS = [
     end_date: '2025-08-03',
     description: '생태와 종간 공동체성을 탐구하는 실험적 전시',
     artists: ['김상돈', '조혜진', '박준범'],
-    exhibition_type: 'group', 
+    exhibition_type: 'group',
     source: 'emergency_verified',
     source_url: 'https://www.arko.or.kr'
   },
@@ -273,7 +273,7 @@ class EmergencyDataSeeder {
 
 async function main() {
   const seeder = new EmergencyDataSeeder();
-  
+
   try {
     await seeder.seedEmergencyData();
   } catch (error) {

@@ -27,7 +27,7 @@ async function applyLonealAptToDatabase() {
 
       for (const artist of matchingData.matchingResults) {
         console.log(`\n🎨 ${artist.name} 처리 중...`);
-        
+
         // 작가 검색 (이름으로)
         const artistQuery = await client.query(
           `SELECT id, name, importance_score 
@@ -183,13 +183,13 @@ async function applyLonealAptToDatabase() {
         SET value = value::integer + $1,
             updated_at = NOW()
         WHERE key = 'total_apt_profiles'`,
-        [createdCount]
+      [createdCount]
       );
 
       // 4. 커밋
       await client.query('COMMIT');
 
-      console.log('\n' + '='.repeat(70));
+      console.log(`\n${'='.repeat(70)}`);
       console.log('✅ 데이터베이스 적용 완료!');
       console.log(`   - 업데이트된 프로필: ${updatedCount}개`);
       console.log(`   - 새로 생성된 프로필: ${createdCount}개`);

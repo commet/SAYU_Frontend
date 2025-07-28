@@ -4,7 +4,7 @@ const authenticateToken = require('../middleware/auth');
 const optionalAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return next();
-  
+
   authenticateToken(req, res, (err) => {
     if (err) req.user = null;
     next();
@@ -65,7 +65,7 @@ router.get('/artwork/:artveeId',
     try {
       const { artveeId } = req.params;
       const artwork = await cloudinaryArtveeService.getArtworkById(artveeId);
-      
+
       if (!artwork) {
         return res.status(404).json({
           success: false,
@@ -97,7 +97,7 @@ router.get('/random',
     try {
       const { limit } = req.query;
       const artworks = await cloudinaryArtveeService.getRandomArtworks(parseInt(limit) || 10);
-      
+
       res.json({
         success: true,
         data: artworks,
@@ -124,12 +124,12 @@ router.get('/artist/:artistName',
     try {
       const { artistName } = req.params;
       const { limit } = req.query;
-      
+
       const artworks = await cloudinaryArtveeService.getArtworksByArtist(
-        artistName, 
+        artistName,
         parseInt(limit) || 10
       );
-      
+
       res.json({
         success: true,
         data: artworks,
@@ -151,7 +151,7 @@ router.get('/stats',
   async (req, res) => {
     try {
       const stats = await cloudinaryArtveeService.getStats();
-      
+
       res.json({
         success: true,
         data: stats
@@ -165,7 +165,7 @@ router.get('/stats',
     }
   });
 
-// 퀴즈 배경 이미지 조회  
+// 퀴즈 배경 이미지 조회
 router.get('/quiz-backgrounds',
   optionalAuth,
   [
@@ -175,7 +175,7 @@ router.get('/quiz-backgrounds',
   async (req, res) => {
     try {
       const { personalityType } = req.query;
-      
+
       // 성격 유형에 맞는 퀴즈 배경 이미지 선택
       const artworks = await cloudinaryArtveeService.getArtworksForPersonality(
         personalityType || 'LAEF',

@@ -12,7 +12,7 @@ class MajorExhibitionSourcesCrawler {
     this.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36';
     this.requestDelay = 2500;
     this.lastRequestTime = 0;
-    
+
     // 실제 major 전시들을 다루는 크롤링 가능한 소스들
     this.majorSources = {
       // 1. Time Out - 각 도시별 major 전시 커버
@@ -108,7 +108,7 @@ class MajorExhibitionSourcesCrawler {
 
   async fetchPage(url) {
     await this.respectRateLimit();
-    
+
     try {
       console.log(`🔄 Fetching: ${url}`);
       const response = await axios.get(url, {
@@ -129,7 +129,7 @@ class MajorExhibitionSourcesCrawler {
 
   async crawlSource(source, city, config) {
     console.log(`\n🎨 Crawling ${source} - ${city}...`);
-    
+
     const html = await this.fetchPage(config.url);
     if (!html) {
       // backup URL 시도
@@ -147,48 +147,48 @@ class MajorExhibitionSourcesCrawler {
 
     // 다양한 선택자로 전시 찾기
     const exhibitionSelectors = config.selectors.exhibitions.split(', ');
-    
+
     for (const selector of exhibitionSelectors) {
       const found = $(selector);
       console.log(`   Trying selector "${selector}": found ${found.length} elements`);
-      
+
       if (found.length > 0) {
         found.each((i, element) => {
           if (exhibitions.length >= 20) return false; // 최대 20개로 제한
-          
+
           const $el = $(element);
-          
+
           // 제목 추출
           let title = this.extractText($el, config.selectors.title);
-          
+
           // venue 추출
           let venue = this.extractText($el, config.selectors.venue);
-          
+
           // 날짜 추출
           let dates = this.extractText($el, config.selectors.dates);
-          
+
           // 설명 추출
           let description = this.extractText($el, config.selectors.description);
-          
+
           // 링크 추출
           const link = $el.find('a').first().attr('href');
           let fullUrl = '';
           if (link) {
             fullUrl = link.startsWith('http') ? link : new URL(link, config.url).href;
           }
-          
+
           // 데이터 정제
           title = this.cleanText(title);
           venue = this.cleanText(venue);
           dates = this.cleanText(dates);
           description = this.cleanText(description);
-          
+
           if (title && title.length > 3 && !this.isNavigationItem(title)) {
             exhibitions.push({
               title,
               venue: {
                 name: venue || 'Unknown',
-                city: city
+                city
               },
               dates: {
                 original: dates
@@ -196,13 +196,13 @@ class MajorExhibitionSourcesCrawler {
               description: description.substring(0, 500),
               url: fullUrl,
               city,
-              source: source,
+              source,
               quality: 'high', // major source이므로 고품질
               crawledAt: new Date().toISOString()
             });
           }
         });
-        
+
         if (exhibitions.length > 0) {
           console.log(`   ✅ Success with selector "${selector}"`);
           break; // 첫 번째로 작동하는 선택자 사용
@@ -238,8 +238,8 @@ class MajorExhibitionSourcesCrawler {
       'contact', 'subscribe', 'newsletter', 'follow', 'share', 'tweet',
       'facebook', 'instagram', 'search', 'menu'
     ];
-    
-    return navItems.some(nav => 
+
+    return navItems.some(nav =>
       title.toLowerCase().includes(nav.toLowerCase())
     );
   }
@@ -257,21 +257,21 @@ class MajorExhibitionSourcesCrawler {
     for (const [source, cities] of Object.entries(this.majorSources)) {
       console.log(`\n📰 ${source.toUpperCase()} 크롤링`);
       console.log('='.repeat(30));
-      
+
       results[source] = {};
-      
+
       for (const [city, config] of Object.entries(cities)) {
         try {
           const exhibitions = await this.crawlSource(source, city, config);
           results[source][city] = exhibitions;
           allExhibitions.push(...exhibitions);
-          
+
           if (exhibitions.length > 0) {
             console.log(`   🎯 ${city}: ${exhibitions.length}개 전시 수집`);
           } else {
             console.log(`   ⚠️  ${city}: 전시 없음 (선택자 조정 필요)`);
           }
-          
+
         } catch (error) {
           console.error(`   ❌ ${city} 크롤링 실패:`, error.message);
           results[source][city] = [];
@@ -285,7 +285,7 @@ class MajorExhibitionSourcesCrawler {
     // 결과 저장
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const filename = `major-sources-collection-${timestamp}.json`;
-    
+
     const finalResult = {
       metadata: {
         collectionDate: new Date().toISOString(),
@@ -333,31 +333,31 @@ class MajorExhibitionSourcesCrawler {
   analyzeQuality(exhibitions) {
     console.log(`\n📊 QUALITY ANALYSIS`);
     console.log('==================');
-    
+
     // 유명 키워드 검사
     const famousKeywords = [
       'tate', 'moma', 'louvre', 'guggenheim', 'pompidou', 'national gallery',
       'royal academy', 'met museum', 'whitney', 'serpentine'
     ];
-    
-    const famousExhibitions = exhibitions.filter(ex => 
-      famousKeywords.some(keyword => 
+
+    const famousExhibitions = exhibitions.filter(ex =>
+      famousKeywords.some(keyword =>
         ex.title.toLowerCase().includes(keyword) ||
         ex.venue.name.toLowerCase().includes(keyword) ||
         ex.description.toLowerCase().includes(keyword)
       )
     );
 
-    console.log(`🏛️  유명 미술관 전시: ${famousExhibitions.length}/${exhibitions.length} (${Math.round(famousExhibitions.length/exhibitions.length*100)}%)`);
-    
+    console.log(`🏛️  유명 미술관 전시: ${famousExhibitions.length}/${exhibitions.length} (${Math.round(famousExhibitions.length / exhibitions.length * 100)}%)`);
+
     // 제목 길이 분석
     const avgTitleLength = exhibitions.reduce((sum, ex) => sum + ex.title.length, 0) / exhibitions.length;
     console.log(`📝 평균 제목 길이: ${Math.round(avgTitleLength)}자`);
-    
+
     // URL 유효성
     const validUrls = exhibitions.filter(ex => ex.url && ex.url.startsWith('http')).length;
-    console.log(`🔗 유효한 URL: ${validUrls}/${exhibitions.length} (${Math.round(validUrls/exhibitions.length*100)}%)`);
-    
+    console.log(`🔗 유효한 URL: ${validUrls}/${exhibitions.length} (${Math.round(validUrls / exhibitions.length * 100)}%)`);
+
     if (famousExhibitions.length > 0) {
       console.log(`\n✅ 고품질 전시 샘플:`);
       famousExhibitions.slice(0, 3).forEach((ex, i) => {
@@ -370,10 +370,10 @@ class MajorExhibitionSourcesCrawler {
 // 실행
 async function main() {
   const crawler = new MajorExhibitionSourcesCrawler();
-  
+
   try {
     await crawler.crawlAllMajorSources();
-    
+
   } catch (error) {
     console.error('Major sources crawler error:', error);
   }

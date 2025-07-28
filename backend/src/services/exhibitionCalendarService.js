@@ -32,7 +32,7 @@ class ExhibitionCalendarService extends EventEmitter {
       } else {
         log.info('Exhibition Calendar service initialized without Redis (cache disabled)');
       }
-      
+
       // 알림 체크 스케줄러 시작
       if (this.redis) {
         this.startNotificationScheduler();
@@ -55,7 +55,7 @@ class ExhibitionCalendarService extends EventEmitter {
     try {
       // 캐시 키 생성
       const cacheKey = `calendar:${year}:${month}:${userId || 'public'}:${location || 'all'}`;
-      
+
       if (this.redis) {
         try {
           const cached = await this.redis.get(cacheKey);
@@ -70,7 +70,7 @@ class ExhibitionCalendarService extends EventEmitter {
       const startDate = new Date(year, month - 1, 1);
       const endDate = new Date(year, month, 0);
 
-      let query = `
+      const query = `
         SELECT DISTINCT e.*,
                i.name as institution_name,
                i.city, i.country,
@@ -107,7 +107,7 @@ class ExhibitionCalendarService extends EventEmitter {
       if (genres.length > 0) queryParams.push(genres);
 
       const result = await db.query(query, queryParams);
-      
+
       // 날짜별로 그룹화
       const calendarData = this.groupExhibitionsByDate(result.rows, startDate, endDate);
 
@@ -157,7 +157,7 @@ class ExhibitionCalendarService extends EventEmitter {
       if (userId) queryParams.push(userId);
 
       const result = await db.query(query, queryParams);
-      
+
       return this.groupExhibitionsByWeek(result.rows, startDate, endDate);
     } catch (error) {
       log.error('Weekly exhibitions query error:', error);
@@ -176,7 +176,7 @@ class ExhibitionCalendarService extends EventEmitter {
     } = options;
 
     try {
-      let query = `
+      const query = `
         SELECT DISTINCT e.*,
                i.name as institution_name,
                i.city, i.country,
@@ -225,7 +225,7 @@ class ExhibitionCalendarService extends EventEmitter {
       if (userId) queryParams.push(userId);
 
       const result = await db.query(query, queryParams);
-      
+
       return {
         date,
         exhibitions: result.rows,
@@ -256,7 +256,7 @@ class ExhibitionCalendarService extends EventEmitter {
         WHERE e.id = $1
       `;
       const exhibition = await db.query(exhibitionQuery, [exhibitionId]);
-      
+
       if (exhibition.rows.length === 0) {
         throw new Error('Exhibition not found');
       }
@@ -288,8 +288,8 @@ class ExhibitionCalendarService extends EventEmitter {
       };
 
       const result = await db.query(insertQuery, [
-        userId, 
-        exhibitionId, 
+        userId,
+        exhibitionId,
         JSON.stringify(notificationPrefs)
       ]);
 
@@ -379,11 +379,11 @@ class ExhibitionCalendarService extends EventEmitter {
       `;
 
       const result = await db.query(query, [userId, userLng, userLat]);
-      
+
       const nearbyExhibitions = [];
       for (const row of result.rows) {
         const prefs = row.notification_preferences;
-        
+
         // 중복 알림 방지 체크
         let shouldInclude = true;
         if (this.redis) {
@@ -396,7 +396,7 @@ class ExhibitionCalendarService extends EventEmitter {
             shouldInclude = true; // 에러 시 알림 허용
           }
         }
-        
+
         if (shouldInclude) {
           nearbyExhibitions.push(row);
         }
@@ -405,7 +405,7 @@ class ExhibitionCalendarService extends EventEmitter {
       // 위치 알림 발송
       for (const exhibition of nearbyExhibitions) {
         await this.sendLocationAlert(userId, exhibition);
-        
+
         // 24시간 동안 같은 전시에 대한 위치 알림 방지
         if (this.redis) {
           try {
@@ -429,10 +429,10 @@ class ExhibitionCalendarService extends EventEmitter {
     try {
       // 사용자의 예정된 전시 조회
       const upcomingExhibitions = await this.getUserUpcomingExhibitions(userId);
-      
+
       // Google Calendar API 연동 로직
       // 실제 구현에서는 google-auth-library와 googleapis 패키지 사용
-      
+
       const calendarEvents = upcomingExhibitions.map(exhibition => ({
         summary: exhibition.title,
         location: `${exhibition.institution_name}, ${exhibition.address}`,
@@ -477,11 +477,11 @@ class ExhibitionCalendarService extends EventEmitter {
   // 예정된 알림 처리
   async processScheduledNotifications() {
     if (!this.redis) return;
-    
+
     try {
       const pattern = 'scheduled_notification:*';
       const keys = await this.redis.keys(pattern);
-      
+
       for (const key of keys) {
         try {
           const notificationData = await this.redis.get(key);
@@ -489,7 +489,7 @@ class ExhibitionCalendarService extends EventEmitter {
 
           const notification = JSON.parse(notificationData);
           const scheduledTime = new Date(notification.scheduledFor);
-          
+
           if (scheduledTime <= new Date()) {
             await this.sendScheduledNotification(notification);
             await this.redis.del(key);
@@ -507,7 +507,7 @@ class ExhibitionCalendarService extends EventEmitter {
   groupExhibitionsByDate(exhibitions, startDate, endDate) {
     const calendar = {};
     const currentDate = new Date(startDate);
-    
+
     // 캘린더 그리드 초기화
     while (currentDate <= endDate) {
       const dateKey = currentDate.toISOString().split('T')[0];
@@ -519,7 +519,7 @@ class ExhibitionCalendarService extends EventEmitter {
     exhibitions.forEach(exhibition => {
       const start = new Date(exhibition.start_date);
       const end = new Date(exhibition.end_date);
-      
+
       const iterDate = new Date(Math.max(start, startDate));
       while (iterDate <= Math.min(end, endDate)) {
         const dateKey = iterDate.toISOString().split('T')[0];
@@ -532,7 +532,7 @@ class ExhibitionCalendarService extends EventEmitter {
 
     return {
       calendar,
-      exhibitions: exhibitions,
+      exhibitions,
       summary: {
         totalExhibitions: exhibitions.length,
         newExhibitions: exhibitions.filter(e => new Date(e.start_date) >= startDate).length,
@@ -544,12 +544,12 @@ class ExhibitionCalendarService extends EventEmitter {
   groupExhibitionsByWeek(exhibitions, startDate, endDate) {
     const weeks = [];
     const currentDate = new Date(startDate);
-    
+
     while (currentDate <= endDate) {
       const weekStart = new Date(currentDate);
       const weekEnd = new Date(currentDate);
       weekEnd.setDate(weekEnd.getDate() + 6);
-      
+
       const weekExhibitions = exhibitions.filter(exhibition => {
         const start = new Date(exhibition.start_date);
         const end = new Date(exhibition.end_date);
@@ -587,7 +587,7 @@ class ExhibitionCalendarService extends EventEmitter {
         AND e.end_date >= CURRENT_DATE
       ORDER BY e.start_date ASC
     `;
-    
+
     const result = await db.query(query, [userId]);
     return result.rows;
   }
@@ -595,7 +595,7 @@ class ExhibitionCalendarService extends EventEmitter {
   async sendScheduledNotification(notification) {
     // 실제 푸시 알림 발송 로직
     log.info(`Sending notification to user ${notification.userId}: ${notification.exhibitionTitle} ${notification.type}`);
-    
+
     this.emit('notificationSent', notification);
   }
 

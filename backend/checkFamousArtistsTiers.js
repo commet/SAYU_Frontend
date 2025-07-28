@@ -41,11 +41,11 @@ async function checkFamousArtistsTiers() {
       if (artists.length > 0) {
         console.log(`\n📌 티어 ${tier} (${getTierName(tier)}): ${artists.length}명`);
         console.log('─'.repeat(70));
-        
+
         artists.slice(0, 15).forEach((artist, idx) => {
           console.log(`${(idx + 1).toString().padStart(2)}. ${artist.name.padEnd(40)} - ${artist.importance_score}점 (조회수: ${(artist.daily_views || 0).toLocaleString()}회/일)`);
         });
-        
+
         if (artists.length > 15) {
           console.log(`    ... 외 ${artists.length - 15}명`);
         }

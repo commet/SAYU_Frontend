@@ -9,7 +9,7 @@ const pool = new Pool({
 
 async function generateFinalReport() {
   console.log('📊 SAYU 전시 데이터베이스 최종 현황 보고서\n');
-  console.log('=' .repeat(60) + '\n');
+  console.log(`${'=' .repeat(60)}\n`);
 
   try {
     // 1. 전체 통계
@@ -29,8 +29,8 @@ async function generateFinalReport() {
     const stats = totalStats.rows[0];
     console.log('📈 전체 전시 통계:');
     console.log(`   총 전시 수: ${stats.total}개`);
-    console.log(`   ├─ 국내 전시: ${stats.korean}개 (${Math.round(stats.korean/stats.total*100)}%)`);
-    console.log(`   └─ 해외 전시: ${stats.international}개 (${Math.round(stats.international/stats.total*100)}%)`);
+    console.log(`   ├─ 국내 전시: ${stats.korean}개 (${Math.round(stats.korean / stats.total * 100)}%)`);
+    console.log(`   └─ 해외 전시: ${stats.international}개 (${Math.round(stats.international / stats.total * 100)}%)`);
     console.log(`\n   상태별:`);
     console.log(`   ├─ 진행중: ${stats.ongoing}개`);
     console.log(`   ├─ 예정: ${stats.upcoming}개`);
@@ -52,10 +52,10 @@ async function generateFinalReport() {
     `);
 
     countryStats.rows.forEach(row => {
-      const flag = row.venue_country === 'KR' ? '🇰🇷' : 
-                   row.venue_country === 'US' ? '🇺🇸' : 
-                   row.venue_country === 'GB' ? '🇬🇧' : 
-                   row.venue_country === 'FR' ? '🇫🇷' : 
+      const flag = row.venue_country === 'KR' ? '🇰🇷' :
+                   row.venue_country === 'US' ? '🇺🇸' :
+                   row.venue_country === 'GB' ? '🇬🇧' :
+                   row.venue_country === 'FR' ? '🇫🇷' :
                    row.venue_country === 'JP' ? '🇯🇵' : '🌐';
       console.log(`   ${flag} ${row.venue_country}: ${row.count}개`);
     });
@@ -74,7 +74,7 @@ async function generateFinalReport() {
     `);
 
     venueStats.rows.forEach((row, i) => {
-      console.log(`   ${i+1}. ${row.venue_name} (${row.venue_city}): ${row.exhibition_count}개`);
+      console.log(`   ${i + 1}. ${row.venue_name} (${row.venue_city}): ${row.exhibition_count}개`);
     });
 
     // 4. 데이터 소스별 통계
@@ -130,7 +130,7 @@ async function generateFinalReport() {
     console.log('   4. 사용자 제보 기능 추가');
     console.log('   5. AI 기반 전시 정보 자동 추출');
 
-    console.log('\n' + '=' .repeat(60));
+    console.log(`\n${'=' .repeat(60)}`);
     console.log('✨ SAYU 전시 데이터베이스 구축 완료!');
 
   } catch (error) {

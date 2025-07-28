@@ -14,7 +14,7 @@ const emotionTranslationLimiter = rateLimit({
     error: 'Too many translation requests. Please try again later.'
   },
   standardHeaders: true,
-  legacyHeaders: false,
+  legacyHeaders: false
 });
 
 /**
@@ -104,13 +104,13 @@ router.post('/validate',
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        success: false, 
+      return res.status(400).json({
+        success: false,
         valid: false,
-        errors: errors.array() 
+        errors: errors.array()
       });
     }
-    
+
     res.json({
       success: true,
       valid: true,

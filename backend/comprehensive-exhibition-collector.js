@@ -33,13 +33,13 @@ class ComprehensiveExhibitionCollector {
 
     // 1. 해외 주요 미술관 API
     await this.collectFromInternationalMuseums();
-    
+
     // 2. 국내 문화 포털 API
     await this.collectFromKoreanCultureAPIs();
-    
+
     // 3. RSS 피드 수집
     await this.collectFromRSSFeeds();
-    
+
     // 4. 기존 네이버 API (확장)
     await this.collectFromNaverExpanded();
 
@@ -53,16 +53,16 @@ class ComprehensiveExhibitionCollector {
 
     // MoMA API
     await this.collectFromMoMA();
-    
+
     // Tate Gallery API
     await this.collectFromTate();
-    
+
     // V&A Museum API
     await this.collectFromVandA();
-    
+
     // Smithsonian API
     await this.collectFromSmithsonian();
-    
+
     // Europeana API
     await this.collectFromEuropeana();
   }
@@ -70,7 +70,7 @@ class ComprehensiveExhibitionCollector {
   async collectFromMoMA() {
     try {
       console.log('🎨 MoMA (뉴욕 현대미술관) 전시 수집...');
-      
+
       // MoMA는 공식 API가 제한적이므로 웹사이트 정보 기반 수집
       const exhibitions = [
         {
@@ -102,7 +102,7 @@ class ComprehensiveExhibitionCollector {
       for (const exhibition of exhibitions) {
         await this.saveExhibition(exhibition);
       }
-      
+
     } catch (error) {
       console.error('❌ MoMA 수집 오류:', error.message);
       this.stats.errors++;
@@ -112,7 +112,7 @@ class ComprehensiveExhibitionCollector {
   async collectFromTate() {
     try {
       console.log('🎨 Tate (영국) 전시 수집...');
-      
+
       // Tate의 실제 API 엔드포인트 사용 시도
       const response = await axios.get('https://www.tate.org.uk/api/v1/exhibitions', {
         params: {
@@ -154,7 +154,7 @@ class ComprehensiveExhibitionCollector {
             source: 'tate_manual'
           }
         ];
-        
+
         for (const exhibition of exhibitions) {
           await this.saveExhibition(exhibition);
         }
@@ -168,7 +168,7 @@ class ComprehensiveExhibitionCollector {
   async collectFromVandA() {
     try {
       console.log('🎨 V&A Museum (런던) 전시 수집...');
-      
+
       // V&A API 사용
       const response = await axios.get('https://api.vam.ac.uk/v2/exhibitions/current', {
         timeout: 10000
@@ -207,7 +207,7 @@ class ComprehensiveExhibitionCollector {
   async collectFromSmithsonian() {
     try {
       console.log('🎨 Smithsonian (미국) 전시 수집...');
-      
+
       const apiKey = process.env.SMITHSONIAN_API_KEY || 'DEMO_KEY';
       const response = await axios.get('https://api.si.edu/openaccess/api/v1.0/search', {
         params: {
@@ -247,7 +247,7 @@ class ComprehensiveExhibitionCollector {
   async collectFromEuropeana() {
     try {
       console.log('🎨 Europeana (유럽 문화유산) 전시 수집...');
-      
+
       // 주요 유럽 미술관 전시 정보
       const exhibitions = [
         {
@@ -303,10 +303,10 @@ class ComprehensiveExhibitionCollector {
 
     // 문화포털 API
     await this.collectFromCulturePortal();
-    
+
     // 서울시 열린데이터광장
     await this.collectFromSeoulOpenData();
-    
+
     // 한국문화예술위원회
     await this.collectFromArko();
   }
@@ -314,7 +314,7 @@ class ComprehensiveExhibitionCollector {
   async collectFromCulturePortal() {
     try {
       console.log('🎨 문화포털 전시 정보 수집...');
-      
+
       // 실제 API가 있다면 사용, 없으면 주요 전시 데이터 수동 입력
       const exhibitions = [
         {
@@ -367,7 +367,7 @@ class ComprehensiveExhibitionCollector {
   async collectFromSeoulOpenData() {
     try {
       console.log('🎨 서울시 전시 정보 수집...');
-      
+
       const exhibitions = [
         {
           title_en: 'Seoul Photo Festival 2025',
@@ -407,7 +407,7 @@ class ComprehensiveExhibitionCollector {
   async collectFromArko() {
     try {
       console.log('🎨 한국문화예술위원회 전시 정보 수집...');
-      
+
       const exhibitions = [
         {
           title_en: 'Young Artist Award Exhibition 2025',
@@ -458,16 +458,16 @@ class ComprehensiveExhibitionCollector {
       try {
         console.log(`📰 ${feed.name} RSS 피드 확인 중...`);
         const feedData = await parser.parseURL(feed.url).catch(() => null);
-        
+
         if (feedData && feedData.items) {
           const exhibitionKeywords = ['exhibition', 'exhibit', '전시', '개인전', '기획전', 'gallery', '갤러리', 'museum', '미술관'];
-          
+
           for (const item of feedData.items.slice(0, 5)) {
-            const hasKeyword = exhibitionKeywords.some(keyword => 
-              item.title.toLowerCase().includes(keyword) || 
+            const hasKeyword = exhibitionKeywords.some(keyword =>
+              item.title.toLowerCase().includes(keyword) ||
               (item.contentSnippet && item.contentSnippet.toLowerCase().includes(keyword))
             );
-            
+
             if (hasKeyword) {
               console.log(`  - 전시 관련 기사 발견: ${item.title}`);
               // RSS에서는 직접 전시 정보를 추출하기 어려우므로 통계만 기록
@@ -504,7 +504,7 @@ class ComprehensiveExhibitionCollector {
     for (const query of internationalQueries) {
       try {
         console.log(`🔍 검색 중: ${query}`);
-        
+
         const response = await axios.get('https://openapi.naver.com/v1/search/blog.json', {
           headers: {
             'X-Naver-Client-Id': process.env.NAVER_CLIENT_ID,
@@ -532,7 +532,7 @@ class ComprehensiveExhibitionCollector {
   // 전시 저장 (기존 메서드 재사용)
   async saveExhibition(exhibition) {
     const client = await pool.connect();
-    
+
     try {
       // 중복 확인
       const existing = await client.query(
@@ -548,7 +548,7 @@ class ComprehensiveExhibitionCollector {
       // 날짜 유효성 검사
       const startDate = new Date(exhibition.start_date);
       const endDate = new Date(exhibition.end_date);
-      
+
       if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
         console.error(`❌ 잘못된 날짜: ${exhibition.title_en}`);
         this.stats.errors++;
@@ -696,7 +696,7 @@ class ComprehensiveExhibitionCollector {
 
 async function main() {
   const collector = new ComprehensiveExhibitionCollector();
-  
+
   try {
     await collector.collectAll();
   } catch (error) {

@@ -13,7 +13,7 @@ class ArtmapKoreaExhibitionsCrawler {
     this.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
     this.requestDelay = 2000;
     this.lastRequestTime = 0;
-    
+
     // 한국 미술관/갤러리 키워드
     this.koreaVenueKeywords = [
       // 주요 미술관
@@ -28,7 +28,7 @@ class ArtmapKoreaExhibitionsCrawler {
       'plateau',
       'd museum',
       'piknic',
-      
+
       // 갤러리
       'kukje gallery',
       'gallery hyundai',
@@ -40,7 +40,7 @@ class ArtmapKoreaExhibitionsCrawler {
       'gallery baton',
       'one and j gallery',
       'pkm gallery',
-      
+
       // 도시명
       'seoul', 'busan', 'daegu', 'gwangju', 'daejeon',
       'korea', 'korean'
@@ -58,7 +58,7 @@ class ArtmapKoreaExhibitionsCrawler {
 
   async fetchPage(url) {
     await this.respectRateLimit();
-    
+
     try {
       const response = await axios.get(url, {
         headers: {
@@ -80,7 +80,7 @@ class ArtmapKoreaExhibitionsCrawler {
    */
   isKoreanExhibition(venue, title, url) {
     const checkText = `${venue} ${title} ${url}`.toLowerCase();
-    return this.koreaVenueKeywords.some(keyword => 
+    return this.koreaVenueKeywords.some(keyword =>
       checkText.includes(keyword.toLowerCase())
     );
   }
@@ -90,7 +90,7 @@ class ArtmapKoreaExhibitionsCrawler {
    */
   async crawlKoreanExhibitions() {
     console.log('=== Searching for Korean exhibitions on Artmap ===\n');
-    
+
     const exhibitions = [];
     const urls = [
       `${this.baseUrl}/exhibitions/institutions/opening/worldwide`,
@@ -98,23 +98,23 @@ class ArtmapKoreaExhibitionsCrawler {
       `${this.baseUrl}/exhibitions/galleries/opening/worldwide`,
       `${this.baseUrl}/exhibitions/galleries/closing/worldwide`
     ];
-    
+
     for (const url of urls) {
       console.log(`\nChecking: ${url}`);
       const html = await this.fetchPage(url);
-      
+
       if (html) {
         const $ = cheerio.load(html);
-        
+
         $('tr').each((i, row) => {
           const $row = $(row);
           const cells = $row.find('td');
-          
+
           if (cells.length === 3) {
             const allLinks = $row.find('a');
             let venueLink = null;
             let exhibitionLink = null;
-            
+
             allLinks.each((j, link) => {
               const href = $(link).attr('href') || '';
               if (href.includes('/exhibition/')) {
@@ -123,17 +123,17 @@ class ArtmapKoreaExhibitionsCrawler {
                 venueLink = $(link);
               }
             });
-            
+
             if (exhibitionLink && venueLink) {
               const venue = venueLink.text().trim();
               const title = exhibitionLink.text().trim();
               const exhibitionUrl = exhibitionLink.attr('href');
-              
+
               // 한국 전시인지 확인
               if (this.isKoreanExhibition(venue, title, exhibitionUrl)) {
                 const rowText = $row.text();
                 const dateMatch = rowText.match(/(\d{1,2}\s+\w{3})\s*[-–]\s*(\d{1,2}\s+\w{3}\s+\d{4})/);
-                
+
                 exhibitions.push({
                   venue,
                   title,
@@ -143,7 +143,7 @@ class ArtmapKoreaExhibitionsCrawler {
                   source: 'artmap',
                   foundAt: url
                 });
-                
+
                 console.log(`✓ Found Korean exhibition: ${title} at ${venue}`);
               }
             }
@@ -151,7 +151,7 @@ class ArtmapKoreaExhibitionsCrawler {
         });
       }
     }
-    
+
     console.log(`\n\nTotal Korean exhibitions found: ${exhibitions.length}`);
     return exhibitions;
   }
@@ -161,22 +161,22 @@ class ArtmapKoreaExhibitionsCrawler {
    */
   async searchKoreanVenues() {
     console.log('\n=== Searching for Korean venues ===\n');
-    
+
     const venues = [];
     const searchTerms = ['seoul', 'korea', 'mmca', 'leeum', 'sema'];
-    
+
     for (const term of searchTerms) {
       const searchUrl = `${this.baseUrl}/search?q=${encodeURIComponent(term)}`;
       console.log(`Searching for: ${term}`);
-      
+
       const html = await this.fetchPage(searchUrl);
       if (html) {
         const $ = cheerio.load(html);
-        
+
         $('a').each((i, link) => {
           const href = $(link).attr('href') || '';
           const text = $(link).text().trim();
-          
+
           if (href.includes('/venue/') || href.includes('/institution/') || href.includes('/gallery/')) {
             if (this.isKoreanExhibition(text, '', href)) {
               venues.push({
@@ -190,7 +190,7 @@ class ArtmapKoreaExhibitionsCrawler {
         });
       }
     }
-    
+
     return venues;
   }
 
@@ -200,13 +200,13 @@ class ArtmapKoreaExhibitionsCrawler {
   async getExhibitionDetails(exhibitionUrl) {
     const html = await this.fetchPage(exhibitionUrl);
     if (!html) return null;
-    
+
     const $ = cheerio.load(html);
-    
+
     return {
       title: $('h1').first().text().trim(),
       description: $('#text-block, .description, .exhibition-text').first().text().trim(),
-      artists: $('a[href*="/artist/"], a[href*="/profile/"]').map((i, el) => 
+      artists: $('a[href*="/artist/"], a[href*="/profile/"]').map((i, el) =>
         $(el).text().trim()
       ).get().filter(name => name),
       images: $('img').map((i, img) => {
@@ -226,7 +226,7 @@ class ArtmapKoreaExhibitionsCrawler {
       // 날짜 변환
       const startDate = this.convertDate(exhibition.startDate);
       const endDate = this.convertDate(exhibition.endDate);
-      
+
       const query = `
         INSERT INTO exhibitions (
           title, title_en, venue_name, start_date, end_date,
@@ -239,7 +239,7 @@ class ArtmapKoreaExhibitionsCrawler {
           updated_at = NOW()
         RETURNING id
       `;
-      
+
       const values = [
         exhibition.title,
         exhibition.title, // 영문 제목 (추후 번역 가능)
@@ -251,9 +251,9 @@ class ArtmapKoreaExhibitionsCrawler {
         'artmap',
         exhibition.url,
         'Seoul', // 기본값
-        'South Korea',
+        'South Korea'
       ];
-      
+
       const result = await db.query(query, values);
       return result.rows[0].id;
     } catch (error) {
@@ -267,13 +267,13 @@ class ArtmapKoreaExhibitionsCrawler {
    */
   convertDate(dateStr) {
     if (!dateStr) return null;
-    
+
     const months = {
       'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
       'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
       'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
     };
-    
+
     const match = dateStr.match(/(\d{1,2})\s+(\w{3})(?:\s+(\d{4}))?/);
     if (match) {
       const day = match[1].padStart(2, '0');
@@ -281,7 +281,7 @@ class ArtmapKoreaExhibitionsCrawler {
       const year = match[3] || new Date().getFullYear();
       return `${year}-${month}-${day}`;
     }
-    
+
     return null;
   }
 
@@ -290,26 +290,26 @@ class ArtmapKoreaExhibitionsCrawler {
    */
   async crawlAndSave() {
     console.log('Starting Korean exhibitions crawl...\n');
-    
+
     // 1. 한국 전시 찾기
     const exhibitions = await this.crawlKoreanExhibitions();
-    
+
     // 2. 한국 장소 검색
     const venues = await this.searchKoreanVenues();
     console.log(`\nFound ${venues.length} Korean venues`);
-    
+
     // 3. 전시 상세 정보 가져오고 저장
     let savedCount = 0;
     for (const exhibition of exhibitions) {
       console.log(`\nProcessing: ${exhibition.title}`);
-      
+
       // 상세 정보 가져오기
       const details = await this.getExhibitionDetails(exhibition.url);
       if (details) {
         exhibition.description = details.description;
         exhibition.artists = details.artists;
       }
-      
+
       // DB 저장
       const saved = await this.saveExhibition(exhibition);
       if (saved) {
@@ -317,12 +317,12 @@ class ArtmapKoreaExhibitionsCrawler {
         console.log('✓ Saved to database');
       }
     }
-    
+
     console.log(`\n\n=== SUMMARY ===`);
     console.log(`Total exhibitions found: ${exhibitions.length}`);
     console.log(`Successfully saved: ${savedCount}`);
     console.log(`Korean venues found: ${venues.length}`);
-    
+
     return {
       exhibitions,
       venues,

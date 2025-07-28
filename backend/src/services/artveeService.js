@@ -37,7 +37,7 @@ class ArtveeService extends EventEmitter {
       } else {
         log.info('Artvee service initialized without Redis (cache disabled)');
       }
-      
+
       // Skip browser initialization for basic queries
       // await this.initializeBrowser();
     } catch (error) {
@@ -89,21 +89,21 @@ class ArtveeService extends EventEmitter {
       const artworkLinks = await page.evaluate(() => {
         const links = [];
         const items = document.querySelectorAll('.item-image a, .product a, .artwork-item a');
-        
+
         items.forEach(item => {
-          const href = item.href;
+          const { href } = item;
           const img = item.querySelector('img');
           const title = img?.alt || img?.title || '';
-          
+
           if (href && href.includes('/artwork/')) {
             links.push({
               url: href,
               thumbnailUrl: img?.src || '',
-              title: title
+              title
             });
           }
         });
-        
+
         return links;
       });
 
@@ -112,7 +112,7 @@ class ArtveeService extends EventEmitter {
       // 각 작품 상세 정보 수집
       for (let i = 0; i < Math.min(artworkLinks.length, limit); i++) {
         const link = artworkLinks[i];
-        
+
         try {
           const artwork = await this.collectArtworkDetail(link.url);
           if (artwork) {
@@ -120,7 +120,7 @@ class ArtveeService extends EventEmitter {
             artwork.category = category;
             artworks.push(artwork);
           }
-          
+
           // Rate limiting
           await this.delay(2000);
         } catch (error) {
@@ -148,13 +148,13 @@ class ArtveeService extends EventEmitter {
     const page = await this.browser.newPage();
 
     try {
-      await page.goto(url, { 
+      await page.goto(url, {
         waitUntil: 'networkidle2',
-        timeout: 30000 
+        timeout: 30000
       });
 
       const artwork = await page.evaluate(() => {
-        const getTextContent = (selector) => 
+        const getTextContent = (selector) =>
           document.querySelector(selector)?.textContent?.trim() || '';
 
         const getAttributeContent = (selector, attribute) =>
@@ -167,20 +167,20 @@ class ArtveeService extends EventEmitter {
         const medium = getTextContent('.medium, .artwork-medium, .product-medium');
         const dimensions = getTextContent('.dimensions, .artwork-dimensions, .size');
         const description = getTextContent('.description, .artwork-description, .product-description');
-        
+
         // 이미지 URL 추출
         const imageSelectors = [
           '.artwork-image img',
-          '.product-image img', 
+          '.product-image img',
           '.main-image img',
           '.hero-image img',
           'img[alt*="artwork"]',
           'img[src*="artvee"]'
         ];
-        
+
         let imageUrl = '';
         let downloadUrl = '';
-        
+
         for (const selector of imageSelectors) {
           const img = document.querySelector(selector);
           if (img && img.src) {
@@ -188,7 +188,7 @@ class ArtveeService extends EventEmitter {
             break;
           }
         }
-        
+
         // 다운로드 링크 찾기
         const downloadLink = document.querySelector('a[href*="download"], .download-btn, .download-link');
         if (downloadLink) {
@@ -330,7 +330,7 @@ class ArtveeService extends EventEmitter {
       }
 
       log.info('Personality mapping completed');
-      
+
       // 성격 유형별 대표 작품 설정
       await this.updatePersonalityArtworkMappings();
 
@@ -351,7 +351,7 @@ class ArtveeService extends EventEmitter {
         styles: ['dreamy', 'soft', 'ethereal'],
         keywords: ['dream', 'mist', 'light', 'nature', 'emotion']
       },
-      'SRMC': { // 체계적 큐레이터  
+      'SRMC': { // 체계적 큐레이터
         periods: ['Renaissance', 'Neoclassicism', 'Academic'],
         styles: ['precise', 'detailed', 'classical'],
         keywords: ['structure', 'balance', 'harmony', 'order', 'classical']
@@ -417,7 +417,7 @@ class ArtveeService extends EventEmitter {
     // 색상 기반 감정 추론
     if (artwork.color_palette) {
       const dominantColors = artwork.color_palette.dominant || [];
-      
+
       if (dominantColors.includes('blue') || dominantColors.includes('green')) {
         tags.push('serene');
       }
@@ -524,7 +524,7 @@ class ArtveeService extends EventEmitter {
         SELECT * FROM artvee_artworks
         WHERE sayu_type = $1
       `;
-      
+
       const queryParams = [personalityType];
       let paramCount = 1;
 
@@ -559,9 +559,9 @@ class ArtveeService extends EventEmitter {
         const distance = 100;
         const maxScrollTime = 30000; // 30초 최대 타임아웃
         const startTime = Date.now();
-        
+
         const timer = setInterval(() => {
-          const scrollHeight = document.body.scrollHeight;
+          const { scrollHeight } = document.body;
           window.scrollBy(0, distance);
           totalHeight += distance;
 
@@ -603,7 +603,7 @@ class ArtveeService extends EventEmitter {
   async extractColorPalette(imageBuffer) {
     try {
       const { dominant } = await sharp(imageBuffer).stats();
-      
+
       // 간단한 색상 분석
       const colors = {
         dominant: this.rgbToColorName(dominant.r, dominant.g, dominant.b),
@@ -678,36 +678,36 @@ class ArtveeService extends EventEmitter {
 
   inferStyle(title, description) {
     const text = `${title} ${description}`.toLowerCase();
-    
+
     if (text.includes('abstract')) return 'Abstract';
     if (text.includes('realistic') || text.includes('portrait')) return 'Realism';
     if (text.includes('landscape')) return 'Landscape';
     if (text.includes('still life')) return 'Still Life';
-    
+
     return 'Unknown';
   }
 
   inferGenre(title, description) {
     const text = `${title} ${description}`.toLowerCase();
-    
+
     if (text.includes('portrait')) return 'Portrait';
     if (text.includes('landscape')) return 'Landscape';
     if (text.includes('still life')) return 'Still Life';
     if (text.includes('abstract')) return 'Abstract';
     if (text.includes('religious')) return 'Religious';
-    
+
     return 'Unknown';
   }
 
   async updatePersonalityArtworkMappings() {
     const personalities = ['LAEF', 'SRMC', 'GREF', 'CREF'];
-    
+
     for (const personality of personalities) {
       const artworks = await this.getArtworksForPersonality(personality, { limit: 20 });
-      
+
       if (artworks.length > 0) {
         const primaryArtworks = artworks.slice(0, 5).map(a => a.id);
-        
+
         await pool.query(`
           INSERT INTO personality_artwork_mapping (personality_type, primary_artworks, created_at)
           VALUES ($1, $2, NOW())

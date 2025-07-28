@@ -56,7 +56,7 @@ const venueController = {
 
       // 언어별 필드 선택
       const localizedFields = getLocalizedFields(lang);
-      
+
       // 커스텀 쿼리로 언어별 데이터 가져오기
       const query = `
         SELECT 
@@ -131,7 +131,7 @@ const venueController = {
 
       const { pool } = require('../config/database');
       const client = await pool.connect();
-      
+
       try {
         const [venuesResult, countResult] = await Promise.all([
           client.query(query),
@@ -220,10 +220,10 @@ const venueController = {
 
       const { pool } = require('../config/database');
       const client = await pool.connect();
-      
+
       try {
         const result = await client.query(query, [id]);
-        
+
         if (result.rows.length === 0) {
           return res.status(404).json({
             success: false,
@@ -255,7 +255,7 @@ const venueController = {
 
       const cityField = lang === 'ko' ? 'COALESCE(city_ko, city)' : 'COALESCE(city_en, city)';
 
-      let query = `
+      const query = `
         SELECT 
           ${cityField} as city,
           city as city_original,
@@ -274,10 +274,10 @@ const venueController = {
 
       const { pool } = require('../config/database');
       const client = await pool.connect();
-      
+
       try {
         const result = await client.query(query);
-        
+
         res.json({
           success: true,
           data: result.rows,
@@ -339,10 +339,10 @@ const venueController = {
 
       const { pool } = require('../config/database');
       const client = await pool.connect();
-      
+
       try {
         const result = await client.query(query);
-        
+
         // 국가명 번역 추가
         const data = result.rows.map(row => ({
           ...row,
@@ -350,7 +350,7 @@ const venueController = {
           country_ko: countryTranslations[row.country]?.ko || row.country,
           country_en: countryTranslations[row.country]?.en || row.country
         }));
-        
+
         res.json({
           success: true,
           data,
@@ -418,10 +418,10 @@ const venueController = {
 
       const { pool } = require('../config/database');
       const client = await pool.connect();
-      
+
       try {
         const result = await client.query(query, [`%${q}%`, limit]);
-        
+
         res.json({
           success: true,
           data: result.rows,

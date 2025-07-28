@@ -206,10 +206,10 @@ router.get('/exhibitions/:exhibitionId/room', async (req, res) => {
   try {
     const { exhibitionId } = req.params;
     const roomId = `exhibition:${exhibitionId}`;
-    
+
     const onlineUsers = socketService.getUsersInRoom(roomId);
     const connectedUsers = socketService.getConnectedUsers();
-    
+
     res.json({
       roomId,
       onlineCount: onlineUsers.size,

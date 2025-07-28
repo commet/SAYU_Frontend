@@ -1,0 +1,181 @@
+name: PR Quality Check
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.changes.outputs.backend }}
+      frontend: ${{ steps.changes.outputs.frontend }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          backend:
+            - 'backend/**'
+          frontend:
+            - 'frontend/**'
+
+  backend-check:
+    needs: changes
+    if: ${{ needs.changes.outputs.backend == 'true' }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+    
+    - name: Install dependencies
+      run: |
+        cd backend
+        npm ci
+    
+    - name: Run ESLint with annotations
+      run: |
+        cd backend
+        npx eslint . --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif --max-warnings 200
+      continue-on-error: true
+    
+    - name: Upload ESLint results
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: backend/eslint-results.sarif
+    
+    - name: Run tests with coverage
+      run: |
+        cd backend
+        npm test -- --coverage --coverageReporters=lcov
+      env:
+        NODE_ENV: test
+        JWT_SECRET: test-secret
+        JWT_REFRESH_SECRET: test-refresh-secret
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        directory: ./backend/coverage
+        flags: backend
+
+  frontend-check:
+    needs: changes
+    if: ${{ needs.changes.outputs.frontend == 'true' }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+    
+    - name: Install dependencies
+      run: |
+        cd frontend
+        npm ci --legacy-peer-deps
+    
+    - name: Run TypeScript check
+      run: |
+        cd frontend
+        npx tsc --noEmit --pretty
+    
+    - name: Run ESLint with annotations
+      run: |
+        cd frontend
+        npx next lint --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif --max-warnings 100
+      continue-on-error: true
+    
+    - name: Upload ESLint results
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: frontend/eslint-results.sarif
+    
+    - name: Build check
+      run: |
+        cd frontend
+        npm run build
+      env:
+        SKIP_ENV_VALIDATION: true
+
+  security-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run CodeQL Analysis
+      uses: github/codeql-action/init@v2
+      with:
+        languages: javascript
+    
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+    
+    - name: Run npm audit (Backend)
+      run: |
+        cd backend
+        npm audit --audit-level moderate --production
+      continue-on-error: true
+    
+    - name: Run npm audit (Frontend)
+      run: |
+        cd frontend
+        npm audit --audit-level moderate --production
+      continue-on-error: true
+
+  pr-comment:
+    needs: [changes, backend-check, frontend-check, security-check]
+    if: always()
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: PR Status Comment
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const { owner, repo, number } = context.issue;
+          
+          let comment = '## 🔍 PR Quality Check Results\n\n';
+          
+          const backendStatus = '${{ needs.backend-check.result }}';
+          const frontendStatus = '${{ needs.frontend-check.result }}';  
+          const securityStatus = '${{ needs.security-check.result }}';
+          
+          if ('${{ needs.changes.outputs.backend }}' === 'true') {
+            const icon = backendStatus === 'success' ? '✅' : '❌';
+            comment += `${icon} **Backend**: ${backendStatus}\n`;
+          }
+          
+          if ('${{ needs.changes.outputs.frontend }}' === 'true') {
+            const icon = frontendStatus === 'success' ? '✅' : '❌';
+            comment += `${icon} **Frontend**: ${frontendStatus}\n`;
+          }
+          
+          const securityIcon = securityStatus === 'success' ? '✅' : '❌';
+          comment += `${securityIcon} **Security**: ${securityStatus}\n`;
+          
+          comment += '\n---\n';
+          comment += '*Automated quality check by GitHub Actions*';
+          
+          await github.rest.issues.createComment({
+            owner,
+            repo,
+            issue_number: number,
+            body: comment
+          });

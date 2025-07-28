@@ -36,12 +36,12 @@ async function checkSupabaseConnection() {
       .from('users')
       .select('count')
       .limit(1);
-    
+
     if (error) {
       log.error('Supabase health check failed:', error);
       return false;
     }
-    
+
     log.info('Supabase connection successful');
     return true;
   } catch (error) {

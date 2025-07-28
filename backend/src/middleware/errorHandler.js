@@ -20,7 +20,7 @@ const errorHandler = (err, req, res, next) => {
   // Determine error type and status code
   let statusCode = 500;
   let errorType = 'INTERNAL_SERVER_ERROR';
-  
+
   if (err.statusCode || err.status) {
     statusCode = err.statusCode || err.status;
   }
@@ -100,17 +100,17 @@ function sanitizeRequestBody(body) {
   }
 
   const sensitiveFields = [
-    'password', 
-    'token', 
-    'refreshToken', 
-    'secret', 
+    'password',
+    'token',
+    'refreshToken',
+    'secret',
     'apiKey',
     'authorization',
     'cookie'
   ];
 
   const sanitized = { ...body };
-  
+
   sensitiveFields.forEach(field => {
     if (sanitized[field]) {
       sanitized[field] = '[REDACTED]';
@@ -135,14 +135,14 @@ function getErrorMessage(err, statusCode) {
 const notFoundHandler = (req, res, next) => {
   const error = new Error(`Route not found: ${req.method} ${req.originalUrl}`);
   error.statusCode = 404;
-  
+
   log.warn('Route not found', {
     method: req.method,
     url: req.originalUrl,
     ip: req.ip,
     userAgent: req.headers['user-agent']
   });
-  
+
   next(error);
 };
 
@@ -160,7 +160,7 @@ class AppError extends Error {
     this.statusCode = statusCode;
     this.errorType = errorType;
     this.isOperational = true;
-    
+
     Error.captureStackTrace(this, this.constructor);
   }
 }

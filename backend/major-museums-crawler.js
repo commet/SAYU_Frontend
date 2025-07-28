@@ -12,7 +12,7 @@ class MajorMuseumsCrawler {
     this.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36';
     this.requestDelay = 3000;
     this.lastRequestTime = 0;
-    
+
     // 세계 주요 미술관들
     this.majorMuseums = {
       london: [
@@ -117,7 +117,7 @@ class MajorMuseumsCrawler {
 
   async fetchPage(url) {
     await this.respectRateLimit();
-    
+
     try {
       console.log(`🔄 Fetching: ${url}`);
       const response = await axios.get(url, {
@@ -136,7 +136,7 @@ class MajorMuseumsCrawler {
 
   async crawlMuseum(museum, city) {
     console.log(`\n🏛️  Crawling ${museum.name}...`);
-    
+
     const html = await this.fetchPage(museum.url);
     if (!html) return [];
 
@@ -145,11 +145,11 @@ class MajorMuseumsCrawler {
 
     // 다양한 선택자로 전시 찾기
     const exhibitionSelectors = museum.selectors.exhibitions.split(', ');
-    
+
     for (const selector of exhibitionSelectors) {
       $(selector).each((i, element) => {
         const $el = $(element);
-        
+
         // 제목 추출
         let title = '';
         const titleSelectors = museum.selectors.title.split(', ');
@@ -157,7 +157,7 @@ class MajorMuseumsCrawler {
           title = $el.find(titleSel).first().text().trim();
           if (title) break;
         }
-        
+
         // 날짜 추출
         let dates = '';
         const dateSelectors = museum.selectors.dates.split(', ');
@@ -165,7 +165,7 @@ class MajorMuseumsCrawler {
           dates = $el.find(dateSel).first().text().trim();
           if (dates) break;
         }
-        
+
         // 설명 추출
         let description = '';
         const descSelectors = museum.selectors.description.split(', ');
@@ -173,14 +173,14 @@ class MajorMuseumsCrawler {
           description = $el.find(descSel).first().text().trim();
           if (description) break;
         }
-        
+
         // 링크 추출
         const link = $el.find('a').first().attr('href');
         let fullUrl = '';
         if (link) {
           fullUrl = link.startsWith('http') ? link : new URL(link, museum.url).href;
         }
-        
+
         if (title && title.length > 3) {
           exhibitions.push({
             title,
@@ -200,7 +200,7 @@ class MajorMuseumsCrawler {
           });
         }
       });
-      
+
       if (exhibitions.length > 0) break; // 첫 번째로 작동하는 선택자 사용
     }
 
@@ -225,7 +225,7 @@ class MajorMuseumsCrawler {
     for (const [city, museums] of Object.entries(this.majorMuseums)) {
       console.log(`\n📍 ${city.toUpperCase()} MAJOR MUSEUMS`);
       console.log('='.repeat(30));
-      
+
       for (const museum of museums) {
         try {
           const exhibitions = await this.crawlMuseum(museum, city);
@@ -235,7 +235,7 @@ class MajorMuseumsCrawler {
           console.error(`❌ Error crawling ${museum.name}:`, error.message);
         }
       }
-      
+
       console.log(`\n🎯 ${city} 총 수집: ${results[city].length}개 전시`);
     }
 
@@ -245,7 +245,7 @@ class MajorMuseumsCrawler {
     // 결과 저장
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const filename = `major-museums-collection-${timestamp}.json`;
-    
+
     const finalResult = {
       metadata: {
         collectionDate: new Date().toISOString(),
@@ -290,25 +290,25 @@ class MajorMuseumsCrawler {
   // Google Arts & Culture API 대안 크롤링
   async crawlGoogleArtsAndCulture() {
     console.log('\n🎨 Google Arts & Culture 보완 크롤링...');
-    
+
     const googleArtsUrl = 'https://artsandculture.google.com/partner';
     // 구현 가능하다면 추가
-    
+
     return [];
   }
 
   // 현지 아트 매거진 크롤링
   async crawlArtMagazines() {
     console.log('\n📰 아트 매거진 보완 크롤링...');
-    
+
     const artSources = [
       'https://www.timeout.com/london/art',
       'https://artlyst.com',
       'https://www.artforum.com/picks'
     ];
-    
+
     // 구현 가능하다면 추가
-    
+
     return [];
   }
 }
@@ -316,10 +316,10 @@ class MajorMuseumsCrawler {
 // 실행
 async function main() {
   const crawler = new MajorMuseumsCrawler();
-  
+
   try {
     await crawler.crawlAllMajorMuseums();
-    
+
   } catch (error) {
     console.error('Major museums crawler error:', error);
   }

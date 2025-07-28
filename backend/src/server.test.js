@@ -51,8 +51,8 @@ app.use('/api/analytics', analyticsRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'healthy', 
+  res.json({
+    status: 'healthy',
     timestamp: new Date(),
     version: '1.0.0',
     mode: 'test (mock services)'
@@ -76,7 +76,7 @@ async function startServer() {
     // Connect to mock services
     await connectDatabase();
     await connectRedis();
-    
+
     app.listen(PORT, () => {
       console.log(`🎨 SAYU Test Server running on port ${PORT}`);
       console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);

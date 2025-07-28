@@ -28,7 +28,7 @@ class MultiCategoryArtmapCrawler {
 
   async fetchPage(url) {
     await this.respectRateLimit();
-    
+
     try {
       console.log(`Fetching: ${url}`);
       const response = await axios.get(url, {
@@ -49,7 +49,7 @@ class MultiCategoryArtmapCrawler {
   async crawlCategory(categoryPath, limit = 50) {
     const url = `${this.baseUrl}/exhibitions/${categoryPath}/opening/worldwide`;
     const html = await this.fetchPage(url);
-    
+
     if (!html) return [];
 
     const $ = cheerio.load(html);
@@ -59,26 +59,26 @@ class MultiCategoryArtmapCrawler {
       if (exhibitions.length >= limit) return false;
 
       const $row = $(element);
-      
+
       // 이미지 링크에서 전시 URL 추출
       const exhibitionLink = $row.find('td:first-child a').attr('href');
       const imageUrl = $row.find('img').attr('src');
-      
+
       // 텍스트 정보가 있는 세 번째 td
       const $infoCell = $row.find('td:nth-child(3)');
-      
+
       // 장소 정보
       const venueLink = $infoCell.find('h3:first-child a');
       const venueName = venueLink.text().trim();
       const venueUrl = venueLink.attr('href');
-      
+
       // 전시 제목
       const titleLink = $infoCell.find('h2 a');
       const title = titleLink.text().trim();
-      
+
       // 날짜 정보
       const dateText = $infoCell.find('h3.txGray').text().trim();
-      
+
       if (title && venueName && dateText) {
         exhibitions.push({
           title,
@@ -105,10 +105,10 @@ class MultiCategoryArtmapCrawler {
   async crawlAllCategories(limitPerCategory = 50) {
     console.log('🎨 Starting multi-category Artmap.com crawling...');
     console.log(`📊 Will collect up to ${limitPerCategory} exhibitions per category`);
-    
+
     const categories = [
       'institutions',
-      'galleries', 
+      'galleries',
       'furtherspaces'
     ];
 
@@ -121,11 +121,11 @@ class MultiCategoryArtmapCrawler {
     }
 
     console.log(`\n✅ Total collected: ${allExhibitions.length} exhibitions`);
-    
+
     // JSON 파일로 저장
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const filename = `artmap-multi-category-${timestamp}.json`;
-    
+
     fs.writeFileSync(filename, JSON.stringify(allExhibitions, null, 2));
     console.log(`💾 Saved to: ${filename}`);
 
@@ -163,25 +163,25 @@ class MultiCategoryArtmapCrawler {
 // 실행
 async function main() {
   const crawler = new MultiCategoryArtmapCrawler();
-  
+
   try {
     // 각 카테고리에서 50개씩, 총 최대 150개 수집
     const exhibitions = await crawler.crawlAllCategories(50);
-    
+
     console.log('\n=== SUMMARY ===');
     console.log(`Total exhibitions: ${exhibitions.length}`);
-    
+
     // 카테고리별 통계
     const stats = exhibitions.reduce((acc, ex) => {
       acc[ex.category] = (acc[ex.category] || 0) + 1;
       return acc;
     }, {});
-    
+
     console.log('By category:');
     Object.entries(stats).forEach(([cat, count]) => {
       console.log(`  ${cat}: ${count} exhibitions`);
     });
-    
+
     // 상위 5개 전시 출력
     console.log('\n=== TOP 5 EXHIBITIONS ===');
     exhibitions.slice(0, 5).forEach((ex, i) => {
@@ -190,7 +190,7 @@ async function main() {
       console.log(`   Dates: ${ex.dates.original}`);
       console.log(`   Category: ${ex.category}`);
     });
-    
+
   } catch (error) {
     console.error('Crawler error:', error);
   }

@@ -21,8 +21,8 @@ class Achievement {
         badge_icon, badge_color, rarity, unlock_message
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
       RETURNING *`,
-      [id, name, description, category, JSON.stringify(requirements), points, 
-       badge_icon, badge_color, rarity, unlock_message]
+      [id, name, description, category, JSON.stringify(requirements), points,
+        badge_icon, badge_color, rarity, unlock_message]
     );
 
     return result.rows[0];
@@ -39,7 +39,7 @@ class Achievement {
   static async findById(id) {
     const result = await pool.query('SELECT * FROM achievements WHERE id = $1', [id]);
     if (result.rows.length === 0) return null;
-    
+
     return {
       ...result.rows[0],
       requirements: JSON.parse(result.rows[0].requirements)
@@ -51,7 +51,7 @@ class Achievement {
       'SELECT * FROM achievements WHERE category = $1 ORDER BY points',
       [category]
     );
-    
+
     return result.rows.map(achievement => ({
       ...achievement,
       requirements: JSON.parse(achievement.requirements)
@@ -130,7 +130,7 @@ class UserAchievement {
     `, [userId]);
 
     const stats = result.rows[0];
-    
+
     // Get recent achievements
     const recentResult = await pool.query(`
       SELECT ua.*, a.name, a.badge_icon, a.badge_color, a.rarity
@@ -158,14 +158,14 @@ class ProgressTracker {
   static async updateUserProgress(userId, action, metadata = {}) {
     // Get or create user progress record
     let progress = await this.getUserProgress(userId);
-    
+
     if (!progress) {
       progress = await this.createUserProgress(userId);
     }
 
     // Update progress based on action
     const updates = {};
-    
+
     switch (action) {
       case 'quiz_completed':
         updates.quizzes_completed = (progress.quizzes_completed || 0) + 1;
@@ -200,17 +200,17 @@ class ProgressTracker {
 
     // Update the progress
     const updatedProgress = await this.updateProgress(userId, updates);
-    
+
     // Check for new achievements
     await this.checkAchievements(userId, updatedProgress);
-    
+
     return updatedProgress;
   }
 
   static async getUserProgress(userId) {
     const result = await pool.query('SELECT * FROM user_progress WHERE user_id = $1', [userId]);
     if (result.rows.length === 0) return null;
-    
+
     return {
       ...result.rows[0],
       metadata: JSON.parse(result.rows[0].metadata || '{}')
@@ -222,7 +222,7 @@ class ProgressTracker {
       `INSERT INTO user_progress (user_id) VALUES ($1) RETURNING *`,
       [userId]
     );
-    
+
     return {
       ...result.rows[0],
       metadata: {}
@@ -232,7 +232,7 @@ class ProgressTracker {
   static async updateProgress(userId, updates) {
     const setClause = Object.keys(updates).map((key, index) => `${key} = $${index + 2}`).join(', ');
     const values = [userId, ...Object.values(updates)];
-    
+
     const result = await pool.query(
       `UPDATE user_progress SET ${setClause}, updated_at = CURRENT_TIMESTAMP 
        WHERE user_id = $1 RETURNING *`,
@@ -247,11 +247,11 @@ class ProgressTracker {
 
   static calculateStreak(lastLogin, currentLogin) {
     if (!lastLogin) return 1;
-    
+
     const last = new Date(lastLogin);
     const current = new Date(currentLogin);
     const diffDays = Math.floor((current - last) / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays === 1) {
       // Consecutive day, increment streak
       return (lastLogin.login_streak || 0) + 1;
@@ -270,7 +270,7 @@ class ProgressTracker {
 
     for (const achievement of achievements) {
       const meetsRequirements = this.checkRequirements(progress, achievement.requirements);
-      
+
       if (meetsRequirements) {
         const unlocked = await UserAchievement.checkAndUnlock(userId, achievement.id);
         if (unlocked) {

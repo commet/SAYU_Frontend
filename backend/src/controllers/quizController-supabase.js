@@ -14,7 +14,7 @@ class QuizController {
   async startQuiz(req, res) {
     try {
       const { sessionType, language = 'ko' } = req.body;
-      const userId = req.userId;
+      const { userId } = req;
 
       if (!userId) {
         return res.status(401).json({ error: 'User not authenticated' });
@@ -104,11 +104,11 @@ class QuizController {
 
       // Determine session type from answers pattern
       const sessionType = await this.determineSessionType(sessionId);
-      
+
       // Determine next question
       let nextQuestion = null;
       const isExhibition = sessionType === 'exhibition';
-      
+
       if (isExhibition) {
         if (currentQuestionIndex < exhibitionQuestions.length) {
           nextQuestion = exhibitionQuestions[currentQuestionIndex];
@@ -181,7 +181,7 @@ class QuizController {
 
       // Check if both quizzes are complete
       const { data: allSessions } = await databaseService.query('quiz_sessions', 'select', {
-        filters: { 
+        filters: {
           user_id: req.userId,
           status: 'completed'
         }
@@ -194,7 +194,7 @@ class QuizController {
       if (hasExhibition && hasArtwork) {
         // Generate comprehensive profile
         const profile = await this.generateProfile(req.userId);
-        
+
         res.json({
           success: true,
           data: {
@@ -228,7 +228,7 @@ class QuizController {
     try {
       // Get all completed sessions
       const { data: sessions } = await databaseService.query('quiz_sessions', 'select', {
-        filters: { 
+        filters: {
           user_id: userId,
           status: 'completed'
         }
@@ -257,10 +257,10 @@ class QuizController {
       // Calculate personality
       const exhibitionResult = this.calculateExhibitionPersonality(exhibitionAnswers);
       const artworkAnalysis = this.calculateArtworkPreferences(artworkAnswers);
-      
+
       // Get profile image using 128-combination system
       const profileImageInfo = ProfileImageMappingService.getProfileImage(
-        exhibitionResult.typeCode, 
+        exhibitionResult.typeCode,
         artworkAnalysis
       );
 
@@ -358,9 +358,9 @@ class QuizController {
     // Calculate how the answer impacts personality scores
     const question = [...exhibitionQuestions, ...artworkQuestions.core]
       .find(q => q.id === questionId);
-    
+
     if (!question) return {};
-    
+
     const option = question.options.find(opt => opt.id === answer);
     return option?.weight || {};
   }
@@ -371,7 +371,7 @@ class QuizController {
     });
 
     const scores = { G: 0, S: 0, A: 0, R: 0, E: 0, M: 0, F: 0, C: 0 };
-    
+
     for (const answer of answers) {
       if (answer.score_impact) {
         Object.entries(answer.score_impact).forEach(([dimension, weight]) => {
@@ -392,7 +392,7 @@ class QuizController {
     });
 
     if (!answers || answers.length === 0) return 'exhibition';
-    
+
     // Check if it's an exhibition question based on ID pattern
     return answers[0].question_id.startsWith('q') ? 'exhibition' : 'artwork';
   }
@@ -410,7 +410,7 @@ class QuizController {
 
     const aCount = answers.filter(a => a.choice_id === 'A').length;
     const bCount = answers.filter(a => a.choice_id === 'B').length;
-    
+
     if (aCount > bCount * 1.5) return 'painting';
     if (bCount > aCount * 1.5) return 'multidimensional';
     return 'mixed';
@@ -428,7 +428,7 @@ class QuizController {
 
   calculateExhibitionPersonality(answers) {
     const scores = { G: 0, S: 0, A: 0, R: 0, E: 0, M: 0, F: 0, C: 0 };
-    
+
     // Calculate scores from answers
     answers.forEach(answer => {
       if (answer.score_impact) {
@@ -441,14 +441,14 @@ class QuizController {
     });
 
     // Determine type code
-    const typeCode = 
+    const typeCode =
       (scores.G >= scores.S ? 'G' : 'S') +
       (scores.A >= scores.R ? 'A' : 'R') +
       (scores.M >= scores.E ? 'M' : 'E') +
       (scores.F >= scores.C ? 'F' : 'C');
 
     const exhibitionType = exhibitionTypes[typeCode];
-    
+
     return {
       typeCode,
       scores,
@@ -477,7 +477,7 @@ class QuizController {
       'SAMF': '돌고래', 'SAMC': '코끼리', 'SRMF': '여우', 'SRMC': '고양이',
       'SAEF': '나비', 'SAEC': '벌새', 'SREF': '사슴', 'SREC': '토끼'
     };
-    
+
     return animalMap[typeCode] || '예술가';
   }
 
@@ -486,10 +486,10 @@ class QuizController {
     const paletteMap = {
       'GAMF': ['#FF6B6B', '#4ECDC4', '#45B7D1'],
       'GAMC': ['#F7B731', '#5F27CD', '#EE5A24'],
-      'GRMF': ['#6C5CE7', '#A29BFE', '#74B9FF'],
+      'GRMF': ['#6C5CE7', '#A29BFE', '#74B9FF']
       // ... add more palettes
     };
-    
+
     return paletteMap[typeCode] || ['#333333', '#666666', '#999999'];
   }
 }

@@ -7,9 +7,9 @@ const { rateLimits } = require('../middleware/validation');
 // 사용자 여정 상태 조회
 router.get('/status', authMiddleware, rateLimits.moderate, async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const { userId } = req.user;
     const status = await journeyNudgeService.getUserJourneyStatus(userId);
-    
+
     res.json({
       journey_days: status,
       total_days: 7,
@@ -24,13 +24,13 @@ router.get('/status', authMiddleware, rateLimits.moderate, async (req, res) => {
 // 오늘의 안내 메시지 조회
 router.get('/todays-nudge', authMiddleware, rateLimits.lenient, async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const { userId } = req.user;
     const nudge = await journeyNudgeService.getTodaysNudge(userId);
-    
+
     if (!nudge) {
       return res.json({ nudge: null, message: 'No nudge for today' });
     }
-    
+
     res.json({ nudge });
   } catch (error) {
     console.error('Todays nudge error:', error);
@@ -41,15 +41,15 @@ router.get('/todays-nudge', authMiddleware, rateLimits.lenient, async (req, res)
 // nudge 확인 처리
 router.post('/nudge/:dayNumber/view', authMiddleware, rateLimits.moderate, async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const { userId } = req.user;
     const dayNumber = parseInt(req.params.dayNumber);
-    
+
     if (dayNumber < 1 || dayNumber > 7) {
       return res.status(400).json({ error: 'Invalid day number' });
     }
-    
+
     const result = await journeyNudgeService.markNudgeAsViewed(userId, dayNumber);
-    
+
     res.json({
       message: 'Nudge marked as viewed',
       nudge: result
@@ -63,15 +63,15 @@ router.post('/nudge/:dayNumber/view', authMiddleware, rateLimits.moderate, async
 // nudge 클릭 처리
 router.post('/nudge/:dayNumber/click', authMiddleware, rateLimits.moderate, async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const { userId } = req.user;
     const dayNumber = parseInt(req.params.dayNumber);
-    
+
     if (dayNumber < 1 || dayNumber > 7) {
       return res.status(400).json({ error: 'Invalid day number' });
     }
-    
+
     const result = await journeyNudgeService.markNudgeAsClicked(userId, dayNumber);
-    
+
     res.json({
       message: 'Nudge action completed',
       nudge: result

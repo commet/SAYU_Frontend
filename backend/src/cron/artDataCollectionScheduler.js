@@ -8,7 +8,7 @@ const { pool } = require('../config/database');
 
 /**
  * SAYU 아트 데이터 자동 수집 스케줄러
- * 
+ *
  * 스케줄링 전략:
  * - 매일 오전 6시: 문화포털 API 수집 (1,000건 한도)
  * - 매일 오전 7시: 네이버 API 기반 전시 수집
@@ -39,7 +39,7 @@ class ArtDataCollectionScheduler {
     }
 
     logger.info('🚀 Starting SAYU Art Data Collection Scheduler...');
-    
+
     // 1. 매일 오전 6시: 문화포털 수집 (최우선)
     this.scheduleJob('culture-portal-daily', '0 6 * * *', async () => {
       await this.runCulturePortalCollection();
@@ -92,12 +92,12 @@ class ArtDataCollectionScheduler {
       await this.executeTask(name, task);
     }, {
       scheduled: false,
-      timezone: "Asia/Seoul"
+      timezone: 'Asia/Seoul'
     });
 
     this.jobs.set(name, job);
     job.start();
-    
+
     // 통계 초기화
     this.stats.totalRuns[name] = 0;
     this.stats.errors[name] = 0;
@@ -111,35 +111,35 @@ class ArtDataCollectionScheduler {
    */
   async executeTask(taskName, task) {
     const startTime = Date.now();
-    
+
     try {
       logger.info(`🔄 Starting scheduled task: ${taskName}`);
-      
+
       await task();
-      
+
       const duration = Date.now() - startTime;
       this.stats.lastRun[taskName] = new Date();
       this.stats.totalRuns[taskName]++;
-      
+
       // 성공률 계산
       const total = this.stats.totalRuns[taskName];
       const errors = this.stats.errors[taskName];
       this.stats.successRate[taskName] = ((total - errors) / total * 100).toFixed(2);
-      
+
       logger.info(`✅ Task completed: ${taskName} (${duration}ms)`);
-      
+
       // 성공 로그 저장
       await this.logTaskExecution(taskName, 'success', duration);
-      
+
     } catch (error) {
       const duration = Date.now() - startTime;
       this.stats.errors[taskName]++;
-      
+
       logger.error(`❌ Task failed: ${taskName}`, error);
-      
+
       // 실패 로그 저장
       await this.logTaskExecution(taskName, 'error', duration, error.message);
-      
+
       // 중요한 작업 실패 시 알림 (필요시 구현)
       if (['culture-portal-daily', 'museum-api-weekly'].includes(taskName)) {
         await this.sendFailureAlert(taskName, error);
@@ -152,15 +152,15 @@ class ArtDataCollectionScheduler {
    */
   async runCulturePortalCollection() {
     logger.info('📡 Starting Culture Portal daily collection...');
-    
+
     const result = await culturePortalIntegration.collectDailyExhibitions();
-    
+
     if (result.success) {
       logger.info(`✅ Culture Portal: ${result.data.new} new, ${result.data.updated} updated`);
     } else {
       throw new Error(`Culture Portal collection failed: ${result.error}`);
     }
-    
+
     return result;
   }
 
@@ -169,9 +169,9 @@ class ArtDataCollectionScheduler {
    */
   async runNaverAPICollection() {
     logger.info('🔍 Starting Naver API collection...');
-    
+
     const result = await enhancedExhibitionCollector.collectFromNaverAPI();
-    
+
     logger.info(`✅ Naver API: ${result.count} exhibitions collected`);
     return result;
   }
@@ -181,9 +181,9 @@ class ArtDataCollectionScheduler {
    */
   async runMuseumCrawling() {
     logger.info('🕷️ Starting museum website crawling...');
-    
+
     const result = await enhancedExhibitionCollector.collectAllExhibitions();
-    
+
     logger.info(`✅ Museum crawling: ${result.saved} exhibitions saved`);
     return result;
   }
@@ -193,12 +193,12 @@ class ArtDataCollectionScheduler {
    */
   async runMuseumAPISync() {
     logger.info('🌍 Starting international museum API sync...');
-    
+
     await museumAPIService.syncAllMuseums();
-    
+
     const syncStatus = await museumAPIService.getSyncStatus();
     logger.info('✅ Museum API sync completed');
-    
+
     return syncStatus;
   }
 
@@ -207,7 +207,7 @@ class ArtDataCollectionScheduler {
    */
   async runDataCleanup() {
     logger.info('🧹 Starting data cleanup and quality management...');
-    
+
     const results = {
       duplicatesRemoved: 0,
       orphanedRecords: 0,
@@ -280,7 +280,7 @@ class ArtDataCollectionScheduler {
    */
   async runCurationUpdate() {
     logger.info('🎨 Starting curation system update...');
-    
+
     // 활성 사용자들의 추천 리스트 사전 계산
     const activeUsers = await pool.query(`
       SELECT id FROM users 
@@ -317,9 +317,9 @@ class ArtDataCollectionScheduler {
    */
   async runDailyStatsAggregation() {
     logger.info('📊 Starting daily statistics aggregation...');
-    
+
     const today = new Date().toISOString().split('T')[0];
-    
+
     // 일일 통계 계산
     const dailyStats = await pool.query(`
       INSERT INTO daily_stats (date, total_exhibitions, new_exhibitions, 
@@ -404,7 +404,7 @@ class ArtDataCollectionScheduler {
     }
 
     logger.info('⏹️ Stopping SAYU Art Data Collection Scheduler...');
-    
+
     for (const [name, job] of this.jobs) {
       job.stop();
       logger.info(`📅 Stopped job: ${name}`);
@@ -432,7 +432,7 @@ class ArtDataCollectionScheduler {
   getNextRunTimes() {
     const schedules = {
       'culture-portal-daily': '0 6 * * *',
-      'naver-api-daily': '0 7 * * *', 
+      'naver-api-daily': '0 7 * * *',
       'museum-crawling': '0 14 * * *',
       'museum-api-weekly': '0 3 * * 0',
       'data-cleanup-weekly': '0 23 * * 6',
@@ -451,7 +451,7 @@ class ArtDataCollectionScheduler {
       const start = Date.now();
       await pool.query('SELECT 1');
       const responseTime = Date.now() - start;
-      
+
       return {
         status: 'healthy',
         responseTime,

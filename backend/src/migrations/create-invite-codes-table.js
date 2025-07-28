@@ -3,7 +3,7 @@ const { sequelize } = require('../config/database');
 async function createInviteCodesTable() {
   try {
     console.log('Creating invite codes table...');
-    
+
     await sequelize.query(`
       CREATE TABLE IF NOT EXISTS invite_codes (
         id UUID DEFAULT gen_random_uuid() PRIMARY KEY,

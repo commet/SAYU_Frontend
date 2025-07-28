@@ -16,7 +16,10 @@
       "Bash(od:*)",
       "Bash(yarn tsc:*)",
       "Bash(npm run typecheck:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npx @sentry/wizard@latest:*)",
+      "Bash(curl:*)"
     ],
     "deny": []
   }

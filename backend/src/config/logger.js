@@ -2,7 +2,11 @@ const winston = require('winston');
 const DailyRotateFile = require('winston-daily-rotate-file');
 const path = require('path');
 // Sentry disabled for deployment
-// const { captureException } = require('./sentry');
+// const { captureException, captureMessage } = require('./sentry');
+
+// Sentry functions placeholder (disabled for deployment)
+const captureMessage = () => {}; // no-op function
+const captureException = () => {}; // no-op function
 
 // Create logs directory if it doesn't exist
 const logsDir = path.join(__dirname, '../../logs');
@@ -15,7 +19,7 @@ const logFormat = winston.format.combine(
   winston.format.errors({ stack: true }),
   winston.format.json(),
   winston.format.printf(({ timestamp, level, message, ...meta }) => {
-    let logEntry = {
+    const logEntry = {
       timestamp,
       level,
       message,
@@ -40,12 +44,12 @@ const consoleFormat = winston.format.combine(
   }),
   winston.format.printf(({ timestamp, level, message, ...meta }) => {
     let logMessage = `${timestamp} [${level}]: ${message}`;
-    
+
     // Add metadata in development
     if (Object.keys(meta).length > 0 && process.env.NODE_ENV === 'development') {
       logMessage += `\n${JSON.stringify(meta, null, 2)}`;
     }
-    
+
     return logMessage;
   })
 );
@@ -108,13 +112,13 @@ const logger = winston.createLogger({
   format: logFormat,
   transports,
   exceptionHandlers: [
-    new winston.transports.File({ 
+    new winston.transports.File({
       filename: path.join(logsDir, 'exceptions.log'),
       format: logFormat
     })
   ],
   rejectionHandlers: [
-    new winston.transports.File({ 
+    new winston.transports.File({
       filename: path.join(logsDir, 'rejections.log'),
       format: logFormat
     })
@@ -137,7 +141,7 @@ const log = {
   // Warning level - concerning but not breaking
   warn: (message, meta = {}) => {
     logger.warn(message, meta);
-    
+
     // Send warnings to Sentry in production
     if (process.env.NODE_ENV === 'production') {
       captureMessage(message, 'warning', { extra: meta });
@@ -147,21 +151,21 @@ const log = {
   // Error level - actual errors
   error: (message, error = null, meta = {}) => {
     const logMeta = { ...meta };
-    
+
     if (error instanceof Error) {
       logMeta.error = {
         name: error.name,
         message: error.message,
         stack: error.stack
       };
-      
+
       // Send error to Sentry - disabled for deployment
       // captureException(error, {
       //   tags: { component: 'logger' },
       //   extra: { originalMessage: message, ...meta }
       // });
     }
-    
+
     logger.error(message, logMeta);
   },
 
@@ -172,12 +176,12 @@ const log = {
       security: true,
       timestamp: new Date().toISOString()
     };
-    
+
     logger.warn(message, securityMeta);
-    
+
     // Always send security events to Sentry
     captureMessage(message, 'warning', {
-      tags: { 
+      tags: {
         component: 'security',
         security_event: true
       },
@@ -192,13 +196,13 @@ const log = {
       performance: true,
       duration_ms: duration
     };
-    
+
     // Log as warning if duration is high
     if (duration > 5000) {
       logger.warn(message, performanceMeta);
-      
+
       captureMessage(message, 'warning', {
-        tags: { 
+        tags: {
           component: 'performance',
           slow_operation: true
         },
@@ -218,7 +222,7 @@ const log = {
       userAction: true,
       timestamp: new Date().toISOString()
     };
-    
+
     logger.info(`User ${userId} performed action: ${action}`, actionMeta);
   },
 
@@ -276,20 +280,20 @@ const log = {
 // Request logging middleware
 const requestLogger = (req, res, next) => {
   const startTime = Date.now();
-  
+
   // Capture original end function
   const originalEnd = res.end;
-  
+
   res.end = function(...args) {
     const responseTime = Date.now() - startTime;
-    
+
     // Log the request
     log.apiRequest(req, responseTime, res.statusCode);
-    
+
     // Call original end function
     originalEnd.apply(this, args);
   };
-  
+
   next();
 };
 

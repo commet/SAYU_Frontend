@@ -71,11 +71,11 @@ class ExhibitionCollectorCron {
         try {
           const results = await exhibitionCollectorService.searchNaverForVenue(venue);
           console.log(`Collected ${results.length} exhibitions for ${venue.name}`);
-          
+
           // Update last crawled timestamp
           venue.lastCrawledAt = new Date();
           await venue.save();
-          
+
           // Rate limiting
           await this.delay(2000);
         } catch (error) {
@@ -109,10 +109,10 @@ class ExhibitionCollectorCron {
         try {
           const results = await exhibitionCollectorService.searchNaverForVenue(venue);
           console.log(`Collected ${results.length} exhibitions for ${venue.name}`);
-          
+
           venue.lastCrawledAt = new Date();
           await venue.save();
-          
+
           await this.delay(2000);
         } catch (error) {
           console.error(`Failed to collect for ${venue.name}:`, error);
@@ -139,10 +139,10 @@ class ExhibitionCollectorCron {
         try {
           const results = await exhibitionCollectorService.searchNaverForVenue(venue);
           console.log(`Collected ${results.length} exhibitions for ${venue.name}`);
-          
+
           venue.lastCrawledAt = new Date();
           await venue.save();
-          
+
           await this.delay(2000);
         } catch (error) {
           console.error(`Failed to collect for ${venue.name}:`, error);
@@ -156,15 +156,15 @@ class ExhibitionCollectorCron {
   async collectInternationalExhibitions() {
     try {
       console.log('Collecting international exhibitions...');
-      
+
       // Priority cities
       const cities = ['New York', 'London', 'Paris', 'Tokyo', 'Hong Kong'];
-      
+
       for (const city of cities) {
         const venues = await Venue.findAll({
           where: {
             isActive: true,
-            city: city,
+            city,
             country: { [Op.ne]: 'KR' }
           }
         });
@@ -184,10 +184,10 @@ class ExhibitionCollectorCron {
   async cleanupOldExhibitions() {
     try {
       const Exhibition = require('../models/exhibition');
-      
+
       // Update exhibition statuses
       const now = new Date();
-      
+
       // Mark ended exhibitions
       await Exhibition.update(
         { status: 'ended' },
@@ -214,7 +214,7 @@ class ExhibitionCollectorCron {
       // Delete very old unverified exhibitions (older than 6 months)
       const sixMonthsAgo = new Date();
       sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-      
+
       const deleted = await Exhibition.destroy({
         where: {
           createdAt: { [Op.lt]: sixMonthsAgo },
@@ -234,10 +234,10 @@ class ExhibitionCollectorCron {
 
   stop() {
     console.log('Stopping exhibition collector cron jobs...');
-    
+
     this.dailyJobs.forEach(job => job.stop());
     this.weeklyJobs.forEach(job => job.stop());
-    
+
     this.dailyJobs = [];
     this.weeklyJobs = [];
   }

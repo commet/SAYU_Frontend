@@ -24,7 +24,7 @@ class SAYUSupabaseMigrator {
 
   async initialize() {
     console.log('🚀 SAYU → Supabase 마이그레이션 초기화...');
-    
+
     // 기존 DB 연결
     this.currentDb = new Pool({
       connectionString: process.env.DATABASE_URL
@@ -47,23 +47,23 @@ class SAYUSupabaseMigrator {
       case 'schema':
         await this.migrateSchema();
         break;
-      
+
       case '2':
       case 'users':
         await this.migrateUsers();
         break;
-        
+
       case '3':
       case 'data':
         await this.migrateData();
         break;
-        
+
       case 'all':
         await this.migrateSchema();
         await this.migrateUsers();
         await this.migrateData();
         break;
-        
+
       default:
         console.error('❌ 잘못된 단계:', phase);
         return;
@@ -74,7 +74,7 @@ class SAYUSupabaseMigrator {
 
   async migrateSchema() {
     console.log('📋 스키마 마이그레이션...');
-    
+
     const schemas = [
       {
         table: 'profiles',
@@ -153,7 +153,7 @@ class SAYUSupabaseMigrator {
         const { error } = await this.supabase.rpc('execute_sql', {
           sql: schema.sql
         });
-        
+
         if (error) {
           console.warn(`⚠️ ${schema.table} 테이블 생성 건너뜀 (이미 존재할 수 있음)`);
         } else {
@@ -170,22 +170,22 @@ class SAYUSupabaseMigrator {
 
   async setupRLSPolicies() {
     console.log('🔐 Row Level Security 정책 설정...');
-    
+
     const policies = [
-      "ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;",
-      "ALTER TABLE user_interactions ENABLE ROW LEVEL SECURITY;",
-      
+      'ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;',
+      'ALTER TABLE user_interactions ENABLE ROW LEVEL SECURITY;',
+
       // 프로필 정책
       `CREATE POLICY "Users can view own profile" ON profiles 
        FOR SELECT USING (auth.uid() = id);`,
-       
+
       `CREATE POLICY "Users can update own profile" ON profiles 
        FOR UPDATE USING (auth.uid() = id);`,
-       
+
       // 상호작용 정책
       `CREATE POLICY "Users can view own interactions" ON user_interactions 
        FOR SELECT USING (auth.uid() = user_id);`,
-       
+
       `CREATE POLICY "Users can insert own interactions" ON user_interactions 
        FOR INSERT WITH CHECK (auth.uid() = user_id);`
     ];
@@ -197,13 +197,13 @@ class SAYUSupabaseMigrator {
         console.warn('⚠️ RLS 정책 설정 건너뜀:', err.message);
       }
     }
-    
+
     console.log('✅ RLS 정책 설정 완료');
   }
 
   async migrateUsers() {
     console.log('👥 사용자 데이터 마이그레이션...');
-    
+
     const { rows: users } = await this.currentDb.query(`
       SELECT id, username, email, password_hash, 
              personality_type, type_code, archetype_name,
@@ -221,7 +221,7 @@ class SAYUSupabaseMigrator {
         // Supabase Auth에 사용자 생성
         const { data: authUser, error: authError } = await this.supabase.auth.admin.createUser({
           email: user.email,
-          password: user.password_hash || 'temp-password-' + Math.random(),
+          password: user.password_hash || `temp-password-${Math.random()}`,
           email_confirm: true,
           user_metadata: {
             username: user.username,
@@ -273,7 +273,7 @@ class SAYUSupabaseMigrator {
 
   async migrateData() {
     console.log('📦 데이터 마이그레이션...');
-    
+
     await this.migrateArtworks();
     await this.migrateExhibitions();
     await this.migrateInteractions();
@@ -281,7 +281,7 @@ class SAYUSupabaseMigrator {
 
   async migrateArtworks() {
     console.log('🎨 작품 데이터 마이그레이션...');
-    
+
     const { rows: artworks } = await this.currentDb.query(`
       SELECT id, title, artist_display_name, medium, date_display,
              primary_image_url, description, tags, view_count, like_count,
@@ -318,7 +318,7 @@ class SAYUSupabaseMigrator {
 
   async migrateExhibitions() {
     console.log('🏛️ 전시 데이터 마이그레이션...');
-    
+
     const { rows: exhibitions } = await this.currentDb.query(`
       SELECT id, title, venue_name, venue_city, start_date, end_date,
              description, image_url, tags, status, created_at
@@ -341,10 +341,10 @@ class SAYUSupabaseMigrator {
 
   async migrateInteractions() {
     console.log('🔗 사용자 상호작용 마이그레이션...');
-    
+
     // 좋아요, 조회 등의 상호작용 데이터 마이그레이션
     const tables = ['artwork_likes', 'artwork_views', 'quiz_responses'];
-    
+
     for (const table of tables) {
       try {
         const { rows } = await this.currentDb.query(`
@@ -378,7 +378,7 @@ class SAYUSupabaseMigrator {
 
   async generateMigrationReport() {
     console.log('\n📋 마이그레이션 보고서 생성...');
-    
+
     const report = {
       timestamp: new Date().toISOString(),
       status: this.migrationStatus,
@@ -405,19 +405,19 @@ class SAYUSupabaseMigrator {
     console.log('\n🎉 마이그레이션 완료!');
     console.log(`📊 성공률: ${report.summary.success_rate.toFixed(1)}%`);
     console.log(`✅ 완료된 항목: ${report.summary.completed}/${report.summary.total}`);
-    
+
     return report;
   }
 
   // 롤백 함수
   async rollback() {
     console.log('🔄 마이그레이션 롤백 시작...');
-    
+
     // Supabase에서 생성된 데이터 정리
     await this.supabase.from('user_interactions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
     await this.supabase.from('artworks').delete().neq('id', '00000000-0000-0000-0000-000000000000');
     await this.supabase.from('exhibitions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-    
+
     console.log('✅ 롤백 완료');
   }
 }
@@ -426,7 +426,7 @@ class SAYUSupabaseMigrator {
 if (require.main === module) {
   const migrator = new SAYUSupabaseMigrator();
   const phase = process.argv[2] || 'all';
-  
+
   if (phase === 'rollback') {
     migrator.rollback();
   } else {

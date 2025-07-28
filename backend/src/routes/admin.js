@@ -3,13 +3,13 @@ const { adminMiddleware } = require('../middleware/auth');
 const CacheService = require('../services/cacheService');
 const { redisClient } = require('../config/redis');
 const { SecurityAuditService } = require('../middleware/securityAudit');
-const { 
-  validationSchemas, 
-  handleValidationResult, 
-  securityHeaders, 
+const {
+  validationSchemas,
+  handleValidationResult,
+  securityHeaders,
   requestSizeLimiter,
   sanitizeInput,
-  rateLimits 
+  rateLimits
 } = require('../middleware/validation');
 const { body, param, query } = require('express-validator');
 
@@ -31,7 +31,7 @@ router.get('/cache/stats', async (req, res) => {
   try {
     const stats = await CacheService.getCacheStats();
     const keyCount = await redisClient().dbSize();
-    
+
     res.json({
       ...stats,
       totalKeys: keyCount,
@@ -48,7 +48,7 @@ router.delete('/cache/:pattern', async (req, res) => {
   try {
     const { pattern } = req.params;
     const deletedCount = await CacheService.clearPattern(pattern);
-    
+
     res.json({
       message: `Cleared ${deletedCount} cache entries`,
       pattern,
@@ -64,7 +64,7 @@ router.delete('/cache/:pattern', async (req, res) => {
 router.delete('/cache', async (req, res) => {
   try {
     await redisClient().flushDb();
-    
+
     res.json({
       message: 'All cache cleared',
       timestamp: new Date().toISOString()
@@ -80,10 +80,10 @@ router.get('/cache/keys/:pattern', async (req, res) => {
   try {
     const { pattern } = req.params;
     const { limit = 100 } = req.query;
-    
+
     const keys = await redisClient().keys(pattern);
     const limitedKeys = keys.slice(0, parseInt(limit));
-    
+
     // Get sample values for inspection
     const sampleData = {};
     for (const key of limitedKeys.slice(0, 5)) {
@@ -98,7 +98,7 @@ router.get('/cache/keys/:pattern', async (req, res) => {
         sampleData[key] = { error: 'Failed to parse' };
       }
     }
-    
+
     res.json({
       pattern,
       totalMatches: keys.length,
@@ -116,14 +116,14 @@ router.post('/cache/warm/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
     const ProfileModel = require('../models/Profile');
-    
+
     const profile = await ProfileModel.findByUserId(userId);
     if (!profile) {
       return res.status(404).json({ error: 'User profile not found' });
     }
-    
+
     const success = await CacheService.warmUserCache(userId, profile);
-    
+
     res.json({
       message: success ? 'Cache warmed successfully' : 'Cache warming failed',
       userId,
@@ -140,7 +140,7 @@ router.get('/cache/performance', async (req, res) => {
   try {
     const info = await redisClient().info();
     const slowlog = await redisClient().slowlogGet(10);
-    
+
     // Parse Redis info for key metrics
     const metrics = {};
     info.split('\r\n').forEach(line => {
@@ -151,7 +151,7 @@ router.get('/cache/performance', async (req, res) => {
         }
       }
     });
-    
+
     res.json({
       metrics,
       slowQueries: slowlog,
@@ -167,13 +167,13 @@ router.get('/cache/performance', async (req, res) => {
 router.post('/cache/set', async (req, res) => {
   try {
     const { key, value, ttl = 3600 } = req.body;
-    
+
     if (!key || value === undefined) {
       return res.status(400).json({ error: 'Key and value are required' });
     }
-    
+
     await redisClient().setEx(key, ttl, JSON.stringify(value));
-    
+
     res.json({
       message: 'Cache value set',
       key,
@@ -191,7 +191,7 @@ router.get('/cache/get/:key', async (req, res) => {
     const { key } = req.params;
     const value = await redisClient().get(key);
     const ttl = await redisClient().ttl(key);
-    
+
     res.json({
       key,
       value: value ? JSON.parse(value) : null,
@@ -218,7 +218,7 @@ router.get('/security/stats', async (req, res) => {
   }
 });
 
-router.get('/security/events', 
+router.get('/security/events',
   [
     query('limit')
       .optional()
@@ -230,7 +230,7 @@ router.get('/security/events',
     try {
       const limit = parseInt(req.query.limit) || 100;
       const events = await SecurityAuditService.getRecentSecurityEvents(limit);
-      
+
       res.json({
         events,
         count: events.length,
@@ -258,7 +258,7 @@ router.post('/security/blacklist',
     try {
       const { ip, reason } = req.body;
       const success = await SecurityAuditService.addToBlacklist(ip, reason);
-      
+
       if (success) {
         res.json({ message: 'IP added to blacklist', ip, reason });
       } else {
@@ -282,7 +282,7 @@ router.delete('/security/blacklist/:ip',
     try {
       const { ip } = req.params;
       await SecurityAuditService.removeFromBlacklist(ip);
-      
+
       res.json({ message: 'IP removed from blacklist', ip });
     } catch (error) {
       console.error('Remove from blacklist error:', error);
@@ -305,7 +305,7 @@ router.post('/test/validation',
   async (req, res) => {
     try {
       const { testData, validationType } = req.body;
-      
+
       // This endpoint allows admins to test validation rules
       res.json({
         message: 'Validation test endpoint',
@@ -323,7 +323,7 @@ router.post('/test/validation',
 // ===== EXHIBITION MANAGEMENT ROUTES =====
 
 // 제출된 전시 목록 조회 (관리자 전용)
-router.get('/exhibitions/submissions', 
+router.get('/exhibitions/submissions',
   [
     query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
     query('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be between 1 and 100'),
@@ -335,7 +335,7 @@ router.get('/exhibitions/submissions',
 );
 
 // 특정 제출 상세 조회
-router.get('/exhibitions/submissions/:submissionId', 
+router.get('/exhibitions/submissions/:submissionId',
   [
     param('submissionId').isUUID().withMessage('Invalid submission ID')
   ],
@@ -344,7 +344,7 @@ router.get('/exhibitions/submissions/:submissionId',
 );
 
 // 제출 승인
-router.post('/exhibitions/submissions/:submissionId/approve', 
+router.post('/exhibitions/submissions/:submissionId/approve',
   [
     param('submissionId').isUUID().withMessage('Invalid submission ID'),
     body('reviewNotes').optional().isLength({ max: 1000 }).withMessage('Review notes too long')
@@ -354,7 +354,7 @@ router.post('/exhibitions/submissions/:submissionId/approve',
 );
 
 // 제출 거부
-router.post('/exhibitions/submissions/:submissionId/reject', 
+router.post('/exhibitions/submissions/:submissionId/reject',
   [
     param('submissionId').isUUID().withMessage('Invalid submission ID'),
     body('reviewNotes').isLength({ min: 1, max: 1000 }).withMessage('Review notes required (max 1000 chars)'),
@@ -365,7 +365,7 @@ router.post('/exhibitions/submissions/:submissionId/reject',
 );
 
 // 전시 정보 수정 (관리자 전용)
-router.put('/exhibitions/:exhibitionId', 
+router.put('/exhibitions/:exhibitionId',
   [
     param('exhibitionId').isUUID().withMessage('Invalid exhibition ID'),
     body('title').optional().isLength({ min: 2, max: 200 }).withMessage('Title must be 2-200 characters'),
@@ -384,7 +384,7 @@ router.put('/exhibitions/:exhibitionId',
 );
 
 // 전시 삭제 (관리자 전용)
-router.delete('/exhibitions/:exhibitionId', 
+router.delete('/exhibitions/:exhibitionId',
   [
     param('exhibitionId').isUUID().withMessage('Invalid exhibition ID')
   ],
@@ -396,7 +396,7 @@ router.delete('/exhibitions/:exhibitionId',
 router.get('/dashboard/stats', adminExhibitionController.getDashboardStats);
 
 // 사용자 신고 조회
-router.get('/reports', 
+router.get('/reports',
   [
     query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
     query('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be between 1 and 100'),
@@ -407,7 +407,7 @@ router.get('/reports',
 );
 
 // 신고 처리
-router.post('/reports/:reportId/handle', 
+router.post('/reports/:reportId/handle',
   [
     param('reportId').isUUID().withMessage('Invalid report ID'),
     body('action').isIn(['resolved', 'dismissed']).withMessage('Action must be resolved or dismissed'),

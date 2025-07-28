@@ -43,7 +43,7 @@ class ComprehensiveExhibitionMatcher {
 
         // 진행률 표시
         if (this.stats.venues_processed % 10 === 0) {
-          console.log(`\n📊 진행률: ${this.stats.venues_processed}/${venues.rows.length} (${Math.round(this.stats.venues_processed/venues.rows.length*100)}%)\n`);
+          console.log(`\n📊 진행률: ${this.stats.venues_processed}/${venues.rows.length} (${Math.round(this.stats.venues_processed / venues.rows.length * 100)}%)\n`);
         }
       }
 
@@ -64,7 +64,7 @@ class ComprehensiveExhibitionMatcher {
       if (venue.country === 'KR') {
         await this.processKoreanVenue(venue, client);
       }
-      
+
       // 2. 해외 미술관 처리
       else {
         await this.processInternationalVenue(venue, client);
@@ -273,12 +273,12 @@ class ComprehensiveExhibitionMatcher {
   async getGenericKoreanExhibitions(venue) {
     const exhibitions = [];
     const currentDate = new Date();
-    
+
     // 현재 전시 (1-2개)
     for (let i = 0; i < 2; i++) {
       const startDate = new Date(currentDate.getTime() - Math.random() * 90 * 24 * 60 * 60 * 1000);
       const endDate = new Date(currentDate.getTime() + Math.random() * 120 * 24 * 60 * 60 * 1000);
-      
+
       exhibitions.push({
         title_en: `Contemporary Korean Art ${2025 - i}`,
         title_local: `한국 현대미술 ${2025 - i}`,
@@ -311,11 +311,11 @@ class ComprehensiveExhibitionMatcher {
   async getGenericInternationalExhibitions(venue) {
     const exhibitions = [];
     const currentDate = new Date();
-    
+
     // 현재 전시
     const startDate = new Date(currentDate.getTime() - Math.random() * 60 * 24 * 60 * 60 * 1000);
     const endDate = new Date(currentDate.getTime() + Math.random() * 90 * 24 * 60 * 60 * 1000);
-    
+
     exhibitions.push({
       title_en: `Contemporary Voices at ${venue.name}`,
       title_local: `Contemporary Voices at ${venue.name}`,
@@ -546,7 +546,7 @@ class ComprehensiveExhibitionMatcher {
 
 async function main() {
   const matcher = new ComprehensiveExhibitionMatcher();
-  
+
   try {
     await matcher.matchExhibitionsToVenues();
   } catch (error) {

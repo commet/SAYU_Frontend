@@ -22,11 +22,11 @@ router.get('/exhibitions',
   validateRequest,
   async (req, res) => {
     try {
-      const { 
-        limit, offset, location, genres, includeVisited, 
-        minRating, maxDistance 
+      const {
+        limit, offset, location, genres, includeVisited,
+        minRating, maxDistance
       } = req.query;
-      
+
       const options = {
         limit: parseInt(limit),
         offset: parseInt(offset),
@@ -38,7 +38,7 @@ router.get('/exhibitions',
       };
 
       const recommendations = await aiRecommendationService.getPersonalizedExhibitions(
-        req.user.id, 
+        req.user.id,
         options
       );
 
@@ -74,7 +74,7 @@ router.get('/artworks',
   async (req, res) => {
     try {
       const { limit, artworkId, personalityType, mood, colorMood } = req.query;
-      
+
       const options = {
         limit: parseInt(limit),
         artworkId,
@@ -401,7 +401,7 @@ router.post('/refresh',
         await aiRecommendationService.clearUserRecommendationCache(req.user.id);
       }
 
-      let refreshResults = {};
+      const refreshResults = {};
 
       if (type === 'exhibition' || type === 'all') {
         refreshResults.exhibitions = await aiRecommendationService.getPersonalizedExhibitions(

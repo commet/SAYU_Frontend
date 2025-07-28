@@ -7,22 +7,22 @@ class VillageService {
     this.personalityToVillage = {
       // 🏛️ Contemplative Sanctuary (혼자서 깊이 사색)
       'LAEF': 'CONTEMPLATIVE',
-      'LAMF': 'CONTEMPLATIVE', 
+      'LAMF': 'CONTEMPLATIVE',
       'LREF': 'CONTEMPLATIVE',
       'LRMF': 'CONTEMPLATIVE',
-      
+
       // 📚 Academic Forum (논리와 체계로 탐구)
       'LRMC': 'ACADEMIC',
       'LREC': 'ACADEMIC',
-      'SRMC': 'ACADEMIC', 
+      'SRMC': 'ACADEMIC',
       'SREC': 'ACADEMIC',
-      
+
       // 🎭 Social Gallery (함께 감상하고 나눔)
       'SAEF': 'SOCIAL',
       'SAEC': 'SOCIAL',
       'SREF': 'SOCIAL',
       'SREC': 'SOCIAL',
-      
+
       // ✨ Creative Studio (감성과 영감이 흘러넘침)
       'LAMC': 'CREATIVE',
       'LAMF': 'CREATIVE',
@@ -61,7 +61,7 @@ class VillageService {
         }
 
         const village = result.rows[0];
-        
+
         // Get personality types in this village
         const personalityResult = await client.query(`
           SELECT 
@@ -73,7 +73,7 @@ class VillageService {
         `, [villageCode]);
 
         village.personalities = personalityResult.rows;
-        
+
         return village;
       } finally {
         client.release();
@@ -154,7 +154,7 @@ class VillageService {
   async joinVillage(userId, personalityType) {
     try {
       const villageCode = this.getVillageForPersonality(personalityType);
-      
+
       const client = await pool.connect();
       try {
         await client.query('BEGIN');
@@ -185,9 +185,9 @@ class VillageService {
         `, [villageCode]);
 
         await client.query('COMMIT');
-        
+
         logger.info(`User ${userId} joined village ${villageCode} with personality ${personalityType}`);
-        
+
         return { villageCode, personalityType };
       } catch (error) {
         await client.query('ROLLBACK');
@@ -217,7 +217,7 @@ class VillageService {
           logger.info(`Added ${points} contribution points to user ${userId} for ${reason}`);
           return result.rows[0];
         }
-        
+
         return null;
       } finally {
         client.release();
@@ -307,10 +307,10 @@ class VillageService {
         }
 
         const currentBadges = result.rows[0].badges_earned || [];
-        
+
         if (!currentBadges.includes(badgeName)) {
           const newBadges = [...currentBadges, badgeName];
-          
+
           await client.query(`
             UPDATE village_memberships 
             SET badges_earned = $1
@@ -320,7 +320,7 @@ class VillageService {
           logger.info(`Awarded badge '${badgeName}' to user ${userId} for ${reason}`);
           return { badgeName, reason, totalBadges: newBadges.length };
         }
-        
+
         return null;
       } finally {
         client.release();

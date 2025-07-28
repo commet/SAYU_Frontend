@@ -20,7 +20,7 @@ class LegalArtSitesCrawler {
       skipped: 0,
       errors: 0
     };
-    
+
     // User agent identifying our crawler
     this.headers = {
       'User-Agent': 'SAYU-Art-Platform/1.0 (Exhibition aggregator; +https://sayu.art)'
@@ -38,13 +38,13 @@ class LegalArtSitesCrawler {
 
     // 1. Artreview.com 크롤링 (가장 개방적)
     await this.crawlArtreview();
-    
+
     // 2. Ocula.com 크롤링 (10초 딜레이 준수)
     await this.crawlOcula();
-    
+
     // 3. Artsy.net 사이트맵 활용
     await this.crawlArtsySitemap();
-    
+
     // 4. e-flux announcements
     await this.crawlEflux();
 
@@ -55,7 +55,7 @@ class LegalArtSitesCrawler {
   // 1. Artreview.com 크롤링
   async crawlArtreview() {
     console.log('\n📰 Artreview.com 전시 정보 수집...');
-    
+
     try {
       // Artreview는 전체 허용이므로 전시 관련 페이지 접근 가능
       const exhibitionPages = [
@@ -66,7 +66,7 @@ class LegalArtSitesCrawler {
       for (const url of exhibitionPages) {
         try {
           console.log(`  🔍 페이지 확인: ${url}`);
-          
+
           // 실제 크롤링 시에는 HTML 파싱 필요
           // 여기서는 샘플 데이터로 시뮬레이션
           const sampleExhibitions = [
@@ -100,7 +100,7 @@ class LegalArtSitesCrawler {
 
           // 서버 부하 방지를 위한 딜레이
           await new Promise(resolve => setTimeout(resolve, 2000));
-          
+
         } catch (error) {
           console.error(`  ❌ 페이지 크롤링 오류: ${error.message}`);
         }
@@ -114,7 +114,7 @@ class LegalArtSitesCrawler {
   // 2. Ocula.com 크롤링 (10초 딜레이 준수)
   async crawlOcula() {
     console.log('\n🎨 Ocula.com 전시 정보 수집 (10초 딜레이 준수)...');
-    
+
     try {
       // Ocula는 10초 crawl-delay 준수 필요
       const exhibitionUrls = [
@@ -124,7 +124,7 @@ class LegalArtSitesCrawler {
 
       for (const url of exhibitionUrls) {
         console.log(`  🔍 페이지 확인: ${url} (10초 대기 중...)`);
-        
+
         // 샘플 전시 데이터
         const sampleExhibitions = [
           {
@@ -168,12 +168,12 @@ class LegalArtSitesCrawler {
   // 3. Artsy 사이트맵 활용
   async crawlArtsySitemap() {
     console.log('\n🗺️ Artsy.net 사이트맵 기반 전시 정보 수집...');
-    
+
     try {
       // Artsy는 전시 전용 사이트맵 제공
       const sitemapUrl = 'https://www.artsy.net/sitemap-shows.xml';
       console.log(`  📄 사이트맵 확인: ${sitemapUrl}`);
-      
+
       // 실제로는 XML 파싱 필요, 여기서는 샘플 데이터
       const artsyExhibitions = [
         {
@@ -217,7 +217,7 @@ class LegalArtSitesCrawler {
 
       // API 참고사항
       console.log('\n  ℹ️  참고: Artsy API는 2025년 7월 폐쇄 예정 (공공 도메인 작품만 제공)');
-      
+
     } catch (error) {
       console.error('❌ Artsy 사이트맵 크롤링 오류:', error.message);
       this.stats.errors++;
@@ -227,12 +227,12 @@ class LegalArtSitesCrawler {
   // 4. e-flux announcements
   async crawlEflux() {
     console.log('\n📢 e-flux.com announcements 수집...');
-    
+
     try {
       // e-flux는 /accounts만 차단, announcements는 접근 가능
       const announcementsUrl = 'https://www.e-flux.com/announcements/';
       console.log(`  🔍 페이지 확인: ${announcementsUrl}`);
-      
+
       // 샘플 전시 데이터
       const efluxExhibitions = [
         {
@@ -264,7 +264,7 @@ class LegalArtSitesCrawler {
       }
 
       console.log('  ℹ️  참고: e-flux는 이메일 구독만 제공, RSS/API 없음');
-      
+
     } catch (error) {
       console.error('❌ e-flux 크롤링 오류:', error.message);
       this.stats.errors++;
@@ -274,7 +274,7 @@ class LegalArtSitesCrawler {
   // 전시 저장 메서드
   async saveExhibition(exhibition) {
     const client = await pool.connect();
-    
+
     try {
       // 중복 확인
       const existing = await client.query(
@@ -311,7 +311,7 @@ class LegalArtSitesCrawler {
       const startDate = new Date(exhibition.start_date);
       const endDate = new Date(exhibition.end_date);
       const now = new Date();
-      
+
       let status;
       if (now < startDate) status = 'upcoming';
       else if (now > endDate) status = 'past';
@@ -415,7 +415,7 @@ class LegalArtSitesCrawler {
 
 async function main() {
   const crawler = new LegalArtSitesCrawler();
-  
+
   try {
     await crawler.crawlLegalSites();
   } catch (error) {

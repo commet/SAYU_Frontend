@@ -5,7 +5,7 @@ const { authenticateToken } = require('../middleware/auth');
 
 /**
  * 아티스트 데이터 수집 및 관리 API 라우트
- * 
+ *
  * Base URL: /api/artist-data
  */
 
@@ -14,7 +14,7 @@ const { authenticateToken } = require('../middleware/auth');
 /**
  * POST /collect-single
  * 단일 아티스트 정보 수집
- * 
+ *
  * Body:
  * {
  *   "artistName": "Pablo Picasso",
@@ -27,7 +27,7 @@ router.post('/collect-single', authenticateToken, artistDataController.collectSi
 /**
  * POST /collect-batch
  * 배치 아티스트 정보 수집
- * 
+ *
  * Body:
  * {
  *   "artistNames": ["Artist 1", "Artist 2", ...],
@@ -44,7 +44,7 @@ router.post('/collect-batch', authenticateToken, artistDataController.collectArt
 /**
  * GET /search
  * 아티스트 검색
- * 
+ *
  * Query params:
  * - query: 검색어 (필수)
  * - nationality: 국적 필터 (선택)
@@ -58,7 +58,7 @@ router.get('/search', artistDataController.searchArtists);
 /**
  * GET /stats
  * 수집 통계 조회
- * 
+ *
  * Query params:
  * - period: 통계 기간 (기본: 30일)
  */
@@ -91,7 +91,7 @@ router.post('/admin/rebuild-index', authenticateToken, async (req, res) => {
 
     // 검색 인덱스 재구성
     const { pool } = require('../config/database');
-    
+
     await pool.query(`
       REINDEX INDEX idx_artists_search;
       REINDEX INDEX idx_artists_name;
@@ -143,9 +143,9 @@ router.post('/admin/cleanup-duplicates', authenticateToken, async (req, res) => 
         WHERE LOWER(name) = LOWER($1)
         ORDER BY created_at ASC
       `;
-      
+
       const artists = await pool.query(artistsQuery, [duplicate.name]);
-      
+
       if (artists.rows.length > 1) {
         // 첫 번째(가장 오래된) 아티스트를 기본으로 하고 나머지 병합
         const primary = artists.rows[0];

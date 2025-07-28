@@ -38,7 +38,7 @@ async function showWebsearchExhibitions() {
         console.log(`\n🌍 ${ex.city.toUpperCase()}, ${ex.country}`);
         console.log('='.repeat(50));
       }
-      
+
       console.log(`\n${i + 1}. "${ex.title}"`);
       console.log(`   🏛️  ${ex.venue_name}`);
       console.log(`   📅 ${ex.start_date} ~ ${ex.end_date}`);
@@ -56,13 +56,13 @@ async function showWebsearchExhibitions() {
       const endDate = new Date(ex.end_date);
       const now = new Date();
       const yearsDiff = (endDate - now) / (1000 * 60 * 60 * 24 * 365);
-      
+
       // 제목이 너무 긴 경우
       const titleTooLong = ex.title.length > 80;
-      
+
       // 날짜가 이상한 경우
       const dateTooFuture = yearsDiff > 2;
-      
+
       return titleTooLong || dateTooFuture;
     });
 
@@ -78,17 +78,17 @@ async function showWebsearchExhibitions() {
     // 날짜별 분포 확인
     console.log('\n📅 전시 기간 분포:');
     console.log('==================');
-    
+
     const now = new Date();
-    const activeNow = exhibitions.rows.filter(ex => 
+    const activeNow = exhibitions.rows.filter(ex =>
       new Date(ex.start_date) <= now && new Date(ex.end_date) >= now
     ).length;
-    
-    const future = exhibitions.rows.filter(ex => 
+
+    const future = exhibitions.rows.filter(ex =>
       new Date(ex.start_date) > now
     ).length;
-    
-    const past = exhibitions.rows.filter(ex => 
+
+    const past = exhibitions.rows.filter(ex =>
       new Date(ex.end_date) < now
     ).length;
 

@@ -10,7 +10,7 @@ const pool = new Pool({
 
 async function showFinalDatabaseStatus() {
   const client = await pool.connect();
-  
+
   try {
     console.log('🌍 SAYU 전시 데이터베이스 최종 현황');
     console.log('='.repeat(80));
@@ -50,7 +50,7 @@ async function showFinalDatabaseStatus() {
 
     console.log(`\n\n🏆 완성도 90% 이상 미술관 (${highQualityVenues.rows.length}개):`);
     console.log('='.repeat(80));
-    
+
     const countryFlags = {
       'KR': '🇰🇷', 'US': '🇺🇸', 'GB': '🇬🇧', 'JP': '🇯🇵', 'FR': '🇫🇷'
     };

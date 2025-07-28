@@ -3,13 +3,13 @@ const authMiddleware = require('../middleware/auth');
 const { pool } = require('../config/database');
 const { redisClient } = require('../config/redis');
 const { logger } = require('../config/logger');
-const { 
-  validationSchemas, 
-  handleValidationResult, 
-  securityHeaders, 
+const {
+  validationSchemas,
+  handleValidationResult,
+  securityHeaders,
   requestSizeLimiter,
   sanitizeInput,
-  rateLimits 
+  rateLimits
 } = require('../middleware/validation');
 const { query, param } = require('express-validator');
 
@@ -35,7 +35,7 @@ const artistIdValidation = [
 ];
 
 // Get paginated list of artists
-router.get('/', 
+router.get('/',
   rateLimits.lenient,
   artistListValidation,
   handleValidationResult,
@@ -53,7 +53,7 @@ router.get('/',
       } = req.query;
 
       const offset = (parseInt(page) - 1) * parseInt(limit);
-      
+
       // Build WHERE clause
       const whereConditions = [];
       const queryParams = [];
@@ -81,7 +81,7 @@ router.get('/',
       }
 
       const whereClause = whereConditions.length > 0 ? `WHERE ${whereConditions.join(' AND ')}` : '';
-      
+
       // Build ORDER BY clause
       const orderByMap = {
         name: 'name',
@@ -89,7 +89,7 @@ router.get('/',
         birth_year: 'birth_year',
         follow_count: 'follow_count'
       };
-      
+
       const orderBy = `ORDER BY ${orderByMap[sortBy] || 'name'} ${sortOrder.toUpperCase()}`;
 
       // Main query
@@ -173,7 +173,7 @@ router.get('/:id',
   async (req, res) => {
     try {
       const { id } = req.params;
-      
+
       // Check cache first
       const cacheKey = `artist:${id}`;
       const cached = await redisClient.get(cacheKey);
@@ -214,16 +214,16 @@ router.get('/:id',
       `;
 
       const result = await pool.query(query, [id]);
-      
+
       if (result.rows.length === 0) {
         return res.status(404).json({ error: 'Artist not found' });
       }
 
       const artist = result.rows[0];
-      
+
       // Cache for 1 hour
       await redisClient.setEx(cacheKey, 3600, JSON.stringify(artist));
-      
+
       res.json(artist);
 
     } catch (error) {
@@ -244,7 +244,7 @@ router.get('/search',
   async (req, res) => {
     try {
       const { q: searchQuery, limit = 10 } = req.query;
-      
+
       const query = `
         SELECT 
           id,
@@ -266,7 +266,7 @@ router.get('/search',
       `;
 
       const result = await pool.query(query, [`%${searchQuery}%`, parseInt(limit)]);
-      
+
       res.json(result.rows);
 
     } catch (error) {
@@ -310,10 +310,10 @@ router.get('/featured',
 
       const limit = parseInt(req.query.limit) || 20;
       const result = await pool.query(query, [limit]);
-      
+
       // Cache for 6 hours
       await redisClient.setEx(cacheKey, 21600, JSON.stringify(result.rows));
-      
+
       res.json({ artists: result.rows });
 
     } catch (error) {
@@ -329,8 +329,8 @@ router.get('/followed',
   rateLimits.lenient,
   async (req, res) => {
     try {
-      const userId = req.userId;
-      
+      const { userId } = req;
+
       const query = `
         SELECT 
           a.id,
@@ -353,7 +353,7 @@ router.get('/followed',
       `;
 
       const result = await pool.query(query, [userId]);
-      
+
       res.json(result.rows);
 
     } catch (error) {
@@ -372,7 +372,7 @@ router.post('/:id/follow',
   async (req, res) => {
     try {
       const { id: artistId } = req.params;
-      const userId = req.userId;
+      const { userId } = req;
 
       // Check if artist exists
       const artistCheck = await pool.query('SELECT id FROM artists WHERE id = $1', [artistId]);
@@ -423,7 +423,7 @@ router.delete('/:id/unfollow',
   async (req, res) => {
     try {
       const { id: artistId } = req.params;
-      const userId = req.userId;
+      const { userId } = req;
 
       // Check if following
       const existingFollow = await pool.query(
@@ -500,7 +500,7 @@ router.get('/stats',
 
       // Cache for 1 hour
       await redisClient.setEx(cacheKey, 3600, JSON.stringify(stats));
-      
+
       res.json(stats);
 
     } catch (error) {

@@ -8,12 +8,12 @@ const path = require('path');
 router.get('/combinations', adminMiddleware, (req, res) => {
   try {
     const combinations = ProfileImageMappingService.generateAllProfileCombinations();
-    
+
     res.json({
       total: combinations.length,
       exhibitionTypes: 16,
       artworkTypes: 8,
-      combinations: combinations
+      combinations
     });
   } catch (error) {
     console.error('Get combinations error:', error);
@@ -25,10 +25,10 @@ router.get('/combinations', adminMiddleware, (req, res) => {
 router.get('/batch-prompts', adminMiddleware, (req, res) => {
   try {
     const prompts = ProfileImageMappingService.generateBatchPrompts();
-    
+
     res.json({
       total: prompts.length,
-      prompts: prompts,
+      prompts,
       instructions: {
         usage: 'Use these prompts with DALL-E, Midjourney, or similar AI image generators',
         naming: 'Save each generated image with the corresponding fileName',
@@ -46,7 +46,7 @@ router.get('/batch-prompts', adminMiddleware, (req, res) => {
 router.get('/export-prompts', adminMiddleware, async (req, res) => {
   try {
     const prompts = ProfileImageMappingService.generateBatchPrompts();
-    
+
     // Create formatted text file
     let fileContent = '# SAYU Profile Images - 128 AI Generation Prompts\n\n';
     fileContent += `Total Images: ${prompts.length}\n`;
@@ -58,7 +58,7 @@ router.get('/export-prompts', adminMiddleware, async (req, res) => {
     fileContent += '3. Upload to /public/images/profiles/ directory\n';
     fileContent += '4. Recommended size: 1024x1024 or higher\n\n';
     fileContent += '---\n\n';
-    
+
     prompts.forEach((prompt, index) => {
       fileContent += `## ${index + 1}. ${prompt.fileName}\n`;
       fileContent += `**Exhibition Type:** ${prompt.exhibitionType}\n`;
@@ -69,7 +69,7 @@ router.get('/export-prompts', adminMiddleware, async (req, res) => {
       fileContent += `**PROMPT:**\n${prompt.prompt}\n\n`;
       fileContent += '---\n\n';
     });
-    
+
     res.setHeader('Content-Type', 'text/plain');
     res.setHeader('Content-Disposition', 'attachment; filename="sayu_128_prompts.txt"');
     res.send(fileContent);
@@ -84,7 +84,7 @@ router.get('/export-json', adminMiddleware, (req, res) => {
   try {
     const prompts = ProfileImageMappingService.generateBatchPrompts();
     const fileStructure = ProfileImageMappingService.createImageFileStructure();
-    
+
     const exportData = {
       metadata: {
         total: prompts.length,
@@ -93,10 +93,10 @@ router.get('/export-json', adminMiddleware, (req, res) => {
         generatedAt: new Date().toISOString(),
         version: '1.0'
       },
-      fileStructure: fileStructure,
-      prompts: prompts
+      fileStructure,
+      prompts
     };
-    
+
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Content-Disposition', 'attachment; filename="sayu_128_prompts.json"');
     res.json(exportData);
@@ -111,17 +111,17 @@ router.get('/validate-images', adminMiddleware, async (req, res) => {
   try {
     const combinations = ProfileImageMappingService.generateAllProfileCombinations();
     const publicDir = path.join(process.cwd(), 'public');
-    
+
     const validation = {
       total: combinations.length,
       found: 0,
       missing: [],
       existing: []
     };
-    
+
     for (const combo of combinations) {
       const fullPath = path.join(publicDir, combo.imagePath);
-      
+
       try {
         await fs.access(fullPath);
         validation.existing.push({
@@ -140,9 +140,9 @@ router.get('/validate-images', adminMiddleware, async (req, res) => {
         });
       }
     }
-    
+
     validation.completionRate = Math.round((validation.found / validation.total) * 100);
-    
+
     res.json(validation);
   } catch (error) {
     console.error('Validate images error:', error);
@@ -154,7 +154,7 @@ router.get('/validate-images', adminMiddleware, async (req, res) => {
 router.get('/profile/:exhibitionType/:artworkType', (req, res) => {
   try {
     const { exhibitionType, artworkType } = req.params;
-    
+
     const imageInfo = {
       exhibitionType,
       artworkType,
@@ -163,11 +163,11 @@ router.get('/profile/:exhibitionType/:artworkType', (req, res) => {
       imagePath: `/images/profiles/${exhibitionType}_${artworkType}.jpg`,
       fallbackPath: `/images/profiles/default_${exhibitionType}.jpg`
     };
-    
+
     // Generate description and prompt for this specific combination
     const description = ProfileImageMappingService.generateProfileDescription(exhibitionType, artworkType);
     const prompt = ProfileImageMappingService.generateImagePrompt(exhibitionType, artworkType);
-    
+
     res.json({
       imageInfo,
       description,

@@ -1,9 +1,9 @@
 /**
  * SAYU 글로벌 A급 아티스트 자동 수집 시스템
- * 
+ *
  * 전 세계적으로 인정받는 핵심 아티스트 100명을 선정하여
  * enhancedArtistCollectorService를 통해 배치 수집합니다.
- * 
+ *
  * 선정 기준:
  * - 미술사적 중요성
  * - 글로벌 인지도
@@ -21,131 +21,131 @@ class GlobalArtistsCollector {
     this.globalArtists = {
       // === 서양 고전/근대 거장 (25명) ===
       classical: [
-        "Leonardo da Vinci",
-        "Michelangelo",
-        "Raphael",
-        "Caravaggio",
-        "Rembrandt",
-        "Johannes Vermeer",
-        "Francisco Goya",
-        "Jacques-Louis David",
-        "Eugène Delacroix",
-        "Jean-Auguste-Dominique Ingres",
-        "Caspar David Friedrich",
-        "J.M.W. Turner",
-        "John Constable",
-        "Gustave Courbet",
-        "Édouard Manet",
-        "Edgar Degas",
-        "Pierre-Auguste Renoir",
-        "Claude Monet",
-        "Paul Cézanne",
-        "Vincent van Gogh",
-        "Paul Gauguin",
-        "Georges Seurat",
-        "Henri de Toulouse-Lautrec",
-        "Gustav Klimt",
-        "Egon Schiele"
+        'Leonardo da Vinci',
+        'Michelangelo',
+        'Raphael',
+        'Caravaggio',
+        'Rembrandt',
+        'Johannes Vermeer',
+        'Francisco Goya',
+        'Jacques-Louis David',
+        'Eugène Delacroix',
+        'Jean-Auguste-Dominique Ingres',
+        'Caspar David Friedrich',
+        'J.M.W. Turner',
+        'John Constable',
+        'Gustave Courbet',
+        'Édouard Manet',
+        'Edgar Degas',
+        'Pierre-Auguste Renoir',
+        'Claude Monet',
+        'Paul Cézanne',
+        'Vincent van Gogh',
+        'Paul Gauguin',
+        'Georges Seurat',
+        'Henri de Toulouse-Lautrec',
+        'Gustav Klimt',
+        'Egon Schiele'
       ],
 
       // === 현대 서양 거장 (20명) ===
       modern_western: [
-        "Pablo Picasso",
-        "Henri Matisse",
-        "Wassily Kandinsky",
-        "Piet Mondrian",
-        "Paul Klee",
-        "Joan Miró",
-        "Salvador Dalí",
-        "René Magritte",
-        "Marcel Duchamp",
-        "Jackson Pollock",
-        "Mark Rothko",
-        "Willem de Kooning",
-        "Andy Warhol",
-        "Roy Lichtenstein",
-        "Jasper Johns",
-        "Robert Rauschenberg",
-        "Francis Bacon",
-        "Lucian Freud",
-        "David Hockney",
-        "Gerhard Richter"
+        'Pablo Picasso',
+        'Henri Matisse',
+        'Wassily Kandinsky',
+        'Piet Mondrian',
+        'Paul Klee',
+        'Joan Miró',
+        'Salvador Dalí',
+        'René Magritte',
+        'Marcel Duchamp',
+        'Jackson Pollock',
+        'Mark Rothko',
+        'Willem de Kooning',
+        'Andy Warhol',
+        'Roy Lichtenstein',
+        'Jasper Johns',
+        'Robert Rauschenberg',
+        'Francis Bacon',
+        'Lucian Freud',
+        'David Hockney',
+        'Gerhard Richter'
       ],
 
       // === 동양 대표 작가 (15명) ===
       asian_masters: [
         // 중국
-        "Qi Baishi",
-        "Zhang Daqian",
-        "Xu Beihong",
-        "Wu Guanzhong",
-        "Ai Weiwei",
-        
+        'Qi Baishi',
+        'Zhang Daqian',
+        'Xu Beihong',
+        'Wu Guanzhong',
+        'Ai Weiwei',
+
         // 일본
-        "Katsushika Hokusai",
-        "Utagawa Hiroshige",
-        "Yayoi Kusama",
-        "Takashi Murakami",
-        "Hiroshi Sugimoto",
-        
+        'Katsushika Hokusai',
+        'Utagawa Hiroshige',
+        'Yayoi Kusama',
+        'Takashi Murakami',
+        'Hiroshi Sugimoto',
+
         // 한국
-        "Lee Ufan",
-        "Park Seo-bo",
-        "Kim Whanki",
-        "Paik Nam-june",
-        "Do Ho Suh"
+        'Lee Ufan',
+        'Park Seo-bo',
+        'Kim Whanki',
+        'Paik Nam-june',
+        'Do Ho Suh'
       ],
 
       // === 현대 글로벌 스타 (15명) ===
       contemporary_global: [
-        "Banksy",
-        "Damien Hirst",
-        "Jeff Koons",
-        "Kaws",
-        "Kehinde Wiley",
-        "Kerry James Marshall",
-        "Yinka Shonibare",
-        "Anselm Kiefer",
-        "Cindy Sherman",
-        "Andreas Gursky",
-        "Olafur Eliasson",
-        "Marina Abramović",
-        "Shirin Neshat",
-        "Kara Walker",
-        "Richard Prince"
+        'Banksy',
+        'Damien Hirst',
+        'Jeff Koons',
+        'Kaws',
+        'Kehinde Wiley',
+        'Kerry James Marshall',
+        'Yinka Shonibare',
+        'Anselm Kiefer',
+        'Cindy Sherman',
+        'Andreas Gursky',
+        'Olafur Eliasson',
+        'Marina Abramović',
+        'Shirin Neshat',
+        'Kara Walker',
+        'Richard Prince'
       ],
 
       // === 여성 아티스트 강화 (15명) ===
       female_artists: [
-        "Frida Kahlo",
+        'Frida Kahlo',
         "Georgia O'Keeffe",
-        "Louise Bourgeois",
-        "Artemisia Gentileschi",
-        "Mary Cassatt",
-        "Berthe Morisot",
-        "Élisabeth Vigée Le Brun",
-        "Tamara de Lempicka",
-        "Agnes Martin",
-        "Helen Frankenthaler",
-        "Bridget Riley",
-        "Marlene Dumas",
-        "Elizabeth Peyton",
-        "Amy Sillman",
-        "Cecily Brown"
+        'Louise Bourgeois',
+        'Artemisia Gentileschi',
+        'Mary Cassatt',
+        'Berthe Morisot',
+        'Élisabeth Vigée Le Brun',
+        'Tamara de Lempicka',
+        'Agnes Martin',
+        'Helen Frankenthaler',
+        'Bridget Riley',
+        'Marlene Dumas',
+        'Elizabeth Peyton',
+        'Amy Sillman',
+        'Cecily Brown'
       ],
 
       // === 조각/설치 전문가 (10명) ===
       sculptors: [
-        "Auguste Rodin",
-        "Constantin Brâncuși",
-        "Henry Moore",
-        "Alberto Giacometti",
-        "Barbara Hepworth",
-        "Alexander Calder",
-        "Richard Serra",
-        "Anish Kapoor",
-        "Antony Gormley",
-        "Tino Sehgal"
+        'Auguste Rodin',
+        'Constantin Brâncuși',
+        'Henry Moore',
+        'Alberto Giacometti',
+        'Barbara Hepworth',
+        'Alexander Calder',
+        'Richard Serra',
+        'Anish Kapoor',
+        'Antony Gormley',
+        'Tino Sehgal'
       ]
     };
 
@@ -181,7 +181,7 @@ class GlobalArtistsCollector {
     }
 
     logger.info(`🎨 ${categoryName} 카테고리 수집 시작: ${artists.length}명`);
-    
+
     const results = await enhancedArtistCollectorService.collectArtistsBatch(
       artists,
       {
@@ -192,7 +192,7 @@ class GlobalArtistsCollector {
 
     this.updateStats(results);
     this.logCategoryResults(categoryName, results);
-    
+
     return results;
   }
 
@@ -205,7 +205,7 @@ class GlobalArtistsCollector {
 
     logger.info(`🚀 글로벌 A급 아티스트 전체 수집 시작`);
     logger.info(`📊 총 ${this.stats.total}명의 아티스트 수집 예정`);
-    
+
     const allResults = {
       successful: [],
       failed: [],
@@ -216,9 +216,9 @@ class GlobalArtistsCollector {
     for (const [categoryName, artists] of Object.entries(this.globalArtists)) {
       try {
         logger.info(`\n=== ${categoryName.toUpperCase()} 카테고리 시작 ===`);
-        
+
         const categoryResults = await this.collectByCategory(categoryName, options);
-        
+
         // 결과 통합
         allResults.successful.push(...categoryResults.successful);
         allResults.failed.push(...categoryResults.failed);
@@ -226,7 +226,7 @@ class GlobalArtistsCollector {
 
         // 카테고리 간 대기 시간 (서버 부하 방지)
         if (options.categoryDelay) {
-          logger.info(`⏳ 다음 카테고리까지 ${options.categoryDelay/1000}초 대기...`);
+          logger.info(`⏳ 다음 카테고리까지 ${options.categoryDelay / 1000}초 대기...`);
           await new Promise(resolve => setTimeout(resolve, options.categoryDelay));
         }
 
@@ -237,7 +237,7 @@ class GlobalArtistsCollector {
 
     this.stats.endTime = new Date();
     this.logFinalResults(allResults);
-    
+
     return allResults;
   }
 
@@ -247,34 +247,34 @@ class GlobalArtistsCollector {
   async collectPriorityArtists() {
     const priorityArtists = [
       // 절대 필수 (10명)
-      "Leonardo da Vinci",
-      "Pablo Picasso",
-      "Vincent van Gogh",
-      "Claude Monet",
-      "Frida Kahlo",
-      "Andy Warhol",
-      "Yayoi Kusama",
-      "Banksy",
-      "Jackson Pollock",
-      "Michelangelo",
-      
+      'Leonardo da Vinci',
+      'Pablo Picasso',
+      'Vincent van Gogh',
+      'Claude Monet',
+      'Frida Kahlo',
+      'Andy Warhol',
+      'Yayoi Kusama',
+      'Banksy',
+      'Jackson Pollock',
+      'Michelangelo',
+
       // 아시아 대표 (5명)
-      "Katsushika Hokusai",
-      "Lee Ufan",
-      "Takashi Murakami",
-      "Ai Weiwei",
-      "Paik Nam-june",
-      
+      'Katsushika Hokusai',
+      'Lee Ufan',
+      'Takashi Murakami',
+      'Ai Weiwei',
+      'Paik Nam-june',
+
       // 현대 중요 작가 (5명)
-      "Damien Hirst",
-      "Jeff Koons",
-      "David Hockney",
-      "Gerhard Richter",
-      "Marina Abramović"
+      'Damien Hirst',
+      'Jeff Koons',
+      'David Hockney',
+      'Gerhard Richter',
+      'Marina Abramović'
     ];
 
     logger.info(`⭐ 우선순위 아티스트 수집 시작: ${priorityArtists.length}명`);
-    
+
     return await enhancedArtistCollectorService.collectArtistsBatch(
       priorityArtists,
       {
@@ -299,9 +299,9 @@ class GlobalArtistsCollector {
   logCategoryResults(categoryName, results) {
     const total = results.successful.length + results.failed.length + results.skipped.length;
     const successRate = ((results.successful.length / total) * 100).toFixed(1);
-    
+
     logger.info(`✅ ${categoryName} 완료: ${results.successful.length}/${total} (${successRate}%)`);
-    
+
     if (results.failed.length > 0) {
       logger.warn(`❌ 실패한 아티스트: ${results.failed.map(f => f.name).join(', ')}`);
     }
@@ -313,7 +313,7 @@ class GlobalArtistsCollector {
   logFinalResults(results) {
     const duration = (this.stats.endTime - this.stats.startTime) / 1000;
     const successRate = ((this.stats.successful / this.stats.total) * 100).toFixed(1);
-    
+
     logger.info(`\n🎯 글로벌 아티스트 수집 완료!`);
     logger.info(`📊 최종 통계:`);
     logger.info(`   - 총 대상: ${this.stats.total}명`);
@@ -340,12 +340,12 @@ class GlobalArtistsCollector {
    */
   logSuccessDistribution(successful) {
     const distribution = {};
-    
+
     Object.entries(this.globalArtists).forEach(([category, artists]) => {
-      const successfulInCategory = successful.filter(s => 
+      const successfulInCategory = successful.filter(s =>
         artists.includes(s.name)
       ).length;
-      
+
       distribution[category] = {
         successful: successfulInCategory,
         total: artists.length,
@@ -375,7 +375,7 @@ class GlobalArtistsCollector {
 // CLI 실행 인터페이스
 async function main() {
   const collector = new GlobalArtistsCollector();
-  
+
   const command = process.argv[2];
   const options = {
     delay: 2000,           // 아티스트 간 대기시간
@@ -389,7 +389,7 @@ async function main() {
         console.log('⭐ 우선순위 아티스트 수집 시작...');
         await collector.collectPriorityArtists();
         break;
-        
+
       case 'category':
         const categoryName = process.argv[3];
         if (!categoryName) {
@@ -400,12 +400,12 @@ async function main() {
         }
         await collector.collectByCategory(categoryName, options);
         break;
-        
+
       case 'all':
       default:
         console.log('🚀 전체 글로벌 아티스트 수집 시작...');
         const monitoring = collector.startProgressMonitoring();
-        
+
         try {
           await collector.collectAllArtists(options);
         } finally {
@@ -413,9 +413,9 @@ async function main() {
         }
         break;
     }
-    
+
     console.log('\n✅ 수집 작업 완료!');
-    
+
   } catch (error) {
     console.error('❌ 수집 작업 실패:', error.message);
     process.exit(1);

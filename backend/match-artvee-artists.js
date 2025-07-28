@@ -57,7 +57,7 @@ async function createMappingTable(client) {
       updated_at TIMESTAMP DEFAULT NOW()
     )
   `);
-  
+
   // artvee_artwork_artists 연결 테이블 생성 (artvee_artworks의 id가 integer이므로)
   await client.query(`
     CREATE TABLE IF NOT EXISTS artvee_artwork_artists (
@@ -71,7 +71,7 @@ async function createMappingTable(client) {
       UNIQUE(artwork_id, artist_id, role)
     )
   `);
-  
+
   console.log('✅ 매핑 테이블 생성/확인 완료');
 }
 
@@ -82,7 +82,7 @@ async function matchExact(client, artveeArtist) {
     WHERE LOWER(TRIM(name)) = LOWER(TRIM($1))
     LIMIT 1
   `, [artveeArtist]);
-  
+
   if (exactMatch.rows.length > 0) {
     return {
       artist_id: exactMatch.rows[0].id,
@@ -90,10 +90,10 @@ async function matchExact(client, artveeArtist) {
       method: 'exact_match'
     };
   }
-  
+
   // 2. 별칭 확인 - name_aliases 컬럼이 없으므로 일단 스킵
   // TODO: name_aliases 컬럼 추가 후 활성화
-  
+
   return null;
 }
 
@@ -101,15 +101,15 @@ async function matchPartial(client, artveeArtist) {
   // 성만으로 매칭 시도
   const parts = artveeArtist.split(' ');
   if (parts.length < 2) return null;
-  
+
   const lastName = parts[parts.length - 1];
-  
+
   const partialMatch = await client.query(`
     SELECT id, name FROM artists 
     WHERE LOWER(name) LIKE LOWER($1)
     LIMIT 1
   `, [`%${lastName}%`]);
-  
+
   if (partialMatch.rows.length > 0) {
     return {
       artist_id: partialMatch.rows[0].id,
@@ -117,7 +117,7 @@ async function matchPartial(client, artveeArtist) {
       method: 'partial_match'
     };
   }
-  
+
   return null;
 }
 
@@ -135,13 +135,13 @@ async function matchManual(artveeArtist) {
 
 async function performMatching() {
   const client = await pool.connect();
-  
+
   try {
     console.log('🎯 Artvee-Artists 매칭 시작...\n');
-    
+
     // 테이블 생성/확인
     await createMappingTable(client);
-    
+
     // 모든 고유 작가 가져오기
     const artveeArtists = await client.query(`
       SELECT DISTINCT artist, COUNT(*) as artwork_count
@@ -150,21 +150,21 @@ async function performMatching() {
       GROUP BY artist
       ORDER BY artwork_count DESC
     `);
-    
+
     console.log(`📋 총 ${artveeArtists.rows.length}명의 작가 매칭 시작\n`);
-    
-    let stats = {
+
+    const stats = {
       exact: 0,
       alias: 0,
       partial: 0,
       manual: 0,
       unmatched: 0
     };
-    
+
     for (const row of artveeArtists.rows) {
       const artveeArtist = row.artist;
       let matched = false;
-      
+
       // 1. 수동 매핑 확인
       const manualMatch = await matchManual(artveeArtist);
       if (manualMatch) {
@@ -172,7 +172,7 @@ async function performMatching() {
         const artistResult = await client.query(`
           SELECT id FROM artists WHERE LOWER(name) = LOWER($1) LIMIT 1
         `, [manualMatch.mapped_name]);
-        
+
         if (artistResult.rows.length > 0) {
           await client.query(`
             INSERT INTO artvee_artist_mappings 
@@ -185,13 +185,13 @@ async function performMatching() {
               mapping_method = $4,
               updated_at = NOW()
           `, [artveeArtist, artistResult.rows[0].id, manualMatch.confidence, manualMatch.method]);
-          
+
           console.log(`✅ [수동] ${artveeArtist} → ${manualMatch.mapped_name}`);
           stats.manual++;
           matched = true;
         }
       }
-      
+
       // 2. 정확한 매칭 시도
       if (!matched) {
         const exactMatch = await matchExact(client, artveeArtist);
@@ -207,13 +207,13 @@ async function performMatching() {
               mapping_method = $4,
               updated_at = NOW()
           `, [artveeArtist, exactMatch.artist_id, exactMatch.confidence, exactMatch.method]);
-          
+
           console.log(`✅ [정확] ${artveeArtist}`);
           stats.exact++;
           matched = true;
         }
       }
-      
+
       // 3. 부분 매칭 시도
       if (!matched) {
         const partialMatch = await matchPartial(client, artveeArtist);
@@ -229,18 +229,18 @@ async function performMatching() {
               mapping_method = $4,
               updated_at = NOW()
           `, [artveeArtist, partialMatch.artist_id, partialMatch.confidence, partialMatch.method]);
-          
+
           console.log(`⚠️  [부분] ${artveeArtist}`);
           stats.partial++;
           matched = true;
         }
       }
-      
+
       // 4. 매칭 실패
       if (!matched) {
         console.log(`❌ [실패] ${artveeArtist} (${row.artwork_count}개 작품)`);
         stats.unmatched++;
-        
+
         // 매칭 실패도 기록 (나중에 수동 처리를 위해)
         await client.query(`
           INSERT INTO artvee_artist_mappings 
@@ -255,7 +255,7 @@ async function performMatching() {
         `, [artveeArtist]);
       }
     }
-    
+
     console.log('\n📊 매칭 결과 요약:');
     console.log(`  - 정확한 매칭: ${stats.exact}명`);
     console.log(`  - 별칭 매칭: ${stats.alias}명`);
@@ -263,10 +263,10 @@ async function performMatching() {
     console.log(`  - 수동 매핑: ${stats.manual}명`);
     console.log(`  - 매칭 실패: ${stats.unmatched}명`);
     console.log(`  - 전체 성공률: ${((artveeArtists.rows.length - stats.unmatched) / artveeArtists.rows.length * 100).toFixed(1)}%`);
-    
+
     // 이제 artvee_artwork_artists 테이블에 연결 정보 생성
     console.log('\n🔗 Artwork-Artist 연결 생성 중...');
-    
+
     const linkResult = await client.query(`
       INSERT INTO artvee_artwork_artists (artwork_id, artist_id)
       SELECT 
@@ -277,9 +277,9 @@ async function performMatching() {
       WHERE aam.artist_id IS NOT NULL
       ON CONFLICT (artwork_id, artist_id, role) DO NOTHING
     `);
-    
+
     console.log(`✅ ${linkResult.rowCount}개의 연결 생성 완료!`);
-    
+
   } catch (error) {
     console.error('❌ 매칭 중 오류 발생:', error);
   } finally {

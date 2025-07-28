@@ -126,7 +126,7 @@ class GamificationService extends EventEmitter {
       }
 
       const stats = result.rows[0];
-      
+
       // 레벨 정보 추가
       const levelInfo = this.getLevelInfo(stats.level);
       stats.levelName = levelInfo.name;
@@ -171,12 +171,12 @@ class GamificationService extends EventEmitter {
   // 포인트 획득
   async earnPoints(userId, activity, metadata = {}) {
     const trx = await hybridDB.transaction();
-    
+
     try {
       // 포인트 값 조회
       const pointValues = this.getPointValues();
-      let basePoints = pointValues[activity] || 0;
-      
+      const basePoints = pointValues[activity] || 0;
+
       if (basePoints === 0) {
         throw new Error(`Unknown activity: ${activity}`);
       }
@@ -391,7 +391,7 @@ class GamificationService extends EventEmitter {
       }
 
       const session = result.rows[0];
-      
+
       // Redis에서 활성 세션 제거
       if (this.redis) {
         try {
@@ -480,7 +480,7 @@ class GamificationService extends EventEmitter {
   // 메인 칭호 설정
   async setMainTitle(userId, titleId) {
     const trx = await hybridDB.transaction();
-    
+
     try {
       // 칭호 소유 확인
       const owned = await trx.query(
@@ -532,10 +532,10 @@ class GamificationService extends EventEmitter {
   // 칭호 획득 확인
   async checkAndAwardTitles(trx, userId, activity) {
     const newTitles = [];
-    
+
     // 활동 기반 칭호 확인
     const activityCounts = await this.getUserActivityCounts(trx, userId);
-    
+
     // 얼리버드 (오전 10시 이전 관람 5회)
     if (activityCounts.morning_visits >= 5) {
       const awarded = await this.awardTitle(trx, userId, 'early_bird');
@@ -680,7 +680,7 @@ class GamificationService extends EventEmitter {
   async getLeaderboard(type = 'weekly', limit = 50) {
     try {
       let query;
-      
+
       switch (type) {
         case 'weekly':
           query = `
@@ -700,7 +700,7 @@ class GamificationService extends EventEmitter {
             LIMIT $1
           `;
           break;
-          
+
         case 'monthly':
           query = `
             SELECT 
@@ -719,7 +719,7 @@ class GamificationService extends EventEmitter {
             LIMIT $1
           `;
           break;
-          
+
         case 'all-time':
         default:
           query = `
@@ -765,7 +765,7 @@ class GamificationService extends EventEmitter {
             SELECT * FROM weekly_ranks WHERE user_id = $1
           `;
           break;
-          
+
         case 'monthly':
           query = `
             WITH monthly_ranks AS (
@@ -780,7 +780,7 @@ class GamificationService extends EventEmitter {
             SELECT * FROM monthly_ranks WHERE user_id = $1
           `;
           break;
-          
+
         case 'all-time':
         default:
           query = `
@@ -862,7 +862,7 @@ class GamificationService extends EventEmitter {
   async getActivityHistory(userId, options = {}) {
     try {
       const { limit = 20, offset = 0, type } = options;
-      
+
       let query = `
         SELECT 
           al.*,
@@ -883,7 +883,7 @@ class GamificationService extends EventEmitter {
         params.push(type);
       }
 
-      query += ' ORDER BY al.created_at DESC LIMIT $' + (params.length + 1) + ' OFFSET $' + (params.length + 2);
+      query += ` ORDER BY al.created_at DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
       params.push(limit, offset);
 
       const result = await db.query(query, params);
@@ -924,7 +924,7 @@ class GamificationService extends EventEmitter {
       `;
 
       const result = await hybridDB.query(query, [userId]);
-      
+
       const weekData = result.rows;
       const totalPoints = weekData.reduce((sum, day) => sum + day.points, 0);
       const activeDays = weekData.filter(day => day.points > 0).length;
@@ -946,7 +946,7 @@ class GamificationService extends EventEmitter {
   async getDetailedUserStats(userId) {
     try {
       const stats = await this.getUserStats(userId);
-      
+
       // 추가 통계 조회
       const [
         exhibitionStats,
@@ -1078,7 +1078,7 @@ class GamificationService extends EventEmitter {
       );
 
       const isPremium = result.rows[0]?.is_premium || false;
-      
+
       // 캐시에 저장 (1시간)
       if (this.redis) {
         try {
@@ -1087,7 +1087,7 @@ class GamificationService extends EventEmitter {
           log.warn('Redis premium cache write failed:', error.message);
         }
       }
-      
+
       return isPremium;
     } catch (error) {
       log.error('Failed to check premium status:', error);
@@ -1147,16 +1147,16 @@ class GamificationService extends EventEmitter {
 
   getTimeLeft(expiresAt) {
     if (!expiresAt) return null;
-    
+
     const now = new Date();
     const expiry = new Date(expiresAt);
     const diff = expiry - now;
-    
+
     if (diff <= 0) return 'Expired';
-    
+
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    
+
     if (days > 0) return `${days}일 ${hours}시간`;
     return `${hours}시간`;
   }
@@ -1223,7 +1223,7 @@ class GamificationService extends EventEmitter {
   async updateDailyStreak(trx, userId) {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-    
+
     const hasYesterdayActivity = await trx.query(`
       SELECT 1 FROM activity_logs 
       WHERE user_id = $1 

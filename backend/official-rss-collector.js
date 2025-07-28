@@ -17,21 +17,21 @@ const OFFICIAL_SOURCES = {
     rss: 'https://www.mmca.go.kr/pr/rss.do',
     type: 'rss'
   },
-  
+
   // 예술의전당 - 공연/전시 정보 RSS
   'sac': {
     name: '예술의전당',
     rss: 'https://www.sac.or.kr/site/main/rss/getRssList.do',
     type: 'rss'
   },
-  
+
   // 서울시립미술관 - 보도자료 RSS
   'sema': {
     name: '서울시립미술관',
     rss: 'https://sema.seoul.go.kr/kr/news/pressRelease',
     type: 'webpage'
   },
-  
+
   // 아르코미술관 - 전시 정보
   'arko': {
     name: '아르코미술관',
@@ -59,13 +59,13 @@ class OfficialRSSCollector {
     try {
       for (const [key, source] of Object.entries(OFFICIAL_SOURCES)) {
         console.log(`🔍 ${source.name} 공식 데이터 수집 중...`);
-        
+
         if (source.type === 'rss') {
           await this.collectFromRSS(source, client);
         } else {
           await this.collectFromWebpage(source, client);
         }
-        
+
         await new Promise(resolve => setTimeout(resolve, 2000));
       }
 
@@ -89,10 +89,10 @@ class OfficialRSSCollector {
 
       console.log(`   ✅ ${source.name} RSS 접근 성공`);
       console.log(`   📄 응답 크기: ${response.data.length} bytes`);
-      
+
       // RSS 파싱은 실제 XML 구조를 보고 구현해야 함
       this.stats.found++;
-      
+
     } catch (error) {
       console.log(`   ❌ ${source.name} RSS 접근 실패: ${error.message}`);
       this.stats.errors++;
@@ -110,13 +110,13 @@ class OfficialRSSCollector {
 
       console.log(`   ✅ ${source.name} 웹페이지 접근 성공`);
       console.log(`   📄 응답 크기: ${response.data.length} bytes`);
-      
+
       // HTML 파싱해서 전시 정보 추출
       const exhibitions = this.parseWebpageForExhibitions(response.data, source.name);
       console.log(`   🎨 추출된 전시: ${exhibitions.length}개`);
-      
+
       this.stats.found += exhibitions.length;
-      
+
     } catch (error) {
       console.log(`   ❌ ${source.name} 접근 실패: ${error.message}`);
       this.stats.errors++;
@@ -126,7 +126,7 @@ class OfficialRSSCollector {
   parseWebpageForExhibitions(html, venueName) {
     // 간단한 HTML 파싱 - 실제로는 cheerio 라이브러리 사용 권장
     const exhibitions = [];
-    
+
     // 전시 관련 키워드가 포함된 텍스트 찾기
     const exhibitionPatterns = [
       /전시[:\s]*([^<\n]+)/g,
@@ -140,7 +140,7 @@ class OfficialRSSCollector {
         const title = match[1].trim();
         if (title.length > 5 && title.length < 100) {
           exhibitions.push({
-            title: title,
+            title,
             venue: venueName
           });
         }
@@ -158,7 +158,7 @@ class OfficialRSSCollector {
     console.log(`   발견된 전시: ${this.stats.found}개`);
     console.log(`   DB 추가: ${this.stats.inserted}개`);
     console.log(`   오류: ${this.stats.errors}개`);
-    
+
     console.log('\n💡 다음 단계:');
     console.log('1. 실제 RSS XML 구조 분석하여 파서 구현');
     console.log('2. cheerio 라이브러리로 HTML 파싱 개선');
@@ -168,7 +168,7 @@ class OfficialRSSCollector {
 
 async function main() {
   const collector = new OfficialRSSCollector();
-  
+
   try {
     await collector.collectFromOfficialSources();
   } catch (error) {

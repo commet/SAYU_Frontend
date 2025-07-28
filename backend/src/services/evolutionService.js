@@ -60,7 +60,7 @@ class EvolutionService {
 
         // Check if evolution is possible
         const evolutionReady = newPoints >= this.evolutionThreshold;
-        
+
         await client.query('COMMIT');
 
         logger.info(`Awarded ${points} points to user ${userId} for ${activityType}`);

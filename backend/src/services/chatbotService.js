@@ -11,14 +11,14 @@ class ChatbotService {
     this.maxSessionSize = 50; // 최대 대화 개수
     this.initializeAI();
     this.startSessionCleanup();
-    
+
     // Allowed topics for art discussion
     this.allowedTopics = new Set([
       'artwork', 'artist', 'technique', 'emotion', 'color',
       'composition', 'museum', 'exhibition', 'style', 'period',
       'interpretation', 'feeling', 'impression', 'meaning'
     ]);
-    
+
     // Blocked patterns for safety
     this.blockedPatterns = [
       /(?:code|programming|script|hack)/i,
@@ -35,30 +35,30 @@ class ChatbotService {
         log.error('Google AI API key not found');
         return;
       }
-      
+
       this.genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
-      this.model = this.genAI.getGenerativeModel({ 
-        model: "gemini-pro",
+      this.model = this.genAI.getGenerativeModel({
+        model: 'gemini-pro',
         safetySettings: [
           {
-            category: "HARM_CATEGORY_HARASSMENT",
-            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+            category: 'HARM_CATEGORY_HARASSMENT',
+            threshold: 'BLOCK_MEDIUM_AND_ABOVE'
           },
           {
-            category: "HARM_CATEGORY_HATE_SPEECH",
-            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+            category: 'HARM_CATEGORY_HATE_SPEECH',
+            threshold: 'BLOCK_MEDIUM_AND_ABOVE'
           },
           {
-            category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+            category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+            threshold: 'BLOCK_MEDIUM_AND_ABOVE'
           },
           {
-            category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+            category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+            threshold: 'BLOCK_MEDIUM_AND_ABOVE'
           }
         ]
       });
-      
+
       log.info('Google Generative AI initialized successfully');
     } catch (error) {
       log.error('Failed to initialize Google AI:', error);
@@ -70,18 +70,18 @@ class ChatbotService {
     setInterval(() => {
       const now = Date.now();
       const expiredSessions = [];
-      
+
       this.sessions.forEach((session, sessionId) => {
         if (now - session.lastActivity > this.sessionTimeout) {
           expiredSessions.push(sessionId);
         }
       });
-      
+
       expiredSessions.forEach(sessionId => {
         this.sessions.delete(sessionId);
         log.info(`Session ${sessionId} expired and removed`);
       });
-      
+
       if (expiredSessions.length > 0) {
         log.info(`Cleaned up ${expiredSessions.length} expired sessions`);
       }
@@ -93,18 +93,18 @@ class ChatbotService {
     if (!message || typeof message !== 'string') {
       return { isValid: false, reason: 'INVALID_MESSAGE' };
     }
-    
+
     if (message.length > 500) {
       return { isValid: false, reason: 'TOO_LONG' };
     }
-    
+
     // Check blocked patterns
     for (const pattern of this.blockedPatterns) {
       if (pattern.test(message)) {
         return { isValid: false, reason: 'BLOCKED_TOPIC' };
       }
     }
-    
+
     return { isValid: true };
   }
 
@@ -116,7 +116,7 @@ class ChatbotService {
       'exhibition', 'gallery', 'sculpture', 'artwork', 'masterpiece',
       '예술', '그림', '화가', '미술관', '전시', '작품' // Korean keywords
     ];
-    
+
     return artKeywords.some(keyword => lowerMessage.includes(keyword));
   }
 
@@ -125,20 +125,20 @@ class ChatbotService {
     if (!this.sessions.has(sessionId)) {
       this.sessions.set(sessionId, {
         messages: [],
-        sayuType: sayuType,
+        sayuType,
         createdAt: Date.now(),
         lastActivity: Date.now()
       });
     }
-    
+
     const session = this.sessions.get(sessionId);
     session.lastActivity = Date.now();
-    
+
     // 메시지 수 제한
     if (session.messages.length > this.maxSessionSize) {
       session.messages = session.messages.slice(-this.maxSessionSize);
     }
-    
+
     return session;
   }
 
@@ -174,7 +174,7 @@ class ChatbotService {
         viewingStyle: '체계적이고 느린',
         questionStyle: '분석적인'
       },
-      
+
       // LR 그룹 (혼자서 + 사실)
       'LREF': {
         name: '카멜레온',
@@ -204,7 +204,7 @@ class ChatbotService {
         viewingStyle: '완벽한 자료 조사',
         questionStyle: '학술적인'
       },
-      
+
       // SA 그룹 (함께 + 분위기)
       'SAEF': {
         name: '나비',
@@ -234,7 +234,7 @@ class ChatbotService {
         viewingStyle: '의미있는 그룹 경험',
         questionStyle: '포용적인'
       },
-      
+
       // SR 그룹 (함께 + 사실)
       'SREF': {
         name: '강아지',
@@ -265,14 +265,14 @@ class ChatbotService {
         questionStyle: '교육적인'
       }
     };
-    
+
     return personalities[sayuType] || personalities['LAEF'];
   }
 
   // Generate system prompt based on personality
   generateSystemPrompt(sayuType, artwork) {
     const personality = this.getAnimalPersonality(sayuType);
-    
+
     return `당신은 ${personality.name} 성격의 미술 큐레이터입니다.
 현재 사용자와 함께 "${artwork.title}" (${artwork.artist}, ${artwork.year})를 감상하고 있습니다.
 
@@ -310,7 +310,7 @@ ${artwork.description ? `- 설명: ${artwork.description}` : ''}
       if (!validation.isValid) {
         return this.getRedirectResponse(validation.reason, userType);
       }
-      
+
       // Check if artwork context exists
       if (!artwork) {
         return {
@@ -319,26 +319,26 @@ ${artwork.description ? `- 설명: ${artwork.description}` : ''}
           action: 'SELECT_ARTWORK'
         };
       }
-      
+
       // Get or create session
       const session = this.getOrCreateSession(userId, artwork, userType);
-      
+
       // Generate response
       const response = await this.generateResponse(message, artwork, session);
-      
+
       // Update session
       this.updateSession(userId, message, response);
-      
+
       // Get follow-up questions
       const suggestions = this.getFollowUpQuestions(artwork, session);
-      
+
       return {
         success: true,
         message: response,
         suggestions,
         sessionId: session.id
       };
-      
+
     } catch (error) {
       log.error('Chatbot processing error:', error);
       return {
@@ -355,40 +355,40 @@ ${artwork.description ? `- 설명: ${artwork.description}` : ''}
       // Check cache first
       const redisClient = getRedisClient();
       const cacheKey = `chatbot:${session.sayuType}:${artwork.id}:${message.substring(0, 50)}`;
-      
+
       if (redisClient) {
         const cached = await redisClient.get(cacheKey);
         if (cached) {
           return cached;
         }
       }
-      
+
       // Generate system prompt
       const systemPrompt = this.generateSystemPrompt(session.sayuType, artwork);
-      
+
       // Build conversation history
       const history = [
         { role: 'user', parts: [{ text: systemPrompt }] },
         ...session.history.slice(-10) // Keep last 10 exchanges
       ];
-      
+
       // Start chat
       const chat = this.model.startChat({ history });
-      
+
       // Send message and get response
       const result = await chat.sendMessage(message);
       const response = result.response.text();
-      
+
       // Cache response for 1 hour if Redis is available
       if (redisClient) {
         await redisClient.setex(cacheKey, 3600, response);
       }
-      
+
       return response;
-      
+
     } catch (error) {
       log.error('AI generation error:', error);
-      
+
       // Fallback responses based on personality
       const personality = this.getAnimalPersonality(session.sayuType);
       return `${personality.name} 큐레이터가 잠시 생각 중이에요... 작품을 보며 천천히 감상해보세요.`;
@@ -398,7 +398,7 @@ ${artwork.description ? `- 설명: ${artwork.description}` : ''}
   // Get or create chat session
   getOrCreateSession(userId, artwork, sayuType) {
     const sessionKey = `${userId}-${artwork.id}`;
-    
+
     if (!this.sessions.has(sessionKey)) {
       this.sessions.set(sessionKey, {
         id: sessionKey,
@@ -410,9 +410,9 @@ ${artwork.description ? `- 설명: ${artwork.description}` : ''}
         interactions: 0
       });
     }
-    
+
     const session = this.sessions.get(sessionKey);
-    
+
     // Reset if artwork changed
     if (session.currentArtwork.id !== artwork.id) {
       session.currentArtwork = artwork;
@@ -420,7 +420,7 @@ ${artwork.description ? `- 설명: ${artwork.description}` : ''}
       session.startTime = Date.now();
       session.interactions = 0;
     }
-    
+
     return session;
   }
 
@@ -428,20 +428,20 @@ ${artwork.description ? `- 설명: ${artwork.description}` : ''}
   updateSession(userId, userMessage, aiResponse) {
     const sessions = Array.from(this.sessions.values())
       .filter(s => s.userId === userId);
-    
+
     sessions.forEach(session => {
       session.history.push(
         { role: 'user', parts: [{ text: userMessage }] },
         { role: 'model', parts: [{ text: aiResponse }] }
       );
-      
+
       session.interactions++;
-      
+
       // Limit history size
       if (session.history.length > 20) {
         session.history = session.history.slice(-20);
       }
-      
+
       // Clean up old sessions (over 30 minutes)
       if (Date.now() - session.startTime > 30 * 60 * 1000) {
         this.sessions.delete(session.id);
@@ -452,34 +452,34 @@ ${artwork.description ? `- 설명: ${artwork.description}` : ''}
   // Get redirect response for invalid inputs
   getRedirectResponse(reason, sayuType) {
     const personality = this.getAnimalPersonality(sayuType);
-    
+
     const responses = {
       'TOO_LONG': {
-        'LAEF': "아, 너무 많은 이야기예요... 작품으로 돌아가 볼까요?",
-        'SAEF': "와! 대신 이 작품의 이 부분이 더 신기해요!",
-        'LAMC': "흠, 먼저 작품을 차근차근 살펴보시죠.",
-        'LAMF': "본질로 돌아가 작품을 다시 보시면 어떨까요?"
+        'LAEF': '아, 너무 많은 이야기예요... 작품으로 돌아가 볼까요?',
+        'SAEF': '와! 대신 이 작품의 이 부분이 더 신기해요!',
+        'LAMC': '흠, 먼저 작품을 차근차근 살펴보시죠.',
+        'LAMF': '본질로 돌아가 작품을 다시 보시면 어떨까요?'
       },
       'BLOCKED_TOPIC': {
-        'LAEF': "음... 그보다는 이 작품이 주는 느낌이 궁금해요.",
-        'SAEF': "저는 예술 이야기만 할 수 있어요! 이 작품 어때요?",
-        'LAMC': "죄송하지만 제 분야가 아닙니다. 작품 설명을 계속할까요?",
-        'LAMF': "제 지혜는 예술에만 한정되어 있답니다."
+        'LAEF': '음... 그보다는 이 작품이 주는 느낌이 궁금해요.',
+        'SAEF': '저는 예술 이야기만 할 수 있어요! 이 작품 어때요?',
+        'LAMC': '죄송하지만 제 분야가 아닙니다. 작품 설명을 계속할까요?',
+        'LAMF': '제 지혜는 예술에만 한정되어 있답니다.'
       },
       'INVALID_MESSAGE': {
-        'LAEF': "무슨 말씀이신지... 작품을 보며 느낌을 나눠주세요.",
-        'SAEF': "앗! 다시 한번 말씀해주세요!",
-        'LAMC': "명확한 질문을 부탁드립니다.",
-        'LAMF': "작품에 대한 구체적인 질문이 있으신가요?"
+        'LAEF': '무슨 말씀이신지... 작품을 보며 느낌을 나눠주세요.',
+        'SAEF': '앗! 다시 한번 말씀해주세요!',
+        'LAMC': '명확한 질문을 부탁드립니다.',
+        'LAMF': '작품에 대한 구체적인 질문이 있으신가요?'
       }
     };
-    
-    const defaultResponse = "작품으로 돌아가볼까요?";
-    
+
+    const defaultResponse = '작품으로 돌아가볼까요?';
+
     return {
       success: true,
-      message: responses[reason]?.[sayuType] || 
-               responses[reason]?.['LAEF'] || 
+      message: responses[reason]?.[sayuType] ||
+               responses[reason]?.['LAEF'] ||
                defaultResponse,
       action: 'REDIRECT_TO_ART'
     };
@@ -488,63 +488,63 @@ ${artwork.description ? `- 설명: ${artwork.description}` : ''}
   // Get response when no artwork is selected
   getNoArtworkResponse(sayuType) {
     const responses = {
-      'LAEF': "먼저 마음에 드는 작품을 선택해주세요. 함께 감상해요.",
-      'LAEC': "어떤 작품을 보실 건가요? 제 취향도 궁금하시죠?",
-      'LAMF': "작품을 선택하시면 숨겨진 의미를 찾아드릴게요.",
-      'LAMC': "감상할 작품을 먼저 선택해주세요. 역사적 배경도 설명해드릴게요.",
-      'SAEF': "작품을 골라주세요! 정말 기대돼요!",
-      'SREF': "어서 작품을 선택해요! 빨리 보고 싶어요!",
-      'SRMF': "작품을 선택하시면 흥미로운 이야기를 들려드릴게요.",
-      'SRMC': "체계적인 감상을 위해 먼저 작품을 선택해주세요."
+      'LAEF': '먼저 마음에 드는 작품을 선택해주세요. 함께 감상해요.',
+      'LAEC': '어떤 작품을 보실 건가요? 제 취향도 궁금하시죠?',
+      'LAMF': '작품을 선택하시면 숨겨진 의미를 찾아드릴게요.',
+      'LAMC': '감상할 작품을 먼저 선택해주세요. 역사적 배경도 설명해드릴게요.',
+      'SAEF': '작품을 골라주세요! 정말 기대돼요!',
+      'SREF': '어서 작품을 선택해요! 빨리 보고 싶어요!',
+      'SRMF': '작품을 선택하시면 흥미로운 이야기를 들려드릴게요.',
+      'SRMC': '체계적인 감상을 위해 먼저 작품을 선택해주세요.'
     };
-    
+
     return responses[sayuType] || responses['LAEF'];
   }
 
   // Get follow-up questions based on personality
   getFollowUpQuestions(artwork, session) {
     const { sayuType, interactions } = session;
-    
+
     const questions = {
       // LA 그룹
       'LAEF': [
-        "이 부분의 색이 어떤 기억을 떠올리게 하나요?",
-        "작품 속에서 가장 평화로운 곳은 어디인가요?",
-        "눈을 감고 이 작품을 떠올려보세요. 무엇이 남나요?"
+        '이 부분의 색이 어떤 기억을 떠올리게 하나요?',
+        '작품 속에서 가장 평화로운 곳은 어디인가요?',
+        '눈을 감고 이 작품을 떠올려보세요. 무엇이 남나요?'
       ],
       'LAEC': [
-        "이 작품이 당신의 취향과 맞는 이유는 뭘까요?",
-        "가장 마음에 드는 디테일은 무엇인가요?",
-        "이 작품을 소장한다면 어디에 두고 싶나요?"
+        '이 작품이 당신의 취향과 맞는 이유는 뭘까요?',
+        '가장 마음에 드는 디테일은 무엇인가요?',
+        '이 작품을 소장한다면 어디에 두고 싶나요?'
       ],
       'LAMF': [
-        "이 작품이 던지는 질문은 무엇일까요?",
-        "숨겨진 상징을 발견하셨나요?",
-        "작가의 의도를 넘어선 의미가 있을까요?"
+        '이 작품이 던지는 질문은 무엇일까요?',
+        '숨겨진 상징을 발견하셨나요?',
+        '작가의 의도를 넘어선 의미가 있을까요?'
       ],
       'LAMC': [
-        "이 시대의 다른 작품과 어떤 차이가 있을까요?",
-        "작가의 생애에서 이 작품의 위치는?",
-        "미술사적 맥락에서 이 작품의 의미는?"
+        '이 시대의 다른 작품과 어떤 차이가 있을까요?',
+        '작가의 생애에서 이 작품의 위치는?',
+        '미술사적 맥락에서 이 작품의 의미는?'
       ],
-      
+
       // Additional personality types...
       'SAEF': [
-        "친구에게 이 작품을 소개한다면 뭐라고 할까요?",
-        "작품에서 가장 신나는 부분은 어디예요?",
-        "이 감동을 어떻게 표현하고 싶나요?"
+        '친구에게 이 작품을 소개한다면 뭐라고 할까요?',
+        '작품에서 가장 신나는 부분은 어디예요?',
+        '이 감동을 어떻게 표현하고 싶나요?'
       ],
       'SREF': [
-        "이 작품의 가장 재미있는 포인트는?",
-        "SNS에 올린다면 어떤 해시태그?",
-        "다음에 볼 작품 추천해주실래요?"
+        '이 작품의 가장 재미있는 포인트는?',
+        'SNS에 올린다면 어떤 해시태그?',
+        '다음에 볼 작품 추천해주실래요?'
       ]
     };
-    
+
     // Select questions based on interaction count
     const typeQuestions = questions[sayuType] || questions['LAEF'];
     const index = Math.min(interactions, typeQuestions.length - 1);
-    
+
     return [typeQuestions[index]];
   }
 
@@ -552,11 +552,11 @@ ${artwork.description ? `- 설명: ${artwork.description}` : ''}
   async getConversationHistory(userId, artworkId) {
     const sessionKey = `${userId}-${artworkId}`;
     const session = this.sessions.get(sessionKey);
-    
+
     if (!session) {
       return { success: false, message: 'No conversation found' };
     }
-    
+
     return {
       success: true,
       history: session.history.map(h => ({
@@ -572,11 +572,11 @@ ${artwork.description ? `- 설명: ${artwork.description}` : ''}
   clearUserSessions(userId) {
     const userSessions = Array.from(this.sessions.entries())
       .filter(([_, session]) => session.userId === userId);
-    
+
     userSessions.forEach(([key, _]) => {
       this.sessions.delete(key);
     });
-    
+
     return { success: true, cleared: userSessions.length };
   }
 }

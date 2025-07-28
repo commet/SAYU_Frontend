@@ -8,10 +8,10 @@ class MatchingController {
   }
 
   // ==================== 기존 목적별 매칭 (레거시) ====================
-  
+
   async getCompatibleUsers(req, res) {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const { purpose } = req.query;
 
       // Get current user info
@@ -32,7 +32,7 @@ class MatchingController {
 
       // Simple matching logic based on purpose
       let compatibleUsersQuery;
-      let queryParams = [userId];
+      const queryParams = [userId];
 
       switch (targetPurpose) {
         case 'dating':
@@ -93,7 +93,7 @@ class MatchingController {
       }
 
       const result = await pool.query(compatibleUsersQuery, queryParams);
-      
+
       res.json({
         purpose: targetPurpose,
         users: result.rows,
@@ -108,7 +108,7 @@ class MatchingController {
   async getUsersByPurpose(req, res) {
     try {
       const { purpose } = req.params;
-      const userId = req.userId;
+      const { userId } = req;
 
       const validPurposes = ['exploring', 'dating', 'social', 'family', 'professional'];
       if (!validPurposes.includes(purpose)) {
@@ -126,7 +126,7 @@ class MatchingController {
       `;
 
       const result = await pool.query(query, [userId, purpose]);
-      
+
       res.json({
         purpose,
         users: result.rows,
@@ -139,10 +139,10 @@ class MatchingController {
   }
 
   // ==================== 전시 동행 매칭 시스템 ====================
-  
+
   async createExhibitionMatch(req, res) {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const {
         exhibitionId,
         preferredDate,
@@ -158,15 +158,15 @@ class MatchingController {
 
       // 입력 검증
       if (!exhibitionId || !preferredDate || !timeSlot) {
-        return res.status(400).json({ 
-          error: 'Exhibition ID, preferred date, and time slot are required' 
+        return res.status(400).json({
+          error: 'Exhibition ID, preferred date, and time slot are required'
         });
       }
 
       const validTimeSlots = ['morning', 'afternoon', 'evening'];
       if (!validTimeSlots.includes(timeSlot)) {
-        return res.status(400).json({ 
-          error: 'Invalid time slot. Must be morning, afternoon, or evening' 
+        return res.status(400).json({
+          error: 'Invalid time slot. Must be morning, afternoon, or evening'
         });
       }
 
@@ -200,11 +200,11 @@ class MatchingController {
 
     } catch (error) {
       console.error('Create exhibition match error:', error);
-      
+
       if (error.message.includes('already have an open match request')) {
         return res.status(409).json({ error: error.message });
       }
-      
+
       res.status(500).json({ error: 'Failed to create match request' });
     }
   }
@@ -212,7 +212,7 @@ class MatchingController {
   async findExhibitionMatches(req, res) {
     try {
       const { matchRequestId } = req.params;
-      const userId = req.userId;
+      const { userId } = req;
 
       if (!matchRequestId) {
         return res.status(400).json({ error: 'Match request ID is required' });
@@ -260,17 +260,17 @@ class MatchingController {
   async acceptExhibitionMatch(req, res) {
     try {
       const { matchRequestId, candidateUserId } = req.body;
-      const userId = req.userId;
+      const { userId } = req;
 
       if (!matchRequestId || !candidateUserId) {
-        return res.status(400).json({ 
-          error: 'Match request ID and candidate user ID are required' 
+        return res.status(400).json({
+          error: 'Match request ID and candidate user ID are required'
         });
       }
 
       const result = await this.matchingService.acceptMatch(
-        matchRequestId, 
-        candidateUserId, 
+        matchRequestId,
+        candidateUserId,
         userId
       );
 
@@ -282,15 +282,15 @@ class MatchingController {
 
     } catch (error) {
       console.error('Accept exhibition match error:', error);
-      
+
       if (error.message.includes('not found or no longer available')) {
         return res.status(404).json({ error: error.message });
       }
-      
+
       if (error.message.includes('Unauthorized')) {
         return res.status(403).json({ error: error.message });
       }
-      
+
       res.status(500).json({ error: 'Failed to accept match' });
     }
   }
@@ -298,17 +298,17 @@ class MatchingController {
   async rejectExhibitionMatch(req, res) {
     try {
       const { matchRequestId, candidateUserId } = req.body;
-      const userId = req.userId;
+      const { userId } = req;
 
       if (!matchRequestId || !candidateUserId) {
-        return res.status(400).json({ 
-          error: 'Match request ID and candidate user ID are required' 
+        return res.status(400).json({
+          error: 'Match request ID and candidate user ID are required'
         });
       }
 
       await this.matchingService.rejectMatch(
-        matchRequestId, 
-        candidateUserId, 
+        matchRequestId,
+        candidateUserId,
         userId
       );
 
@@ -325,11 +325,11 @@ class MatchingController {
 
   async getMyExhibitionMatches(req, res) {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const { status, limit = 20, offset = 0 } = req.query;
 
       let statusFilter = '';
-      let queryParams = [userId, parseInt(limit), parseInt(offset)];
+      const queryParams = [userId, parseInt(limit), parseInt(offset)];
 
       if (status && ['open', 'matched', 'completed', 'cancelled'].includes(status)) {
         statusFilter = 'AND em.status = $4';
@@ -389,8 +389,8 @@ class MatchingController {
 
   async getMatchingAnalytics(req, res) {
     try {
-      const userId = req.userId;
-      
+      const { userId } = req;
+
       const analytics = await this.matchingService.getMatchingAnalytics(userId);
 
       res.json({
@@ -402,7 +402,7 @@ class MatchingController {
           averageMatchTimeHours: parseFloat(analytics.matchingStats.avg_match_time_hours) || 0,
           averageRating: parseFloat(analytics.feedbackStats.avg_rating) || 0,
           totalFeedback: parseInt(analytics.feedbackStats.total_feedback) || 0,
-          successRate: analytics.matchingStats.total_requests > 0 ? 
+          successRate: analytics.matchingStats.total_requests > 0 ?
             Math.round((analytics.matchingStats.successful_matches / analytics.matchingStats.total_requests) * 100) : 0
         }
       });
@@ -414,10 +414,10 @@ class MatchingController {
   }
 
   // ==================== APT 호환성 조회 ====================
-  
+
   async getAptCompatibility(req, res) {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const { targetAptType } = req.params;
 
       // 사용자 APT 조회
@@ -432,13 +432,13 @@ class MatchingController {
       }
 
       const userAptType = userProfile.rows[0].type_code;
-      
+
       if (!userAptType) {
         return res.status(400).json({ error: 'User has not completed APT test' });
       }
 
       const compatibility = this.matchingService.compatibilityMatrix[userAptType][targetAptType];
-      
+
       if (compatibility === undefined) {
         return res.status(400).json({ error: 'Invalid target APT type' });
       }

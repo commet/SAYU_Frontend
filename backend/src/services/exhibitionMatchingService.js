@@ -7,72 +7,72 @@ const APTCacheService = require('./aptCacheService');
 class ExhibitionMatchingService {
   constructor() {
     this.aptCache = new APTCacheService();
-    
+
     // 16가지 동물 유형 간 호환성 매트릭스 (대칭 행렬)
     this.compatibilityMatrix = {
       // 여우(LAEF) - 몽환적 방랑자
-      LAEF: { LAEF: 90, LAEC: 75, LAMF: 85, LAMC: 65, LREF: 70, LREC: 60, LRMF: 55, LRMC: 45, 
-              SAEF: 80, SAEC: 65, SAMF: 75, SAMC: 55, SREF: 85, SREC: 70, SRMF: 60, SRMC: 50 },
-      
-      // 고양이(LAEC) - 감성 큐레이터  
+      LAEF: { LAEF: 90, LAEC: 75, LAMF: 85, LAMC: 65, LREF: 70, LREC: 60, LRMF: 55, LRMC: 45,
+        SAEF: 80, SAEC: 65, SAMF: 75, SAMC: 55, SREF: 85, SREC: 70, SRMF: 60, SRMC: 50 },
+
+      // 고양이(LAEC) - 감성 큐레이터
       LAEC: { LAEF: 75, LAEC: 95, LAMF: 70, LAMC: 80, LREF: 65, LREC: 85, LRMF: 50, LRMC: 70,
-              SAEF: 60, SAEC: 80, SAMF: 55, SAMC: 75, SREF: 65, SREC: 80, SRMF: 45, SRMC: 65 },
-      
+        SAEF: 60, SAEC: 80, SAMF: 55, SAMC: 75, SREF: 65, SREC: 80, SRMF: 45, SRMC: 65 },
+
       // 올빼미(LAMF) - 직관적 탐구자
       LAMF: { LAEF: 85, LAEC: 70, LAMF: 90, LAMC: 75, LREF: 60, LREC: 55, LRMF: 80, LRMC: 65,
-              SAEF: 70, SAEC: 55, SAMF: 85, SAMC: 70, SREF: 60, SREC: 50, SRMF: 75, SRMC: 60 },
-      
+        SAEF: 70, SAEC: 55, SAMF: 85, SAMC: 70, SREF: 60, SREC: 50, SRMF: 75, SRMC: 60 },
+
       // 거북이(LAMC) - 철학적 수집가
       LAMC: { LAEF: 65, LAEC: 80, LAMF: 75, LAMC: 95, LREF: 55, LREC: 70, LRMF: 65, LRMC: 85,
-              SAEF: 50, SAEC: 70, SAMF: 60, SAMC: 80, SREF: 45, SREC: 65, SRMF: 55, SRMC: 75 },
-      
+        SAEF: 50, SAEC: 70, SAMF: 60, SAMC: 80, SREF: 45, SREC: 65, SRMF: 55, SRMC: 75 },
+
       // 카멜레온(LREF) - 고독한 관찰자
       LREF: { LAEF: 70, LAEC: 65, LAMF: 60, LAMC: 55, LREF: 85, LREC: 75, LRMF: 70, LRMC: 60,
-              SAEF: 75, SAEC: 60, SAMF: 65, SAMC: 50, SREF: 90, SREC: 75, SRMF: 65, SRMC: 55 },
-      
+        SAEF: 75, SAEC: 60, SAMF: 65, SAMC: 50, SREF: 90, SREC: 75, SRMF: 65, SRMC: 55 },
+
       // 고슴도치(LREC) - 섬세한 감정가
       LREC: { LAEF: 60, LAEC: 85, LAMF: 55, LAMC: 70, LREF: 75, LREC: 90, LRMF: 50, LRMC: 65,
-              SAEF: 55, SAEC: 75, SAMF: 45, SAMC: 60, SREF: 70, SREC: 85, SRMF: 40, SRMC: 55 },
-      
+        SAEF: 55, SAEC: 75, SAMF: 45, SAMC: 60, SREF: 70, SREC: 85, SRMF: 40, SRMC: 55 },
+
       // 문어(LRMF) - 디지털 탐험가
       LRMF: { LAEF: 55, LAEC: 50, LAMF: 80, LAMC: 65, LREF: 70, LREC: 50, LRMF: 85, LRMC: 70,
-              SAEF: 60, SAEC: 45, SAMF: 75, SAMC: 60, SREF: 65, SREC: 50, SRMF: 80, SRMC: 65 },
-      
+        SAEF: 60, SAEC: 45, SAMF: 75, SAMC: 60, SREF: 65, SREC: 50, SRMF: 80, SRMC: 65 },
+
       // 비버(LRMC) - 학구적 연구자
       LRMC: { LAEF: 45, LAEC: 70, LAMF: 65, LAMC: 85, LREF: 60, LREC: 65, LRMF: 70, LRMC: 90,
-              SAEF: 40, SAEC: 60, SAMF: 55, SAMC: 70, SREF: 45, SREC: 60, SRMF: 65, SRMC: 80 },
-      
+        SAEF: 40, SAEC: 60, SAMF: 55, SAMC: 70, SREF: 45, SREC: 60, SRMF: 65, SRMC: 80 },
+
       // 나비(SAEF) - 감성 나눔이
       SAEF: { LAEF: 80, LAEC: 60, LAMF: 70, LAMC: 50, LREF: 75, LREC: 55, LRMF: 60, LRMC: 40,
-              SAEF: 95, SAEC: 75, SAMF: 80, SAMC: 60, SREF: 85, SREC: 70, SRMF: 65, SRMC: 50 },
-      
+        SAEF: 95, SAEC: 75, SAMF: 80, SAMC: 60, SREF: 85, SREC: 70, SRMF: 65, SRMC: 50 },
+
       // 펭귄(SAEC) - 예술 네트워커
       SAEC: { LAEF: 65, LAEC: 80, LAMF: 55, LAMC: 70, LREF: 60, LREC: 75, LRMF: 45, LRMC: 60,
-              SAEF: 75, SAEC: 90, SAMF: 65, SAMC: 80, SREF: 70, SREC: 85, SRMF: 50, SRMC: 70 },
-      
+        SAEF: 75, SAEC: 90, SAMF: 65, SAMC: 80, SREF: 70, SREC: 85, SRMF: 50, SRMC: 70 },
+
       // 앵무새(SAMF) - 영감 전도사
       SAMF: { LAEF: 75, LAEC: 55, LAMF: 85, LAMC: 60, LREF: 65, LREC: 45, LRMF: 75, LRMC: 55,
-              SAEF: 80, SAEC: 65, SAMF: 95, SAMC: 70, SREF: 75, SREC: 60, SRMF: 85, SRMC: 65 },
-      
+        SAEF: 80, SAEC: 65, SAMF: 95, SAMC: 70, SREF: 75, SREC: 60, SRMF: 85, SRMC: 65 },
+
       // 사슴(SAMC) - 문화 기획자
       SAMC: { LAEF: 55, LAEC: 75, LAMF: 70, LAMC: 80, LREF: 50, LREC: 60, LRMF: 60, LRMC: 70,
-              SAEF: 60, SAEC: 80, SAMF: 70, SAMC: 95, SREF: 55, SREC: 75, SRMF: 65, SRMC: 85 },
-      
+        SAEF: 60, SAEC: 80, SAMF: 70, SAMC: 95, SREF: 55, SREC: 75, SRMF: 65, SRMC: 85 },
+
       // 강아지(SREF) - 열정적 관람자
       SREF: { LAEF: 85, LAEC: 65, LAMF: 60, LAMC: 45, LREF: 90, LREC: 70, LRMF: 65, LRMC: 45,
-              SAEF: 85, SAEC: 70, SAMF: 75, SAMC: 55, SREF: 90, SREC: 80, SRMF: 70, SRMC: 60 },
-      
+        SAEF: 85, SAEC: 70, SAMF: 75, SAMC: 55, SREF: 90, SREC: 80, SRMF: 70, SRMC: 60 },
+
       // 오리(SREC) - 따뜻한 안내자
       SREC: { LAEF: 70, LAEC: 80, LAMF: 50, LAMC: 65, LREF: 75, LREC: 85, LRMF: 50, LRMC: 60,
-              SAEF: 70, SAEC: 85, SAMF: 60, SAMC: 75, SREF: 80, SREC: 95, SRMF: 55, SRMC: 75 },
-      
+        SAEF: 70, SAEC: 85, SAMF: 60, SAMC: 75, SREF: 80, SREC: 95, SRMF: 55, SRMC: 75 },
+
       // 코끼리(SRMF) - 지식 멘토
       SRMF: { LAEF: 60, LAEC: 45, LAMF: 75, LAMC: 55, LREF: 65, LREC: 40, LRMF: 80, LRMC: 65,
-              SAEF: 65, SAEC: 50, SAMF: 85, SAMC: 65, SREF: 70, SREC: 55, SRMF: 90, SRMC: 75 },
-      
+        SAEF: 65, SAEC: 50, SAMF: 85, SAMC: 65, SREF: 70, SREC: 55, SRMF: 90, SRMC: 75 },
+
       // 독수리(SRMC) - 체계적 교육자
       SRMC: { LAEF: 50, LAEC: 65, LAMF: 60, LAMC: 75, LREF: 55, LREC: 55, LRMF: 65, LRMC: 80,
-              SAEF: 50, SAEC: 70, SAMF: 65, SAMC: 85, SREF: 60, SREC: 75, SRMF: 75, SRMC: 95 }
+        SAEF: 50, SAEC: 70, SAMF: 65, SAMC: 85, SREF: 60, SREC: 75, SRMF: 75, SRMC: 95 }
     };
 
     // 위치 기반 매칭 가중치
@@ -93,10 +93,10 @@ class ExhibitionMatchingService {
   }
 
   // ==================== 매칭 요청 생성 ====================
-  
+
   async createMatchRequest(userId, matchData) {
     const client = await pool.connect();
-    
+
     try {
       await client.query('BEGIN');
 
@@ -167,10 +167,10 @@ class ExhibitionMatchingService {
   }
 
   // ==================== 고급 매칭 알고리즘 ====================
-  
+
   async findCompatibleMatches(matchRequestId) {
     const client = await pool.connect();
-    
+
     try {
       // 매칭 요청 정보 조회
       const requestResult = await client.query(
@@ -192,7 +192,7 @@ class ExhibitionMatchingService {
 
       // 1단계: APT 호환성 기반 후보군 필터링
       const compatibleAptTypes = this.getCompatibleAptTypes(hostAptType, criteria.aptTypes);
-      
+
       // 2단계: 기본 조건 필터링 (위치, 시간, 나이 등)
       const baseQuery = `
         SELECT DISTINCT u.id, u.nickname, u.age, u.gender, up.type_code, up.archetype_name, 
@@ -243,7 +243,7 @@ class ExhibitionMatchingService {
 
       // 4단계: 상호 선호도 학습 반영
       const finalCandidates = await this.applyMutualPreferenceLearning(
-        scoredCandidates, 
+        scoredCandidates,
         matchRequest.host_user_id
       );
 
@@ -259,13 +259,13 @@ class ExhibitionMatchingService {
   }
 
   // ==================== 매칭 점수 계산 ====================
-  
+
   async calculateMatchScore(matchRequest, candidate) {
     let totalScore = 0;
     const weights = {
       aptCompatibility: 40,    // APT 호환성
       location: 20,           // 위치 기반
-      time: 15,              // 시간 호환성  
+      time: 15,              // 시간 호환성
       interests: 10,         // 관심사 유사도
       experience: 8,         // 경험 수준
       socialActivity: 7      // 소셜 활동도
@@ -279,7 +279,7 @@ class ExhibitionMatchingService {
 
     // 2. 위치 기반 점수 (20점)
     const locationScore = this.calculateLocationScore(
-      candidate.distance_km, 
+      candidate.distance_km,
       JSON.parse(matchRequest.matching_criteria).maxDistance
     );
     totalScore += locationScore * weights.location / 100;
@@ -318,23 +318,23 @@ class ExhibitionMatchingService {
   }
 
   // ==================== 위치 기반 스코어링 ====================
-  
+
   calculateLocationScore(distanceKm, maxDistance) {
     if (distanceKm > maxDistance) return 0;
-    
+
     // 거리별 점수 계산 (가까울수록 높은 점수)
     if (distanceKm <= 5) return 100;      // 5km 이내: 100점
     if (distanceKm <= 10) return 90;      // 10km 이내: 90점
     if (distanceKm <= 20) return 75;      // 20km 이내: 75점
     if (distanceKm <= 30) return 60;      // 30km 이내: 60점
     if (distanceKm <= 40) return 45;      // 40km 이내: 45점
-    
+
     // 최대 거리 내에서 선형 감소
     return Math.max(20, 100 - (distanceKm / maxDistance) * 80);
   }
 
   // ==================== 실시간 매칭 및 알림 ====================
-  
+
   async triggerRealTimeMatching(matchRequest) {
     const redis = getRedisClient();
     if (!redis) return;
@@ -359,14 +359,14 @@ class ExhibitionMatchingService {
     if (!queueItem) return;
 
     const { requestId } = JSON.parse(queueItem[1]);
-    
+
     try {
       const matches = await this.findCompatibleMatches(requestId);
-      
+
       if (matches.length > 0) {
         // 매칭 결과를 실시간으로 전송
         await this.sendMatchingNotifications(requestId, matches);
-        
+
         // 매칭 결과 캐싱
         await redis.setex(
           `matches:${requestId}`,
@@ -374,10 +374,10 @@ class ExhibitionMatchingService {
           JSON.stringify(matches)
         );
       }
-      
+
       // 다음 큐 항목 처리
       setImmediate(() => this.processMatchingQueue());
-      
+
     } catch (error) {
       console.error('매칭 처리 오류:', error);
       // 에러 발생 시 큐에 다시 추가 (재시도)
@@ -386,10 +386,10 @@ class ExhibitionMatchingService {
   }
 
   // ==================== 매칭 수락/거절 처리 ====================
-  
+
   async acceptMatch(matchRequestId, candidateUserId, acceptingUserId) {
     const client = await pool.connect();
-    
+
     try {
       await client.query('BEGIN');
 
@@ -423,8 +423,8 @@ class ExhibitionMatchingService {
 
       // 상호 선호도 학습 데이터 업데이트
       await this.updateMutualPreferenceLearning(
-        request.host_user_id, 
-        candidateUserId, 
+        request.host_user_id,
+        candidateUserId,
         'accept'
       );
 
@@ -445,7 +445,7 @@ class ExhibitionMatchingService {
 
   async rejectMatch(matchRequestId, candidateUserId, rejectingUserId) {
     const client = await pool.connect();
-    
+
     try {
       // 거절 로그 저장
       await client.query(
@@ -456,8 +456,8 @@ class ExhibitionMatchingService {
 
       // 상호 선호도 학습 데이터 업데이트 (네거티브 피드백)
       await this.updateMutualPreferenceLearning(
-        rejectingUserId, 
-        candidateUserId, 
+        rejectingUserId,
+        candidateUserId,
         'reject'
       );
 
@@ -469,7 +469,7 @@ class ExhibitionMatchingService {
   }
 
   // ==================== 헬퍼 함수들 ====================
-  
+
   getCompatibleAptTypes(hostAptType, preferredTypes = []) {
     if (preferredTypes.length > 0) {
       return preferredTypes.filter(type => isValidSAYUType(type));
@@ -478,13 +478,13 @@ class ExhibitionMatchingService {
     // 호환성 점수 70 이상인 타입들 반환
     const compatibleTypes = Object.keys(this.compatibilityMatrix[hostAptType])
       .filter(type => this.compatibilityMatrix[hostAptType][type] >= 70);
-    
+
     return compatibleTypes;
   }
 
   calculateMatchPriority(matchRequest) {
     let priority = 50;
-    
+
     // 신규 사용자에게 높은 우선순위
     const accountAge = Date.now() - new Date(matchRequest.created_at).getTime();
     if (accountAge < 7 * 24 * 60 * 60 * 1000) { // 7일 미만
@@ -523,7 +523,7 @@ class ExhibitionMatchingService {
 
   async calculateInterestSimilarity(hostUserId, candidateId) {
     const client = await pool.connect();
-    
+
     try {
       // 좋아요한 작품의 카테고리 분석
       const hostInterests = await client.query(`
@@ -563,30 +563,30 @@ class ExhibitionMatchingService {
   calculateCosineSimilarity(vectorA, vectorB) {
     const mapA = new Map(vectorA.map(item => [item.artwork_category, item.count]));
     const mapB = new Map(vectorB.map(item => [item.artwork_category, item.count]));
-    
+
     const allCategories = new Set([...mapA.keys(), ...mapB.keys()]);
-    
+
     let dotProduct = 0;
     let normA = 0;
     let normB = 0;
-    
+
     for (const category of allCategories) {
       const valueA = mapA.get(category) || 0;
       const valueB = mapB.get(category) || 0;
-      
+
       dotProduct += valueA * valueB;
       normA += valueA * valueA;
       normB += valueB * valueB;
     }
-    
+
     if (normA === 0 || normB === 0) return 0;
-    
+
     return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
   }
 
   async calculateExperienceCompatibility(hostUserId, candidateId) {
     const client = await pool.connect();
-    
+
     try {
       // 사용자들의 미술관 방문 횟수 비교
       const hostVisits = await client.query(
@@ -604,12 +604,12 @@ class ExhibitionMatchingService {
 
       // 경험 수준 차이에 따른 점수 계산
       const difference = Math.abs(hostCount - candidateCount);
-      
+
       if (difference <= 2) return 100;     // 매우 유사
       if (difference <= 5) return 85;      // 유사
       if (difference <= 10) return 70;     // 보통
       if (difference <= 20) return 55;     // 약간 다름
-      
+
       return 40; // 많이 다름
 
     } catch (error) {
@@ -622,7 +622,7 @@ class ExhibitionMatchingService {
 
   async calculateSocialActivityScore(candidateId) {
     const client = await pool.connect();
-    
+
     try {
       // 최근 30일간 활동 점수 계산
       const activityResult = await client.query(`
@@ -635,8 +635,8 @@ class ExhibitionMatchingService {
       `, [candidateId]);
 
       const activity = activityResult.rows[0];
-      const totalScore = (activity.comment_score || 0) + 
-                        (activity.like_score || 0) + 
+      const totalScore = (activity.comment_score || 0) +
+                        (activity.like_score || 0) +
                         (activity.share_score || 0);
 
       // 점수를 0-100 범위로 정규화
@@ -673,22 +673,22 @@ class ExhibitionMatchingService {
   }
 
   // ==================== 사용자 패턴 학습 ====================
-  
+
   async updateMutualPreferenceLearning(userId, targetUserId, action) {
     const redis = getRedisClient();
     if (!redis) return;
 
     const key = `user:preferences:${userId}`;
     const weight = action === 'accept' ? 1 : -0.5;
-    
+
     await redis.hincrby(key, `user:${targetUserId}`, weight);
-    
+
     // APT 타입별 선호도도 업데이트
     const targetProfile = await this.getUserProfile(targetUserId);
     if (targetProfile && targetProfile.type_code) {
       await redis.hincrby(key, `apt:${targetProfile.type_code}`, weight);
     }
-    
+
     // 7일 후 만료
     await redis.expire(key, 7 * 24 * 60 * 60);
   }
@@ -702,19 +702,19 @@ class ExhibitionMatchingService {
 
     return candidates.map(candidate => {
       let adjustedScore = candidate.matchScore;
-      
+
       // 개별 사용자 선호도 적용
       const userPreference = preferences[`user:${candidate.id}`];
       if (userPreference) {
         adjustedScore += parseInt(userPreference) * 5;
       }
-      
+
       // APT 타입 선호도 적용
       const aptPreference = preferences[`apt:${candidate.type_code}`];
       if (aptPreference) {
         adjustedScore += parseInt(aptPreference) * 3;
       }
-      
+
       return {
         ...candidate,
         matchScore: Math.min(100, Math.max(0, adjustedScore)),
@@ -724,10 +724,10 @@ class ExhibitionMatchingService {
   }
 
   // ==================== 알림 시스템 ====================
-  
+
   async sendMatchingNotifications(requestId, matches) {
     const client = await pool.connect();
-    
+
     try {
       // 매칭 요청자에게 알림
       const hostResult = await client.query(
@@ -736,9 +736,9 @@ class ExhibitionMatchingService {
       );
 
       if (hostResult.rows.length === 0) return;
-      
+
       const hostUserId = hostResult.rows[0].host_user_id;
-      
+
       // 실시간 알림 전송 (WebSocket 또는 Server-Sent Events)
       await this.sendRealTimeNotification(hostUserId, {
         type: 'matches_found',
@@ -806,10 +806,10 @@ class ExhibitionMatchingService {
   }
 
   // ==================== 데이터 접근 함수들 ====================
-  
+
   async getUserProfile(userId) {
     const client = await pool.connect();
-    
+
     try {
       const result = await client.query(`
         SELECT u.*, up.type_code, up.archetype_name, up.generated_image_url
@@ -819,7 +819,7 @@ class ExhibitionMatchingService {
       `, [userId]);
 
       return result.rows[0] || null;
-      
+
     } finally {
       client.release();
     }
@@ -827,14 +827,14 @@ class ExhibitionMatchingService {
 
   async getExhibitionInfo(exhibitionId) {
     const client = await pool.connect();
-    
+
     try {
       const result = await client.query(`
         SELECT * FROM global_venues WHERE id = $1
       `, [exhibitionId]);
 
       return result.rows[0] || null;
-      
+
     } finally {
       client.release();
     }
@@ -847,7 +847,7 @@ class ExhibitionMatchingService {
     // 매칭 풀에 추가 (위치 기반 인덱싱)
     const geoKey = 'matching:pool:geo';
     const metaKey = `matching:pool:meta:${matchRequest.id}`;
-    
+
     // 지리적 위치로 인덱싱
     await redis.geoadd(
       geoKey,
@@ -855,14 +855,14 @@ class ExhibitionMatchingService {
       matchRequest.latitude || 37.5665,
       matchRequest.id
     );
-    
+
     // 메타데이터 저장
     await redis.setex(metaKey, 7 * 24 * 60 * 60, JSON.stringify(matchRequest));
   }
 
   async logMatchingSuccess(hostUserId, matchedUserId, matchRequestId) {
     const client = await pool.connect();
-    
+
     try {
       await client.query(`
         INSERT INTO matching_success_logs 
@@ -870,11 +870,11 @@ class ExhibitionMatchingService {
         VALUES ($1, $2, $3, $4)
       `, [
         hostUserId,
-        matchedUserId, 
+        matchedUserId,
         matchRequestId,
         JSON.stringify({ timestamp: Date.now() })
       ]);
-      
+
     } catch (error) {
       console.error('매칭 성공 로그 저장 오류:', error);
     } finally {
@@ -883,10 +883,10 @@ class ExhibitionMatchingService {
   }
 
   // ==================== 매칭 품질 분석 ====================
-  
+
   async getMatchingAnalytics(userId) {
     const client = await pool.connect();
-    
+
     try {
       // 사용자의 매칭 성공률 분석
       const analytics = await client.query(`
@@ -911,7 +911,7 @@ class ExhibitionMatchingService {
         matchingStats: analytics.rows[0],
         feedbackStats: feedbackStats.rows[0]
       };
-      
+
     } finally {
       client.release();
     }

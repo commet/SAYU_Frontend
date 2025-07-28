@@ -6,6 +6,11 @@ const rateLimit = require('express-rate-limit');
 const session = require('express-session');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
+
+// Memory optimization imports
+const { memoryMiddleware, memoryStatsMiddleware } = require('./middleware/memoryMiddleware');
+const MemoryOptimizer = require('./utils/memoryOptimizer');
+
 require('dotenv').config();
 
 // Check for SAYU_MODE to determine server configuration
@@ -103,6 +108,7 @@ const artistDataRoutes = require('./routes/artistDataRoutes');
 const venueRoutes = require('./routes/venueRoutes');
 const artveeArtworkRoutes = require('./routes/artveeArtworkRoutes');
 const artistAPTRoutes = require('./routes/artistAPT');
+const healthRoutes = require('./routes/health');
 
 const app = express();
 
@@ -174,6 +180,14 @@ app.use(session({
 // Initialize Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Memory optimization middleware (very early in chain)
+app.use(memoryMiddleware({
+  enableRequestMonitoring: true,
+  requestMemoryLimitMB: 100,
+  maxConcurrentRequests: 150,
+  enableAutoCleanup: true
+}));
 
 // Request context and logging middleware (early in chain)
 app.use(requestContext);
@@ -266,8 +280,8 @@ app.use('/api/', optimizeResponses());
 // User context middleware (after auth middleware in routes)
 app.use(userContext);
 
-// Enhanced health check endpoint with monitoring data
-app.get('/api/health', getHealthCheck);
+// Comprehensive health check endpoint (replaces simple monitoring)
+app.use('/api/health', healthRoutes);
 
 // API metrics endpoint (admin only)
 app.get('/api/metrics', require('./middleware/auth').adminMiddleware, getMetrics);
@@ -350,6 +364,20 @@ app.use(errorHandler);
 // Start server
 const PORT = process.env.PORT || 3000;
 
+// Initialize global memory optimizer
+const memoryOptimizer = new MemoryOptimizer({
+  maxMemoryMB: 2048,
+  warningThresholdMB: 1536,
+  enableAutoCleanup: true,
+  enableLogging: true
+});
+
+// Start memory monitoring
+memoryOptimizer.startMonitoring();
+
+// Memory stats endpoint
+app.get('/api/admin/memory-stats', memoryStatsMiddleware());
+
 async function startServer() {
   try {
     log.info('Starting SAYU server...', {
@@ -411,15 +439,36 @@ async function startServer() {
   }
 }
 
-// Graceful shutdown handling
+// Graceful shutdown handling with memory cleanup
 process.on('SIGTERM', () => {
   log.info('SIGTERM received, starting graceful shutdown...');
-  process.exit(0);
+  memoryOptimizer.gracefulShutdown();
 });
 
 process.on('SIGINT', () => {
   log.info('SIGINT received, starting graceful shutdown...');
-  process.exit(0);
+  memoryOptimizer.gracefulShutdown();
 });
+
+// Memory error handling
+process.on('uncaughtException', (error) => {
+  log.error('Uncaught Exception:', error);
+  if (error.message.includes('out of memory')) {
+    memoryOptimizer.performEmergencyCleanup();
+  }
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  log.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // 메모리 관련 에러 체크
+  if (reason && reason.toString().includes('out of memory')) {
+    memoryOptimizer.performEmergencyCleanup();
+  }
+});
+
+// Global objects for cleanup
+global.memoryOptimizer = memoryOptimizer;
+global.app = app;
 
 startServer();

@@ -23,7 +23,7 @@ const DESIGN_PLUS_EXHIBITIONS = [
     source: 'design_plus_verified',
     source_url: 'https://design.co.kr/article/105122'
   },
-  
+
   {
     title_local: '강명희 개인전',
     title_en: 'Kang Myoung-Hee Solo Exhibition',
@@ -37,7 +37,7 @@ const DESIGN_PLUS_EXHIBITIONS = [
     source: 'design_plus_verified',
     source_url: 'https://design.co.kr/article/105122'
   },
-  
+
   {
     title_local: '하종현 전시',
     title_en: 'Ha Chong-Hyun Exhibition',
@@ -51,7 +51,7 @@ const DESIGN_PLUS_EXHIBITIONS = [
     source: 'design_plus_verified',
     source_url: 'https://design.co.kr/article/105122'
   },
-  
+
   {
     title_local: '하종현 전시',
     title_en: 'Ha Chong-Hyun Exhibition',
@@ -65,7 +65,7 @@ const DESIGN_PLUS_EXHIBITIONS = [
     source: 'design_plus_verified',
     source_url: 'https://design.co.kr/article/105122'
   },
-  
+
   {
     title_local: '론 뮤익 개인전',
     title_en: 'Ron Mueck',
@@ -194,7 +194,7 @@ class DesignPlusExhibitionImporter {
 
 async function main() {
   const importer = new DesignPlusExhibitionImporter();
-  
+
   try {
     await importer.importVerifiedExhibitions();
   } catch (error) {

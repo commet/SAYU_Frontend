@@ -1,8 +1,8 @@
 const { pool } = require('../config/database');
-const { 
-  handleError, 
-  AppError, 
-  ERROR_CODES 
+const {
+  handleError,
+  AppError,
+  ERROR_CODES
 } = require('../middleware/errorHandler');
 const logger = require('../utils/logger');
 
@@ -11,12 +11,12 @@ class PerceptionExchangeController {
   async createExchange(req, res) {
     try {
       const userId = req.user.id;
-      const { 
-        partner_id, 
-        artwork_id, 
-        museum_source, 
-        artwork_data, 
-        initial_message 
+      const {
+        partner_id,
+        artwork_id,
+        museum_source,
+        artwork_data,
+        initial_message
       } = req.body;
 
       // 입력 검증
@@ -45,7 +45,7 @@ class PerceptionExchangeController {
         ) VALUES ($1, $2, $3, $4, $5, 'pending', 1, NOW())
         RETURNING id
       `;
-      
+
       const sessionResult = await pool.query(createSessionQuery, [
         userId, partner_id, artwork_id, museum_source, artwork_data
       ]);
@@ -59,7 +59,7 @@ class PerceptionExchangeController {
         ) VALUES ($1, $2, $3, 1, $4, NOW())
         RETURNING id
       `;
-      
+
       const wordCount = initial_message.split(/\s+/).length;
       await pool.query(createMessageQuery, [
         sessionId, userId, initial_message, wordCount
@@ -234,7 +234,7 @@ class PerceptionExchangeController {
       `;
 
       const result = await pool.query(insertQuery, [
-        sessionId, userId, content, emotion_tags, 
+        sessionId, userId, content, emotion_tags,
         session.current_phase, wordCount
       ]);
 
@@ -328,7 +328,7 @@ class PerceptionExchangeController {
       }
 
       const session = sessionResult.rows[0];
-      
+
       if (session.status !== 'active') {
         throw new AppError('활성 상태가 아닌 세션입니다', ERROR_CODES.CONFLICT);
       }
@@ -346,7 +346,7 @@ class PerceptionExchangeController {
         WHERE session_id = $1 AND phase = $2
         GROUP BY sender_id
       `;
-      
+
       const messageCountResult = await pool.query(messageCountQuery, [
         sessionId, session.current_phase
       ]);
@@ -383,7 +383,7 @@ class PerceptionExchangeController {
 
       res.json({
         success: true,
-        data: { 
+        data: {
           can_advance: true,
           new_phase: result.rows[0].current_phase
         }

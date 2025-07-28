@@ -15,7 +15,7 @@ const realAPIs = [
     ],
     institutions: [
       '국립현대미술관',
-      '예술의전당', 
+      '예술의전당',
       '국립중앙박물관',
       '국립대구박물관',
       '국립김해박물관',
@@ -59,7 +59,7 @@ realAPIs.forEach((api, index) => {
   api.features.forEach(feature => {
     console.log(`      • ${feature}`);
   });
-  
+
   if (api.institutions) {
     console.log(`   🏛️  포함 기관:`);
     api.institutions.forEach(inst => {

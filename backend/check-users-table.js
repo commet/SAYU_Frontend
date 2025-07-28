@@ -4,7 +4,7 @@ const { Client } = require('pg');
 async function checkUsersTable() {
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.DATABASE_URL?.includes('railway') 
+    ssl: process.env.DATABASE_URL?.includes('railway')
       ? { rejectUnauthorized: false }
       : false
   });

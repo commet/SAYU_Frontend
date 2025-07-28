@@ -34,10 +34,10 @@ class GlobalExhibitionService extends EventEmitter {
       } else {
         log.info('Global Exhibition service initialized without Redis (cache disabled)');
       }
-      
+
       // 브라우저 초기화
       await this.initializeBrowser();
-      
+
       // 정기 업데이트 스케줄러 시작
       this.startUpdateScheduler();
     } catch (error) {
@@ -104,8 +104,8 @@ class GlobalExhibitionService extends EventEmitter {
       }
     };
 
-    const targetSources = region === 'all' 
-      ? Object.values(institutionSources).flat() 
+    const targetSources = region === 'all'
+      ? Object.values(institutionSources).flat()
       : institutionSources[region] || [];
 
     const results = [];
@@ -132,24 +132,24 @@ class GlobalExhibitionService extends EventEmitter {
     }
 
     const page = await this.browser.newPage();
-    
+
     try {
-      await page.goto(source.url, { 
+      await page.goto(source.url, {
         waitUntil: 'networkidle2',
-        timeout: 30000 
+        timeout: 30000
       });
 
       const institutionData = await page.evaluate((source) => {
         // 기본 정보 추출
         const name = document.querySelector('h1, .museum-name, .gallery-name, .institution-name')?.textContent?.trim() ||
                     document.title.split('|')[0].trim();
-        
+
         // 주소 정보 추출
         const addressSelectors = [
-          '.address', '.location', '.contact-address', 
+          '.address', '.location', '.contact-address',
           '[class*="address"]', '[class*="location"]'
         ];
-        
+
         let address = '';
         for (const selector of addressSelectors) {
           const element = document.querySelector(selector);
@@ -164,7 +164,7 @@ class GlobalExhibitionService extends EventEmitter {
           '.hours', '.opening-hours', '.visit-hours',
           '[class*="hours"]', '[class*="time"]'
         ];
-        
+
         let hours = '';
         for (const selector of hoursSelectors) {
           const element = document.querySelector(selector);
@@ -223,7 +223,7 @@ class GlobalExhibitionService extends EventEmitter {
       // 기관 정보 조회
       const institutionQuery = 'SELECT * FROM institutions WHERE id = $1';
       const institution = await db.query(institutionQuery, [institutionId]);
-      
+
       if (institution.rows.length === 0) {
         throw new Error('Institution not found');
       }
@@ -260,18 +260,18 @@ class GlobalExhibitionService extends EventEmitter {
     try {
       // 전시 페이지 URL 추측
       const exhibitionUrls = this.generateExhibitionUrls(institution.website);
-      
+
       for (const url of exhibitionUrls) {
         try {
-          await page.goto(url, { 
+          await page.goto(url, {
             waitUntil: 'networkidle2',
-            timeout: 30000 
+            timeout: 30000
           });
 
           const pageExhibitions = await page.evaluate(() => {
             // 전시 목록 요소 찾기
             const exhibitionSelectors = [
-              '.exhibition-item', '.exhibition', '.show', 
+              '.exhibition-item', '.exhibition', '.show',
               '.event-item', '.current-exhibition', '.upcoming-exhibition',
               '[class*="exhibition"]', '[class*="show"]'
             ];
@@ -289,7 +289,7 @@ class GlobalExhibitionService extends EventEmitter {
               const description = element.querySelector('.description, .summary, .intro')?.textContent?.trim() || '';
               const imageUrl = element.querySelector('img')?.src || '';
               const detailUrl = element.querySelector('a')?.href || '';
-              
+
               if (title) {
                 exhibitions.push({
                   title_en: title,
@@ -307,7 +307,7 @@ class GlobalExhibitionService extends EventEmitter {
           });
 
           exhibitions.push(...pageExhibitions);
-          
+
           if (exhibitions.length >= options.limit) break;
         } catch (error) {
           log.warn(`Failed to scrape ${url}:`, error.message);
@@ -395,7 +395,7 @@ class GlobalExhibitionService extends EventEmitter {
 
       const result = await db.query(query, values);
       log.info(`Institution saved: ${institutionData.name_en}`);
-      
+
       return result.rows[0];
     } catch (error) {
       log.error('Institution save error:', error);
@@ -440,7 +440,7 @@ class GlobalExhibitionService extends EventEmitter {
 
       const result = await db.query(query, values);
       log.info(`Exhibition saved: ${exhibitionData.title_en}`);
-      
+
       return result.rows[0];
     } catch (error) {
       log.error('Exhibition save error:', error);
@@ -536,10 +536,10 @@ class GlobalExhibitionService extends EventEmitter {
   normalizeExhibitionData(rawData) {
     // 날짜 파싱
     const dates = this.parseDateString(rawData.date_string);
-    
+
     // 장르 추론
     const genres = this.inferGenres(rawData.title_en, rawData.description);
-    
+
     // 태그 생성
     const tags = this.generateTags(rawData);
 
@@ -590,10 +590,10 @@ class GlobalExhibitionService extends EventEmitter {
 
   generateTags(data) {
     const tags = [];
-    
+
     if (data.title_en.includes('Special')) tags.push('special');
     if (data.description.includes('free')) tags.push('free-admission');
-    
+
     return tags;
   }
 
@@ -610,7 +610,7 @@ class GlobalExhibitionService extends EventEmitter {
   startUpdateScheduler() {
     // 매일 자정에 실행
     const schedule = '0 0 * * *';
-    
+
     setInterval(async () => {
       try {
         await this.dailyUpdate();
@@ -622,7 +622,7 @@ class GlobalExhibitionService extends EventEmitter {
 
   async dailyUpdate() {
     log.info('Starting daily data update...');
-    
+
     // 활성 기관들의 전시 정보 업데이트
     const activeInstitutions = await db.query(`
       SELECT id, name_en FROM institutions 

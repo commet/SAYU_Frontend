@@ -5,46 +5,46 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 class ImprovedBalancedClassifier {
   constructor() {
     this.gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    this.model = this.gemini.getGenerativeModel({ model: "gemini-1.5-flash" });
+    this.model = this.gemini.getGenerativeModel({ model: 'gemini-1.5-flash' });
   }
 
   async classifyArtist(artistData) {
     console.log(`\n🎨 개선된 균형 분류: ${artistData.name}`);
-    
+
     try {
       // 1. 작가 유형 파악
       const artistType = this.identifyArtistType(artistData);
       console.log(`   📋 작가 유형: ${artistType.type}`);
-      
+
       // 2. 실제 작가명 추출
       const actualArtistName = this.extractActualArtistName(artistData.name);
-      
+
       // 3. 특수 케이스 처리
       if (artistType.type === 'pottery' || artistType.type === 'craft') {
         return this.classifyPotteryArtist(artistData, actualArtistName);
       }
-      
+
       if (artistType.type === 'attribution') {
         return this.classifyAttributionWork(artistData, actualArtistName);
       }
-      
+
       if (artistType.type === 'anonymous') {
         return this.classifyAnonymousArtist(artistData);
       }
-      
+
       // 4. 일반 작가 분류 (개선된 프롬프트)
       const geminiResult = await this.analyzeWithImprovedPrompt(
         { ...artistData, actualName: actualArtistName },
         artistType
       );
-      
+
       if (geminiResult) {
         return this.formatResult(geminiResult, artistData);
       }
-      
+
       // 5. 폴백: 다양한 기본값
       return this.diversifiedFallback(artistData);
-      
+
     } catch (error) {
       console.error(`   ❌ 오류: ${error.message}`);
       throw error;
@@ -54,22 +54,22 @@ class ImprovedBalancedClassifier {
   identifyArtistType(artistData) {
     const name = artistData.name.toLowerCase();
     const bio = (artistData.bio || '').toLowerCase();
-    
+
     // 도자기/공예 작가
     if (name.includes('painter') && name.includes('greek')) return { type: 'pottery', subtype: 'greek' };
     if (bio.includes('pottery') || bio.includes('ceramic') || bio.includes('도자기')) return { type: 'pottery' };
     if (name.includes('manufactory') || name.includes('factory')) return { type: 'craft' };
-    
+
     // 귀속 작품
     if (name.match(/attributed to|after|follower of|circle of|school of|workshop of|manner of/i)) {
       return { type: 'attribution' };
     }
-    
+
     // 익명/불명
     if (name.match(/unknown|anonymous|master of/i) || !artistData.nationality) {
       return { type: 'anonymous' };
     }
-    
+
     return { type: 'general' };
   }
 
@@ -79,7 +79,7 @@ class ImprovedBalancedClassifier {
       'School of ', 'Workshop of ', 'Studio of ', 'Manner of ',
       'Style of ', 'Copy after ', 'Imitator of '
     ];
-    
+
     let actualName = fullName;
     for (const attr of attributions) {
       if (actualName.startsWith(attr)) {
@@ -87,7 +87,7 @@ class ImprovedBalancedClassifier {
         break;
       }
     }
-    
+
     return actualName.trim();
   }
 
@@ -97,7 +97,7 @@ class ImprovedBalancedClassifier {
     const potteryTypes = ['LRMC', 'LRMF', 'SREC', 'LREC', 'LAMF'];
     const hash = actualName.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
     const selectedType = potteryTypes[hash % potteryTypes.length];
-    
+
     return {
       aptType: selectedType,
       axisScores: this.getTypeScores(selectedType),
@@ -116,7 +116,7 @@ class ImprovedBalancedClassifier {
     const attributionTypes = ['SREF', 'SREC', 'SAEF', 'SAMF', 'LREF', 'LAEF'];
     const hash = actualName.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
     const selectedType = attributionTypes[hash % attributionTypes.length];
-    
+
     return {
       aptType: selectedType,
       axisScores: this.getTypeScores(selectedType),
@@ -134,7 +134,7 @@ class ImprovedBalancedClassifier {
     const anonymousTypes = ['LAMF', 'LRMC', 'LAEC', 'LREF'];
     const hash = (artistData.name + artistData.era).split('').reduce((a, b) => a + b.charCodeAt(0), 0);
     const selectedType = anonymousTypes[hash % anonymousTypes.length];
-    
+
     return {
       aptType: selectedType,
       axisScores: this.getTypeScores(selectedType),
@@ -186,9 +186,9 @@ APT: [4글자 - SRMC는 피하세요]
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-      
+
       return this.parseResponse(text);
-      
+
     } catch (error) {
       console.error('   ⚠️ Gemini 오류:', error.message);
       return null;
@@ -202,42 +202,42 @@ APT: [4글자 - SRMC는 피하세요]
         aptType: null,
         reasoning: ''
       };
-      
+
       const patterns = {
         L_S: /L\/S:\s*(-?\d+)/i,
         A_R: /A\/R:\s*(-?\d+)/i,
         E_M: /E\/M:\s*(-?\d+)/i,
         F_C: /F\/C:\s*(-?\d+)/i
       };
-      
+
       for (const [axis, pattern] of Object.entries(patterns)) {
         const match = text.match(pattern);
         if (match) {
           result.axisScores[axis] = parseInt(match[1]);
         }
       }
-      
+
       const aptMatch = text.match(/APT:\s*([LS][AR][EM][FC])/i);
       if (aptMatch) {
         result.aptType = aptMatch[1].toUpperCase();
       } else {
         result.aptType = this.calculateAPT(result.axisScores);
       }
-      
+
       const reasonMatch = text.match(/근거:\s*(.+?)$/ims);
       if (reasonMatch) {
         result.reasoning = reasonMatch[1].trim();
       }
-      
+
       // SRMC가 나왔다면 강제로 다른 유형으로 변경
       if (result.aptType === 'SRMC') {
         console.log('   ⚠️ SRMC 감지! 다른 유형으로 변경');
         result.axisScores.L_S = -30; // L로 변경
         result.aptType = this.calculateAPT(result.axisScores);
       }
-      
+
       return result;
-      
+
     } catch (error) {
       console.error('파싱 오류:', error);
       return null;
@@ -270,7 +270,7 @@ APT: [4글자 - SRMC는 피하세요]
       'SRMF': { L_S: 40, A_R: 50, E_M: 30, F_C: -30 },
       'SRMC': { L_S: 40, A_R: 50, E_M: 30, F_C: 40 }
     };
-    
+
     return scoreMap[aptType] || { L_S: 0, A_R: 0, E_M: 0, F_C: 0 };
   }
 
@@ -282,13 +282,13 @@ APT: [4글자 - SRMC는 피하세요]
       'SAEF', 'SAEC', 'SAMF', 'SAMC',
       'SREF', 'SREC', 'SRMF'
     ];
-    
+
     const hash = artistData.name.split('').reduce((a, b) => {
       return ((a << 5) - a) + b.charCodeAt(0);
     }, 0);
-    
+
     const selectedType = types[Math.abs(hash) % types.length];
-    
+
     return {
       aptType: selectedType,
       axisScores: this.getTypeScores(selectedType),
@@ -302,7 +302,7 @@ APT: [4글자 - SRMC는 피하세요]
 
   formatResult(geminiResult, artistData) {
     const confidence = this.calculateConfidence(geminiResult, artistData);
-    
+
     return {
       aptType: geminiResult.aptType,
       axisScores: geminiResult.axisScores,
@@ -317,20 +317,20 @@ APT: [4글자 - SRMC는 피하세요]
 
   calculateConfidence(result, artistData) {
     let confidence = 50;
-    
+
     // 데이터 품질
     if (artistData.bio && artistData.bio.length > 500) confidence += 20;
     else if (artistData.bio && artistData.bio.length > 100) confidence += 10;
-    
+
     if (artistData.nationality) confidence += 5;
     if (artistData.era) confidence += 5;
     if (artistData.birth_year) confidence += 5;
-    
+
     // 명확한 축 점수
     Object.values(result.axisScores).forEach(score => {
       if (Math.abs(score) > 50) confidence += 3;
     });
-    
+
     return Math.min(90, confidence);
   }
 }

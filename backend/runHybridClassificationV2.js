@@ -23,30 +23,30 @@ class HybridClassificationRunnerV2 {
     console.log('🚀 Hybrid APT Classification V2 시작');
     console.log('=====================================');
     console.log('기존 apt_profile 스키마 활용 버전\n');
-    
+
     const startTime = new Date();
-    
+
     try {
       // 1. 분류가 필요한 작가들 선택
       const artists = await this.loadArtistsForClassification();
       this.stats.total = artists.length;
-      
+
       console.log(`📊 분류 대상: ${this.stats.total}명\n`);
-      
+
       // 2. 각 작가 처리
       for (const artist of artists) {
         await this.processArtist(artist);
-        
+
         // API 제한 고려
         if (this.stats.processed % 5 === 0 && this.stats.processed < this.stats.total) {
           console.log('\n⏸️  API 제한 고려하여 2초 대기...\n');
           await this.sleep(2000);
         }
       }
-      
+
       // 3. 결과 요약
       await this.showSummary(startTime);
-      
+
     } catch (error) {
       console.error('❌ 실행 중 오류:', error);
     } finally {
@@ -85,17 +85,17 @@ class HybridClassificationRunnerV2 {
         bio_length DESC
       LIMIT 5
     `);
-    
+
     return result.rows;
   }
 
   async processArtist(artist) {
     this.stats.processed++;
-    
+
     console.log(`\n${'='.repeat(60)}`);
     console.log(`🎨 [${this.stats.processed}/${this.stats.total}] ${artist.name}`);
     console.log(`${'='.repeat(60)}`);
-    
+
     try {
       // 기존 프로필 확인
       if (artist.apt_profile) {
@@ -106,7 +106,7 @@ class HybridClassificationRunnerV2 {
         console.log(`   - 신뢰도: ${existingConfidence}%`);
         console.log(`   - 상태: ${artist.classification_status}`);
       }
-      
+
       // 작가 정보 표시
       console.log('\n📋 작가 정보:');
       console.log(`   - 국적: ${artist.nationality || '알 수 없음'}`);
@@ -114,13 +114,13 @@ class HybridClassificationRunnerV2 {
       console.log(`   - 생몰: ${artist.birth_year || '?'} - ${artist.death_year || '현재'}`);
       console.log(`   - Bio: ${artist.bio_length}자`);
       console.log(`   - 작품: ${artist.artwork_count}개`);
-      
+
       // 하이브리드 분류 실행
       const result = await this.classifier.classifyArtist(artist);
-      
+
       // apt_profile 형식으로 변환
       const aptProfile = this.convertToAPTProfile(result, artist);
-      
+
       // 결과 표시
       console.log('\n📊 새로운 분석 결과:');
       console.log(`   ✅ APT: ${result.aptType} (신뢰도: ${result.confidence}%)`);
@@ -129,10 +129,10 @@ class HybridClassificationRunnerV2 {
       console.log(`      - A/R: ${Math.round(50 + result.axisScores.A_R / 2)} (${result.axisScores.A_R < 0 ? '추상 A' : '구상 R'})`);
       console.log(`      - E/M: ${Math.round(50 + result.axisScores.E_M / 2)} (${result.axisScores.E_M < 0 ? '감정 E' : '의미 M'})`);
       console.log(`      - F/C: ${Math.round(50 + result.axisScores.F_C / 2)} (${result.axisScores.F_C < 0 ? '자유 F' : '체계 C'})`);
-      
+
       // 데이터베이스 업데이트
       await this.updateArtistProfile(artist.id, aptProfile);
-      
+
       // 기존 프로필이 있었다면 업데이트, 없었다면 성공
       if (artist.apt_profile) {
         this.stats.updated++;
@@ -141,7 +141,7 @@ class HybridClassificationRunnerV2 {
         this.stats.successful++;
         console.log('\n✅ 새 APT 프로필 생성 완료');
       }
-      
+
     } catch (error) {
       console.error(`\n❌ 처리 실패: ${error.message}`);
       this.stats.failed++;
@@ -160,10 +160,10 @@ class HybridClassificationRunnerV2 {
       F: Math.round(50 - result.axisScores.F_C / 2),
       C: Math.round(50 + result.axisScores.F_C / 2)
     };
-    
+
     // APT 타입 정보 가져오기
     const typeInfo = this.getAPTTypeInfo(result.aptType);
-    
+
     return {
       dimensions,
       primary_types: [{
@@ -181,8 +181,8 @@ class HybridClassificationRunnerV2 {
         source: 'sayu_hybrid_classifier',
         strategy: result.analysis?.strategy || 'unknown',
         ai_sources: result.analysis?.sources || {},
-        reasoning: Array.isArray(result.analysis?.reasoning) 
-          ? result.analysis.reasoning.join(' | ') 
+        reasoning: Array.isArray(result.analysis?.reasoning)
+          ? result.analysis.reasoning.join(' | ')
           : (result.analysis?.reasoning || '하이브리드 AI 분석')
       }
     };
@@ -207,11 +207,11 @@ class HybridClassificationRunnerV2 {
       'SRMF': { title: '지식 멘토', animal: 'elephant', name_ko: '코끼리' },
       'SRMC': { title: '체계적 교육자', animal: 'eagle', name_ko: '독수리' }
     };
-    
-    return typeMap[aptType] || { 
-      title: 'Unknown Type', 
-      animal: 'unknown', 
-      name_ko: '알 수 없음' 
+
+    return typeMap[aptType] || {
+      title: 'Unknown Type',
+      animal: 'unknown',
+      name_ko: '알 수 없음'
     };
   }
 
@@ -228,18 +228,18 @@ class HybridClassificationRunnerV2 {
   async showSummary(startTime) {
     const endTime = new Date();
     const duration = (endTime - startTime) / 1000;
-    
-    console.log('\n\n' + '='.repeat(60));
+
+    console.log(`\n\n${'='.repeat(60)}`);
     console.log('📊 하이브리드 분류 V2 완료');
     console.log('='.repeat(60));
-    
+
     console.log('\n📈 처리 통계:');
     console.log(`   - 전체: ${this.stats.total}명`);
     console.log(`   - 신규 생성: ${this.stats.successful}명`);
     console.log(`   - 업데이트: ${this.stats.updated}명`);
     console.log(`   - 실패: ${this.stats.failed}명`);
     console.log(`   - 처리 시간: ${Math.round(duration)}초`);
-    
+
     // APT 유형 분포
     const distribution = await pool.query(`
       SELECT 
@@ -253,7 +253,7 @@ class HybridClassificationRunnerV2 {
       ORDER BY count DESC
       LIMIT 16
     `);
-    
+
     console.log('\n🎭 APT 유형별 분포:');
     distribution.rows.forEach(row => {
       const typeInfo = this.getAPTTypeInfo(row.apt_type);

@@ -65,7 +65,7 @@ class ExhibitionCollectionCron {
 
     try {
       log.info(`Starting ${type} exhibition collection...`);
-      
+
       const startTime = Date.now();
       const results = await exhibitionDataCollectorService.collectAllExhibitions();
       const duration = Date.now() - startTime;
@@ -85,10 +85,10 @@ class ExhibitionCollectionCron {
 
     } catch (error) {
       log.error(`${type} exhibition collection failed:`, error);
-      
+
       // 실패한 경우에도 로그 저장
       await this.logCollectionResult(type, { collected: 0, failed: 1, error: error.message }, 0);
-      
+
       throw error;
     } finally {
       this.isRunning = false;
@@ -99,7 +99,7 @@ class ExhibitionCollectionCron {
   async runStatusUpdate() {
     try {
       log.info('Starting exhibition status update...');
-      
+
       const startTime = Date.now();
       const results = await exhibitionDataCollectorService.updateExhibitionStatuses();
       const duration = Date.now() - startTime;
@@ -158,7 +158,7 @@ class ExhibitionCollectionCron {
     this.startDailyCollection();
     this.startStatusUpdate();
     this.startWeeklyFullCollection();
-    
+
     log.info('All exhibition collection cron jobs started');
   }
 
@@ -166,13 +166,13 @@ class ExhibitionCollectionCron {
   async runInitialCollection() {
     try {
       log.info('Running initial exhibition collection...');
-      
+
       // 마지막 수집 시간 확인
       const lastCollection = await pool.query(
         'SELECT created_at FROM collection_logs ORDER BY created_at DESC LIMIT 1'
       );
 
-      const shouldRunInitial = lastCollection.rows.length === 0 || 
+      const shouldRunInitial = lastCollection.rows.length === 0 ||
         (Date.now() - new Date(lastCollection.rows[0].created_at).getTime()) > 24 * 60 * 60 * 1000;
 
       if (shouldRunInitial) {
@@ -196,13 +196,13 @@ const exhibitionCron = new ExhibitionCollectionCron();
 if (require.main === module) {
   console.log('🕒 Starting SAYU Exhibition Collection Cron Service...');
   console.log('==================================================');
-  
+
   // 모든 크론 작업 시작
   exhibitionCron.startAll();
-  
+
   // 초기 수집 실행 (선택사항)
   // exhibitionCron.runInitialCollection();
-  
+
   console.log('✅ Exhibition collection cron service is running');
   console.log('📅 Daily collection: Every day at 06:00 KST');
   console.log('🔄 Status updates: Every hour');
@@ -213,7 +213,7 @@ if (require.main === module) {
   // Graceful shutdown
   process.on('SIGINT', async () => {
     console.log('\n🛑 Shutting down exhibition collection cron service...');
-    
+
     if (exhibitionCron.isRunning) {
       console.log('⏳ Waiting for current collection to finish...');
       // 최대 30초 대기
@@ -223,7 +223,7 @@ if (require.main === module) {
         waitTime += 1000;
       }
     }
-    
+
     // 데이터베이스 연결 종료
     try {
       await pool.end();
@@ -231,7 +231,7 @@ if (require.main === module) {
     } catch (error) {
       console.error('❌ Error closing database:', error);
     }
-    
+
     console.log('👋 Exhibition collection cron service stopped');
     process.exit(0);
   });

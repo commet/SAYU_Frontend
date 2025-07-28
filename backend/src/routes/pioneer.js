@@ -35,7 +35,7 @@ router.get('/stats', rateLimits.lenient, async (req, res) => {
 router.get('/profile/:userId', rateLimits.moderate, async (req, res) => {
   try {
     const { userId } = req.params;
-    
+
     const result = await pool.query(`
       SELECT 
         id,

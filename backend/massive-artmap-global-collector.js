@@ -40,7 +40,7 @@ class MassiveArtmapCollector {
 
   async fetchPage(url) {
     await this.respectRateLimit();
-    
+
     try {
       console.log(`🔄 Fetching: ${url}`);
       const response = await axios.get(url, {
@@ -62,7 +62,7 @@ class MassiveArtmapCollector {
   async crawlExhibitionList(path, maxPerPage = 200) {
     const url = `${this.baseUrl}/${path}`;
     const html = await this.fetchPage(url);
-    
+
     if (!html) return [];
 
     const $ = cheerio.load(html);
@@ -72,26 +72,26 @@ class MassiveArtmapCollector {
       if (exhibitions.length >= maxPerPage) return false;
 
       const $row = $(element);
-      
+
       // 이미지와 링크
       const exhibitionLink = $row.find('td:first-child a').attr('href');
       const imageUrl = $row.find('img').attr('src');
-      
+
       // 정보 셀
       const $infoCell = $row.find('td:nth-child(3)');
-      
+
       // 장소 정보
       const venueLink = $infoCell.find('h3:first-child a');
       const venueName = venueLink.text().trim();
       const venueUrl = venueLink.attr('href');
-      
+
       // 전시 제목
       const titleLink = $infoCell.find('h2 a');
       const title = titleLink.text().trim();
-      
+
       // 날짜
       const dateText = $infoCell.find('h3.txGray').text().trim();
-      
+
       if (title && venueName && dateText) {
         exhibitions.push({
           title,
@@ -149,17 +149,17 @@ class MassiveArtmapCollector {
 
     for (const path of this.collectPaths) {
       console.log(`\n📂 Processing: ${path}`);
-      
+
       try {
         const exhibitions = await this.crawlExhibitionList(path, Math.ceil(targetCount / this.collectPaths.length));
-        
+
         for (const exhibition of exhibitions) {
           const key = `${exhibition.title}|${exhibition.venue.name}`;
-          
+
           if (!allExhibitions.has(key)) {
             allExhibitions.add(key);
             exhibitionsArray.push(exhibition);
-            
+
             // 통계 수집
             stats.venues.add(exhibition.venue.name);
             stats.categories[exhibition.category] = (stats.categories[exhibition.category] || 0) + 1;
@@ -171,7 +171,7 @@ class MassiveArtmapCollector {
 
         stats.pathsProcessed++;
         stats.totalFound = exhibitionsArray.length;
-        
+
         console.log(`  ✅ Found: ${exhibitions.length} exhibitions`);
         console.log(`  📊 Total unique: ${exhibitionsArray.length}`);
         console.log(`  🔄 Duplicates skipped: ${stats.duplicatesSkipped}`);
@@ -193,7 +193,7 @@ class MassiveArtmapCollector {
     // 결과 저장
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const filename = `artmap-massive-collection-${timestamp}.json`;
-    
+
     const result = {
       metadata: {
         collectionDate: new Date().toISOString(),
@@ -223,7 +223,7 @@ class MassiveArtmapCollector {
     console.log(`🏛️  Unique venues: ${stats.venues.size}`);
     console.log(`🔄 Duplicates skipped: ${stats.duplicatesSkipped}`);
     console.log(`💾 Saved to: ${filename}`);
-    
+
     console.log(`\n📈 Categories:`);
     Object.entries(stats.categories).forEach(([cat, count]) => {
       console.log(`   ${cat}: ${count} exhibitions`);
@@ -242,7 +242,7 @@ class MassiveArtmapCollector {
     exhibitions.forEach(ex => {
       venueCounts[ex.venue.name] = (venueCounts[ex.venue.name] || 0) + 1;
     });
-    
+
     return Object.entries(venueCounts)
       .sort(([,a], [,b]) => b - a)
       .slice(0, limit);
@@ -251,7 +251,7 @@ class MassiveArtmapCollector {
   // 특정 도시 집중 수집
   async collectByCity(city, maxExhibitions = 200) {
     console.log(`🌍 Collecting exhibitions in ${city}...`);
-    
+
     const cityPaths = [
       `${city}/exhibitions/current`,
       `${city}/exhibitions/upcoming`,
@@ -277,10 +277,10 @@ class MassiveArtmapCollector {
   // 특정 venue의 모든 전시 수집
   async collectVenueExhibitions(venueSlug) {
     console.log(`🏛️  Collecting all exhibitions from ${venueSlug}...`);
-    
+
     const venueUrl = `${this.baseUrl}/${venueSlug}`;
     const html = await this.fetchPage(venueUrl);
-    
+
     if (!html) return [];
 
     const $ = cheerio.load(html);
@@ -290,7 +290,7 @@ class MassiveArtmapCollector {
     $('a[href*="/exhibition/"]').each((i, link) => {
       const href = $(link).attr('href');
       const title = $(link).text().trim();
-      
+
       if (title && href) {
         exhibitions.push({
           title,
@@ -308,11 +308,11 @@ class MassiveArtmapCollector {
 // 실행
 async function main() {
   const collector = new MassiveArtmapCollector();
-  
+
   try {
     // 대규모 수집 (목표: 1000개)
     await collector.massiveCollection(1000);
-    
+
   } catch (error) {
     console.error('Collection error:', error);
   }

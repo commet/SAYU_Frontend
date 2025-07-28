@@ -4,7 +4,7 @@ const auth = require('../middleware/auth');
 const { pool } = require('../config/database');
 const emailService = require('../services/emailService');
 const emailAutomation = require('../services/emailAutomation');
-const { logger } = require("../config/logger");
+const { logger } = require('../config/logger');
 const crypto = require('crypto');
 
 const router = express.Router();
@@ -17,7 +17,7 @@ router.get('/preferences', auth, async (req, res) => {
       WHERE user_id = $1
     `;
     const result = await pool.query(query, [req.userId]);
-    
+
     if (result.rows.length === 0) {
       // Create default preferences if they don't exist
       const insertQuery = `
@@ -28,7 +28,7 @@ router.get('/preferences', auth, async (req, res) => {
       const insertResult = await pool.query(insertQuery, [req.userId]);
       return res.json({ preferences: insertResult.rows[0] });
     }
-    
+
     res.json({ preferences: result.rows[0] });
   } catch (error) {
     logger.error('Failed to get email preferences:', error);
@@ -233,7 +233,7 @@ router.get('/analytics', auth, async (req, res) => {
     // Check if user is admin
     const userQuery = 'SELECT role FROM users WHERE id = $1';
     const userResult = await pool.query(userQuery, [req.userId]);
-    
+
     if (userResult.rows[0]?.role !== 'admin') {
       return res.status(403).json({ error: 'Admin access required' });
     }
@@ -266,7 +266,7 @@ router.post('/trigger/:campaign', auth, async (req, res) => {
     // Check if user is admin
     const userQuery = 'SELECT role FROM users WHERE id = $1';
     const userResult = await pool.query(userQuery, [req.userId]);
-    
+
     if (userResult.rows[0]?.role !== 'admin') {
       return res.status(403).json({ error: 'Admin access required' });
     }
@@ -297,7 +297,7 @@ if (process.env.NODE_ENV !== 'production') {
   router.post('/test', auth, async (req, res) => {
     try {
       const { templateName, email } = req.body;
-      
+
       const userQuery = 'SELECT * FROM users WHERE id = $1';
       const userResult = await pool.query(userQuery, [req.userId]);
       const user = userResult.rows[0];

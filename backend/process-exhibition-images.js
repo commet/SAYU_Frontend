@@ -13,45 +13,45 @@ const pool = new Pool({
 async function processExhibitionImages(folderPath) {
   console.log('🖼️ 문화포털 전시 이미지 처리 시작...\n');
   console.log(`📁 폴더 경로: ${folderPath}\n`);
-  
+
   const OpenAI = require('openai');
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  
+
   try {
     // 폴더의 모든 이미지 파일 읽기
     const files = await fs.readdir(folderPath);
-    const imageFiles = files.filter(file => 
+    const imageFiles = files.filter(file =>
       /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(file)
     );
-    
+
     console.log(`📷 발견된 이미지 파일: ${imageFiles.length}개\n`);
-    
+
     const exhibitions = [];
     const errors = [];
-    
+
     for (let i = 0; i < imageFiles.length; i++) {
       const imageFile = imageFiles[i];
       const imagePath = path.join(folderPath, imageFile);
-      
+
       console.log(`\n[${i + 1}/${imageFiles.length}] 처리 중: ${imageFile}`);
-      
+
       try {
         // 이미지를 base64로 인코딩
         const imageBuffer = await fs.readFile(imagePath);
         const base64Image = imageBuffer.toString('base64');
-        
+
         // OpenAI Vision API로 전시 정보 추출
         const exhibitionInfo = await extractExhibitionFromImage(openai, base64Image, imageFile);
-        
+
         if (exhibitionInfo && exhibitionInfo.title) {
           // 중복 확인
           const isDuplicate = await checkExhibitionDuplicate(exhibitionInfo);
-          
+
           if (!isDuplicate) {
             // 데이터베이스에 저장
             const savedId = await saveExhibitionToDB(exhibitionInfo);
             exhibitions.push({ ...exhibitionInfo, id: savedId, sourceFile: imageFile });
-            
+
             console.log(`✅ "${exhibitionInfo.title}" 저장 완료 (ID: ${savedId})`);
           } else {
             console.log(`⚠️  "${exhibitionInfo.title}" 이미 존재함 (중복)`);
@@ -59,37 +59,37 @@ async function processExhibitionImages(folderPath) {
         } else {
           console.log(`❌ ${imageFile}에서 전시 정보를 추출할 수 없음`);
         }
-        
+
         // API 호출 제한을 위한 딜레이
         await new Promise(resolve => setTimeout(resolve, 1000));
-        
+
       } catch (error) {
         console.error(`❌ ${imageFile} 처리 실패:`, error.message);
         errors.push({ file: imageFile, error: error.message });
       }
     }
-    
+
     console.log('\n\n📊 처리 결과:');
     console.log(`총 ${imageFiles.length}개 이미지 처리`);
     console.log(`성공: ${exhibitions.length}개`);
     console.log(`오류: ${errors.length}개`);
-    
+
     if (exhibitions.length > 0) {
       console.log('\n✨ 추가된 전시:');
       exhibitions.forEach(ex => {
         console.log(`- ${ex.title} (${ex.venue}) [${ex.startDate} ~ ${ex.endDate}]`);
       });
     }
-    
+
     if (errors.length > 0) {
       console.log('\n💥 오류 목록:');
       errors.forEach(err => {
         console.log(`- ${err.file}: ${err.error}`);
       });
     }
-    
+
     return { exhibitions, errors };
-    
+
   } catch (error) {
     console.error('오류 발생:', error);
     throw error;
@@ -121,17 +121,17 @@ async function extractExhibitionFromImage(openai, base64Image, filename) {
 
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4-vision-preview",
+      model: 'gpt-4-vision-preview',
       messages: [
         {
-          role: "user",
+          role: 'user',
           content: [
-            { type: "text", text: prompt },
+            { type: 'text', text: prompt },
             {
-              type: "image_url",
+              type: 'image_url',
               image_url: {
                 url: `data:image/jpeg;base64,${base64Image}`,
-                detail: "high"
+                detail: 'high'
               }
             }
           ]
@@ -141,21 +141,21 @@ async function extractExhibitionFromImage(openai, base64Image, filename) {
       temperature: 0.1
     });
 
-    const content = response.choices[0].message.content;
-    
+    const { content } = response.choices[0].message;
+
     // JSON 추출 (마크다운 코드 블록 제거)
     const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/) || content.match(/\{[\s\S]*\}/);
-    
+
     if (jsonMatch) {
       const jsonStr = jsonMatch[1] || jsonMatch[0];
       const exhibitionData = JSON.parse(jsonStr);
-      
+
       // 데이터 검증 및 정제
       return validateAndCleanExhibitionData(exhibitionData, filename);
     }
-    
+
     return null;
-    
+
   } catch (error) {
     console.error('OpenAI API 오류:', error);
     return null;
@@ -167,30 +167,30 @@ function validateAndCleanExhibitionData(data, filename) {
   if (!data.title || !data.venue) {
     return null;
   }
-  
+
   // 날짜 형식 정규화
   data.startDate = normalizeDate(data.startDate);
   data.endDate = normalizeDate(data.endDate);
-  
+
   // 관람료 정규화
   data.admissionFee = normalizeAdmissionFee(data.admissionFee);
-  
+
   // 작가 배열 정규화
   if (data.artists && !Array.isArray(data.artists)) {
     data.artists = [data.artists];
   }
-  
+
   // 메타데이터 추가
   data.source = 'image_extraction';
   data.sourceFile = filename;
   data.extractedAt = new Date().toISOString();
-  
+
   return data;
 }
 
 function normalizeDate(dateStr) {
   if (!dateStr) return null;
-  
+
   try {
     // 다양한 날짜 형식 처리
     const patterns = [
@@ -198,23 +198,23 @@ function normalizeDate(dateStr) {
       /(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/,
       /(\d{1,2})[.\-\/](\d{1,2})[.\-\/](\d{4})/
     ];
-    
+
     for (const pattern of patterns) {
       const match = dateStr.match(pattern);
       if (match) {
         let year, month, day;
-        
+
         if (match[1].length === 4) {
           [, year, month, day] = match;
         } else {
           [, month, day, year] = match;
         }
-        
+
         const date = new Date(year, month - 1, day);
         return date.toISOString().split('T')[0];
       }
     }
-    
+
     return null;
   } catch {
     return null;
@@ -223,20 +223,20 @@ function normalizeDate(dateStr) {
 
 function normalizeAdmissionFee(feeStr) {
   if (!feeStr) return 0;
-  
+
   if (typeof feeStr === 'number') return feeStr;
-  
+
   if (typeof feeStr === 'string') {
     if (feeStr.includes('무료') || feeStr.toLowerCase().includes('free')) {
       return 0;
     }
-    
+
     const match = feeStr.match(/[\d,]+/);
     if (match) {
       return parseInt(match[0].replace(/,/g, ''));
     }
   }
-  
+
   return 0;
 }
 
@@ -246,7 +246,7 @@ async function checkExhibitionDuplicate(exhibitionData) {
       'SELECT id FROM exhibitions WHERE title = $1 AND venue_name = $2 AND start_date = $3',
       [exhibitionData.title, exhibitionData.venue, exhibitionData.startDate]
     );
-    
+
     return result.rows.length > 0;
   } catch (error) {
     console.error('중복 확인 오류:', error);
@@ -256,13 +256,13 @@ async function checkExhibitionDuplicate(exhibitionData) {
 
 async function saveExhibitionToDB(exhibitionData) {
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
-    
+
     // 1. 장소 찾기 또는 생성
     let venue = await client.query('SELECT * FROM venues WHERE name = $1', [exhibitionData.venue]);
-    
+
     if (venue.rows.length === 0) {
       const newVenue = await client.query(`
         INSERT INTO venues (name, address, city, country, type, tier, is_active)
@@ -279,7 +279,7 @@ async function saveExhibitionToDB(exhibitionData) {
       ]);
       venue = newVenue;
     }
-    
+
     // 2. 전시 생성
     const exhibition = await client.query(`
       INSERT INTO exhibitions (
@@ -306,7 +306,7 @@ async function saveExhibitionToDB(exhibitionData) {
       exhibitionData.sourceFile,
       determineExhibitionStatus(exhibitionData.startDate, exhibitionData.endDate)
     ]);
-    
+
     // 3. 작가 정보 저장
     if (exhibitionData.artists && exhibitionData.artists.length > 0) {
       for (const artistName of exhibitionData.artists) {
@@ -315,10 +315,10 @@ async function saveExhibitionToDB(exhibitionData) {
         }
       }
     }
-    
+
     await client.query('COMMIT');
     return exhibition.rows[0].id;
-    
+
   } catch (error) {
     await client.query('ROLLBACK');
     throw error;
@@ -330,7 +330,7 @@ async function saveExhibitionToDB(exhibitionData) {
 async function linkArtistToExhibition(client, exhibitionId, artistName) {
   // 아티스트 찾기 또는 생성
   let artist = await client.query('SELECT id FROM artists WHERE name = $1', [artistName]);
-  
+
   if (artist.rows.length === 0) {
     const newArtist = await client.query(
       'INSERT INTO artists (name, source, created_at) VALUES ($1, $2, NOW()) RETURNING id',
@@ -338,7 +338,7 @@ async function linkArtistToExhibition(client, exhibitionId, artistName) {
     );
     artist = newArtist;
   }
-  
+
   // 전시-아티스트 연결
   await client.query(
     'INSERT INTO exhibition_artists (exhibition_id, artist_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
@@ -348,11 +348,11 @@ async function linkArtistToExhibition(client, exhibitionId, artistName) {
 
 function determineExhibitionStatus(startDate, endDate) {
   if (!startDate || !endDate) return 'unknown';
-  
+
   const now = new Date();
   const start = new Date(startDate);
   const end = new Date(endDate);
-  
+
   if (now < start) return 'upcoming';
   if (now > end) return 'ended';
   return 'ongoing';

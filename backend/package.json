@@ -32,7 +32,11 @@
     "massive:collect": "node run-massive-collection.js --start --yes",
     "massive:collect:quick": "node run-massive-collection.js --start --quick --yes",
     "massive:collect:safe": "node run-massive-collection.js --start --safe --yes",
-    "start:production": "NODE_ENV=production NODE_OPTIONS='--max-old-space-size=2048 --optimize-for-size' node sayu-living-server.js"
+    "start:production": "NODE_ENV=production NODE_OPTIONS='--max-old-space-size=2048 --optimize-for-size --expose-gc' node sayu-living-server.js",
+    "memory:check": "node ../kill-node-processes.js --status",
+    "memory:clean": "node ../kill-node-processes.js --auto-cleanup",
+    "memory:monitor": "node ../kill-node-processes.js --monitor --interval 3",
+    "memory:detect": "node memory-leak-detector.js --analysis-duration 10 --monitor-interval 5"
   },
   "keywords": [
     "art",
@@ -48,8 +52,8 @@
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@modelcontextprotocol/sdk": "^1.12.3",
-    "@sentry/node": "^9.26.0",
-    "@sentry/profiling-node": "^9.26.0",
+    "@sentry/node": "^9.42.1",
+    "@sentry/profiling-node": "^9.42.1",
     "@supabase/supabase-js": "^2.51.0",
     "@types/nodemailer": "^6.4.17",
     "axios": "^1.11.0",

@@ -11,10 +11,10 @@ router.use(authMiddleware);
 router.get('/balance', async (req, res) => {
   try {
     const userId = req.user.id;
-    
+
     const balance = await quizTokenService.getBalance(userId);
     const canTakeQuiz = await quizTokenService.canTakeQuiz(userId);
-    
+
     res.json({
       success: true,
       balance,
@@ -38,9 +38,9 @@ router.post('/award', async (req, res) => {
     }
 
     const result = await quizTokenService.awardTokens(userId, activityType, activityData);
-    
+
     if (!result) {
-      return res.json({ 
+      return res.json({
         success: false,
         message: 'Unknown activity type'
       });
@@ -71,16 +71,16 @@ router.post('/award', async (req, res) => {
 router.post('/pay-for-quiz', async (req, res) => {
   try {
     const userId = req.user.id;
-    
+
     const result = await quizTokenService.processQuizPayment(userId);
-    
+
     if (result.success === false) {
       return res.status(400).json({
         error: result.error || result.reason,
         ...result
       });
     }
-    
+
     res.json({
       success: true,
       ...result
@@ -96,9 +96,9 @@ router.get('/transactions', async (req, res) => {
   try {
     const userId = req.user.id;
     const limit = parseInt(req.query.limit) || 20;
-    
+
     const transactions = await quizTokenService.getTransactionHistory(userId, limit);
-    
+
     res.json({
       success: true,
       transactions
@@ -113,9 +113,9 @@ router.get('/transactions', async (req, res) => {
 router.get('/earning-opportunities', async (req, res) => {
   try {
     const userId = req.user.id;
-    
+
     const opportunities = await quizTokenService.getEarningOpportunities(userId);
-    
+
     res.json({
       success: true,
       opportunities
@@ -130,10 +130,10 @@ router.get('/earning-opportunities', async (req, res) => {
 router.get('/purchase-options', async (req, res) => {
   try {
     const userId = req.user.id;
-    
+
     const packages = ['single', 'bundle', 'unlimited_month'];
     const options = [];
-    
+
     for (const packageType of packages) {
       try {
         const option = await quizTokenService.simulatePurchase(userId, packageType);
@@ -142,7 +142,7 @@ router.get('/purchase-options', async (req, res) => {
         logger.warn(`Error simulating purchase for ${packageType}:`, error.message);
       }
     }
-    
+
     res.json({
       success: true,
       packages: options,
@@ -158,9 +158,9 @@ router.get('/purchase-options', async (req, res) => {
 router.get('/quiz-eligibility', async (req, res) => {
   try {
     const userId = req.user.id;
-    
+
     const eligibility = await quizTokenService.canTakeQuiz(userId);
-    
+
     res.json({
       success: true,
       ...eligibility
@@ -175,12 +175,12 @@ router.get('/quiz-eligibility', async (req, res) => {
 router.post('/daily-login', async (req, res) => {
   try {
     const userId = req.user.id;
-    
+
     const result = await quizTokenService.awardTokens(userId, 'DAILY_LOGIN', {
       loginTime: new Date().toISOString(),
       userAgent: req.headers['user-agent']
     });
-    
+
     if (!result || (result.limitReached && result.awarded === 0)) {
       return res.json({
         success: true,
@@ -188,7 +188,7 @@ router.post('/daily-login', async (req, res) => {
         alreadyClaimed: true
       });
     }
-    
+
     res.json({
       success: true,
       message: 'Daily login bonus awarded!',
@@ -206,13 +206,13 @@ router.post('/track/gallery-visit', async (req, res) => {
   try {
     const userId = req.user.id;
     const { galleryName, location } = req.body;
-    
+
     const result = await quizTokenService.awardTokens(userId, 'GALLERY_VISIT', {
       galleryName,
       location,
       timestamp: new Date().toISOString()
     });
-    
+
     res.json({
       success: true,
       message: 'Gallery visit tracked',
@@ -229,14 +229,14 @@ router.post('/track/artwork-interaction', async (req, res) => {
   try {
     const userId = req.user.id;
     const { artworkId, artworkTitle, interactionType } = req.body;
-    
+
     const result = await quizTokenService.awardTokens(userId, 'ARTWORK_INTERACTION', {
       artworkId,
       artworkTitle,
       interactionType,
       timestamp: new Date().toISOString()
     });
-    
+
     res.json({
       success: true,
       message: 'Artwork interaction tracked',
@@ -253,16 +253,16 @@ router.post('/track/community-activity', async (req, res) => {
   try {
     const userId = req.user.id;
     const { activityType, details } = req.body; // 'COMMUNITY_POST' or 'COMMUNITY_COMMENT'
-    
+
     if (!['COMMUNITY_POST', 'COMMUNITY_COMMENT'].includes(activityType)) {
       return res.status(400).json({ error: 'Invalid community activity type' });
     }
-    
+
     const result = await quizTokenService.awardTokens(userId, activityType, {
       ...details,
       timestamp: new Date().toISOString()
     });
-    
+
     res.json({
       success: true,
       message: 'Community activity tracked',
@@ -279,13 +279,13 @@ router.post('/track/card-exchange', async (req, res) => {
   try {
     const userId = req.user.id;
     const { partnerId, partnerName } = req.body;
-    
+
     const result = await quizTokenService.awardTokens(userId, 'CARD_EXCHANGE', {
       partnerId,
       partnerName,
       timestamp: new Date().toISOString()
     });
-    
+
     res.json({
       success: true,
       message: 'Card exchange tracked',

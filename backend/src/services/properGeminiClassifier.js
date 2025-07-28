@@ -5,26 +5,26 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 class ProperGeminiClassifier {
   constructor() {
     this.gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    this.model = this.gemini.getGenerativeModel({ model: "gemini-1.5-flash" });
+    this.model = this.gemini.getGenerativeModel({ model: 'gemini-1.5-flash' });
   }
 
   async classifyArtist(artistData) {
     console.log(`\n🎨 적절한 분류 시작: ${artistData.name}`);
-    
+
     try {
       // 1. 실제 작가명 추출
       const actualArtistName = this.extractActualArtistName(artistData.name);
       const isAttribution = artistData.name !== actualArtistName;
-      
+
       // 2. Gemini에게 진짜 분석 요청
       const geminiResult = await this.analyzeWithProperPrompt(
         { ...artistData, actualName: actualArtistName, isAttribution }
       );
-      
+
       if (geminiResult && geminiResult.aptType !== 'UNKNOWN') {
         return this.formatResult(geminiResult, artistData);
       }
-      
+
       // 3. 분류 불가능한 경우
       return {
         aptType: 'UNKNOWN',
@@ -36,7 +36,7 @@ class ProperGeminiClassifier {
           reasoning: '정보 부족으로 분류 불가'
         }
       };
-      
+
     } catch (error) {
       console.error(`   ❌ 오류: ${error.message}`);
       throw error;
@@ -49,7 +49,7 @@ class ProperGeminiClassifier {
       'School of ', 'Workshop of ', 'Studio of ', 'Manner of ',
       'Style of ', 'Copy after ', 'Imitator of '
     ];
-    
+
     let actualName = fullName;
     for (const attr of attributions) {
       if (actualName.startsWith(attr)) {
@@ -57,7 +57,7 @@ class ProperGeminiClassifier {
         break;
       }
     }
-    
+
     return actualName.trim();
   }
 
@@ -66,7 +66,7 @@ class ProperGeminiClassifier {
       const prompt = `작가를 16가지 APT 중 하나로 분류해주세요.
 
 작가: ${artistData.actualName || artistData.name}
-${artistData.isAttribution ? '⚠️ 이것은 귀속 작품입니다 (원작가: ' + artistData.actualName + ')' : ''}
+${artistData.isAttribution ? `⚠️ 이것은 귀속 작품입니다 (원작가: ${artistData.actualName})` : ''}
 
 정보:
 ${artistData.nationality ? `국적: ${artistData.nationality}` : '국적: 불명'}
@@ -115,11 +115,11 @@ APT: UNKNOWN
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-      
+
       console.log(`   Gemini 응답:\n${text.substring(0, 300)}...`);
-      
+
       return this.parseResponse(text);
-      
+
     } catch (error) {
       console.error('   ⚠️ Gemini 오류:', error.message);
       return null;
@@ -137,13 +137,13 @@ APT: UNKNOWN
           reasoning: reasonMatch ? reasonMatch[1].trim() : '정보 부족'
         };
       }
-      
+
       const result = {
         axisScores: { L_S: 0, A_R: 0, E_M: 0, F_C: 0 },
         aptType: null,
         reasoning: ''
       };
-      
+
       // 축 점수와 근거 추출
       const patterns = {
         L_S: /L\/S:\s*(-?\d+)(?:\s*[^\n]*)?/i,
@@ -151,14 +151,14 @@ APT: UNKNOWN
         E_M: /E\/M:\s*(-?\d+)(?:\s*[^\n]*)?/i,
         F_C: /F\/C:\s*(-?\d+)(?:\s*[^\n]*)?/i
       };
-      
+
       for (const [axis, pattern] of Object.entries(patterns)) {
         const match = text.match(pattern);
         if (match) {
           result.axisScores[axis] = parseInt(match[1]);
         }
       }
-      
+
       // APT 추출
       const aptMatch = text.match(/APT:\s*([LS][AR][EM][FC])/i);
       if (aptMatch) {
@@ -171,15 +171,15 @@ APT: UNKNOWN
         // 점수가 모두 0이면 UNKNOWN
         result.aptType = 'UNKNOWN';
       }
-      
+
       // 분류 근거
       const reasonMatch = text.match(/분류 근거:\s*(.+?)$/ims);
       if (reasonMatch) {
         result.reasoning = reasonMatch[1].trim();
       }
-      
+
       return result;
-      
+
     } catch (error) {
       console.error('파싱 오류:', error);
       return null;
@@ -195,7 +195,7 @@ APT: UNKNOWN
 
   formatResult(geminiResult, artistData) {
     const confidence = this.calculateConfidence(geminiResult, artistData);
-    
+
     return {
       aptType: geminiResult.aptType,
       axisScores: geminiResult.axisScores,
@@ -211,27 +211,27 @@ APT: UNKNOWN
   calculateConfidence(result, artistData) {
     // UNKNOWN이면 신뢰도 0
     if (result.aptType === 'UNKNOWN') return 0;
-    
+
     let confidence = 40; // 기본 신뢰도
-    
+
     // 구체적인 근거가 있으면 신뢰도 증가
     if (result.reasoning && result.reasoning.length > 100) {
       confidence += 20;
     }
-    
+
     // 데이터 품질에 따른 신뢰도
     if (artistData.bio && artistData.bio.length > 500) confidence += 20;
     else if (artistData.bio && artistData.bio.length > 100) confidence += 10;
-    
+
     if (artistData.nationality) confidence += 5;
     if (artistData.era) confidence += 5;
     if (artistData.birth_year) confidence += 5;
-    
+
     // 극단값이 아닌 중간값들이 많으면 신뢰도 감소
     const moderateScores = Object.values(result.axisScores)
       .filter(score => Math.abs(score) <= 30).length;
     if (moderateScores >= 3) confidence -= 10;
-    
+
     return Math.min(90, Math.max(20, confidence));
   }
 }

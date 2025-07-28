@@ -16,37 +16,37 @@ const { log } = require('../src/config/logger');
 
 async function createPerformanceIndexes() {
   const client = await pool.connect();
-  
+
   try {
     log.info('Starting performance indexes creation...');
-    
+
     // Read the SQL file
     const sqlPath = path.join(__dirname, '../migrations/critical-performance-indexes.sql');
     const sqlContent = fs.readFileSync(sqlPath, 'utf8');
-    
+
     // Split into individual statements (filter out comments and empty lines)
     const statements = sqlContent
       .split(';')
       .map(stmt => stmt.trim())
       .filter(stmt => stmt.length > 0 && !stmt.startsWith('--') && !stmt.startsWith('/*'));
-    
+
     log.info(`Found ${statements.length} index creation statements`);
-    
+
     // Execute each statement
     for (let i = 0; i < statements.length; i++) {
       const statement = statements[i];
-      
+
       try {
         log.info(`Executing statement ${i + 1}/${statements.length}...`);
         console.log(`\n📊 Creating index: ${extractIndexName(statement)}`);
-        
+
         const startTime = Date.now();
         await client.query(statement);
         const duration = Date.now() - startTime;
-        
+
         console.log(`✅ Index created successfully (${duration}ms)`);
         log.info(`Index created: ${extractIndexName(statement)} in ${duration}ms`);
-        
+
       } catch (error) {
         if (error.code === '42P07') {
           // Index already exists
@@ -59,17 +59,17 @@ async function createPerformanceIndexes() {
         }
       }
     }
-    
+
     // Check index usage statistics
     await checkIndexUsage(client);
-    
+
     log.info('Performance indexes creation completed');
     console.log('\n🎉 Performance indexes creation completed!');
     console.log('\n💡 Expected improvements:');
     console.log('   - 60-70% faster query response times');
     console.log('   - Better recommendation engine performance');
     console.log('   - Faster search and analytics queries');
-    
+
   } catch (error) {
     log.error('Failed to create performance indexes', error);
     console.error('❌ Failed to create performance indexes:', error.message);
@@ -87,7 +87,7 @@ function extractIndexName(statement) {
 async function checkIndexUsage(client) {
   try {
     console.log('\n📈 Checking index usage statistics...');
-    
+
     const result = await client.query(`
       SELECT 
           schemaname,
@@ -100,7 +100,7 @@ async function checkIndexUsage(client) {
       ORDER BY idx_scan DESC
       LIMIT 10;
     `);
-    
+
     if (result.rows.length > 0) {
       console.log('\nTop 10 index usage:');
       result.rows.forEach(row => {
@@ -109,7 +109,7 @@ async function checkIndexUsage(client) {
     } else {
       console.log('\nNo index usage statistics available yet (new indexes)');
     }
-    
+
   } catch (error) {
     log.warn('Failed to check index usage statistics', error);
     console.log('\n⚠️  Could not check index usage statistics');

@@ -32,7 +32,7 @@ const ANIMAL_TYPE_MAPPING = {
   'LAEC': 'eagle',    // 예리한 독수리 - 논리적, 감정적, 외향적, 체계적
   'LAIF': 'dolphin',  // 영리한 돌고래 - 논리적, 감정적, 내향적, 유연
   'LAIC': 'whale',    // 지적인 고래 - 논리적, 감정적, 내향적, 체계적
-  
+
   'LREF': 'fox',      // 영리한 여우 - 논리적, 이성적, 외향적, 유연
   'LREC': 'hawk',     // 날카로운 매 - 논리적, 이성적, 외향적, 체계적
   'LRIF': 'cat',      // 독립적인 고양이 - 논리적, 이성적, 내향적, 유연
@@ -43,7 +43,7 @@ const ANIMAL_TYPE_MAPPING = {
   'SAEC': 'peacock',   // 화려한 공작 - 감각적, 감정적, 외향적, 체계적
   'SAIF': 'deer',      // 우아한 사슴 - 감각적, 감정적, 내향적, 유연
   'SAIC': 'swan',      // 우아한 백조 - 감각적, 감정적, 내향적, 체계적
-  
+
   'SREF': 'tiger',     // 역동적인 호랑이 - 감각적, 이성적, 외향적, 유연
   'SREC': 'lion',      // 당당한 사자 - 감각적, 이성적, 외향적, 체계적
   'SRIF': 'panther',   // 신비로운 팬더 - 감각적, 이성적, 내향적, 유연
@@ -62,7 +62,7 @@ async function getCurrentDistribution() {
     GROUP BY apt_profile->'primary_types'->0->>'type'
     ORDER BY count DESC
   `);
-  
+
   return result.rows.reduce((acc, row) => {
     acc[row.apt_code] = parseInt(row.count);
     return acc;
@@ -86,12 +86,12 @@ function calculateFameScore(artistName) {
 // 유명 아티스트 우선 검색
 async function findFamousArtists() {
   console.log('🎨 유명 아티스트 우선 검색 중...\n');
-  
+
   const famousInDB = [];
-  
+
   for (const tier in FAMOUS_ARTISTS) {
     console.log(`\n📊 ${tier.toUpperCase()} 아티스트 검색:`);
-    
+
     for (const artistName of FAMOUS_ARTISTS[tier]) {
       const result = await pool.query(`
         SELECT id, name, name_ko, apt_profile, follow_count
@@ -105,14 +105,14 @@ async function findFamousArtists() {
           follow_count DESC NULLS LAST
         LIMIT 3
       `, [`%${artistName}%`, artistName]);
-      
+
       if (result.rows.length > 0) {
         const artist = result.rows[0];
         const hasAPT = artist.apt_profile !== null;
         const fameScore = calculateFameScore(artist.name);
-        
+
         console.log(`  ✅ ${artist.name} (${artist.name_ko || 'N/A'}) - APT: ${hasAPT ? '있음' : '없음'}, 유명도: ${fameScore}`);
-        
+
         famousInDB.push({
           ...artist,
           tier,
@@ -124,7 +124,7 @@ async function findFamousArtists() {
       }
     }
   }
-  
+
   return famousInDB;
 }
 
@@ -132,19 +132,19 @@ async function findFamousArtists() {
 function calculateBalancedDistribution(famousArtists, currentDistribution) {
   const totalAnimals = 16;
   const targetPerAnimal = Math.ceil(famousArtists.length / totalAnimals);
-  
+
   // 현재 부족한 동물 유형들 식별
   const animalCodes = Object.keys(ANIMAL_TYPE_MAPPING);
-  const underrepresented = animalCodes.filter(code => 
+  const underrepresented = animalCodes.filter(code =>
     (currentDistribution[code] || 0) < targetPerAnimal
   );
-  
+
   console.log('\n⚖️ 균형 분포 분석:');
   console.log(`목표: 각 동물별 ${targetPerAnimal}명`);
-  console.log('부족한 유형:', underrepresented.map(code => 
+  console.log('부족한 유형:', underrepresented.map(code =>
     `${code}(${ANIMAL_TYPE_MAPPING[code]}): ${currentDistribution[code] || 0}명`
   ).join(', '));
-  
+
   return { targetPerAnimal, underrepresented };
 }
 
@@ -152,7 +152,7 @@ function calculateBalancedDistribution(famousArtists, currentDistribution) {
 function inferAPTFromArtist(artistName, artistBio = '') {
   const name = artistName.toLowerCase();
   const bio = artistBio.toLowerCase();
-  
+
   // 간단한 휴리스틱 기반 추론
   if (name.includes('van gogh') || name.includes('고흐')) {
     return 'SAEF'; // 감정적이고 유연한 나비
@@ -184,7 +184,7 @@ function inferAPTFromArtist(artistName, artistBio = '') {
   if (name.includes('andy warhol') || name.includes('워홀')) {
     return 'LREC'; // 논리적이고 체계적인 매
   }
-  
+
   // 기본값 - 부족한 유형 중 하나 랜덤 선택
   const underrepresented = ['LAMF', 'LRIF', 'SRIF', 'SREF'];
   return underrepresented[Math.floor(Math.random() * underrepresented.length)];
@@ -193,18 +193,18 @@ function inferAPTFromArtist(artistName, artistBio = '') {
 // 유명도 가중치 업데이트
 async function updateFameWeights() {
   console.log('\n⭐ 유명도 가중치 업데이트 중...');
-  
+
   const allArtists = await pool.query(`
     SELECT id, name, name_ko, follow_count
     FROM artists
   `);
-  
+
   let updated = 0;
-  
+
   for (const artist of allArtists.rows) {
     const fameScore = calculateFameScore(artist.name);
     const newFollowCount = Math.max(artist.follow_count || 0, fameScore);
-    
+
     if (newFollowCount !== (artist.follow_count || 0)) {
       await pool.query(`
         UPDATE artists 
@@ -214,7 +214,7 @@ async function updateFameWeights() {
       updated++;
     }
   }
-  
+
   console.log(`✅ ${updated}명의 아티스트 가중치 업데이트 완료`);
 }
 
@@ -222,29 +222,29 @@ async function updateFameWeights() {
 async function main() {
   try {
     console.log('🚀 유명 아티스트 우선 APT 매핑 시스템 시작\n');
-    
+
     // 1. 현재 분포 확인
     const currentDistribution = await getCurrentDistribution();
     console.log('📊 현재 APT 분포:', currentDistribution);
-    
+
     // 2. 유명 아티스트 검색
     const famousArtists = await findFamousArtists();
     console.log(`\n🎯 발견된 유명 아티스트: ${famousArtists.length}명`);
-    
+
     // 3. 균형 분포 계산
     const { targetPerAnimal, underrepresented } = calculateBalancedDistribution(
-      famousArtists, 
+      famousArtists,
       currentDistribution
     );
-    
+
     // 4. APT가 없는 유명 아티스트들에게 APT 할당
     const needsAPT = famousArtists.filter(artist => !artist.hasAPT);
     console.log(`\n🔄 APT 할당 필요한 유명 아티스트: ${needsAPT.length}명`);
-    
+
     for (const artist of needsAPT.slice(0, 10)) { // 처음 10명만
       const inferredAPT = inferAPTFromArtist(artist.name);
       const animalType = ANIMAL_TYPE_MAPPING[inferredAPT];
-      
+
       const aptProfile = {
         primary_types: [{
           type: inferredAPT,
@@ -267,7 +267,7 @@ async function main() {
           fame_score: artist.fameScore
         }
       };
-      
+
       await pool.query(`
         UPDATE artists 
         SET apt_profile = $1, 
@@ -275,25 +275,25 @@ async function main() {
             updated_at = NOW()
         WHERE id = $2
       `, [JSON.stringify(aptProfile), artist.id]);
-      
+
       console.log(`  ✅ ${artist.name} → ${inferredAPT} (${animalType})`);
     }
-    
+
     // 5. 유명도 가중치 업데이트
     await updateFameWeights();
-    
+
     // 6. 최종 결과 출력
     console.log('\n📋 최종 결과 요약:');
     const finalDistribution = await getCurrentDistribution();
-    
+
     Object.entries(ANIMAL_TYPE_MAPPING).forEach(([code, animal]) => {
       const count = finalDistribution[code] || 0;
       const status = count >= targetPerAnimal ? '✅' : '⚠️';
       console.log(`  ${status} ${animal.padEnd(12)} (${code}): ${count}명`);
     });
-    
+
     console.log('\n🎉 유명 아티스트 우선 매핑 완료!');
-    
+
   } catch (error) {
     console.error('❌ 오류 발생:', error);
   } finally {

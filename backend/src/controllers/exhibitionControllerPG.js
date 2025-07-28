@@ -24,7 +24,7 @@ function setCache(key, data) {
     data,
     timestamp: Date.now()
   });
-  
+
   // 캐시 정리 (10분마다)
   if (cache.size > 100) {
     const now = Date.now();
@@ -47,9 +47,9 @@ const exhibitionController = {
         return res.json(cachedData);
       }
 
-      const { 
-        page = 1, 
-        limit = 20, 
+      const {
+        page = 1,
+        limit = 20,
         status,
         city,
         institution_id,
@@ -76,7 +76,7 @@ const exhibitionController = {
         INNER JOIN institutions i ON e.institution_id = i.id
         WHERE 1=1
       `;
-      
+
       const params = [];
       let paramIndex = 1;
 
@@ -172,12 +172,12 @@ const exhibitionController = {
 
       const response = {
         success: true,
-        exhibitions: exhibitions,
+        exhibitions,
         data: exhibitions, // for compatibility
         pagination: {
           page: parseInt(page),
           limit: parseInt(limit),
-          total: total,
+          total,
           pages: Math.ceil(total / limit)
         },
         stats
@@ -185,15 +185,15 @@ const exhibitionController = {
 
       // 캐시에 저장
       setCache(cacheKey, response);
-      
+
       res.json(response);
 
     } catch (error) {
       log.error('Error fetching exhibitions:', error);
-      res.status(500).json({ 
-        success: false, 
+      res.status(500).json({
+        success: false,
         message: 'Failed to fetch exhibitions',
-        error: error.message 
+        error: error.message
       });
     }
   },
@@ -397,7 +397,7 @@ const exhibitionController = {
   async likeExhibition(req, res) {
     try {
       const { id } = req.params;
-      const userId = req.userId; // from auth middleware
+      const { userId } = req; // from auth middleware
 
       // This would need a likes table to track user likes
       res.json({
@@ -419,9 +419,9 @@ const exhibitionController = {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({ 
-          success: false, 
-          errors: errors.array() 
+        return res.status(400).json({
+          success: false,
+          errors: errors.array()
         });
       }
 

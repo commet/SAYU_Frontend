@@ -42,7 +42,7 @@ class ExhibitionModel {
       FROM exhibitions e
       LEFT JOIN venues v ON e.venue_id = v.id
       WHERE e.id = $1`;
-    
+
     const result = await pool.query(query, [id]);
     return result.rows[0];
   }
@@ -52,8 +52,8 @@ class ExhibitionModel {
     const { page = 1, limit = 20, orderBy = 'start_date', order = 'ASC' } = options;
     const offset = (page - 1) * limit;
 
-    let whereConditions = [];
-    let values = [];
+    const whereConditions = [];
+    const values = [];
     let valueIndex = 1;
 
     // Build WHERE conditions
@@ -112,8 +112,8 @@ class ExhibitionModel {
       valueIndex++;
     }
 
-    const whereClause = whereConditions.length > 0 
-      ? `WHERE ${whereConditions.join(' AND ')}` 
+    const whereClause = whereConditions.length > 0
+      ? `WHERE ${whereConditions.join(' AND ')}`
       : '';
 
     // Count query
@@ -121,7 +121,7 @@ class ExhibitionModel {
       SELECT COUNT(*) 
       FROM exhibitions e 
       ${whereClause}`;
-    
+
     const countResult = await pool.query(countQuery, values);
     const total = parseInt(countResult.rows[0].count);
 
@@ -159,7 +159,7 @@ class ExhibitionModel {
       if (value !== undefined) {
         const columnName = key.replace(/([A-Z])/g, '_$1').toLowerCase();
         fields.push(`${columnName} = $${valueIndex}`);
-        
+
         if (['artists', 'images', 'tags'].includes(columnName)) {
           values.push(JSON.stringify(value));
         } else {
@@ -189,7 +189,7 @@ class ExhibitionModel {
       SET view_count = view_count + 1 
       WHERE id = $1 
       RETURNING view_count`;
-    
+
     const result = await pool.query(query, [id]);
     return result.rows[0];
   }
@@ -204,7 +204,7 @@ class ExhibitionModel {
       AND e.verification_status = 'verified'
       ORDER BY e.view_count DESC, e.like_count DESC
       LIMIT $1`;
-    
+
     const result = await pool.query(query, [limit]);
     return result.rows;
   }
@@ -219,7 +219,7 @@ class ExhibitionModel {
       AND e.start_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '${days} days'
       AND e.verification_status = 'verified'
       ORDER BY e.start_date ASC`;
-    
+
     const result = await pool.query(query);
     return result.rows;
   }

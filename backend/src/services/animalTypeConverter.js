@@ -1,7 +1,7 @@
 /**
  * SAYU APT → 16가지 동물 유형 변환 시스템
  * CORRECT SAYU SYSTEM: L/S A/R E/M F/C 4글자 코드를 16가지 동물로 매핑
- * 
+ *
  * CORRECTED AXIS DEFINITIONS:
  * L/S: Lone (Individual, introspective) vs Social (Interactive, collaborative)
  * A/R: Abstract (Atmospheric, symbolic) vs Representational (Realistic, concrete)
@@ -17,27 +17,27 @@ function getAnimalFromAPT(aptCode) {
   if (!aptCode || aptCode.length !== 4) {
     return null;
   }
-  
+
   if (!VALID_TYPE_CODES.includes(aptCode)) {
     return null;
   }
-  
+
   return getSAYUType(aptCode);
 }
 
 // 동물 유형에서 APT 코드 추출
 function getAPTFromAnimal(animalName) {
-  const entry = Object.entries(SAYU_TYPES).find(([code, data]) => 
+  const entry = Object.entries(SAYU_TYPES).find(([code, data]) =>
     data.animal === animalName || data.animalEn === animalName
   );
-  
+
   return entry ? entry[0] : null;
 }
 
 // 성격 차원별 동물 분류
 function getAnimalsByDimension(dimension) {
   const results = {};
-  
+
   Object.entries(SAYU_TYPES).forEach(([code, data]) => {
     const key = code[dimension] || 'unknown';
     if (!results[key]) results[key] = [];
@@ -49,25 +49,25 @@ function getAnimalsByDimension(dimension) {
       nameEn: data.nameEn
     });
   });
-  
+
   return results;
 }
 
 // 유사한 동물 유형 찾기
 function findSimilarAnimals(aptCode, maxResults = 3) {
   if (!aptCode || !SAYU_TYPES[aptCode]) return [];
-  
+
   const targetType = SAYU_TYPES[aptCode];
   const targetTraits = targetType.characteristics;
   const similarities = [];
-  
+
   Object.entries(SAYU_TYPES).forEach(([code, data]) => {
     if (code === aptCode) return;
-    
-    const commonTraits = data.characteristics.filter(trait => 
+
+    const commonTraits = data.characteristics.filter(trait =>
       targetTraits.includes(trait)
     ).length;
-    
+
     similarities.push({
       code,
       animal: data.animal,
@@ -77,7 +77,7 @@ function findSimilarAnimals(aptCode, maxResults = 3) {
       similarity: commonTraits / targetTraits.length
     });
   });
-  
+
   return similarities
     .sort((a, b) => b.similarity - a.similarity)
     .slice(0, maxResults);
@@ -88,14 +88,14 @@ function analyzeArtistAnimalType(aptProfile) {
   if (!aptProfile || !aptProfile.primary_types || !aptProfile.primary_types[0]) {
     return null;
   }
-  
+
   const primaryType = aptProfile.primary_types[0].type;
   const sayuType = SAYU_TYPES[primaryType];
-  
+
   if (!sayuType) return null;
-  
+
   const dimensions = aptProfile.dimensions || {};
-  
+
   return {
     primary: {
       code: primaryType,
@@ -136,17 +136,17 @@ function calculateCompatibilityScore(dimensions, aptCode) {
     'F': aptCode[3] === 'F' ? 0.7 : 0.3,
     'C': aptCode[3] === 'C' ? 0.7 : 0.3
   };
-  
+
   let totalDiff = 0;
   let count = 0;
-  
+
   Object.entries(expected).forEach(([dim, expectedValue]) => {
     if (dimensions[dim] !== undefined) {
       totalDiff += Math.abs(dimensions[dim] - expectedValue);
       count++;
     }
   });
-  
+
   return count > 0 ? Math.max(0, 1 - (totalDiff / count)) : 0.5;
 }
 
@@ -154,7 +154,7 @@ function calculateCompatibilityScore(dimensions, aptCode) {
 function getRecommendedExhibitionStyles(animalType) {
   const sayuType = SAYU_TYPES[animalType];
   if (!sayuType) return [];
-  
+
   return {
     type_info: {
       code: animalType,
@@ -172,7 +172,7 @@ function getRecommendedExhibitionStyles(animalType) {
 function getAtmosphereRecommendations(animalType) {
   const isSocial = animalType[0] === 'S';
   const isEmotional = animalType[2] === 'E';
-  
+
   if (isSocial && isEmotional) return ['lively', 'interactive', 'social', 'expressive'];
   if (isSocial && !isEmotional) return ['sophisticated', 'structured', 'educational', 'analytical'];
   if (!isSocial && isEmotional) return ['intimate', 'contemplative', 'immersive', 'personal'];
@@ -182,7 +182,7 @@ function getAtmosphereRecommendations(animalType) {
 function getInteractionRecommendations(animalType) {
   const isFlow = animalType[3] === 'F';
   const isSocial = animalType[0] === 'S';
-  
+
   if (isFlow && isSocial) return ['hands-on', 'discussion', 'collaborative', 'spontaneous'];
   if (isFlow && !isSocial) return ['self-guided', 'multimedia', 'exploratory', 'flexible'];
   if (!isFlow && isSocial) return ['guided_tour', 'lecture', 'structured', 'systematic'];
@@ -197,7 +197,7 @@ function getGroupSizeRecommendations(animalType) {
 function getFlowRecommendations(animalType) {
   const isFlow = animalType[3] === 'F';
   const isAbstract = animalType[1] === 'A';
-  
+
   if (isFlow && isAbstract) return ['wandering', 'intuitive', 'atmosphere-driven'];
   if (isFlow && !isAbstract) return ['story-driven', 'narrative', 'thematic'];
   if (!isFlow && isAbstract) return ['conceptual-sequence', 'theoretical', 'systematic-abstract'];
@@ -209,12 +209,12 @@ function checkDistributionBalance(distribution) {
   const totalCount = Object.values(distribution).reduce((sum, count) => sum + count, 0);
   const idealPerType = totalCount / 16;
   const tolerance = 0.2; // 20% 허용 오차
-  
+
   const unbalanced = Object.entries(distribution).filter(([type, count]) => {
     const deviation = Math.abs(count - idealPerType) / idealPerType;
     return deviation > tolerance;
   });
-  
+
   return {
     is_balanced: unbalanced.length === 0,
     ideal_per_type: Math.ceil(idealPerType),
@@ -233,13 +233,13 @@ function checkDistributionBalance(distribution) {
 function getArtStylePreferences(animalType) {
   const sayuType = SAYU_TYPES[animalType];
   if (!sayuType) return null;
-  
+
   const isAbstract = animalType[1] === 'A';
   const isEmotional = animalType[2] === 'E';
   const isFlow = animalType[3] === 'F';
-  
+
   let styles = [];
-  
+
   if (isAbstract && isEmotional && isFlow) {
     styles = ['Abstract Expressionism', 'Surrealism', 'Color Field'];
   } else if (isAbstract && isEmotional && !isFlow) {
@@ -257,7 +257,7 @@ function getArtStylePreferences(animalType) {
   } else {
     styles = ['Realism', 'Classical', 'Neoclassicism'];
   }
-  
+
   return {
     primary_styles: styles,
     characteristics: sayuType.characteristics,

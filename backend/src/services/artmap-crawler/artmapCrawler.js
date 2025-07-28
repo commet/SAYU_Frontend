@@ -9,7 +9,7 @@ class ArtMapCrawler {
     this.pool = new Pool({
       connectionString: process.env.DATABASE_URL
     });
-    
+
     // 요청 헤더 설정
     this.axiosConfig = {
       headers: {
@@ -21,10 +21,10 @@ class ArtMapCrawler {
       },
       timeout: 10000
     };
-    
+
     // 크롤링 지연 시간 (밀리초)
     this.requestDelay = 2000;
-    
+
     // 도시별 slug (확장된 목록)
     this.cities = {
       // 북미
@@ -38,7 +38,7 @@ class ArtMapCrawler {
       seattle: 'seattle',
       toronto: 'toronto',
       montreal: 'montreal',
-      
+
       // 유럽
       london: 'london',
       paris: 'paris',
@@ -58,7 +58,7 @@ class ArtMapCrawler {
       oslo: 'oslo',
       munich: 'munich',
       frankfurt: 'frankfurt',
-      
+
       // 아시아
       seoul: 'seoul',
       tokyo: 'tokyo',
@@ -68,7 +68,7 @@ class ArtMapCrawler {
       singapore: 'singapore',
       taipei: 'taipei',
       bangkok: 'bangkok',
-      
+
       // 기타
       sydney: 'sydney',
       melbourne: 'melbourne',
@@ -120,7 +120,7 @@ class ArtMapCrawler {
           if (!html) continue;
 
           const $ = cheerio.load(html);
-          
+
           // ArtMap의 실제 구조에 맞는 셀렉터 사용
           $('.venuesListTableRow, .venue-row, tr').each((i, elem) => {
             const venue = this.parseVenueTableRow($, elem, citySlug);
@@ -131,7 +131,7 @@ class ArtMapCrawler {
           });
 
           console.log(`Found ${venues[type].length} ${type} in ${citySlug}`);
-          
+
         } catch (error) {
           console.error(`Error fetching ${type} for ${citySlug}:`, error.message);
         }
@@ -154,12 +154,12 @@ class ArtMapCrawler {
   parseVenueTableRow($, elem, citySlug) {
     try {
       const $elem = $(elem);
-      
+
       // 링크와 이름 추출
       const linkElement = $elem.find('a').first();
       const name = linkElement.text().trim() || $elem.find('td').first().text().trim();
       const href = linkElement.attr('href');
-      
+
       if (!name || !href) return null;
 
       // 주소 추출 (보통 두 번째 또는 세 번째 컬럼)
@@ -191,7 +191,7 @@ class ArtMapCrawler {
       const name = $elem.find('.venue-name').text().trim();
       const url = $elem.find('a').attr('href');
       const address = $elem.find('.venue-address').text().trim();
-      
+
       if (!name || !url) return null;
 
       return {
@@ -222,7 +222,7 @@ class ArtMapCrawler {
       if (!html) return { exhibitions, venueDetails };
 
       const $ = cheerio.load(html);
-      
+
       // Venue 상세 정보 추출
       venueDetails.name = $('.venue-name, .institution-name, h1').first().text().trim();
       venueDetails.address = $('.address, .venue-address, .location').text().trim();
@@ -231,7 +231,7 @@ class ArtMapCrawler {
       venueDetails.website = $('a.website, .venue-website').attr('href');
       venueDetails.openingHours = $('.opening-hours, .hours').text().trim();
       venueDetails.description = $('.venue-description, .about').text().trim();
-      
+
       // GPS 좌표 추출 시도
       const mapLink = $('a[href*="maps.google"], a[href*="map"]').attr('href');
       if (mapLink) {
@@ -241,7 +241,7 @@ class ArtMapCrawler {
           venueDetails.longitude = coords.lng;
         }
       }
-      
+
       // 현재 전시 파싱 (다양한 셀렉터 사용)
       $('.current-exhibitions .exhibition-item, .exhibition-list-item, .event-item, .show-item, article.exhibition').each((i, elem) => {
         const exhibition = this.parseExhibitionItem($, elem);
@@ -251,7 +251,7 @@ class ArtMapCrawler {
           exhibitions.push(exhibition);
         }
       });
-      
+
       // 예정된 전시도 수집
       $('.upcoming-exhibitions .exhibition-item, .future-exhibitions .event-item').each((i, elem) => {
         const exhibition = this.parseExhibitionItem($, elem);
@@ -271,7 +271,7 @@ class ArtMapCrawler {
 
     return { exhibitions, venueDetails };
   }
-  
+
   // 지도 링크에서 GPS 좌표 추출
   extractCoordinatesFromMapLink(mapLink) {
     try {
@@ -290,26 +290,26 @@ class ArtMapCrawler {
   parseExhibitionItem($, elem) {
     try {
       const $elem = $(elem);
-      
+
       // 다양한 셀렉터로 정보 추출
       const title = $elem.find('.exhibition-title, .title, h3, h2, .event-title').first().text().trim();
       const artists = $elem.find('.exhibition-artists, .artist-name, .artist, .artists')
         .map((i, el) => $(el).text().trim())
         .get()
         .filter(Boolean);
-      
+
       const dateText = $elem.find('.exhibition-dates, .dates, .date, .event-date').text().trim();
       const dates = this.parseDates(dateText);
-      
+
       const description = $elem.find('.exhibition-description, .description, .text, .event-text').text().trim();
       const imageUrl = $elem.find('img').attr('src') || $elem.find('img').attr('data-src');
-      
+
       // 큐레이터 정보
       const curator = $elem.find('.curator, .curated-by').text().trim();
-      
+
       // 전시 타입 (solo/group)
       const exhibitionType = artists.length === 1 ? 'solo' : 'group';
-      
+
       // 오프닝 정보
       const openingInfo = $elem.find('.opening, .vernissage').text().trim();
 
@@ -332,12 +332,12 @@ class ArtMapCrawler {
       return null;
     }
   }
-  
+
   // 이미지 URL 정규화
   normalizeImageUrl(url) {
     if (!url) return null;
     if (url.startsWith('http')) return url;
-    if (url.startsWith('//')) return 'https:' + url;
+    if (url.startsWith('//')) return `https:${url}`;
     if (url.startsWith('/')) return this.baseUrl + url;
     return url;
   }
@@ -345,13 +345,13 @@ class ArtMapCrawler {
   // 날짜 텍스트 파싱
   parseDates(dateText) {
     const dates = { start: null, end: null };
-    
+
     try {
       // 다양한 날짜 형식 처리
       // 예: "Jan 15 - Mar 20, 2025"
       // 예: "15.01.2025 - 20.03.2025"
       // 예: "January 15 - March 20"
-      
+
       const datePatterns = [
         /(\w+\s+\d{1,2})\s*[-–]\s*(\w+\s+\d{1,2}),?\s*(\d{4})/,
         /(\d{1,2}\.\d{1,2}\.\d{4})\s*[-–]\s*(\d{1,2}\.\d{1,2}\.\d{4})/,
@@ -411,7 +411,7 @@ class ArtMapCrawler {
 
       const result = await this.pool.query(query, values);
       console.log(`Saved exhibition: ${exhibition.title} (ID: ${result.rows[0].id})`);
-      
+
       return result.rows[0].id;
     } catch (error) {
       console.error('Error saving exhibition:', error);
@@ -448,7 +448,7 @@ class ArtMapCrawler {
 
       const insertResult = await this.pool.query(insertQuery, values);
       console.log(`Created new venue: ${venue.name} (ID: ${insertResult.rows[0].id})`);
-      
+
       return insertResult.rows[0].id;
     } catch (error) {
       console.error('Error in getOrCreateVenue:', error);
@@ -470,7 +470,7 @@ class ArtMapCrawler {
       seattle: 'US',
       toronto: 'CA',
       montreal: 'CA',
-      
+
       // 유럽
       london: 'GB',
       paris: 'FR',
@@ -490,7 +490,7 @@ class ArtMapCrawler {
       oslo: 'NO',
       munich: 'DE',
       frankfurt: 'DE',
-      
+
       // 아시아
       seoul: 'KR',
       tokyo: 'JP',
@@ -500,7 +500,7 @@ class ArtMapCrawler {
       singapore: 'SG',
       taipei: 'TW',
       bangkok: 'TH',
-      
+
       // 기타
       sydney: 'AU',
       melbourne: 'AU',
@@ -518,7 +518,7 @@ class ArtMapCrawler {
   async crawlCity(citySlug, options = {}) {
     console.log(`\n=== Starting crawl for ${citySlug} ===`);
     console.log(`Time: ${new Date().toISOString()}`);
-    
+
     const {
       maxVenues = 10,
       venueTypes = ['institutions', 'galleries', 'furtherSpaces'],
@@ -548,29 +548,29 @@ class ArtMapCrawler {
         if (!venues[type]) continue;
 
         console.log(`\nProcessing ${type} in ${citySlug}...`);
-        
+
         const venueList = venues[type].slice(0, maxVenues);
-        
+
         for (const venue of venueList) {
           try {
             venue.type = type;
-            
+
             // 3. venue의 전시 정보와 상세 정보 수집
             const { exhibitions, venueDetails } = await this.fetchVenueExhibitions(venue.url);
-            
+
             // venue 상세 정보 병합
             Object.assign(venue, venueDetails);
-            
+
             stats.exhibitionsFound += exhibitions.length;
             stats.upcomingExhibitions += exhibitions.filter(e => e.status === 'upcoming').length;
-            
+
             if (venue.latitude && venue.longitude) {
               stats.venuesWithCoordinates++;
             }
 
             // 4. venue를 먼저 저장/업데이트
             const venueId = await this.saveVenueToDB(venue, citySlug);
-            
+
             // JSON 백업용
             stats.venues.push(venue);
 
@@ -589,12 +589,12 @@ class ArtMapCrawler {
             }
 
             stats.venuesProcessed++;
-            
+
             // 진행 상황 출력
             if (stats.venuesProcessed % 5 === 0) {
               console.log(`Progress: ${stats.venuesProcessed} venues, ${stats.exhibitionsSaved} exhibitions saved`);
             }
-            
+
           } catch (error) {
             console.error(`Error processing venue ${venue.name}:`, error.message);
             stats.errors.push({ venue: venue.name, error: error.message });
@@ -617,12 +617,12 @@ class ArtMapCrawler {
     console.log(`Exhibitions saved: ${stats.exhibitionsSaved}`);
     console.log(`Venues with GPS: ${stats.venuesWithCoordinates}`);
     console.log(`Errors: ${stats.errors.length}`);
-    
+
     // JSON 백업 저장
     if (saveToJson) {
       await this.saveJsonBackup(citySlug, stats);
     }
-    
+
     return stats;
   }
 
@@ -634,7 +634,7 @@ class ArtMapCrawler {
       const citySlug = this.cities[city] || city;
       const result = await this.crawlCity(citySlug, options);
       results.push(result);
-      
+
       // 도시 간 대기 시간
       await this.delay(5000);
     }
@@ -657,12 +657,12 @@ class ArtMapCrawler {
           WHERE id = $6
           RETURNING id
         `;
-        
+
         const updateValues = [
-          venue.address, venue.website, venue.phone, 
+          venue.address, venue.website, venue.phone,
           venue.latitude, venue.longitude, checkResult.rows[0].id
         ];
-        
+
         const updateResult = await this.pool.query(updateQuery, updateValues);
         return updateResult.rows[0].id;
       } else {
@@ -695,15 +695,15 @@ class ArtMapCrawler {
   async saveJsonBackup(citySlug, stats) {
     const fs = require('fs').promises;
     const path = require('path');
-    
+
     try {
       const backupDir = path.join(__dirname, 'backups');
       await fs.mkdir(backupDir, { recursive: true });
-      
+
       const timestamp = new Date().toISOString().replace(/:/g, '-');
       const filename = `${citySlug}_${timestamp}.json`;
       const filepath = path.join(backupDir, filename);
-      
+
       await fs.writeFile(filepath, JSON.stringify(stats, null, 2));
       console.log(`JSON backup saved: ${filepath}`);
     } catch (error) {

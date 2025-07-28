@@ -4,11 +4,11 @@ class GlobalVenueModel {
   // Create venue
   static async create(venueData) {
     const {
-      name, nameEn, nameLocal, type, category, tier, 
+      name, nameEn, nameLocal, type, category, tier,
       address, district, city, country,
       latitude, longitude, phone, email, website, socialMedia,
       operatingHours, admissionInfo, features, images,
-      description, descriptionEn, 
+      description, descriptionEn,
       googlePlaceId, dataSource, dataQualityScore,
       crawlUrl, crawlSelector, crawlFrequency
     } = venueData;
@@ -32,15 +32,15 @@ class GlobalVenueModel {
     const values = [
       name, nameEn, nameLocal, type || 'gallery', category || 'commercial', tier || 2,
       address, district, city, country || 'South Korea',
-      latitude, longitude, phone, email, website, 
+      latitude, longitude, phone, email, website,
       socialMedia ? JSON.stringify(socialMedia) : null,
       operatingHours ? JSON.stringify(operatingHours) : null,
-      admissionInfo, 
+      admissionInfo,
       features ? JSON.stringify(features) : null,
       images ? JSON.stringify(images) : null,
       description, descriptionEn,
       googlePlaceId, dataSource || 'manual', dataQualityScore || 50,
-      crawlUrl, 
+      crawlUrl,
       crawlSelector ? JSON.stringify(crawlSelector) : null,
       crawlFrequency || 'weekly'
     ];
@@ -60,12 +60,12 @@ class GlobalVenueModel {
   static async findByName(name, city = null) {
     let query = 'SELECT * FROM global_venues WHERE name = $1';
     const values = [name];
-    
+
     if (city) {
       query += ' AND city = $2';
       values.push(city);
     }
-    
+
     const result = await pool.query(query, values);
     return result.rows[0];
   }
@@ -80,9 +80,9 @@ class GlobalVenueModel {
   // Find with filters
   static async find(filters = {}, options = {}) {
     const { limit = 50, offset = 0 } = options;
-    
-    let whereConditions = ['(is_active = true OR is_active IS NULL)'];
-    let values = [];
+
+    const whereConditions = ['(is_active = true OR is_active IS NULL)'];
+    const values = [];
     let valueIndex = 1;
 
     if (filters.city) {
@@ -155,7 +155,7 @@ class GlobalVenueModel {
       AND crawl_frequency = $1
       AND crawl_url IS NOT NULL
       ORDER BY last_crawled_at ASC NULLS FIRST`;
-    
+
     const result = await pool.query(query, [crawlFrequency]);
     return result.rows;
   }
@@ -167,7 +167,7 @@ class GlobalVenueModel {
       SET last_crawled_at = CURRENT_TIMESTAMP 
       WHERE id = $1 
       RETURNING last_crawled_at`;
-    
+
     const result = await pool.query(query, [id]);
     return result.rows[0];
   }
@@ -179,7 +179,7 @@ class GlobalVenueModel {
       SET exhibition_count = exhibition_count + 1 
       WHERE id = $1 
       RETURNING exhibition_count`;
-    
+
     const result = await pool.query(query, [id]);
     return result.rows[0];
   }
@@ -264,7 +264,7 @@ class GlobalVenueModel {
         AVG(data_quality_score)::NUMERIC(5,2) as avg_quality_score
       FROM global_venues
       WHERE is_active = true OR is_active IS NULL`;
-    
+
     const result = await pool.query(query);
     return result.rows[0];
   }

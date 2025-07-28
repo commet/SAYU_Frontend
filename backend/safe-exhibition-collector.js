@@ -206,7 +206,7 @@ async function safeCollectExhibitions() {
           exhibition.venue_city,
           'KR',
           exhibition.official_url,
-          'sample_data',
+          'sample_data'
         ]);
 
         console.log(`✅ Added: ${exhibition.title_local} at ${exhibition.venue_name}`);

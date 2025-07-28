@@ -277,7 +277,7 @@ const initializeAssociations = () => {
   // TODO: Sequelize 모델이 준비되면 관계 설정
   // const { User } = require('./User');
   // const { ExhibitionVisit } = require('./Gamification');
-  
+
   // CompanionEvaluation.belongsTo(ExhibitionVisit, { foreignKey: 'exhibitionVisitId' });
   // CompanionEvaluation.belongsTo(User, { foreignKey: 'evaluatorId', as: 'evaluator' });
   // CompanionEvaluation.belongsTo(User, { foreignKey: 'evaluatedId', as: 'evaluated' });

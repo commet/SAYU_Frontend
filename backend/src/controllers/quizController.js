@@ -15,7 +15,7 @@ class QuizController {
   async startQuiz(req, res) {
     try {
       const { sessionType } = req.body;
-      const userId = req.userId;
+      const { userId } = req;
 
       // Create quiz session
       const session = await QuizModel.createSession(userId, sessionType);
@@ -75,7 +75,7 @@ class QuizController {
       // Determine next question
       let nextQuestion = null;
       const isExhibition = session.sessionType === 'exhibition';
-      
+
       if (isExhibition) {
         if (session.currentQuestion < exhibitionQuestions.length) {
           nextQuestion = exhibitionQuestions[session.currentQuestion];
@@ -147,7 +147,7 @@ class QuizController {
       if (hasExhibition && hasArtwork) {
         // Generate profile
         const profile = await this.generateProfile(session.userId);
-        
+
         // 🎯 APT 테스트 완료 시 7일 여정 시작!
         try {
           await journeyNudgeService.initializeJourney(session.userId);
@@ -156,7 +156,7 @@ class QuizController {
           console.error('Journey initialization failed:', journeyError);
           // 여정 시작 실패해도 프로필 생성은 성공으로 처리
         }
-        
+
         res.json({
           complete: true,
           profileGenerated: true,
@@ -189,7 +189,7 @@ class QuizController {
     const responseValues = Object.values(responses);
     const aCount = responseValues.filter(r => r.answer === 'A').length;
     const bCount = responseValues.filter(r => r.answer === 'B').length;
-    
+
     if (aCount > bCount * 1.5) return 'painting';
     if (bCount > aCount * 1.5) return 'multidimensional';
     return 'mixed';
@@ -198,7 +198,7 @@ class QuizController {
   calculateExhibitionPersonality(exhibitionResponses) {
     // Initialize dimension scores
     const scores = { G: 0, S: 0, A: 0, R: 0, E: 0, M: 0, F: 0, C: 0 };
-    
+
     // Calculate scores based on responses
     exhibitionQuestions.forEach(question => {
       const response = exhibitionResponses[question.id];
@@ -213,7 +213,7 @@ class QuizController {
     });
 
     // Determine type code based on highest scores in each pair
-    const typeCode = 
+    const typeCode =
       (scores.G >= scores.S ? 'G' : 'S') +
       (scores.A >= scores.R ? 'A' : 'R') +
       (scores.M >= scores.E ? 'M' : 'E') +
@@ -221,7 +221,7 @@ class QuizController {
 
     // Get exhibition type info
     const exhibitionType = exhibitionTypes[typeCode];
-    
+
     return {
       typeCode,
       scores,
@@ -242,13 +242,13 @@ class QuizController {
 
       // Calculate exhibition personality
       const exhibitionResult = this.calculateExhibitionPersonality(exhibitionSession.responses);
-      
+
       // Calculate artwork preferences using new scoring system
       const artworkAnalysis = this.calculateArtworkPreferences(artworkSession.responses);
-      
+
       // Get specific profile image using 128-combination system
       const profileImageInfo = ProfileImageMappingService.getProfileImage(
-        exhibitionResult.typeCode, 
+        exhibitionResult.typeCode,
         artworkAnalysis
       );
 
@@ -271,7 +271,7 @@ class QuizController {
       };
 
       // Use 128-profile system for image selection
-      let profileImageUrl = profileImageInfo.imagePath;
+      const profileImageUrl = profileImageInfo.imagePath;
       let cognitiveVector = new Array(1536).fill(0).map(() => Math.random() * 0.1);
       let emotionalVector = new Array(1536).fill(0).map(() => Math.random() * 0.1);
 
@@ -281,12 +281,12 @@ class QuizController {
           exhibition: exhibitionSession.responses,
           artwork: artworkSession.responses
         });
-        
+
         if (aiAnalysis) {
           // Enhance profile data with AI insights while keeping systematic image
           profileData.aiEnhancedDescription = aiAnalysis.description;
           profileData.aiEmotionalTags = aiAnalysis.emotionalTags;
-          
+
           const profileText = `${profileData.archetypeName} ${profileData.description} ${artworkAnalysis.dominantStyle}`;
           cognitiveVector = await AIService.generateEmbedding(profileText) || cognitiveVector;
           emotionalVector = await AIService.generateEmbedding(profileData.emotionalTags.join(' ')) || emotionalVector;
@@ -323,7 +323,7 @@ class QuizController {
   calculateArtworkPreferences(artworkResponses) {
     // Use the new artwork scoring system
     const artworkAnalysis = ArtworkScoringService.calculateArtworkPreferences(artworkResponses);
-    
+
     return {
       tagScores: artworkAnalysis.tagScores,
       resultVector: artworkAnalysis.resultVector,

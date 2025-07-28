@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const authMiddleware = require('../middleware/auth');
-const { 
-  validationSchemas, 
-  handleValidationResult, 
-  securityHeaders, 
+const {
+  validationSchemas,
+  handleValidationResult,
+  securityHeaders,
   requestSizeLimiter,
   sanitizeInput,
-  rateLimits 
+  rateLimits
 } = require('../middleware/validation');
 const { pool } = require('../config/database');
 const { log } = require('../config/logger');
@@ -78,7 +78,7 @@ router.get('/exhibitions',
   rateLimits.lenient,
   async (req, res) => {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const limit = Math.min(parseInt(req.query.limit) || 50, 100);
       const offset = parseInt(req.query.offset) || 0;
 
@@ -175,11 +175,11 @@ router.post('/exhibitions',
   handleValidationResult,
   async (req, res) => {
     const client = await pool.connect();
-    
+
     try {
       await client.query('BEGIN');
-      
-      const userId = req.userId;
+
+      const { userId } = req;
       const {
         exhibition_name,
         venue,
@@ -238,15 +238,15 @@ router.post('/exhibitions',
 
       log.userAction(userId, 'exhibition_created', {
         exhibition_id: exhibition.id,
-        venue: venue,
+        venue,
         artwork_count: artworkEntries.length
       });
 
       // Track achievements
       await ProgressTracker.updateUserProgress(userId, 'exhibition_archived');
       if (artworkEntries.length > 0) {
-        await ProgressTracker.updateUserProgress(userId, 'artwork_documented', { 
-          artwork_count: artworkEntries.length 
+        await ProgressTracker.updateUserProgress(userId, 'artwork_documented', {
+          artwork_count: artworkEntries.length
         });
       }
 
@@ -277,7 +277,7 @@ router.get('/exhibitions/:id',
   rateLimits.lenient,
   async (req, res) => {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const exhibitionId = req.params.id;
 
       // Get exhibition
@@ -335,7 +335,7 @@ router.put('/exhibitions/:id',
   handleValidationResult,
   async (req, res) => {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const exhibitionId = req.params.id;
       const { overall_impression, mood_tags } = req.body;
 
@@ -382,7 +382,7 @@ router.get('/stats',
   rateLimits.lenient,
   async (req, res) => {
     try {
-      const userId = req.userId;
+      const { userId } = req;
 
       const result = await pool.query(`
         SELECT 
@@ -452,7 +452,7 @@ router.delete('/exhibitions/:id',
     try {
       await client.query('BEGIN');
 
-      const userId = req.userId;
+      const { userId } = req;
       const exhibitionId = req.params.id;
 
       // Delete artwork entries first (foreign key constraint)

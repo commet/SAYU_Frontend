@@ -24,7 +24,7 @@ class CultureAPIService {
     // 문화데이터광장 API 키 (환경변수에서 가져옴)
     this.API_KEY = process.env.CULTURE_API_KEY || '';
     this.BASE_URL = 'https://www.culture.go.kr/openapi/rest/publicperformancedisplays/period';
-    
+
     // Axios 인스턴스 설정 (공통 설정)
     this.axiosInstance = axios.create({
       timeout: 15000,
@@ -32,24 +32,24 @@ class CultureAPIService {
         'User-Agent': 'SAYU-Exhibition-Collector/1.0',
         'Accept': 'application/json'
       },
-      validateStatus: function (status) {
+      validateStatus (status) {
         return status >= 200 && status < 500; // 4xx 에러도 resolve
       }
     });
-    
+
     // 재시도 설정
     this.retryConfig = {
       maxRetries: 3,
       retryDelay: 1000,
       retryCondition: (error) => {
-        return !error.response || 
-               error.response.status >= 500 || 
+        return !error.response ||
+               error.response.status >= 500 ||
                error.code === 'ECONNABORTED' ||
                error.code === 'ETIMEDOUT' ||
                error.code === 'ENOTFOUND';
       }
     };
-    
+
     // 주요 문화기관 목록 (문화데이터광장 API는 통합 방식)
     this.MAJOR_INSTITUTIONS = [
       '국립현대미술관',
@@ -135,7 +135,7 @@ class CultureAPIService {
       const url = `http://openapi.seoul.go.kr:8088/${SEOUL_API_KEY}/json/culturalEventInfo/1/100/`;
 
       const response = await axios.get(url);
-      
+
       if (response.data && response.data.culturalEventInfo) {
         const exhibitions = response.data.culturalEventInfo.row || [];
         return this.processSeoulExhibitions(exhibitions);
@@ -164,7 +164,7 @@ class CultureAPIService {
         linkPrefix: 'https://www.mmca.go.kr'
       },
       {
-        name: '서울시립미술관', 
+        name: '서울시립미술관',
         url: 'https://sema.seoul.go.kr/ex/currEx',
         selector: '.exhibition_list li',
         titleSelector: '.subject',
@@ -224,13 +224,13 @@ class CultureAPIService {
    */
   async crawlGallery(gallery) {
     const puppeteer = require('puppeteer');
-    
+
     let browser = null;
     try {
-      browser = await puppeteer.launch({ 
+      browser = await puppeteer.launch({
         headless: 'new',
         args: [
-          '--no-sandbox', 
+          '--no-sandbox',
           '--disable-setuid-sandbox',
           '--disable-dev-shm-usage',
           '--disable-accelerated-2d-canvas',
@@ -240,11 +240,11 @@ class CultureAPIService {
           '--disable-gpu'
         ]
       });
-      
+
       const page = await browser.newPage();
       await page.setViewport({ width: 1920, height: 1080 });
       await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
-      
+
       // 이미지 로드 비활성화로 속도 향상
       await page.setRequestInterception(true);
       page.on('request', (req) => {
@@ -254,10 +254,10 @@ class CultureAPIService {
           req.continue();
         }
       });
-      
-      await page.goto(gallery.url, { 
-        waitUntil: gallery.requiresJS ? 'networkidle0' : 'domcontentloaded', 
-        timeout: 30000 
+
+      await page.goto(gallery.url, {
+        waitUntil: gallery.requiresJS ? 'networkidle0' : 'domcontentloaded',
+        timeout: 30000
       });
 
       // JavaScript가 필요한 경우 대기
@@ -273,18 +273,18 @@ class CultureAPIService {
           if (index >= 20) return; // 최대 20개만
 
           try {
-            const titleEl = gallery.titleSelector ? 
-              item.querySelector(gallery.titleSelector) : 
+            const titleEl = gallery.titleSelector ?
+              item.querySelector(gallery.titleSelector) :
               item.querySelector('h3, .title, .exhibition-title');
-            
+
             const dateEl = gallery.dateSelector ?
               item.querySelector(gallery.dateSelector) :
               item.querySelector('.date, .period, .exhibition-date');
-            
+
             const imageEl = gallery.imageSelector ?
               item.querySelector(gallery.imageSelector) :
               item.querySelector('img');
-            
+
             const linkEl = item.querySelector('a');
             const venueEl = gallery.venueSelector ?
               item.querySelector(gallery.venueSelector) : null;
@@ -328,7 +328,7 @@ class CultureAPIService {
 
     } catch (error) {
       console.error(`${gallery.name} 크롤링 실패:`, error.message);
-      
+
       // 크롤링 실패시 기본 정보라도 반환
       if (gallery.fallbackInfo) {
         return [{
@@ -339,7 +339,7 @@ class CultureAPIService {
           error: error.message
         }];
       }
-      
+
       return [];
     } finally {
       if (browser) {
@@ -357,7 +357,7 @@ class CultureAPIService {
    */
   async collectAllExhibitions() {
     console.log('📊 통합 전시 정보 수집 시작...');
-    
+
     const results = {
       cultureAPI: [],
       seoulAPI: [],
@@ -396,7 +396,7 @@ class CultureAPIService {
       // 4. 중복 제거 및 통합
       const allExhibitions = [
         ...results.cultureAPI,
-        ...results.seoulAPI, 
+        ...results.seoulAPI,
         ...results.crawled
       ];
 
@@ -421,7 +421,7 @@ class CultureAPIService {
     } catch (error) {
       console.error('❌ 전시 정보 수집 실패:', error);
       results.errors.push(error.message);
-      
+
       return {
         success: false,
         error: error.message,
@@ -455,7 +455,7 @@ class CultureAPIService {
         placeUrl: item.placeUrl || '',
         source: 'culture_api',
         apiId: item.seq || item.perforcode || '',
-        isMajorInstitution: this.MAJOR_INSTITUTIONS.some(inst => 
+        isMajorInstitution: this.MAJOR_INSTITUTIONS.some(inst =>
           (item.place || '').includes(inst) || (item.fcltynm || '').includes(inst)
         ),
         collectedAt: new Date().toISOString()
@@ -511,11 +511,11 @@ class CultureAPIService {
    */
   validateAPIKeys() {
     const issues = [];
-    
+
     if (!this.API_KEY) {
       issues.push('문화데이터광장 API 키가 설정되지 않았습니다.');
     }
-    
+
     if (!process.env.SEOUL_API_KEY) {
       issues.push('서울시 API 키가 설정되지 않았습니다.');
     }
@@ -533,24 +533,24 @@ class CultureAPIService {
   async requestWithRetry(requestFn, retryConfig = this.retryConfig) {
     const { maxRetries, retryDelay, retryCondition } = retryConfig;
     let lastError = null;
-    
+
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         const result = await requestFn();
         return result;
       } catch (error) {
         lastError = error;
-        
+
         if (attempt === maxRetries || !retryCondition(error)) {
           throw error;
         }
-        
+
         const delay = retryDelay * Math.pow(2, attempt - 1); // 지수 백오프
-        console.log(`   ⏳ ${delay/1000}초 후 재시도 (${attempt}/${maxRetries})...`);
+        console.log(`   ⏳ ${delay / 1000}초 후 재시도 (${attempt}/${maxRetries})...`);
         await new Promise(resolve => setTimeout(resolve, delay));
       }
     }
-    
+
     throw lastError;
   }
 
@@ -563,7 +563,7 @@ class CultureAPIService {
       message: error.message,
       timestamp: new Date().toISOString()
     };
-    
+
     if (error.response) {
       errorInfo.status = error.response.status;
       errorInfo.statusText = error.response.statusText;
@@ -574,9 +574,9 @@ class CultureAPIService {
     } else {
       errorInfo.type = 'REQUEST_SETUP_ERROR';
     }
-    
+
     console.error('🚨 API 에러:', JSON.stringify(errorInfo, null, 2));
-    
+
     return errorInfo;
   }
 
@@ -587,7 +587,7 @@ class CultureAPIService {
     if (!this.circuitBreakers) {
       this.circuitBreakers = new Map();
     }
-    
+
     if (!this.circuitBreakers.has(name)) {
       this.circuitBreakers.set(name, {
         failures: 0,
@@ -597,13 +597,13 @@ class CultureAPIService {
         timeout
       });
     }
-    
+
     return this.circuitBreakers.get(name);
   }
 
   async executeWithCircuitBreaker(name, fn) {
     const breaker = this.createCircuitBreaker(name);
-    
+
     // 회로가 열려있는지 확인
     if (breaker.isOpen) {
       const timeSinceFailure = Date.now() - breaker.lastFailure;
@@ -615,7 +615,7 @@ class CultureAPIService {
         breaker.failures = 0;
       }
     }
-    
+
     try {
       const result = await fn();
       // 성공 시 실패 카운트 리셋
@@ -624,12 +624,12 @@ class CultureAPIService {
     } catch (error) {
       breaker.failures++;
       breaker.lastFailure = Date.now();
-      
+
       if (breaker.failures >= breaker.threshold) {
         breaker.isOpen = true;
         console.error(`🔴 Circuit breaker OPENED for ${name} after ${breaker.failures} failures`);
       }
-      
+
       throw error;
     }
   }

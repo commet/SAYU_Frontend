@@ -15,9 +15,9 @@ const adminExhibitionController = {
   // 제출된 전시 목록 조회 (관리자 전용)
   async getSubmissions(req, res) {
     try {
-      const { 
-        page = 1, 
-        limit = 20, 
+      const {
+        page = 1,
+        limit = 20,
         status = 'pending',
         search,
         sort = 'created_at',
@@ -147,7 +147,7 @@ const adminExhibitionController = {
         data
       });
     } catch (error) {
-      log.error('Admin get submission detail error', { 
+      log.error('Admin get submission detail error', {
         error: error.message,
         submissionId: req.params.submissionId
       });
@@ -219,7 +219,7 @@ const adminExhibitionController = {
         message: 'Submission approved successfully'
       });
     } catch (error) {
-      log.error('Admin approve submission error', { 
+      log.error('Admin approve submission error', {
         error: error.message,
         submissionId: req.params.submissionId,
         adminId: req.userId
@@ -301,7 +301,7 @@ const adminExhibitionController = {
         message: 'Submission rejected successfully'
       });
     } catch (error) {
-      log.error('Admin reject submission error', { 
+      log.error('Admin reject submission error', {
         error: error.message,
         submissionId: req.params.submissionId,
         adminId: req.userId
@@ -359,7 +359,7 @@ const adminExhibitionController = {
         message: 'Exhibition updated successfully'
       });
     } catch (error) {
-      log.error('Admin update exhibition error', { 
+      log.error('Admin update exhibition error', {
         error: error.message,
         exhibitionId: req.params.exhibitionId,
         adminId: req.userId
@@ -413,7 +413,7 @@ const adminExhibitionController = {
         message: 'Exhibition deleted successfully'
       });
     } catch (error) {
-      log.error('Admin delete exhibition error', { 
+      log.error('Admin delete exhibition error', {
         error: error.message,
         exhibitionId: req.params.exhibitionId,
         adminId: req.userId
@@ -596,7 +596,7 @@ const adminExhibitionController = {
         message: `Report ${action} successfully`
       });
     } catch (error) {
-      log.error('Admin handle report error', { 
+      log.error('Admin handle report error', {
         error: error.message,
         reportId: req.params.reportId,
         adminId: req.userId

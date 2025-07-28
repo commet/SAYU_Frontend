@@ -20,7 +20,7 @@ class BehavioralInsightsService {
         'SELECT personality_type FROM users WHERE id = $1',
         [userId]
       );
-      
+
       const personalityType = userResult.rows[0]?.personality_type;
 
       // Record viewing behavior
@@ -39,10 +39,10 @@ class BehavioralInsightsService {
 
       return { success: true };
     } catch (error) {
-      captureException(error, { 
+      captureException(error, {
         context: 'trackViewingBehavior',
         userId,
-        artworkId 
+        artworkId
       });
       throw error;
     }
@@ -88,7 +88,7 @@ class BehavioralInsightsService {
       `;
 
       const result = await pool.query(query, [userId]);
-      
+
       return this.processViewingPatterns(result.rows);
     } catch (error) {
       captureException(error, { userId, timeframe });
@@ -119,7 +119,7 @@ class BehavioralInsightsService {
       `;
 
       const result = await pool.query(query, [userId, sessionId]);
-      
+
       return this.analyzeGalleryPath(result.rows);
     } catch (error) {
       captureException(error, { userId, sessionId });
@@ -161,7 +161,7 @@ class BehavioralInsightsService {
       `;
 
       const timelineResult = await pool.query(query, [userId]);
-      
+
       // Get emotional transitions
       const transitionsQuery = `
         SELECT 
@@ -245,7 +245,7 @@ class BehavioralInsightsService {
       `;
 
       const result = await pool.query(growthQuery, [userId]);
-      
+
       return this.processGrowthMetrics(result.rows);
     } catch (error) {
       captureException(error, { userId });
@@ -257,15 +257,15 @@ class BehavioralInsightsService {
   async updateRealtimeAnalytics(userId, personalityType, data) {
     const key = `insights:realtime:${userId}`;
     const globalKey = `insights:global:${personalityType}`;
-    
+
     // Update user-specific metrics
     await redis.hincrby(key, 'total_views', 1);
     await redis.hincrby(key, 'total_time', Math.round(data.timeSpent));
-    
+
     // Update personality-type metrics
     await redis.hincrby(globalKey, 'total_views', 1);
     await redis.hincrby(globalKey, 'total_time', Math.round(data.timeSpent));
-    
+
     // Set expiry
     await redis.expire(key, 86400); // 24 hours
     await redis.expire(globalKey, 86400);
@@ -291,7 +291,7 @@ class BehavioralInsightsService {
 
       if (row.emotional_responses) {
         row.emotional_responses.forEach(emotion => {
-          patterns.emotionalPatterns[emotion] = 
+          patterns.emotionalPatterns[emotion] =
             (patterns.emotionalPatterns[emotion] || 0) + 1;
         });
       }
@@ -329,12 +329,12 @@ class BehavioralInsightsService {
       // Track style transitions
       if (artwork.next_style) {
         const transition = `${artwork.style} → ${artwork.next_style}`;
-        path.styleTransitions[transition] = 
+        path.styleTransitions[transition] =
           (path.styleTransitions[transition] || 0) + 1;
       }
 
       // Track dwell times by style
-      path.dwellTimes[artwork.style] = 
+      path.dwellTimes[artwork.style] =
         (path.dwellTimes[artwork.style] || 0) + artwork.time_spent;
 
       // Track emotional flow
@@ -348,7 +348,7 @@ class BehavioralInsightsService {
 
   processEmotionalTimeline(data) {
     const timeline = {};
-    
+
     data.forEach(row => {
       if (!timeline[row.date]) {
         timeline[row.date] = {
@@ -357,16 +357,16 @@ class BehavioralInsightsService {
           dominantStyles: []
         };
       }
-      
+
       timeline[row.date].emotions[row.emotional_response] = {
         count: row.response_count,
         avgEngagement: row.avg_engagement
       };
-      
-      timeline[row.date].totalEngagement += 
+
+      timeline[row.date].totalEngagement +=
         row.response_count * row.avg_engagement;
-      
-      timeline[row.date].dominantStyles = 
+
+      timeline[row.date].dominantStyles =
         [...new Set([...timeline[row.date].dominantStyles, ...row.art_styles])];
     });
 
@@ -387,16 +387,16 @@ class BehavioralInsightsService {
       if (!transitions.matrix[row.prev_emotion]) {
         transitions.matrix[row.prev_emotion] = {};
       }
-      
-      transitions.matrix[row.prev_emotion][row.current_emotion] = 
+
+      transitions.matrix[row.prev_emotion][row.current_emotion] =
         row.transition_count;
-      
+
       totalTransitions += row.transition_count;
-      
+
       if (row.prev_emotion === row.current_emotion) {
         sameEmotionTransitions += row.transition_count;
       }
-      
+
       transitions.mostCommon.push({
         from: row.prev_emotion,
         to: row.current_emotion,
@@ -404,9 +404,9 @@ class BehavioralInsightsService {
       });
     });
 
-    transitions.emotionalStability = 
+    transitions.emotionalStability =
       totalTransitions > 0 ? sameEmotionTransitions / totalTransitions : 0;
-    
+
     transitions.mostCommon.sort((a, b) => b.count - a.count);
     transitions.mostCommon = transitions.mostCommon.slice(0, 5);
 
@@ -415,9 +415,9 @@ class BehavioralInsightsService {
 
   identifyDominantEmotions(data) {
     const emotionCounts = {};
-    
+
     data.forEach(row => {
-      emotionCounts[row.emotional_response] = 
+      emotionCounts[row.emotional_response] =
         (emotionCounts[row.emotional_response] || 0) + row.response_count;
     });
 
@@ -441,8 +441,8 @@ class BehavioralInsightsService {
       }
     };
 
-    let cumulativeStyles = new Set();
-    let cumulativeArtists = new Set();
+    const cumulativeStyles = new Set();
+    const cumulativeArtists = new Set();
 
     data.forEach(row => {
       // Add new styles to cumulative set

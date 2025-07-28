@@ -33,7 +33,7 @@ const authMiddleware = async (req, res, next) => {
     next();
   } catch (error) {
     if (error.message.includes('expired')) {
-      return res.status(401).json({ 
+      return res.status(401).json({
         error: 'Token expired',
         code: 'TOKEN_EXPIRED'
       });
@@ -70,18 +70,18 @@ const adminMiddleware = async (req, res, next) => {
 
     // Verify the access token
     const decoded = TokenService.verifyAccessToken(token);
-    
+
     if (decoded.role !== 'admin') {
       return res.status(403).json({ error: 'Admin access required' });
     }
-    
+
     req.userId = decoded.userId;
     req.userEmail = decoded.email;
     req.userRole = decoded.role;
     next();
   } catch (error) {
     if (error.message.includes('expired')) {
-      return res.status(401).json({ 
+      return res.status(401).json({
         error: 'Token expired',
         code: 'TOKEN_EXPIRED'
       });

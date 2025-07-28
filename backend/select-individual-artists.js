@@ -13,13 +13,13 @@ const pool = new Pool({
 async function selectIndividualArtists() {
   try {
     console.log('🎨 개인 아티스트 선별 중...\n');
-    
+
     // 개인 아티스트 가능성이 높은 조건:
     // 1. 이름이 너무 길지 않음 (60자 이하)
     // 2. "Attributed to", "After", "School of", "Workshop of" 등 제외
     // 3. "Manufactory", "Company" 등 제외
     // 4. 생년이 있거나 개인명으로 보이는 패턴
-    
+
     const individualArtists = await pool.query(`
       SELECT 
         id,
@@ -69,23 +69,23 @@ async function selectIndividualArtists() {
     // 다양성을 위한 선별
     const selectedArtists = [];
     const nationalityCount = {};
-    const eraCount = { 
+    const eraCount = {
       'medieval': 0,      // ~1400
       'renaissance': 0,   // 1400-1600
       'baroque': 0,       // 1600-1750
       'modern': 0,        // 1750-1900
       'contemporary': 0   // 1900~
     };
-    
+
     for (const artist of individualArtists.rows) {
       if (selectedArtists.length >= 10) break;
-      
+
       const nationality = artist.nationality || 'Unknown';
       const natCount = nationalityCount[nationality] || 0;
-      
+
       // 국적별 최대 3명까지
       if (natCount >= 3) continue;
-      
+
       // 시대별 균형 (선택사항)
       let era = 'unknown';
       if (artist.birth_year) {
@@ -95,8 +95,8 @@ async function selectIndividualArtists() {
         else if (artist.birth_year < 1900) era = 'modern';
         else era = 'contemporary';
       }
-      
-      selectedArtists.push({...artist, era});
+
+      selectedArtists.push({ ...artist, era });
       nationalityCount[nationality] = natCount + 1;
       eraCount[era] = (eraCount[era] || 0) + 1;
     }
@@ -111,7 +111,7 @@ async function selectIndividualArtists() {
       console.log(`    시대: ${artist.era}`);
       console.log(`    팔로워: ${artist.follow_count || 0}명`);
       console.log(`    저작권: ${artist.copyright_status}`);
-      
+
       const bioLength = artist.bio ? artist.bio.length : 0;
       console.log(`    기존 전기: ${bioLength}자 ${bioLength < 100 ? '⚠️ 부족' : bioLength < 300 ? '📝 보통' : '✅ 충분'}`);
     });
@@ -130,9 +130,9 @@ async function selectIndividualArtists() {
     // 실제 웹 검색 키워드 생성
     console.log('\n🔍 검색 최적화 키워드:');
     selectedArtists.slice(0, 5).forEach(artist => {
-      const name = artist.name;
+      const { name } = artist;
       console.log(`\n${name}:`);
-      
+
       // 라파엘의 경우 실제 라파엘로 검색
       if (name.includes('Raphael') || name.includes('Raffaello')) {
         console.log(`  🎨 "Raphael painter biography personality psychology"`);
@@ -146,12 +146,12 @@ async function selectIndividualArtists() {
     });
 
     console.log('\n📊 분석 품질 예상:');
-    const wellKnownCount = selectedArtists.filter(a => 
-      a.name.includes('Raphael') || 
+    const wellKnownCount = selectedArtists.filter(a =>
+      a.name.includes('Raphael') ||
       a.birth_year && a.birth_year > 1400 ||
       a.follow_count > 10
     ).length;
-    
+
     console.log(`✅ 정보가 풍부할 아티스트: ${wellKnownCount}명`);
     console.log(`⚠️ 도전적인 분석 대상: ${selectedArtists.length - wellKnownCount}명`);
 

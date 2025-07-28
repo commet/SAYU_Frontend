@@ -15,16 +15,16 @@ async function findValidationRules() {
       WHERE apt_profile IS NOT NULL 
       LIMIT 5
     `);
-    
+
     console.log('Analyzing existing profiles...\n');
-    
+
     const patterns = {
       sources: new Set(),
       primaryTypeFormats: new Set(),
       dimensionKeys: new Set(),
       metaKeys: new Set()
     };
-    
+
     existingProfiles.rows.forEach(row => {
       const profile = row.apt_profile;
       console.log(`${row.name}:`);
@@ -33,29 +33,29 @@ async function findValidationRules() {
       console.log(`  Dimensions: ${Object.keys(profile.dimensions).sort().join('')}`);
       console.log(`  Meta keys: ${Object.keys(profile.meta).sort().join(', ')}`);
       console.log();
-      
+
       patterns.sources.add(profile.meta.source);
       patterns.dimensionKeys.add(Object.keys(profile.dimensions).sort().join(''));
       patterns.metaKeys.add(Object.keys(profile.meta).sort().join(','));
       profile.primary_types.forEach(t => patterns.primaryTypeFormats.add(t.type));
     });
-    
+
     console.log('Patterns found:');
     console.log('Sources:', Array.from(patterns.sources));
     console.log('Primary type formats:', Array.from(patterns.primaryTypeFormats));
     console.log('Dimension key patterns:', Array.from(patterns.dimensionKeys));
     console.log('Meta key patterns:', Array.from(patterns.metaKeys));
-    
+
     // The primary_types seem to follow a specific 4-character code format like "SAMC", "SAMF"
     // Let's try creating profiles that match this pattern
-    
+
     console.log('\nTrying to update with 4-character type codes...\n');
-    
+
     const validProfile = {
       meta: {
-        source: "expert_preset",
-        keywords: ["analytical", "perfectionist", "systematic"],
-        reasoning: ["Systematic analytical approach with perfectionist methodology"],
+        source: 'expert_preset',
+        keywords: ['analytical', 'perfectionist', 'systematic'],
+        reasoning: ['Systematic analytical approach with perfectionist methodology'],
         confidence: 0.85
       },
       dimensions: {
@@ -70,26 +70,26 @@ async function findValidationRules() {
       },
       primary_types: [
         {
-          type: "RAMC", // Rational-Analytical-Material-Creative
+          type: 'RAMC', // Rational-Analytical-Material-Creative
           weight: 0.7
         },
         {
-          type: "RAMF", // Rational-Analytical-Material-Flow  
+          type: 'RAMF', // Rational-Analytical-Material-Flow
           weight: 0.3
         }
       ]
     };
-    
+
     const updateResult = await pool.query(`
       UPDATE artists 
       SET apt_profile = $1
       WHERE name = 'Andreas Gursky'
       RETURNING name
     `, [JSON.stringify(validProfile)]);
-    
+
     if (updateResult.rows.length > 0) {
       console.log('✅ Andreas Gursky updated successfully with 4-char codes!');
-      
+
       // Now try the others
       const artists = [
         {
@@ -98,7 +98,7 @@ async function findValidationRules() {
           typeCode2: 'CFEF'  // Creative-Flow-Emotional-Flow
         },
         {
-          name: 'Anselm Kiefer', 
+          name: 'Anselm Kiefer',
           typeCode1: 'CEMC', // Creative-Emotional-Material-Creative
           typeCode2: 'CEMF'  // Creative-Emotional-Material-Flow
         },
@@ -118,13 +118,13 @@ async function findValidationRules() {
           typeCode2: 'LMCF'  // Leadership-Material-Creative-Flow
         }
       ];
-      
+
       for (const artist of artists) {
         const profile = {
           meta: {
-            source: "expert_preset",
-            keywords: ["contemporary", "innovative", "expressive"],
-            reasoning: ["Contemporary artist with innovative expressive approach"],
+            source: 'expert_preset',
+            keywords: ['contemporary', 'innovative', 'expressive'],
+            reasoning: ['Contemporary artist with innovative expressive approach'],
             confidence: 0.85
           },
           dimensions: {
@@ -135,7 +135,7 @@ async function findValidationRules() {
             { type: artist.typeCode2, weight: 0.3 }
           ]
         };
-        
+
         try {
           const result = await pool.query(`
             UPDATE artists 
@@ -143,7 +143,7 @@ async function findValidationRules() {
             WHERE name = $2
             RETURNING name
           `, [JSON.stringify(profile), artist.name]);
-          
+
           if (result.rows.length > 0) {
             console.log(`✅ ${artist.name} updated`);
           } else {
@@ -153,11 +153,11 @@ async function findValidationRules() {
           console.log(`❌ Error updating ${artist.name}:`, error.message);
         }
       }
-      
+
     } else {
       console.log('❌ Still failing validation');
     }
-    
+
   } catch (error) {
     console.error('Error:', error.message);
   } finally {

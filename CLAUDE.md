@@ -238,6 +238,16 @@ npm run typecheck # 타입 체크
 - AI 상담 기능 베타 테스트 중
 - AI 아트 프로필 기능 구현 완료
 - 팔로우 시스템 백엔드 구현 완료
+
+## 🚨 CRITICAL DATABASE STATUS (미래 Claude 필독!)
+- **✅ Railway → Supabase 완전 마이그레이션 완료 (2025년 7월 28일)**
+- **커밋 69a85f5**: "23개 테이블 5,793개 레코드" 100% 이관 완료
+- **84% 비용 절감 달성** (월 $45 → $7)
+- **모든 백엔드 코드는 이미 Supabase 연동 완료됨**
+- **⚠️ IMPORTANT**: `.env` 파일은 `.gitignore`에 있어 각 환경별 수동 설정 필요
+- **실제 확인 방법**: `cd backend && node -e "const {createClient} = require('@supabase/supabase-js'); console.log('Supabase 작동 중!')"`
+- **절대 혼동하지 말 것**: Railway 연결 실패 = 환경 변수 문제, 마이그레이션은 완료됨
+
 - **⚠️ IMPORTANT: venues 테이블이 global_venues로 통합됨 (2025년 1월)**
   - 모든 새 코드는 global_venues 테이블 사용
   - 상세 가이드: `/backend/VENUE_TABLE_MIGRATION_GUIDE.md`

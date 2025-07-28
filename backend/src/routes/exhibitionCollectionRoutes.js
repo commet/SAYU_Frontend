@@ -30,7 +30,7 @@ router.get('/stats', async (req, res) => {
 });
 
 // 전시 데이터 수집 실행 (관리자만)
-router.post('/collect', 
+router.post('/collect',
   authMiddleware,
   collectionLimiter,
   async (req, res) => {
@@ -44,7 +44,7 @@ router.post('/collect',
       }
 
       const results = await exhibitionDataCollectorService.collectAllExhibitions();
-      
+
       res.json({
         success: true,
         message: 'Exhibition collection completed',
@@ -75,7 +75,7 @@ router.post('/update-statuses',
       }
 
       const results = await exhibitionDataCollectorService.updateExhibitionStatuses();
-      
+
       res.json({
         success: true,
         message: 'Exhibition statuses updated',
@@ -142,7 +142,7 @@ router.post('/manual',
       }
 
       const result = await exhibitionDataCollectorService.addManualExhibition(
-        exhibitionData, 
+        exhibitionData,
         req.user.id
       );
 
@@ -154,7 +154,7 @@ router.post('/manual',
 
     } catch (error) {
       console.error('Manual exhibition add error:', error);
-      
+
       if (error.message.includes('Already exists')) {
         return res.status(409).json({
           success: false,

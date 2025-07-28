@@ -30,26 +30,26 @@ class HybridDatabase {
       artvee_artworks: 'supabase',
       artwork_personality_tags: 'supabase',
       artwork_usage_logs: 'supabase',
-      
+
       // Railway services
       gamification_points: 'railway',
       gamification_levels: 'railway',
       gamification_challenges: 'railway',
       gamification_leaderboards: 'railway',
-      
+
       // Exhibition system routing
       exhibitions: 'supabase',           // User-facing exhibition data
       venues: 'supabase',               // Venue information
       exhibition_submissions: 'supabase', // User submissions
       exhibition_likes: 'supabase',      // User interactions
       exhibition_views: 'supabase',      // View tracking
-      
+
       // Railway-only tables (processing/temporary)
       exhibition_raw_data: 'railway',    // Raw crawling data
       scraping_jobs: 'railway',          // Crawling job management
       naver_search_cache: 'railway',     // API response cache
       exhibition_sources: 'railway',     // Source metadata
-      
+
       // Legacy/migration tables
       global_exhibitions: 'railway',
       institutions: 'hybrid',
@@ -65,13 +65,13 @@ class HybridDatabase {
       // Initialize Supabase
       this.supabase = getSupabaseClient();
       this.supabaseAdmin = getSupabaseAdmin();
-      
+
       if (!this.supabase) {
         log.warn('Supabase not configured - using Railway only mode');
       } else {
         log.info('Hybrid database initialized with Supabase + Railway');
       }
-      
+
       return true;
     } catch (error) {
       log.error('Failed to initialize hybrid database', error);
@@ -84,7 +84,7 @@ class HybridDatabase {
    */
   getClientForTable(tableName) {
     const routing = this.serviceRouting[tableName] || 'railway';
-    
+
     switch (routing) {
       case 'supabase':
         if (!this.supabase) {
@@ -92,17 +92,17 @@ class HybridDatabase {
           return { type: 'railway', client: this.railway };
         }
         return { type: 'supabase', client: this.supabase };
-      
+
       case 'railway':
         return { type: 'railway', client: this.railway };
-      
+
       case 'hybrid':
         // For hybrid tables, prefer Supabase if available
         if (this.supabase) {
           return { type: 'supabase', client: this.supabase };
         }
         return { type: 'railway', client: this.railway };
-      
+
       default:
         return { type: 'railway', client: this.railway };
     }
@@ -113,7 +113,7 @@ class HybridDatabase {
    */
   async query(tableName, operation, params = {}) {
     const { type, client } = this.getClientForTable(tableName);
-    
+
     try {
       if (type === 'supabase') {
         return await this.executeSupabaseQuery(client, tableName, operation, params);
@@ -134,7 +134,7 @@ class HybridDatabase {
    */
   async executeSupabaseQuery(client, tableName, operation, params) {
     let query = client.from(tableName);
-    
+
     switch (operation) {
       case 'select':
         if (params.columns) {
@@ -163,14 +163,14 @@ class HybridDatabase {
           query = query.range(params.offset, params.offset + (params.limit || 10) - 1);
         }
         break;
-        
+
       case 'insert':
         query = query.insert(params.data);
         if (params.returning !== false) {
           query = query.select();
         }
         break;
-        
+
       case 'update':
         query = query.update(params.data);
         if (params.filters) {
@@ -182,7 +182,7 @@ class HybridDatabase {
           query = query.select();
         }
         break;
-        
+
       case 'delete':
         query = query.delete();
         if (params.filters) {
@@ -191,7 +191,7 @@ class HybridDatabase {
           });
         }
         break;
-        
+
       case 'upsert':
         query = query.upsert(params.data, {
           onConflict: params.conflictColumns || 'id'
@@ -200,17 +200,17 @@ class HybridDatabase {
           query = query.select();
         }
         break;
-        
+
       default:
         throw new Error(`Unsupported operation: ${operation}`);
     }
-    
+
     const { data, error } = await query;
-    
+
     if (error) {
       throw error;
     }
-    
+
     return { rows: data, rowCount: data ? data.length : 0 };
   }
 
@@ -220,41 +220,41 @@ class HybridDatabase {
   async executeRailwayQuery(client, tableName, operation, params) {
     let queryText = '';
     let values = [];
-    
+
     switch (operation) {
       case 'select':
         queryText = this.buildSelectQuery(tableName, params);
         values = this.buildSelectValues(params);
         break;
-        
+
       case 'insert':
         const insertResult = this.buildInsertQuery(tableName, params);
         queryText = insertResult.query;
         values = insertResult.values;
         break;
-        
+
       case 'update':
         const updateResult = this.buildUpdateQuery(tableName, params);
         queryText = updateResult.query;
         values = updateResult.values;
         break;
-        
+
       case 'delete':
         const deleteResult = this.buildDeleteQuery(tableName, params);
         queryText = deleteResult.query;
         values = deleteResult.values;
         break;
-        
+
       case 'upsert':
         const upsertResult = this.buildUpsertQuery(tableName, params);
         queryText = upsertResult.query;
         values = upsertResult.values;
         break;
-        
+
       default:
         throw new Error(`Unsupported operation: ${operation}`);
     }
-    
+
     return await client.query(queryText, values);
   }
 
@@ -264,7 +264,7 @@ class HybridDatabase {
   buildSelectQuery(tableName, params) {
     let query = `SELECT ${params.columns || '*'} FROM ${tableName}`;
     const conditions = [];
-    
+
     if (params.filters) {
       Object.entries(params.filters).forEach(([key, value], index) => {
         if (Array.isArray(value)) {
@@ -277,23 +277,23 @@ class HybridDatabase {
         }
       });
     }
-    
+
     if (conditions.length > 0) {
       query += ` WHERE ${conditions.join(' AND ')}`;
     }
-    
+
     if (params.order) {
       query += ` ORDER BY ${params.order.column} ${params.order.ascending ? 'ASC' : 'DESC'}`;
     }
-    
+
     if (params.limit) {
       query += ` LIMIT ${params.limit}`;
     }
-    
+
     if (params.offset) {
       query += ` OFFSET ${params.offset}`;
     }
-    
+
     return query;
   }
 
@@ -302,7 +302,7 @@ class HybridDatabase {
    */
   buildSelectValues(params) {
     const values = [];
-    
+
     if (params.filters) {
       Object.values(params.filters).forEach(value => {
         if (Array.isArray(value)) {
@@ -312,7 +312,7 @@ class HybridDatabase {
         }
       });
     }
-    
+
     return values;
   }
 
@@ -323,7 +323,7 @@ class HybridDatabase {
     const data = Array.isArray(params.data) ? params.data : [params.data];
     const columns = Object.keys(data[0]);
     const values = [];
-    
+
     const valuePlaceholders = data.map((row, rowIndex) => {
       const placeholders = columns.map((col, colIndex) => {
         values.push(row[col]);
@@ -331,13 +331,13 @@ class HybridDatabase {
       });
       return `(${placeholders.join(',')})`;
     }).join(',');
-    
+
     let query = `INSERT INTO ${tableName} (${columns.join(',')}) VALUES ${valuePlaceholders}`;
-    
+
     if (params.returning !== false) {
       query += ' RETURNING *';
     }
-    
+
     return { query, values };
   }
 
@@ -347,10 +347,10 @@ class HybridDatabase {
   buildUpdateQuery(tableName, params) {
     const columns = Object.keys(params.data);
     const values = Object.values(params.data);
-    
+
     const setClause = columns.map((col, index) => `${col} = $${index + 1}`).join(',');
     let query = `UPDATE ${tableName} SET ${setClause}`;
-    
+
     if (params.filters) {
       const conditions = [];
       Object.entries(params.filters).forEach(([key, value]) => {
@@ -359,11 +359,11 @@ class HybridDatabase {
       });
       query += ` WHERE ${conditions.join(' AND ')}`;
     }
-    
+
     if (params.returning !== false) {
       query += ' RETURNING *';
     }
-    
+
     return { query, values };
   }
 
@@ -373,7 +373,7 @@ class HybridDatabase {
   buildDeleteQuery(tableName, params) {
     let query = `DELETE FROM ${tableName}`;
     const values = [];
-    
+
     if (params.filters) {
       const conditions = [];
       Object.entries(params.filters).forEach(([key, value]) => {
@@ -382,7 +382,7 @@ class HybridDatabase {
       });
       query += ` WHERE ${conditions.join(' AND ')}`;
     }
-    
+
     return { query, values };
   }
 
@@ -391,22 +391,22 @@ class HybridDatabase {
    */
   buildUpsertQuery(tableName, params) {
     const insertResult = this.buildInsertQuery(tableName, params);
-    const conflictColumns = Array.isArray(params.conflictColumns) 
-      ? params.conflictColumns 
+    const conflictColumns = Array.isArray(params.conflictColumns)
+      ? params.conflictColumns
       : [params.conflictColumns || 'id'];
-    
+
     const data = Array.isArray(params.data) ? params.data[0] : params.data;
     const updateColumns = Object.keys(data).filter(col => !conflictColumns.includes(col));
-    
-    let query = insertResult.query;
+
+    let { query } = insertResult;
     query = query.replace(' RETURNING *', '');
     query += ` ON CONFLICT (${conflictColumns.join(',')}) DO UPDATE SET `;
     query += updateColumns.map(col => `${col} = EXCLUDED.${col}`).join(',');
-    
+
     if (params.returning !== false) {
       query += ' RETURNING *';
     }
-    
+
     return { query, values: insertResult.values };
   }
 
@@ -417,7 +417,7 @@ class HybridDatabase {
     // For now, transactions only work within a single database
     // Future enhancement: distributed transaction support
     const client = await this.railway.connect();
-    
+
     try {
       await client.query('BEGIN');
       const result = await callback(client);
@@ -444,23 +444,23 @@ class HybridDatabase {
       if (direction === 'railway-to-supabase') {
         // Fetch from Railway
         const { rows } = await this.railway.query(`SELECT * FROM ${tableName}`);
-        
+
         // Insert/update in Supabase
         const { error } = await this.supabase
           .from(tableName)
           .upsert(rows, { onConflict: 'id' });
-        
+
         if (error) throw error;
-        
+
         return { success: true, synced: rows.length };
       } else {
         // Fetch from Supabase
         const { data, error } = await this.supabase
           .from(tableName)
           .select('*');
-        
+
         if (error) throw error;
-        
+
         // Insert/update in Railway
         for (const row of data) {
           await this.executeRailwayQuery(this.railway, tableName, 'upsert', {
@@ -468,7 +468,7 @@ class HybridDatabase {
             conflictColumns: 'id'
           });
         }
-        
+
         return { success: true, synced: data.length };
       }
     } catch (error) {
@@ -506,7 +506,7 @@ class HybridDatabase {
     }
 
     health.hybrid = health.railway || health.supabase;
-    
+
     return health;
   }
 
@@ -549,17 +549,17 @@ class HybridDatabase {
    */
   async getMigrationProgress() {
     const progress = {};
-    
+
     // This is a placeholder - implement actual migration tracking
     const services = process.env.SUPABASE_SERVICES ? process.env.SUPABASE_SERVICES.split(',') : [];
-    
+
     for (const table in this.serviceRouting) {
       progress[table] = {
         migrated: services.includes(table),
         database: this.serviceRouting[table]
       };
     }
-    
+
     return progress;
   }
 }

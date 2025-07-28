@@ -19,12 +19,12 @@ class JourneyNudgeService {
         WHERE jt.is_active = true
         ORDER BY jt.day_number
       `;
-      
+
       await pool.query(insertQuery, [userId, 'ko']); // 기본 한국어
-      
+
       // 첫 번째 환영 메시지는 즉시 활성화
       await this.scheduleNudge(userId, 1);
-      
+
       console.log(`✅ Journey initialized for user ${userId}`);
       return true;
     } catch (error) {

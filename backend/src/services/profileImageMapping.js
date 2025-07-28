@@ -6,7 +6,7 @@ class ProfileImageMappingService {
     // 16 Exhibition Preference Types (from existing system)
     this.exhibitionTypes = [
       'GAEF', 'GAEC', 'GAMF', 'GAMC',
-      'GREF', 'GREC', 'GRMF', 'GRMC', 
+      'GREF', 'GREC', 'GRMF', 'GRMC',
       'SAEF', 'SAEC', 'SAMF', 'SAMC',
       'SREF', 'SREC', 'SRMF', 'SRMC'
     ];
@@ -28,7 +28,7 @@ class ProfileImageMappingService {
         visualTheme: 'geometric abstraction, architectural forms, dimensional complexity'
       },
       'NAR_REP': {
-        code: 'NAR_REP', 
+        code: 'NAR_REP',
         name: 'Narrative Representational',
         primaryTags: ['clear_narrative', 'representational_form'],
         description: 'Prefers figurative art that tells clear, understandable stories',
@@ -78,7 +78,7 @@ class ProfileImageMappingService {
    */
   generateAllProfileCombinations() {
     const combinations = [];
-    
+
     this.exhibitionTypes.forEach(exhibitionType => {
       Object.keys(this.artworkTypes).forEach(artworkType => {
         const combination = {
@@ -88,11 +88,11 @@ class ProfileImageMappingService {
           imageFileName: `profile_${exhibitionType}_${artworkType}.jpg`,
           imagePath: `/images/profiles/${exhibitionType}_${artworkType}.jpg`
         };
-        
+
         combinations.push(combination);
       });
     });
-    
+
     return combinations;
   }
 
@@ -103,19 +103,19 @@ class ProfileImageMappingService {
    */
   determineArtworkType(artworkAnalysis) {
     const { tagScores } = artworkAnalysis;
-    
+
     // Calculate scores for each artwork type based on primary tags
     const typeScores = {};
-    
+
     Object.entries(this.artworkTypes).forEach(([typeCode, typeData]) => {
       const [tag1, tag2] = typeData.primaryTags;
       typeScores[typeCode] = (tagScores[tag1] || 0) + (tagScores[tag2] || 0);
     });
-    
+
     // Return the type with highest score
     const bestType = Object.entries(typeScores)
       .sort(([,a], [,b]) => b - a)[0];
-    
+
     return bestType ? bestType[0] : 'BAL_MIX';
   }
 
@@ -127,7 +127,7 @@ class ProfileImageMappingService {
    */
   getProfileImage(exhibitionType, artworkAnalysis) {
     const artworkType = this.determineArtworkType(artworkAnalysis);
-    
+
     const imageInfo = {
       exhibitionType,
       artworkType,
@@ -137,7 +137,7 @@ class ProfileImageMappingService {
       fallbackPath: `/images/profiles/default_${exhibitionType}.jpg`,
       description: this.generateProfileDescription(exhibitionType, artworkType)
     };
-    
+
     return imageInfo;
   }
 
@@ -149,7 +149,7 @@ class ProfileImageMappingService {
    */
   generateProfileDescription(exhibitionType, artworkType) {
     const artworkInfo = this.artworkTypes[artworkType];
-    
+
     // Get exhibition type description (would need to import from exhibitionTypes)
     const exhibitionDescriptions = {
       'GAEF': 'grounded, abstract, emotional, flowing',
@@ -169,9 +169,9 @@ class ProfileImageMappingService {
       'SRMF': 'shared, realistic, meaning-focused, flowing',
       'SRMC': 'shared, realistic, meaning-focused, constructive'
     };
-    
+
     const exhibitionDesc = exhibitionDescriptions[exhibitionType] || 'balanced exhibition style';
-    
+
     return `A ${exhibitionDesc} visitor who ${artworkInfo.description.toLowerCase()}`;
   }
 
@@ -184,14 +184,14 @@ class ProfileImageMappingService {
   generateImagePrompt(exhibitionType, artworkType) {
     const artworkInfo = this.artworkTypes[artworkType];
     const exhibitionInfo = this.getExhibitionVisualTheme(exhibitionType);
-    
+
     const prompt = {
       mainPrompt: `A sophisticated art enthusiast profile image featuring ${exhibitionInfo.mood} with ${artworkInfo.visualTheme}`,
       style: `${exhibitionInfo.environment}, ${artworkInfo.visualTheme}`,
       mood: exhibitionInfo.mood,
       artworkFocus: artworkInfo.visualTheme,
       composition: exhibitionInfo.composition,
-      
+
       // Complete prompt for AI image generation
       fullPrompt: [
         `Professional art connoisseur portrait`,
@@ -202,7 +202,7 @@ class ProfileImageMappingService {
         `Ultra-detailed, 8K resolution, professional photography`
       ].join(', ')
     };
-    
+
     return prompt;
   }
 
@@ -222,7 +222,7 @@ class ProfileImageMappingService {
       'GREC': { mood: 'serene appreciation', environment: 'traditional museum room', composition: 'peaceful contemplation' },
       'GRMF': { mood: 'scholarly study', environment: 'academic gallery setting', composition: 'research-focused pose' },
       'GRMC': { mood: 'reverent observation', environment: 'formal museum hall', composition: 'respectful viewing stance' },
-      
+
       // Shared types (S)
       'SAEF': { mood: 'collaborative discovery', environment: 'social gallery space', composition: 'group discussion scene' },
       'SAEC': { mood: 'guided exploration', environment: 'interactive exhibition', composition: 'shared learning moment' },
@@ -233,7 +233,7 @@ class ProfileImageMappingService {
       'SRMF': { mood: 'knowledge exchange', environment: 'lecture hall with art', composition: 'teaching/learning interaction' },
       'SRMC': { mood: 'cultural celebration', environment: 'public museum event', composition: 'community engagement scene' }
     };
-    
+
     return themes[exhibitionType] || { mood: 'balanced appreciation', environment: 'modern gallery', composition: 'neutral viewing pose' };
   }
 
@@ -255,7 +255,7 @@ class ProfileImageMappingService {
       totalImages: 128,
       exhibitionTypes: this.exhibitionTypes.length,
       artworkTypes: Object.keys(this.artworkTypes).length,
-      
+
       // Generate complete file list
       fileList: this.generateAllProfileCombinations().map(combo => ({
         fileName: combo.imageFileName,
@@ -264,7 +264,7 @@ class ProfileImageMappingService {
         artworkType: combo.artworkType
       }))
     };
-    
+
     return structure;
   }
 
@@ -274,11 +274,11 @@ class ProfileImageMappingService {
    */
   generateBatchPrompts() {
     const prompts = [];
-    
+
     this.exhibitionTypes.forEach(exhibitionType => {
       Object.keys(this.artworkTypes).forEach(artworkType => {
         const prompt = this.generateImagePrompt(exhibitionType, artworkType);
-        
+
         prompts.push({
           fileName: `profile_${exhibitionType}_${artworkType}.jpg`,
           exhibitionType,
@@ -290,7 +290,7 @@ class ProfileImageMappingService {
         });
       });
     });
-    
+
     return prompts;
   }
 }

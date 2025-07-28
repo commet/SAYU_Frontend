@@ -34,7 +34,7 @@ async function testCultureAPIs() {
   ];
 
   console.log('📋 사용 가능한 문화 API 목록:\n');
-  
+
   apis.forEach((api, index) => {
     console.log(`${index + 1}. ${api.name}`);
     console.log(`   📝 ${api.desc}`);
@@ -67,7 +67,7 @@ async function testCultureAPIs() {
   console.log('   ✅ 실시간 업데이트');
   console.log('   ✅ 무료 (일 1000건)');
   console.log('   ✅ 상세 정보 포함');
-  
+
   console.log('\n📌 신청 방법:');
   console.log('1. https://www.culture.go.kr/data/openapi/openapiList.do 접속');
   console.log('2. "전시정보" API 신청');

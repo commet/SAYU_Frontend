@@ -8,7 +8,7 @@ const { logger } = require('../config/logger');
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 /**
@@ -43,11 +43,11 @@ class CloudinaryImageService {
   async uploadImage(imageBuffer, category, fileName, options = {}) {
     try {
       const folder = this.folderStructure[category] || 'sayu-artist-portal/misc';
-      const publicId = `${Date.now()}-${fileName.replace(/\.[^/.]+$/, "")}`;
-      
+      const publicId = `${Date.now()}-${fileName.replace(/\.[^/.]+$/, '')}`;
+
       // 이미지 최적화 및 변환
       const optimizedBuffer = await this.optimizeImage(imageBuffer);
-      
+
       // 메인 이미지 업로드
       const uploadResult = await this.uploadToCloudinary(optimizedBuffer, {
         folder,
@@ -62,7 +62,7 @@ class CloudinaryImageService {
 
       // 다양한 크기의 썸네일 생성
       const sizes = await this.generateThumbnails(uploadResult.public_id);
-      
+
       logger.info('Image uploaded successfully', {
         publicId,
         folder,
@@ -103,11 +103,11 @@ class CloudinaryImageService {
   async optimizeImage(imageBuffer) {
     try {
       return await sharp(imageBuffer)
-        .resize(2048, 2048, { 
-          fit: 'inside', 
-          withoutEnlargement: true 
+        .resize(2048, 2048, {
+          fit: 'inside',
+          withoutEnlargement: true
         })
-        .jpeg({ 
+        .jpeg({
           quality: 90,
           progressive: true,
           mozjpeg: true
@@ -149,7 +149,7 @@ class CloudinaryImageService {
    */
   async generateThumbnails(publicId) {
     const sizes = {};
-    
+
     for (const [sizeName, config] of Object.entries(this.imageSizes)) {
       if (sizeName === 'original') {
         sizes[sizeName] = cloudinary.url(publicId, {
@@ -206,15 +206,15 @@ class CloudinaryImageService {
     });
 
     const results = await Promise.allSettled(uploadPromises);
-    
+
     return results.map((result, index) => {
       if (result.status === 'fulfilled') {
         return result.value;
       } else {
-        return { 
-          success: false, 
+        return {
+          success: false,
           error: result.reason.message || 'Upload failed',
-          index 
+          index
         };
       }
     });
@@ -233,20 +233,20 @@ class CloudinaryImageService {
 
       const parts = imageUrl.split('/');
       const uploadIndex = parts.findIndex(part => part === 'upload');
-      
+
       if (uploadIndex === -1) return null;
-      
+
       // v1234567890 형태의 버전 정보 건너뛰기
       const startIndex = uploadIndex + 1;
       const pathParts = parts.slice(startIndex).filter(part => !part.startsWith('v'));
-      
+
       // 확장자 제거
       const fileName = pathParts[pathParts.length - 1];
-      const publicIdPart = fileName.replace(/\.[^/.]+$/, "");
-      
+      const publicIdPart = fileName.replace(/\.[^/.]+$/, '');
+
       // 폴더 경로 포함
       pathParts[pathParts.length - 1] = publicIdPart;
-      
+
       return pathParts.join('/');
     } catch (error) {
       logger.error('Failed to extract public ID', { imageUrl, error: error.message });
@@ -275,12 +275,12 @@ class CloudinaryImageService {
   validateConfig() {
     const requiredConfig = ['CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET'];
     const missingConfig = requiredConfig.filter(key => !process.env[key]);
-    
+
     if (missingConfig.length > 0) {
       logger.error('Missing Cloudinary configuration', { missing: missingConfig });
       return false;
     }
-    
+
     return true;
   }
 
@@ -294,7 +294,7 @@ class CloudinaryImageService {
       const result = await cloudinary.api.resource(publicId, {
         resource_type: 'image'
       });
-      
+
       return {
         publicId: result.public_id,
         format: result.format,

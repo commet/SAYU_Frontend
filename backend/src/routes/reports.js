@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const authMiddleware = require('../middleware/auth');
-const { 
-  validationSchemas, 
-  handleValidationResult, 
-  securityHeaders, 
+const {
+  validationSchemas,
+  handleValidationResult,
+  securityHeaders,
   requestSizeLimiter,
   sanitizeInput,
-  rateLimits 
+  rateLimits
 } = require('../middleware/validation');
 const { pool } = require('../config/database');
 const { log } = require('../config/logger');
@@ -23,8 +23,8 @@ router.post('/exhibition/:exhibitionId',
   rateLimits.strict,
   async (req, res) => {
     try {
-      const userId = req.userId;
-      const exhibitionId = req.params.exhibitionId;
+      const { userId } = req;
+      const { exhibitionId } = req.params;
 
       // Get exhibition with artworks
       const exhibitionResult = await pool.query(`
@@ -102,7 +102,7 @@ router.get('/exhibition',
   rateLimits.lenient,
   async (req, res) => {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const limit = Math.min(parseInt(req.query.limit) || 20, 50);
       const offset = parseInt(req.query.offset) || 0;
 
@@ -155,8 +155,8 @@ router.get('/exhibition/:reportId',
   rateLimits.lenient,
   async (req, res) => {
     try {
-      const userId = req.userId;
-      const reportId = req.params.reportId;
+      const { userId } = req;
+      const { reportId } = req.params;
 
       const result = await pool.query(`
         SELECT 
@@ -207,7 +207,7 @@ async function generateExhibitionReport(exhibition, artworks) {
   // Calculate visit analytics
   const avgEmotionRating = artworks.reduce((sum, a) => sum + a.emotion_rating, 0) / artworks.length;
   const avgTechnicalRating = artworks.reduce((sum, a) => sum + a.technical_rating, 0) / artworks.length;
-  
+
   const topArtworks = artworks
     .sort((a, b) => (b.emotion_rating + b.technical_rating) - (a.emotion_rating + a.technical_rating))
     .slice(0, 3);
@@ -240,14 +240,14 @@ Visit Analytics:
 - Average Technical Appreciation: ${avgTechnicalRating.toFixed(1)}/5
 
 Top 3 Most Impactful Artworks:
-${topArtworks.map((artwork, index) => 
-  `${index + 1}. "${artwork.title}" by ${artwork.artist}
+${topArtworks.map((artwork, index) =>
+    `${index + 1}. "${artwork.title}" by ${artwork.artist}
      User's impression: "${artwork.impression}"
      Emotional Impact: ${artwork.emotion_rating}/5, Technical: ${artwork.technical_rating}/5`
-).join('\n')}
+  ).join('\n')}
 
 Favorite Artists (by frequency):
-${favoriteArtists.map(({artist, count}) => `- ${artist} (${count} artwork${count > 1 ? 's' : ''})`).join('\n')}
+${favoriteArtists.map(({ artist, count }) => `- ${artist} (${count} artwork${count > 1 ? 's' : ''})`).join('\n')}
 
 Please generate a comprehensive, personalized exhibition report that includes:
 
@@ -281,7 +281,7 @@ Format as JSON with these sections: summary, aesthetic_journey, standout_moments
     });
 
     const reportContent = completion.choices[0].message.content;
-    
+
     try {
       const report = JSON.parse(reportContent);
       return {
@@ -322,7 +322,7 @@ Format as JSON with these sections: summary, aesthetic_journey, standout_moments
     }
   } catch (aiError) {
     console.error('OpenAI API error:', aiError);
-    
+
     // Fallback report if AI fails
     return {
       summary: `Your visit to ${exhibition.exhibition_name} at ${exhibition.venue} was a meaningful exploration of ${artworks.length} artworks. You showed particular appreciation for works with an average emotional impact of ${avgEmotionRating.toFixed(1)}/5.`,

@@ -1,5 +1,5 @@
 const { pool } = require('../config/database');
-const { logger } = require("../config/logger");
+const { logger } = require('../config/logger');
 
 class ArtistPortalService {
   // Artist Profile Management
@@ -231,15 +231,15 @@ class ArtistPortalService {
 
   async getSubmittedArtworks(profileId, profileType, status = null) {
     const profileColumn = profileType === 'artist' ? 'artist_profile_id' : 'gallery_profile_id';
-    
+
     let query = `
       SELECT sa.*,
              ${profileType === 'artist' ? 'ap.artist_name as profile_name' : 'gp.gallery_name as profile_name'}
       FROM submitted_artworks sa
-      ${profileType === 'artist' ? 
+      ${profileType === 'artist' ?
         'LEFT JOIN artist_profiles ap ON sa.artist_profile_id = ap.id' :
         'LEFT JOIN gallery_profiles gp ON sa.gallery_profile_id = gp.id'
-      }
+}
       WHERE sa.${profileColumn} = $1
     `;
 
@@ -258,7 +258,7 @@ class ArtistPortalService {
 
   async updateArtworkSubmission(artworkId, profileId, profileType, updateData) {
     const profileColumn = profileType === 'artist' ? 'artist_profile_id' : 'gallery_profile_id';
-    
+
     const fields = [];
     const values = [];
     let paramCount = 1;
@@ -375,7 +375,7 @@ class ArtistPortalService {
         WHERE sa.submission_status = 'pending'
         ORDER BY sa.created_at ASC
       `;
-      
+
       const result = await pool.query(query);
       return result.rows;
     }
@@ -388,7 +388,7 @@ class ArtistPortalService {
         WHERE se.submission_status = 'pending'
         ORDER BY se.created_at ASC
       `;
-      
+
       const result = await pool.query(query);
       return result.rows;
     }
@@ -412,19 +412,19 @@ class ArtistPortalService {
     `;
 
     const query = `${artworksQuery} UNION ALL ${exhibitionsQuery} ORDER BY created_at ASC`;
-    
+
     const result = await pool.query(query);
     return result.rows;
   }
 
   async reviewSubmission(submissionType, submissionId, reviewerId, reviewData) {
     const { status, review_notes, quality_score, feedback = {} } = reviewData;
-    
+
     const client = await pool.connect();
-    
+
     try {
       await client.query('BEGIN');
-      
+
       // Update submission status
       const tableName = submissionType === 'artwork' ? 'submitted_artworks' : 'submitted_exhibitions';
       const updateQuery = `
@@ -435,9 +435,9 @@ class ArtistPortalService {
         WHERE id = $4
         RETURNING *
       `;
-      
+
       const updateResult = await client.query(updateQuery, [status, review_notes, reviewerId, submissionId]);
-      
+
       // Create review record
       const reviewQuery = `
         INSERT INTO submission_reviews (
@@ -447,17 +447,17 @@ class ArtistPortalService {
         VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING *
       `;
-      
+
       await client.query(reviewQuery, [
         submissionType, submissionId, reviewerId, status,
         review_notes, quality_score, feedback
       ]);
-      
+
       await client.query('COMMIT');
-      
+
       logger.info(`${submissionType} submission ${submissionId} reviewed: ${status}`);
       return updateResult.rows[0];
-      
+
     } catch (error) {
       await client.query('ROLLBACK');
       throw error;
@@ -477,10 +477,10 @@ class ArtistPortalService {
         (SELECT COUNT(*) FROM submitted_artworks WHERE submission_status = 'approved') as approved_artworks,
         (SELECT COUNT(*) FROM submitted_exhibitions WHERE submission_status = 'approved') as approved_exhibitions
     `;
-    
+
     const result = await pool.query(query);
     const stats = result.rows[0];
-    
+
     // 추가 보안 통계
     const securityQuery = `
       SELECT 
@@ -488,9 +488,9 @@ class ArtistPortalService {
         (SELECT COUNT(*) FROM submission_reviews WHERE status = 'rejected' AND created_at > NOW() - INTERVAL '7 days') as rejections_this_week,
         (SELECT AVG(quality_score) FROM submission_reviews WHERE quality_score IS NOT NULL AND created_at > NOW() - INTERVAL '30 days') as avg_quality_score
     `;
-    
+
     const securityResult = await pool.query(securityQuery);
-    
+
     return {
       ...stats,
       ...securityResult.rows[0],
@@ -508,15 +508,15 @@ class ArtistPortalService {
   async detectSuspiciousActivity(userId) {
     const redis = getRedisClient();
     if (!redis) return false;
-    
+
     try {
       const events = await redis.lrange(`security_events:${userId}`, 0, 20);
       if (events.length < 5) return false;
-      
+
       const recentEvents = events
         .map(event => JSON.parse(event))
         .filter(event => Date.now() - event.timestamp < 60 * 60 * 1000); // 1시간 이내
-      
+
       // 1시간 내 5개 이상의 보안 이벤트가 있으면 의심스러운 활동
       if (recentEvents.length >= 5) {
         logger.warn('Suspicious activity detected:', {
@@ -526,7 +526,7 @@ class ArtistPortalService {
         });
         return true;
       }
-      
+
       return false;
     } catch (error) {
       logger.error('Failed to detect suspicious activity:', error);
@@ -538,7 +538,7 @@ class ArtistPortalService {
   async getUserSubmissionStats(userId) {
     const redis = getRedisClient();
     if (!redis) return null;
-    
+
     try {
       const stats = {
         daily: {
@@ -548,7 +548,7 @@ class ArtistPortalService {
         },
         suspiciousActivity: await this.detectSuspiciousActivity(userId)
       };
-      
+
       return stats;
     } catch (error) {
       logger.error('Failed to get user submission stats:', error);

@@ -4,16 +4,22 @@ const { getRedisClient } = require('../config/redis');
 // Redis 기반 rate limiter 스토어 설정
 const createRateLimiter = (options) => {
   const redis = getRedisClient();
-  
-  if (redis) {
-    // Redis가 사용 가능한 경우 Redis 스토어 사용
-    const RedisStore = require('rate-limit-redis');
-    return rateLimit({
-      store: new RedisStore({
-        sendCommand: (...args) => redis.call(...args),
-      }),
-      ...options
-    });
+
+  if (redis && redis.status === 'ready') {
+    try {
+      // Redis가 사용 가능한 경우 Redis 스토어 사용
+      const { RedisStore } = require('rate-limit-redis');
+      return rateLimit({
+        store: new RedisStore({
+          sendCommand: (...args) => redis.call(...args)
+        }),
+        ...options
+      });
+    } catch (error) {
+      console.warn('Redis store creation failed, falling back to memory store:', error.message);
+      // Redis 스토어 생성 실패 시 메모리 스토어 사용
+      return rateLimit(options);
+    }
   } else {
     // Redis가 없는 경우 메모리 스토어 사용
     return rateLimit(options);
@@ -47,7 +53,7 @@ const findMatches = createRateLimiter({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => `match_find:${req.userId}`,
+  keyGenerator: (req) => `match_find:${req.userId}`
 });
 
 // 매칭 액션 제한 (분당 5개) - 수락/거절
@@ -60,7 +66,7 @@ const matchAction = createRateLimiter({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => `match_action:${req.userId}`,
+  keyGenerator: (req) => `match_action:${req.userId}`
 });
 
 // 일반적인 API 호출 제한 (분당 100개)
@@ -73,7 +79,7 @@ const general = createRateLimiter({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => `general:${req.ip}:${req.userId || 'anonymous'}`,
+  keyGenerator: (req) => `general:${req.ip}:${req.userId || 'anonymous'}`
 });
 
 // 엄격한 제한 (분당 20개) - 민감한 작업용
@@ -86,7 +92,7 @@ const strict = createRateLimiter({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => `strict:${req.userId}`,
+  keyGenerator: (req) => `strict:${req.userId}`
 });
 
 // 매칭 시스템별 적응형 rate limiting
@@ -94,7 +100,7 @@ const adaptiveMatchingLimiter = (req, res, next) => {
   const redis = getRedisClient();
   if (!redis) return next();
 
-  const userId = req.userId;
+  const { userId } = req;
   const key = `adaptive_limit:${userId}`;
 
   redis.get(key).then(data => {
@@ -107,7 +113,7 @@ const adaptiveMatchingLimiter = (req, res, next) => {
 
     // 스팸 점수에 따른 동적 제한
     let maxRequests = 10; // 기본값
-    
+
     if (userStats.spamScore > 80) {
       maxRequests = 2; // 스팸 의심 사용자
     } else if (userStats.spamScore > 50) {
@@ -167,7 +173,7 @@ const updateSpamScore = async (userId, action) => {
   }
 
   userStats.lastActivity = Date.now();
-  
+
   // 24시간 후 만료
   await redis.setex(key, 24 * 60 * 60, JSON.stringify(userStats));
 };
@@ -182,7 +188,7 @@ const globalIpLimit = createRateLimiter({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => `global_ip:${req.ip}`,
+  keyGenerator: (req) => `global_ip:${req.ip}`
 });
 
 // 사용자별 일일 제한
@@ -195,7 +201,7 @@ const dailyUserLimit = createRateLimiter({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => `daily_user:${req.userId || req.ip}`,
+  keyGenerator: (req) => `daily_user:${req.userId || req.ip}`
 });
 
 module.exports = {

@@ -10,13 +10,13 @@ const artistPortalHelmet = helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      imgSrc: ["'self'", "data:", "https:", "blob:"],
+      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+      imgSrc: ["'self'", 'data:', 'https:', 'blob:'],
       scriptSrc: ["'self'"],
       objectSrc: ["'none'"],
-      upgradeInsecureRequests: process.env.NODE_ENV === 'production' ? [] : null,
-    },
+      upgradeInsecureRequests: process.env.NODE_ENV === 'production' ? [] : null
+    }
   },
   crossOriginEmbedderPolicy: false, // 이미지 업로드를 위해 비활성화
   hsts: {
@@ -34,17 +34,17 @@ const intelligentRateLimit = rateLimit({
     if (req.userId) {
       return 20;
     }
-    
+
     // IP 기반 평판 확인
     const redis = getRedisClient();
     if (redis) {
       const reputation = await redis.get(`ip_reputation:${req.ip}`) || 0;
-      
+
       // 평판이 좋은 IP는 더 많은 요청 허용
       if (reputation > 50) return 15;
       if (reputation < -10) return 3; // 나쁜 평판 IP는 엄격히 제한
     }
-    
+
     return 10; // 기본값
   },
   message: (req) => ({
@@ -71,7 +71,7 @@ const intelligentRateLimit = rateLimit({
       endpoint: req.path,
       method: req.method
     });
-    
+
     // IP 평판 하락
     const redis = getRedisClient();
     if (redis && !req.userId) {
@@ -109,7 +109,7 @@ const maliciousPayloadDetector = (req, res, next) => {
     // LDAP Injection 패턴
     /(\*|\)|\(|\\|\||&)/gi
   ];
-  
+
   const checkPayload = (obj, path = '') => {
     if (typeof obj === 'string') {
       for (const pattern of suspiciousPatterns) {
@@ -121,7 +121,7 @@ const maliciousPayloadDetector = (req, res, next) => {
             ip: req.ip,
             userAgent: req.get('User-Agent')
           });
-          
+
           throw new Error('Malicious payload detected');
         }
       }
@@ -135,7 +135,7 @@ const maliciousPayloadDetector = (req, res, next) => {
       });
     }
   };
-  
+
   try {
     if (req.body) {
       checkPayload(req.body, 'body');
@@ -146,7 +146,7 @@ const maliciousPayloadDetector = (req, res, next) => {
     if (req.params) {
       checkPayload(req.params, 'params');
     }
-    
+
     next();
   } catch (error) {
     res.status(400).json({
@@ -162,7 +162,7 @@ const secureFileUpload = (req, res, next) => {
   if (!req.files || req.files.length === 0) {
     return next();
   }
-  
+
   for (const file of req.files) {
     // 파일 크기 이중 체크
     if (file.size > 5 * 1024 * 1024) {
@@ -171,7 +171,7 @@ const secureFileUpload = (req, res, next) => {
         message: 'File size exceeds 5MB limit'
       });
     }
-    
+
     // 파일명 보안 체크
     const dangerousChars = /[<>:"\/\\|?*\x00-\x1f]/g;
     if (dangerousChars.test(file.originalname)) {
@@ -180,16 +180,16 @@ const secureFileUpload = (req, res, next) => {
         message: 'Invalid characters in filename'
       });
     }
-    
+
     // MIME 타입 화이트리스트
     const allowedMimeTypes = [
       'image/jpeg',
-      'image/jpg', 
+      'image/jpg',
       'image/png',
       'image/gif',
       'image/webp'
     ];
-    
+
     if (!allowedMimeTypes.includes(file.mimetype)) {
       return res.status(400).json({
         success: false,
@@ -197,7 +197,7 @@ const secureFileUpload = (req, res, next) => {
       });
     }
   }
-  
+
   next();
 };
 
@@ -205,11 +205,11 @@ const secureFileUpload = (req, res, next) => {
 const behaviorAnalyzer = async (req, res, next) => {
   const redis = getRedisClient();
   if (!redis) return next();
-  
+
   try {
     const userId = req.userId || req.ip;
     const key = `behavior:${userId}`;
-    
+
     // 행동 패턴 수집
     const behavior = {
       timestamp: Date.now(),
@@ -218,38 +218,38 @@ const behaviorAnalyzer = async (req, res, next) => {
       userAgent: req.get('User-Agent'),
       contentLength: req.get('Content-Length') || 0
     };
-    
+
     // Redis에 최근 행동 저장 (최대 50개)
     await redis.lpush(key, JSON.stringify(behavior));
     await redis.ltrim(key, 0, 49);
     await redis.expire(key, 24 * 60 * 60); // 24시간 후 만료
-    
+
     // 의심스러운 패턴 감지
     const recentBehaviors = await redis.lrange(key, 0, 10);
     const behaviors = recentBehaviors.map(b => JSON.parse(b));
-    
+
     // 짧은 시간 내 반복 요청 감지
-    const recentRequests = behaviors.filter(b => 
+    const recentRequests = behaviors.filter(b =>
       Date.now() - b.timestamp < 60 * 1000 // 1분 이내
     );
-    
+
     if (recentRequests.length > 10) {
       logger.warn('Rapid requests detected:', {
         userId,
         requestCount: recentRequests.length,
         timeframe: '1 minute'
       });
-      
+
       // IP 평판 하락
       if (!req.userId) {
         await redis.decr(`ip_reputation:${req.ip}`);
       }
     }
-    
+
   } catch (error) {
     logger.error('Behavior analysis failed:', error);
   }
-  
+
   next();
 };
 

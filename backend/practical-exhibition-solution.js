@@ -26,7 +26,7 @@ class PracticalExhibitionCollector {
           method: 'cheerio'
         }
       ],
-      
+
       // 2. 문화 포털 API (실제 작동하는 것들)
       culturalAPIs: [
         {
@@ -40,7 +40,7 @@ class PracticalExhibitionCollector {
           key: 'free'
         }
       ],
-      
+
       // 3. 구글 캘린더 활용 (미술관들이 공개한 캘린더)
       googleCalendars: [
         {
@@ -49,7 +49,7 @@ class PracticalExhibitionCollector {
           apiKey: process.env.GOOGLE_CALENDAR_API_KEY
         }
       ],
-      
+
       // 4. 인스타그램 해시태그 (합법적 방법)
       socialMedia: [
         {
@@ -58,7 +58,7 @@ class PracticalExhibitionCollector {
           method: 'official_api'
         }
       ],
-      
+
       // 5. 수동 입력 시스템 구축
       manualInput: {
         googleForm: 'https://forms.gle/yourform',
@@ -69,13 +69,13 @@ class PracticalExhibitionCollector {
 
   async collectFromOfficialSites() {
     console.log('🌐 공식 미술관 웹사이트 파싱');
-    
+
     // 예시: 국립현대미술관
     try {
       const response = await axios.get('https://www.mmca.go.kr/exhibitions/exhibitionsList.do');
       // cheerio로 파싱
       const exhibitions = this.parseMMCAExhibitions(response.data);
-      
+
       console.log(`✅ MMCA: ${exhibitions.length}개 전시 발견`);
       return exhibitions;
     } catch (error) {
@@ -86,12 +86,12 @@ class PracticalExhibitionCollector {
 
   async usePublicAPIs() {
     console.log('🏛️ 공공 문화 API 활용');
-    
+
     // 서울 열린데이터광장 - 서울시 문화행사 정보
     try {
       const url = `http://openapi.seoul.go.kr:8088/${process.env.SEOUL_API_KEY}/json/culturalEventInfo/1/100/`;
       const response = await axios.get(url);
-      
+
       const events = response.data.culturalEventInfo.row
         .filter(event => event.CODENAME.includes('전시'))
         .map(event => ({
@@ -102,7 +102,7 @@ class PracticalExhibitionCollector {
           description: event.PROGRAM,
           official_url: event.ORG_LINK
         }));
-      
+
       console.log(`✅ 서울시: ${events.length}개 전시 발견`);
       return events;
     } catch (error) {
@@ -113,11 +113,11 @@ class PracticalExhibitionCollector {
 
   async buildCommunityDriven() {
     console.log('👥 커뮤니티 기반 수집 시스템');
-    
+
     // 1. 관리자 패널 구축
     // 2. 사용자 제보 시스템
     // 3. 큐레이터 검증 시스템
-    
+
     return {
       adminPanel: '/admin/exhibitions',
       userSubmission: '/api/exhibitions/submit',
@@ -127,22 +127,22 @@ class PracticalExhibitionCollector {
 
   async implementPracticalSolution() {
     console.log('💡 실용적 해결책 구현\n');
-    
+
     console.log('1️⃣ 즉시 가능한 방법:');
     console.log('   • 매주 주요 미술관 웹사이트 수동 확인');
     console.log('   • 구글 스프레드시트로 데이터 관리');
     console.log('   • 월 1회 일괄 DB 업데이트');
-    
+
     console.log('\n2️⃣ 단기 개선 (1개월):');
     console.log('   • 관리자 전시 입력 페이지 구축');
     console.log('   • 서울시 공공 API 연동');
     console.log('   • 이메일 알림으로 큐레이터에게 업데이트 요청');
-    
+
     console.log('\n3️⃣ 장기 솔루션 (3개월):');
     console.log('   • 미술관과 직접 파트너십');
     console.log('   • 사용자 제보 + 보상 시스템');
     console.log('   • AI 검증 시스템 고도화');
-    
+
     console.log('\n4️⃣ 현실적 목표:');
     console.log('   • 월 30-50개 고품질 전시 정보');
     console.log('   • 서울 주요 미술관 10곳 커버');

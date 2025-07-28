@@ -22,9 +22,9 @@ async function findMatchingArtists() {
     'Rembrandt van Rijn',
     'Rembrandt'
   ];
-  
+
   console.log('🔍 Searching for matching artists in database...\n');
-  
+
   for (const artist of targetArtists) {
     const result = await pool.query(`
       SELECT name, name_ko, nationality, birth_year, death_year, apt_profile
@@ -32,7 +32,7 @@ async function findMatchingArtists() {
       WHERE name ILIKE '%${artist}%' OR name_ko ILIKE '%${artist}%'
       LIMIT 3
     `);
-    
+
     if (result.rows.length > 0) {
       console.log(`Found matches for '${artist}':`);
       result.rows.forEach(row => {
@@ -48,7 +48,7 @@ async function findMatchingArtists() {
       console.log('');
     }
   }
-  
+
   // Check APT profile structure from existing data
   console.log('\n📊 Checking existing APT profile structure...');
   const aptExists = await pool.query(`
@@ -57,7 +57,7 @@ async function findMatchingArtists() {
     WHERE apt_profile IS NOT NULL 
     LIMIT 5
   `);
-  
+
   if (aptExists.rows.length > 0) {
     console.log('Found artists with APT profiles:');
     aptExists.rows.forEach(row => {
@@ -67,7 +67,7 @@ async function findMatchingArtists() {
   } else {
     console.log('No APT profiles found in database yet.');
   }
-  
+
   await pool.end();
 }
 

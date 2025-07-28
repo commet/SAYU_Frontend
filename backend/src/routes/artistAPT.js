@@ -30,20 +30,20 @@ router.get('/match', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
     const { limit = 10, offset = 0 } = req.query;
-    
+
     // 사용자의 APT 프로필 가져오기
     const userResult = await pool.query(
       'SELECT apt_results FROM users WHERE id = $1',
       [userId]
     );
-    
+
     if (!userResult.rows[0]?.apt_results) {
       return res.status(400).json({ error: 'APT 테스트를 먼저 완료해주세요.' });
     }
-    
+
     const userAPT = userResult.rows[0].apt_results;
     const userType = userAPT.primaryType;
-    
+
     // 유사한 APT 유형의 작가 찾기
     const matchingArtists = await pool.query(`
       WITH apt_matches AS (
@@ -79,7 +79,7 @@ router.get('/match', authenticateToken, async (req, res) => {
       ORDER BY match_score DESC, confidence::float DESC
       LIMIT $2 OFFSET $3
     `, [userType, limit, offset]);
-    
+
     // 결과 포맷팅
     const results = matchingArtists.rows.map(artist => {
       const aptInfo = APT_TYPES[artist.primary_type] || {};
@@ -100,7 +100,7 @@ router.get('/match', authenticateToken, async (req, res) => {
         }
       };
     });
-    
+
     res.json({
       userAPT: {
         type: userType,
@@ -109,7 +109,7 @@ router.get('/match', authenticateToken, async (req, res) => {
       matches: results,
       totalCount: matchingArtists.rows.length
     });
-    
+
   } catch (error) {
     handleError(res, error, '작가 매칭 조회 실패');
   }
@@ -119,7 +119,7 @@ router.get('/match', authenticateToken, async (req, res) => {
 router.get('/artist/:artistId', async (req, res) => {
   try {
     const { artistId } = req.params;
-    
+
     const result = await pool.query(`
       SELECT 
         id,
@@ -132,25 +132,25 @@ router.get('/artist/:artistId', async (req, res) => {
       FROM artists
       WHERE id = $1
     `, [artistId]);
-    
+
     if (result.rows.length === 0) {
       return res.status(404).json({ error: '작가를 찾을 수 없습니다.' });
     }
-    
+
     const artist = result.rows[0];
     const aptProfile = artist.apt_profile;
-    
+
     if (!aptProfile) {
       return res.status(404).json({ error: '이 작가의 APT 프로필이 없습니다.' });
     }
-    
+
     // 주 성향과 부 성향 정보 추출
     const primaryTypes = aptProfile.primary_types || [];
     const formattedTypes = primaryTypes.map(type => ({
       ...type,
       ...APT_TYPES[type.type]
     }));
-    
+
     res.json({
       artist: {
         id: artist.id,
@@ -167,7 +167,7 @@ router.get('/artist/:artistId', async (req, res) => {
         meta: aptProfile.meta
       }
     });
-    
+
   } catch (error) {
     handleError(res, error, '작가 APT 프로필 조회 실패');
   }
@@ -195,7 +195,7 @@ router.get('/statistics', async (req, res) => {
       GROUP BY apt_profile->'primary_types'->0->>'type'
       ORDER BY count DESC
     `);
-    
+
     const formattedStats = stats.rows.map(row => ({
       type: row.apt_type,
       ...APT_TYPES[row.apt_type],
@@ -203,12 +203,12 @@ router.get('/statistics', async (req, res) => {
       avgConfidence: parseFloat(row.avg_confidence),
       topArtists: row.top_artists?.slice(0, 5) || []
     }));
-    
+
     res.json({
       statistics: formattedStats,
       totalArtists: formattedStats.reduce((sum, stat) => sum + stat.count, 0)
     });
-    
+
   } catch (error) {
     handleError(res, error, 'APT 통계 조회 실패');
   }
@@ -219,60 +219,60 @@ router.post('/compatibility', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
     const { artistId } = req.body;
-    
+
     if (!artistId) {
       return res.status(400).json({ error: 'artistId가 필요합니다.' });
     }
-    
+
     // 사용자와 작가의 APT 정보 가져오기
     const [userResult, artistResult] = await Promise.all([
       pool.query('SELECT apt_results FROM users WHERE id = $1', [userId]),
       pool.query('SELECT apt_profile FROM artists WHERE id = $1', [artistId])
     ]);
-    
+
     const userAPT = userResult.rows[0]?.apt_results;
     const artistAPT = artistResult.rows[0]?.apt_profile;
-    
+
     if (!userAPT || !artistAPT) {
       return res.status(400).json({ error: 'APT 정보가 부족합니다.' });
     }
-    
+
     // 차원별 호환성 계산
     const userDimensions = userAPT.dimensions || {};
     const artistDimensions = artistAPT.dimensions || {};
-    
+
     const compatibility = {
       overall: 0,
       dimensions: {}
     };
-    
+
     // 각 차원의 차이 계산
     ['L_S', 'A_R', 'E_M', 'F_C'].forEach(dimension => {
       const [first, second] = dimension.split('_');
       const userScore = (userDimensions[first] || 50) - (userDimensions[second] || 50);
       const artistScore = (artistDimensions[first] || 50) - (artistDimensions[second] || 50);
-      
+
       // 차이가 작을수록 호환성이 높음 (최대 100점)
       const diff = Math.abs(userScore - artistScore);
       const score = Math.max(0, 100 - diff);
-      
+
       compatibility.dimensions[dimension] = {
         userScore,
         artistScore,
         compatibility: score,
         interpretation: getCompatibilityInterpretation(dimension, score)
       };
-      
+
       compatibility.overall += score;
     });
-    
+
     compatibility.overall = Math.round(compatibility.overall / 4);
-    
+
     res.json({
       compatibility,
       recommendation: getRecommendationMessage(compatibility.overall)
     });
-    
+
   } catch (error) {
     handleError(res, error, '호환성 계산 실패');
   }
@@ -302,7 +302,7 @@ function getCompatibilityInterpretation(dimension, score) {
       low: '예술적 접근법을 확장할 기회입니다'
     }
   };
-  
+
   const level = score >= 70 ? 'high' : score >= 40 ? 'medium' : 'low';
   return interpretations[dimension][level];
 }

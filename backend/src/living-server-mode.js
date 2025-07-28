@@ -78,7 +78,7 @@ const simpleAuth = (req, res, next) => {
     return res.status(401).json({ error: 'Authentication required' });
   }
   // In living mode, we'll accept any token for testing
-  req.user = { userId: 'demo-user-' + token.slice(-8) };
+  req.user = { userId: `demo-user-${token.slice(-8)}` };
   next();
 };
 
@@ -111,7 +111,7 @@ app.get('/api/daily-habit/today', simpleAuth, (req, res) => {
   const today = new Date().toISOString().split('T')[0];
   res.json({
     entry: {
-      id: 'demo-entry-' + today,
+      id: `demo-entry-${today}`,
       entry_date: today,
       morning_completed_at: null,
       lunch_completed_at: null,
@@ -134,7 +134,7 @@ app.get('/api/daily-habit/today', simpleAuth, (req, res) => {
 app.get('/api/daily-habit/entry/:date', simpleAuth, (req, res) => {
   const { date } = req.params;
   res.json({
-    id: 'demo-entry-' + date,
+    id: `demo-entry-${date}`,
     entry_date: date,
     morning_completed_at: null,
     lunch_completed_at: null,
@@ -188,7 +188,7 @@ app.post('/api/daily-habit/night', simpleAuth, (req, res) => {
 // Recommendations
 app.get('/api/daily-habit/recommendation/:timeSlot', simpleAuth, (req, res) => {
   const { timeSlot } = req.params;
-  
+
   const sampleArtworks = {
     morning: {
       id: 'demo-artwork-morning',
@@ -217,9 +217,9 @@ app.get('/api/daily-habit/recommendation/:timeSlot', simpleAuth, (req, res) => {
   };
 
   const questions = {
-    morning: "이 작품이 당신의 하루를 시작하는 색이라면?",
-    lunch: "지금 이 순간, 이 작품과 어떤 감정을 나누고 싶나요?",
-    night: "오늘 하루를 이 작품의 한 부분으로 표현한다면?"
+    morning: '이 작품이 당신의 하루를 시작하는 색이라면?',
+    lunch: '지금 이 순간, 이 작품과 어떤 감정을 나누고 싶나요?',
+    night: '오늘 하루를 이 작품의 한 부분으로 표현한다면?'
   };
 
   res.json({
@@ -233,7 +233,7 @@ app.get('/api/daily-habit/recommendation/:timeSlot', simpleAuth, (req, res) => {
 app.post('/api/daily-habit/emotion/checkin', simpleAuth, (req, res) => {
   const data = req.body;
   res.json({
-    id: 'demo-checkin-' + Date.now(),
+    id: `demo-checkin-${Date.now()}`,
     user_id: req.user.userId,
     checkin_time: new Date().toISOString(),
     ...data,
@@ -330,7 +330,7 @@ const demoExhibitions = [
     }
   },
   {
-    id: 'demo-exhibition-2', 
+    id: 'demo-exhibition-2',
     title: '부산, 바다와 예술의 만남',
     venue_name: '부산시립미술관',
     venue_city: '부산',
@@ -372,21 +372,21 @@ const demoExhibitions = [
 // Get exhibitions
 app.get('/api/exhibitions', (req, res) => {
   const { limit = 50, status, city } = req.query;
-  
+
   let exhibitions = [...demoExhibitions];
-  
+
   // Apply filters
   if (status) {
     exhibitions = exhibitions.filter(ex => ex.status === status);
   }
-  
+
   if (city) {
     exhibitions = exhibitions.filter(ex => ex.venue_city.toLowerCase() === city.toLowerCase());
   }
-  
+
   // Limit results
   exhibitions = exhibitions.slice(0, parseInt(limit));
-  
+
   res.json({
     success: true,
     data: exhibitions,
@@ -397,16 +397,16 @@ app.get('/api/exhibitions', (req, res) => {
 // Get single exhibition
 app.get('/api/exhibitions/:id', (req, res) => {
   const { id } = req.params;
-  
+
   const exhibition = demoExhibitions.find(ex => ex.id === id);
-  
+
   if (!exhibition) {
     return res.status(404).json({
       success: false,
       error: 'Exhibition not found'
     });
   }
-  
+
   res.json({
     success: true,
     data: exhibition
@@ -443,7 +443,7 @@ const demoVenues = [
     google_maps_uri: 'https://maps.google.com/?q=37.5665,126.9780',
     opening_hours: {
       'tuesday': '10:00-18:00',
-      'wednesday': '10:00-18:00', 
+      'wednesday': '10:00-18:00',
       'thursday': '10:00-18:00',
       'friday': '10:00-21:00',
       'saturday': '10:00-18:00',
@@ -451,13 +451,13 @@ const demoVenues = [
     }
   },
   {
-    id: '2', 
+    id: '2',
     name: 'Busan Museum of Art',
     name_ko: '부산시립미술관',
     name_en: 'Busan Museum of Art',
     city: 'Busan',
     city_ko: '부산',
-    city_en: 'Busan', 
+    city_en: 'Busan',
     country: 'South Korea',
     venue_type: 'museum',
     tier: 2,
@@ -478,35 +478,35 @@ const demoVenues = [
 // Get venues with search and filters
 app.get('/api/venues', (req, res) => {
   const { search, city, country, type, lang = 'ko', page = 1, limit = 20 } = req.query;
-  
+
   let venues = [...demoVenues];
-  
+
   // Apply filters
   if (search) {
-    venues = venues.filter(v => 
+    venues = venues.filter(v =>
       v.name.toLowerCase().includes(search.toLowerCase()) ||
       v.name_ko?.toLowerCase().includes(search.toLowerCase()) ||
       v.city.toLowerCase().includes(search.toLowerCase())
     );
   }
-  
+
   if (city) {
     venues = venues.filter(v => v.city.toLowerCase() === city.toLowerCase());
   }
-  
+
   if (country) {
     venues = venues.filter(v => v.country.toLowerCase() === country.toLowerCase());
   }
-  
+
   if (type) {
     venues = venues.filter(v => v.venue_type === type);
   }
-  
+
   // Pagination
   const startIndex = (page - 1) * limit;
   const endIndex = startIndex + parseInt(limit);
   const paginatedVenues = venues.slice(startIndex, endIndex);
-  
+
   res.json({
     success: true,
     data: paginatedVenues,
@@ -526,16 +526,16 @@ app.get('/api/venues', (req, res) => {
 app.get('/api/venues/:id', (req, res) => {
   const { id } = req.params;
   const { lang = 'ko' } = req.query;
-  
+
   const venue = demoVenues.find(v => v.id === id);
-  
+
   if (!venue) {
     return res.status(404).json({
       success: false,
       error: 'Venue not found'
     });
   }
-  
+
   res.json({
     success: true,
     data: venue,
@@ -575,7 +575,7 @@ app.get('/api/artvee/random', (req, res) => {
 // Artvee images (general endpoint)
 app.get('/api/artvee/images', (req, res) => {
   const limit = parseInt(req.query.limit) || 20;
-  
+
   cloudinaryArtveeService.getRandomArtworks(limit)
     .then(artworks => {
       res.json({
@@ -595,7 +595,7 @@ app.get('/api/artvee/personality/:type', (req, res) => {
   const { type } = req.params;
   const limit = parseInt(req.query.limit) || 10;
   const { emotionFilter } = req.query;
-  
+
   cloudinaryArtveeService.getArtworksForPersonality(type, { limit, emotionFilter })
     .then(artworks => {
       res.json({
@@ -627,7 +627,7 @@ const demoUsers = [
     generated_image_url: 'https://picsum.photos/150/150?random=1'
   },
   {
-    id: '2', 
+    id: '2',
     nickname: 'FamilyArt',
     age: 35,
     user_purpose: 'family',
@@ -668,9 +668,9 @@ const demoUsers = [
 app.get('/api/matching/compatible', simpleAuth, (req, res) => {
   const { purpose } = req.query;
   const targetPurpose = purpose || 'exploring';
-  
+
   let compatibleUsers = demoUsers.filter(user => user.id !== req.user.userId);
-  
+
   // Simple purpose-based filtering
   if (targetPurpose !== 'exploring') {
     compatibleUsers = compatibleUsers.filter(user => {
@@ -688,7 +688,7 @@ app.get('/api/matching/compatible', simpleAuth, (req, res) => {
       }
     });
   }
-  
+
   res.json({
     purpose: targetPurpose,
     users: compatibleUsers,
@@ -699,16 +699,16 @@ app.get('/api/matching/compatible', simpleAuth, (req, res) => {
 // Get users by specific purpose
 app.get('/api/matching/purpose/:purpose', simpleAuth, (req, res) => {
   const { purpose } = req.params;
-  
+
   const validPurposes = ['exploring', 'dating', 'social', 'family', 'professional'];
   if (!validPurposes.includes(purpose)) {
     return res.status(400).json({ error: 'Invalid purpose' });
   }
-  
-  const filteredUsers = demoUsers.filter(user => 
+
+  const filteredUsers = demoUsers.filter(user =>
     user.id !== req.user.userId && user.user_purpose === purpose
   );
-  
+
   res.json({
     purpose,
     users: filteredUsers,
@@ -719,19 +719,19 @@ app.get('/api/matching/purpose/:purpose', simpleAuth, (req, res) => {
 // Update user purpose
 app.patch('/api/auth/purpose', simpleAuth, (req, res) => {
   const { userPurpose } = req.body;
-  
+
   if (!userPurpose) {
     return res.status(400).json({ error: 'User purpose is required' });
   }
-  
+
   const validPurposes = ['exploring', 'dating', 'social', 'family', 'professional'];
   if (!validPurposes.includes(userPurpose)) {
     return res.status(400).json({ error: 'Invalid user purpose' });
   }
-  
+
   res.json({
     message: 'User purpose updated successfully',
-    userPurpose: userPurpose
+    userPurpose
   });
 });
 

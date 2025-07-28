@@ -104,20 +104,20 @@ class MajorArtistsCollector {
 
       const artistCategories = this.getMajorContemporaryArtists();
       const categoryWeights = this.getCategoryWeights();
-      
+
       const priorityList = [];
 
       // 카테고리별로 작가 리스트 생성
       Object.entries(artistCategories).forEach(([category, artists]) => {
         const baseImportance = categoryWeights[category];
-        
+
         artists.forEach((artist, index) => {
           // 카테고리 내 순서에 따른 미세 조정 (-2점 범위)
           const finalImportance = baseImportance - (index * 0.1);
-          
+
           priorityList.push({
             name: artist,
-            category: category,
+            category,
             estimated_importance: Math.round(finalImportance * 10) / 10,
             priority_tier: this.calculatePriorityTier(finalImportance),
             cultural_significance: this.assessCulturalSignificance(artist, category),
@@ -134,7 +134,7 @@ class MajorArtistsCollector {
 
       // CSV 형태로 저장
       const csvHeader = 'rank,name,category,estimated_importance,priority_tier,cultural_significance,data_availability\n';
-      const csvContent = top200.map((artist, index) => 
+      const csvContent = top200.map((artist, index) =>
         `${index + 1},"${artist.name}","${artist.category}",${artist.estimated_importance},"${artist.priority_tier}","${artist.cultural_significance}","${artist.data_availability}"`
       ).join('\n');
 
@@ -175,7 +175,7 @@ class MajorArtistsCollector {
 
   calculatePriorityTier(importance) {
     if (importance >= 90) return 'Tier_1_Essential';
-    if (importance >= 85) return 'Tier_2_Important'; 
+    if (importance >= 85) return 'Tier_2_Important';
     if (importance >= 80) return 'Tier_3_Significant';
     return 'Tier_4_Emerging';
   }

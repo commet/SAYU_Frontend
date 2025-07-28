@@ -6,7 +6,7 @@ exports.getUserStats = async (req, res) => {
   try {
     const userId = req.user.id;
     const stats = await gamificationService.getUserStats(userId);
-    
+
     res.json({
       success: true,
       data: stats
@@ -25,7 +25,7 @@ exports.getDailyQuests = async (req, res) => {
   try {
     const userId = req.user.id;
     const quests = await gamificationService.getDailyQuests(userId);
-    
+
     res.json({
       success: true,
       data: quests
@@ -44,17 +44,17 @@ exports.earnXP = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        success: false, 
-        errors: errors.array() 
+      return res.status(400).json({
+        success: false,
+        errors: errors.array()
       });
     }
 
     const userId = req.user.id;
     const { eventType, metadata } = req.body;
-    
+
     const result = await gamificationService.earnXP(userId, eventType, metadata);
-    
+
     res.json({
       success: true,
       data: result
@@ -73,13 +73,13 @@ exports.getLeaderboard = async (req, res) => {
   try {
     const { type = 'weekly', limit = 100 } = req.query;
     const userId = req.user?.id;
-    
+
     const leaderboard = await gamificationService.getLeaderboard(
-      type, 
-      parseInt(limit), 
+      type,
+      parseInt(limit),
       userId
     );
-    
+
     res.json({
       success: true,
       data: {
@@ -101,7 +101,7 @@ exports.getUserProfile = async (req, res) => {
   try {
     const { userId } = req.params;
     const stats = await gamificationService.getUserStats(parseInt(userId));
-    
+
     res.json({
       success: true,
       data: stats
@@ -119,15 +119,15 @@ exports.getUserProfile = async (req, res) => {
 exports.dailyLogin = async (req, res) => {
   try {
     const userId = req.user.id;
-    
+
     // 오늘 이미 로그인했는지 확인
     const today = new Date().toISOString().split('T')[0];
     const cacheKey = `daily_login:${userId}:${today}`;
-    
+
     // Redis로 중복 체크
     const redis = require('../config/redis');
     const alreadyLoggedIn = await redis.get(cacheKey);
-    
+
     if (alreadyLoggedIn) {
       return res.json({
         success: true,
@@ -137,15 +137,15 @@ exports.dailyLogin = async (req, res) => {
         }
       });
     }
-    
+
     // XP 획득
     const result = await gamificationService.earnXP(userId, 'DAILY_LOGIN', {
       description: '일일 로그인 보상'
     });
-    
+
     // Redis에 기록 (24시간)
     await redis.setex(cacheKey, 86400, '1');
-    
+
     res.json({
       success: true,
       data: {
@@ -167,13 +167,13 @@ exports.viewArtwork = async (req, res) => {
   try {
     const userId = req.user.id;
     const { artworkId } = req.body;
-    
+
     const result = await gamificationService.earnXP(userId, 'VIEW_ARTWORK', {
       description: '작품 감상',
       referenceId: artworkId,
       referenceType: 'artwork'
     });
-    
+
     res.json({
       success: true,
       data: result
@@ -192,13 +192,13 @@ exports.completeQuiz = async (req, res) => {
   try {
     const userId = req.user.id;
     const { quizType, score } = req.body;
-    
+
     const result = await gamificationService.earnXP(userId, 'COMPLETE_QUIZ', {
       description: `퀴즈 완료 (점수: ${score})`,
       referenceId: quizType,
       referenceType: 'quiz'
     });
-    
+
     res.json({
       success: true,
       data: result
@@ -217,13 +217,13 @@ exports.followUser = async (req, res) => {
   try {
     const userId = req.user.id;
     const { targetUserId } = req.body;
-    
+
     const result = await gamificationService.earnXP(userId, 'FOLLOW_USER', {
       description: '새로운 친구 팔로우',
       referenceId: targetUserId,
       referenceType: 'user'
     });
-    
+
     res.json({
       success: true,
       data: result
@@ -242,13 +242,13 @@ exports.shareArtwork = async (req, res) => {
   try {
     const userId = req.user.id;
     const { artworkId, platform } = req.body;
-    
+
     const result = await gamificationService.earnXP(userId, 'SHARE_ARTWORK', {
       description: `작품 공유 (${platform})`,
       referenceId: artworkId,
       referenceType: 'artwork'
     });
-    
+
     res.json({
       success: true,
       data: result
@@ -266,11 +266,11 @@ exports.shareArtwork = async (req, res) => {
 exports.createAIProfile = async (req, res) => {
   try {
     const userId = req.user.id;
-    
+
     const result = await gamificationService.earnXP(userId, 'CREATE_AI_PROFILE', {
       description: 'AI 아트 프로필 생성'
     });
-    
+
     res.json({
       success: true,
       data: result
@@ -289,13 +289,13 @@ exports.visitExhibition = async (req, res) => {
   try {
     const userId = req.user.id;
     const { exhibitionId, exhibitionName } = req.body;
-    
+
     const result = await gamificationService.earnXP(userId, 'VISIT_EXHIBITION', {
       description: `전시 방문: ${exhibitionName}`,
       referenceId: exhibitionId,
       referenceType: 'exhibition'
     });
-    
+
     res.json({
       success: true,
       data: result
@@ -314,14 +314,14 @@ exports.writeReview = async (req, res) => {
   try {
     const userId = req.user.id;
     const { targetId, targetType, reviewLength } = req.body;
-    
+
     const result = await gamificationService.earnXP(userId, 'WRITE_REVIEW', {
       description: '리뷰 작성',
       referenceId: targetId,
       referenceType: targetType,
       reviewLength
     });
-    
+
     res.json({
       success: true,
       data: result
@@ -340,13 +340,13 @@ exports.receiveLike = async (req, res) => {
   try {
     const userId = req.user.id;
     const { contentId, contentType } = req.body;
-    
+
     const result = await gamificationService.earnXP(userId, 'RECEIVE_LIKE', {
       description: '좋아요 받기',
       referenceId: contentId,
       referenceType: contentType
     });
-    
+
     res.json({
       success: true,
       data: result
@@ -365,7 +365,7 @@ exports.initializeUser = async (req, res) => {
   try {
     const userId = req.user.id;
     await gamificationService.initializeUser(userId);
-    
+
     res.json({
       success: true,
       message: 'User gamification profile initialized'

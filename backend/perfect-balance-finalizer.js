@@ -11,24 +11,24 @@ const pool = new Pool({
 // LAMC 타입과 부족한 타입들을 위한 특별 타겟
 const FINAL_TARGETS = {
   'LAMC': [ // 거북이 - 철학적 수집가 (완전히 비어있음)
-    'marcel duchamp', 'duchamp', 'rene magritte', 'magritte', 
+    'marcel duchamp', 'duchamp', 'rene magritte', 'magritte',
     'joseph beuys', 'beuys', 'john cage', 'sol lewitt', 'lewitt',
     'bruce nauman', 'nauman', 'lawrence weiner', 'weiner',
     'on kawara', 'kawara', 'felix gonzalez-torres', 'gonzalez'
   ],
-  
+
   'LAMF': [ // 올빼미 - 직관적 탐구자 (1명만 있음)
     'francis bacon', 'bacon', 'willem de kooning', 'kooning',
     'robert rauschenberg', 'rauschenberg', 'jasper johns', 'johns',
     'cy twombly', 'twombly', 'gerhard richter', 'richter'
   ],
-  
-  'SAMC': [ // 사슴 - 문화 기획자 (1명만 있음) 
+
+  'SAMC': [ // 사슴 - 문화 기획자 (1명만 있음)
     'marina abramovic', 'abramovic', 'chris burden', 'burden',
     'vito acconci', 'acconci', 'tehching hsieh', 'hsieh',
     'tino sehgal', 'sehgal', 'rirkrit tiravanija', 'tiravanija'
   ],
-  
+
   'SAMF': [ // 앵무새 - 영감 전도사 (1명만 있음)
     'pablo picasso', 'picasso', 'henri matisse', 'matisse',
     'georges braque', 'braque', 'fernand leger', 'leger',
@@ -36,7 +36,7 @@ const FINAL_TARGETS = {
   ]
 };
 
-// 16가지 동물 타입 정의  
+// 16가지 동물 타입 정의
 const SAYU_ANIMALS = {
   'LAEF': { name: 'Fox', name_ko: '여우', title: '몽환적 방랑자' },
   'LAEC': { name: 'Cat', name_ko: '고양이', title: '감성 큐레이터' },
@@ -60,16 +60,16 @@ async function perfectBalanceFinalizer() {
   try {
     console.log('🎯 완벽한 균형 최종 조정 프로젝트');
     console.log('목표: 모든 16가지 타입 완성 + 균형잡힌 분포\n');
-    
+
     let successCount = 0;
-    
+
     // 1. LAMC 타입 반드시 채우기 (최우선)
     console.log('🔴 CRITICAL: LAMC (거북이 - 철학적 수집가) 채우기');
     let lamcFound = false;
-    
+
     for (const keyword of FINAL_TARGETS['LAMC']) {
       if (lamcFound) break;
-      
+
       const artists = await pool.query(`
         SELECT id, name, name_ko, nationality, nationality_ko, birth_year, death_year
         FROM artists 
@@ -89,17 +89,17 @@ async function perfectBalanceFinalizer() {
           END
         LIMIT 3
       `, [`%${keyword}%`]);
-      
+
       for (const artist of artists.rows) {
         if (lamcFound) break;
-        
+
         const existing = await pool.query(`
           SELECT id FROM artist_apt_mappings WHERE artist_id = $1
         `, [artist.id]);
-        
+
         if (existing.rows.length === 0) {
           const aptProfile = generateSAYUProfile(artist, 'LAMC');
-          
+
           try {
             await pool.query(`
               INSERT INTO artist_apt_mappings 
@@ -113,45 +113,45 @@ async function perfectBalanceFinalizer() {
               'sayu_perfectionist',
               `CRITICAL: LAMC completion - ${keyword}`
             ]);
-            
+
             console.log(`  ✅ ${artist.name || artist.name_ko} → LAMC (거북이)`);
             successCount++;
             lamcFound = true;
-            
+
           } catch (err) {
             console.log(`  ❌ 삽입 실패: ${err.message}`);
           }
         }
       }
     }
-    
+
     if (!lamcFound) {
       console.log('⚠️ LAMC 타입을 위한 아티스트를 찾지 못했습니다');
     }
-    
+
     // 2. 부족한 타입들 보강 (각 타입별로 최소 3명 목표)
     console.log('\n🔄 부족한 타입들 보강:');
-    
+
     for (const [targetType, keywords] of Object.entries(FINAL_TARGETS)) {
       if (targetType === 'LAMC') continue; // 이미 처리함
-      
+
       const currentCount = await pool.query(`
         SELECT COUNT(*) as count 
         FROM artist_apt_mappings 
         WHERE apt_profile IS NOT NULL 
           AND (apt_profile->'primary_types'->0->>'type') = $1
       `, [targetType]);
-      
+
       const typeCount = parseInt(currentCount.rows[0].count);
-      
+
       if (typeCount < 3) {
         const needed = 3 - typeCount;
         console.log(`\n${targetType} (${SAYU_ANIMALS[targetType].title}): ${typeCount}명 → ${needed}명 추가 필요`);
-        
+
         let foundForType = 0;
         for (const keyword of keywords) {
           if (foundForType >= needed) break;
-          
+
           const artists = await pool.query(`
             SELECT id, name, name_ko, nationality, nationality_ko, birth_year, death_year
             FROM artists 
@@ -164,17 +164,17 @@ async function perfectBalanceFinalizer() {
               AND name NOT ILIKE '%school of%'
             LIMIT 2
           `, [`%${keyword}%`]);
-          
+
           for (const artist of artists.rows) {
             if (foundForType >= needed) break;
-            
+
             const existing = await pool.query(`
               SELECT id FROM artist_apt_mappings WHERE artist_id = $1
             `, [artist.id]);
-            
+
             if (existing.rows.length === 0) {
               const aptProfile = generateSAYUProfile(artist, targetType);
-              
+
               try {
                 await pool.query(`
                   INSERT INTO artist_apt_mappings 
@@ -188,11 +188,11 @@ async function perfectBalanceFinalizer() {
                   'sayu_balancer',
                   `Balance: ${keyword} → ${targetType}`
                 ]);
-                
+
                 console.log(`  ✅ ${artist.name || artist.name_ko} → ${targetType}`);
                 successCount++;
                 foundForType++;
-                
+
               } catch (err) {
                 console.log(`  ❌ 삽입 실패: ${err.message}`);
               }
@@ -203,7 +203,7 @@ async function perfectBalanceFinalizer() {
         console.log(`✨ ${targetType}: 충분함 (${typeCount}명)`);
       }
     }
-    
+
     // 3. 최종 완벽한 결과 확인
     const final = await pool.query(`
       SELECT 
@@ -214,11 +214,11 @@ async function perfectBalanceFinalizer() {
       GROUP BY (apt_profile->'primary_types'->0->>'type')
       ORDER BY apt_type
     `);
-    
+
     console.log('\n🏆 완벽한 최종 APT 분포:');
     let totalMapped = 0;
     const distributionMap = {};
-    
+
     final.rows.forEach(row => {
       if (row.apt_type) {
         const animal = SAYU_ANIMALS[row.apt_type];
@@ -228,43 +228,43 @@ async function perfectBalanceFinalizer() {
         totalMapped += count;
       }
     });
-    
+
     // 4. 완성도 검증
     console.log(`\n🎊 프로젝트 완성 결과:`);
     console.log(`📈 총 매핑된 아티스트: ${totalMapped}명`);
     console.log(`✅ 이번에 추가: ${successCount}명`);
-    
+
     const allTypes = Object.keys(SAYU_ANIMALS);
     const mappedTypes = Object.keys(distributionMap);
     const emptyTypes = allTypes.filter(type => !mappedTypes.includes(type));
-    
+
     console.log(`\n🔍 완성도 검증:`);
     console.log(`📊 커버된 타입: ${mappedTypes.length}/16`);
     console.log(`🎯 50명 이상: ${totalMapped >= 50 ? '✅' : '❌'}`);
     console.log(`🌟 모든 타입 커버: ${emptyTypes.length === 0 ? '✅' : '❌'}`);
-    
+
     if (emptyTypes.length > 0) {
       console.log(`⚠️ 여전히 비어있는 타입: ${emptyTypes.join(', ')}`);
     } else {
       console.log('🎉 모든 16가지 타입에 아티스트 매핑 완료!');
     }
-    
+
     // 5. 균형 분석
     const avgPerType = totalMapped / 16;
     const minCount = Math.min(...Object.values(distributionMap));
     const maxCount = Math.max(...Object.values(distributionMap));
-    
+
     console.log(`\n⚖️ 균형 분석:`);
     console.log(`평균 타입당: ${avgPerType.toFixed(1)}명`);
     console.log(`최소: ${minCount}명, 최대: ${maxCount}명`);
     console.log(`균형도: ${((minCount / maxCount) * 100).toFixed(1)}%`);
-    
+
     if (minCount >= 2 && maxCount <= 8) {
       console.log('✅ 적절한 균형을 가집니다!');
     } else {
       console.log('⚠️ 일부 불균형이 존재합니다.');
     }
-    
+
     // 6. 성공 기준 체크
     const criteria = {
       total50Plus: totalMapped >= 50,
@@ -272,26 +272,26 @@ async function perfectBalanceFinalizer() {
       reasonableBalance: minCount >= 2 && maxCount <= 8,
       targetAchieved: totalMapped >= 50 && emptyTypes.length === 0
     };
-    
+
     console.log(`\n🏁 최종 성공 기준:`);
     console.log(`✅ 50명 이상: ${criteria.total50Plus}`);
     console.log(`✅ 모든 타입 커버: ${criteria.allTypesCovered}`);
     console.log(`✅ 균형잡힌 분포: ${criteria.reasonableBalance}`);
     console.log(`✅ 전체 목표 달성: ${criteria.targetAchieved}`);
-    
+
     if (criteria.targetAchieved) {
       console.log('\n🎊🎊🎊 SAYU APT 매핑 프로젝트 완벽 성공! 🎊🎊🎊');
     } else {
       console.log('\n⚠️ 추가 작업이 필요할 수 있습니다.');
     }
-    
+
     return {
       totalMapped,
       successCount,
       criteria,
       distribution: distributionMap
     };
-    
+
   } catch (error) {
     console.error('❌ 오류:', error.message);
   } finally {
@@ -301,7 +301,7 @@ async function perfectBalanceFinalizer() {
 
 function generateSAYUProfile(artist, targetType) {
   const animalInfo = SAYU_ANIMALS[targetType];
-  
+
   // 타입별 최적화된 차원 설정
   const typeProfiles = {
     'LAEF': { L: 75, S: 25, A: 85, R: 15, E: 80, M: 20, F: 85, C: 15 },
@@ -321,12 +321,12 @@ function generateSAYUProfile(artist, targetType) {
     'SRMF': { L: 30, S: 70, A: 45, R: 55, E: 25, M: 75, F: 65, C: 35 },
     'SRMC': { L: 25, S: 75, A: 20, R: 80, E: 20, M: 80, F: 25, C: 75 }
   };
-  
-  let dimensions = { ...typeProfiles[targetType] };
-  
+
+  const dimensions = { ...typeProfiles[targetType] };
+
   // 특별한 아티스트별 조정
   const name = (artist.name || artist.name_ko || '').toLowerCase();
-  
+
   if (name.includes('duchamp')) {
     // 뒤샹: 개념미술의 아버지, 극도로 개념적
     dimensions.M += 15; dimensions.E -= 15;
@@ -340,12 +340,12 @@ function generateSAYUProfile(artist, targetType) {
     dimensions.E += 20; dimensions.M -= 20;
     dimensions.F += 15; dimensions.C -= 15;
   }
-  
+
   // 경계값 조정
   Object.keys(dimensions).forEach(dim => {
     dimensions[dim] = Math.max(5, Math.min(95, dimensions[dim]));
   });
-  
+
   return {
     meta: {
       method: 'perfect_balance_mapping',
@@ -353,7 +353,7 @@ function generateSAYUProfile(artist, targetType) {
       artist_name: artist.name || artist.name_ko,
       analysis_date: new Date().toISOString()
     },
-    dimensions: dimensions,
+    dimensions,
     primary_types: [
       {
         type: targetType,

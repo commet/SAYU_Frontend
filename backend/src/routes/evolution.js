@@ -18,9 +18,9 @@ router.post('/award-points', async (req, res) => {
     }
 
     const result = await evolutionService.awardPoints(userId, activityType, activityData);
-    
+
     if (!result) {
-      return res.status(429).json({ 
+      return res.status(429).json({
         error: 'Activity limited',
         message: 'You have already performed this activity recently'
       });
@@ -47,7 +47,7 @@ router.post('/evolve', async (req, res) => {
     }
 
     const result = await evolutionService.processEvolution(userId, newIdentityType, reason);
-    
+
     res.json({
       success: true,
       evolution: result
@@ -63,7 +63,7 @@ router.get('/history', async (req, res) => {
   try {
     const userId = req.user.id;
     const history = await evolutionService.getEvolutionHistory(userId);
-    
+
     res.json({
       success: true,
       history
@@ -79,9 +79,9 @@ router.get('/activities', async (req, res) => {
   try {
     const userId = req.user.id;
     const limit = parseInt(req.query.limit) || 10;
-    
+
     const activities = await evolutionService.getRecentActivities(userId, limit);
-    
+
     res.json({
       success: true,
       activities
@@ -97,7 +97,7 @@ router.get('/stats', async (req, res) => {
   try {
     const userId = req.user.id;
     const stats = await evolutionService.getEvolutionStats(userId);
-    
+
     res.json({
       success: true,
       stats
@@ -113,10 +113,10 @@ router.get('/can-evolve', async (req, res) => {
   try {
     const userId = req.user.id;
     const stats = await evolutionService.getEvolutionStats(userId);
-    
-    const canEvolve = stats.currentUser && 
+
+    const canEvolve = stats.currentUser &&
       stats.currentUser.evolution_points >= 100;
-    
+
     res.json({
       success: true,
       canEvolve,
@@ -139,7 +139,7 @@ router.use('/track/:activityType', async (req, res, next) => {
     // Award points in background (don't wait)
     evolutionService.awardPoints(userId, activityType.toUpperCase(), activityData)
       .catch(error => logger.error('Background point award failed:', error));
-    
+
     next();
   } catch (error) {
     logger.error('Error in activity tracking middleware:', error);
@@ -166,20 +166,20 @@ router.post('/track/community-activity', (req, res) => {
 router.post('/daily-login', async (req, res) => {
   try {
     const userId = req.user.id;
-    
+
     const result = await evolutionService.awardPoints(userId, 'DAILY_LOGIN', {
       loginTime: new Date().toISOString(),
       userAgent: req.headers['user-agent']
     });
-    
+
     if (!result) {
-      return res.json({ 
-        success: true, 
+      return res.json({
+        success: true,
         message: 'Already logged in today',
         alreadyAwarded: true
       });
     }
-    
+
     res.json({
       success: true,
       message: 'Daily login bonus awarded',

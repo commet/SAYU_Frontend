@@ -153,12 +153,12 @@ const validationSchemas = {
       .isObject()
       .custom((value) => {
         const { exhibition, artwork } = value;
-        
+
         // Validate exhibition responses
         if (!exhibition || typeof exhibition !== 'object') {
           throw new Error('Exhibition responses are required');
         }
-        
+
         // Validate artwork responses
         if (!artwork || typeof artwork !== 'object') {
           throw new Error('Artwork responses are required');
@@ -205,11 +205,11 @@ const validationSchemas = {
           /https?:\/\/[^\s]+/gi, // URLs
           /\b(?:buy|sell|cheap|free|money|earn|click|visit)\b/gi // Spam keywords
         ];
-        
+
         if (spamPatterns.some(pattern => pattern.test(value))) {
           throw new Error('Message contains spam or inappropriate content');
         }
-        
+
         return true;
       }),
 
@@ -260,8 +260,8 @@ const validationSchemas = {
       .optional()
       .isArray({ min: 1, max: 50 })
       .custom((value) => {
-        if (!value.every(tag => 
-          typeof tag === 'string' && 
+        if (!value.every(tag =>
+          typeof tag === 'string' &&
           validator.isLength(tag, { min: 1, max: 50 }) &&
           /^[a-zA-Z\s\-]+$/.test(tag)
         )) {
@@ -335,7 +335,7 @@ const validationSchemas = {
 // Validation result handler
 const handleValidationResult = (req, res, next) => {
   const errors = validationResult(req);
-  
+
   if (!errors.isEmpty()) {
     const errorMessages = errors.array().map(error => ({
       field: error.path || error.param,
@@ -349,7 +349,7 @@ const handleValidationResult = (req, res, next) => {
       timestamp: new Date().toISOString()
     });
   }
-  
+
   next();
 };
 
@@ -360,14 +360,14 @@ const securityHeaders = (req, res, next) => {
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Content-Security-Policy', 
+  res.setHeader('Content-Security-Policy',
     "default-src 'self'; " +
     "script-src 'self' 'unsafe-inline'; " +
     "style-src 'self' 'unsafe-inline'; " +
     "img-src 'self' data: https:; " +
     "connect-src 'self' https://api.openai.com https://collectionapi.metmuseum.org"
   );
-  
+
   next();
 };
 
@@ -376,15 +376,15 @@ const requestSizeLimiter = (maxSize = '1mb') => {
   return (req, res, next) => {
     const contentLength = parseInt(req.headers['content-length'] || '0');
     const maxBytes = parseRequestSize(maxSize);
-    
+
     if (contentLength > maxBytes) {
       return res.status(413).json({
         error: 'Request too large',
-        maxSize: maxSize,
+        maxSize,
         receivedSize: `${Math.round(contentLength / 1024)}KB`
       });
     }
-    
+
     next();
   };
 };
@@ -393,9 +393,9 @@ const requestSizeLimiter = (maxSize = '1mb') => {
 const parseRequestSize = (sizeStr) => {
   const units = { b: 1, kb: 1024, mb: 1024 * 1024, gb: 1024 * 1024 * 1024 };
   const match = sizeStr.toLowerCase().match(/^(\d+(?:\.\d+)?)(b|kb|mb|gb)$/);
-  
+
   if (!match) return 1024 * 1024; // Default 1MB
-  
+
   const [, size, unit] = match;
   return parseFloat(size) * units[unit];
 };

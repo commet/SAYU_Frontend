@@ -15,9 +15,9 @@ class CulturePortalAPI {
     this.serviceKeyEncoded = '%2Bwfa%2BsUFfXVTtQtcbqA2cFvHiWWKJh2jLQzuMZywhdM0LfcNiHbuX9DkLvJJ5JDFa%2B3%2BDxNM7RHCETyzDMbzmA%3D%3D';
     // 디코딩된 키
     this.serviceKeyDecoded = '+wfa+sUFfXVTtQtcbqA2cFvHiWWKJh2jLQzuMZywhdM0LfcNiHbuX9DkLvJJ5JDFa+3+DxNM7RHCETyzDMbzmA==';
-    
+
     this.baseUrl = 'http://www.culture.go.kr/openapi/rest/publicperformancedisplays';
-    
+
     this.stats = {
       total: 0,
       saved: 0,
@@ -44,7 +44,7 @@ class CulturePortalAPI {
       };
 
       console.log('🔍 테스트 요청 중...');
-      const response = await axios.get(testUrl, { 
+      const response = await axios.get(testUrl, {
         params,
         headers: {
           'Accept': 'application/xml'
@@ -70,17 +70,17 @@ class CulturePortalAPI {
     console.log('\n📊 전시 데이터 수집 시작...\n');
 
     const allExhibitions = [];
-    
+
     try {
       // 1. 기간별 조회 (2025년 7월~12월)
       const months = ['07', '08', '09', '10', '11', '12'];
-      
+
       for (const month of months) {
         const fromDate = `2025${month}01`;
         const toDate = `2025${month}31`;
-        
+
         console.log(`\n📅 2025년 ${month}월 전시 정보 조회...`);
-        
+
         const url = `${this.baseUrl}/period`;
         const params = {
           serviceKey: this.serviceKeyDecoded,
@@ -92,7 +92,7 @@ class CulturePortalAPI {
         };
 
         try {
-          const response = await axios.get(url, { 
+          const response = await axios.get(url, {
             params,
             headers: {
               'Accept': 'application/xml'
@@ -128,7 +128,7 @@ class CulturePortalAPI {
 
       for (const area of areas) {
         console.log(`\n📍 ${area.name} 지역 전시 조회...`);
-        
+
         const url = `${this.baseUrl}/area`;
         const params = {
           serviceKey: this.serviceKeyDecoded,
@@ -139,7 +139,7 @@ class CulturePortalAPI {
         };
 
         try {
-          const response = await axios.get(url, { 
+          const response = await axios.get(url, {
             params,
             headers: {
               'Accept': 'application/xml'
@@ -169,9 +169,9 @@ class CulturePortalAPI {
     // 중복 제거
     const uniqueExhibitions = this.removeDuplicates(allExhibitions);
     this.stats.total = uniqueExhibitions.length;
-    
+
     console.log(`\n📊 총 ${uniqueExhibitions.length}개 전시 수집 (중복 제거)`);
-    
+
     return uniqueExhibitions;
   }
 
@@ -186,8 +186,8 @@ class CulturePortalAPI {
         return [];
       }
 
-      const msgBody = result.response.msgBody;
-      
+      const { msgBody } = result.response;
+
       // perforList가 배열이 아닌 경우 배열로 변환
       let items = msgBody.perforList || [];
       if (!Array.isArray(items)) {
@@ -214,7 +214,7 @@ class CulturePortalAPI {
       const now = new Date();
       const start = new Date(startDate);
       const end = new Date(endDate);
-      
+
       if (now < start) return 'upcoming';
       if (now > end) return 'ended';
       return 'ongoing';
@@ -261,9 +261,9 @@ class CulturePortalAPI {
 
   async saveToDatabase(exhibitions) {
     console.log('\n💾 데이터베이스 저장 시작...');
-    
+
     const client = await pool.connect();
-    
+
     try {
       for (const exhibition of exhibitions) {
         try {
@@ -303,21 +303,21 @@ class CulturePortalAPI {
               exhibition.status,
               exhibition.source
             ]);
-            
+
             this.stats.saved++;
             console.log(`   ✅ 저장: ${exhibition.title_local}`);
           } else {
             console.log(`   ⏭️  중복: ${exhibition.title_local}`);
           }
-          
+
         } catch (err) {
           console.log(`   ❌ 저장 실패: ${exhibition.title_local} - ${err.message}`);
           this.stats.errors++;
         }
       }
-      
+
       console.log(`\n✅ 저장 완료: ${this.stats.saved}개 전시`);
-      
+
     } catch (error) {
       console.error('❌ DB 오류:', error.message);
     } finally {
@@ -356,7 +356,7 @@ class CulturePortalAPI {
     }
 
     // 결과 요약
-    console.log('\n' + '=' .repeat(60));
+    console.log(`\n${'=' .repeat(60)}`);
     console.log('📊 최종 결과:');
     console.log(`   📥 수집된 전시: ${this.stats.total}개`);
     console.log(`   💾 저장된 전시: ${this.stats.saved}개`);

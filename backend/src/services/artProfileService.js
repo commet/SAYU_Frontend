@@ -18,7 +18,7 @@ class ArtProfileService {
     cloudinary.config({
       cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
       api_key: process.env.CLOUDINARY_API_KEY,
-      api_secret: process.env.CLOUDINARY_API_SECRET,
+      api_secret: process.env.CLOUDINARY_API_SECRET
     });
 
     // 스타일별 최적 모델 매핑
@@ -46,9 +46,9 @@ class ArtProfileService {
       'pixel-art': {
         model: 'andreasjansson/pixray-text2image:5c347a4bfa1d4523a58ae614c2194e15f2ae682b57e3797a5bb468920aa70ebf',
         prompt: 'pixel art style, 8-bit, retro game aesthetic',
-        settings: { 
+        settings: {
           drawer: 'pixel',
-          pixelart: true 
+          pixelart: true
         }
       },
       'korean-minhwa': {
@@ -85,15 +85,15 @@ class ArtProfileService {
         WHERE u.id = $1
         GROUP BY u.id, u.is_premium
       `;
-      
+
       const result = await hybridDB.query(query, [userId]);
       const user = result.rows[0];
-      
+
       if (!user) {
         throw new Error('User not found');
       }
 
-      const monthlyLimit = user.is_premium 
+      const monthlyLimit = user.is_premium
         ? parseInt(process.env.ART_PROFILE_PREMIUM_MONTHLY_LIMIT || '30')
         : parseInt(process.env.ART_PROFILE_FREE_MONTHLY_LIMIT || '3');
 
@@ -120,7 +120,7 @@ class ArtProfileService {
 
       // Sharp로 이미지 최적화 (512x512 리사이즈)
       const optimizedBuffer = await sharp(imageBuffer)
-        .resize(512, 512, { 
+        .resize(512, 512, {
           fit: 'cover',
           position: 'center'
         })
@@ -167,12 +167,12 @@ class ArtProfileService {
   async generateWithRetry(styleConfig, originalImageUrl, styleId, customSettings = {}, maxRetries = 3) {
     let lastError;
     const startTime = Date.now();
-    
+
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         const attemptStartTime = Date.now();
         logger.info(`Attempt ${attempt}/${maxRetries} for style: ${styleId}`);
-        
+
         let output;
         if (styleId === 'pixel-art') {
           // 픽셀 아트는 다른 모델 사용
@@ -188,7 +188,7 @@ class ArtProfileService {
         } else {
           // SDXL 모델 사용 (NSFW 필터 우회를 위한 안전한 프롬프트)
           const safePrompt = this.getSafePrompt(styleConfig.prompt, attempt);
-          
+
           output = await this.replicate.run(
             styleConfig.model,
             {
@@ -199,7 +199,7 @@ class ArtProfileService {
                 prompt_strength: 0.8,
                 num_outputs: 1,
                 guidance_scale: 7.5,
-                scheduler: "K_EULER",
+                scheduler: 'K_EULER',
                 num_inference_steps: 50,
                 seed: Math.floor(Math.random() * 1000000), // 다양성을 위한 랜덤 시드
                 ...customSettings
@@ -212,7 +212,7 @@ class ArtProfileService {
         if (output && Array.isArray(output) && output.length > 0 && output[0]) {
           const attemptDuration = Date.now() - attemptStartTime;
           const totalDuration = Date.now() - startTime;
-          
+
           // 성능 메트릭 로깅
           logger.info(`Successfully generated art profile on attempt ${attempt}`, {
             styleId,
@@ -221,29 +221,29 @@ class ArtProfileService {
             totalDuration,
             success: true
           });
-          
+
           // 성능 데이터 캐싱 (모니터링용)
           await this.logPerformanceMetrics(styleId, {
             attempts: attempt,
             totalDuration,
             success: true
           });
-          
+
           return output;
         } else {
           throw new Error('Invalid output format from Replicate API');
         }
-        
+
       } catch (error) {
         lastError = error;
         logger.warn(`Attempt ${attempt} failed for style ${styleId}: ${error.message}`);
-        
+
         // NSFW 에러인 경우 다른 시드로 재시도
         if (error.message.includes('NSFW') || error.message.includes('content detected')) {
           logger.info(`NSFW detected, retrying with different seed...`);
           continue;
         }
-        
+
         // 다른 에러인 경우 잠시 대기 후 재시도
         if (attempt < maxRetries) {
           const delay = Math.pow(2, attempt) * 1000; // 지수 백오프
@@ -252,10 +252,10 @@ class ArtProfileService {
         }
       }
     }
-    
+
     // 모든 재시도 실패
     const totalDuration = Date.now() - startTime;
-    
+
     // 실패 메트릭 로깅
     await this.logPerformanceMetrics(styleId, {
       attempts: maxRetries,
@@ -263,14 +263,14 @@ class ArtProfileService {
       success: false,
       error: lastError.message
     });
-    
+
     logger.error(`All ${maxRetries} attempts failed for style ${styleId}`, {
       styleId,
       maxRetries,
       totalDuration,
       lastError: lastError.message
     });
-    
+
     throw new Error(`Failed to generate art profile after ${maxRetries} attempts: ${lastError.message}`);
   }
 
@@ -285,9 +285,9 @@ class ArtProfileService {
       'stylized illustration',
       'digital art piece'
     ];
-    
+
     const safeWord = safeWords[attempt % safeWords.length];
-    
+
     return `${originalPrompt}, ${safeWord}, clean, appropriate, family-friendly`;
   }
 
@@ -302,17 +302,17 @@ class ArtProfileService {
         styleId,
         ...metrics
       };
-      
+
       // Redis에 성능 데이터 저장 (24시간 TTL)
       await redis.lpush(key, JSON.stringify(data));
       await redis.expire(key, 86400); // 24시간
-      
+
       // 일일 통계 업데이트
       const statsKey = `stats:art-profile:${new Date().toISOString().split('T')[0]}`;
       await redis.hincrby(statsKey, `${styleId}:attempts`, metrics.attempts);
       await redis.hincrby(statsKey, `${styleId}:${metrics.success ? 'success' : 'failure'}`, 1);
       await redis.expire(statsKey, 86400 * 7); // 7일간 보관
-      
+
     } catch (error) {
       logger.warn('Failed to log performance metrics:', error.message);
     }
@@ -351,12 +351,12 @@ class ArtProfileService {
 
       // 6. Replicate API 호출 (재시도 로직 포함)
       logger.info(`Generating art profile with style: ${styleId}`);
-      
+
       const output = await this.generateWithRetry(styleConfig, originalImageUrl, styleId, customSettings);
 
       // 7. 결과 이미지 Cloudinary에 저장
       const transformedImageUrl = output[0];
-      
+
       // 8. 데이터베이스에 저장
       const artProfileId = uuidv4();
       const insertQuery = `
@@ -407,9 +407,9 @@ class ArtProfileService {
         stack: error.stack,
         timestamp: new Date().toISOString()
       };
-      
+
       logger.error('Error generating art profile:', errorInfo);
-      
+
       // 에러 타입별 처리
       if (error.message.includes('No credits remaining')) {
         throw new Error('INSUFFICIENT_CREDITS');
@@ -432,19 +432,19 @@ class ArtProfileService {
     try {
       const statsKey = `stats:art-profile:${date}`;
       const stats = await redis.hgetall(statsKey);
-      
+
       const result = {};
       Object.keys(this.styleModels).forEach(styleId => {
         result[styleId] = {
           attempts: parseInt(stats[`${styleId}:attempts`] || 0),
           success: parseInt(stats[`${styleId}:success`] || 0),
           failure: parseInt(stats[`${styleId}:failure`] || 0),
-          successRate: stats[`${styleId}:success`] && stats[`${styleId}:failure`] 
+          successRate: stats[`${styleId}:success`] && stats[`${styleId}:failure`]
             ? (parseInt(stats[`${styleId}:success`]) / (parseInt(stats[`${styleId}:success`]) + parseInt(stats[`${styleId}:failure`])) * 100).toFixed(2)
             : 0
         };
       });
-      
+
       return result;
     } catch (error) {
       logger.error('Failed to get performance stats:', error);
@@ -472,7 +472,7 @@ class ArtProfileService {
       `;
 
       const result = await hybridDB.query(query, [userId]);
-      
+
       // 태그 분석하여 추천 스타일 결정
       const recommendedStyles = [];
       const allStyles = Object.keys(this.styleModels);
@@ -481,7 +481,7 @@ class ArtProfileService {
       result.rows.forEach(row => {
         if (row.tags) {
           const tags = row.tags.toLowerCase();
-          
+
           if (tags.includes('인상') || tags.includes('impression')) {
             recommendedStyles.push('monet-impressionism');
           }
@@ -499,7 +499,7 @@ class ArtProfileService {
 
       // 중복 제거 및 상위 3개 반환
       const uniqueStyles = [...new Set(recommendedStyles)].slice(0, 3);
-      
+
       // 추천이 부족하면 인기 스타일 추가
       if (uniqueStyles.length < 3) {
         const popularStyles = ['monet-impressionism', 'vangogh-postimpressionism', 'pixel-art'];

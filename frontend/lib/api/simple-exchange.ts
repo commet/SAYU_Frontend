@@ -220,10 +220,10 @@ export const exchangeApi = {
     ]);
 
     const avgConnectionScore = evaluations.data && evaluations.data.length > 0
-      ? evaluations.data.reduce((sum, eval) => sum + eval.connection_quality, 0) / evaluations.data.length
+      ? evaluations.data.reduce((sum, evaluation) => sum + evaluation.connection_quality, 0) / evaluations.data.length
       : 0;
 
-    const insightsGained = evaluations.data?.reduce((sum, eval) => sum + eval.insight_gained, 0) || 0;
+    const insightsGained = evaluations.data?.reduce((sum, evaluation) => sum + evaluation.insight_gained, 0) || 0;
 
     return {
       activeSessions: activeSessions.count || 0,

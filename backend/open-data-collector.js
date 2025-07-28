@@ -19,7 +19,7 @@ class OpenDataCollector {
       verified_data: 0,
       errors: 0
     };
-    
+
     // 실제 공개 데이터 포털들
     this.openDataSources = [
       {
@@ -71,16 +71,16 @@ class OpenDataCollector {
     try {
       // 1. 오픈 데이터 포털 접근성 테스트
       await this.testOpenDataAccess();
-      
+
       // 2. 각 포털에서 데이터 수집
       await this.collectFromOpenDataPortals();
-      
+
       // 3. 문화 기관 리스트 기반 전시 정보 생성
       await this.generateExhibitionsFromInstitutions();
-      
+
       // 4. 결과 요약
       await this.showCollectionResults();
-      
+
     } catch (error) {
       console.error('❌ 수집 중 오류:', error.message);
     }
@@ -88,11 +88,11 @@ class OpenDataCollector {
 
   async testOpenDataAccess() {
     console.log('🔍 오픈 데이터 포털 접근성 테스트...');
-    
+
     for (const portal of this.openDataSources) {
       try {
         console.log(`\n📊 ${portal.name} 테스트...`);
-        
+
         // 메인 포털 사이트 접근
         const response = await axios.get(portal.url, {
           timeout: 10000,
@@ -100,10 +100,10 @@ class OpenDataCollector {
             'User-Agent': 'SAYU-OpenDataBot/1.0 (+https://sayu.live)'
           }
         });
-        
+
         console.log(`   ✅ 메인 사이트 접근 가능 (${response.status})`);
         portal.accessible = true;
-        
+
         // API 엔드포인트 테스트 (샘플)
         if (portal.api_endpoints && portal.api_endpoints.length > 0) {
           for (const endpoint of portal.api_endpoints.slice(0, 1)) { // 첫 번째만 테스트
@@ -114,10 +114,10 @@ class OpenDataCollector {
                   'User-Agent': 'SAYU-OpenDataBot/1.0'
                 }
               });
-              
+
               console.log(`   📡 API 엔드포인트 접근 가능`);
               console.log(`   📊 응답 크기: ${Math.round(apiResponse.data.length || 0 / 1024)}KB`);
-              
+
             } catch (apiError) {
               if (apiError.response?.status === 401) {
                 console.log(`   🔑 API 키 필요`);
@@ -129,51 +129,51 @@ class OpenDataCollector {
             }
           }
         }
-        
+
       } catch (error) {
         console.log(`   ❌ ${portal.name} 접근 실패: ${error.message}`);
         portal.accessible = false;
         this.stats.errors++;
       }
-      
+
       await new Promise(resolve => setTimeout(resolve, 2000));
     }
   }
 
   async collectFromOpenDataPortals() {
     console.log('\n🏛️ 오픈 데이터 포털에서 문화 기관 정보 수집...');
-    
+
     // 실제 API 접근 대신 공개된 샘플 데이터 기반으로 전시 정보 생성
     const culturalInstitutions = await this.getCulturalInstitutionsData();
-    
+
     const collectedExhibitions = [];
-    
+
     for (const institution of culturalInstitutions) {
       try {
         console.log(`🎨 ${institution.name} 기반 전시 생성...`);
-        
+
         // 기관별 가상의 현재 전시 생성 (실제 데이터 기반)
         const exhibitions = this.generateRealisticExhibitions(institution);
-        
+
         if (exhibitions.length > 0) {
           collectedExhibitions.push(...exhibitions);
           this.stats.exhibitions_extracted += exhibitions.length;
         }
-        
+
       } catch (error) {
         console.log(`   ❌ ${institution.name} 처리 실패: ${error.message}`);
         this.stats.errors++;
       }
     }
-    
+
     // 수집된 데이터 검증 및 저장
     const verifiedExhibitions = collectedExhibitions.filter(ex => this.validateExhibitionData(ex));
-    
+
     if (verifiedExhibitions.length > 0) {
       await this.saveExhibitionData(verifiedExhibitions);
       this.stats.verified_data = verifiedExhibitions.length;
     }
-    
+
     console.log(`\n📊 오픈 데이터 기반 전시 생성 완료: ${verifiedExhibitions.length}개`);
   }
 
@@ -193,7 +193,7 @@ class OpenDataCollector {
       {
         name: '서울역사박물관',
         city: '서울',
-        country: 'KR', 
+        country: 'KR',
         type: '시립박물관',
         address: '서울특별시 종로구 새문안로 55',
         established: 2002,
@@ -259,14 +259,14 @@ class OpenDataCollector {
   generateRealisticExhibitions(institution) {
     const exhibitions = [];
     const currentYear = new Date().getFullYear();
-    
+
     // 기관의 특성에 맞는 전시 생성
     const exhibitionTemplates = this.getExhibitionTemplatesByType(institution);
-    
+
     // 각 기관마다 2-3개의 현실적인 전시 생성
     for (let i = 0; i < Math.min(3, exhibitionTemplates.length); i++) {
       const template = exhibitionTemplates[i];
-      
+
       const exhibition = {
         title_en: template.title_en,
         title_local: template.title_local,
@@ -282,17 +282,17 @@ class OpenDataCollector {
         source_url: `https://www.museum.go.kr/${institution.name}`, // 가상 URL
         confidence: 0.85
       };
-      
+
       exhibitions.push(exhibition);
     }
-    
+
     return exhibitions;
   }
 
   getExhibitionTemplatesByType(institution) {
     const templates = [];
     const year = new Date().getFullYear();
-    
+
     if (institution.specialization.includes('한국사') || institution.type.includes('박물관')) {
       templates.push({
         title_en: 'Korean Cultural Heritage Collection',
@@ -303,7 +303,7 @@ class OpenDataCollector {
         artists: ['전통 장인'],
         type: 'collection'
       });
-      
+
       templates.push({
         title_en: 'Special Exhibition: Ancient Korean Art',
         title_local: '특별기획전: 고대 한국의 미술',
@@ -314,7 +314,7 @@ class OpenDataCollector {
         type: 'special'
       });
     }
-    
+
     if (institution.specialization.includes('현대미술')) {
       templates.push({
         title_en: 'Contemporary Korean Artists',
@@ -325,7 +325,7 @@ class OpenDataCollector {
         artists: ['김환기', '박서보', '이우환'],
         type: 'group'
       });
-      
+
       templates.push({
         title_en: 'Digital Art and New Media',
         title_local: '디지털 아트와 뉴미디어',
@@ -336,7 +336,7 @@ class OpenDataCollector {
         type: 'special'
       });
     }
-    
+
     if (institution.specialization.includes('지역')) {
       const regionName = institution.city;
       templates.push({
@@ -349,13 +349,13 @@ class OpenDataCollector {
         type: 'collection'
       });
     }
-    
+
     return templates;
   }
 
   async generateExhibitionsFromInstitutions() {
     console.log('\n🎨 문화기관별 맞춤형 전시 정보 생성...');
-    
+
     // 이미 위에서 처리했으므로 스킵
     console.log('   ✅ 문화기관 기반 전시 생성 완료');
   }
@@ -364,30 +364,30 @@ class OpenDataCollector {
     if (!data.title_en || !data.venue_name || !data.source) {
       return false;
     }
-    
+
     if (data.title_en.length < 5 || data.title_en.length > 200) {
       return false;
     }
-    
+
     if (data.confidence < 0.8) {
       return false;
     }
-    
+
     return true;
   }
 
   async saveExhibitionData(exhibitions) {
     const client = await pool.connect();
-    
+
     try {
       await client.query('BEGIN');
-      
+
       for (const exhibition of exhibitions) {
         const existingCheck = await client.query(
           'SELECT id FROM exhibitions WHERE title_en = $1 AND venue_name = $2',
           [exhibition.title_en, exhibition.venue_name]
         );
-        
+
         if (existingCheck.rows.length === 0) {
           await client.query(`
             INSERT INTO exhibitions (
@@ -411,9 +411,9 @@ class OpenDataCollector {
           ]);
         }
       }
-      
+
       await client.query('COMMIT');
-      
+
     } catch (error) {
       await client.query('ROLLBACK');
       console.error('❌ DB 저장 실패:', error.message);
@@ -424,7 +424,7 @@ class OpenDataCollector {
 
   async showCollectionResults() {
     const client = await pool.connect();
-    
+
     try {
       const totalExhibitions = await client.query('SELECT COUNT(*) as count FROM exhibitions');
       const openData = await client.query(`
@@ -432,14 +432,14 @@ class OpenDataCollector {
         FROM exhibitions 
         WHERE source = 'open_data_verified'
       `);
-      
+
       const allSources = await client.query(`
         SELECT source, COUNT(*) as count 
         FROM exhibitions 
         GROUP BY source 
         ORDER BY count DESC
       `);
-      
+
       console.log('\n\n🎉 오픈 데이터 포털 수집 완료!');
       console.log('='.repeat(60));
       console.log(`📊 수집 통계:`);
@@ -449,18 +449,18 @@ class OpenDataCollector {
       console.log(`   오류: ${this.stats.errors}개`);
       console.log(`   총 DB 전시 수: ${totalExhibitions.rows[0].count}개`);
       console.log(`   오픈 데이터 검증: ${openData.rows[0].count}개`);
-      
+
       console.log('\n📋 전체 소스별 데이터:');
       allSources.rows.forEach(row => {
         console.log(`   ${row.source}: ${row.count}개`);
       });
-      
+
       console.log('\n✅ 성과:');
       console.log('   • 100% 공공기관 공식 데이터 기반');
       console.log('   • 정부 검증된 문화기관 정보');
       console.log('   • 지역별 다양성 확보');
       console.log('   • 지속 가능한 데이터 소스');
-      
+
     } finally {
       client.release();
     }
@@ -469,7 +469,7 @@ class OpenDataCollector {
 
 async function main() {
   const collector = new OpenDataCollector();
-  
+
   try {
     await collector.collectRealExhibitionData();
   } catch (error) {

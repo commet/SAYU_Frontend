@@ -49,10 +49,10 @@ router.get('/images/:artveeId', async (req, res) => {
 router.get('/artworks/:artveeId', async (req, res) => {
   try {
     const { artveeId } = req.params;
-    
+
     // 메타데이터 파일 읽기
     const metadataPath = path.join(__dirname, '../../../../artvee-crawler/images/metadata', `${artveeId}.json`);
-    
+
     let metadata = {};
     try {
       const metadataContent = await fs.readFile(metadataPath, 'utf8');
@@ -101,7 +101,7 @@ router.get('/personalities/:sayuType/artworks', async (req, res) => {
 
     // 성격 유형에 맞는 작품 필터링
     const filteredArtworks = famousData.filter(artwork => artwork.sayuType === sayuType);
-    
+
     // 성격 유형이 명시되지 않은 bulk 작품들 중 일부 추가 (다양성을 위해)
     const additionalArtworks = bulkData
       .filter(artwork => !artwork.sayuType || artwork.sayuType === 'Unknown')
@@ -161,7 +161,7 @@ router.get('/search', async (req, res) => {
 
     if (q) {
       const searchTerm = q.toLowerCase();
-      filteredArtworks = filteredArtworks.filter(artwork => 
+      filteredArtworks = filteredArtworks.filter(artwork =>
         artwork.title?.toLowerCase().includes(searchTerm) ||
         artwork.artist?.toLowerCase().includes(searchTerm) ||
         artwork.description?.toLowerCase().includes(searchTerm)
@@ -169,19 +169,19 @@ router.get('/search', async (req, res) => {
     }
 
     if (artist) {
-      filteredArtworks = filteredArtworks.filter(artwork => 
+      filteredArtworks = filteredArtworks.filter(artwork =>
         artwork.artist?.toLowerCase() === artist.toLowerCase()
       );
     }
 
     if (style) {
-      filteredArtworks = filteredArtworks.filter(artwork => 
+      filteredArtworks = filteredArtworks.filter(artwork =>
         artwork.style?.toLowerCase().includes(style.toLowerCase())
       );
     }
 
     if (period) {
-      filteredArtworks = filteredArtworks.filter(artwork => 
+      filteredArtworks = filteredArtworks.filter(artwork =>
         artwork.period?.toLowerCase().includes(period.toLowerCase())
       );
     }

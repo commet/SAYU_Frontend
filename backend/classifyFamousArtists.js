@@ -9,7 +9,7 @@ async function classifyFamousArtists() {
   console.log('🌟 유명 작가 우선 분류');
   console.log('=====================================');
   console.log('정보가 풍부한 작가들을 먼저 정확하게 분류\n');
-  
+
   const classifier = new ProperGeminiClassifier();
   const stats = {
     total: 0,
@@ -19,7 +19,7 @@ async function classifyFamousArtists() {
     unknown: 0,
     aptDistribution: {}
   };
-  
+
   try {
     // 정보가 풍부한 유명 작가들 선택
     const famousArtists = await pool.query(`
@@ -48,30 +48,30 @@ async function classifyFamousArtists() {
       ORDER BY info_score DESC, bio_length DESC
       LIMIT 50
     `);
-    
+
     stats.total = famousArtists.rows.length;
     console.log(`📊 분류 대상: ${stats.total}명의 유명/정보풍부 작가\n`);
-    
+
     // 상위 5명 미리보기
     console.log('🎨 상위 5명 미리보기:');
     famousArtists.rows.slice(0, 5).forEach((artist, idx) => {
       console.log(`${idx + 1}. ${artist.name} (${artist.nationality || '?'}, ${artist.era || '?'}) - Bio: ${artist.bio_length}자`);
     });
     console.log('');
-    
+
     // 각 작가 처리
     for (const artist of famousArtists.rows) {
       stats.processed++;
-      
+
       console.log(`\n${'='.repeat(60)}`);
       console.log(`[${stats.processed}/${stats.total}] ${artist.name}`);
       console.log(`국적: ${artist.nationality || '불명'} | 시대: ${artist.era || '불명'}`);
       console.log(`생몰: ${artist.birth_year || '?'} - ${artist.death_year || '?'}`);
       console.log(`Bio: ${artist.bio_length}자 | 정보점수: ${artist.info_score}`);
-      
+
       try {
         const result = await classifier.classifyArtist(artist);
-        
+
         if (result.aptType === 'UNKNOWN') {
           console.log(`❓ 분류 불가`);
           stats.unknown++;
@@ -79,55 +79,55 @@ async function classifyFamousArtists() {
           console.log(`✅ APT: ${result.aptType} (신뢰도: ${result.confidence}%)`);
           console.log(`   축: L/S=${result.axisScores.L_S}, A/R=${result.axisScores.A_R}, E/M=${result.axisScores.E_M}, F/C=${result.axisScores.F_C}`);
           console.log(`   근거: ${result.analysis.reasoning?.substring(0, 150)}...`);
-          
+
           stats.successful++;
           stats.aptDistribution[result.aptType] = (stats.aptDistribution[result.aptType] || 0) + 1;
-          
+
           // DB 업데이트
           await updateArtist(artist, result);
         }
-        
+
       } catch (error) {
         console.error(`❌ 오류: ${error.message}`);
         stats.failed++;
       }
-      
+
       // API 제한
       if (stats.processed % 5 === 0 && stats.processed < stats.total) {
         console.log('\n⏸️  API 제한 대기 (2초)...');
         await new Promise(resolve => setTimeout(resolve, 2000));
       }
     }
-    
+
     // 결과 요약
-    console.log('\n\n' + '='.repeat(60));
+    console.log(`\n\n${'='.repeat(60)}`);
     console.log('📊 유명 작가 분류 결과');
     console.log('='.repeat(60));
     console.log(`총 처리: ${stats.processed}명`);
     console.log(`성공: ${stats.successful}명`);
     console.log(`분류불가: ${stats.unknown}명`);
     console.log(`실패: ${stats.failed}명`);
-    
+
     if (stats.successful > 0) {
       console.log('\n🎭 APT 분포:');
       const sortedDist = Object.entries(stats.aptDistribution)
         .sort(([,a], [,b]) => b - a);
-      
+
       sortedDist.forEach(([type, count]) => {
         const percentage = Math.round(count * 100 / stats.successful);
         console.log(`   ${type}: ${count}명 (${percentage}%)`);
       });
     }
-    
+
     // SRMC 변화 확인
     const srmcCount = await pool.query(`
       SELECT COUNT(*) as count
       FROM artists
       WHERE apt_profile->'primary_types'->0->>'type' = 'SRMC'
     `);
-    
+
     console.log(`\n📉 전체 SRMC 수: ${srmcCount.rows[0].count}명`);
-    
+
   } catch (error) {
     console.error('실행 오류:', error);
   } finally {
@@ -154,9 +154,9 @@ async function updateArtist(artist, result) {
     'SRMF': { title: '지식 멘토', animal: 'elephant', name_ko: '코끼리' },
     'SRMC': { title: '체계적 교육자', animal: 'eagle', name_ko: '독수리' }
   };
-  
+
   const typeInfo = typeMap[result.aptType] || { title: 'Unknown', animal: 'unknown', name_ko: '알 수 없음' };
-  
+
   const aptProfile = {
     dimensions: {
       L: Math.round(50 - result.axisScores.L_S / 2),
@@ -183,7 +183,7 @@ async function updateArtist(artist, result) {
       reasoning: result.analysis.reasoning
     }
   };
-  
+
   await pool.query(
     'UPDATE artists SET apt_profile = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $1',
     [artist.id, JSON.stringify(aptProfile)]

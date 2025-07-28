@@ -4,7 +4,7 @@ const { Client } = require('pg');
 async function createTestPioneer() {
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.DATABASE_URL?.includes('railway') 
+    ssl: process.env.DATABASE_URL?.includes('railway')
       ? { rejectUnauthorized: false }
       : false
   });
@@ -15,7 +15,7 @@ async function createTestPioneer() {
 
     // Create a test pioneer with correct column names
     const testEmail = `pioneer_test_${Date.now()}@test.com`;
-    
+
     const result = await client.query(`
       INSERT INTO users (email, password_hash, username)
       VALUES ($1, $2, $3)

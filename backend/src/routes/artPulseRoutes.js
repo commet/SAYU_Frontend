@@ -12,7 +12,7 @@ const { logger } = require('../config/logger');
 router.get('/current', authenticateToken, async (req, res) => {
   try {
     const session = await artPulseService.getCurrentSession();
-    
+
     if (!session) {
       return res.status(404).json({
         success: false,
@@ -44,7 +44,7 @@ router.get('/current', authenticateToken, async (req, res) => {
 });
 
 // Join Art Pulse session
-router.post('/join', 
+router.post('/join',
   authenticateToken,
   [
     body('sessionId').optional().isString().trim()
@@ -56,7 +56,7 @@ router.post('/join',
       const { sessionId } = req.body;
 
       const result = await artPulseService.joinSession(userId, sessionId);
-      
+
       res.json({
         success: true,
         data: result
@@ -86,7 +86,7 @@ router.post('/emotion',
       const { sessionId, emotion, intensity = 1 } = req.body;
 
       const distribution = await artPulseService.submitEmotion(userId, sessionId, emotion, intensity);
-      
+
       res.json({
         success: true,
         data: { distribution }
@@ -116,7 +116,7 @@ router.post('/reflection',
       const { sessionId, reflection, isAnonymous = false } = req.body;
 
       const reflectionData = await artPulseService.submitReflection(userId, sessionId, reflection, isAnonymous);
-      
+
       res.json({
         success: true,
         data: reflectionData
@@ -148,7 +148,7 @@ router.post('/reflection/:reflectionId/like',
       }
 
       const reflection = await artPulseService.likeReflection(userId, sessionId, reflectionId);
-      
+
       res.json({
         success: true,
         data: reflection
@@ -217,7 +217,7 @@ router.get('/history',
 router.get('/league/weekly', authenticateToken, async (req, res) => {
   try {
     const league = await artPulseService.getWeeklyLeague();
-    
+
     res.json({
       success: true,
       data: league
@@ -245,10 +245,10 @@ router.post('/admin/start',
       }
 
       const session = await artPulseService.startDailyArtPulse();
-      
+
       // Broadcast new session to all connected users
       socketService.broadcastNewArtPulseSession(session);
-      
+
       res.json({
         success: true,
         data: session
@@ -331,7 +331,7 @@ router.get('/admin/analytics/:sessionId',
 router.get('/stats', authenticateToken, async (req, res) => {
   try {
     const supabase = getSupabaseAdmin();
-    
+
     // Get overall statistics
     const [
       { count: totalSessions },
@@ -365,7 +365,7 @@ router.get('/stats', authenticateToken, async (req, res) => {
         totalParticipations: totalParticipations || 0,
         totalReflections: totalReflections || 0,
         topEmotionsThisWeek: topEmotions,
-        averageParticipantsPerSession: totalParticipations && totalSessions ? 
+        averageParticipantsPerSession: totalParticipations && totalSessions ?
           Math.round((totalParticipations / totalSessions) * 10) / 10 : 0
       }
     });

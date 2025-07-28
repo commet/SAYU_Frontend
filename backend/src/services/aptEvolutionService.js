@@ -13,7 +13,7 @@ class APTEvolutionService {
   }
 
   // ==================== 사용자 진화 상태 조회 ====================
-  
+
   async getUserEvolutionState(userId) {
     try {
       // 캐시 확인
@@ -105,10 +105,10 @@ class APTEvolutionService {
   }
 
   // ==================== 행동 기록 및 포인트 계산 ====================
-  
+
   async recordAction(userId, action, context = {}) {
     const client = await db.getClient();
-    
+
     try {
       await client.query('BEGIN');
 
@@ -210,7 +210,7 @@ class APTEvolutionService {
   }
 
   // ==================== 진화 처리 ====================
-  
+
   async processEvolution(client, userId, fromStage, toStage, totalPoints) {
     // 진화 이력 기록
     await client.query(
@@ -239,7 +239,7 @@ class APTEvolutionService {
   }
 
   // ==================== 마일스톤 처리 ====================
-  
+
   async processMilestone(client, userId, milestone) {
     // 마일스톤 달성 기록
     await client.query(
@@ -254,7 +254,7 @@ class APTEvolutionService {
   }
 
   // ==================== 통계 업데이트 ====================
-  
+
   async updateStatistics(client, userId, points) {
     await client.query(
       `INSERT INTO evolution_statistics 
@@ -270,10 +270,10 @@ class APTEvolutionService {
   }
 
   // ==================== 일일 방문 체크 ====================
-  
+
   async checkDailyVisit(userId) {
     const client = await db.getClient();
-    
+
     try {
       await client.query('BEGIN');
 
@@ -338,13 +338,13 @@ class APTEvolutionService {
   }
 
   // ==================== 리더보드 ====================
-  
+
   async getLeaderboard(aptType = null, period = 'weekly') {
     try {
       // 캐시 확인
       const redis = getRedisClient();
       const cacheKey = `leaderboard:${period}:${aptType || 'all'}`;
-      
+
       if (redis) {
         const cached = await redis.get(cacheKey);
         if (cached) {
@@ -369,7 +369,7 @@ class APTEvolutionService {
   }
 
   // ==================== 헬퍼 메서드 ====================
-  
+
   async getRecentActions(userId, limit = 10) {
     const result = await db.query(
       `SELECT action_type as type, created_at as timestamp

@@ -12,27 +12,27 @@ const artistCategories = {
     { name: 'Leonardo da Vinci', period: 'Renaissance', nationality: 'Italian' },
     { name: 'Michelangelo Buonarroti', period: 'Renaissance', nationality: 'Italian' },
     { name: 'Raphael', period: 'Renaissance', nationality: 'Italian' },
-    
+
     // 인상주의 핵심
     { name: 'Claude Monet', period: 'Impressionism', nationality: 'French' },
     { name: 'Vincent van Gogh', period: 'Post-Impressionism', nationality: 'Dutch' },
     { name: 'Paul Cézanne', period: 'Post-Impressionism', nationality: 'French' },
-    
+
     // 현대미술의 아버지들
     { name: 'Pablo Picasso', period: '20th Century', nationality: 'Spanish' },
     { name: 'Henri Matisse', period: '20th Century', nationality: 'French' },
     { name: 'Wassily Kandinsky', period: '20th Century', nationality: 'Russian' },
-    
+
     // 바로크 거장
     { name: 'Rembrandt van Rijn', period: 'Baroque', nationality: 'Dutch' },
     { name: 'Caravaggio', period: 'Baroque', nationality: 'Italian' },
     { name: 'Diego Velázquez', period: 'Baroque', nationality: 'Spanish' },
-    
+
     // 미국 현대미술
     { name: 'Jackson Pollock', period: 'Abstract Expressionism', nationality: 'American' },
-    { name: 'Andy Warhol', period: 'Pop Art', nationality: 'American' },
+    { name: 'Andy Warhol', period: 'Pop Art', nationality: 'American' }
   ],
-  
+
   // 매우 중요 (90점) - 주요 미술관 영구 소장 작가
   majorMuseumArtists: [
     // 초기 르네상스
@@ -40,37 +40,37 @@ const artistCategories = {
     { name: 'Sandro Botticelli', period: 'Renaissance', nationality: 'Italian' },
     { name: 'Jan van Eyck', period: 'Northern Renaissance', nationality: 'Flemish' },
     { name: 'Hieronymus Bosch', period: 'Northern Renaissance', nationality: 'Dutch' },
-    
+
     // 북유럽 거장
     { name: 'Albrecht Dürer', period: 'Northern Renaissance', nationality: 'German' },
     { name: 'Pieter Bruegel the Elder', period: 'Northern Renaissance', nationality: 'Flemish' },
     { name: 'Johannes Vermeer', period: 'Baroque', nationality: 'Dutch' },
-    
+
     // 낭만주의/사실주의
     { name: 'Francisco Goya', period: 'Romanticism', nationality: 'Spanish' },
     { name: 'J.M.W. Turner', period: 'Romanticism', nationality: 'British' },
     { name: 'Eugène Delacroix', period: 'Romanticism', nationality: 'French' },
     { name: 'Gustave Courbet', period: 'Realism', nationality: 'French' },
-    
+
     // 인상주의/후기인상주의
     { name: 'Pierre-Auguste Renoir', period: 'Impressionism', nationality: 'French' },
     { name: 'Edgar Degas', period: 'Impressionism', nationality: 'French' },
     { name: 'Paul Gauguin', period: 'Post-Impressionism', nationality: 'French' },
     { name: 'Georges Seurat', period: 'Neo-Impressionism', nationality: 'French' },
-    
+
     // 20세기 거장
     { name: 'Salvador Dalí', period: 'Surrealism', nationality: 'Spanish' },
     { name: 'Joan Miró', period: 'Surrealism', nationality: 'Spanish' },
     { name: 'Marc Chagall', period: 'Modernism', nationality: 'Russian-French' },
     { name: 'Paul Klee', period: 'Expressionism', nationality: 'Swiss-German' },
     { name: 'Frida Kahlo', period: '20th Century', nationality: 'Mexican' },
-    
+
     // 현대 거장
     { name: 'David Hockney', period: 'Contemporary', nationality: 'British' },
     { name: 'Gerhard Richter', period: 'Contemporary', nationality: 'German' },
-    { name: 'Jean-Michel Basquiat', period: 'Neo-Expressionism', nationality: 'American' },
+    { name: 'Jean-Michel Basquiat', period: 'Neo-Expressionism', nationality: 'American' }
   ],
-  
+
   // 중요한 여성 작가들 (역사적 저평가 보정)
   importantWomenArtists: [
     { name: 'Artemisia Gentileschi', period: 'Baroque', nationality: 'Italian' },
@@ -82,9 +82,9 @@ const artistCategories = {
     { name: 'Yayoi Kusama', period: 'Contemporary', nationality: 'Japanese' },
     { name: 'Marina Abramović', period: 'Performance Art', nationality: 'Serbian' },
     { name: 'Cindy Sherman', period: 'Contemporary Photography', nationality: 'American' },
-    { name: 'Kara Walker', period: 'Contemporary', nationality: 'American' },
+    { name: 'Kara Walker', period: 'Contemporary', nationality: 'American' }
   ],
-  
+
   // 최고가 작품 작가들 (시장 중요도)
   highestPriceArtists: [
     { name: 'Leonardo da Vinci', record: 'Salvator Mundi ($450.3M)' },
@@ -96,9 +96,9 @@ const artistCategories = {
     { name: 'Amedeo Modigliani', record: 'Nu couché ($170.4M)' },
     { name: 'Francis Bacon', record: 'Three Studies of Lucian Freud ($142.4M)' },
     { name: 'Jeff Koons', record: 'Rabbit ($91.1M) - living artist record' },
-    { name: 'David Hockney', record: 'Portrait of an Artist ($90.3M)' },
+    { name: 'David Hockney', record: 'Portrait of an Artist ($90.3M)' }
   ],
-  
+
   // 한국 중요 작가들
   koreanMasters: [
     { name: '김환기 (Kim Whanki)', period: 'Korean Modern', importance: 95 },
@@ -108,7 +108,7 @@ const artistCategories = {
     { name: '백남준 (Nam June Paik)', period: 'Video Art', importance: 95 },
     { name: '이우환 (Lee Ufan)', period: 'Dansaekhwa/Minimalism', importance: 90 },
     { name: '박서보 (Park Seo-bo)', period: 'Dansaekhwa', importance: 85 },
-    { name: '김창열 (Kim Tschang-yeul)', period: 'Water Drop Paintings', importance: 85 },
+    { name: '김창열 (Kim Tschang-yeul)', period: 'Water Drop Paintings', importance: 85 }
   ]
 };
 
@@ -191,8 +191,8 @@ const artistCharacteristics = {
 async function analyzeArtistDatabase() {
   try {
     console.log('🎨 SAYU 예술사적 중요 작가 분석 시작');
-    console.log('=' + '='.repeat(80));
-    
+    console.log(`=${'='.repeat(80)}`);
+
     // 현재 DB의 모든 작가 가져오기
     const dbArtists = await pool.query(`
       SELECT 
@@ -201,15 +201,15 @@ async function analyzeArtistDatabase() {
       FROM artists
       ORDER BY name
     `);
-    
+
     const dbArtistNames = dbArtists.rows.map(a => a.name.toLowerCase());
-    
+
     // 누락된 필수 작가 찾기
     console.log('\n📌 필수 거장 (Essential Masters) 체크:');
     const missingEssential = [];
     for (const artist of artistCategories.essentialMasters) {
-      const found = dbArtistNames.some(dbName => 
-        dbName.includes(artist.name.toLowerCase()) || 
+      const found = dbArtistNames.some(dbName =>
+        dbName.includes(artist.name.toLowerCase()) ||
         artist.name.toLowerCase().includes(dbName)
       );
       if (!found) {
@@ -219,12 +219,12 @@ async function analyzeArtistDatabase() {
         console.log(`   ✅ ${artist.name}`);
       }
     }
-    
+
     console.log('\n📌 주요 미술관 소장 작가 체크:');
     const missingMajor = [];
     for (const artist of artistCategories.majorMuseumArtists) {
-      const found = dbArtistNames.some(dbName => 
-        dbName.includes(artist.name.toLowerCase()) || 
+      const found = dbArtistNames.some(dbName =>
+        dbName.includes(artist.name.toLowerCase()) ||
         artist.name.toLowerCase().includes(dbName)
       );
       if (!found) {
@@ -232,12 +232,12 @@ async function analyzeArtistDatabase() {
         console.log(`   ❌ ${artist.name} (${artist.period})`);
       }
     }
-    
+
     console.log('\n📌 중요 여성 작가 체크:');
     const missingWomen = [];
     for (const artist of artistCategories.importantWomenArtists) {
-      const found = dbArtistNames.some(dbName => 
-        dbName.includes(artist.name.toLowerCase()) || 
+      const found = dbArtistNames.some(dbName =>
+        dbName.includes(artist.name.toLowerCase()) ||
         artist.name.toLowerCase().includes(dbName)
       );
       if (!found) {
@@ -245,7 +245,7 @@ async function analyzeArtistDatabase() {
         console.log(`   ❌ ${artist.name} (${artist.period})`);
       }
     }
-    
+
     // APT 분석이 필요한 작가들
     console.log('\n\n🧬 APT 분석이 필요한 중요 작가들:');
     const needsAPT = await pool.query(`
@@ -265,19 +265,19 @@ async function analyzeArtistDatabase() {
         LENGTH(bio) DESC
       LIMIT 20
     `);
-    
+
     console.log(`\n총 ${needsAPT.rows.length}명의 중요 작가가 APT 분석 대기 중:`);
     needsAPT.rows.forEach((artist, idx) => {
       console.log(`${idx + 1}. ${artist.name} - ${artist.nationality || '?'}, ${artist.era || '?'}`);
     });
-    
+
     // 통계 요약
     console.log('\n\n📊 종합 통계:');
     console.log(`전체 작가 수: ${dbArtists.rows.length}명`);
     console.log(`필수 거장 누락: ${missingEssential.length}/${artistCategories.essentialMasters.length}명`);
     console.log(`주요 미술관 작가 누락: ${missingMajor.length}/${artistCategories.majorMuseumArtists.length}명`);
     console.log(`여성 작가 누락: ${missingWomen.length}/${artistCategories.importantWomenArtists.length}명`);
-    
+
     // APT 매칭 예시
     console.log('\n\n🎯 APT 매칭 예시 (8명의 거장):');
     for (const [artistName, data] of Object.entries(artistCharacteristics)) {
@@ -287,14 +287,14 @@ async function analyzeArtistDatabase() {
       console.log(`  주요 주제: ${data.traits.themes}`);
       console.log(`  성격 특성: ${data.traits.personality}`);
     }
-    
+
     // 데이터 수집 제안
     console.log('\n\n💡 데이터 수집 우선순위:');
     console.log('1. Wikipedia API를 통한 누락 작가 정보 수집');
     console.log('2. Google Arts & Culture API 연동');
     console.log('3. MoMA, Met Museum API 데이터 통합');
     console.log('4. Wikidata SPARQL 쿼리로 구조화된 데이터 수집');
-    
+
     // SQL 업데이트 제안
     console.log('\n\n🔧 데이터베이스 개선 SQL:');
     console.log(`
@@ -319,7 +319,7 @@ ADD COLUMN IF NOT EXISTS last_enriched TIMESTAMP;
 CREATE INDEX IF NOT EXISTS idx_artists_importance ON artists(importance_score DESC);
 CREATE INDEX IF NOT EXISTS idx_artists_apt ON artists(apt_profile) WHERE apt_profile IS NOT NULL;
     `);
-    
+
     return {
       total: dbArtists.rows.length,
       missingEssential,
@@ -327,7 +327,7 @@ CREATE INDEX IF NOT EXISTS idx_artists_apt ON artists(apt_profile) WHERE apt_pro
       missingWomen,
       needsAPT: needsAPT.rows
     };
-    
+
   } catch (error) {
     console.error('오류 발생:', error);
   } finally {

@@ -16,7 +16,7 @@ class OptimizedArtmapMassiveCollector {
     this.pool = new Pool({
       connectionString: process.env.DATABASE_URL
     });
-    
+
     this.axiosConfig = {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
@@ -27,10 +27,10 @@ class OptimizedArtmapMassiveCollector {
       },
       timeout: 15000
     };
-    
+
     this.requestDelay = 3000; // 3초 딜레이 (안전)
     this.lastRequestTime = 0;
-    
+
     // 수집 통계
     this.stats = {
       totalExhibitions: 0,
@@ -39,7 +39,7 @@ class OptimizedArtmapMassiveCollector {
       errors: [],
       startTime: new Date().toISOString()
     };
-    
+
     // 해외 주요 도시 목록 (우선순위별)
     this.cities = {
       // 최우선 - 유럽 주요 예술 도시
@@ -91,7 +91,7 @@ class OptimizedArtmapMassiveCollector {
   // 안전한 HTTP 요청
   async safeFetch(url) {
     await this.respectRateLimit();
-    
+
     try {
       console.log(`📥 Fetching: ${url}`);
       const response = await axios.get(url, this.axiosConfig);
@@ -108,58 +108,58 @@ class OptimizedArtmapMassiveCollector {
    */
   async collectGlobalExhibitions() {
     console.log('🎨 전 세계 전시 목록에서 직접 수집 시작...');
-    
+
     const exhibitionUrls = [
       `${this.baseUrl}/exhibitions/institutions/opening/worldwide`,
       `${this.baseUrl}/exhibitions/galleries/opening/worldwide`,
       `${this.baseUrl}/exhibitions/furtherspaces/opening/worldwide`
     ];
-    
+
     const allExhibitions = [];
-    
+
     for (const url of exhibitionUrls) {
       const exhibitions = await this.parseExhibitionListPage(url);
       allExhibitions.push(...exhibitions);
       console.log(`✅ ${url}에서 ${exhibitions.length}개 전시 수집`);
     }
-    
+
     console.log(`🎯 총 ${allExhibitions.length}개 전시 발견`);
-    
+
     // 각 전시의 상세 정보 수집 및 저장
     let savedCount = 0;
     for (let i = 0; i < allExhibitions.length; i++) {
       const exhibition = allExhibitions[i];
       console.log(`\n[${i + 1}/${allExhibitions.length}] 처리 중: ${exhibition.title}`);
-      
+
       try {
         // 전시 상세 정보 수집
         if (exhibition.detailUrl) {
           const details = await this.fetchExhibitionDetails(exhibition.detailUrl);
           Object.assign(exhibition, details);
         }
-        
+
         // 데이터베이스에 저장
         const saved = await this.saveExhibitionToDB(exhibition);
         if (saved) {
           savedCount++;
           this.stats.totalExhibitions++;
         }
-        
+
         // 진행 상황 출력
         if ((i + 1) % 10 === 0) {
           console.log(`📊 진행: ${i + 1}/${allExhibitions.length}, 저장됨: ${savedCount}`);
         }
-        
+
       } catch (error) {
         console.error(`❌ 전시 처리 오류 (${exhibition.title}): ${error.message}`);
-        this.stats.errors.push({ 
-          type: 'exhibition_processing', 
-          exhibition: exhibition.title, 
-          error: error.message 
+        this.stats.errors.push({
+          type: 'exhibition_processing',
+          exhibition: exhibition.title,
+          error: error.message
         });
       }
     }
-    
+
     console.log(`\n✅ 전시 수집 완료: ${savedCount}/${allExhibitions.length} 저장됨`);
     return savedCount;
   }
@@ -177,33 +177,33 @@ class OptimizedArtmapMassiveCollector {
     // 메인 전시 테이블 파싱 (.exibitionsListTable)
     $('.exibitionsListTable tr').each((index, element) => {
       const $row = $(element);
-      
+
       // 첫 번째 td: 이미지와 전시 링크
       const $firstCell = $row.find('td:first-child');
       const detailUrl = $firstCell.find('a').attr('href');
       const imageUrl = $firstCell.find('img').attr('src');
-      
+
       // 세 번째 td: 텍스트 정보
       const $infoCell = $row.find('td:nth-child(3)');
-      
+
       if ($infoCell.length === 0) return; // 헤더 행 스킵
-      
+
       // venue 정보 (첫 번째 h3의 링크)
       const $venueLink = $infoCell.find('h3:first-child a');
       const venueName = $venueLink.text().trim();
       const venueUrl = $venueLink.attr('href');
-      
+
       // 전시 제목 (h2의 링크)
       const $titleLink = $infoCell.find('h2 a');
       const title = $titleLink.text().trim();
-      
+
       // 날짜 정보 (회색 텍스트)
       const dateText = $infoCell.find('h3.txGray').text().trim();
-      
+
       // 아티스트 정보 (나머지 텍스트에서 추출)
       const fullText = $infoCell.text();
       const artists = this.extractArtistsFromText(fullText, title, venueName, dateText);
-      
+
       if (title && venueName) {
         const exhibition = {
           title: title.trim(),
@@ -212,21 +212,21 @@ class OptimizedArtmapMassiveCollector {
           detailUrl: detailUrl ? `${this.baseUrl}${detailUrl}` : null,
           imageUrl: imageUrl ? `${this.baseUrl}${imageUrl}` : null,
           dateText: dateText.trim(),
-          artists: artists,
+          artists,
           source: 'artmap',
           crawledAt: new Date()
         };
-        
+
         // 날짜 파싱
         const dates = this.parseDateText(dateText);
         exhibition.startDate = dates.start;
         exhibition.endDate = dates.end;
-        
+
         // venue 정보에서 도시/국가 추정
         const location = this.estimateLocationFromVenue(venueUrl);
         exhibition.city = location.city;
         exhibition.country = location.country;
-        
+
         exhibitions.push(exhibition);
       }
     });
@@ -244,15 +244,15 @@ class OptimizedArtmapMassiveCollector {
       .replace(venueName, '')
       .replace(dateText, '')
       .trim();
-    
+
     // 여러 줄바꿈을 하나로 정리
     cleanText = cleanText.replace(/\s+/g, ' ').trim();
-    
+
     if (cleanText.length > 3 && cleanText.length < 200) {
       // 간단한 아티스트명 정리
       return [cleanText];
     }
-    
+
     return [];
   }
 
@@ -261,10 +261,10 @@ class OptimizedArtmapMassiveCollector {
    */
   estimateLocationFromVenue(venueUrl) {
     if (!venueUrl) return { city: null, country: null };
-    
+
     // URL 패턴 분석
     const urlParts = venueUrl.split('/');
-    
+
     // 알려진 venue들의 도시 매핑
     const venueLocationMap = {
       'moma': { city: 'New York', country: 'US' },
@@ -275,13 +275,13 @@ class OptimizedArtmapMassiveCollector {
       'serpentine': { city: 'London', country: 'GB' },
       'guggenheim': { city: 'New York', country: 'US' }
     };
-    
+
     for (const [venueKey, location] of Object.entries(venueLocationMap)) {
       if (venueUrl.includes(venueKey)) {
         return location;
       }
     }
-    
+
     return { city: null, country: null };
   }
 
@@ -290,9 +290,9 @@ class OptimizedArtmapMassiveCollector {
    */
   parseDateText(dateText) {
     const dates = { start: null, end: null };
-    
+
     if (!dateText) return dates;
-    
+
     try {
       // 다양한 날짜 형식 처리
       const patterns = [
@@ -303,7 +303,7 @@ class OptimizedArtmapMassiveCollector {
         // "25 Apr 2024 - 25 Apr 2026"
         /(\d{1,2}\s+\w{3}\s+\d{4})\s*[-–]\s*(\d{1,2}\s+\w{3}\s+\d{4})/
       ];
-      
+
       for (const pattern of patterns) {
         const match = dateText.match(pattern);
         if (match) {
@@ -312,7 +312,7 @@ class OptimizedArtmapMassiveCollector {
           break;
         }
       }
-      
+
       // 단일 날짜 처리
       if (!dates.start) {
         const singleMatch = dateText.match(/(\d{1,2}\s+\w{3}\s+\d{4})/);
@@ -323,7 +323,7 @@ class OptimizedArtmapMassiveCollector {
     } catch (error) {
       console.error('날짜 파싱 오류:', dateText, error.message);
     }
-    
+
     return dates;
   }
 
@@ -332,13 +332,13 @@ class OptimizedArtmapMassiveCollector {
    */
   parseDate(dateStr) {
     if (!dateStr) return null;
-    
+
     const months = {
       'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
       'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
       'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
     };
-    
+
     const match = dateStr.match(/(\d{1,2})\s+(\w{3})\s+(\d{4})/);
     if (match) {
       const day = match[1].padStart(2, '0');
@@ -346,7 +346,7 @@ class OptimizedArtmapMassiveCollector {
       const year = match[3];
       return `${year}-${month}-${day}`;
     }
-    
+
     return null;
   }
 
@@ -358,7 +358,7 @@ class OptimizedArtmapMassiveCollector {
     if (!html) return {};
 
     const $ = cheerio.load(html);
-    
+
     const details = {
       description: '',
       curator: '',
@@ -373,7 +373,7 @@ class OptimizedArtmapMassiveCollector {
       '.description',
       'p'
     ];
-    
+
     for (const selector of possibleDescSelectors) {
       const $desc = $(selector);
       if ($desc.length > 0) {
@@ -410,7 +410,7 @@ class OptimizedArtmapMassiveCollector {
     try {
       // 1. venue 저장/업데이트
       const venueId = await this.saveVenueToDB(exhibition);
-      
+
       // 2. 기존 전시 확인
       const checkQuery = `
         SELECT id FROM exhibitions 
@@ -419,12 +419,12 @@ class OptimizedArtmapMassiveCollector {
       const checkResult = await this.pool.query(checkQuery, [
         exhibition.title, venueId, exhibition.startDate
       ]);
-      
+
       if (checkResult.rows.length > 0) {
         console.log(`⚠️  전시 이미 존재: ${exhibition.title}`);
         return checkResult.rows[0].id;
       }
-      
+
       // 3. 새 전시 저장
       const query = `
         INSERT INTO exhibitions (
@@ -453,10 +453,10 @@ class OptimizedArtmapMassiveCollector {
 
       const result = await this.pool.query(query, values);
       const exhibitionId = result.rows[0].id;
-      
+
       console.log(`✅ 전시 저장: ${exhibition.title} (ID: ${exhibitionId})`);
       return exhibitionId;
-      
+
     } catch (error) {
       console.error(`❌ 전시 저장 오류 (${exhibition.title}): ${error.message}`);
       this.stats.errors.push({
@@ -501,12 +501,12 @@ class OptimizedArtmapMassiveCollector {
 
       const insertResult = await this.pool.query(insertQuery, values);
       const venueId = insertResult.rows[0].id;
-      
+
       console.log(`🏛️ 새 venue 저장: ${exhibition.venueName} (ID: ${venueId})`);
       this.stats.totalVenues++;
-      
+
       return venueId;
-      
+
     } catch (error) {
       console.error(`❌ venue 저장 오류: ${error.message}`);
       throw error;
@@ -521,9 +521,9 @@ class OptimizedArtmapMassiveCollector {
       const timestamp = new Date().toISOString().replace(/:/g, '-');
       const filename = `artmap-massive-collection-${timestamp}.json`;
       const filepath = path.join(__dirname, 'collection_results', filename);
-      
+
       await fs.mkdir(path.dirname(filepath), { recursive: true });
-      
+
       const results = {
         metadata: {
           totalExhibitions: exhibitions.length,
@@ -534,13 +534,13 @@ class OptimizedArtmapMassiveCollector {
           endTime: new Date().toISOString(),
           source: 'artmap.com'
         },
-        exhibitions: exhibitions,
+        exhibitions,
         errors: this.stats.errors
       };
-      
+
       await fs.writeFile(filepath, JSON.stringify(results, null, 2));
       console.log(`💾 결과 저장: ${filename}`);
-      
+
     } catch (error) {
       console.error('결과 저장 오류:', error);
     }
@@ -552,7 +552,7 @@ class OptimizedArtmapMassiveCollector {
   printFinalStats() {
     const endTime = new Date();
     const duration = (endTime - new Date(this.stats.startTime)) / 1000;
-    
+
     console.log('\n🎉 ARTMAP 대량 수집 완료!');
     console.log('=========================');
     console.log(`⏱️  총 소요 시간: ${Math.round(duration)} 초`);
@@ -560,7 +560,7 @@ class OptimizedArtmapMassiveCollector {
     console.log(`🏛️  새로 등록된 venue: ${this.stats.totalVenues} 개`);
     console.log(`❌ 오류 발생: ${this.stats.errors.length} 건`);
     console.log(`📊 평균 처리 속도: ${(this.stats.totalExhibitions / (duration / 60)).toFixed(1)} 전시/분`);
-    
+
     if (this.stats.errors.length > 0) {
       console.log('\n❌ 주요 오류:');
       this.stats.errors.slice(0, 5).forEach((error, i) => {
@@ -577,17 +577,17 @@ class OptimizedArtmapMassiveCollector {
     console.log('=============================================');
     console.log(`시작 시간: ${this.stats.startTime}`);
     console.log(`요청 간격: ${this.requestDelay}ms`);
-    
+
     try {
       // 전 세계 전시 목록에서 직접 수집
       const savedCount = await this.collectGlobalExhibitions();
-      
+
       // 결과 저장
       await this.saveResults([]);
-      
+
       // 최종 통계 출력
       this.printFinalStats();
-      
+
     } catch (error) {
       console.error('💥 크리티컬 오류:', error);
       this.stats.errors.push({
@@ -623,7 +623,7 @@ async function main() {
     if (args.includes('--start') || args.length === 0) {
       console.log('🎯 최적화된 Artmap 대량 수집 시작...');
       console.log('안전한 속도로 진행됩니다. Ctrl+C로 중단 가능.');
-      
+
       await collector.startMassiveCollection();
     } else {
       console.log('--start로 수집을 시작하거나 --help로 도움말을 확인하세요');

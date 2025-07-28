@@ -8,7 +8,7 @@ const rateLimitMiddleware = require('../middleware/rateLimiter');
 router.use(authMiddleware);
 
 // 감상 교환 CRUD 작업
-router.post('/', 
+router.post('/',
   rateLimitMiddleware.createExchange,
   perceptionExchangeController.createExchange
 );

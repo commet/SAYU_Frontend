@@ -3,7 +3,7 @@ const Venue = require('../models/venue');
 const venueSeeder = {
   async seedVenues() {
     console.log('Starting venue seeding...');
-    
+
     const venues = [
       // Seoul - Tier 1 (Major Museums)
       {
@@ -55,7 +55,7 @@ const venueSeeder = {
         instagram: '@amorepacific.museum.of.art',
         crawlFrequency: 'daily'
       },
-      
+
       // Seoul - Tier 1 (Major Galleries)
       {
         name: '갤러리현대',
@@ -93,7 +93,7 @@ const venueSeeder = {
         instagram: '@pkmgallery',
         crawlFrequency: 'twice_weekly'
       },
-      
+
       // Seoul - Tier 2 (Important Spaces)
       {
         name: '대림미술관',
@@ -239,7 +239,7 @@ const venueSeeder = {
         instagram: '@platform_l_',
         crawlFrequency: 'weekly'
       },
-      
+
       // Gyeonggi-do
       {
         name: '국립현대미술관 과천관',
@@ -277,7 +277,7 @@ const venueSeeder = {
         instagram: '@gyeonggi_moma',
         crawlFrequency: 'weekly'
       },
-      
+
       // Busan
       {
         name: '부산시립미술관',
@@ -315,7 +315,7 @@ const venueSeeder = {
         instagram: '@f1963_official',
         crawlFrequency: 'weekly'
       },
-      
+
       // Daegu
       {
         name: '대구미술관',
@@ -329,7 +329,7 @@ const venueSeeder = {
         instagram: '@daeguartmuseum',
         crawlFrequency: 'twice_weekly'
       },
-      
+
       // Gwangju
       {
         name: '광주시립미술관',
@@ -355,7 +355,7 @@ const venueSeeder = {
         instagram: '@asiaculturecenter',
         crawlFrequency: 'twice_weekly'
       },
-      
+
       // Jeju
       {
         name: '제주도립미술관',
@@ -380,7 +380,7 @@ const venueSeeder = {
         website: 'https://www.jejumuseum.go.kr',
         crawlFrequency: 'weekly'
       },
-      
+
       // International - New York
       {
         name: 'The Metropolitan Museum of Art',
@@ -406,7 +406,7 @@ const venueSeeder = {
         instagram: '@themuseumofmodernart',
         crawlFrequency: 'daily'
       },
-      
+
       // International - London
       {
         name: 'Tate Modern',
@@ -420,7 +420,7 @@ const venueSeeder = {
         instagram: '@tate',
         crawlFrequency: 'daily'
       },
-      
+
       // International - Paris
       {
         name: 'Centre Pompidou',
@@ -434,7 +434,7 @@ const venueSeeder = {
         instagram: '@centrepompidou',
         crawlFrequency: 'daily'
       },
-      
+
       // International - Tokyo
       {
         name: '森美術館',
@@ -449,7 +449,7 @@ const venueSeeder = {
         crawlFrequency: 'daily'
       }
     ];
-    
+
     try {
       for (const venueData of venues) {
         const existing = await Venue.findOne({ where: { name: venueData.name } });
@@ -460,7 +460,7 @@ const venueSeeder = {
           console.log(`Venue already exists: ${venueData.name}`);
         }
       }
-      
+
       console.log('Venue seeding completed!');
     } catch (error) {
       console.error('Error seeding venues:', error);
@@ -472,7 +472,7 @@ const venueSeeder = {
 // Run seeder if called directly
 if (require.main === module) {
   const sequelize = require('../config/database');
-  
+
   (async () => {
     try {
       await sequelize.sync();

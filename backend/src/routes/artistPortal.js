@@ -5,7 +5,7 @@ const { body, param, query, validationResult } = require('express-validator');
 const authMiddleware = require('../middleware/auth');
 const { adminMiddleware: requireAdmin } = require('../middleware/auth');
 const artistPortalService = require('../services/artistPortalService');
-const { logger } = require("../config/logger");
+const { logger } = require('../config/logger');
 const FlexibleArtistSubmission = require('../../flexible-artist-submission');
 const DOMPurify = require('isomorphic-dompurify');
 const { getRedisClient } = require('../config/redis');
@@ -39,13 +39,13 @@ const authUserRateLimit = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => `artist_portal_auth:${req.userId}`,
+  keyGenerator: (req) => `artist_portal_auth:${req.userId}`
 });
 
 // 파일 업로드 설정
 const storage = multer.memoryStorage();
 const upload = multer({
-  storage: storage,
+  storage,
   limits: {
     fileSize: 5 * 1024 * 1024, // 5MB 제한
     files: 10 // 최대 10개 파일
@@ -55,7 +55,7 @@ const upload = multer({
     const allowedTypes = /jpeg|jpg|png|gif|webp/;
     const extname = allowedTypes.test(file.originalname.toLowerCase());
     const mimetype = allowedTypes.test(file.mimetype);
-    
+
     if (mimetype && extname) {
       return cb(null, true);
     } else {
@@ -79,7 +79,7 @@ const validateAndSanitize = (req, res, next) => {
       errors: errors.array()
     });
   }
-  
+
   // 모든 문자열 필드 sanitize
   const sanitizeObject = (obj) => {
     if (typeof obj === 'string') {
@@ -97,7 +97,7 @@ const validateAndSanitize = (req, res, next) => {
     }
     return obj;
   };
-  
+
   req.body = sanitizeObject(req.body);
   next();
 };
@@ -107,25 +107,25 @@ const scanFile = async (req, res, next) => {
   if (!req.files || req.files.length === 0) {
     return next();
   }
-  
+
   try {
     for (const file of req.files) {
       // 파일 시그니처 검사 (매직 넘버)
-      const buffer = file.buffer;
-      
+      const { buffer } = file;
+
       // JPEG 시그니처: FF D8 FF
       // PNG 시그니처: 89 50 4E 47
       // GIF 시그니처: 47 49 46 38
       // WebP 시그니처: 52 49 46 46 (RIFF) + 57 45 42 50 (WEBP)
-      
+
       const isValidImage = (
         (buffer[0] === 0xFF && buffer[1] === 0xD8 && buffer[2] === 0xFF) || // JPEG
         (buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4E && buffer[3] === 0x47) || // PNG
         (buffer[0] === 0x47 && buffer[1] === 0x49 && buffer[2] === 0x46 && buffer[3] === 0x38) || // GIF
-        (buffer[0] === 0x52 && buffer[1] === 0x49 && buffer[2] === 0x46 && buffer[3] === 0x46 && 
+        (buffer[0] === 0x52 && buffer[1] === 0x49 && buffer[2] === 0x46 && buffer[3] === 0x46 &&
          buffer[8] === 0x57 && buffer[9] === 0x45 && buffer[10] === 0x42 && buffer[11] === 0x50) // WebP
       );
-      
+
       if (!isValidImage) {
         logger.warn('Invalid file signature detected:', {
           filename: file.originalname,
@@ -155,7 +155,7 @@ router.use(artistPortalSecurity);
 // Public routes (no auth required)
 
 // Public Artist Submission Route (기존 flexible-artist-submission.js 활용)
-router.post('/submit', 
+router.post('/submit',
   artistPortalRateLimit,
   [
     body('artist_name').isLength({ min: 2, max: 100 }).trim().notEmpty().withMessage('Artist name must be 2-100 characters'),
@@ -168,27 +168,27 @@ router.post('/submit',
   ],
   validateAndSanitize,
   async (req, res) => {
-  try {
-    const submissionService = new FlexibleArtistSubmission();
-    const result = await submissionService.submitArtistInfo(req.body);
-    
-    res.status(201).json(result);
-  } catch (error) {
-    logger.error('Failed to submit artist info:', error);
-    
-    if (error.message.includes('이미 등록되어 있습니다')) {
-      return res.status(409).json({ 
-        success: false, 
-        message: error.message 
+    try {
+      const submissionService = new FlexibleArtistSubmission();
+      const result = await submissionService.submitArtistInfo(req.body);
+
+      res.status(201).json(result);
+    } catch (error) {
+      logger.error('Failed to submit artist info:', error);
+
+      if (error.message.includes('이미 등록되어 있습니다')) {
+        return res.status(409).json({
+          success: false,
+          message: error.message
+        });
+      }
+
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Failed to submit artist information'
       });
     }
-    
-    res.status(500).json({ 
-      success: false, 
-      message: error.message || 'Failed to submit artist information' 
-    });
-  }
-});
+  });
 
 // Apply auth middleware to protected routes
 router.use(authMiddleware);
@@ -206,14 +206,14 @@ router.post('/upload/image',
   async (req, res) => {
     try {
       if (!req.file) {
-        return res.status(400).json({ 
-          success: false, 
-          error: 'No image file provided' 
+        return res.status(400).json({
+          success: false,
+          error: 'No image file provided'
         });
       }
 
       const { category, description } = req.body;
-      
+
       // Cloudinary 설정 검증
       if (!cloudinaryService.validateConfig()) {
         return res.status(503).json({
@@ -267,10 +267,10 @@ router.post('/upload/image',
         userId: req.userId,
         fileName: req.file?.originalname
       });
-      
-      res.status(500).json({ 
-        success: false, 
-        error: 'Image upload failed' 
+
+      res.status(500).json({
+        success: false,
+        error: 'Image upload failed'
       });
     }
   }
@@ -288,14 +288,14 @@ router.post('/upload/images',
   async (req, res) => {
     try {
       if (!req.files || req.files.length === 0) {
-        return res.status(400).json({ 
-          success: false, 
-          error: 'No image files provided' 
+        return res.status(400).json({
+          success: false,
+          error: 'No image files provided'
         });
       }
 
       const { category, descriptions = [] } = req.body;
-      
+
       // Cloudinary 설정 검증
       if (!cloudinaryService.validateConfig()) {
         return res.status(503).json({
@@ -351,10 +351,10 @@ router.post('/upload/images',
         userId: req.userId,
         fileCount: req.files?.length
       });
-      
-      res.status(500).json({ 
-        success: false, 
-        error: 'Batch image upload failed' 
+
+      res.status(500).json({
+        success: false,
+        error: 'Batch image upload failed'
       });
     }
   }
@@ -369,18 +369,18 @@ router.delete('/upload/image/:publicId',
   async (req, res) => {
     try {
       const { publicId } = req.params;
-      
+
       // URL에서 전달된 경우 디코딩
       const decodedPublicId = decodeURIComponent(publicId);
-      
+
       const deleteResult = await cloudinaryService.deleteImage(decodedPublicId);
-      
+
       if (deleteResult) {
         logger.info('Image deleted successfully', {
           userId: req.userId,
           publicId: decodedPublicId
         });
-        
+
         res.json({
           success: true,
           message: 'Image deleted successfully'
@@ -398,10 +398,10 @@ router.delete('/upload/image/:publicId',
         userId: req.userId,
         publicId: req.params.publicId
       });
-      
-      res.status(500).json({ 
-        success: false, 
-        error: 'Image deletion failed' 
+
+      res.status(500).json({
+        success: false,
+        error: 'Image deletion failed'
       });
     }
   }
@@ -421,14 +421,14 @@ router.post('/artist/profile',
   ],
   validateAndSanitize,
   async (req, res) => {
-  try {
-    const profile = await artistPortalService.createArtistProfile(req.userId, req.body);
-    res.status(201).json(profile);
-  } catch (error) {
-    logger.error('Failed to create artist profile:', error);
-    res.status(500).json({ error: 'Failed to create artist profile' });
-  }
-});
+    try {
+      const profile = await artistPortalService.createArtistProfile(req.userId, req.body);
+      res.status(201).json(profile);
+    } catch (error) {
+      logger.error('Failed to create artist profile:', error);
+      res.status(500).json({ error: 'Failed to create artist profile' });
+    }
+  });
 
 router.get('/artist/profile', async (req, res) => {
   try {
@@ -456,20 +456,20 @@ router.put('/artist/profile/:profileId',
   ],
   validateAndSanitize,
   async (req, res) => {
-  try {
-    const { profileId } = req.params;
-    const profile = await artistPortalService.updateArtistProfile(profileId, req.userId, req.body);
-    
-    if (!profile) {
-      return res.status(404).json({ error: 'Artist profile not found or unauthorized' });
+    try {
+      const { profileId } = req.params;
+      const profile = await artistPortalService.updateArtistProfile(profileId, req.userId, req.body);
+
+      if (!profile) {
+        return res.status(404).json({ error: 'Artist profile not found or unauthorized' });
+      }
+
+      res.json(profile);
+    } catch (error) {
+      logger.error('Failed to update artist profile:', error);
+      res.status(500).json({ error: 'Failed to update artist profile' });
     }
-    
-    res.json(profile);
-  } catch (error) {
-    logger.error('Failed to update artist profile:', error);
-    res.status(500).json({ error: 'Failed to update artist profile' });
-  }
-});
+  });
 
 // Gallery Profile Routes
 router.post('/gallery/profile',
@@ -487,14 +487,14 @@ router.post('/gallery/profile',
   ],
   validateAndSanitize,
   async (req, res) => {
-  try {
-    const profile = await artistPortalService.createGalleryProfile(req.userId, req.body);
-    res.status(201).json(profile);
-  } catch (error) {
-    logger.error('Failed to create gallery profile:', error);
-    res.status(500).json({ error: 'Failed to create gallery profile' });
-  }
-});
+    try {
+      const profile = await artistPortalService.createGalleryProfile(req.userId, req.body);
+      res.status(201).json(profile);
+    } catch (error) {
+      logger.error('Failed to create gallery profile:', error);
+      res.status(500).json({ error: 'Failed to create gallery profile' });
+    }
+  });
 
 router.get('/gallery/profile', async (req, res) => {
   try {
@@ -522,20 +522,20 @@ router.put('/gallery/profile/:profileId',
   ],
   validateAndSanitize,
   async (req, res) => {
-  try {
-    const { profileId } = req.params;
-    const profile = await artistPortalService.updateGalleryProfile(profileId, req.userId, req.body);
-    
-    if (!profile) {
-      return res.status(404).json({ error: 'Gallery profile not found or unauthorized' });
+    try {
+      const { profileId } = req.params;
+      const profile = await artistPortalService.updateGalleryProfile(profileId, req.userId, req.body);
+
+      if (!profile) {
+        return res.status(404).json({ error: 'Gallery profile not found or unauthorized' });
+      }
+
+      res.json(profile);
+    } catch (error) {
+      logger.error('Failed to update gallery profile:', error);
+      res.status(500).json({ error: 'Failed to update gallery profile' });
     }
-    
-    res.json(profile);
-  } catch (error) {
-    logger.error('Failed to update gallery profile:', error);
-    res.status(500).json({ error: 'Failed to update gallery profile' });
-  }
-});
+  });
 
 // Artwork Submission Routes
 router.post('/artworks',
@@ -560,20 +560,20 @@ router.post('/artworks',
   ],
   validateAndSanitize,
   async (req, res) => {
-  try {
-    const { profileId, profileType } = req.body;
-    
-    if (!profileId || !profileType || !['artist', 'gallery'].includes(profileType)) {
-      return res.status(400).json({ error: 'Profile ID and type (artist/gallery) are required' });
-    }
+    try {
+      const { profileId, profileType } = req.body;
 
-    const artwork = await artistPortalService.submitArtwork(profileId, profileType, req.body);
-    res.status(201).json(artwork);
-  } catch (error) {
-    logger.error('Failed to submit artwork:', error);
-    res.status(500).json({ error: 'Failed to submit artwork' });
-  }
-});
+      if (!profileId || !profileType || !['artist', 'gallery'].includes(profileType)) {
+        return res.status(400).json({ error: 'Profile ID and type (artist/gallery) are required' });
+      }
+
+      const artwork = await artistPortalService.submitArtwork(profileId, profileType, req.body);
+      res.status(201).json(artwork);
+    } catch (error) {
+      logger.error('Failed to submit artwork:', error);
+      res.status(500).json({ error: 'Failed to submit artwork' });
+    }
+  });
 
 router.get('/artworks',
   [
@@ -583,20 +583,20 @@ router.get('/artworks',
   ],
   validateAndSanitize,
   async (req, res) => {
-  try {
-    const { profileId, profileType, status } = req.query;
-    
-    if (!profileId || !profileType) {
-      return res.status(400).json({ error: 'Profile ID and type are required' });
-    }
+    try {
+      const { profileId, profileType, status } = req.query;
 
-    const artworks = await artistPortalService.getSubmittedArtworks(profileId, profileType, status);
-    res.json(artworks);
-  } catch (error) {
-    logger.error('Failed to get submitted artworks:', error);
-    res.status(500).json({ error: 'Failed to get submitted artworks' });
-  }
-});
+      if (!profileId || !profileType) {
+        return res.status(400).json({ error: 'Profile ID and type are required' });
+      }
+
+      const artworks = await artistPortalService.getSubmittedArtworks(profileId, profileType, status);
+      res.json(artworks);
+    } catch (error) {
+      logger.error('Failed to get submitted artworks:', error);
+      res.status(500).json({ error: 'Failed to get submitted artworks' });
+    }
+  });
 
 router.put('/artworks/:artworkId',
   upload.array('images', 10),
@@ -611,28 +611,28 @@ router.put('/artworks/:artworkId',
   ],
   validateAndSanitize,
   async (req, res) => {
-  try {
-    const { artworkId } = req.params;
-    const { profileId, profileType } = req.body;
-    
-    if (!profileId || !profileType) {
-      return res.status(400).json({ error: 'Profile ID and type are required' });
-    }
+    try {
+      const { artworkId } = req.params;
+      const { profileId, profileType } = req.body;
 
-    const artwork = await artistPortalService.updateArtworkSubmission(
-      artworkId, profileId, profileType, req.body
-    );
-    
-    if (!artwork) {
-      return res.status(404).json({ error: 'Artwork not found or cannot be updated' });
+      if (!profileId || !profileType) {
+        return res.status(400).json({ error: 'Profile ID and type are required' });
+      }
+
+      const artwork = await artistPortalService.updateArtworkSubmission(
+        artworkId, profileId, profileType, req.body
+      );
+
+      if (!artwork) {
+        return res.status(404).json({ error: 'Artwork not found or cannot be updated' });
+      }
+
+      res.json(artwork);
+    } catch (error) {
+      logger.error('Failed to update artwork submission:', error);
+      res.status(500).json({ error: 'Failed to update artwork submission' });
     }
-    
-    res.json(artwork);
-  } catch (error) {
-    logger.error('Failed to update artwork submission:', error);
-    res.status(500).json({ error: 'Failed to update artwork submission' });
-  }
-});
+  });
 
 // Exhibition Submission Routes (Gallery only)
 router.post('/exhibitions',
@@ -652,20 +652,20 @@ router.post('/exhibitions',
   ],
   validateAndSanitize,
   async (req, res) => {
-  try {
-    const { galleryProfileId } = req.body;
-    
-    if (!galleryProfileId) {
-      return res.status(400).json({ error: 'Gallery profile ID is required' });
-    }
+    try {
+      const { galleryProfileId } = req.body;
 
-    const exhibition = await artistPortalService.submitExhibition(galleryProfileId, req.body);
-    res.status(201).json(exhibition);
-  } catch (error) {
-    logger.error('Failed to submit exhibition:', error);
-    res.status(500).json({ error: 'Failed to submit exhibition' });
-  }
-});
+      if (!galleryProfileId) {
+        return res.status(400).json({ error: 'Gallery profile ID is required' });
+      }
+
+      const exhibition = await artistPortalService.submitExhibition(galleryProfileId, req.body);
+      res.status(201).json(exhibition);
+    } catch (error) {
+      logger.error('Failed to submit exhibition:', error);
+      res.status(500).json({ error: 'Failed to submit exhibition' });
+    }
+  });
 
 router.get('/exhibitions',
   [
@@ -674,20 +674,20 @@ router.get('/exhibitions',
   ],
   validateAndSanitize,
   async (req, res) => {
-  try {
-    const { galleryProfileId, status } = req.query;
-    
-    if (!galleryProfileId) {
-      return res.status(400).json({ error: 'Gallery profile ID is required' });
-    }
+    try {
+      const { galleryProfileId, status } = req.query;
 
-    const exhibitions = await artistPortalService.getSubmittedExhibitions(galleryProfileId, status);
-    res.json(exhibitions);
-  } catch (error) {
-    logger.error('Failed to get submitted exhibitions:', error);
-    res.status(500).json({ error: 'Failed to get submitted exhibitions' });
-  }
-});
+      if (!galleryProfileId) {
+        return res.status(400).json({ error: 'Gallery profile ID is required' });
+      }
+
+      const exhibitions = await artistPortalService.getSubmittedExhibitions(galleryProfileId, status);
+      res.json(exhibitions);
+    } catch (error) {
+      logger.error('Failed to get submitted exhibitions:', error);
+      res.status(500).json({ error: 'Failed to get submitted exhibitions' });
+    }
+  });
 
 // Admin Routes (require admin role)
 
@@ -702,7 +702,7 @@ router.get('/admin/submissions/pending', requireAdmin, async (req, res) => {
   }
 });
 
-router.post('/admin/submissions/:submissionType/:submissionId/review', 
+router.post('/admin/submissions/:submissionType/:submissionId/review',
   requireAdmin,
   [
     param('submissionType').isIn(['artwork', 'exhibition']).withMessage('Invalid submission type'),
@@ -714,31 +714,31 @@ router.post('/admin/submissions/:submissionType/:submissionId/review',
   ],
   validateAndSanitize,
   async (req, res) => {
-  try {
-    const { submissionType, submissionId } = req.params;
-    const { status, review_notes, quality_score, feedback } = req.body;
-    
-    if (!['artwork', 'exhibition'].includes(submissionType)) {
-      return res.status(400).json({ error: 'Invalid submission type' });
-    }
-    
-    if (!['approved', 'rejected', 'pending'].includes(status)) {
-      return res.status(400).json({ error: 'Invalid status' });
-    }
+    try {
+      const { submissionType, submissionId } = req.params;
+      const { status, review_notes, quality_score, feedback } = req.body;
 
-    const reviewedSubmission = await artistPortalService.reviewSubmission(
-      submissionType,
-      submissionId,
-      req.userId,
-      { status, review_notes, quality_score, feedback }
-    );
-    
-    res.json(reviewedSubmission);
-  } catch (error) {
-    logger.error('Failed to review submission:', error);
-    res.status(500).json({ error: 'Failed to review submission' });
-  }
-});
+      if (!['artwork', 'exhibition'].includes(submissionType)) {
+        return res.status(400).json({ error: 'Invalid submission type' });
+      }
+
+      if (!['approved', 'rejected', 'pending'].includes(status)) {
+        return res.status(400).json({ error: 'Invalid status' });
+      }
+
+      const reviewedSubmission = await artistPortalService.reviewSubmission(
+        submissionType,
+        submissionId,
+        req.userId,
+        { status, review_notes, quality_score, feedback }
+      );
+
+      res.json(reviewedSubmission);
+    } catch (error) {
+      logger.error('Failed to review submission:', error);
+      res.status(500).json({ error: 'Failed to review submission' });
+    }
+  });
 
 router.get('/admin/stats', requireAdmin, async (req, res) => {
   try {
@@ -827,12 +827,12 @@ router.get('/admin/security/suspicious-users', requireAdmin, async (req, res) =>
     for (const key of userKeys.slice(0, 50)) { // 성능을 위해 50개만
       const userId = key.replace('security_events:', '');
       const events = await redis.lrange(key, 0, 10);
-      
+
       if (events.length >= 5) {
         const recentEvents = events
           .map(event => JSON.parse(event))
           .filter(event => Date.now() - event.timestamp < 24 * 60 * 60 * 1000); // 24시간 이내
-        
+
         if (recentEvents.length >= 3) {
           suspiciousUsers.push({
             userId,
@@ -859,7 +859,7 @@ router.get('/admin/security/suspicious-users', requireAdmin, async (req, res) =>
 });
 
 // IP 평판 관리 (관리자 전용)
-router.post('/admin/security/ip/:ip/reputation', requireAdmin, 
+router.post('/admin/security/ip/:ip/reputation', requireAdmin,
   [
     param('ip').isIP().withMessage('Valid IP address required'),
     body('action').isIn(['block', 'unblock', 'reset']).withMessage('Action must be block, unblock, or reset'),
@@ -871,7 +871,7 @@ router.post('/admin/security/ip/:ip/reputation', requireAdmin,
       const { ip } = req.params;
       const { action, reason } = req.body;
       const redis = getRedisClient();
-      
+
       if (!redis) {
         return res.status(503).json({ error: 'Redis not available' });
       }
@@ -927,11 +927,11 @@ router.get('/public/artists',
   ],
   validateAndSanitize,
   async (req, res) => {
-  try {
-    const { page = 1, limit = 20, specialty } = req.query;
-    const offset = (page - 1) * limit;
-    
-    let query = `
+    try {
+      const { page = 1, limit = 20, specialty } = req.query;
+      const offset = (page - 1) * limit;
+
+      let query = `
       SELECT ap.id, ap.artist_name, ap.bio, ap.specialties, 
              ap.profile_image_url, ap.verified,
              COUNT(sa.id) as artwork_count
@@ -940,31 +940,31 @@ router.get('/public/artists',
         AND sa.submission_status = 'approved'
       WHERE ap.status = 'approved'
     `;
-    
-    const params = [];
-    let paramCount = 1;
-    
-    if (specialty) {
-      query += ` AND $${paramCount} = ANY(ap.specialties)`;
-      params.push(specialty);
-      paramCount++;
-    }
-    
-    query += `
+
+      const params = [];
+      let paramCount = 1;
+
+      if (specialty) {
+        query += ` AND $${paramCount} = ANY(ap.specialties)`;
+        params.push(specialty);
+        paramCount++;
+      }
+
+      query += `
       GROUP BY ap.id
       ORDER BY ap.verified DESC, artwork_count DESC, ap.created_at DESC
       LIMIT $${paramCount} OFFSET $${paramCount + 1}
     `;
-    
-    params.push(limit, offset);
-    
-    const result = await pool.query(query, params);
-    res.json(result.rows);
-  } catch (error) {
-    logger.error('Failed to get public artists:', error);
-    res.status(500).json({ error: 'Failed to get artists' });
-  }
-});
+
+      params.push(limit, offset);
+
+      const result = await pool.query(query, params);
+      res.json(result.rows);
+    } catch (error) {
+      logger.error('Failed to get public artists:', error);
+      res.status(500).json({ error: 'Failed to get artists' });
+    }
+  });
 
 router.get('/public/galleries',
   [
@@ -974,11 +974,11 @@ router.get('/public/galleries',
   ],
   validateAndSanitize,
   async (req, res) => {
-  try {
-    const { page = 1, limit = 20, type } = req.query;
-    const offset = (page - 1) * limit;
-    
-    let query = `
+    try {
+      const { page = 1, limit = 20, type } = req.query;
+      const offset = (page - 1) * limit;
+
+      let query = `
       SELECT gp.id, gp.gallery_name, gp.description, gp.gallery_type,
              gp.address, gp.profile_image_url, gp.verified,
              COUNT(DISTINCT sa.id) as artwork_count,
@@ -990,30 +990,30 @@ router.get('/public/galleries',
         AND se.submission_status = 'approved'
       WHERE gp.status = 'approved'
     `;
-    
-    const params = [];
-    let paramCount = 1;
-    
-    if (type) {
-      query += ` AND gp.gallery_type = $${paramCount}`;
-      params.push(type);
-      paramCount++;
-    }
-    
-    query += `
+
+      const params = [];
+      let paramCount = 1;
+
+      if (type) {
+        query += ` AND gp.gallery_type = $${paramCount}`;
+        params.push(type);
+        paramCount++;
+      }
+
+      query += `
       GROUP BY gp.id
       ORDER BY gp.verified DESC, (COUNT(DISTINCT sa.id) + COUNT(DISTINCT se.id)) DESC, gp.created_at DESC
       LIMIT $${paramCount} OFFSET $${paramCount + 1}
     `;
-    
-    params.push(limit, offset);
-    
-    const result = await pool.query(query, params);
-    res.json(result.rows);
-  } catch (error) {
-    logger.error('Failed to get public galleries:', error);
-    res.status(500).json({ error: 'Failed to get galleries' });
-  }
-});
+
+      params.push(limit, offset);
+
+      const result = await pool.query(query, params);
+      res.json(result.rows);
+    } catch (error) {
+      logger.error('Failed to get public galleries:', error);
+      res.status(500).json({ error: 'Failed to get galleries' });
+    }
+  });
 
 module.exports = router;

@@ -10,13 +10,13 @@ class EmotionTranslationService {
     try {
       // 감정 데이터를 텍스트로 변환
       const emotionDescription = this.buildEmotionDescription(emotionInput);
-      
+
       // OpenAI를 사용해 감정 해석
       const interpretation = await this.analyzeEmotionWithAI(emotionDescription, emotionInput);
-      
+
       // 감정을 벡터로 변환
       const emotionVector = await this.convertToVector(interpretation);
-      
+
       return {
         emotionId: emotionInput.id,
         interpretation,
@@ -28,50 +28,50 @@ class EmotionTranslationService {
       throw error;
     }
   }
-  
+
   /**
    * 감정 데이터를 설명하는 텍스트 생성
    */
   buildEmotionDescription(emotionInput) {
     const parts = [];
-    
+
     // 색상 설명
     if (emotionInput.color) {
       const { primary, gradient, animation } = emotionInput.color;
       parts.push(`Primary color: HSL(${primary.hue}, ${primary.saturation}%, ${primary.lightness}%)`);
-      
+
       if (gradient) {
         parts.push(`Gradient with ${gradient.stops.length} colors`);
       }
-      
+
       if (animation) {
         parts.push(`Animation: ${animation.type} with ${animation.intensity} intensity`);
       }
     }
-    
+
     // 날씨 메타포
     if (emotionInput.weather) {
       parts.push(`Weather metaphor: ${emotionInput.weather}`);
     }
-    
+
     // 형태
     if (emotionInput.shape) {
       parts.push(`Shape: ${emotionInput.shape.type} with complexity ${emotionInput.shape.complexity}`);
     }
-    
+
     // 소리
     if (emotionInput.sound) {
       parts.push(`Sound: ${emotionInput.sound.pitch} pitch, ${emotionInput.sound.tempo} BPM`);
     }
-    
+
     // 컨텍스트
     if (emotionInput.context) {
       parts.push(`Context: ${emotionInput.context.timeOfDay} in ${emotionInput.context.season}`);
     }
-    
+
     return parts.join('. ');
   }
-  
+
   /**
    * AI를 사용해 감정 분석
    */
@@ -111,7 +111,7 @@ class EmotionTranslationService {
     - Light values: optimism, openness
     - Dark values: depth, mystery, introspection
     `;
-    
+
     const response = await openai.chat.completions.create({
       model: 'gpt-4',
       messages: [
@@ -127,10 +127,10 @@ class EmotionTranslationService {
       temperature: 0.7,
       response_format: { type: 'json_object' }
     });
-    
+
     return JSON.parse(response.choices[0].message.content);
   }
-  
+
   /**
    * 감정 해석을 벡터로 변환
    */
@@ -147,16 +147,16 @@ class EmotionTranslationService {
       this.mapTextureToValue(interpretation.artisticHints.texture),
       this.mapMovementToValue(interpretation.artisticHints.movement)
     ];
-    
+
     // 스타일 선호도 추가 (각 스타일에 대한 점수)
     const styleVector = await this.encodeStylePreferences(
       interpretation.artisticHints.preferredStyles,
       interpretation.artisticHints.avoidStyles
     );
-    
+
     return [...vector, ...styleVector];
   }
-  
+
   /**
    * 예술 작품과 감정 매칭
    */
@@ -164,37 +164,37 @@ class EmotionTranslationService {
     try {
       // 1. 직접적 매칭: 감정 벡터와 가장 유사한 작품들
       const directMatches = await this.findDirectMatches(emotionVector, interpretation, Math.ceil(limit * 0.5));
-      
+
       // 2. 은유적 매칭: 구조적/주제적 유사성
       const metaphoricalMatches = await this.findMetaphoricalMatches(interpretation, Math.ceil(limit * 0.3));
-      
+
       // 3. 보완적 매칭: 감정의 균형을 위한 작품
       const complementaryMatches = await this.findComplementaryMatches(emotionVector, interpretation, Math.ceil(limit * 0.2));
-      
+
       // 결과 통합 및 중복 제거
       const allMatches = [
         ...directMatches.map(m => ({ ...m, type: 'direct' })),
         ...metaphoricalMatches.map(m => ({ ...m, type: 'metaphorical' })),
         ...complementaryMatches.map(m => ({ ...m, type: 'complementary' }))
       ];
-      
+
       // 중복 제거 및 점수순 정렬
       const uniqueMatches = this.deduplicateMatches(allMatches);
-      
+
       // 각 매칭에 대한 설명 생성
       const matchesWithExplanation = await Promise.all(
-        uniqueMatches.slice(0, limit).map(match => 
+        uniqueMatches.slice(0, limit).map(match =>
           this.generateMatchExplanation(match, interpretation)
         )
       );
-      
+
       return matchesWithExplanation;
     } catch (error) {
       console.error('Error finding matching artworks:', error);
       throw error;
     }
   }
-  
+
   /**
    * 직접적 매칭: 감정 벡터 유사도 기반
    */
@@ -209,16 +209,16 @@ class EmotionTranslationService {
       ORDER BY a.emotion_vector <=> $1::vector
       LIMIT $2
     `;
-    
+
     const result = await db.query(query, [emotionVector, limit]);
-    
+
     return result.rows.map(row => ({
       artwork: this.formatArtwork(row),
       score: row.similarity_score,
       matchingAspects: this.identifyMatchingAspects(row, interpretation)
     }));
   }
-  
+
   /**
    * 은유적 매칭: 구조적/주제적 유사성
    */
@@ -240,21 +240,21 @@ class EmotionTranslationService {
         a.view_count DESC
       LIMIT $4
     `;
-    
+
     const result = await db.query(structuralQuery, [
       interpretation.artisticHints.composition,
       interpretation.artisticHints.movement,
       interpretation.artisticHints.texture,
       limit
     ]);
-    
+
     return result.rows.map(row => ({
       artwork: this.formatArtwork(row),
       score: 0.8, // 은유적 매칭은 약간 낮은 기본 점수
       metaphorType: this.identifyMetaphorType(row, interpretation)
     }));
   }
-  
+
   /**
    * 보완적 매칭: 감정의 균형을 위한 작품
    */
@@ -265,7 +265,7 @@ class EmotionTranslationService {
       if (index === 1) return 1 - value; // arousal 반전
       return value; // 나머지는 유지
     });
-    
+
     const query = `
       SELECT 
         a.*,
@@ -275,16 +275,16 @@ class EmotionTranslationService {
       ORDER BY a.emotion_vector <=> $1::vector
       LIMIT $2
     `;
-    
+
     const result = await db.query(query, [complementaryVector, limit]);
-    
+
     return result.rows.map(row => ({
       artwork: this.formatArtwork(row),
       score: row.complementary_score * 0.7, // 보완적 매칭은 더 낮은 점수
       balanceType: this.identifyBalanceType(row, interpretation)
     }));
   }
-  
+
   /**
    * 매칭 설명 생성
    */
@@ -310,7 +310,7 @@ class EmotionTranslationService {
     
     Be concise and meaningful. Respond in the language of the emotion data.
     `;
-    
+
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [
@@ -325,9 +325,9 @@ class EmotionTranslationService {
       ],
       temperature: 0.8
     });
-    
+
     const explanation = this.parseExplanation(response.choices[0].message.content);
-    
+
     return {
       ...match,
       matching: {
@@ -339,42 +339,42 @@ class EmotionTranslationService {
       emotionalJourney: explanation.journey
     };
   }
-  
+
   // 헬퍼 메서드들
   mapColorPaletteToValue(palette) {
     const mapping = { warm: 0.8, cool: 0.2, neutral: 0.5, contrasting: 1 };
     return mapping[palette] || 0.5;
   }
-  
+
   mapCompositionToValue(composition) {
     const mapping = { centered: 0.2, dynamic: 0.8, scattered: 0.6, layered: 1 };
     return mapping[composition] || 0.5;
   }
-  
+
   mapTextureToValue(texture) {
     const mapping = { smooth: 0.2, rough: 0.8, mixed: 0.5 };
     return mapping[texture] || 0.5;
   }
-  
+
   mapMovementToValue(movement) {
     const mapping = { static: 0, flowing: 0.5, explosive: 1, rhythmic: 0.7 };
     return mapping[movement] || 0.5;
   }
-  
+
   async encodeStylePreferences(preferred, avoided) {
     // 간단한 스타일 인코딩 (실제로는 더 복잡한 인코딩 필요)
     const allStyles = [
       'impressionism', 'expressionism', 'abstract', 'realism',
       'surrealism', 'minimalism', 'baroque', 'contemporary'
     ];
-    
+
     return allStyles.map(style => {
       if (preferred.includes(style)) return 1;
       if (avoided.includes(style)) return -1;
       return 0;
     });
   }
-  
+
   formatArtwork(row) {
     return {
       id: row.id,
@@ -388,7 +388,7 @@ class EmotionTranslationService {
       description: row.description
     };
   }
-  
+
   deduplicateMatches(matches) {
     const seen = new Set();
     return matches
@@ -399,25 +399,25 @@ class EmotionTranslationService {
       })
       .sort((a, b) => b.score - a.score);
   }
-  
+
   identifyMatchingAspects(artwork, interpretation) {
     const aspects = [];
-    
+
     if (artwork.dominant_colors && interpretation.artisticHints.colorPalette) {
       aspects.push('color harmony');
     }
-    
+
     if (artwork.composition_type === interpretation.artisticHints.composition) {
       aspects.push('compositional structure');
     }
-    
+
     if (artwork.emotional_tags?.includes(interpretation.characteristics.primary)) {
       aspects.push('emotional resonance');
     }
-    
+
     return aspects;
   }
-  
+
   identifyMetaphorType(artwork, interpretation) {
     if (artwork.composition_type === interpretation.artisticHints.composition) {
       return 'structural metaphor';
@@ -427,7 +427,7 @@ class EmotionTranslationService {
     }
     return 'thematic metaphor';
   }
-  
+
   identifyBalanceType(artwork, interpretation) {
     if (artwork.emotional_valence && interpretation.dimensions.valence < 0) {
       return 'emotional balance';
@@ -437,12 +437,12 @@ class EmotionTranslationService {
     }
     return 'aesthetic balance';
   }
-  
+
   parseExplanation(aiResponse) {
     // AI 응답을 구조화된 형태로 파싱
     // 실제 구현에서는 더 정교한 파싱 필요
     const lines = aiResponse.split('\n').filter(line => line.trim());
-    
+
     return {
       reasoning: lines[0] || 'Deep emotional resonance found',
       connections: lines.slice(1, 4).map(line => {
@@ -456,7 +456,7 @@ class EmotionTranslationService {
       }
     };
   }
-  
+
   /**
    * 감정 번역 세션 저장
    */
@@ -467,14 +467,14 @@ class EmotionTranslationService {
       VALUES ($1, $2, $3, $4, NOW())
       RETURNING id
     `;
-    
+
     const result = await db.query(query, [
       userId,
       JSON.stringify(emotionInput),
       JSON.stringify(interpretation),
       JSON.stringify(matches)
     ]);
-    
+
     return result.rows[0].id;
   }
 }

@@ -24,7 +24,7 @@ const REAL_EXHIBITIONS = [
     official_url: 'https://www.mmca.go.kr/exhibitions/exhibitionsDetail.do?exhId=202501160001593',
     source: 'manual_curated'
   },
-  
+
   // 예술의전당
   {
     title_local: '마르크 샤갈 특별전: Beyond Time',
@@ -201,7 +201,7 @@ class ManualExhibitionSeeder {
 
   async cleanupDummyData(client) {
     console.log('🧹 기존 더미 데이터 정리 중...');
-    
+
     // 네이버 블로그에서 수집한 부정확한 데이터 삭제
     const deleteResult = await client.query(`
       DELETE FROM exhibitions 
@@ -215,7 +215,7 @@ class ManualExhibitionSeeder {
           OR length(title_local) < 5
         )
     `);
-    
+
     console.log(`   ✅ ${deleteResult.rowCount}개 부정확한 데이터 삭제`);
   }
 
@@ -295,7 +295,7 @@ class ManualExhibitionSeeder {
 
 async function main() {
   const seeder = new ManualExhibitionSeeder();
-  
+
   try {
     await seeder.seedRealExhibitions();
   } catch (error) {

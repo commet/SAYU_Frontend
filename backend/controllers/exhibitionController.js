@@ -128,8 +128,8 @@ const exhibitionController = {
 
       // Validate required fields
       if (!exhibitionTitle || !venueName || !startDate || !endDate || !submitterEmail) {
-        return res.status(400).json({ 
-          error: 'Missing required fields: exhibitionTitle, venueName, startDate, endDate, submitterEmail' 
+        return res.status(400).json({
+          error: 'Missing required fields: exhibitionTitle, venueName, startDate, endDate, submitterEmail'
         });
       }
 
@@ -148,7 +148,7 @@ const exhibitionController = {
       });
 
       if (existingSubmission) {
-        return res.status(409).json({ 
+        return res.status(409).json({
           error: 'This exhibition has already been submitted',
           submissionId: existingSubmission.id
         });

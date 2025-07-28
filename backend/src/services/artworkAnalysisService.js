@@ -37,7 +37,7 @@ class ArtworkAnalysisService {
 
       // Fetch and analyze image
       const buffer = await this.fetchImage(imageUrl);
-      
+
       // Run analyses in parallel
       const [visualFeatures, composition, colorAnalysis] = await Promise.all([
         this.analyzeVisualFeatures(buffer),
@@ -92,10 +92,10 @@ class ArtworkAnalysisService {
     const stats = await image.stats();
 
     // Calculate brightness and contrast
-    const brightness = stats.channels.reduce((sum, channel) => 
+    const brightness = stats.channels.reduce((sum, channel) =>
       sum + channel.mean, 0) / stats.channels.length / 255;
-    
-    const contrast = stats.channels.reduce((sum, channel) => 
+
+    const contrast = stats.channels.reduce((sum, channel) =>
       sum + channel.stdev, 0) / stats.channels.length / 128;
 
     // Detect edges for complexity
@@ -132,13 +132,13 @@ class ArtworkAnalysisService {
 
     // Divide image into regions
     const regions = await this.divideIntoRegions(image, width, height);
-    
+
     // Calculate visual weight distribution
     const weightDistribution = await this.calculateWeightDistribution(regions);
-    
+
     // Check for symmetry
     const symmetry = await this.checkSymmetry(regions);
-    
+
     // Calculate dynamism based on diagonal elements
     const dynamism = this.calculateDynamism(weightDistribution);
 
@@ -154,10 +154,10 @@ class ArtworkAnalysisService {
   // Analyze color palette and emotions
   async analyzeColors(buffer) {
     const image = sharp(buffer);
-    
+
     // Extract dominant colors
     const { dominant } = await image.stats();
-    
+
     // Resize for faster color analysis
     const smallBuffer = await image
       .resize(100, 100, { fit: 'inside' })
@@ -215,13 +215,13 @@ class ArtworkAnalysisService {
     // Count edge pixels
     let edgeCount = 0;
     const threshold = 30;
-    
+
     for (let i = 0; i < edgeBuffer.length; i++) {
       if (edgeBuffer[i] > threshold) {
         edgeCount++;
       }
     }
-    
+
     // Normalize by image size
     return edgeCount / (metadata.width * metadata.height);
   }
@@ -229,7 +229,7 @@ class ArtworkAnalysisService {
   async divideIntoRegions(image, width, height) {
     const regions = [];
     const regionSize = { width: Math.floor(width / 3), height: Math.floor(height / 3) };
-    
+
     for (let row = 0; row < 3; row++) {
       for (let col = 0; col < 3; col++) {
         const region = await image
@@ -240,7 +240,7 @@ class ArtworkAnalysisService {
             height: regionSize.height
           })
           .stats();
-        
+
         regions.push({
           row,
           col,
@@ -248,7 +248,7 @@ class ArtworkAnalysisService {
         });
       }
     }
-    
+
     return regions;
   }
 
@@ -257,7 +257,7 @@ class ArtworkAnalysisService {
       const { mean, stdev } = region.stats.channels[0];
       return mean * 0.7 + stdev * 0.3; // Visual weight calculation
     });
-    
+
     return {
       topLeft: weights[0],
       topCenter: weights[1],
@@ -275,15 +275,15 @@ class ArtworkAnalysisService {
     // Compare left and right sides
     let symmetryScore = 0;
     const pairs = [[0, 2], [3, 5], [6, 8]]; // Left-right pairs
-    
+
     pairs.forEach(([left, right]) => {
       const leftStats = regions[left].stats.channels[0];
       const rightStats = regions[right].stats.channels[0];
-      
+
       const diff = Math.abs(leftStats.mean - rightStats.mean) / 255;
       symmetryScore += (1 - diff);
     });
-    
+
     return symmetryScore / pairs.length;
   }
 
@@ -292,22 +292,22 @@ class ArtworkAnalysisService {
     let totalWeight = 0;
     let weightedX = 0;
     let weightedY = 0;
-    
+
     Object.entries(weights).forEach(([position, weight], index) => {
       const x = index % 3;
       const y = Math.floor(index / 3);
-      
+
       totalWeight += weight;
       weightedX += weight * x;
       weightedY += weight * y;
     });
-    
+
     const centerX = weightedX / totalWeight;
     const centerY = weightedY / totalWeight;
-    
+
     // Calculate distance from center (1, 1)
     const distance = Math.sqrt(Math.pow(centerX - 1, 2) + Math.pow(centerY - 1, 2));
-    
+
     // Convert to balance score (1 = perfect balance)
     return 1 - (distance / Math.sqrt(2));
   }
@@ -316,23 +316,23 @@ class ArtworkAnalysisService {
     // Measure diagonal flow
     const diagonal1 = weights.topLeft + weights.center + weights.bottomRight;
     const diagonal2 = weights.topRight + weights.center + weights.bottomLeft;
-    
+
     const maxDiagonal = Math.max(diagonal1, diagonal2);
     const totalWeight = Object.values(weights).reduce((sum, w) => sum + w, 0);
-    
+
     return maxDiagonal / totalWeight;
   }
 
   findFocalPoints(weights) {
     const threshold = Object.values(weights).reduce((sum, w) => sum + w, 0) / 9 * 1.5;
     const focalPoints = [];
-    
+
     Object.entries(weights).forEach(([position, weight]) => {
       if (weight > threshold) {
         focalPoints.push(position);
       }
     });
-    
+
     return focalPoints;
   }
 
@@ -341,7 +341,7 @@ class ArtworkAnalysisService {
     const values = Object.values(weights);
     const mean = values.reduce((sum, w) => sum + w, 0) / values.length;
     const variance = values.reduce((sum, w) => sum + Math.pow(w - mean, 2), 0) / values.length;
-    
+
     return Math.sqrt(variance) / mean; // Coefficient of variation
   }
 
@@ -355,10 +355,10 @@ class ArtworkAnalysisService {
         b: buffer[i + 2]
       });
     }
-    
+
     // Sample pixels for performance
     const sampledPixels = this.samplePixels(pixels, 1000);
-    
+
     // Find dominant colors using simple clustering
     return this.findDominantColors(sampledPixels, 5);
   }
@@ -366,11 +366,11 @@ class ArtworkAnalysisService {
   samplePixels(pixels, sampleSize) {
     const sampled = [];
     const step = Math.floor(pixels.length / sampleSize);
-    
+
     for (let i = 0; i < pixels.length; i += step) {
       sampled.push(pixels[i]);
     }
-    
+
     return sampled;
   }
 
@@ -378,7 +378,7 @@ class ArtworkAnalysisService {
     // Simple color quantization
     const colors = [];
     const buckets = {};
-    
+
     // Group similar colors
     pixels.forEach(pixel => {
       const key = `${Math.floor(pixel.r / 32)}-${Math.floor(pixel.g / 32)}-${Math.floor(pixel.b / 32)}`;
@@ -390,7 +390,7 @@ class ArtworkAnalysisService {
       buckets[key].g += pixel.g;
       buckets[key].b += pixel.b;
     });
-    
+
     // Get average colors from buckets
     Object.values(buckets)
       .sort((a, b) => b.count - a.count)
@@ -407,40 +407,40 @@ class ArtworkAnalysisService {
           ])
         });
       });
-    
+
     return colors;
   }
 
   calculateColorTemperature(palette) {
     // Calculate warmth based on red/orange vs blue/green
     let warmScore = 0;
-    
+
     palette.forEach(color => {
       const warmth = (color.r - color.b) / 255;
       warmScore += warmth;
     });
-    
+
     // Normalize to 0-1 range
     return (warmScore / palette.length + 1) / 2;
   }
 
   calculateAverageSaturation(palette) {
     let totalSaturation = 0;
-    
+
     palette.forEach(color => {
       const max = Math.max(color.r, color.g, color.b) / 255;
       const min = Math.min(color.r, color.g, color.b) / 255;
       const saturation = max === 0 ? 0 : (max - min) / max;
       totalSaturation += saturation;
     });
-    
+
     return totalSaturation / palette.length;
   }
 
   mapColorsToEmotions(palette) {
     let emotionalIntensity = 0;
     let mood = 'neutral';
-    
+
     palette.forEach(color => {
       // Red and orange: passionate, energetic
       if (color.r > 200 && color.g < 150) {
@@ -463,7 +463,7 @@ class ArtworkAnalysisService {
         mood = 'happy';
       }
     });
-    
+
     return {
       intensity: Math.min(emotionalIntensity / palette.length, 1),
       mood,
@@ -474,16 +474,16 @@ class ArtworkAnalysisService {
   rgbToHex(rgb) {
     if (Array.isArray(rgb)) {
       const [r, g, b] = rgb;
-      return '#' + [r, g, b].map(x => {
+      return `#${[r, g, b].map(x => {
         const hex = Math.round(x).toString(16);
-        return hex.length === 1 ? '0' + hex : hex;
-      }).join('');
+        return hex.length === 1 ? `0${hex}` : hex;
+      }).join('')}`;
     }
-    
-    return '#' + [rgb.r, rgb.g, rgb.b].map(x => {
+
+    return `#${[rgb.r, rgb.g, rgb.b].map(x => {
       const hex = Math.round(x).toString(16);
-      return hex.length === 1 ? '0' + hex : hex;
-    }).join('');
+      return hex.length === 1 ? `0${hex}` : hex;
+    }).join('')}`;
   }
 
   // Caching methods
@@ -514,7 +514,7 @@ class ArtworkAnalysisService {
     try {
       // Create vector embedding from personality mapping
       const vector = this.createVector(analysis.personalityMapping);
-      
+
       // Store in Supabase with pgvector
       const { error } = await supabase
         .from('artwork_analyses')
@@ -527,7 +527,7 @@ class ArtworkAnalysisService {
           personality_vector: vector,
           analyzed_at: analysis.analyzedAt
         });
-      
+
       if (error) {
         logger.error('Database storage error:', error);
       }
@@ -557,9 +557,9 @@ class ArtworkAnalysisService {
       if (!currentAnalysis) {
         throw new Error('Artwork analysis not found');
       }
-      
+
       const vector = this.createVector(currentAnalysis.personalityMapping);
-      
+
       // Use pgvector for similarity search
       const { data, error } = await supabase
         .rpc('find_similar_artworks', {
@@ -567,12 +567,12 @@ class ArtworkAnalysisService {
           limit_count: limit,
           exclude_id: artworkId
         });
-      
+
       if (error) {
         logger.error('Similarity search error:', error);
         return [];
       }
-      
+
       return data;
     } catch (error) {
       logger.error('Find similar artworks error:', error);

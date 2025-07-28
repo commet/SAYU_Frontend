@@ -30,13 +30,13 @@ function getSupabaseClient() {
         }
       }
     });
-    
+
     log.info('Supabase client initialized', {
       url: supabaseUrl,
       hasAnonKey: !!supabaseAnonKey
     });
   }
-  
+
   return supabaseClient;
 }
 
@@ -59,10 +59,10 @@ function getSupabaseAdmin() {
         }
       }
     });
-    
+
     log.info('Supabase admin client initialized');
   }
-  
+
   return supabaseAdmin;
 }
 
@@ -76,15 +76,15 @@ async function testSupabaseConnection() {
       log.warn('Supabase not configured - missing environment variables');
       return false;
     }
-    
+
     // Test query
     const { error } = await client.from('users').select('id').limit(1);
-    
+
     if (error) {
       log.error('Supabase connection test failed', error);
       return false;
     }
-    
+
     log.info('Supabase connection test successful');
     return true;
   } catch (error) {

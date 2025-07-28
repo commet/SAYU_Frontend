@@ -8,7 +8,7 @@ class ArtProfileController {
    */
   async generateArtProfile(req, res) {
     try {
-      const userId = req.userId;
+      const { userId } = req;
       const { imageUrl, styleId, customSettings } = req.body;
 
       // 입력 검증
@@ -65,7 +65,7 @@ class ArtProfileController {
   async checkGenerationStatus(req, res) {
     try {
       const { generationId } = req.params;
-      
+
       // 실제 구현에서는 생성 작업의 상태를 추적
       // 여기서는 간단히 완료된 것으로 처리
       res.json({
@@ -90,7 +90,7 @@ class ArtProfileController {
   async getRecommendedStyles(req, res) {
     try {
       const { userId } = req.params;
-      
+
       // 권한 확인 (자신의 추천만 볼 수 있음)
       if (req.userId !== userId) {
         return res.status(403).json({
@@ -120,10 +120,10 @@ class ArtProfileController {
   async getUserArtProfiles(req, res) {
     try {
       const { userId } = req.params;
-      
+
       // 다른 사용자의 프로필도 볼 수 있지만, 공개된 것만
       const isOwnProfile = req.userId === userId;
-      
+
       const query = `
         SELECT 
           ap.*,
@@ -159,7 +159,7 @@ class ArtProfileController {
   async getGallery(req, res) {
     try {
       const { style, period, sort } = req.query;
-      
+
       const gallery = await artProfileService.getGallery({
         style,
         period,
@@ -174,10 +174,10 @@ class ArtProfileController {
           WHERE user_id = $1 AND art_profile_id = ANY($2)
         `;
         const likedResult = await db.query(
-          likedQuery, 
+          likedQuery,
           [req.userId, gallery.map(item => item.id)]
         );
-        
+
         const likedIds = new Set(likedResult.rows.map(row => row.art_profile_id));
         gallery.forEach(item => {
           item.isLiked = likedIds.has(item.id);
@@ -203,7 +203,7 @@ class ArtProfileController {
   async likeArtProfile(req, res) {
     try {
       const { profileId } = req.params;
-      const userId = req.userId;
+      const { userId } = req;
 
       const result = await artProfileService.likeArtProfile(profileId, userId);
 
@@ -226,7 +226,7 @@ class ArtProfileController {
   async getUserPreferences(req, res) {
     try {
       const { userId } = req.params;
-      
+
       if (req.userId !== userId) {
         return res.status(403).json({
           success: false,
@@ -235,7 +235,7 @@ class ArtProfileController {
       }
 
       const credits = await artProfileService.checkUserCredits(userId);
-      
+
       // 사용자의 선호 스타일 통계
       const styleStatsQuery = `
         SELECT 
@@ -278,7 +278,7 @@ class ArtProfileController {
   async setAsProfileImage(req, res) {
     try {
       const { profileId } = req.params;
-      const userId = req.userId;
+      const { userId } = req;
 
       // 소유권 확인
       const checkQuery = `

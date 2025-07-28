@@ -2,10 +2,10 @@ const { pool } = require('../config/database');
 
 async function createGamificationTables() {
   const client = await pool.connect();
-  
+
   try {
     console.log('Creating gamification tables...');
-    
+
     // 사유 레벨 시스템
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_levels (
@@ -20,7 +20,7 @@ async function createGamificationTables() {
       CREATE INDEX idx_user_levels_level ON user_levels(level);
       CREATE INDEX idx_user_levels_total_xp ON user_levels(total_xp DESC);
     `);
-    
+
     // 일일 퀘스트 정의
     await client.query(`
       CREATE TABLE IF NOT EXISTS quest_definitions (
@@ -38,7 +38,7 @@ async function createGamificationTables() {
       CREATE INDEX idx_quest_definitions_type ON quest_definitions(quest_type);
       CREATE INDEX idx_quest_definitions_active ON quest_definitions(is_active);
     `);
-    
+
     // 사용자 퀘스트 진행도
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_quests (
@@ -57,7 +57,7 @@ async function createGamificationTables() {
       CREATE INDEX idx_user_quests_completed ON user_quests(completed);
       CREATE INDEX idx_user_quests_quest_id ON user_quests(quest_id);
     `);
-    
+
     // 스트릭 시스템
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_streaks (
@@ -72,7 +72,7 @@ async function createGamificationTables() {
       CREATE INDEX idx_user_streaks_current ON user_streaks(current_streak DESC);
       CREATE INDEX idx_user_streaks_last_activity ON user_streaks(last_activity_date);
     `);
-    
+
     // XP 트랜잭션 로그
     await client.query(`
       CREATE TABLE IF NOT EXISTS xp_transactions (
@@ -90,7 +90,7 @@ async function createGamificationTables() {
       CREATE INDEX idx_xp_transactions_type ON xp_transactions(transaction_type);
       CREATE INDEX idx_xp_transactions_created ON xp_transactions(created_at DESC);
     `);
-    
+
     // 리더보드 캐시 (주간)
     await client.query(`
       CREATE TABLE IF NOT EXISTS weekly_leaderboard (
@@ -111,7 +111,7 @@ async function createGamificationTables() {
       CREATE INDEX idx_weekly_leaderboard_rank ON weekly_leaderboard(week_start, rank);
       CREATE INDEX idx_weekly_leaderboard_xp ON weekly_leaderboard(weekly_xp DESC);
     `);
-    
+
     // 리그 시스템
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_leagues (
@@ -129,7 +129,7 @@ async function createGamificationTables() {
       CREATE INDEX idx_user_leagues_tier ON user_leagues(league_tier);
       CREATE INDEX idx_user_leagues_week ON user_leagues(week_start);
     `);
-    
+
     // 보상 시스템
     await client.query(`
       CREATE TABLE IF NOT EXISTS reward_definitions (
@@ -145,7 +145,7 @@ async function createGamificationTables() {
       
       CREATE INDEX idx_reward_definitions_type ON reward_definitions(reward_type);
     `);
-    
+
     // 사용자 보상
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_rewards (
@@ -159,7 +159,7 @@ async function createGamificationTables() {
       CREATE INDEX idx_user_rewards_user ON user_rewards(user_id);
       CREATE INDEX idx_user_rewards_unlocked ON user_rewards(unlocked_at DESC);
     `);
-    
+
     // 기본 퀘스트 데이터 삽입
     await client.query(`
       INSERT INTO quest_definitions (quest_type, title, description, xp_reward, required_count)
@@ -174,7 +174,7 @@ async function createGamificationTables() {
         ('weekly_streak', '주간 연속 접속', '7일 연속 접속하세요', 50, 7)
       ON CONFLICT (quest_type) DO NOTHING;
     `);
-    
+
     // 레벨별 정보
     await client.query(`
       CREATE TABLE IF NOT EXISTS level_definitions (
@@ -193,9 +193,9 @@ async function createGamificationTables() {
         (5, '예술 마스터', 1000, '{"daily_quests": 7, "follow_limit": -1, "custom_profile": true, "priority_matching": true, "exclusive_exhibitions": true, "vip_events": true}')
       ON CONFLICT (level) DO NOTHING;
     `);
-    
+
     console.log('Gamification tables created successfully!');
-    
+
   } catch (error) {
     console.error('Error creating gamification tables:', error);
     throw error;

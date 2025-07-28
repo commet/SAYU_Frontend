@@ -22,16 +22,16 @@ class MuseumAPIService {
       });
 
       const response = await fetch(`${this.baseUrl}/search?${params}`);
-      
+
       if (!response.ok) {
         throw new Error(`Museum API error: ${response.status}`);
       }
 
       const data = await response.json();
-      
+
       // Cache for 2 hours (Met Museum data doesn't change frequently)
       await CacheService.setMuseumSearch(query, departmentId, options, data, 7200);
-      
+
       return data;
     } catch (error) {
       console.error('Museum search error:', error);
@@ -48,16 +48,16 @@ class MuseumAPIService {
 
     try {
       const response = await fetch(`${this.baseUrl}/objects/${artworkId}`);
-      
+
       if (!response.ok) {
         throw new Error(`Artwork API error: ${response.status}`);
       }
 
       const artwork = await response.json();
-      
+
       // Cache for 24 hours (artwork details rarely change)
       await CacheService.setArtworkDetails(artworkId, artwork, 86400);
-      
+
       return artwork;
     } catch (error) {
       console.error('Artwork details error:', error);
@@ -68,7 +68,7 @@ class MuseumAPIService {
   async getBatchArtworkDetails(artworkIds) {
     const results = [];
     const uncachedIds = [];
-    
+
     // Check cache for each artwork
     for (const id of artworkIds) {
       const cached = await CacheService.getArtworkDetails(id);
@@ -95,7 +95,7 @@ class MuseumAPIService {
 
       const batchResults = await Promise.all(promises);
       results.push(...batchResults);
-      
+
       // Small delay between batches to be respectful to the API
       if (i + batchSize < uncachedIds.length) {
         await new Promise(resolve => setTimeout(resolve, 100));
@@ -111,10 +111,10 @@ class MuseumAPIService {
 
     for (const id of artworkIds) {
       if (validArtworks.length >= maxResults) break;
-      
+
       try {
         const artwork = await this.getArtworkDetails(id);
-        
+
         // Filter for artworks with required data
         if (artwork.primaryImage && artwork.title && artwork.artistDisplayName) {
           validArtworks.push({
@@ -132,14 +132,14 @@ class MuseumAPIService {
             museumUrl: artwork.objectURL
           });
         }
-        
+
         processedCount++;
-        
+
         // Add delay every 10 requests to be respectful
         if (processedCount % 10 === 0) {
           await new Promise(resolve => setTimeout(resolve, 100));
         }
-        
+
       } catch (error) {
         console.error(`Error processing artwork ${id}:`, error);
       }

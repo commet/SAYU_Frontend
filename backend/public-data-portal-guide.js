@@ -16,7 +16,7 @@ const recommendedAPIs = [
     url: 'https://www.data.go.kr/data/15101578/openapi.do',
     features: [
       '즉시 승인',
-      '전시/문화시설 정보 포함', 
+      '전시/문화시설 정보 포함',
       '상세한 위치, 운영시간 정보',
       '이미지 URL 제공'
     ],

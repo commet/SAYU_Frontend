@@ -8,14 +8,14 @@ const DELETE_PATTERNS = [
   /^check-.*\.js$/,
   /^analyze.*\.js$/,
   /^verify-.*\.js$/,
-  
+
   // 임시/실험 파일들
   /^temp-.*\.js$/,
   /^tmp-.*\.js$/,
   /^experimental-.*\.js$/,
   /^try-.*\.js$/,
   /^debug-.*\.js$/,
-  
+
   // 특정 중간 결과물들
   /^artmap-.*\.js$/,
   /^culture-api-.*\.js$/,
@@ -26,7 +26,7 @@ const DELETE_PATTERNS = [
   /^naver-.*\.js$/,
   /^seoul-.*\.js$/,
   /^tour-api-.*\.js$/,
-  
+
   // APT 관련 중간 파일들 (최종 완성본 제외)
   /^apt-.*\.js$/,
   /^APT.*\.js$/,
@@ -34,7 +34,7 @@ const DELETE_PATTERNS = [
   /^run.*Classification\.js$/,
   /^.*Classifier\.js$/,
   /^.*APT.*\.js$/,
-  
+
   // 수집 관련 중간 파일들
   /^collect-.*\.js$/,
   /^crawl-.*\.js$/,
@@ -58,13 +58,13 @@ const DELETE_PATTERNS = [
   /^save-.*\.js$/,
   /^upload-.*\.js$/,
   /^download-.*\.js$/,
-  
+
   // 실행 스크립트들
   /^run-.*\.js$/,
   /^start-.*\.js$/,
   /^execute-.*\.js$/,
   /^apply-.*\.js$/,
-  
+
   // JSON 결과 파일들
   /.*\.json$/,
   /.*\.csv$/,
@@ -90,7 +90,7 @@ const KEEP_FILES = [
   'Procfile',
   'railway.json',
   '.env.example',
-  
+
   // 완성된 APT 시스템 파일들
   'generateThreeAPTProfiles.js',
   'addMissingFamousArtists.js',
@@ -121,15 +121,15 @@ async function shouldDelete(filePath, fileName) {
   if (KEEP_FILES.includes(fileName)) {
     return false;
   }
-  
+
   // 유지할 디렉토리 내부는 건드리지 않음
   for (const keepDir of KEEP_DIRECTORIES) {
-    if (filePath.includes(path.sep + keepDir + path.sep) || 
+    if (filePath.includes(path.sep + keepDir + path.sep) ||
         filePath.startsWith(keepDir + path.sep)) {
       return false;
     }
   }
-  
+
   // 삭제 패턴에 매치되는지 확인
   return DELETE_PATTERNS.some(pattern => pattern.test(fileName));
 }
@@ -137,14 +137,14 @@ async function shouldDelete(filePath, fileName) {
 async function analyzeFiles() {
   const backendDir = process.cwd();
   const files = await fs.readdir(backendDir, { withFileTypes: true });
-  
+
   const toDelete = [];
   const toKeep = [];
-  
+
   for (const file of files) {
     if (file.isFile()) {
       const filePath = path.join(backendDir, file.name);
-      
+
       if (await shouldDelete(filePath, file.name)) {
         toDelete.push(file.name);
       } else {
@@ -152,53 +152,53 @@ async function analyzeFiles() {
       }
     }
   }
-  
+
   return { toDelete, toKeep };
 }
 
 async function cleanupProject() {
   console.log('🧹 SAYU 프로젝트 정리 시작\n');
-  
+
   try {
     const { toDelete, toKeep } = await analyzeFiles();
-    
+
     console.log(`📊 분석 결과:`);
     console.log(`  삭제 대상: ${toDelete.length}개 파일`);
     console.log(`  유지: ${toKeep.length}개 파일\n`);
-    
+
     // 삭제 대상 미리보기 (처음 20개)
     if (toDelete.length > 0) {
       console.log('🗑️ 삭제될 파일들 (처음 20개):');
       toDelete.slice(0, 20).forEach((file, idx) => {
         console.log(`  ${idx + 1}. ${file}`);
       });
-      
+
       if (toDelete.length > 20) {
         console.log(`  ... 그리고 ${toDelete.length - 20}개 더`);
       }
       console.log('');
     }
-    
+
     // 유지될 핵심 파일들
     console.log('✅ 유지될 핵심 파일들:');
     toKeep.slice(0, 15).forEach((file, idx) => {
       console.log(`  ${idx + 1}. ${file}`);
     });
-    
+
     if (toKeep.length > 15) {
       console.log(`  ... 그리고 ${toKeep.length - 15}개 더`);
     }
-    
+
     console.log('\n⚠️  실제 삭제를 원한다면 --execute 플래그를 추가하세요');
     console.log('   예: node cleanup-project.js --execute');
-    
+
     // 실제 삭제 실행
     if (process.argv.includes('--execute')) {
       console.log('\n🔥 실제 삭제 실행 중...\n');
-      
+
       let deleted = 0;
       let failed = 0;
-      
+
       for (const fileName of toDelete) {
         try {
           await fs.unlink(fileName);
@@ -209,13 +209,13 @@ async function cleanupProject() {
           failed++;
         }
       }
-      
+
       console.log(`\n📊 삭제 결과:`);
       console.log(`  ✅ 성공: ${deleted}개`);
       console.log(`  ❌ 실패: ${failed}개`);
       console.log(`  📁 남은 파일: ${toKeep.length}개`);
     }
-    
+
   } catch (error) {
     console.error('❌ 오류:', error.message);
   }

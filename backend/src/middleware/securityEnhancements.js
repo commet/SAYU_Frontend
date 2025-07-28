@@ -12,7 +12,7 @@ const { log } = require('../config/logger');
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 5, // 5 attempts per window
-  message: { 
+  message: {
     error: 'Too many authentication attempts, please try again later',
     code: 'AUTH_RATE_LIMIT_EXCEEDED',
     retryAfter: '15 minutes'
@@ -57,7 +57,7 @@ const authSlowDown = slowDown({
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Reduced from 200 to 100
-  message: { 
+  message: {
     error: 'API rate limit exceeded, please try again later',
     code: 'API_RATE_LIMIT_EXCEEDED'
   },
@@ -81,7 +81,7 @@ const loginValidation = [
     .withMessage('Password must be between 8-128 characters')
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
     .withMessage('Password must contain at least one uppercase letter, one lowercase letter, and one number'),
-  
+
   // Validation result handler
   (req, res, next) => {
     const errors = validationResult(req);
@@ -126,7 +126,7 @@ const registerValidation = [
     .optional()
     .isLength({ max: 500 })
     .withMessage('Personal manifesto must be less than 500 characters'),
-  
+
   // Validation result handler
   (req, res, next) => {
     const errors = validationResult(req);
@@ -153,11 +153,11 @@ const securityHeaders = (req, res, next) => {
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-  
+
   // Remove server identification
   res.removeHeader('X-Powered-By');
   res.removeHeader('Server');
-  
+
   next();
 };
 
@@ -165,7 +165,7 @@ const securityHeaders = (req, res, next) => {
 const requestSizeValidator = (req, res, next) => {
   const contentLength = parseInt(req.headers['content-length'] || '0');
   const maxSize = 10 * 1024 * 1024; // 10MB
-  
+
   if (contentLength > maxSize) {
     log.warn('Request size exceeded', {
       ip: req.ip,
@@ -179,7 +179,7 @@ const requestSizeValidator = (req, res, next) => {
       maxSize: '10MB'
     });
   }
-  
+
   next();
 };
 
@@ -189,15 +189,15 @@ const adminIPWhitelist = (req, res, next) => {
   if (process.env.NODE_ENV !== 'production') {
     return next();
   }
-  
+
   const allowedIPs = (process.env.ADMIN_ALLOWED_IPS || '').split(',').filter(ip => ip.trim());
-  
+
   if (allowedIPs.length === 0) {
     return next(); // No IP restriction if not configured
   }
-  
+
   const clientIP = req.ip;
-  
+
   if (!allowedIPs.includes(clientIP)) {
     log.warn('Admin access denied - IP not whitelisted', {
       ip: clientIP,
@@ -209,7 +209,7 @@ const adminIPWhitelist = (req, res, next) => {
       code: 'IP_NOT_WHITELISTED'
     });
   }
-  
+
   next();
 };
 
@@ -219,16 +219,16 @@ const csrfProtection = (req, res, next) => {
   if (req.method === 'GET' || req.headers.authorization?.startsWith('Bearer ')) {
     return next();
   }
-  
-  const origin = req.headers.origin;
-  const referer = req.headers.referer;
+
+  const { origin } = req.headers;
+  const { referer } = req.headers;
   const allowedOrigins = [
     process.env.FRONTEND_URL,
     process.env.BACKEND_URL,
     'http://localhost:3000',
     'http://localhost:3001'
   ].filter(Boolean);
-  
+
   if (!origin && !referer) {
     log.warn('CSRF protection: No origin or referer header', {
       ip: req.ip,
@@ -240,9 +240,9 @@ const csrfProtection = (req, res, next) => {
       code: 'CSRF_PROTECTION_TRIGGERED'
     });
   }
-  
+
   const requestOrigin = origin || new URL(referer).origin;
-  
+
   if (!allowedOrigins.includes(requestOrigin)) {
     log.warn('CSRF protection: Invalid origin', {
       ip: req.ip,
@@ -255,45 +255,45 @@ const csrfProtection = (req, res, next) => {
       code: 'CSRF_PROTECTION_TRIGGERED'
     });
   }
-  
+
   next();
 };
 
 // Security audit logging
 const securityAuditLogger = (req, res, next) => {
   const securityEvents = [];
-  
+
   // Log suspicious patterns
   if (req.body) {
     const bodyStr = JSON.stringify(req.body);
-    
+
     // Check for SQL injection patterns
     const sqlPatterns = [
       /(\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|UNION|SCRIPT)\b)/gi,
       /(\b(OR|AND)\s+\d+\s*=\s*\d+)/gi,
       /(\b(OR|AND)\s+['"]\s*['"]\s*=\s*['"])/gi
     ];
-    
+
     sqlPatterns.forEach(pattern => {
       if (pattern.test(bodyStr)) {
         securityEvents.push('SQL_INJECTION_ATTEMPT');
       }
     });
-    
+
     // Check for XSS patterns
     const xssPatterns = [
       /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
       /javascript:/gi,
       /on\w+\s*=/gi
     ];
-    
+
     xssPatterns.forEach(pattern => {
       if (pattern.test(bodyStr)) {
         securityEvents.push('XSS_ATTEMPT');
       }
     });
   }
-  
+
   // Log security events
   if (securityEvents.length > 0) {
     log.warn('Security audit: Suspicious activity detected', {
@@ -305,7 +305,7 @@ const securityAuditLogger = (req, res, next) => {
       timestamp: new Date().toISOString()
     });
   }
-  
+
   next();
 };
 

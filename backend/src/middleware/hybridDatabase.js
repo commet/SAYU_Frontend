@@ -26,11 +26,11 @@ const supabaseMiddleware = async (req, res, next) => {
         path: req.path,
         method: req.method
       });
-      
+
       // Fallback to Railway
       req.useRailwayFallback = true;
     }
-    
+
     req.hybridDB = hybridDB;
     next();
   } catch (error) {
@@ -64,7 +64,7 @@ const supabaseRealtimeMiddleware = async (req, res, next) => {
         error: 'Realtime features require Supabase configuration'
       });
     }
-    
+
     req.hybridDB = hybridDB;
     req.requiresRealtime = true;
     next();
@@ -96,7 +96,7 @@ const hybridTransaction = async (req, res, next) => {
       return client;
     });
   };
-  
+
   next();
 };
 
@@ -106,7 +106,7 @@ const hybridTransaction = async (req, res, next) => {
 const databaseHealthCheck = async (req, res, next) => {
   try {
     const health = await hybridDB.healthCheck();
-    
+
     if (!health.hybrid) {
       return res.status(503).json({
         success: false,
@@ -114,7 +114,7 @@ const databaseHealthCheck = async (req, res, next) => {
         health
       });
     }
-    
+
     req.databaseHealth = health;
     next();
   } catch (error) {

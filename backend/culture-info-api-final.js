@@ -15,7 +15,7 @@ class CultureInfoAPI {
     this.serviceKey = '+wfa+sUFfXVTtQtcbqA2cFvHiWWKJh2jLQzuMZywhdM0LfcNiHbuX9DkLvJJ5JDFa+3+DxNM7RHCETyzDMbzmA==';
     // 정확한 엔드포인트
     this.baseUrl = 'http://api.kcisa.kr/openapi/CNV_060/request';
-    
+
     this.stats = {
       total: 0,
       saved: 0,
@@ -38,7 +38,7 @@ class CultureInfoAPI {
       };
 
       console.log('\n🔍 API 연결 테스트...');
-      const response = await axios.get(this.baseUrl, { 
+      const response = await axios.get(this.baseUrl, {
         params,
         headers: {
           'Accept': 'application/xml, text/xml'
@@ -49,14 +49,14 @@ class CultureInfoAPI {
       if (response.status === 200) {
         console.log('✅ API 연결 성공!');
         console.log('📄 응답 타입:', response.headers['content-type']);
-        
+
         // 응답 파싱 테스트
         const data = await this.parseResponse(response.data);
         if (data && data.length > 0) {
           console.log(`✅ 데이터 파싱 성공: ${data.length}개 항목`);
           console.log('📝 샘플 데이터:', data[0].title || '제목 없음');
         }
-        
+
         return true;
       }
     } catch (error) {
@@ -84,7 +84,7 @@ class CultureInfoAPI {
     };
 
     try {
-      const data = response.data;
+      const { data } = response;
       if (data && data.includes('returnReasonCode')) {
         const codeMatch = data.match(/<returnReasonCode>(\d+)<\/returnReasonCode>/);
         if (codeMatch) {
@@ -109,15 +109,15 @@ class CultureInfoAPI {
       // 1. 전체 목록 조회
       while (hasMore && pageNo <= 20) {
         console.log(`📄 페이지 ${pageNo} 조회 중...`);
-        
+
         const params = {
           serviceKey: this.serviceKey,
-          numOfRows: numOfRows,
-          pageNo: pageNo
+          numOfRows,
+          pageNo
         };
 
         try {
-          const response = await axios.get(this.baseUrl, { 
+          const response = await axios.get(this.baseUrl, {
             params,
             headers: {
               'Accept': 'application/xml'
@@ -127,17 +127,17 @@ class CultureInfoAPI {
 
           if (response.data) {
             const exhibitions = await this.parseResponse(response.data);
-            
+
             if (exhibitions && exhibitions.length > 0) {
               // 전시 관련만 필터링
               const filteredExhibitions = exhibitions.filter(item => {
                 const title = item.title || '';
                 const category = item.category || '';
                 const genre = item.genre || '';
-                
+
                 // 전시 관련 키워드 포함
                 return (
-                  title.includes('전시') || 
+                  title.includes('전시') ||
                   title.includes('展') ||
                   title.includes('갤러리') ||
                   title.includes('미술') ||
@@ -147,10 +147,10 @@ class CultureInfoAPI {
                   genre === 'D000' // 전시 분야 코드
                 ) && !title.includes('공연') && !title.includes('콘서트');
               });
-              
+
               console.log(`   ✅ ${exhibitions.length}개 중 ${filteredExhibitions.length}개 전시 발견`);
               allExhibitions.push(...filteredExhibitions);
-              
+
               if (exhibitions.length < numOfRows) {
                 hasMore = false;
               } else {
@@ -171,19 +171,19 @@ class CultureInfoAPI {
 
       // 2. 키워드 검색
       const keywords = ['전시', '미술관', '갤러리', '아트', '특별전'];
-      
+
       for (const keyword of keywords) {
         console.log(`\n🔍 "${keyword}" 키워드 검색...`);
-        
+
         const params = {
           serviceKey: this.serviceKey,
           numOfRows: 100,
           pageNo: 1,
-          keyword: keyword
+          keyword
         };
 
         try {
-          const response = await axios.get(this.baseUrl, { 
+          const response = await axios.get(this.baseUrl, {
             params,
             headers: {
               'Accept': 'application/xml'
@@ -211,9 +211,9 @@ class CultureInfoAPI {
     // 중복 제거
     const uniqueExhibitions = this.removeDuplicates(allExhibitions);
     this.stats.total = uniqueExhibitions.length;
-    
+
     console.log(`\n📊 총 ${uniqueExhibitions.length}개 전시 정보 수집 (중복 제거)`);
-    
+
     return uniqueExhibitions;
   }
 
@@ -232,7 +232,7 @@ class CultureInfoAPI {
 
       // items 찾기 (다양한 경로 시도)
       let items = null;
-      
+
       // 가능한 경로들
       const paths = [
         result.items,
@@ -275,35 +275,35 @@ class CultureInfoAPI {
     // 날짜 처리
     const formatDate = (dateStr) => {
       if (!dateStr) return null;
-      
+
       // YYYYMMDD 형식
       if (dateStr.length === 8 && !isNaN(dateStr)) {
         return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
       }
-      
+
       // YYYY.MM.DD 형식
       if (dateStr.includes('.')) {
         return dateStr.split('.').join('-');
       }
-      
+
       // YYYY-MM-DD 형식 (이미 올바른 형식)
       if (dateStr.includes('-')) {
         return dateStr.split(' ')[0];
       }
-      
+
       return dateStr;
     };
 
     // 상태 결정
     const determineStatus = (startDate, endDate) => {
       if (!startDate || !endDate) return 'unknown';
-      
+
       const now = new Date();
       const start = new Date(startDate);
       const end = new Date(endDate);
-      
+
       if (isNaN(start.getTime()) || isNaN(end.getTime())) return 'unknown';
-      
+
       if (now < start) return 'upcoming';
       if (now > end) return 'ended';
       return 'ongoing';
@@ -346,9 +346,9 @@ class CultureInfoAPI {
 
   async saveToDatabase(exhibitions) {
     console.log('\n💾 데이터베이스 저장 시작...');
-    
+
     const client = await pool.connect();
-    
+
     try {
       for (const exhibition of exhibitions) {
         try {
@@ -391,21 +391,21 @@ class CultureInfoAPI {
               exhibition.status,
               exhibition.source
             ]);
-            
+
             this.stats.saved++;
             console.log(`   ✅ 저장: ${exhibition.title_local}`);
           } else {
             console.log(`   ⏭️  중복: ${exhibition.title_local}`);
           }
-          
+
         } catch (err) {
           console.log(`   ❌ 저장 실패: ${exhibition.title_local} - ${err.message}`);
           this.stats.errors++;
         }
       }
-      
+
       console.log(`\n✅ 저장 완료: ${this.stats.saved}개 전시`);
-      
+
     } catch (error) {
       console.error('❌ DB 오류:', error.message);
     } finally {
@@ -441,7 +441,7 @@ class CultureInfoAPI {
     }
 
     // 결과 요약
-    console.log('\n' + '=' .repeat(60));
+    console.log(`\n${'=' .repeat(60)}`);
     console.log('📊 최종 결과:');
     console.log(`   📥 수집된 전시: ${this.stats.total}개`);
     console.log(`   💾 저장된 전시: ${this.stats.saved}개`);

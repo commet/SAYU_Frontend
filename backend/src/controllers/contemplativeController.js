@@ -9,9 +9,9 @@ class ContemplativeController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({ 
-          success: false, 
-          errors: errors.array() 
+        return res.status(400).json({
+          success: false,
+          errors: errors.array()
         });
       }
 
@@ -203,10 +203,10 @@ class ContemplativeController {
 
   async updateContemplativeStats(userId, artworkId, duration, depth) {
     const client = await db.getClient();
-    
+
     try {
       await client.query('BEGIN');
-      
+
       // 작품별 감상 통계 업데이트
       const updateArtworkStats = `
         INSERT INTO artwork_contemplation_stats (artwork_id, total_views, total_time, avg_depth)
@@ -247,14 +247,14 @@ class ContemplativeController {
         `;
 
         await client.query(updateUserStats, [
-          userId, 
-          duration, 
+          userId,
+          duration,
           depth === 'immerse' ? 1 : 0
         ]);
       }
-      
+
       await client.query('COMMIT');
-      
+
     } catch (error) {
       await client.query('ROLLBACK');
       console.error('Error updating contemplative stats:', error);

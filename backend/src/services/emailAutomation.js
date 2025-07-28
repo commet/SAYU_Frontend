@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const { pool } = require('../config/database');
 const emailService = require('./emailService');
-const { logger } = require("../config/logger");
+const { logger } = require('../config/logger');
 
 class EmailAutomationService {
   constructor() {
@@ -53,7 +53,7 @@ class EmailAutomationService {
 
   async sendWeeklyInsights() {
     logger.info('Starting weekly insights email send...');
-    
+
     try {
       // Get all active users who haven't opted out
       const usersQuery = `
@@ -64,13 +64,13 @@ class EmailAutomationService {
         AND u.created_at <= NOW() - INTERVAL '7 days'
         AND u.last_login >= NOW() - INTERVAL '30 days'
       `;
-      
+
       const users = await pool.query(usersQuery);
-      
+
       for (const user of users.rows) {
         try {
           const insights = await this.generateWeeklyInsights(user.id);
-          
+
           if (insights.artworksViewed > 0) {
             await emailService.sendWeeklyInsights(user, insights);
             logger.info(`Weekly insights sent to ${user.email}`);
@@ -79,7 +79,7 @@ class EmailAutomationService {
           logger.error(`Failed to send weekly insights to ${user.email}:`, error);
         }
       }
-      
+
       logger.info(`Weekly insights process completed for ${users.rows.length} users`);
     } catch (error) {
       logger.error('Weekly insights job failed:', error);
@@ -88,7 +88,7 @@ class EmailAutomationService {
 
   async generateWeeklyInsights(userId) {
     const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-    
+
     // Get user activity stats
     const statsQuery = `
       SELECT 
@@ -101,7 +101,7 @@ class EmailAutomationService {
         AND ac.created_at >= $2
       WHERE ua.user_id = $1 AND ua.created_at >= $2
     `;
-    
+
     const statsResult = await pool.query(statsQuery, [userId, oneWeekAgo]);
     const stats = statsResult.rows[0];
 
@@ -115,9 +115,9 @@ class EmailAutomationService {
       ORDER BY total_time DESC
       LIMIT 1
     `;
-    
+
     const topArtworkResult = await pool.query(topArtworkQuery, [userId, oneWeekAgo]);
-    
+
     // Generate personalized recommendations
     const recommendations = await this.generatePersonalizedRecommendations(userId);
 
@@ -139,11 +139,11 @@ class EmailAutomationService {
       FROM user_profiles WHERE user_id = $1
     `;
     const profile = await pool.query(profileQuery, [userId]);
-    
+
     if (!profile.rows[0]) return [];
 
     const userProfile = profile.rows[0];
-    
+
     // Generate context-aware recommendations
     const recommendations = [
       {
@@ -169,7 +169,7 @@ class EmailAutomationService {
 
   async sendReEngagementEmails() {
     logger.info('Starting re-engagement email process...');
-    
+
     try {
       // Find users who haven't logged in for 7-30 days
       const inactiveUsersQuery = `
@@ -186,22 +186,22 @@ class EmailAutomationService {
           AND el.sent_at >= NOW() - INTERVAL '7 days'
         )
       `;
-      
+
       const users = await pool.query(inactiveUsersQuery);
-      
+
       for (const user of users.rows) {
         try {
           await emailService.sendReEngagementEmail(user, Math.floor(user.days_inactive));
-          
+
           // Log the email send
           await this.logEmailSent(user.id, 'nudge');
-          
+
           logger.info(`Re-engagement email sent to ${user.email} (${user.days_inactive} days inactive)`);
         } catch (error) {
           logger.error(`Failed to send re-engagement email to ${user.email}:`, error);
         }
       }
-      
+
       logger.info(`Re-engagement process completed for ${users.rows.length} users`);
     } catch (error) {
       logger.error('Re-engagement job failed:', error);
@@ -210,7 +210,7 @@ class EmailAutomationService {
 
   async sendProfileReminders() {
     logger.info('Starting profile completion reminders...');
-    
+
     try {
       // Find users registered 3+ days ago who haven't completed profile
       const incompleteProfilesQuery = `
@@ -227,20 +227,20 @@ class EmailAutomationService {
           AND el.sent_at >= NOW() - INTERVAL '7 days'
         )
       `;
-      
+
       const users = await pool.query(incompleteProfilesQuery);
-      
+
       for (const user of users.rows) {
         try {
           await emailService.sendProfileReminderEmail(user);
           await this.logEmailSent(user.id, 'profile-reminder');
-          
+
           logger.info(`Profile reminder sent to ${user.email}`);
         } catch (error) {
           logger.error(`Failed to send profile reminder to ${user.email}:`, error);
         }
       }
-      
+
       logger.info(`Profile reminder process completed for ${users.rows.length} users`);
     } catch (error) {
       logger.error('Profile reminder job failed:', error);
@@ -249,7 +249,7 @@ class EmailAutomationService {
 
   async sendMonthlyCharacteristicPick() {
     logger.info('Starting monthly curator\'s pick emails...');
-    
+
     try {
       const usersQuery = `
         SELECT u.*, up.type_code, up.archetype_name 
@@ -257,20 +257,20 @@ class EmailAutomationService {
         JOIN user_profiles up ON u.id = up.user_id
         WHERE u.email_preferences->>'curators_pick' != 'false'
       `;
-      
+
       const users = await pool.query(usersQuery);
-      
+
       for (const user of users.rows) {
         try {
           const curatorsPick = await this.generateCuratorsPick(user);
           await emailService.sendCuratorsPick(user, curatorsPick);
-          
+
           logger.info(`Curator's pick sent to ${user.email}`);
         } catch (error) {
           logger.error(`Failed to send curator's pick to ${user.email}:`, error);
         }
       }
-      
+
       logger.info(`Curator's pick process completed for ${users.rows.length} users`);
     } catch (error) {
       logger.error('Curator\'s pick job failed:', error);
@@ -300,14 +300,14 @@ class EmailAutomationService {
   getWeekRange() {
     const now = new Date();
     const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-    
+
     const formatDate = (date) => {
-      return date.toLocaleDateString('en-US', { 
-        month: 'short', 
-        day: 'numeric' 
+      return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric'
       });
     };
-    
+
     return `${formatDate(oneWeekAgo)} - ${formatDate(now)}`;
   }
 
@@ -319,7 +319,7 @@ class EmailAutomationService {
       'M': 'Modern',
       'E': 'Impressionist'
     };
-    
+
     return periodMap[typeCode?.[0]] || 'Contemporary';
   }
 

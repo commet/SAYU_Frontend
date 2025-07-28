@@ -9,7 +9,7 @@ class GamificationController {
   async getDashboard(req, res) {
     try {
       const userId = req.user.id;
-      
+
       // 병렬로 필요한 데이터 조회
       const [
         userStats,
@@ -75,12 +75,12 @@ class GamificationController {
       });
 
     } catch (error) {
-      log.error('Failed to earn points', { 
-        userId: req.user.id, 
+      log.error('Failed to earn points', {
+        userId: req.user.id,
         activity: req.body.activity,
-        error 
+        error
       });
-      
+
       res.status(500).json({
         success: false,
         error: 'Failed to process activity'
@@ -142,7 +142,7 @@ class GamificationController {
       const { sessionId } = req.body;
 
       const session = await gamificationService.getSession(sessionId);
-      
+
       if (!session || session.user_id !== userId) {
         return res.status(404).json({
           success: false,
@@ -161,7 +161,7 @@ class GamificationController {
 
       // 완료 포인트 획득
       const pointsResult = await gamificationService.earnPoints(
-        userId, 
+        userId,
         'EXHIBITION_COMPLETE',
         {
           exhibitionId: session.exhibition_id,
@@ -312,7 +312,7 @@ class GamificationController {
   async getFriendsLeaderboard(req, res) {
     try {
       const userId = req.user.id;
-      
+
       const friendsLeaderboard = await gamificationService.getFriendsLeaderboard(userId);
 
       res.json({
@@ -333,14 +333,14 @@ class GamificationController {
   async getUserStats(req, res) {
     try {
       const targetUserId = req.params.userId || req.user.id;
-      
+
       // 다른 사용자 조회 시 프라이버시 체크
       if (targetUserId !== req.user.id) {
         const canView = await gamificationService.canViewUserStats(
           req.user.id,
           targetUserId
         );
-        
+
         if (!canView) {
           return res.status(403).json({
             success: false,
@@ -455,7 +455,7 @@ class GamificationController {
       const { type, data = {} } = req.body;
 
       const userStats = await gamificationService.getUserStats(userId);
-      
+
       const cardData = {
         ...userStats,
         ...data,
@@ -504,7 +504,7 @@ class GamificationController {
 
     // Redis 구독
     const subscriber = gamificationService.subscribeToUpdates(userId);
-    
+
     subscriber.on('message', (channel, message) => {
       res.write(`data: ${message}\n\n`);
     });

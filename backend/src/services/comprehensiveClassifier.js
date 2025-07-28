@@ -6,11 +6,11 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 class ComprehensiveClassifier {
   constructor() {
     this.gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    this.model = this.gemini.getGenerativeModel({ model: "gemini-1.5-flash" });
-    
+    this.model = this.gemini.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
     // 현재 세션의 APT 분포
     this.sessionDistribution = {};
-    
+
     // 전체 DB의 APT 분포 (초기값)
     this.globalDistribution = {
       SRMC: 0.72,  // 현재 72%
@@ -20,18 +20,18 @@ class ComprehensiveClassifier {
 
   async classifyArtist(artistData) {
     console.log(`\n🎨 종합 분류: ${artistData.name}`);
-    
+
     try {
       const actualArtistName = this.extractActualArtistName(artistData.name);
       const isAttribution = artistData.name !== actualArtistName;
       const artistType = this.categorizeArtist(artistData);
       const dataQuality = this.assessDataQuality(artistData);
-      
+
       console.log(`   📋 유형: ${artistType}, 데이터: ${dataQuality}, 귀속: ${isAttribution ? '예' : '아니오'}`);
-      
+
       // 전략 선택
       let result;
-      
+
       if (dataQuality === 'rich') {
         // 풍부한 데이터: Gemini 정밀 분석
         result = await this.geminiPrecisionAnalysis(artistData, artistType);
@@ -42,17 +42,17 @@ class ComprehensiveClassifier {
         // 부족한 데이터: 지능형 추론
         result = this.intelligentInference(artistData, artistType);
       }
-      
+
       // SRMC 억제 및 다양성 보장
       if (result.aptType === 'SRMC' && this.shouldAvoidSRMC()) {
         result = this.diversifyFromSRMC(result, artistType);
       }
-      
+
       // 세션 분포 업데이트
       this.updateDistribution(result.aptType);
-      
+
       return this.formatResult(result, artistData);
-      
+
     } catch (error) {
       console.error(`   ❌ 오류: ${error.message}`);
       // 오류 시에도 기본 분류 제공
@@ -62,7 +62,7 @@ class ComprehensiveClassifier {
 
   assessDataQuality(artistData) {
     let score = 0;
-    
+
     // 전기 정보
     if (artistData.bio) {
       if (artistData.bio.length > 1000) score += 40;
@@ -70,18 +70,18 @@ class ComprehensiveClassifier {
       else if (artistData.bio.length > 200) score += 20;
       else if (artistData.bio.length > 100) score += 10;
     }
-    
+
     // 메타데이터
     if (artistData.nationality) score += 10;
     if (artistData.era) score += 10;
     if (artistData.movement) score += 15;
     if (artistData.birth_year && artistData.death_year) score += 10;
     if (artistData.birth_year) score += 5;
-    
+
     // 추가 정보
     if (artistData.style) score += 10;
     if (artistData.medium) score += 5;
-    
+
     if (score >= 50) return 'rich';
     if (score >= 20) return 'moderate';
     return 'poor';
@@ -89,17 +89,17 @@ class ComprehensiveClassifier {
 
   categorizeArtist(artistData) {
     const name = artistData.name.toLowerCase();
-    
+
     // 귀속 작품
     if (name.match(/attributed|after|follower|workshop|circle|school|manner|style|copy/i)) {
       return 'attribution';
     }
-    
+
     // 고대
     if (name.includes('greek') || name.includes('athens') || name.includes('etruscan')) {
       return 'ancient';
     }
-    
+
     // 시대별
     if (artistData.era) {
       const era = artistData.era.toLowerCase();
@@ -120,7 +120,7 @@ class ComprehensiveClassifier {
       if (era.includes('contemporary')) return 'contemporary';
       if (era.includes('modern')) return 'modern';
     }
-    
+
     // 생년 기반
     if (artistData.birth_year) {
       if (artistData.birth_year < 1400) return 'medieval';
@@ -133,7 +133,7 @@ class ComprehensiveClassifier {
       if (artistData.birth_year < 1980) return 'contemporary';
       return 'contemporary';
     }
-    
+
     return 'unknown';
   }
 
@@ -143,7 +143,7 @@ class ComprehensiveClassifier {
       'School of ', 'Workshop of ', 'Studio of ', 'Manner of ',
       'Style of ', 'Copy after ', 'Imitator of ', 'In the style of '
     ];
-    
+
     let actualName = fullName;
     for (const attr of attributions) {
       if (actualName.startsWith(attr)) {
@@ -151,7 +151,7 @@ class ComprehensiveClassifier {
         break;
       }
     }
-    
+
     return actualName.trim();
   }
 
@@ -194,10 +194,10 @@ APT: [4글자]
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-      
+
       console.log(`   💎 정밀 분석 완료`);
       return this.parseGeminiResponse(text);
-      
+
     } catch (error) {
       console.error('   ⚠️ Gemini 오류:', error.message);
       return null;
@@ -206,7 +206,7 @@ APT: [4글자]
 
   async geminiContextualAnalysis(artistData, artistType) {
     const context = this.getTypeContext(artistType);
-    
+
     const prompt = `작가를 분류해주세요. 제한된 정보지만 시대적 맥락을 고려하세요.
 
 작가: ${this.extractActualArtistName(artistData.name)}
@@ -237,10 +237,10 @@ APT: [4글자]`;
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-      
+
       console.log(`   🔍 맥락 분석 완료`);
       return this.parseGeminiResponse(text);
-      
+
     } catch (error) {
       console.error('   ⚠️ Gemini 오류:', error.message);
       return null;
@@ -255,7 +255,7 @@ APT: [4글자]`;
         reasoning: '',
         confidence: 70
       };
-      
+
       // 축 점수 추출 (다양한 형식 지원)
       const patterns = {
         L_S: /L\/S:\s*([+-]?\d+)/i,
@@ -263,14 +263,14 @@ APT: [4글자]`;
         E_M: /E\/M:\s*([+-]?\d+)/i,
         F_C: /F\/C:\s*([+-]?\d+)/i
       };
-      
+
       for (const [axis, pattern] of Object.entries(patterns)) {
         const match = text.match(pattern);
         if (match) {
           result.axisScores[axis] = parseInt(match[1]);
         }
       }
-      
+
       // APT 추출
       const aptMatch = text.match(/APT:\s*([LS][AR][EM][FC])/i);
       if (aptMatch) {
@@ -278,15 +278,15 @@ APT: [4글자]`;
       } else {
         result.aptType = this.calculateAPT(result.axisScores);
       }
-      
+
       // 종합 분석 추출
       const analysisMatch = text.match(/종합 분석:\s*(.+?)$/ims);
       if (analysisMatch) {
         result.reasoning = analysisMatch[1].trim();
       }
-      
+
       return result;
-      
+
     } catch (error) {
       console.error('파싱 오류:', error);
       return null;
@@ -295,10 +295,10 @@ APT: [4글자]`;
 
   intelligentInference(artistData, artistType) {
     console.log('   🧠 지능형 추론 적용');
-    
+
     // 유형별 특성 기반 추론
     const typePatterns = {
-      'ancient': { 
+      'ancient': {
         types: ['SREC', 'SRMC', 'SRMF'],
         scores: { L_S: 40, A_R: 80, E_M: 30, F_C: 60 }
       },
@@ -375,12 +375,12 @@ APT: [4글자]`;
         scores: { L_S: 0, A_R: 20, E_M: -20, F_C: 0 }
       }
     };
-    
+
     const pattern = typePatterns[artistType] || typePatterns['unknown'];
-    
+
     // 세션 분포를 고려한 유형 선택
     const leastUsedType = this.selectLeastUsedType(pattern.types);
-    
+
     return {
       aptType: leastUsedType,
       axisScores: pattern.scores,
@@ -397,7 +397,7 @@ APT: [4글자]`;
       'modern': '실험성, 추상화, 개념 중시, 전통 거부',
       'contemporary': '다원성, 매체 확장, 사회 비판, 글로벌화'
     };
-    
+
     return contexts[artistType] || '시대적 맥락 정보 부족';
   }
 
@@ -405,14 +405,14 @@ APT: [4글자]`;
     const total = Object.values(this.sessionDistribution).reduce((a, b) => a + b, 0);
     const srmcCount = this.sessionDistribution['SRMC'] || 0;
     const srmcRatio = total > 0 ? srmcCount / total : 0;
-    
+
     // 전체 15% 이상이면 억제
     return srmcRatio > 0.15 || this.globalDistribution.SRMC > 0.5;
   }
 
   diversifyFromSRMC(result, artistType) {
     console.log('   🔄 SRMC 과다로 다양성 조정');
-    
+
     // 유형별 대안 매핑
     const alternatives = {
       'baroque': 'SREC',
@@ -422,9 +422,9 @@ APT: [4글자]`;
       'contemporary': 'LAEC',
       'default': 'LREC'
     };
-    
+
     const newType = alternatives[artistType] || alternatives['default'];
-    
+
     // 해당 APT에 맞는 점수 조정
     const adjustments = {
       'SREC': { L_S: 40, A_R: 70, E_M: -50, F_C: 20 },
@@ -434,12 +434,12 @@ APT: [4글자]`;
       'LAEC': { L_S: -20, A_R: -40, E_M: -60, F_C: 30 },
       'LREC': { L_S: -10, A_R: 50, E_M: -50, F_C: 40 }
     };
-    
+
     return {
       aptType: newType,
       axisScores: adjustments[newType],
       confidence: result.confidence - 10,
-      reasoning: result.reasoning + ' (SRMC 과다로 조정됨)',
+      reasoning: `${result.reasoning} (SRMC 과다로 조정됨)`,
       adjusted: true
     };
   }
@@ -448,7 +448,7 @@ APT: [4글자]`;
     // 후보 중 가장 적게 사용된 유형 선택
     let minCount = Infinity;
     let selected = candidates[0];
-    
+
     for (const type of candidates) {
       const count = this.sessionDistribution[type] || 0;
       if (count < minCount) {
@@ -456,7 +456,7 @@ APT: [4글자]`;
         selected = type;
       }
     }
-    
+
     return selected;
   }
 
@@ -475,7 +475,7 @@ APT: [4글자]`;
     // 오류 시 안전한 기본값
     const fallbackTypes = ['LREC', 'LAEC', 'SAEC', 'SREF'];
     const randomType = fallbackTypes[Math.floor(Math.random() * fallbackTypes.length)];
-    
+
     return {
       aptType: randomType,
       axisScores: { L_S: 0, A_R: 20, E_M: -20, F_C: 0 },

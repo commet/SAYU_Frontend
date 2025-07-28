@@ -45,7 +45,7 @@ class SupabaseExhibitionCollector {
       for (const query of searchQueries) {
         try {
           const naverData = await this.searchNaverExhibitions(query, Math.ceil(maxResults / searchQueries.length));
-          
+
           for (const item of naverData) {
             try {
               const exhibition = await this.processExhibitionData(item);
@@ -95,7 +95,7 @@ class SupabaseExhibitionCollector {
           'X-Naver-Client-Secret': this.naverClientSecret
         },
         params: {
-          query: query,
+          query,
           display: count,
           start: 1,
           sort: 'random'
@@ -114,7 +114,7 @@ class SupabaseExhibitionCollector {
 
   async processExhibitionData(naverItem) {
     const exhibitionData = this.parseNaverData(naverItem);
-    
+
     // 중복 확인
     const { data: existing } = await this.supabase
       .from('exhibitions')
@@ -145,17 +145,17 @@ class SupabaseExhibitionCollector {
     // Naver 지역 검색 결과를 전시 데이터로 변환
     const title = this.cleanText(item.title);
     const description = this.cleanText(item.description || '');
-    
+
     // 주소에서 도시 추출
     const address = this.cleanText(item.address || '');
     const city = this.extractCity(address);
-    
+
     // 전화번호 정리
     const phone = item.telephone ? this.cleanText(item.telephone) : null;
-    
+
     // 카테고리에 따른 상태 결정
     const status = this.determineStatus(item.category);
-    
+
     return {
       title,
       description: description || `${title}에 대한 정보입니다.`,
@@ -186,7 +186,7 @@ class SupabaseExhibitionCollector {
 
   extractCity(address) {
     if (!address) return '서울';
-    
+
     const cityPatterns = [
       /서울특별시|서울시|서울/,
       /부산광역시|부산시|부산/,
@@ -221,12 +221,12 @@ class SupabaseExhibitionCollector {
 
   determineStatus(category) {
     if (!category) return 'upcoming';
-    
+
     const categoryLower = category.toLowerCase();
     if (categoryLower.includes('전시') || categoryLower.includes('미술') || categoryLower.includes('갤러리')) {
       return 'upcoming';
     }
-    
+
     return 'draft';
   }
 
@@ -244,12 +244,12 @@ class SupabaseExhibitionCollector {
 
   extractTags(item) {
     const tags = [];
-    
+
     if (item.category) {
       const categories = item.category.split(',').map(c => c.trim());
       tags.push(...categories);
     }
-    
+
     // 제목에서 태그 추출
     const title = item.title || '';
     if (title.includes('현대미술')) tags.push('현대미술');
@@ -259,7 +259,7 @@ class SupabaseExhibitionCollector {
     if (title.includes('사진')) tags.push('사진');
     if (title.includes('조각')) tags.push('조각');
     if (title.includes('회화')) tags.push('회화');
-    
+
     return tags.slice(0, 5); // 최대 5개
   }
 

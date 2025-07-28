@@ -13,7 +13,7 @@ async function testIntegration() {
     const typesSystem = new SAYUTypes();
     const testType = 'LAEF';
     const typeInfo = typesSystem.getTypeInfo(testType);
-    
+
     if (typeInfo) {
       console.log(`✓ Type ${testType}: ${typeInfo.name}`);
       console.log(`  Description: ${typeInfo.description}`);
@@ -26,7 +26,7 @@ async function testIntegration() {
     console.log('\n2. Testing Relationships System...');
     const relationshipsSystem = new SAYURelationships(typesSystem);
     const bestMatches = relationshipsSystem.getBestMatches('LAEF', 3);
-    
+
     console.log('✓ Best matches for LAEF:');
     bestMatches.forEach(match => {
       console.log(`  - ${match.type}: ${match.name} (${match.compatibility.toFixed(2)})`);
@@ -41,12 +41,12 @@ async function testIntegration() {
       requiresContemplation: 0.7,
       explorationFriendly: 0.8
     };
-    
+
     const artworkScores = artworkMatcher.analyzeArtworkForTypes(sampleArtwork);
     const topMatches = Object.entries(artworkScores)
       .sort((a, b) => b[1].total - a[1].total)
       .slice(0, 3);
-    
+
     console.log('✓ Top artwork matches:');
     topMatches.forEach(([type, score]) => {
       console.log(`  - ${type}: ${score.total.toFixed(2)}`);
@@ -56,7 +56,7 @@ async function testIntegration() {
     console.log('\n4. Testing Quiz Service...');
     const quizService = new SAYUQuizService();
     const session = quizService.createSession('test-user', 'ko');
-    
+
     console.log(`✓ Created session: ${session.sessionId}`);
     console.log(`  Language: ${session.language}`);
     console.log(`  Status: ${session.status}`);
@@ -65,7 +65,7 @@ async function testIntegration() {
     console.log('\n5. Testing Question Processing...');
     const { sayuEnhancedQuizData } = require('../data/sayuEnhancedQuizData');
     const firstQuestion = sayuEnhancedQuizData.questions[0];
-    
+
     if (firstQuestion) {
       console.log(`✓ First question loaded: ${firstQuestion.title}`);
       console.log(`  Type: ${firstQuestion.type}`);
@@ -76,14 +76,14 @@ async function testIntegration() {
     console.log('\n6. Verifying All 16 SAYU Types...');
     const allTypes = Object.keys(typesSystem.typeFunctions);
     console.log(`✓ Total types defined: ${allTypes.length}`);
-    
+
     const typesByGroup = {
       'L+A': allTypes.filter(t => t.startsWith('LA')),
       'L+R': allTypes.filter(t => t.startsWith('LR')),
       'S+A': allTypes.filter(t => t.startsWith('SA')),
       'S+R': allTypes.filter(t => t.startsWith('SR'))
     };
-    
+
     Object.entries(typesByGroup).forEach(([group, types]) => {
       console.log(`  ${group}: ${types.join(', ')} (${types.length} types)`);
     });
@@ -97,7 +97,7 @@ async function testIntegration() {
         functionCounts[func] = (functionCounts[func] || 0) + 1;
       });
     });
-    
+
     console.log('✓ Function usage across all types:');
     Object.entries(functionCounts)
       .sort((a, b) => b[1] - a[1])
@@ -106,7 +106,7 @@ async function testIntegration() {
       });
 
     console.log('\n✅ All tests completed successfully!');
-    
+
   } catch (error) {
     console.error('\n❌ Test failed:', error);
     console.error(error.stack);

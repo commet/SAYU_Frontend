@@ -24,7 +24,7 @@ class PriorityVenuesCollector {
   async collectPriorityVenues() {
     console.log('🎯 주요 미술관 우선 수집 (Google Places API)');
     console.log(`🔑 API 키: ${this.apiKey ? '설정됨' : '없음'}`);
-    
+
     if (!this.apiKey) {
       console.log('❌ Google Places API 키가 필요합니다.');
       return;
@@ -51,7 +51,7 @@ class PriorityVenuesCollector {
 
       for (const venue of priorityVenues.rows) {
         await this.processVenue(venue, client);
-        
+
         // API 호출 제한 (1초 딜레이)
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
@@ -79,7 +79,7 @@ class PriorityVenuesCollector {
       ];
 
       let placeData = null;
-      
+
       // 여러 검색어로 시도
       for (const query of searchQueries) {
         placeData = await this.searchPlace(query);
@@ -95,7 +95,7 @@ class PriorityVenuesCollector {
 
       // 상세 정보 가져오기
       const details = await this.getPlaceDetails(placeData.place_id);
-      
+
       if (!details) {
         console.log(`   ❌ 상세 정보 가져오기 실패`);
         this.stats.errors++;
@@ -104,14 +104,14 @@ class PriorityVenuesCollector {
 
       // 데이터베이스 업데이트
       await this.updateVenueInDatabase(venue.id, details, client);
-      
+
       const info = [
         details.rating ? `평점: ${details.rating}` : null,
         details.user_ratings_total ? `리뷰: ${details.user_ratings_total.toLocaleString()}개` : null,
         details.formatted_phone_number ? '전화번호 ✓' : null,
         details.website ? '웹사이트 ✓' : null
       ].filter(Boolean).join(', ');
-      
+
       console.log(`   ✅ 업데이트 완료 (${info})`);
       this.stats.updated++;
 
@@ -291,7 +291,7 @@ class PriorityVenuesCollector {
 
 async function main() {
   const collector = new PriorityVenuesCollector();
-  
+
   try {
     await collector.collectPriorityVenues();
   } catch (error) {

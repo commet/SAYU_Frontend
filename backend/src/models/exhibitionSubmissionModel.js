@@ -48,7 +48,7 @@ class ExhibitionSubmissionModel {
       SELECT * FROM exhibition_submissions 
       WHERE duplicate_checksum = $1 
       AND verification_status IN ('pending', 'reviewing', 'approved')`;
-    
+
     const result = await pool.query(query, [checksum]);
     return result.rows[0];
   }
@@ -76,7 +76,7 @@ class ExhibitionSubmissionModel {
       WHERE submitter_id = $1 
       ORDER BY created_at DESC 
       LIMIT $2 OFFSET $3`;
-    
+
     const dataResult = await pool.query(dataQuery, [userId, limit, offset]);
 
     return {
@@ -101,7 +101,7 @@ class ExhibitionSubmissionModel {
           updated_at = CURRENT_TIMESTAMP
       WHERE id = $4
       RETURNING *`;
-    
+
     const result = await pool.query(query, [status, verifierId, note, id]);
     return result.rows[0];
   }
@@ -113,7 +113,7 @@ class ExhibitionSubmissionModel {
       SET points_awarded = points_awarded + $1 
       WHERE id = $2 
       RETURNING points_awarded`;
-    
+
     const result = await pool.query(query, [points, id]);
     return result.rows[0];
   }
@@ -125,7 +125,7 @@ class ExhibitionSubmissionModel {
       SET exhibition_id = $1 
       WHERE id = $2 
       RETURNING *`;
-    
+
     const result = await pool.query(query, [exhibitionId, submissionId]);
     return result.rows[0];
   }
@@ -137,7 +137,7 @@ class ExhibitionSubmissionModel {
       WHERE verification_status = 'pending' 
       ORDER BY created_at ASC 
       LIMIT $1`;
-    
+
     const result = await pool.query(query, [limit]);
     return result.rows;
   }
@@ -160,7 +160,7 @@ class ExhibitionSubmissionModel {
     const startDate = new Date(submission.start_date);
     const endDate = new Date(submission.end_date);
     const duration = (endDate - startDate) / (1000 * 60 * 60 * 24);
-    
+
     if (duration > 365 || duration < 1) {
       score += 0.4;
     }

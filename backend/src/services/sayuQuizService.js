@@ -22,7 +22,7 @@ class SAYUQuizService {
       dimensions: { L: 0, S: 0, A: 0, R: 0, E: 0, M: 0, F: 0, C: 0 },
       status: 'active'
     };
-    
+
     this.sessions.set(sessionId, session);
     return session;
   }
@@ -99,7 +99,7 @@ class SAYUQuizService {
     session.status = 'completed';
     session.result = result;
     session.endTime = new Date().toISOString();
-    
+
     this.updateSession(session.sessionId, session);
 
     return {
@@ -111,30 +111,30 @@ class SAYUQuizService {
   // Calculate final personality type and results
   calculateResult(session) {
     const { dimensions } = session;
-    
+
     // Determine personality type
-    const typeCode = 
+    const typeCode =
       (dimensions.L > dimensions.S ? 'L' : 'S') +
       (dimensions.A > dimensions.R ? 'A' : 'R') +
       (dimensions.E > dimensions.M ? 'E' : 'M') +
       (dimensions.F > dimensions.C ? 'F' : 'C');
-    
+
     // Validate type code using central definitions
     validateSAYUType(typeCode);
-    
+
     // Validate type code
     if (!validateSAYUType(typeCode)) {
       throw new Error(`Invalid SAYU type: ${typeCode}`);
     }
-    
+
     const personalityType = sayuEnhancedQuizData.personalityTypes[typeCode];
-    
+
     // Calculate confidence scores
     const confidence = this.calculateConfidence(dimensions);
-    
+
     // Generate recommendations
     const recommendations = this.generateRecommendations(personalityType);
-    
+
     return {
       personalityType,
       dimensions,
@@ -146,7 +146,7 @@ class SAYUQuizService {
 
   // Helper methods
   generateSessionId() {
-    return 'sayu_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    return `sayu_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   findAnswerInQuestion(question, answerId) {
@@ -159,7 +159,7 @@ class SAYUQuizService {
 
   updateDimensions(session, weights) {
     if (!weights) return;
-    
+
     Object.entries(weights).forEach(([dimension, value]) => {
       if (session.dimensions.hasOwnProperty(dimension)) {
         session.dimensions[dimension] += value;
@@ -174,13 +174,13 @@ class SAYUQuizService {
       { left: 'E', right: 'M' },
       { left: 'F', right: 'C' }
     ];
-    
+
     const confidences = axes.map(axis => {
       const total = dimensions[axis.left] + dimensions[axis.right];
       const diff = Math.abs(dimensions[axis.left] - dimensions[axis.right]);
       return total > 0 ? (diff / total) * 100 : 50;
     });
-    
+
     return {
       overall: confidences.reduce((a, b) => a + b, 0) / 4,
       byAxis: confidences,
@@ -198,19 +198,19 @@ class SAYUQuizService {
 
   getDimensionSnapshot(dimensions) {
     return {
-      'L/S': { 
+      'L/S': {
         value: dimensions.L - dimensions.S,
         percentage: this.calculateAxisPercentage(dimensions.L, dimensions.S)
       },
-      'A/R': { 
+      'A/R': {
         value: dimensions.A - dimensions.R,
         percentage: this.calculateAxisPercentage(dimensions.A, dimensions.R)
       },
-      'E/M': { 
+      'E/M': {
         value: dimensions.E - dimensions.M,
         percentage: this.calculateAxisPercentage(dimensions.E, dimensions.M)
       },
-      'F/C': { 
+      'F/C': {
         value: dimensions.F - dimensions.C,
         percentage: this.calculateAxisPercentage(dimensions.F, dimensions.C)
       }
@@ -239,14 +239,14 @@ class SAYUQuizService {
   }
 
   formatOptions(question, language) {
-    const options = question.options || 
-                   question.responses || 
-                   question.styles || 
-                   question.layouts || 
-                   question.approaches || 
-                   question.images || 
+    const options = question.options ||
+                   question.responses ||
+                   question.styles ||
+                   question.layouts ||
+                   question.approaches ||
+                   question.images ||
                    [];
-    
+
     return options.map(option => ({
       id: option.id,
       text: option.text || option.name,
@@ -259,7 +259,7 @@ class SAYUQuizService {
 
   formatResult(result, language) {
     const { personalityType, dimensions, confidence, recommendations } = result;
-    
+
     return {
       personalityType: {
         code: personalityType.code,
@@ -309,7 +309,7 @@ class SAYUQuizService {
         matchScore: 0
       }
     ];
-    
+
     // Calculate match scores based on personality preferences
     return allExhibitions
       .map(exhibition => {
@@ -327,11 +327,11 @@ class SAYUQuizService {
       .join(' ')
       .toLowerCase()
       .split(' ');
-    
-    const matches = exhibition.tags.filter(tag => 
+
+    const matches = exhibition.tags.filter(tag =>
       prefTags.some(pref => tag.includes(pref) || pref.includes(tag))
     );
-    
+
     return matches.length / exhibition.tags.length;
   }
 
@@ -351,19 +351,19 @@ class SAYUQuizService {
   calculateConsistency(responses) {
     // Analyze if responses consistently favor certain dimensions
     const dimensionCounts = {};
-    
+
     responses.forEach(response => {
       Object.keys(response.weights || {}).forEach(dim => {
         dimensionCounts[dim] = (dimensionCounts[dim] || 0) + 1;
       });
     });
-    
+
     const values = Object.values(dimensionCounts);
     if (values.length === 0) return 100;
-    
+
     const avg = values.reduce((a, b) => a + b, 0) / values.length;
     const variance = values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / values.length;
-    
+
     return 100 - (Math.sqrt(variance) / avg * 100);
   }
 
@@ -374,7 +374,7 @@ class SAYUQuizService {
       'E/M': 0,
       'F/C': 0
     };
-    
+
     responses.forEach(response => {
       const weights = response.weights || {};
       axisTotals['L/S'] += Math.abs((weights.L || 0) - (weights.S || 0));
@@ -382,7 +382,7 @@ class SAYUQuizService {
       axisTotals['E/M'] += Math.abs((weights.E || 0) - (weights.M || 0));
       axisTotals['F/C'] += Math.abs((weights.F || 0) - (weights.C || 0));
     });
-    
+
     return Object.entries(axisTotals)
       .sort((a, b) => b[1] - a[1])[0][0];
   }
@@ -428,15 +428,15 @@ class SAYUQuizService {
     if (!validateSAYUType(type1Code) || !validateSAYUType(type2Code)) {
       throw new Error('Invalid personality type codes');
     }
-    
+
     const type1 = sayuEnhancedQuizData.personalityTypes[type1Code];
     const type2 = sayuEnhancedQuizData.personalityTypes[type2Code];
-    
+
     // Find common and different axes
     const axes = ['L/S', 'A/R', 'E/M', 'F/C'];
     const similarities = [];
     const differences = [];
-    
+
     for (let i = 0; i < 4; i++) {
       if (type1Code[i] === type2Code[i]) {
         similarities.push({
@@ -451,7 +451,7 @@ class SAYUQuizService {
         });
       }
     }
-    
+
     return {
       type1: {
         code: type1Code,
@@ -472,12 +472,12 @@ class SAYUQuizService {
   calculateCompatibility(similarityCount) {
     const percentage = (similarityCount / 4) * 100;
     let level;
-    
+
     if (percentage >= 75) level = 'Highly Compatible';
     else if (percentage >= 50) level = 'Compatible';
     else if (percentage >= 25) level = 'Complementary';
     else level = 'Opposites Attract';
-    
+
     return {
       percentage,
       level,
@@ -500,13 +500,13 @@ class SAYUQuizService {
   findSharedInterests(type1, type2) {
     const interests1 = new Set(type1.preferences?.artStyles || []);
     const interests2 = new Set(type2.preferences?.artStyles || []);
-    
+
     return [...interests1].filter(x => interests2.has(x));
   }
 
   findComplementaryTraits(type1, type2, differences) {
     const complementary = [];
-    
+
     differences.forEach(diff => {
       if (diff.axis === 'L/S') {
         complementary.push('One enjoys solitude while the other brings social energy');
@@ -518,7 +518,7 @@ class SAYUQuizService {
         complementary.push('Spontaneous and structured styles offer variety');
       }
     });
-    
+
     return complementary;
   }
 }

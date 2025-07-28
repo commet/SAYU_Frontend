@@ -10,7 +10,7 @@ const pool = new Pool({
 
 async function showAllMuseumsAndExhibitions() {
   const client = await pool.connect();
-  
+
   try {
     // 1. 전체 통계
     const overallStats = await client.query(`
@@ -124,7 +124,7 @@ async function showAllMuseumsAndExhibitions() {
         console.log(`\n${countryNames[exhibition.venue_country] || exhibition.venue_country}`);
         console.log('-'.repeat(40));
       }
-      
+
       console.log(`\n${index + 1}. ${exhibition.title_en}`);
       if (exhibition.title_local && exhibition.title_local !== exhibition.title_en) {
         console.log(`   (${exhibition.title_local})`);

@@ -21,7 +21,7 @@ class EnhancedExhibitionCollectorService {
         },
         locations: ['서울', '덕수궁', '과천', '청주']
       },
-      
+
       // 서울시립미술관
       'sema': {
         name: '서울시립미술관',
@@ -189,12 +189,12 @@ class EnhancedExhibitionCollectorService {
 
     // 4. 중복 제거 및 데이터 정제
     const cleanedExhibitions = await this.cleanAndDeduplicateExhibitions(results.exhibitions);
-    
+
     // 5. 데이터베이스 저장
     const saveResults = await this.saveExhibitionsToDB(cleanedExhibitions);
-    
+
     log.info(`Collection completed. Total: ${results.total}, Success: ${results.success}, Failed: ${results.failed}`);
-    
+
     return {
       ...results,
       saved: saveResults.saved,
@@ -206,7 +206,7 @@ class EnhancedExhibitionCollectorService {
   async collectFromNaverAPI() {
     const venues = await this.getActiveVenues();
     const results = { count: 0, success: 0, exhibitions: [] };
-    
+
     for (const venue of venues) {
       try {
         // 다양한 검색 쿼리 사용
@@ -220,12 +220,12 @@ class EnhancedExhibitionCollectorService {
         for (const query of queries) {
           const blogResults = await this.searchNaverBlog(query);
           const newsResults = await this.searchNaverNews(query);
-          
+
           const exhibitions = this.parseNaverResults([...blogResults, ...newsResults], venue);
           results.exhibitions.push(...exhibitions);
           results.count += exhibitions.length;
         }
-        
+
         results.success++;
       } catch (error) {
         log.error(`Naver API error for ${venue.name}:`, error);
@@ -307,8 +307,8 @@ class EnhancedExhibitionCollectorService {
     };
 
     items.forEach(item => {
-      const text = this.stripHtml(item.title + ' ' + item.description);
-      
+      const text = this.stripHtml(`${item.title} ${item.description}`);
+
       // 제목 추출
       let title = null;
       for (const pattern of patterns.title) {
@@ -344,17 +344,17 @@ class EnhancedExhibitionCollectorService {
 
   // 미술관 웹사이트 크롤링
   async crawlMuseumWebsite(key, config) {
-    const browser = await puppeteer.launch({ 
+    const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
-    
+
     const results = { count: 0, success: 0, exhibitions: [] };
 
     try {
       const page = await browser.newPage();
       await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
-      
+
       // API 엔드포인트가 있는 경우
       if (config.api) {
         const apiData = await this.fetchMuseumAPI(config);
@@ -364,7 +364,7 @@ class EnhancedExhibitionCollectorService {
       } else {
         // 웹페이지 크롤링
         await page.goto(config.exhibitionListUrl, { waitUntil: 'networkidle2' });
-        
+
         // 전시 목록 추출
         const exhibitions = await page.evaluate((selector) => {
           const items = document.querySelectorAll(selector.list);
@@ -373,7 +373,7 @@ class EnhancedExhibitionCollectorService {
             const dateEl = item.querySelector(selector.date);
             const linkEl = item.querySelector(selector.link);
             const venueEl = selector.venue ? item.querySelector(selector.venue) : null;
-            
+
             return {
               title: titleEl?.textContent?.trim(),
               date: dateEl?.textContent?.trim(),
@@ -386,14 +386,14 @@ class EnhancedExhibitionCollectorService {
         // 각 전시 상세 정보 수집
         for (const exhibition of exhibitions) {
           if (!exhibition.title || !exhibition.link) continue;
-          
+
           try {
             const detailPage = await browser.newPage();
             await detailPage.goto(exhibition.link, { waitUntil: 'networkidle2' });
-            
+
             // 상세 정보 추출 (각 미술관별로 커스터마이즈 필요)
             const details = await this.extractExhibitionDetails(detailPage, key);
-            
+
             results.exhibitions.push({
               ...exhibition,
               ...details,
@@ -401,18 +401,18 @@ class EnhancedExhibitionCollectorService {
               source: `${key}_crawler`,
               source_url: exhibition.link
             });
-            
+
             await detailPage.close();
             results.count++;
-            
+
           } catch (error) {
             log.error(`Failed to get details for ${exhibition.title}:`, error);
           }
         }
-        
+
         results.success = 1;
       }
-      
+
     } catch (error) {
       log.error(`Crawling error for ${config.name}:`, error);
       results.success = 0;
@@ -442,30 +442,30 @@ class EnhancedExhibitionCollectorService {
     };
 
     const museumSelectors = selectors[museumKey] || {};
-    
+
     return await page.evaluate((sel) => {
       const details = {};
-      
+
       if (sel.description) {
         const desc = document.querySelector(sel.description);
         details.description = desc?.textContent?.trim();
       }
-      
+
       if (sel.artists) {
         const artists = document.querySelectorAll(sel.artists);
         details.artists = Array.from(artists).map(a => a.textContent.trim());
       }
-      
+
       if (sel.admission) {
         const admission = document.querySelector(sel.admission);
         details.admission_fee = admission?.textContent?.trim();
       }
-      
+
       if (sel.period) {
         const period = document.querySelector(sel.period);
         details.period = period?.textContent?.trim();
       }
-      
+
       return details;
     }, museumSelectors);
   }
@@ -473,7 +473,7 @@ class EnhancedExhibitionCollectorService {
   // 공공 API 활용 (문화포털, 공공데이터포털 등)
   async collectFromPublicAPIs() {
     const results = { count: 0, success: 0, exhibitions: [] };
-    
+
     // 1. 문화포털 API (문화체육관광부)
     try {
       const cultureResponse = await axios.get('http://www.culture.go.kr/openapi/rest/publicperformancedisplays', {
@@ -485,7 +485,7 @@ class EnhancedExhibitionCollectorService {
           rows: 100
         }
       });
-      
+
       if (cultureResponse.data?.response?.body?.items) {
         const items = cultureResponse.data.response.body.items.item;
         results.exhibitions.push(...this.parseCultureAPIData(items));
@@ -499,7 +499,7 @@ class EnhancedExhibitionCollectorService {
     // 2. 서울 열린데이터광장 API
     try {
       const seoulResponse = await axios.get('http://openapi.seoul.go.kr:8088/API_KEY/json/SebcExhibitInfo/1/100/');
-      
+
       if (seoulResponse.data?.SebcExhibitInfo?.row) {
         const items = seoulResponse.data.SebcExhibitInfo.row;
         results.exhibitions.push(...this.parseSeoulAPIData(items));
@@ -521,18 +521,18 @@ class EnhancedExhibitionCollectorService {
       WHERE is_active = true
       ORDER BY tier, name
     `);
-    
+
     return result.rows;
   }
 
   // 데이터 정제 및 중복 제거
   async cleanAndDeduplicateExhibitions(exhibitions) {
     const uniqueExhibitions = new Map();
-    
+
     exhibitions.forEach(exhibition => {
       // 키 생성 (제목 + 장소 + 시작일)
       const key = `${exhibition.title?.toLowerCase().replace(/\s+/g, '')}_${exhibition.venue_name}_${exhibition.start_date}`;
-      
+
       if (!uniqueExhibitions.has(key)) {
         // 데이터 정제
         const cleaned = {
@@ -544,36 +544,36 @@ class EnhancedExhibitionCollectorService {
           admission_fee: this.parseAdmissionFee(exhibition.admission_fee),
           artists: this.normalizeArtists(exhibition.artists)
         };
-        
+
         uniqueExhibitions.set(key, cleaned);
       }
     });
-    
+
     return Array.from(uniqueExhibitions.values());
   }
 
   // 전시 정보 DB 저장
   async saveExhibitionsToDB(exhibitions) {
     const results = { saved: 0, duplicates: 0, errors: [] };
-    
+
     for (const exhibition of exhibitions) {
       const client = await pool.connect();
-      
+
       try {
         await client.query('BEGIN');
-        
+
         // 중복 확인
         const existing = await client.query(
           'SELECT id FROM exhibitions WHERE title = $1 AND venue_name = $2 AND start_date = $3',
           [exhibition.title, exhibition.venue_name, exhibition.start_date]
         );
-        
+
         if (existing.rows.length > 0) {
           results.duplicates++;
           await client.query('ROLLBACK');
           continue;
         }
-        
+
         // 전시 저장
         const insertResult = await client.query(`
           INSERT INTO exhibitions (
@@ -595,19 +595,19 @@ class EnhancedExhibitionCollectorService {
           exhibition.source,
           this.determineStatus(exhibition.start_date, exhibition.end_date)
         ]);
-        
+
         const exhibitionId = insertResult.rows[0].id;
-        
+
         // 아티스트 정보 저장
         if (exhibition.artists && exhibition.artists.length > 0) {
           for (const artistName of exhibition.artists) {
             await this.linkArtistToExhibition(client, exhibitionId, artistName);
           }
         }
-        
+
         await client.query('COMMIT');
         results.saved++;
-        
+
       } catch (error) {
         await client.query('ROLLBACK');
         log.error(`Failed to save exhibition "${exhibition.title}":`, error);
@@ -616,7 +616,7 @@ class EnhancedExhibitionCollectorService {
         client.release();
       }
     }
-    
+
     return results;
   }
 
@@ -640,37 +640,37 @@ class EnhancedExhibitionCollectorService {
 
   normalizeDate(dateStr) {
     if (!dateStr) return null;
-    
+
     // 다양한 날짜 형식 처리
     const patterns = [
       /(\d{4})[.-](\d{1,2})[.-](\d{1,2})/,
       /(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/,
       /(\d{1,2})[\/.](\d{1,2})[\/.](\d{4})/
     ];
-    
+
     for (const pattern of patterns) {
       const match = dateStr.match(pattern);
       if (match) {
         const year = match[1].length === 4 ? match[1] : match[3];
         const month = match[1].length === 4 ? match[2] : match[1];
         const day = match[1].length === 4 ? match[3] : match[2];
-        
+
         return new Date(year, month - 1, day).toISOString().split('T')[0];
       }
     }
-    
+
     return null;
   }
 
   parseAdmissionFee(feeStr) {
     if (!feeStr) return 0;
     if (feeStr.includes('무료')) return 0;
-    
+
     const match = feeStr.match(/[\d,]+/);
     if (match) {
       return parseInt(match[0].replace(/,/g, ''));
     }
-    
+
     return 0;
   }
 
@@ -689,7 +689,7 @@ class EnhancedExhibitionCollectorService {
     const now = new Date();
     const start = new Date(startDate);
     const end = new Date(endDate);
-    
+
     if (now < start) return 'upcoming';
     if (now > end) return 'ended';
     return 'ongoing';
@@ -697,24 +697,24 @@ class EnhancedExhibitionCollectorService {
 
   extractDates(text) {
     const result = { start: null, end: null };
-    
+
     // 기간 패턴 매칭
     const periodPattern = /(\d{4})[.\s년]*(\d{1,2})[.\s월]*(\d{1,2})[일]?\s*[-~]\s*(\d{4})?[.\s년]*(\d{1,2})[.\s월]*(\d{1,2})[일]?/;
     const match = text.match(periodPattern);
-    
+
     if (match) {
       const startYear = match[1];
       const startMonth = match[2].padStart(2, '0');
       const startDay = match[3].padStart(2, '0');
-      
+
       const endYear = match[4] || startYear;
       const endMonth = match[5].padStart(2, '0');
       const endDay = match[6].padStart(2, '0');
-      
+
       result.start = `${startYear}-${startMonth}-${startDay}`;
       result.end = `${endYear}-${endMonth}-${endDay}`;
     }
-    
+
     return result;
   }
 
@@ -724,7 +724,7 @@ class EnhancedExhibitionCollectorService {
       'SELECT id FROM artists WHERE name = $1',
       [artistName]
     );
-    
+
     if (artist.rows.length === 0) {
       const newArtist = await client.query(
         'INSERT INTO artists (name, source) VALUES ($1, $2) RETURNING id',
@@ -732,7 +732,7 @@ class EnhancedExhibitionCollectorService {
       );
       artist = newArtist;
     }
-    
+
     // 전시-아티스트 연결
     await client.query(
       'INSERT INTO exhibition_artists (exhibition_id, artist_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',

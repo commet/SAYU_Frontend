@@ -7,14 +7,14 @@ const { log } = require('../config/logger');
 async function verifySupabaseToken(req, res, next) {
   try {
     const authHeader = req.headers.authorization;
-    
+
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({ error: 'No token provided' });
     }
 
     const token = authHeader.substring(7);
     const supabaseAdmin = getSupabaseAdmin();
-    
+
     if (!supabaseAdmin) {
       log.error('Supabase admin client not configured');
       return res.status(500).json({ error: 'Authentication service unavailable' });
@@ -22,7 +22,7 @@ async function verifySupabaseToken(req, res, next) {
 
     // Verify the JWT token
     const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
-    
+
     if (error || !user) {
       return res.status(401).json({ error: 'Invalid token' });
     }
@@ -68,20 +68,20 @@ async function requireAdmin(req, res, next) {
 async function optionalAuth(req, res, next) {
   try {
     const authHeader = req.headers.authorization;
-    
+
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return next();
     }
 
     const token = authHeader.substring(7);
     const supabaseAdmin = getSupabaseAdmin();
-    
+
     if (!supabaseAdmin) {
       return next();
     }
 
     const { data: { user } } = await supabaseAdmin.auth.getUser(token);
-    
+
     if (user) {
       const { data: profile } = await supabaseAdmin
         .from('profiles')

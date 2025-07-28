@@ -10,7 +10,7 @@ const pool = new Pool({
 
 async function showCuratedExhibitions() {
   const client = await pool.connect();
-  
+
   try {
     const result = await client.query(`
       SELECT 
@@ -25,11 +25,11 @@ async function showCuratedExhibitions() {
       WHERE source = 'manual_curated'
       ORDER BY start_date DESC
     `);
-    
+
     console.log('🎨 큐레이션된 실제 서울 전시 현황');
     console.log('='.repeat(80));
     console.log();
-    
+
     result.rows.forEach((ex, index) => {
       const statusEmoji = ex.status === '진행중' ? '🟢' : ex.status === '예정' ? '🔵' : '🔴';
       console.log(`${index + 1}. ${statusEmoji} ${ex.title_local}`);
@@ -41,9 +41,9 @@ async function showCuratedExhibitions() {
       console.log(`   🌐 ${ex.official_url}`);
       console.log();
     });
-    
+
     console.log(`총 ${result.rows.length}개 정품 전시 데이터`);
-    
+
   } catch (error) {
     console.error('Error:', error.message);
   } finally {

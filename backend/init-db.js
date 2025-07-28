@@ -34,7 +34,7 @@ async function runSQLFile(filename) {
 async function initDatabase() {
   try {
     console.log('Starting database initialization...\n');
-    
+
     // Run files in order
     await runSQLFile('schema.sql');
     await runSQLFile('migrations/add-oauth-accounts.sql');
@@ -42,9 +42,9 @@ async function initDatabase() {
     await runSQLFile('migrations/add-community-features.sql');
     await runSQLFile('migrations/add-email-system.sql');
     await runSQLFile('migrations/performance-indexes.sql');
-    
+
     console.log('\n✅ Database initialization completed successfully!');
-    
+
     // Verify tables were created
     const result = await pool.query(`
       SELECT table_name 
@@ -52,10 +52,10 @@ async function initDatabase() {
       WHERE table_schema = 'public' 
       ORDER BY table_name;
     `);
-    
+
     console.log('\nCreated tables:');
     result.rows.forEach(row => console.log(`  - ${row.table_name}`));
-    
+
   } catch (error) {
     console.error('\n❌ Database initialization failed:', error);
     process.exit(1);

@@ -11,7 +11,7 @@ class DatabaseRecommendationService {
         excludeStrictRealism: true,
         preferNature: true
       },
-      // L-A-E-C: 감성적이고 체계적인 예술 애호가  
+      // L-A-E-C: 감성적이고 체계적인 예술 애호가
       LAEC: {
         tags: ['geometric', 'composition', 'color theory', 'abstract', 'symbolic'],
         styles: ['abstract', 'constructivism', 'bauhaus'],
@@ -113,10 +113,10 @@ class DatabaseRecommendationService {
       queryParams.push(limit);
 
       const result = await pool.query(query, queryParams);
-      
+
       // 결과를 성격 유형에 맞게 스코어링하고 재정렬
       const scoredRecommendations = this.scoreAndRankArtworks(result.rows, weights);
-      
+
       return {
         success: true,
         personalityType,
@@ -143,7 +143,7 @@ class DatabaseRecommendationService {
 
       // 스타일 매칭
       if (weights.styles) {
-        const styleMatch = weights.styles.some(style => 
+        const styleMatch = weights.styles.some(style =>
           artwork.style && artwork.style.toLowerCase().includes(style.toLowerCase())
         );
         if (styleMatch) {
@@ -158,7 +158,7 @@ class DatabaseRecommendationService {
           const titleMatch = artwork.title && artwork.title.toLowerCase().includes(tag.toLowerCase());
           const descMatch = artwork.description && artwork.description.toLowerCase().includes(tag.toLowerCase());
           const mediumMatch = artwork.medium && artwork.medium.toLowerCase().includes(tag.toLowerCase());
-          
+
           if (titleMatch) {
             score += 1.5;
             factors.push(`Title: ${tag}`);
@@ -177,7 +177,7 @@ class DatabaseRecommendationService {
       // 특별 선호도
       if (weights.preferNature && artwork.title) {
         const natureWords = ['water', 'garden', 'landscape', 'flower', 'tree', 'nature', 'lily'];
-        const hasNature = natureWords.some(word => 
+        const hasNature = natureWords.some(word =>
           artwork.title.toLowerCase().includes(word)
         );
         if (hasNature) {
@@ -188,7 +188,7 @@ class DatabaseRecommendationService {
 
       if (weights.preferIntimate) {
         const intimateWords = ['portrait', 'girl', 'woman', 'man', 'face', 'eyes'];
-        const hasIntimate = intimateWords.some(word => 
+        const hasIntimate = intimateWords.some(word =>
           artwork.title.toLowerCase().includes(word)
         );
         if (hasIntimate) {
@@ -199,7 +199,7 @@ class DatabaseRecommendationService {
 
       if (weights.preferSocial) {
         const socialWords = ['group', 'people', 'crowd', 'gathering', 'dance', 'party'];
-        const hasSocial = socialWords.some(word => 
+        const hasSocial = socialWords.some(word =>
           artwork.title && artwork.title.toLowerCase().includes(word)
         );
         if (hasSocial) {
@@ -211,8 +211,8 @@ class DatabaseRecommendationService {
       // 작가 명성 (간단한 구현)
       if (artwork.artists && artwork.artists.length > 0) {
         const famousArtists = ['monet', 'picasso', 'van gogh', 'rembrandt', 'da vinci', 'michelangelo'];
-        const hasFamousArtist = artwork.artists.some(artist => 
-          famousArtists.some(famous => 
+        const hasFamousArtist = artwork.artists.some(artist =>
+          famousArtists.some(famous =>
             artist && artist.toLowerCase().includes(famous)
           )
         );
@@ -256,7 +256,7 @@ class DatabaseRecommendationService {
       `;
 
       const result = await pool.query(query, [limit]);
-      
+
       return {
         success: true,
         personalityType: 'default',
@@ -301,7 +301,7 @@ class DatabaseRecommendationService {
         LEFT JOIN institutions i ON a.institution_id = i.id
         WHERE a.id = $1
       `;
-      
+
       const baseResult = await pool.query(baseArtworkQuery, [artworkId]);
       if (baseResult.rows.length === 0) {
         throw new Error('Base artwork not found');
@@ -343,7 +343,7 @@ class DatabaseRecommendationService {
       queryParams.push(limit * 2); // 더 많이 가져와서 스코어링 후 선별
 
       const result = await pool.query(query, queryParams);
-      
+
       let similarArtworks = result.rows;
 
       // 성격 유형에 따른 스코어링 적용
@@ -387,7 +387,7 @@ class DatabaseRecommendationService {
       `;
 
       const result = await pool.query(statsQuery);
-      
+
       return {
         success: true,
         stats: result.rows[0]

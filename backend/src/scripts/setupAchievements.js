@@ -55,7 +55,7 @@ async function createAchievementsTable() {
   await pool.query(createAchievementsSQL);
   await pool.query(createUserAchievementsSQL);
   await pool.query(createUserProgressSQL);
-  
+
   console.log('✅ Achievement tables created successfully');
 }
 
@@ -354,7 +354,7 @@ async function seedAchievements() {
   ];
 
   console.log('🌱 Seeding achievements...');
-  
+
   for (const achievement of achievements) {
     try {
       await Achievement.create(achievement);
@@ -367,17 +367,17 @@ async function seedAchievements() {
       }
     }
   }
-  
+
   console.log('🎉 Achievement seeding completed!');
 }
 
 async function setupAchievements() {
   try {
     console.log('🚀 Setting up achievement system...');
-    
+
     await createAchievementsTable();
     await seedAchievements();
-    
+
     console.log('✅ Achievement system setup complete!');
     process.exit(0);
   } catch (error) {

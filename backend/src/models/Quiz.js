@@ -4,14 +4,14 @@ const { v4: uuidv4 } = require('uuid');
 class QuizModel {
   async createSession(userId, sessionType) {
     const id = uuidv4();
-    
+
     const query = `
       INSERT INTO quiz_sessions (
         id, user_id, session_type, device_info, started_at
       ) VALUES ($1, $2, $3, $4, NOW())
       RETURNING *
     `;
-    
+
     const values = [id, userId, sessionType, JSON.stringify({})];
     const result = await pool.query(query, values);
     return result.rows[0];
@@ -19,7 +19,7 @@ class QuizModel {
 
   async updateSession(sessionId, updates) {
     const { responses, completedAt, timeSpent, completionRate } = updates;
-    
+
     const query = `
       UPDATE quiz_sessions 
       SET responses = $1,
@@ -29,7 +29,7 @@ class QuizModel {
       WHERE id = $5
       RETURNING *
     `;
-    
+
     const values = [
       JSON.stringify(responses),
       completedAt,
@@ -37,7 +37,7 @@ class QuizModel {
       completionRate,
       sessionId
     ];
-    
+
     const result = await pool.query(query, values);
     return result.rows[0];
   }

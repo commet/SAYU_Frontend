@@ -21,7 +21,7 @@ describe('Basic Test Suite', () => {
     const testObj = { id: 1, name: 'test' };
     const jsonString = JSON.stringify(testObj);
     const parsed = JSON.parse(jsonString);
-    
+
     expect(parsed).toEqual(testObj);
     expect(parsed.id).toBe(1);
     expect(parsed.name).toBe('test');

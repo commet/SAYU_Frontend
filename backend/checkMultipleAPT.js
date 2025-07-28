@@ -19,12 +19,12 @@ async function checkMultipleAPT() {
       GROUP BY type_count
       ORDER BY type_count
     `);
-    
+
     console.log('📊 APT 타입 개수별 분포:\n');
     statsResult.rows.forEach(row => {
       console.log(`  ${row.type_count}개 타입: ${row.artist_count}명`);
     });
-    
+
     // 2개 이상인 경우 샘플 확인
     const multipleResult = await pool.query(`
       SELECT 
@@ -38,7 +38,7 @@ async function checkMultipleAPT() {
       ORDER BY type_count DESC
       LIMIT 10
     `);
-    
+
     if (multipleResult.rows.length > 0) {
       console.log('\n📋 복수 APT 타입을 가진 아티스트 샘플:\n');
       multipleResult.rows.forEach(row => {
@@ -49,13 +49,13 @@ async function checkMultipleAPT() {
         console.log('');
       });
     }
-    
+
     // SAYU 시스템 의도 확인
     console.log('\n💡 SAYU 시스템 설계:');
     console.log('  - primary_types 배열은 우선순위별 여러 타입을 담을 수 있음');
     console.log('  - weight 필드로 각 타입의 가중치 표현');
     console.log('  - 현재는 대부분 1개 타입만 사용 중\n');
-    
+
   } catch (error) {
     console.error('Error:', error.message);
   } finally {

@@ -13,13 +13,13 @@ console.log('🧪 SAYU First 100 Living Beta MVP 완전 통합 테스트 시작.
 async function testCompleteIntegration() {
   try {
     console.log('📊 1. Pioneer 통계 API 테스트...');
-    
+
     // 1. Pioneer 통계 테스트
     const statsResponse = await axios.get(`${API_BASE}/api/pioneer/stats`);
     console.log('✅ Pioneer 통계:', statsResponse.data);
-    
+
     console.log('\n🗂️ 2. 사용자 Pioneer 프로필 테스트...');
-    
+
     // 2. Pioneer 프로필 테스트 (임시 사용자 ID 사용)
     try {
       const profileResponse = await axios.get(`${API_BASE}/api/pioneer/profile/test-user-id`);
@@ -31,9 +31,9 @@ async function testCompleteIntegration() {
         throw error;
       }
     }
-    
+
     console.log('\n🚀 3. 여정 시스템 테스트...');
-    
+
     // 3. 여정 API 테스트 (인증 없이는 401 에러 예상)
     try {
       const journeyResponse = await axios.get(`${API_BASE}/api/journey/stats`);
@@ -47,9 +47,9 @@ async function testCompleteIntegration() {
         console.log('⚠️ 여정 API 에러:', error.response?.data || error.message);
       }
     }
-    
+
     console.log('\n📅 4. 캘린더 API 테스트...');
-    
+
     // 4. 캘린더 API 테스트
     try {
       const calendarResponse = await axios.get(`${API_BASE}/api/calendar/exhibitions`);
@@ -61,9 +61,9 @@ async function testCompleteIntegration() {
         console.log('⚠️ 캘린더 API 에러:', error.response?.data || error.message);
       }
     }
-    
+
     console.log('\n🎨 5. 전시 목록 API 테스트...');
-    
+
     // 5. 전시 목록 테스트
     try {
       const exhibitionsResponse = await axios.get(`${API_BASE}/api/exhibitions?limit=5`);
@@ -74,13 +74,13 @@ async function testCompleteIntegration() {
     } catch (error) {
       console.log('⚠️ 전시 API 에러:', error.response?.data || error.message);
     }
-    
+
     console.log('\n🏥 6. 헬스 체크...');
-    
+
     // 6. 헬스 체크
     const healthResponse = await axios.get(`${API_BASE}/api/health`);
     console.log('✅ 서버 상태:', healthResponse.data);
-    
+
     console.log('\n🎉 통합 테스트 완료!');
     console.log('\n📋 테스트 결과 요약:');
     console.log('- Pioneer 시스템: ✅ 정상 동작');
@@ -88,7 +88,7 @@ async function testCompleteIntegration() {
     console.log('- 캘린더 시스템: ⚠️ 확인 필요');
     console.log('- 전시 시스템: ✅ 정상 동작');
     console.log('- 서버 상태: ✅ 정상');
-    
+
   } catch (error) {
     console.error('❌ 테스트 실패:', error.message);
     if (error.response) {

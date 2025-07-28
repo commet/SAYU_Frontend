@@ -17,7 +17,7 @@ class APTVectorSystem {
   async initializePrototypes() {
     // 각 APT 유형의 정확한 특성을 기반으로 상세 설명 생성
     const aptDescriptions = {};
-    
+
     // 병렬로 설명 생성
     const descriptionPromises = Object.entries(SAYU_TYPES).map(([typeCode, typeData]) => {
       return {
@@ -25,7 +25,7 @@ class APTVectorSystem {
         description: this.buildTypeDescription(typeCode, typeData)
       };
     });
-    
+
     descriptionPromises.forEach(({ typeCode, description }) => {
       aptDescriptions[typeCode] = description;
     });
@@ -34,22 +34,22 @@ class APTVectorSystem {
     this.prototypeVectors = {};
     const batchSize = 5; // OpenAI API 제한 고려
     const entries = Object.entries(aptDescriptions);
-    
+
     for (let i = 0; i < entries.length; i += batchSize) {
       const batch = entries.slice(i, i + batchSize);
-      
+
       const embeddingPromises = batch.map(async ([type, description]) => {
         const response = await createEmbeddingWithRetry(description);
         return { type, embedding: response.data[0].embedding };
       });
-      
+
       const results = await Promise.all(embeddingPromises);
-      
+
       results.forEach(({ type, embedding }) => {
         this.prototypeVectors[type] = embedding;
       });
     }
-    
+
     console.log(`✓ ${Object.keys(this.prototypeVectors).length}개 APT 프로토타입 벡터 초기화 완료`);
   }
 
@@ -64,16 +64,16 @@ class APTVectorSystem {
 
     // 각 축의 세부 특성
     const axisDetails = this.getDetailedAxisTraits(typeCode);
-    
+
     // 인지 기능 설명
     const dominantFunc = SAYU_FUNCTIONS[typeData.dominantFunction];
     const inferiorFunc = SAYU_FUNCTIONS[typeData.inferiorFunction];
     const consciousFuncs = typeData.consciousFunctions.map(f => SAYU_FUNCTIONS[f]);
     const unconsciousFuncs = typeData.unconsciousFunctions.map(f => SAYU_FUNCTIONS[f]);
-    
+
     // 유형별 특화된 키워드
     const specializedKeywords = this.getTypeSpecificKeywords(typeCode);
-    
+
     // 상세한 유형 설명 구성
     return `
 APT 유형: ${typeData.name} (${typeCode}) - ${typeData.nameEn}
@@ -124,7 +124,7 @@ ${this.getEmotionalResponsePattern(typeCode)}
       'LREC': '구상 작품의 기법과 감정 표현을 꼼꼼히 관찰하고, 체계적으로 감상 포인트를 정리',
       'LRMF': '구상 작품이 담고 있는 이야기와 상징적 의미를 자유롭게 탐구하며, 다양한 해석을 시도',
       'LRMC': '구상 작품의 역사적 배경과 의미를 학구적으로 연구하며, 체계적인 분석을 수행',
-      
+
       // S (함께) 유형들
       'SAEF': '다른 사람들과 추상 작품이 주는 감정을 나누며, 자유로운 대화 속에서 새로운 영감을 발견',
       'SAEC': '추상 작품에 대한 감정적 반응을 체계적으로 공유하고, 감상 워크숍을 조직하여 운영',
@@ -135,7 +135,7 @@ ${this.getEmotionalResponsePattern(typeCode)}
       'SRMF': '구상 작품의 이야기를 흥미롭게 풀어내며, 자유로운 대화를 통해 지식을 나눔',
       'SRMC': '구상 작품의 의미와 가치를 전문적으로 교육하며, 체계적인 커리큘럼을 구성'
     };
-    
+
     return styles[typeCode] || '독특한 방식으로 예술을 감상';
   }
 
@@ -159,7 +159,7 @@ ${this.getEmotionalResponsePattern(typeCode)}
       'SRMF': '스토리텔링이 풍부한 테마전, 지식 공유가 활발한 커뮤니티 갤러리',
       'SRMC': '체계적 교육 커리큘럼이 있는 미술관, 전문 강사진의 미술사 강좌'
     };
-    
+
     return typeEnvironments[typeCode] || '각자의 취향에 맞는 다양한 전시 공간';
   }
 
@@ -167,40 +167,40 @@ ${this.getEmotionalResponsePattern(typeCode)}
   async createUserVector(quizResponses, aptType) {
     // 기본 벡터 복사 (메모리 최적화)
     const baseVector = new Float32Array(this.prototypeVectors[aptType]);
-    
+
     // 유형별 특화 가중치 적용
     const typeWeights = this.getTypeSpecificWeights(aptType);
-    
+
     // 배치 처리로 퀴즈 응답 적용
     const adjustmentBatches = this.prepareAdjustmentBatches(quizResponses, typeWeights, aptType);
-    
+
     // 병렬 적용
     for (const batch of adjustmentBatches) {
       this.applyBatchAdjustments(baseVector, batch);
     }
-    
+
     // 유형 일관성 보정 및 정규화
     const consistencyAdjusted = this.applyTypeConsistencyOptimized(baseVector, aptType);
-    
+
     return Array.from(this.normalizeVectorOptimized(consistencyAdjusted));
   }
-  
+
   prepareAdjustmentBatches(quizResponses, typeWeights, aptType) {
     const batches = [];
     const batchSize = 64; // 벡터 차원별로 배치
-    
+
     for (const response of quizResponses) {
       const weight = response.weight || 1.0;
-      const axis = response.axis;
-      const questionType = response.questionType;
-      
+      const { axis } = response;
+      const { questionType } = response;
+
       if (this.dimensionWeights[axis]) {
         const { vector_indices } = this.dimensionWeights[axis];
         const [start, end] = vector_indices;
         const typeModifier = typeWeights[axis] || 1.0;
         const questionModifier = this.getQuestionTypeModifier(questionType, aptType);
         const adjustment = (weight - 1) * 0.15 * typeModifier * questionModifier;
-        
+
         batches.push({
           start,
           end,
@@ -209,31 +209,31 @@ ${this.getEmotionalResponsePattern(typeCode)}
         });
       }
     }
-    
+
     return batches;
   }
-  
+
   applyBatchAdjustments(vector, batch) {
     const { start, end, adjustment, aptType } = batch;
-    
+
     // SIMD 효과를 위한 언롤 루프
     const unrollFactor = 4;
     const unrolledEnd = start + Math.floor((end - start + 1) / unrollFactor) * unrollFactor;
-    
+
     // 언롤된 루프
     for (let i = start; i < unrolledEnd; i += unrollFactor) {
       vector[i] *= (1 + adjustment);
       vector[i + 1] *= (1 + adjustment);
       vector[i + 2] *= (1 + adjustment);
       vector[i + 3] *= (1 + adjustment);
-      
+
       // 중요 인덱스 강화
       if (this.isSignificantIndex(i, aptType)) vector[i] *= 1.05;
       if (this.isSignificantIndex(i + 1, aptType)) vector[i + 1] *= 1.05;
       if (this.isSignificantIndex(i + 2, aptType)) vector[i + 2] *= 1.05;
       if (this.isSignificantIndex(i + 3, aptType)) vector[i + 3] *= 1.05;
     }
-    
+
     // 나머지 처리
     for (let i = unrolledEnd; i <= end; i++) {
       vector[i] *= (1 + adjustment);
@@ -247,7 +247,7 @@ ${this.getEmotionalResponsePattern(typeCode)}
   async createArtworkVector(artwork) {
     // 작품의 특성을 상세히 기술
     const artworkDescription = this.buildArtworkDescription(artwork);
-    
+
     const response = await createEmbeddingWithRetry(artworkDescription);
 
     return response.data[0].embedding;
@@ -294,21 +294,21 @@ ${this.getEmotionalResponsePattern(typeCode)}
     const len = vector1.length;
     const unrollFactor = 4;
     const unrolledLen = Math.floor(len / unrollFactor) * unrollFactor;
-    
+
     let dotProduct = 0;
     let norm1 = 0;
     let norm2 = 0;
-    
+
     // 언롤된 루프 (더 빠른 실행)
     for (let i = 0; i < unrolledLen; i += unrollFactor) {
-      const v10 = vector1[i], v11 = vector1[i+1], v12 = vector1[i+2], v13 = vector1[i+3];
-      const v20 = vector2[i], v21 = vector2[i+1], v22 = vector2[i+2], v23 = vector2[i+3];
-      
+      const v10 = vector1[i], v11 = vector1[i + 1], v12 = vector1[i + 2], v13 = vector1[i + 3];
+      const v20 = vector2[i], v21 = vector2[i + 1], v22 = vector2[i + 2], v23 = vector2[i + 3];
+
       dotProduct += v10 * v20 + v11 * v21 + v12 * v22 + v13 * v23;
       norm1 += v10 * v10 + v11 * v11 + v12 * v12 + v13 * v13;
       norm2 += v20 * v20 + v21 * v21 + v22 * v22 + v23 * v23;
     }
-    
+
     // 나머지 처리
     for (let i = unrolledLen; i < len; i++) {
       dotProduct += vector1[i] * vector2[i];
@@ -317,47 +317,47 @@ ${this.getEmotionalResponsePattern(typeCode)}
     }
 
     if (norm1 === 0 || norm2 === 0) return 0;
-    
+
     return dotProduct / (Math.sqrt(norm1) * Math.sqrt(norm2));
   }
 
   // 사용자에게 가장 적합한 작품 찾기 - 최적화된 버전
   async findBestArtworksOptimized(userVector, artworkVectors, limit = 10, options = {}) {
     const { useApproximation = false } = options;
-    
+
     // 대용량 데이터의 경우 근사 알고리즘 사용
     if (useApproximation && artworkVectors.length > 1000) {
       return this.findBestArtworksApproximate(userVector, artworkVectors, limit);
     }
-    
+
     // 병렬 처리를 위한 청크 분할
     const chunkSize = 100;
     const chunks = [];
-    
+
     for (let i = 0; i < artworkVectors.length; i += chunkSize) {
       chunks.push(artworkVectors.slice(i, i + chunkSize));
     }
-    
+
     // 병렬로 유사도 계산
     const chunkResults = await Promise.all(
       chunks.map(chunk => this.processChunk(userVector, chunk))
     );
-    
+
     // 결과 병합 및 정렬
     const allSimilarities = chunkResults.flat();
-    
+
     // 힐 기반 빠른 정렬 (O(n log k) 복잡도)
     return this.getTopK(allSimilarities, limit);
   }
-  
+
   // 추가: 기존 메서드도 유지 (호환성)
   async findBestArtworks(userVector, artworkVectors, limit = 10) {
     return this.findBestArtworksOptimized(userVector, artworkVectors, limit);
   }
-  
+
   async processChunk(userVector, chunk) {
     const similarities = [];
-    
+
     for (const artwork of chunk) {
       const similarity = this.calculateSimilarity(userVector, artwork.vector);
       similarities.push({
@@ -366,36 +366,36 @@ ${this.getEmotionalResponsePattern(typeCode)}
         matchScore: Math.round(similarity * 100)
       });
     }
-    
+
     return similarities;
   }
-  
+
   // 근사 알고리즘 (LSH - Locality Sensitive Hashing)
   async findBestArtworksApproximate(userVector, artworkVectors, limit) {
     // 간단한 LSH 구현
     const hashBits = 8;
     const userHash = this.computeHash(userVector, hashBits);
-    
+
     // 해시가 비슷한 후보만 선택
     const candidates = artworkVectors.filter(artwork => {
       const artworkHash = this.computeHash(artwork.vector, hashBits);
       const hammingDistance = this.hammingDistance(userHash, artworkHash);
       return hammingDistance <= 2; // 해밍 거리 2 이하
     });
-    
+
     // 후보들에 대해서만 정확한 계산
     return this.findBestArtworks(userVector, candidates, limit);
   }
-  
+
   // 힐 기반 top-k 선택
   getTopK(items, k) {
     if (items.length <= k) {
       return items.sort((a, b) => b.similarity - a.similarity);
     }
-    
+
     // Min heap 사용
     const heap = items.slice(0, k).sort((a, b) => a.similarity - b.similarity);
-    
+
     for (let i = k; i < items.length; i++) {
       if (items[i].similarity > heap[0].similarity) {
         heap[0] = items[i];
@@ -405,50 +405,50 @@ ${this.getEmotionalResponsePattern(typeCode)}
           const left = 2 * idx + 1;
           const right = 2 * idx + 2;
           let smallest = idx;
-          
+
           if (left < k && heap[left].similarity < heap[smallest].similarity) {
             smallest = left;
           }
           if (right < k && heap[right].similarity < heap[smallest].similarity) {
             smallest = right;
           }
-          
+
           if (smallest === idx) break;
-          
+
           [heap[idx], heap[smallest]] = [heap[smallest], heap[idx]];
           idx = smallest;
         }
       }
     }
-    
+
     return heap.sort((a, b) => b.similarity - a.similarity);
   }
-  
+
   // 해시 계산 (LSH용)
   computeHash(vector, bits) {
     let hash = 0;
     const step = Math.floor(vector.length / bits);
-    
+
     for (let i = 0; i < bits; i++) {
       const idx = i * step;
       if (vector[idx] > 0) {
         hash |= (1 << i);
       }
     }
-    
+
     return hash;
   }
-  
+
   // 해밍 거리 계산
   hammingDistance(hash1, hash2) {
     let xor = hash1 ^ hash2;
     let distance = 0;
-    
+
     while (xor) {
       distance += xor & 1;
       xor >>= 1;
     }
-    
+
     return distance;
   }
 
@@ -457,39 +457,39 @@ ${this.getEmotionalResponsePattern(typeCode)}
     // 현재 APT 유형은 유지하면서 벡터만 미세 조정
     const evolutionRate = 0.02; // 2% 반영률 (천천히 진화)
     let evolvedVector = [...currentVector];
-    
+
     for (const action of userActions) {
       if (action.type === 'artwork_like') {
         const artworkVector = await this.createArtworkVector(action.artwork);
         // 좋아한 작품 방향으로 살짝 이동
         for (let i = 0; i < evolvedVector.length; i++) {
-          evolvedVector[i] = evolvedVector[i] * (1 - evolutionRate) + 
+          evolvedVector[i] = evolvedVector[i] * (1 - evolutionRate) +
                            artworkVector[i] * evolutionRate;
         }
       } else if (action.type === 'artwork_skip') {
         const artworkVector = await this.createArtworkVector(action.artwork);
         // 스킵한 작품과 반대 방향으로 살짝 이동
         for (let i = 0; i < evolvedVector.length; i++) {
-          evolvedVector[i] = evolvedVector[i] * (1 + evolutionRate) - 
+          evolvedVector[i] = evolvedVector[i] * (1 + evolutionRate) -
                            artworkVector[i] * evolutionRate;
         }
       }
     }
-    
+
     // 정규화 후 원래 APT 프로토타입과의 거리 확인
     evolvedVector = this.normalizeVector(evolvedVector);
-    
+
     // 너무 멀어지지 않도록 제한 (원래 유형의 특성 유지)
     const prototypeVector = this.prototypeVectors[aptType];
     const similarity = this.calculateSimilarity(evolvedVector, prototypeVector);
-    
+
     if (similarity < 0.7) { // 70% 이상 유사도 유지
       // 프로토타입 방향으로 당기기
       for (let i = 0; i < evolvedVector.length; i++) {
         evolvedVector[i] = evolvedVector[i] * 0.8 + prototypeVector[i] * 0.2;
       }
     }
-    
+
     return this.normalizeVector(evolvedVector);
   }
 
@@ -507,7 +507,7 @@ ${this.getEmotionalResponsePattern(typeCode)}
     for (const [typeCode, prototypeVector] of Object.entries(this.prototypeVectors)) {
       const similarity = this.calculateSimilarity(userVector, prototypeVector);
       similarities[typeCode] = similarity;
-      
+
       if (similarity > maxSimilarity) {
         maxSimilarity = similarity;
         closestType = typeCode;
@@ -538,43 +538,43 @@ ${this.getEmotionalResponsePattern(typeCode)}
     // Float32Array로 성능 향상
     const len = vector.length;
     let magnitude = 0;
-    
+
     // 언롤 루프로 크기 계산
     const unrollFactor = 4;
     const unrolledLen = Math.floor(len / unrollFactor) * unrollFactor;
-    
+
     for (let i = 0; i < unrolledLen; i += unrollFactor) {
-      magnitude += vector[i] * vector[i] + 
-                   vector[i+1] * vector[i+1] + 
-                   vector[i+2] * vector[i+2] + 
-                   vector[i+3] * vector[i+3];
+      magnitude += vector[i] * vector[i] +
+                   vector[i + 1] * vector[i + 1] +
+                   vector[i + 2] * vector[i + 2] +
+                   vector[i + 3] * vector[i + 3];
     }
-    
+
     for (let i = unrolledLen; i < len; i++) {
       magnitude += vector[i] * vector[i];
     }
-    
+
     magnitude = Math.sqrt(magnitude);
     if (magnitude === 0) return vector;
-    
+
     const invMagnitude = 1 / magnitude;
     const normalized = new Float32Array(len);
-    
+
     // 언롤 정규화
     for (let i = 0; i < unrolledLen; i += unrollFactor) {
       normalized[i] = vector[i] * invMagnitude;
-      normalized[i+1] = vector[i+1] * invMagnitude;
-      normalized[i+2] = vector[i+2] * invMagnitude;
-      normalized[i+3] = vector[i+3] * invMagnitude;
+      normalized[i + 1] = vector[i + 1] * invMagnitude;
+      normalized[i + 2] = vector[i + 2] * invMagnitude;
+      normalized[i + 3] = vector[i + 3] * invMagnitude;
     }
-    
+
     for (let i = unrolledLen; i < len; i++) {
       normalized[i] = vector[i] * invMagnitude;
     }
-    
+
     return normalized;
   }
-  
+
   normalizeVector(vector) {
     // 호환성을 위해 기존 메서드도 유지
     return Array.from(this.normalizeVectorOptimized(new Float32Array(vector)));
@@ -755,7 +755,7 @@ ${this.getEmotionalResponsePattern(typeCode)}
 
     const baseModifier = baseModifiers[questionType] || 1.0;
     const typeModifier = typeSpecificModifiers[aptType]?.[questionType] || 1.0;
-    
+
     return baseModifier * typeModifier;
   }
 
@@ -782,11 +782,11 @@ ${this.getEmotionalResponsePattern(typeCode)}
     const threshold = 0.5;
     const pullFactor = 0.2;
     const keepFactor = 0.8;
-    
+
     // 벡터리제이션을 위한 언롤
     const unrollFactor = 4;
     const unrolledLen = Math.floor(len / unrollFactor) * unrollFactor;
-    
+
     for (let i = 0; i < unrolledLen; i += unrollFactor) {
       // 언롤된 처리
       for (let j = 0; j < unrollFactor; j++) {
@@ -797,7 +797,7 @@ ${this.getEmotionalResponsePattern(typeCode)}
         }
       }
     }
-    
+
     // 나머지 처리
     for (let i = unrolledLen; i < len; i++) {
       const diff = Math.abs(vector[i] - prototypeVector[i]);
@@ -805,10 +805,10 @@ ${this.getEmotionalResponsePattern(typeCode)}
         vector[i] = vector[i] * keepFactor + prototypeVector[i] * pullFactor;
       }
     }
-    
+
     return vector;
   }
-  
+
   applyTypeConsistency(vector, aptType) {
     // 호환성을 위해 유지
     const floatVector = new Float32Array(vector);
@@ -826,24 +826,24 @@ ${this.getEmotionalResponsePattern(typeCode)}
     } = options;
 
     const matches = [];
-    
+
     for (const artist of artists) {
       // 아티스트 벡터 생성 (작품 스타일 + APT 유형 고려)
       const artistVector = await this.createArtistVector(artist);
-      
+
       // 기본 유사도 계산
       const baseSimilarity = this.calculateSimilarity(userVector, artistVector);
-      
+
       // APT 유형 간 호환성 점수
       const aptCompatibility = this.calculateAPTCompatibility(aptType, artist.aptType);
-      
+
       // 스타일 다양성 보너스
       const diversityScore = diversityBoost ? this.calculateDiversityScore(artist, matches) : 1.0;
-      
+
       // 최종 점수 계산
-      const finalScore = (baseSimilarity * personalityWeight + 
+      const finalScore = (baseSimilarity * personalityWeight +
                          aptCompatibility * styleWeight) * diversityScore;
-      
+
       matches.push({
         artist,
         scores: {
@@ -855,10 +855,10 @@ ${this.getEmotionalResponsePattern(typeCode)}
         matchReasons: this.generateMatchReasons(aptType, artist.aptType, finalScore)
       });
     }
-    
+
     // 점수 기준 정렬
     matches.sort((a, b) => b.scores.overall - a.scores.overall);
-    
+
     return matches.slice(0, limit);
   }
 
@@ -887,11 +887,11 @@ APT 유형: ${artist.aptType} - ${SAYU_TYPES[artist.aptType]?.name || ''}
   calculateAPTCompatibility(userType, artistType) {
     // 같은 유형: 높은 호환성
     if (userType === artistType) return 0.9;
-    
+
     // 축별 호환성 계산
     let compatibility = 0;
     const axes = ['L_S', 'A_R', 'E_M', 'F_C'];
-    
+
     for (let i = 0; i < 4; i++) {
       if (userType[i] === artistType[i]) {
         compatibility += 0.2; // 같은 축: +20%
@@ -900,28 +900,28 @@ APT 유형: ${artist.aptType} - ${SAYU_TYPES[artist.aptType]?.name || ''}
         compatibility += 0.1; // 다른 축: +10%
       }
     }
-    
+
     // 특별한 시너지 조합
     const synergyPairs = {
       'LAEF': ['SAMF', 'SREF'],  // 몽환적 방랑자와 잘 맞는 유형
       'SRMC': ['LAMC', 'LRMC'],  // 체계적 교육자와 잘 맞는 유형
       'SAEF': ['LAEF', 'SREF']   // 감성 나눔이와 잘 맞는 유형
     };
-    
+
     if (synergyPairs[userType]?.includes(artistType)) {
       compatibility += 0.2; // 시너지 보너스
     }
-    
+
     return Math.min(compatibility, 1.0);
   }
 
   // 다양성 점수 계산
   calculateDiversityScore(artist, currentMatches) {
     if (currentMatches.length === 0) return 1.0;
-    
+
     // 이미 매칭된 아티스트들과의 중복도 확인
     let diversityScore = 1.0;
-    
+
     for (const match of currentMatches.slice(0, 5)) { // 상위 5개만 확인
       if (match.artist.style === artist.style) {
         diversityScore *= 0.9; // 같은 스타일 중복
@@ -930,7 +930,7 @@ APT 유형: ${artist.aptType} - ${SAYU_TYPES[artist.aptType]?.name || ''}
         diversityScore *= 0.85; // 같은 APT 유형 중복
       }
     }
-    
+
     return Math.max(diversityScore, 0.5); // 최소 50%
   }
 
@@ -939,24 +939,24 @@ APT 유형: ${artist.aptType} - ${SAYU_TYPES[artist.aptType]?.name || ''}
     const reasons = [];
     const userInfo = SAYU_TYPES[userType];
     const artistInfo = SAYU_TYPES[artistType];
-    
+
     if (score > 0.8) {
       reasons.push(`당신의 ${userInfo.name} 성향과 작가의 ${artistInfo.name} 스타일이 완벽한 조화를 이룹니다`);
     }
-    
+
     // 축별 공통점 분석
     if (userType[0] === artistType[0]) {
-      reasons.push(userType[0] === 'L' ? 
-        '둘 다 개인적이고 깊이 있는 감상을 추구합니다' : 
+      reasons.push(userType[0] === 'L' ?
+        '둘 다 개인적이고 깊이 있는 감상을 추구합니다' :
         '함께 예술을 나누는 것을 좋아하는 공통점이 있습니다');
     }
-    
+
     if (userType[1] === artistType[1]) {
-      reasons.push(userType[1] === 'A' ? 
-        '추상적 표현에 대한 공통된 애정을 가지고 있습니다' : 
+      reasons.push(userType[1] === 'A' ?
+        '추상적 표현에 대한 공통된 애정을 가지고 있습니다' :
         '구상적 묘사의 아름다움을 함께 추구합니다');
     }
-    
+
     return reasons;
   }
 }

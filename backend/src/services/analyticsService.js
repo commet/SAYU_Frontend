@@ -1,12 +1,12 @@
 const { pool } = require('../config/database');
-const { logger } = require("../config/logger");
+const { logger } = require('../config/logger');
 
 class AnalyticsService {
   // User Journey Analytics
   async getUserJourneyStats(userId, timeframe = '30d') {
     try {
       const timeCondition = this.getTimeCondition(timeframe);
-      
+
       const query = `
         SELECT 
           COUNT(DISTINCT DATE(uai.created_at)) as active_days,
@@ -25,7 +25,7 @@ class AnalyticsService {
           AND ua.earned_at ${timeCondition}
         WHERE uai.user_id = $1 AND uai.created_at ${timeCondition}
       `;
-      
+
       const result = await pool.query(query, [userId]);
       return result.rows[0];
     } catch (error) {
@@ -38,7 +38,7 @@ class AnalyticsService {
   async getAestheticEvolution(userId, timeframe = '30d') {
     try {
       const timeCondition = this.getTimeCondition(timeframe);
-      
+
       // Get user's interaction patterns over time
       const evolutionQuery = `
         SELECT 
@@ -54,9 +54,9 @@ class AnalyticsService {
         GROUP BY week, art_period, art_style, emotional_tone
         ORDER BY week DESC
       `;
-      
+
       const evolution = await pool.query(evolutionQuery, [userId]);
-      
+
       // Calculate preference shifts
       const preferencesQuery = `
         WITH current_prefs AS (
@@ -99,9 +99,9 @@ class AnalyticsService {
         WHERE cp.recent_rank <= 5
         ORDER BY cp.recent_rank
       `;
-      
+
       const preferences = await pool.query(preferencesQuery, [userId]);
-      
+
       return {
         evolution: evolution.rows,
         preferences: preferences.rows
@@ -116,7 +116,7 @@ class AnalyticsService {
   async getEngagementPatterns(userId, timeframe = '30d') {
     try {
       const timeCondition = this.getTimeCondition(timeframe);
-      
+
       // Daily activity patterns
       const dailyPatternQuery = `
         SELECT 
@@ -128,7 +128,7 @@ class AnalyticsService {
         GROUP BY hour
         ORDER BY hour
       `;
-      
+
       // Weekly patterns
       const weeklyPatternQuery = `
         SELECT 
@@ -140,7 +140,7 @@ class AnalyticsService {
         GROUP BY day_of_week
         ORDER BY day_of_week
       `;
-      
+
       // Session patterns
       const sessionQuery = `
         WITH sessions AS (
@@ -161,13 +161,13 @@ class AnalyticsService {
           COUNT(*) as total_sessions
         FROM sessions
       `;
-      
+
       const [hourly, weekly, sessions] = await Promise.all([
         pool.query(dailyPatternQuery, [userId]),
         pool.query(weeklyPatternQuery, [userId]),
         pool.query(sessionQuery, [userId])
       ]);
-      
+
       return {
         hourlyPatterns: hourly.rows,
         weeklyPatterns: weekly.rows,
@@ -183,7 +183,7 @@ class AnalyticsService {
   async getDiscoveryAnalytics(userId, timeframe = '30d') {
     try {
       const timeCondition = this.getTimeCondition(timeframe);
-      
+
       // Discovery sources
       const sourcesQuery = `
         SELECT 
@@ -198,7 +198,7 @@ class AnalyticsService {
         GROUP BY uai.discovery_source
         ORDER BY discoveries DESC
       `;
-      
+
       // Most engaging discoveries
       const engagingQuery = `
         SELECT 
@@ -217,7 +217,7 @@ class AnalyticsService {
         ORDER BY uai.time_spent DESC
         LIMIT 10
       `;
-      
+
       // New vs familiar preferences
       const familiarityQuery = `
         WITH artwork_familiarity AS (
@@ -243,13 +243,13 @@ class AnalyticsService {
         WHERE first_view ${timeCondition}
         GROUP BY familiarity_level
       `;
-      
+
       const [sources, engaging, familiarity] = await Promise.all([
         pool.query(sourcesQuery, [userId]),
         pool.query(engagingQuery, [userId]),
         pool.query(familiarityQuery, [userId])
       ]);
-      
+
       return {
         discoverySources: sources.rows,
         mostEngaging: engaging.rows,
@@ -265,7 +265,7 @@ class AnalyticsService {
   async getAIInteractionAnalytics(userId, timeframe = '30d') {
     try {
       const timeCondition = this.getTimeCondition(timeframe);
-      
+
       const conversationQuery = `
         SELECT 
           COUNT(*) as total_conversations,
@@ -277,7 +277,7 @@ class AnalyticsService {
         FROM agent_conversations
         WHERE user_id = $1 AND created_at ${timeCondition}
       `;
-      
+
       const topicsQuery = `
         SELECT 
           topic,
@@ -290,7 +290,7 @@ class AnalyticsService {
         ORDER BY frequency DESC
         LIMIT 10
       `;
-      
+
       const sentimentTrendQuery = `
         SELECT 
           DATE_TRUNC('week', created_at) as week,
@@ -301,13 +301,13 @@ class AnalyticsService {
         GROUP BY week, sentiment
         ORDER BY week DESC
       `;
-      
+
       const [conversations, topics, sentimentTrend] = await Promise.all([
         pool.query(conversationQuery, [userId]),
         pool.query(topicsQuery, [userId]),
         pool.query(sentimentTrendQuery, [userId])
       ]);
-      
+
       return {
         conversationStats: conversations.rows[0],
         topTopics: topics.rows,
@@ -336,7 +336,7 @@ class AnalyticsService {
         LEFT JOIN user_achievements ua ON ua.achievement_id = a.id AND ua.user_id = $1
         ORDER BY a.category, earned DESC, a.points ASC
       `;
-      
+
       const progressQuery = `
         SELECT 
           a.category,
@@ -350,12 +350,12 @@ class AnalyticsService {
         GROUP BY a.category
         ORDER BY completion_percentage DESC
       `;
-      
+
       const [achievements, progress] = await Promise.all([
         pool.query(achievementQuery, [userId]),
         pool.query(progressQuery, [userId])
       ]);
-      
+
       return {
         achievements: achievements.rows,
         categoryProgress: progress.rows
@@ -376,13 +376,13 @@ class AnalyticsService {
         WHERE user_id = $1
       `;
       const userType = await pool.query(userTypeQuery, [userId]);
-      
+
       if (!userType.rows[0]) {
         return { error: 'User profile not found' };
       }
-      
+
       const typeCode = userType.rows[0].type_code;
-      
+
       // Compare with users of same type
       const comparisonQuery = `
         WITH user_stats AS (
@@ -435,9 +435,9 @@ class AnalyticsService {
         FROM user_stats us
         CROSS JOIN type_averages ta
       `;
-      
+
       const comparison = await pool.query(comparisonQuery, [userId, typeCode]);
-      
+
       return {
         userType: userType.rows[0],
         comparison: comparison.rows[0]
@@ -452,7 +452,7 @@ class AnalyticsService {
   async getPlatformAnalytics(timeframe = '30d') {
     try {
       const timeCondition = this.getTimeCondition(timeframe);
-      
+
       // User engagement metrics
       const engagementQuery = `
         SELECT 
@@ -475,7 +475,7 @@ class AnalyticsService {
           WHERE user_id = u.id AND created_at ${timeCondition}
         ) user_stats ON true
       `;
-      
+
       // Content metrics
       const contentQuery = `
         SELECT 
@@ -488,7 +488,7 @@ class AnalyticsService {
         LEFT JOIN agent_conversations ac ON ac.created_at ${timeCondition}
         WHERE uai.created_at ${timeCondition}
       `;
-      
+
       // Growth metrics
       const growthQuery = `
         SELECT 
@@ -499,13 +499,13 @@ class AnalyticsService {
         GROUP BY date
         ORDER BY date
       `;
-      
+
       const [engagement, content, growth] = await Promise.all([
         pool.query(engagementQuery),
         pool.query(contentQuery),
         pool.query(growthQuery)
       ]);
-      
+
       return {
         engagement: engagement.rows[0],
         content: content.rows[0],
@@ -553,7 +553,7 @@ class AnalyticsService {
         this.getAchievementAnalytics(userId),
         this.getComparativeAnalytics(userId)
       ]);
-      
+
       return {
         timeframe,
         generatedAt: new Date(),

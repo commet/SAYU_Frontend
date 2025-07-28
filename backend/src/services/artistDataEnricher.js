@@ -11,24 +11,24 @@ class ArtistDataEnricher {
       arthistory: 'http://arthistoryresources.net/ARTHLinks.html',
       wikipedia: 'https://en.wikipedia.org/wiki/'
     };
-    
+
     this.cache = new Map();
   }
 
   async enrichArtistData(artistName, existingData = {}) {
     console.log(`   🔍 외부 데이터 수집: ${artistName}`);
-    
+
     // 캐시 확인
     if (this.cache.has(artistName)) {
       return this.cache.get(artistName);
     }
-    
+
     const enrichedData = {
       ...existingData,
       name: artistName,
       sources: []
     };
-    
+
     try {
       // 1. Wikipedia 검색
       const wikiData = await this.fetchWikipediaData(artistName);
@@ -39,7 +39,7 @@ class ArtistDataEnricher {
         enrichedData.nationality = enrichedData.nationality || wikiData.nationality;
         enrichedData.sources.push('wikipedia');
       }
-      
+
       // 2. Artnet 정보 (시뮬레이션)
       const artnetData = await this.fetchArtnetData(artistName);
       if (artnetData) {
@@ -48,7 +48,7 @@ class ArtistDataEnricher {
         enrichedData.ranking = artnetData.ranking;
         enrichedData.sources.push('artnet');
       }
-      
+
       // 3. Met Museum 컬렉션
       const metData = await this.fetchMetMuseumData(artistName);
       if (metData) {
@@ -56,15 +56,15 @@ class ArtistDataEnricher {
         enrichedData.metDepartments = metData.departments;
         enrichedData.sources.push('metmuseum');
       }
-      
+
       // 4. 추가 맥락 정보
       enrichedData.contextualInfo = this.generateContextualInfo(enrichedData);
-      
+
       // 캐시 저장
       this.cache.set(artistName, enrichedData);
-      
+
       return enrichedData;
-      
+
     } catch (error) {
       console.error(`   ⚠️ 데이터 수집 오류: ${error.message}`);
       return enrichedData;
@@ -76,24 +76,24 @@ class ArtistDataEnricher {
       // Wikipedia API 사용
       const searchUrl = `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(artistName)}&limit=1&format=json`;
       const searchResponse = await axios.get(searchUrl);
-      
+
       if (searchResponse.data[1].length === 0) {
         return null;
       }
-      
+
       const pageTitle = searchResponse.data[1][0];
       const pageUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&titles=${encodeURIComponent(pageTitle)}&format=json`;
-      
+
       const pageResponse = await axios.get(pageUrl);
-      const pages = pageResponse.data.query.pages;
+      const { pages } = pageResponse.data.query;
       const pageId = Object.keys(pages)[0];
-      
+
       if (pageId === '-1') {
         return null;
       }
-      
-      const extract = pages[pageId].extract;
-      
+
+      const { extract } = pages[pageId];
+
       // 정보 추출
       const data = {
         summary: extract.substring(0, 1000),
@@ -101,9 +101,9 @@ class ArtistDataEnricher {
         movement: this.extractMovement(extract),
         nationality: this.extractNationality(extract)
       };
-      
+
       return data;
-      
+
     } catch (error) {
       console.error('Wikipedia 오류:', error.message);
       return null;
@@ -119,16 +119,16 @@ class ArtistDataEnricher {
         auctionRecords: Math.floor(Math.random() * 100) + 20,
         ranking: Math.floor(Math.random() * 5000) + 100
       };
-      
+
       // 유명 작가는 더 높은 수치
       if (artistName.match(/Picasso|Monet|Van Gogh|Warhol|Rembrandt/i)) {
         simulatedData.exhibitions *= 10;
         simulatedData.auctionRecords *= 20;
         simulatedData.ranking = Math.floor(Math.random() * 100) + 1;
       }
-      
+
       return simulatedData;
-      
+
     } catch (error) {
       return null;
     }
@@ -139,20 +139,20 @@ class ArtistDataEnricher {
       // Met Museum API
       const searchUrl = `https://collectionapi.metmuseum.org/public/collection/v1/search?artistOrCulture=true&q=${encodeURIComponent(artistName)}`;
       const response = await axios.get(searchUrl, { timeout: 5000 });
-      
+
       if (!response.data.objectIDs || response.data.objectIDs.length === 0) {
         return null;
       }
-      
+
       // 첫 몇 개 작품의 부서 정보 수집
       const departments = new Set();
       const sampleSize = Math.min(5, response.data.objectIDs.length);
-      
+
       for (let i = 0; i < sampleSize; i++) {
         try {
           const objectUrl = `https://collectionapi.metmuseum.org/public/collection/v1/objects/${response.data.objectIDs[i]}`;
           const objectResponse = await axios.get(objectUrl, { timeout: 3000 });
-          
+
           if (objectResponse.data.department) {
             departments.add(objectResponse.data.department);
           }
@@ -160,12 +160,12 @@ class ArtistDataEnricher {
           // 개별 오브젝트 오류 무시
         }
       }
-      
+
       return {
         count: response.data.total || response.data.objectIDs.length,
         departments: Array.from(departments)
       };
-      
+
     } catch (error) {
       return null;
     }
@@ -187,13 +187,13 @@ class ArtistDataEnricher {
       { pattern: /Gothic/i, era: 'Gothic' },
       { pattern: /Medieval/i, era: 'Medieval' }
     ];
-    
+
     for (const { pattern, era } of eraPatterns) {
       if (pattern.test(text)) {
         return era;
       }
     }
-    
+
     return null;
   }
 
@@ -204,13 +204,13 @@ class ArtistDataEnricher {
       'Fauvism', 'Expressionism', 'Dadaism', 'Bauhaus', 'Art Nouveau',
       'Art Deco', 'Romanticism', 'Realism', 'Neoclassicism'
     ];
-    
+
     for (const movement of movements) {
       if (text.includes(movement)) {
         return movement;
       }
     }
-    
+
     return null;
   }
 
@@ -232,19 +232,19 @@ class ArtistDataEnricher {
       { pattern: /Greek/i, nationality: 'Greek' },
       { pattern: /Polish/i, nationality: 'Polish' }
     ];
-    
+
     for (const { pattern, nationality } of nationalityPatterns) {
       if (pattern.test(text)) {
         return nationality;
       }
     }
-    
+
     return null;
   }
 
   generateContextualInfo(data) {
     const info = [];
-    
+
     // 경매 기록 기반 인지도
     if (data.auctionRecords) {
       if (data.auctionRecords > 500) {
@@ -255,7 +255,7 @@ class ArtistDataEnricher {
         info.push('중간 수준의 시장 거래');
       }
     }
-    
+
     // 전시 이력
     if (data.exhibitions) {
       if (data.exhibitions > 100) {
@@ -264,7 +264,7 @@ class ArtistDataEnricher {
         info.push('활발한 전시 이력');
       }
     }
-    
+
     // Met 컬렉션
     if (data.worksInMet) {
       if (data.worksInMet > 50) {
@@ -275,7 +275,7 @@ class ArtistDataEnricher {
         info.push('메트로폴리탄 미술관 소장');
       }
     }
-    
+
     // 시대별 특성
     if (data.era) {
       const eraInfo = {
@@ -285,32 +285,32 @@ class ArtistDataEnricher {
         'Modern': '전통 파괴와 실험성',
         'Contemporary': '다원성과 개념 중시'
       };
-      
+
       if (eraInfo[data.era]) {
         info.push(eraInfo[data.era]);
       }
     }
-    
+
     return info;
   }
 
   // 배치 처리를 위한 메서드
   async enrichBatch(artists, batchSize = 5) {
     const results = [];
-    
+
     for (let i = 0; i < artists.length; i += batchSize) {
       const batch = artists.slice(i, i + batchSize);
       const batchResults = await Promise.all(
         batch.map(artist => this.enrichArtistData(artist.name, artist))
       );
       results.push(...batchResults);
-      
+
       // API 제한 대응
       if (i + batchSize < artists.length) {
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
     }
-    
+
     return results;
   }
 }

@@ -67,7 +67,7 @@ router.get('/stats',
  */
 router.get('/guide', (req, res) => {
   const { depth } = req.query;
-  
+
   const guides = {
     glance: {
       title: '첫인상',
@@ -106,7 +106,7 @@ router.get('/guide', (req, res) => {
       duration: '5분 이상'
     }
   };
-  
+
   res.json({
     success: true,
     data: guides[depth] || guides.glance

@@ -111,7 +111,7 @@ router.post('/exhibition-matches/:matchId/apply', authenticateUser, async (req, 
 
     // 최소 호환성 체크
     if (compatibilityScore < match.matching_criteria.minCompatibility) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         error: 'Compatibility score does not meet requirements',
         score: compatibilityScore
       });
@@ -201,7 +201,7 @@ router.get('/artwork-interactions', authenticateUser, async (req, res) => {
     }
 
     if (artworkId) {
-      query += ' AND ai.artwork_id = $' + (params.length + 1);
+      query += ` AND ai.artwork_id = $${params.length + 1}`;
       params.push(artworkId);
     }
 
@@ -236,7 +236,7 @@ async function calculateAPTCompatibility(userId1, userId2) {
     }
 
     const [profile1, profile2] = result.rows;
-    
+
     // APT 타입에서 각 차원 추출
     const apt1 = profile1.personality_type;
     const apt2 = profile2.personality_type;

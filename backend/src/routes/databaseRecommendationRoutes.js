@@ -11,9 +11,9 @@ router.get('/stats', async (req, res) => {
     res.json(stats);
   } catch (error) {
     console.error('Recommendation stats error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Failed to get recommendation statistics' 
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get recommendation statistics'
     });
   }
 });
@@ -26,9 +26,9 @@ router.get('/personality/:type', [
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        success: false, 
-        errors: errors.array() 
+      return res.status(400).json({
+        success: false,
+        errors: errors.array()
       });
     }
 
@@ -36,16 +36,16 @@ router.get('/personality/:type', [
     const limit = parseInt(req.query.limit) || 10;
 
     const recommendations = await databaseRecommendationService.getPersonalizedRecommendations(
-      type.toUpperCase(), 
+      type.toUpperCase(),
       limit
     );
 
     res.json(recommendations);
   } catch (error) {
     console.error('Personality recommendation error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Failed to get personality-based recommendations' 
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get personality-based recommendations'
     });
   }
 });
@@ -57,9 +57,9 @@ router.get('/default', [
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        success: false, 
-        errors: errors.array() 
+      return res.status(400).json({
+        success: false,
+        errors: errors.array()
       });
     }
 
@@ -69,9 +69,9 @@ router.get('/default', [
     res.json(recommendations);
   } catch (error) {
     console.error('Default recommendation error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Failed to get default recommendations' 
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get default recommendations'
     });
   }
 });
@@ -85,9 +85,9 @@ router.get('/similar/:artworkId', [
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        success: false, 
-        errors: errors.array() 
+      return res.status(400).json({
+        success: false,
+        errors: errors.array()
       });
     }
 
@@ -104,9 +104,9 @@ router.get('/similar/:artworkId', [
     res.json(similarArtworks);
   } catch (error) {
     console.error('Similar artworks error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Failed to get similar artworks' 
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get similar artworks'
     });
   }
 });
@@ -115,10 +115,10 @@ router.get('/similar/:artworkId', [
 router.get('/user', authMiddleware, async (req, res) => {
   try {
     const limit = parseInt(req.query.limit) || 10;
-    
+
     // 사용자의 성격 유형 가져오기 (세션이나 프로필에서)
     let personalityType = null;
-    
+
     // req.user에서 성격 유형 확인
     if (req.user && req.user.personality_type) {
       personalityType = req.user.personality_type;
@@ -132,7 +132,7 @@ router.get('/user', authMiddleware, async (req, res) => {
     let recommendations;
     if (personalityType) {
       recommendations = await databaseRecommendationService.getPersonalizedRecommendations(
-        personalityType, 
+        personalityType,
         limit
       );
     } else {
@@ -147,9 +147,9 @@ router.get('/user', authMiddleware, async (req, res) => {
 
   } catch (error) {
     console.error('User recommendation error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Failed to get user recommendations' 
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get user recommendations'
     });
   }
 });
@@ -189,9 +189,9 @@ router.get('/test', async (req, res) => {
 
   } catch (error) {
     console.error('Recommendation test error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Failed to test recommendation system' 
+    res.status(500).json({
+      success: false,
+      message: 'Failed to test recommendation system'
     });
   }
 });

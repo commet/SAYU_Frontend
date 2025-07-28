@@ -8,7 +8,7 @@ class AlertingService {
   constructor() {
     this.emailTransporter = null;
     this.initializeEmailTransporter();
-    
+
     // Alert thresholds
     this.thresholds = {
       errorRate: 0.05, // 5% error rate
@@ -19,7 +19,7 @@ class AlertingService {
       redisConnections: 100, // Max Redis connections
       dbConnections: 20 // Max DB connections
     };
-    
+
     // Alert cooldown periods (in seconds)
     this.cooldowns = {
       critical: 300, // 5 minutes
@@ -51,7 +51,7 @@ class AlertingService {
   async sendAlert(level, title, message, metadata = {}) {
     try {
       const alertKey = `alert:${level}:${this.hashString(title)}`;
-      
+
       // Check cooldown
       if (await this.isInCooldown(alertKey, level)) {
         console.debug(`Alert skipped due to cooldown: ${title}`);
@@ -89,7 +89,7 @@ class AlertingService {
   async checkPerformanceMetrics() {
     try {
       const metrics = await this.gatherMetrics();
-      
+
       // Check error rate
       if (metrics.errorRate > this.thresholds.errorRate) {
         await this.sendAlert(
@@ -193,10 +193,10 @@ class AlertingService {
 
     const alert = appAlerts[type];
     if (alert) {
-      await this.sendAlert(alert.level, alert.title, alert.message, { 
-        error: error.message, 
+      await this.sendAlert(alert.level, alert.title, alert.message, {
+        error: error.message,
         stack: error.stack,
-        ...context 
+        ...context
       });
     }
   }
@@ -275,9 +275,9 @@ class AlertingService {
             <div class="metadata">
               <strong>Details:</strong>
               <ul>
-                ${Object.entries(alert.metadata).map(([key, value]) => 
-                  `<li><strong>${key}:</strong> ${JSON.stringify(value)}</li>`
-                ).join('')}
+                ${Object.entries(alert.metadata).map(([key, value]) =>
+  `<li><strong>${key}:</strong> ${JSON.stringify(value)}</li>`
+).join('')}
               </ul>
             </div>
             ` : ''}
@@ -300,12 +300,12 @@ class AlertingService {
   // Log alert
   async logAlert(alert) {
     console[alert.level === 'critical' ? 'error' : alert.level](
-        `ALERT: ${alert.title}`, 
-        { 
-          message: alert.message, 
-          metadata: alert.metadata,
-          alertLevel: alert.level
-        });
+      `ALERT: ${alert.title}`,
+      {
+        message: alert.message,
+        metadata: alert.metadata,
+        alertLevel: alert.level
+      });
   }
 
   // Send to Sentry - disabled for deployment
@@ -328,10 +328,10 @@ class AlertingService {
     try {
       const lastSent = await redisClient().get(alertKey);
       if (!lastSent) return false;
-      
+
       const cooldownPeriod = this.cooldowns[level] || this.cooldowns.info;
       const timeSince = (Date.now() - parseInt(lastSent)) / 1000;
-      
+
       return timeSince < cooldownPeriod;
     } catch (error) {
       return false; // If Redis fails, don't block alerts
@@ -367,7 +367,7 @@ class AlertingService {
         const errorCount = await redisClient().get('metrics:errors:count') || 0;
         const requestCount = await redisClient().get('metrics:requests:count') || 1;
         const totalResponseTime = await redisClient().get('metrics:response:total') || 0;
-        
+
         metrics.errorRate = parseInt(errorCount) / parseInt(requestCount);
         metrics.avgResponseTime = parseInt(totalResponseTime) / parseInt(requestCount);
       } catch (redisError) {

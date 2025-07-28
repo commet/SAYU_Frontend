@@ -1,0 +1,115 @@
+name: Backend Deploy to Railway
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'backend/**'
+      - '.github/workflows/backend-deploy.yml'
+  pull_request:
+    branches: [ main ]
+    paths: 
+      - 'backend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+    
+    - name: Install dependencies
+      run: |
+        cd backend
+        npm ci
+    
+    - name: Run ESLint
+      run: |
+        cd backend
+        npx eslint . --max-warnings 200
+    
+    - name: Run tests
+      run: |
+        cd backend
+        npm test
+      env:
+        NODE_ENV: test
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Deploy to Railway
+      uses: railway-deploy/railway-action@v2
+      with:
+        railway_token: ${{ secrets.RAILWAY_TOKEN }}
+        service: 'sayu-backend'
+      env:
+        # Core Configuration  
+        NODE_ENV: production
+        PORT: ${{ secrets.PORT }}
+        FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+        
+        # Database & Supabase
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        SUPABASE_JWT_SECRET: ${{ secrets.SUPABASE_JWT_SECRET }}
+        
+        # Security
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+        SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+        
+        # AI Services
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        GOOGLE_AI_API_KEY: ${{ secrets.GOOGLE_AI_API_KEY }}
+        
+        # Image Storage
+        CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+        CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+        CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+        
+        # Optional Services
+        SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+        REDIS_URL: ${{ secrets.REDIS_URL }}
+        
+        # API Keys
+        GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+        FOURSQUARE_API_KEY: ${{ secrets.FOURSQUARE_API_KEY }}
+
+  notify:
+    needs: [test, deploy]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Notify deployment status
+      run: |
+        if [ "${{ needs.deploy.result }}" == "success" ]; then
+          echo "🚀 Backend deployment successful!"
+          echo "✅ Tests passed: ${{ needs.test.result }}"
+          echo "✅ Deploy status: ${{ needs.deploy.result }}"
+        else
+          echo "❌ Backend deployment failed!"
+          echo "Tests: ${{ needs.test.result }}"
+          echo "Deploy: ${{ needs.deploy.result }}"
+          exit 1
+        fi

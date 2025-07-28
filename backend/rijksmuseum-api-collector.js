@@ -34,21 +34,21 @@ class RijksmuseumCollector {
       };
 
       const response = await axios.get(`${this.baseUrl}/${this.language}/collection`, { params });
-      
+
       if (response.data && response.data.artObjects) {
         console.log(`✅ ${response.data.artObjects.length}개 작품 발견`);
-        
+
         // 전시 데이터로 변환
         const exhibitions = this.convertToExhibitions(response.data.artObjects);
-        
+
         // 데이터베이스 저장
         await this.saveToDatabase(exhibitions);
-        
+
         return exhibitions;
       }
     } catch (error) {
       console.error('❌ API 오류:', error.message);
-      
+
       if (error.response?.status === 401) {
         console.log('\n⚠️ API 키 필요:');
         console.log('1. https://data.rijksmuseum.nl/object-metadata/api/ 방문');
@@ -57,26 +57,26 @@ class RijksmuseumCollector {
         console.log('4. 환경변수 설정: RIJKSMUSEUM_API_KEY=your_key');
       }
     }
-    
+
     return [];
   }
 
   convertToExhibitions(artObjects) {
     const exhibitions = [];
-    
+
     // 주제별로 그룹화하여 가상 전시 생성
     const themes = new Map();
-    
+
     artObjects.forEach(obj => {
       const theme = obj.classification || 'General Collection';
-      
+
       if (!themes.has(theme)) {
         themes.set(theme, {
           title: `${theme} Collection`,
           artworks: []
         });
       }
-      
+
       themes.get(theme).artworks.push(obj);
     });
 
@@ -140,7 +140,7 @@ class RijksmuseumCollector {
             exhibition.official_url,
             exhibition.source
           ]);
-          
+
           saved++;
           console.log(`✅ 저장: ${exhibition.title_en}`);
         }

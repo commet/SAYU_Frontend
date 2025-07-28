@@ -19,11 +19,11 @@ class APTRecommendationController {
   }
 
   // ==================== 작품 추천 ====================
-  
+
   async getArtworkRecommendations(req, res) {
     try {
       await this.initialize();
-      
+
       const { userId } = req;
       const {
         aptType,
@@ -94,11 +94,11 @@ class APTRecommendationController {
   }
 
   // ==================== 전시 추천 ====================
-  
+
   async getExhibitionRecommendations(req, res) {
     try {
       await this.initialize();
-      
+
       const { userId } = req;
       const {
         aptType,
@@ -144,11 +144,11 @@ class APTRecommendationController {
   }
 
   // ==================== 인기 콘텐츠 ====================
-  
+
   async getTrendingContent(req, res) {
     try {
       await this.initialize();
-      
+
       const { aptType, period = 'daily' } = req.query;
 
       if (!aptType || !SAYU_TYPES[aptType]) {
@@ -177,11 +177,11 @@ class APTRecommendationController {
   }
 
   // ==================== APT 매칭 점수 ====================
-  
+
   async getArtworkMatchScore(req, res) {
     try {
       await this.initialize();
-      
+
       const { artworkId } = req.params;
       const { aptType } = req.query;
 
@@ -226,11 +226,11 @@ class APTRecommendationController {
   }
 
   // ==================== 사용자 벡터 진화 ====================
-  
+
   async updateUserBehavior(req, res) {
     try {
       await this.initialize();
-      
+
       const { userId } = req;
       const { actions } = req.body;
 
@@ -266,11 +266,11 @@ class APTRecommendationController {
   }
 
   // ==================== 캐시 통계 ====================
-  
+
   async getCacheStatistics(req, res) {
     try {
       await this.initialize();
-      
+
       const stats = await this.cacheService.getCacheStats();
 
       res.json({
@@ -287,34 +287,34 @@ class APTRecommendationController {
   }
 
   // ==================== 헬퍼 함수 ====================
-  
+
   async personalizeRecommendations(userId, recommendations, aptType) {
     try {
       // 사용자의 과거 행동 데이터 조회
       const userHistory = await this.getUserHistory(userId);
-      
+
       // 개인화 점수 조정
       return recommendations.map(rec => {
         let personalScore = rec.finalScore;
-        
+
         // 이미 본 작품은 점수 감소
         if (userHistory.viewedArtworks.includes(rec.id)) {
           personalScore -= 20;
         }
-        
+
         // 좋아요한 작가의 작품은 점수 증가
         if (userHistory.likedArtists.includes(rec.artist)) {
           personalScore += 10;
         }
-        
+
         // 비슷한 스타일을 좋아했다면 점수 증가
-        const styleMatch = userHistory.likedStyles.some(style => 
+        const styleMatch = userHistory.likedStyles.some(style =>
           rec.style && rec.style.includes(style)
         );
         if (styleMatch) {
           personalScore += 5;
         }
-        
+
         return {
           ...rec,
           personalScore: Math.max(0, Math.min(100, personalScore)),
@@ -322,7 +322,7 @@ class APTRecommendationController {
           isLiked: userHistory.likedArtworks.includes(rec.id)
         };
       }).sort((a, b) => b.personalScore - a.personalScore);
-      
+
     } catch (error) {
       console.error('Personalization error:', error);
       return recommendations; // 개인화 실패 시 원본 반환
@@ -337,33 +337,33 @@ class APTRecommendationController {
     };
 
     const typeData = SAYU_TYPES[aptType];
-    
+
     // L/S 축 분석
     if (aptType[0] === 'L' && artwork.solitudeScore > 7) {
       analysis.strengths.push('혼자 감상하기 좋은 작품');
     } else if (aptType[0] === 'S' && artwork.discussionPotential > 7) {
       analysis.strengths.push('함께 이야기 나누기 좋은 작품');
     }
-    
+
     // A/R 축 분석
     if (aptType[1] === 'A' && artwork.isAbstract) {
       analysis.strengths.push('추상적 표현이 매력적');
     } else if (aptType[1] === 'R' && !artwork.isAbstract) {
       analysis.strengths.push('구체적이고 명확한 표현');
     }
-    
+
     // E/M 축 분석
     if (aptType[2] === 'E' && artwork.emotionalImpact > 7) {
       analysis.strengths.push('감정적 울림이 깊음');
     } else if (aptType[2] === 'M' && artwork.intellectualStimulation > 7) {
       analysis.strengths.push('지적 호기심을 자극');
     }
-    
+
     // 약점 분석
     if (similarity < 0.6) {
       analysis.considerations.push('평소 선호와는 다른 스타일이지만 새로운 경험이 될 수 있음');
     }
-    
+
     return analysis;
   }
 

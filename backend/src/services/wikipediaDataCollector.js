@@ -9,10 +9,10 @@ class WikipediaDataCollector {
     try {
       // 1단계: 영문 Wikipedia 검색
       const enData = await this.searchWikipedia(artistName, 'en');
-      
+
       // 2단계: 한국어 Wikipedia 검색 (한국 작가의 경우)
       const koData = await this.searchWikipedia(artistName, 'ko');
-      
+
       // 3단계: 데이터 통합 및 정제
       return this.mergeData(enData, koData, artistName);
     } catch (error) {
@@ -24,18 +24,18 @@ class WikipediaDataCollector {
   async searchWikipedia(query, lang) {
     try {
       const baseUrl = lang === 'ko' ? this.koBaseUrl : this.baseUrl;
-      
+
       // 검색 API로 페이지 찾기
       const searchResponse = await fetch(
         `${baseUrl}/page/summary/${encodeURIComponent(query)}`
       );
-      
+
       if (!searchResponse.ok) {
         return null;
       }
-      
+
       const data = await searchResponse.json();
-      
+
       return {
         title: data.title,
         extract: data.extract,
@@ -45,7 +45,7 @@ class WikipediaDataCollector {
         nationality: this.extractNationality(data.extract),
         movements: this.extractArtMovements(data.extract),
         keyworks: this.extractKeyWorks(data.extract),
-        lang: lang
+        lang
       };
     } catch (error) {
       return null;
@@ -83,7 +83,7 @@ class WikipediaDataCollector {
     if (koData) {
       merged.sources.push('wikipedia_ko');
       if (koData.extract && !merged.bio.includes(koData.extract.substring(0, 50))) {
-        merged.bio += '\n' + koData.extract;
+        merged.bio += `\n${koData.extract}`;
       }
       merged.reliability += 2;
     }
@@ -114,7 +114,7 @@ class WikipediaDataCollector {
       /(\w+) (artist|painter|sculptor)/i,
       /(American|British|French|German|Italian|Spanish|Korean|Japanese|Chinese)/i
     ];
-    
+
     for (const pattern of patterns) {
       const match = text.match(pattern);
       if (match) return match[1];
@@ -124,12 +124,12 @@ class WikipediaDataCollector {
 
   extractArtMovements(text) {
     const movements = [
-      'Renaissance', 'Baroque', 'Romanticism', 'Realism', 'Impressionism', 
-      'Post-Impressionism', 'Expressionism', 'Cubism', 'Surrealism', 
+      'Renaissance', 'Baroque', 'Romanticism', 'Realism', 'Impressionism',
+      'Post-Impressionism', 'Expressionism', 'Cubism', 'Surrealism',
       'Abstract Expressionism', 'Pop Art', 'Conceptual Art', 'Contemporary'
     ];
-    
-    return movements.filter(movement => 
+
+    return movements.filter(movement =>
       text.toLowerCase().includes(movement.toLowerCase())
     );
   }
@@ -137,7 +137,7 @@ class WikipediaDataCollector {
   extractKeyWorks(text) {
     // 따옴표나 이탤릭으로 표시된 작품명 추출
     const workMatches = text.match(/"([^"]+)"|''([^'']+)''/g);
-    return workMatches ? workMatches.slice(0, 5).map(work => 
+    return workMatches ? workMatches.slice(0, 5).map(work =>
       work.replace(/["'']/g, '')
     ) : [];
   }

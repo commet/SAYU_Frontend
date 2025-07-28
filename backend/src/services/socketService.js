@@ -14,29 +14,29 @@ class SocketService {
   initialize(server) {
     this.io = new Server(server, {
       cors: {
-        origin: process.env.FRONTEND_URL || "http://localhost:3000",
-        methods: ["GET", "POST"],
+        origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+        methods: ['GET', 'POST'],
         credentials: true
       }
     });
 
     this.io.use(this.authenticateSocket.bind(this));
     this.io.on('connection', this.handleConnection.bind(this));
-    
+
     logger.info('Socket.IO server initialized');
   }
 
   async authenticateSocket(socket, next) {
     try {
-      const token = socket.handshake.auth.token;
-      
+      const { token } = socket.handshake.auth;
+
       if (!token) {
         return next(new Error('Authentication error'));
       }
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const supabase = getSupabaseAdmin();
-      
+
       const { data: user, error } = await supabase
         .from('profiles')
         .select('*')
@@ -57,7 +57,7 @@ class SocketService {
   }
 
   handleConnection(socket) {
-    const userId = socket.userId;
+    const { userId } = socket;
     logger.info(`User ${userId} connected`);
 
     // Store user connection
@@ -75,7 +75,7 @@ class SocketService {
     socket.on('typing_stop', (data) => this.handleTypingStop(socket, data));
     socket.on('exhibition_view', (data) => this.handleExhibitionView(socket, data));
     socket.on('reflection_created', (data) => this.handleReflectionCreated(socket, data));
-    
+
     // Art Pulse events
     socket.on('art_pulse_join', (data) => this.handleArtPulseJoin(socket, data));
     socket.on('art_pulse_leave', (data) => this.handleArtPulseLeave(socket, data));
@@ -83,7 +83,7 @@ class SocketService {
     socket.on('art_pulse_reflection', (data) => this.handleArtPulseReflection(socket, data));
     socket.on('art_pulse_like', (data) => this.handleArtPulseLike(socket, data));
     socket.on('art_pulse_typing', (data) => this.handleArtPulseTyping(socket, data));
-    
+
     socket.on('disconnect', () => this.handleDisconnect(socket));
 
     // Send welcome message
@@ -94,13 +94,13 @@ class SocketService {
   }
 
   handleJoinRoom(socket, roomId) {
-    const userId = socket.userId;
-    
+    const { userId } = socket;
+
     socket.join(roomId);
     this.userRooms.get(userId).add(roomId);
-    
+
     logger.info(`User ${userId} joined room ${roomId}`);
-    
+
     // Notify others in the room
     socket.to(roomId).emit('user_joined', {
       userId,
@@ -110,13 +110,13 @@ class SocketService {
   }
 
   handleLeaveRoom(socket, roomId) {
-    const userId = socket.userId;
-    
+    const { userId } = socket;
+
     socket.leave(roomId);
     this.userRooms.get(userId).delete(roomId);
-    
+
     logger.info(`User ${userId} left room ${roomId}`);
-    
+
     // Notify others in the room
     socket.to(roomId).emit('user_left', {
       userId,
@@ -127,8 +127,8 @@ class SocketService {
 
   async handleSendMessage(socket, data) {
     const { roomId, message, messageType = 'text' } = data;
-    const userId = socket.userId;
-    
+    const { userId } = socket;
+
     try {
       // Save message to database
       const supabase = getSupabaseAdmin();
@@ -175,8 +175,8 @@ class SocketService {
 
   handleTypingStart(socket, data) {
     const { roomId } = data;
-    const userId = socket.userId;
-    
+    const { userId } = socket;
+
     socket.to(roomId).emit('user_typing', {
       userId,
       username: socket.user.username,
@@ -187,8 +187,8 @@ class SocketService {
 
   handleTypingStop(socket, data) {
     const { roomId } = data;
-    const userId = socket.userId;
-    
+    const { userId } = socket;
+
     socket.to(roomId).emit('user_typing', {
       userId,
       username: socket.user.username,
@@ -199,12 +199,12 @@ class SocketService {
 
   handleExhibitionView(socket, data) {
     const { exhibitionId, museumName, exhibitionName } = data;
-    const userId = socket.userId;
-    
+    const { userId } = socket;
+
     // Join exhibition room
     const roomId = `exhibition:${exhibitionId}`;
     socket.join(roomId);
-    
+
     // Notify others viewing the same exhibition
     socket.to(roomId).emit('exhibition_viewer', {
       userId,
@@ -218,8 +218,8 @@ class SocketService {
 
   handleReflectionCreated(socket, data) {
     const { reflection } = data;
-    const userId = socket.userId;
-    
+    const { userId } = socket;
+
     // If reflection is public, broadcast to followers
     if (reflection.is_public) {
       this.broadcastToFollowers(userId, 'new_reflection', {
@@ -252,12 +252,12 @@ class SocketService {
   }
 
   handleDisconnect(socket) {
-    const userId = socket.userId;
-    
+    const { userId } = socket;
+
     // Clean up user data
     this.connectedUsers.delete(userId);
     this.userRooms.delete(userId);
-    
+
     logger.info(`User ${userId} disconnected`);
   }
 
@@ -292,17 +292,17 @@ class SocketService {
 
   // Art Pulse event handlers
   async handleArtPulseJoin(socket, data) {
-    const userId = socket.userId;
+    const { userId } = socket;
     const { sessionId } = data;
-    
+
     try {
       const result = await artPulseService.joinSession(userId, sessionId);
       const roomId = `art-pulse:${result.session.id}`;
-      
+
       // Join Art Pulse room
       socket.join(roomId);
       socket.artPulseRoom = roomId;
-      
+
       // Send session data to user
       socket.emit('art_pulse_joined', {
         session: result.session,
@@ -321,7 +321,7 @@ class SocketService {
       // Send current state
       const emotions = artPulseService.getEmotionDistribution(result.session.id);
       const reflections = artPulseService.getReflections(result.session.id);
-      
+
       socket.emit('art_pulse_state_update', {
         emotions,
         reflections,
@@ -336,9 +336,9 @@ class SocketService {
   }
 
   handleArtPulseLeave(socket, data) {
-    const userId = socket.userId;
+    const { userId } = socket;
     const roomId = socket.artPulseRoom;
-    
+
     if (roomId) {
       socket.leave(roomId);
       socket.to(roomId).emit('art_pulse_participant_left', {
@@ -351,13 +351,13 @@ class SocketService {
   }
 
   async handleArtPulseEmotion(socket, data) {
-    const userId = socket.userId;
+    const { userId } = socket;
     const { sessionId, emotion, intensity } = data;
-    
+
     try {
       const distribution = await artPulseService.submitEmotion(userId, sessionId, emotion, intensity);
       const roomId = `art-pulse:${sessionId}`;
-      
+
       // Broadcast emotion update to all participants
       this.io.to(roomId).emit('art_pulse_emotion_update', {
         userId,
@@ -376,13 +376,13 @@ class SocketService {
   }
 
   async handleArtPulseReflection(socket, data) {
-    const userId = socket.userId;
+    const { userId } = socket;
     const { sessionId, reflection, isAnonymous } = data;
-    
+
     try {
       const reflectionData = await artPulseService.submitReflection(userId, sessionId, reflection, isAnonymous);
       const roomId = `art-pulse:${sessionId}`;
-      
+
       // Broadcast new reflection to all participants
       this.io.to(roomId).emit('art_pulse_new_reflection', reflectionData);
 
@@ -394,13 +394,13 @@ class SocketService {
   }
 
   async handleArtPulseLike(socket, data) {
-    const userId = socket.userId;
+    const { userId } = socket;
     const { sessionId, reflectionId } = data;
-    
+
     try {
       const reflection = await artPulseService.likeReflection(userId, sessionId, reflectionId);
       const roomId = `art-pulse:${sessionId}`;
-      
+
       // Broadcast like update to all participants
       this.io.to(roomId).emit('art_pulse_reflection_liked', {
         reflectionId,
@@ -417,10 +417,10 @@ class SocketService {
   }
 
   handleArtPulseTyping(socket, data) {
-    const userId = socket.userId;
+    const { userId } = socket;
     const { sessionId, isTyping } = data;
     const roomId = `art-pulse:${sessionId}`;
-    
+
     socket.to(roomId).emit('art_pulse_user_typing', {
       userId,
       username: socket.user.username,

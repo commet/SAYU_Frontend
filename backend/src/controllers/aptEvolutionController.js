@@ -8,7 +8,7 @@ class APTEvolutionController {
     try {
       const userId = req.user.id;
       const evolutionState = await aptEvolutionService.getUserEvolutionState(userId);
-      
+
       res.json({
         success: true,
         data: evolutionState
@@ -127,14 +127,14 @@ class APTEvolutionController {
   async getMilestones(req, res) {
     try {
       const userId = req.user.id;
-      
+
       // 사용자의 현재 통계 가져오기
       const userStats = await aptEvolutionService.getUserStats(null, userId);
-      
+
       // 모든 마일스톤과 달성 여부 확인
       const allMilestones = aptEvolutionService.rewardSystem.milestones;
       const achievedMilestones = await aptEvolutionService.getUserAchievements(userId);
-      
+
       const milestoneList = Object.entries(allMilestones).map(([key, milestone]) => ({
         ...milestone,
         achieved: achievedMilestones.milestones.includes(key),

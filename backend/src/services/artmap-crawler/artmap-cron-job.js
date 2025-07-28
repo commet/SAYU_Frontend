@@ -7,7 +7,7 @@ class ArtMapCronJob {
   constructor() {
     this.batchCrawler = new ArtMapBatchCrawler();
     this.isRunning = false;
-    
+
     // 이메일 설정 (옵션)
     if (process.env.SMTP_HOST) {
       this.emailTransporter = nodemailer.createTransport({
@@ -76,31 +76,31 @@ class ArtMapCronJob {
         
         <h3>Successful Cities:</h3>
         <ul>
-          ${results.successful.map(city => 
-            `<li>${city.city}: ${city.stats.exhibitionsFound} exhibitions</li>`
-          ).join('')}
+          ${results.successful.map(city =>
+    `<li>${city.city}: ${city.stats.exhibitionsFound} exhibitions</li>`
+  ).join('')}
         </ul>
         
         ${results.failed.length > 0 ? `
           <h3>Failed Cities:</h3>
           <ul>
-            ${results.failed.map(city => 
-              `<li>${city.city}: ${city.error}</li>`
-            ).join('')}
+            ${results.failed.map(city =>
+  `<li>${city.city}: ${city.error}</li>`
+).join('')}
           </ul>
         ` : ''}
       `;
 
       // 알림 전송
       await this.sendNotification('Daily Crawl Complete', summary);
-      
+
       console.log('\n=== Daily crawl completed successfully ===');
 
     } catch (error) {
       console.error('Daily crawl failed:', error);
-      
+
       await this.sendNotification(
-        'Daily Crawl Failed', 
+        'Daily Crawl Failed',
         `<p>Error: ${error.message}</p><pre>${error.stack}</pre>`
       );
     } finally {
@@ -181,7 +181,7 @@ class ArtMapCronJob {
       this.dailyJob.stop();
       console.log('Daily job stopped');
     }
-    
+
     if (this.weeklyJob) {
       this.weeklyJob.stop();
       console.log('Weekly job stopped');
@@ -191,7 +191,7 @@ class ArtMapCronJob {
   // 수동 실행
   async runManual(type = 'daily') {
     console.log(`Running manual ${type} crawl...`);
-    
+
     if (type === 'weekly') {
       await this.weeklyCrawl();
     } else {
@@ -203,9 +203,9 @@ class ArtMapCronJob {
 // 메인 실행
 if (require.main === module) {
   const cronJob = new ArtMapCronJob();
-  
+
   const args = process.argv.slice(2);
-  
+
   if (args.includes('--manual')) {
     // 수동 실행
     const type = args.includes('--weekly') ? 'weekly' : 'daily';
@@ -218,7 +218,7 @@ if (require.main === module) {
   } else {
     // 크론 작업 시작
     cronJob.start();
-    
+
     // 프로세스 종료 시 정리
     process.on('SIGINT', () => {
       console.log('\nStopping cron jobs...');

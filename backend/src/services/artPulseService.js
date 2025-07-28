@@ -10,7 +10,7 @@ class ArtPulseService {
     this.emotionDistribution = new Map(); // sessionId -> emotion counts
     this.realTimeReflections = new Map(); // sessionId -> reflection array
     this.votingResults = new Map(); // sessionId -> voting data
-    
+
     // Schedule daily Art Pulse sessions at 7 PM KST
     this.scheduleDailySessions();
   }
@@ -26,7 +26,7 @@ class ArtPulseService {
         logger.error('Failed to start daily Art Pulse session:', error);
       }
     }, {
-      timezone: "Asia/Seoul"
+      timezone: 'Asia/Seoul'
     });
 
     logger.info('Art Pulse daily scheduler initialized (7 PM KST)');
@@ -37,7 +37,7 @@ class ArtPulseService {
     try {
       const artwork = await this.selectTodaysArtwork();
       const sessionId = `art-pulse-${Date.now()}`;
-      
+
       const session = {
         id: sessionId,
         artwork,
@@ -70,10 +70,10 @@ class ArtPulseService {
       this.sessionParticipants.set(sessionId, new Set());
       this.emotionDistribution.set(sessionId, {});
       this.realTimeReflections.set(sessionId, []);
-      
+
       // Schedule phase transitions
       this.schedulePhaseTransitions(sessionId);
-      
+
       return session;
     } catch (error) {
       logger.error('Error starting Art Pulse session:', error);
@@ -103,7 +103,7 @@ class ArtPulseService {
   async selectTodaysArtwork() {
     try {
       const supabase = getSupabaseAdmin();
-      
+
       // Get artwork that hasn't been featured recently
       const { data: recentSessions } = await supabase
         .from('art_pulse_sessions')
@@ -142,20 +142,20 @@ class ArtPulseService {
       const now = new Date();
       const hour = now.getHours();
       const season = this.getCurrentSeason();
-      
+
       const weighted = candidates.map(artwork => {
         let score = artwork.artwork_analytics?.discussion_potential_score || 0.5;
-        
+
         // Evening preference for contemplative pieces
         if (hour >= 18 && artwork.mood_tags?.includes('contemplative')) {
           score += 0.2;
         }
-        
+
         // Seasonal adjustments
         if (artwork.season_tags?.includes(season)) {
           score += 0.1;
         }
-        
+
         return { ...artwork, weighted_score: score };
       });
 
@@ -163,7 +163,7 @@ class ArtPulseService {
       weighted.sort((a, b) => b.weighted_score - a.weighted_score);
       const topCandidates = weighted.slice(0, 3);
       const selected = topCandidates[Math.floor(Math.random() * topCandidates.length)];
-      
+
       logger.info(`Selected artwork for Art Pulse: ${selected.title} by ${selected.artist}`);
       return selected;
     } catch (error) {
@@ -209,7 +209,7 @@ class ArtPulseService {
 
       // Update Redis
       await redisClient.sadd(`art-pulse:participants:${targetSessionId}`, userId);
-      
+
       // Log participation
       await supabase.from('art_pulse_participations').insert({
         session_id: targetSessionId,
@@ -240,10 +240,10 @@ class ArtPulseService {
 
       // Validate emotion
       const validEmotions = [
-        'wonder', 'melancholy', 'joy', 'contemplation', 'nostalgia', 
+        'wonder', 'melancholy', 'joy', 'contemplation', 'nostalgia',
         'awe', 'serenity', 'passion', 'mystery', 'hope'
       ];
-      
+
       if (!validEmotions.includes(emotion)) {
         throw new Error('Invalid emotion');
       }
@@ -252,17 +252,17 @@ class ArtPulseService {
       if (!this.emotionDistribution.has(sessionId)) {
         this.emotionDistribution.set(sessionId, {});
       }
-      
+
       const distribution = this.emotionDistribution.get(sessionId);
       if (!distribution[emotion]) {
         distribution[emotion] = [];
       }
-      
+
       // Remove previous emotion from this user
       Object.keys(distribution).forEach(key => {
         distribution[key] = distribution[key].filter(entry => entry.userId !== userId);
       });
-      
+
       // Add new emotion
       distribution[emotion].push({
         userId,
@@ -272,8 +272,8 @@ class ArtPulseService {
 
       // Update Redis
       await redisClient.hset(
-        `art-pulse:emotions:${sessionId}`, 
-        emotion, 
+        `art-pulse:emotions:${sessionId}`,
+        emotion,
         JSON.stringify(distribution[emotion])
       );
 
@@ -303,7 +303,7 @@ class ArtPulseService {
       }
 
       const supabase = getSupabaseAdmin();
-      
+
       // Get user profile
       const { data: profile } = await supabase
         .from('profiles')
@@ -358,7 +358,7 @@ class ArtPulseService {
     try {
       const reflections = this.realTimeReflections.get(sessionId) || [];
       const reflection = reflections.find(r => r.id === reflectionId);
-      
+
       if (!reflection) {
         throw new Error('Reflection not found');
       }
@@ -395,7 +395,7 @@ class ArtPulseService {
       if (!session) return;
 
       session.phase = newPhase;
-      
+
       // Update database
       const supabase = getSupabaseAdmin();
       await supabase.from('art_pulse_sessions')
@@ -425,14 +425,14 @@ class ArtPulseService {
 
       // Calculate session results
       const results = await this.calculateSessionResults(sessionId);
-      
+
       session.status = 'completed';
       session.results = results;
 
       // Update database
       const supabase = getSupabaseAdmin();
       await supabase.from('art_pulse_sessions')
-        .update({ 
+        .update({
           status: 'completed',
           results,
           ended_at: new Date()
@@ -522,7 +522,7 @@ class ArtPulseService {
   async awardSessionAchievements(sessionId, results) {
     try {
       const supabase = getSupabaseAdmin();
-      
+
       // Award "Deep Reflection" achievement to top reflection authors
       for (const reflection of results.topReflections) {
         if (reflection.userId) {
@@ -600,7 +600,7 @@ class ArtPulseService {
   getEmotionDistribution(sessionId) {
     const emotions = this.emotionDistribution.get(sessionId) || {};
     const distribution = {};
-    
+
     Object.keys(emotions).forEach(emotion => {
       distribution[emotion] = {
         count: emotions[emotion].length,
@@ -627,7 +627,7 @@ class ArtPulseService {
       const supabase = getSupabaseAdmin();
       const weekStart = new Date();
       weekStart.setDate(weekStart.getDate() - weekStart.getDay()); // Start of current week
-      
+
       const { data: topReflections } = await supabase
         .from('art_pulse_reflections')
         .select(`

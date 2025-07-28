@@ -9,7 +9,7 @@ const authenticateUser = async (req, res, next) => {
   try {
     // Extract token from Authorization header
     const authHeader = req.headers.authorization;
-    
+
     if (!authHeader) {
       return res.status(401).json({
         error: 'No authorization header provided',
@@ -19,7 +19,7 @@ const authenticateUser = async (req, res, next) => {
 
     // Token format: "Bearer <token>"
     const token = authHeader.split(' ')[1];
-    
+
     if (!token) {
       return res.status(401).json({
         error: 'Invalid authorization format',
@@ -29,7 +29,7 @@ const authenticateUser = async (req, res, next) => {
 
     // Verify token with Supabase
     const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
-    
+
     if (error || !user) {
       log.warn('Authentication failed:', error?.message || 'User not found');
       return res.status(401).json({
@@ -44,7 +44,7 @@ const authenticateUser = async (req, res, next) => {
       .select('*')
       .eq('auth_id', user.id)
       .single();
-    
+
     if (profileError && profileError.code !== 'PGRST116') { // PGRST116 = not found
       log.error('Error fetching user profile:', profileError);
       return res.status(500).json({
@@ -64,7 +64,7 @@ const authenticateUser = async (req, res, next) => {
         })
         .select()
         .single();
-      
+
       if (createError) {
         log.error('Error creating user profile:', createError);
         return res.status(500).json({
@@ -72,7 +72,7 @@ const authenticateUser = async (req, res, next) => {
           code: 'PROFILE_CREATE_ERROR'
         });
       }
-      
+
       req.user = { ...user, profile: newProfile };
     } else {
       req.user = { ...user, profile };
@@ -80,7 +80,7 @@ const authenticateUser = async (req, res, next) => {
 
     // Add user ID for convenience
     req.userId = profile?.id || req.user.profile.id;
-    
+
     next();
   } catch (error) {
     log.error('Authentication middleware error:', error);
@@ -98,7 +98,7 @@ const authenticateUser = async (req, res, next) => {
 const optionalAuth = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    
+
     if (!authHeader) {
       // No auth header, proceed without user
       req.user = null;
@@ -107,7 +107,7 @@ const optionalAuth = async (req, res, next) => {
     }
 
     const token = authHeader.split(' ')[1];
-    
+
     if (!token) {
       req.user = null;
       req.userId = null;
@@ -116,7 +116,7 @@ const optionalAuth = async (req, res, next) => {
 
     // Try to verify token
     const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
-    
+
     if (error || !user) {
       // Invalid token, proceed without user
       req.user = null;
@@ -130,10 +130,10 @@ const optionalAuth = async (req, res, next) => {
       .select('*')
       .eq('auth_id', user.id)
       .single();
-    
+
     req.user = profile ? { ...user, profile } : null;
     req.userId = profile?.id || null;
-    
+
     next();
   } catch (error) {
     // Error in auth, proceed without user
@@ -154,14 +154,14 @@ const requireAdmin = async (req, res, next) => {
     await authenticateUser(req, res, async () => {
       // Check if user has admin role
       const userRole = req.user?.profile?.role || req.user?.user_metadata?.role;
-      
+
       if (userRole !== 'admin') {
         return res.status(403).json({
           error: 'Admin access required',
           code: 'ADMIN_REQUIRED'
         });
       }
-      
+
       next();
     });
   } catch (error) {
@@ -178,18 +178,18 @@ const requireAdmin = async (req, res, next) => {
  */
 const userRateLimit = (limit = 100, windowMs = 60000) => {
   const requests = new Map();
-  
+
   return async (req, res, next) => {
     if (!req.userId) {
       return next();
     }
-    
+
     const now = Date.now();
     const userRequests = requests.get(req.userId) || [];
-    
+
     // Remove old requests
     const validRequests = userRequests.filter(time => now - time < windowMs);
-    
+
     if (validRequests.length >= limit) {
       return res.status(429).json({
         error: 'Too many requests',
@@ -197,10 +197,10 @@ const userRateLimit = (limit = 100, windowMs = 60000) => {
         retryAfter: Math.ceil((validRequests[0] + windowMs - now) / 1000)
       });
     }
-    
+
     validRequests.push(now);
     requests.set(req.userId, validRequests);
-    
+
     next();
   };
 };

@@ -8,12 +8,12 @@ const pool = new Pool({
 
 async function createArtistPortalTables() {
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
-    
+
     console.log('🎨 Artist Portal 테이블 생성 시작\n');
-    
+
     // 1. Artist Profiles 테이블
     console.log('📝 Creating artist_profiles table...');
     await client.query(`
@@ -37,8 +37,8 @@ async function createArtistPortalTables() {
         UNIQUE(user_id)
       )
     `);
-    
-    // 2. Gallery Profiles 테이블  
+
+    // 2. Gallery Profiles 테이블
     console.log('🏛️ Creating gallery_profiles table...');
     await client.query(`
       CREATE TABLE IF NOT EXISTS gallery_profiles (
@@ -63,7 +63,7 @@ async function createArtistPortalTables() {
         UNIQUE(user_id)
       )
     `);
-    
+
     // 3. Submitted Artworks 테이블
     console.log('🖼️ Creating submitted_artworks table...');
     await client.query(`
@@ -103,7 +103,7 @@ async function createArtistPortalTables() {
         )
       )
     `);
-    
+
     // 4. Submitted Exhibitions 테이블
     console.log('🎪 Creating submitted_exhibitions table...');
     await client.query(`
@@ -138,7 +138,7 @@ async function createArtistPortalTables() {
         CONSTRAINT valid_dates CHECK (end_date >= start_date)
       )
     `);
-    
+
     // 5. Submission Reviews 테이블
     console.log('📋 Creating submission_reviews table...');
     await client.query(`
@@ -154,35 +154,35 @@ async function createArtistPortalTables() {
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    
+
     // 6. 인덱스 생성
     console.log('🔍 Creating indexes...');
-    
+
     // Artist profiles 인덱스
     await client.query('CREATE INDEX IF NOT EXISTS idx_artist_profiles_user_id ON artist_profiles(user_id)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_artist_profiles_status ON artist_profiles(status)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_artist_profiles_specialties ON artist_profiles USING GIN(specialties)');
-    
+
     // Gallery profiles 인덱스
     await client.query('CREATE INDEX IF NOT EXISTS idx_gallery_profiles_user_id ON gallery_profiles(user_id)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_gallery_profiles_status ON gallery_profiles(status)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_gallery_profiles_type ON gallery_profiles(gallery_type)');
-    
+
     // Submitted artworks 인덱스
     await client.query('CREATE INDEX IF NOT EXISTS idx_submitted_artworks_artist_profile ON submitted_artworks(artist_profile_id)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_submitted_artworks_gallery_profile ON submitted_artworks(gallery_profile_id)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_submitted_artworks_status ON submitted_artworks(submission_status)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_submitted_artworks_tags ON submitted_artworks USING GIN(tags)');
-    
+
     // Submitted exhibitions 인덱스
     await client.query('CREATE INDEX IF NOT EXISTS idx_submitted_exhibitions_gallery_profile ON submitted_exhibitions(gallery_profile_id)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_submitted_exhibitions_status ON submitted_exhibitions(submission_status)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_submitted_exhibitions_dates ON submitted_exhibitions(start_date, end_date)');
-    
+
     // Reviews 인덱스
     await client.query('CREATE INDEX IF NOT EXISTS idx_submission_reviews_submission ON submission_reviews(submission_type, submission_id)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_submission_reviews_reviewer ON submission_reviews(reviewer_id)');
-    
+
     // 7. 업데이트 트리거 함수 생성
     console.log('⚡ Creating update triggers...');
     await client.query(`
@@ -194,7 +194,7 @@ async function createArtistPortalTables() {
       END;
       $$ language 'plpgsql'
     `);
-    
+
     // 업데이트 트리거 적용
     await client.query(`
       DROP TRIGGER IF EXISTS update_artist_profiles_updated_at ON artist_profiles;
@@ -202,30 +202,30 @@ async function createArtistPortalTables() {
         BEFORE UPDATE ON artist_profiles 
         FOR EACH ROW EXECUTE FUNCTION update_updated_at_column()
     `);
-    
+
     await client.query(`
       DROP TRIGGER IF EXISTS update_gallery_profiles_updated_at ON gallery_profiles;
       CREATE TRIGGER update_gallery_profiles_updated_at 
         BEFORE UPDATE ON gallery_profiles 
         FOR EACH ROW EXECUTE FUNCTION update_updated_at_column()
     `);
-    
+
     await client.query(`
       DROP TRIGGER IF EXISTS update_submitted_artworks_updated_at ON submitted_artworks;
       CREATE TRIGGER update_submitted_artworks_updated_at 
         BEFORE UPDATE ON submitted_artworks 
         FOR EACH ROW EXECUTE FUNCTION update_updated_at_column()
     `);
-    
+
     await client.query(`
       DROP TRIGGER IF EXISTS update_submitted_exhibitions_updated_at ON submitted_exhibitions;
       CREATE TRIGGER update_submitted_exhibitions_updated_at 
         BEFORE UPDATE ON submitted_exhibitions 
         FOR EACH ROW EXECUTE FUNCTION update_updated_at_column()
     `);
-    
+
     await client.query('COMMIT');
-    
+
     console.log('\n✅ Artist Portal 테이블 생성 완료!');
     console.log('\n📊 생성된 테이블:');
     console.log('  1. artist_profiles - 작가 프로필');
@@ -234,7 +234,7 @@ async function createArtistPortalTables() {
     console.log('  4. submitted_exhibitions - 전시 제출');
     console.log('  5. submission_reviews - 리뷰 시스템');
     console.log('\n🔍 인덱스 및 트리거 설정 완료');
-    
+
   } catch (error) {
     await client.query('ROLLBACK');
     console.error('❌ 오류:', error.message);

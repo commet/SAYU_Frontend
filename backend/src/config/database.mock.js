@@ -2,13 +2,13 @@
 const mockPool = {
   connect: async () => ({
     query: async (text, params) => {
-      console.log('Mock query:', text.substring(0, 50) + '...');
+      console.log('Mock query:', `${text.substring(0, 50)}...`);
       return { rows: [], rowCount: 0 };
     },
     release: () => {}
   }),
   query: async (text, params) => {
-    console.log('Mock query:', text.substring(0, 50) + '...');
+    console.log('Mock query:', `${text.substring(0, 50)}...`);
     return { rows: [], rowCount: 0 };
   },
   end: async () => {}

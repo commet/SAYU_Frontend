@@ -51,9 +51,9 @@ class VenueModel {
   // Find with filters
   static async find(filters = {}, options = {}) {
     const { limit = 50 } = options;
-    
-    let whereConditions = ['is_active = true'];
-    let values = [];
+
+    const whereConditions = ['is_active = true'];
+    const values = [];
     let valueIndex = 1;
 
     if (filters.city) {
@@ -107,7 +107,7 @@ class VenueModel {
       WHERE is_active = true 
       AND crawl_frequency = $1
       ORDER BY last_crawled_at ASC NULLS FIRST`;
-    
+
     const result = await pool.query(query, [crawlFrequency]);
     return result.rows;
   }
@@ -119,7 +119,7 @@ class VenueModel {
       SET last_crawled_at = CURRENT_TIMESTAMP 
       WHERE id = $1 
       RETURNING last_crawled_at`;
-    
+
     const result = await pool.query(query, [id]);
     return result.rows[0];
   }
@@ -131,7 +131,7 @@ class VenueModel {
       SET exhibition_count = exhibition_count + 1 
       WHERE id = $1 
       RETURNING exhibition_count`;
-    
+
     const result = await pool.query(query, [id]);
     return result.rows[0];
   }
@@ -139,7 +139,7 @@ class VenueModel {
   // Seed initial venues
   static async seedVenues(venues) {
     const results = [];
-    
+
     for (const venue of venues) {
       try {
         // Check if venue already exists
@@ -154,7 +154,7 @@ class VenueModel {
         results.push({ venue: venue.name, status: 'error', error: error.message });
       }
     }
-    
+
     return results;
   }
 }

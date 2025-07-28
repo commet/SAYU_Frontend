@@ -12,7 +12,7 @@ module.exports = {
       max: 100,
       message: '요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요.'
     },
-    
+
     // Endpoint-specific limits
     endpoints: {
       auth: {
@@ -36,7 +36,7 @@ module.exports = {
       }
     }
   },
-  
+
   // Account Security Configuration
   accountSecurity: {
     lockout: {
@@ -67,7 +67,7 @@ module.exports = {
       backupCodes: 10
     }
   },
-  
+
   // API Security Configuration
   apiSecurity: {
     keys: {
@@ -95,7 +95,7 @@ module.exports = {
       maxAge: 86400 // 24 hours
     }
   },
-  
+
   // File Upload Security
   fileUpload: {
     limits: {
@@ -136,7 +136,7 @@ module.exports = {
       validateContent: true
     }
   },
-  
+
   // Query Security
   querySecurity: {
     complexity: {
@@ -156,7 +156,7 @@ module.exports = {
       sanitizeInput: true
     }
   },
-  
+
   // Monitoring and Logging
   monitoring: {
     security: {
@@ -180,7 +180,7 @@ module.exports = {
       }
     }
   },
-  
+
   // Headers Security
   headers: {
     helmet: {
@@ -210,7 +210,7 @@ module.exports = {
       'Permissions-Policy': 'camera=(), microphone=(), geolocation=()'
     }
   },
-  
+
   // Encryption and Hashing
   crypto: {
     bcrypt: {
@@ -229,7 +229,7 @@ module.exports = {
       iterations: 100000
     }
   },
-  
+
   // Content Security
   content: {
     sanitization: {
@@ -265,7 +265,7 @@ module.exports = {
       }
     }
   },
-  
+
   // Emergency Response
   emergency: {
     killSwitch: {

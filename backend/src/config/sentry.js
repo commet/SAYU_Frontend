@@ -7,21 +7,21 @@ function initSentry() {
     Sentry.init({
       dsn: process.env.SENTRY_DSN,
       environment: process.env.NODE_ENV || 'development',
-      
+
       // Performance monitoring
       tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0,
       profilesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0,
-      
+
       integrations: [
         nodeProfilingIntegration()
       ],
-      
+
       // Release tracking
       release: process.env.npm_package_version || '1.0.0',
-      
+
       // Sample rate for error events
       sampleRate: 1.0,
-      
+
       // Filter sensitive data
       beforeSend(event) {
         // Remove sensitive headers
@@ -30,7 +30,7 @@ function initSentry() {
           delete event.request.headers.cookie;
           delete event.request.headers['x-api-key'];
         }
-        
+
         // Remove sensitive form data
         if (event.request?.data) {
           if (typeof event.request.data === 'object') {
@@ -39,10 +39,10 @@ function initSentry() {
             delete event.request.data.refreshToken;
           }
         }
-        
+
         return event;
       },
-      
+
       // Custom tags
       initialScope: {
         tags: {
@@ -71,26 +71,26 @@ function captureException(error, context = {}) {
     if (context.userId) {
       scope.setUser({ id: context.userId });
     }
-    
+
     // Add custom tags
     if (context.tags) {
       Object.entries(context.tags).forEach(([key, value]) => {
         scope.setTag(key, value);
       });
     }
-    
+
     // Add extra context
     if (context.extra) {
       Object.entries(context.extra).forEach(([key, value]) => {
         scope.setExtra(key, value);
       });
     }
-    
+
     // Set transaction name if available
     if (context.transaction) {
       scope.setTransactionName(context.transaction);
     }
-    
+
     Sentry.captureException(error);
   });
 }
@@ -106,19 +106,19 @@ function captureMessage(message, level = 'info', context = {}) {
     if (context.userId) {
       scope.setUser({ id: context.userId });
     }
-    
+
     if (context.tags) {
       Object.entries(context.tags).forEach(([key, value]) => {
         scope.setTag(key, value);
       });
     }
-    
+
     if (context.extra) {
       Object.entries(context.extra).forEach(([key, value]) => {
         scope.setExtra(key, value);
       });
     }
-    
+
     Sentry.captureMessage(message, level);
   });
 }
@@ -135,7 +135,7 @@ function addUserContext(userId, userInfo = {}) {
 function addRequestContext(req) {
   Sentry.getCurrentScope().setTag('endpoint', `${req.method} ${req.route?.path || req.path}`);
   Sentry.getCurrentScope().setExtra('requestId', req.id);
-  
+
   if (req.userId) {
     addUserContext(req.userId, {
       role: req.userRole

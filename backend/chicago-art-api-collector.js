@@ -38,7 +38,7 @@ class ChicagoArtAPICollector {
           const now = new Date();
           const start = ex.aic_start_at ? new Date(ex.aic_start_at) : null;
           const end = ex.aic_end_at ? new Date(ex.aic_end_at) : null;
-          
+
           return start && end && start <= now && end >= now;
         });
 
@@ -73,10 +73,10 @@ class ChicagoArtAPICollector {
   async getExhibitionDetail(id) {
     try {
       const response = await axios.get(`${this.baseUrl}/exhibitions/${id}`);
-      const data = response.data.data;
+      const { data } = response.data;
 
       console.log(`✅ 상세 정보: ${data.title}`);
-      
+
       return {
         title_en: data.title,
         title_local: data.title,
@@ -99,7 +99,7 @@ class ChicagoArtAPICollector {
 
   async collectGalleries() {
     console.log('\n📍 갤러리별 현재 전시 작품 조회...');
-    
+
     try {
       // 갤러리 목록
       const galleriesResponse = await axios.get(`${this.baseUrl}/galleries`, {
@@ -160,7 +160,7 @@ class ChicagoArtAPICollector {
             exhibition.source,
             exhibition.status || 'ongoing'
           ]);
-          
+
           saved++;
         }
       }
@@ -184,11 +184,11 @@ class ChicagoArtAPICollector {
 // 실행
 async function main() {
   const collector = new ChicagoArtAPICollector();
-  
+
   console.log('🏛️ Art Institute of Chicago');
   console.log('미국 3대 미술관 중 하나');
   console.log('인상파와 후기 인상파 컬렉션으로 유명\n');
-  
+
   await collector.collectExhibitions();
   await pool.end();
 }

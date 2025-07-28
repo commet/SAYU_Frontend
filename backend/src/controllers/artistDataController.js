@@ -5,7 +5,7 @@ const PythonWikipediaService = require('../services/pythonWikipediaService');
 
 /**
  * 아티스트 데이터 수집 및 관리 컨트롤러
- * 
+ *
  * 엔드포인트:
  * POST /api/artists/collect-single - 단일 아티스트 수집
  * POST /api/artists/collect-batch - 배치 아티스트 수집
@@ -22,7 +22,7 @@ exports.collectSingleArtist = async (req, res) => {
     const { artistName, method = 'enhanced', forceUpdate = false } = req.body;
 
     if (!artistName) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         error: 'Artist name is required',
         example: { artistName: 'Pablo Picasso' }
       });
@@ -49,7 +49,7 @@ exports.collectSingleArtist = async (req, res) => {
         break;
 
       default:
-        return res.status(400).json({ 
+        return res.status(400).json({
           error: 'Invalid collection method',
           validMethods: ['enhanced', 'python', 'hybrid']
         });
@@ -58,16 +58,16 @@ exports.collectSingleArtist = async (req, res) => {
     if (result && (result.id || result.success)) {
       res.json({
         success: true,
-        method: method,
+        method,
         artist: result,
         message: `Artist '${artistName}' collected successfully`
       });
     } else {
       res.status(404).json({
         success: false,
-        method: method,
+        method,
         error: result?.error || 'Artist not found or collection failed',
-        artistName: artistName
+        artistName
       });
     }
 
@@ -86,18 +86,18 @@ exports.collectSingleArtist = async (req, res) => {
  */
 exports.collectArtistsBatch = async (req, res) => {
   try {
-    const { 
-      artistNames, 
-      method = 'enhanced', 
+    const {
+      artistNames,
+      method = 'enhanced',
       batchSize = 10,
       delay = 2000,
-      forceUpdate = false 
+      forceUpdate = false
     } = req.body;
 
     if (!Array.isArray(artistNames) || artistNames.length === 0) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         error: 'Artist names array is required',
-        example: { 
+        example: {
           artistNames: ['Pablo Picasso', 'Vincent van Gogh', 'Frida Kahlo'],
           method: 'hybrid',
           batchSize: 5
@@ -122,7 +122,7 @@ exports.collectArtistsBatch = async (req, res) => {
       message: 'Batch collection started',
       batchId: Date.now(),
       artistCount: artistNames.length,
-      method: method,
+      method,
       estimatedTime: `${Math.ceil(artistNames.length * delay / 1000 / 60)} minutes`
     });
 
@@ -165,7 +165,7 @@ async function processBatchInBackground(artistNames, method, options) {
           try {
             const result = await PythonWikipediaService.hybridArtistCollection(artistName, options);
             results.successful.push({ name: artistName, data: result });
-            
+
             // 지연 적용
             if (options.delay) {
               await new Promise(resolve => setTimeout(resolve, options.delay));
@@ -388,18 +388,18 @@ exports.getSetupGuide = async (req, res) => {
  */
 exports.searchArtists = async (req, res) => {
   try {
-    const { 
-      query, 
-      nationality, 
-      era, 
-      limit = 20, 
+    const {
+      query,
+      nationality,
+      era,
+      limit = 20,
       offset = 0,
-      sortBy = 'relevance' 
+      sortBy = 'relevance'
     } = req.query;
 
     if (!query) {
-      return res.status(400).json({ 
-        error: 'Search query is required' 
+      return res.status(400).json({
+        error: 'Search query is required'
       });
     }
 
@@ -489,7 +489,7 @@ exports.searchArtists = async (req, res) => {
     const countResult = await pool.query(countQuery, countParams);
 
     res.json({
-      query: query,
+      query,
       filters: { nationality, era, sortBy },
       results: result.rows,
       pagination: {
@@ -595,13 +595,13 @@ exports.getDataQualityReport = async (req, res) => {
         totalArtists: total,
         averageQualityScore: Math.round(parseFloat(quality.avg_quality_score)),
         completenessRating: total > 0 ? Math.round(
-          (parseInt(quality.has_meaningful_bio) + 
-           parseInt(quality.has_birth_year) + 
-           parseInt(quality.has_nationality) + 
+          (parseInt(quality.has_meaningful_bio) +
+           parseInt(quality.has_birth_year) +
+           parseInt(quality.has_nationality) +
            parseInt(quality.has_images)) / (total * 4) * 100
         ) : 0
       },
-      
+
       completeness: {
         biography: {
           count: parseInt(quality.has_meaningful_bio),
@@ -620,27 +620,27 @@ exports.getDataQualityReport = async (req, res) => {
           percentage: total > 0 ? Math.round(parseInt(quality.has_images) / total * 100) : 0
         }
       },
-      
+
       sources: {
         wikipedia: parseInt(quality.from_wikipedia),
         wikidata: parseInt(quality.from_wikidata),
         museums: parseInt(quality.from_museums)
       },
-      
+
       freshness: {
         updatedThisWeek: parseInt(quality.updated_week),
         updatedThisMonth: parseInt(quality.updated_month)
       },
-      
+
       issues: issuesResult.rows,
-      
+
       recommendations: [
         quality.has_meaningful_bio / total < 0.7 ? 'Focus on collecting biographical information' : null,
         quality.has_images / total < 0.5 ? 'Improve image collection from multiple sources' : null,
         quality.has_nationality / total < 0.8 ? 'Enhance nationality data collection' : null,
         quality.updated_month / total < 0.3 ? 'Update stale artist records' : null
       ].filter(Boolean),
-      
+
       generatedAt: new Date().toISOString()
     });
 

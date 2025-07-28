@@ -8,7 +8,7 @@ class RealExhibitionDataResearch {
   constructor() {
     this.geminiApiKey = process.env.GOOGLE_AI_API_KEY;
     this.gptApiKey = process.env.OPENAI_API_KEY;
-    
+
     this.realSources = {
       // 1. 공식 API들 (최우선)
       officialAPIs: {
@@ -74,7 +74,7 @@ class RealExhibitionDataResearch {
           }
         }
       },
-      
+
       // 2. RSS 피드들
       rssFeeds: {
         'artforum': {
@@ -84,13 +84,13 @@ class RealExhibitionDataResearch {
           reliability: 80
         },
         'artnet': {
-          name: 'Artnet News RSS', 
+          name: 'Artnet News RSS',
           url: 'https://news.artnet.com/feed',
           content_type: 'art_market_news',
           reliability: 75
         }
       },
-      
+
       // 3. 구조화된 데이터 (Schema.org)
       structuredData: {
         target_types: ['Event', 'ExhibitionEvent', 'VisualArtsEvent'],
@@ -103,7 +103,7 @@ class RealExhibitionDataResearch {
           'https://sema.seoul.go.kr'
         ]
       },
-      
+
       // 4. 공식 캘린더 피드 (iCal)
       calendarFeeds: {
         format: 'ical',
@@ -120,16 +120,16 @@ class RealExhibitionDataResearch {
 
     // Phase 1: 해외 공식 API 조사
     await this.investigateInternationalAPIs();
-    
+
     // Phase 2: 국내 데이터 소스 심층 조사
     await this.investigateDomesticSources();
-    
+
     // Phase 3: AI 활용 검증 시스템 설계
     await this.designAIVerificationSystem();
-    
+
     // Phase 4: 실제 구현 가능한 시스템 아키텍처
     await this.designImplementableArchitecture();
-    
+
     // Phase 5: 법적/윤리적 가이드라인
     await this.establishLegalGuidelines();
   }
@@ -140,29 +140,29 @@ class RealExhibitionDataResearch {
 
     for (const [category, apis] of Object.entries(this.realSources.officialAPIs)) {
       console.log(`\n📂 ${category.toUpperCase()}:`);
-      
+
       for (const [key, api] of Object.entries(apis)) {
         console.log(`\n🏛️ ${api.name}`);
         console.log(`   URL: ${api.url}`);
         console.log(`   신뢰도: ${api.reliability}%`);
         console.log(`   무료: ${api.free ? '✅' : '❌'}`);
         console.log(`   API 키 필요: ${api.api_key_required ? '✅' : '❌'}`);
-        
+
         if (api.endpoint) {
           try {
             console.log(`   🔍 API 접근성 테스트 중...`);
-            const response = await axios.get(api.endpoint, { 
+            const response = await axios.get(api.endpoint, {
               timeout: 10000,
               headers: { 'User-Agent': 'SAYU-Research/1.0' }
             });
             console.log(`   ✅ 접근 가능 (${response.status})`);
-            
+
             // 응답 구조 분석
             if (response.data && typeof response.data === 'object') {
               const keys = Object.keys(response.data).slice(0, 3);
               console.log(`   📊 데이터 구조: ${keys.join(', ')}...`);
             }
-            
+
           } catch (error) {
             if (error.code === 'ENOTFOUND') {
               console.log(`   ❌ 도메인 접근 불가`);
@@ -172,7 +172,7 @@ class RealExhibitionDataResearch {
               console.log(`   ⚠️ 접근 제한: ${error.message}`);
             }
           }
-          
+
           await new Promise(resolve => setTimeout(resolve, 2000)); // 예의 있는 요청 간격
         }
       }
@@ -213,37 +213,37 @@ class RealExhibitionDataResearch {
     for (const museum of domesticMuseums) {
       console.log(`\n🏛️ ${museum.name} 데이터 소스 조사`);
       console.log(`   메인 사이트: ${museum.url}`);
-      
+
       try {
         // 메인 페이지 접근
         const response = await axios.get(museum.url, {
           timeout: 10000,
           headers: { 'User-Agent': 'SAYU-Research/1.0' }
         });
-        
+
         console.log(`   ✅ 메인 사이트 접근 가능`);
-        
+
         // robots.txt 확인
         try {
           const robotsResponse = await axios.get(`${museum.url}/robots.txt`);
           console.log(`   🤖 robots.txt 확인됨`);
-          
+
           // User-agent 및 허용/금지 규칙 간단 분석
           const robotsText = robotsResponse.data;
           const hasDisallow = robotsText.includes('Disallow:');
           const hasApiPath = robotsText.includes('/api');
-          
+
           if (hasDisallow) {
             console.log(`   ⚠️ 일부 경로 크롤링 제한 있음`);
           }
           if (hasApiPath) {
             console.log(`   📡 API 경로 언급됨`);
           }
-          
+
         } catch (e) {
           console.log(`   ❓ robots.txt 없음 (기본 예의 준수)`);
         }
-        
+
         // 잠재적 API 엔드포인트 테스트
         if (museum.potential_apis) {
           for (const apiPath of museum.potential_apis) {
@@ -256,11 +256,11 @@ class RealExhibitionDataResearch {
             }
           }
         }
-        
+
       } catch (error) {
         console.log(`   ❌ 접근 실패: ${error.message}`);
       }
-      
+
       await new Promise(resolve => setTimeout(resolve, 3000));
     }
   }
@@ -297,7 +297,7 @@ Rules:
 - If dates are unclear, set confidence below 0.7
         `
       },
-      
+
       phase2_verification: {
         tool: 'GPT API',
         purpose: '추출된 정보의 사실 확인 및 교차 검증',
@@ -308,7 +308,7 @@ Rules:
           '4. 중복 데이터 감지'
         ]
       },
-      
+
       phase3_quality_scoring: {
         criteria: {
           completeness: '필수 필드 모두 존재 (제목, 장소, 날짜)',
@@ -338,10 +338,10 @@ Rules:
 
   async testGeminiAPI() {
     console.log('\n🧪 Gemini API 연결 테스트:');
-    
+
     try {
       const testUrl = 'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent';
-      
+
       const testPayload = {
         contents: [{
           parts: [{
@@ -361,7 +361,7 @@ Rules:
         console.log('   ✅ Gemini API 연결 성공');
         console.log(`   📝 응답: ${response.data.candidates[0].content.parts[0].text}`);
       }
-      
+
     } catch (error) {
       console.log('   ❌ Gemini API 연결 실패');
       if (error.response?.status === 403) {
@@ -388,7 +388,7 @@ Rules:
             expected_data: '100-200개 검증된 전시'
           },
           {
-            name: 'Cleveland Museum API Collector', 
+            name: 'Cleveland Museum API Collector',
             description: '클리블랜드 미술관 오픈 API',
             implementation: 'API 키 불필요, 오픈 액세스',
             expected_data: '50-100개 검증된 전시'
@@ -401,9 +401,9 @@ Rules:
           }
         ]
       },
-      
+
       medium_term: {
-        priority: 'MEDIUM', 
+        priority: 'MEDIUM',
         timeline: '1주일 내',
         components: [
           {
@@ -420,10 +420,10 @@ Rules:
           }
         ]
       },
-      
+
       long_term: {
         priority: 'LOW',
-        timeline: '1개월 내', 
+        timeline: '1개월 내',
         components: [
           {
             name: 'Multi-Source Aggregator',
@@ -463,7 +463,7 @@ Rules:
         '✅ 개인정보 수집 금지',
         '✅ 상업적 이용 시 별도 허가'
       ],
-      
+
       ethical_standards: [
         '✅ 출처 명시 의무',
         '✅ 데이터 정확성 검증',
@@ -471,7 +471,7 @@ Rules:
         '✅ 미술관에 부담 주지 않는 요청 빈도',
         '✅ 투명한 데이터 수집 과정'
       ],
-      
+
       quality_assurance: [
         '✅ AI 검증 필수',
         '✅ 사람 최종 검토',
@@ -492,16 +492,16 @@ Rules:
 
 async function main() {
   const researcher = new RealExhibitionDataResearch();
-  
+
   try {
     await researcher.startUltraThinkResearch();
-    
+
     console.log('\n\n🎉 180분 ULTRA THINK 연구 완료!');
     console.log('✅ 실제 검증 가능한 방법론 확립');
     console.log('🚀 즉시 구현 가능한 시스템 설계');
     console.log('⚖️ 법적/윤리적 가이드라인 수립');
     console.log('\n💡 다음 단계: 설계된 시스템 실제 구현');
-    
+
   } catch (error) {
     console.error('❌ 연구 중 오류:', error);
   }
