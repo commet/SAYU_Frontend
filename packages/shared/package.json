@@ -1,0 +1,15 @@
+{
+  "name": "@sayu/shared",
+  "version": "0.0.1",
+  "description": "SAYU 프로젝트 공통 타입 및 유틸리티",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "echo \"No tests yet\""
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
