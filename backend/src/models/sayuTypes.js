@@ -1,6 +1,6 @@
 // sayuTypes.js
 // 중앙 정의 파일 import
-const { SAYU_TYPES, SAYU_FUNCTIONS, getSAYUType, getSAYUFunction } = require('../../../shared/SAYUTypeDefinitions');
+const { SAYU_TYPES, SAYU_FUNCTIONS, getSAYUType, getSAYUFunction } = require('@sayu/shared');
 
 class SAYUTypes {
     constructor() {

@@ -66,7 +66,7 @@ export default function GlobalNav() {
 
   // Don't show nav on auth pages
   const hideNavPaths = ['/login', '/signup', '/register', '/onboarding', '/forgot-password'];
-  if (hideNavPaths.some(path => pathname.startsWith(path))) return null;
+  if (hideNavPaths.some(path => pathname?.startsWith(path))) return null;
 
   const handleNavClick = (e: React.MouseEvent, item: typeof navItems[0]) => {
     e.preventDefault();

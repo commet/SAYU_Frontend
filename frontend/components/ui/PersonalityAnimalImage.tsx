@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { PersonalityAnimal } from '@/data/personality-animals';
 
 interface PersonalityAnimalImageProps {
@@ -76,19 +76,21 @@ export function PersonalityAnimalImage({
         </div>
       )}
       
-      <Image
+      <OptimizedImage
         src={imagePath}
         alt={`${animal.animal_ko} 캐릭터`}
         width={width}
         height={height}
         className="object-contain rounded-lg"
+        placeholder="blur"
+        quality={90}
         onLoad={() => setIsLoading(false)}
-        onError={(e) => {
+        onError={() => {
           console.error('Image load error:', {
             animalType: animal.type,
             variant,
             imagePath,
-            error: e
+            error: 'Failed to load'
           });
           setImageError(true);
           setIsLoading(false);

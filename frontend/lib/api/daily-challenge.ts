@@ -6,7 +6,7 @@ import type {
   ChallengeMatch,
   DailyChallengeStats,
   ChallengeProgressState
-} from '@/types/daily-challenge';
+} from '@sayu/shared';
 
 const supabase = createClientComponentClient();
 

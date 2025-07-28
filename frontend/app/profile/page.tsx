@@ -171,9 +171,9 @@ export default function ProfilePage() {
   // Load pioneer profile if user is authenticated
   useEffect(() => {
     const loadPioneerProfile = async () => {
-      if (user?.id) {
+      if (user?.auth?.id) {
         try {
-          const profile = await getPioneerProfile(user.id);
+          const profile = await getPioneerProfile(user.auth.id);
           setPioneerProfile(profile);
         } catch (error) {
           console.error('Failed to load pioneer profile:', error);
@@ -191,14 +191,14 @@ export default function ProfilePage() {
 
   // Load follow stats
   useEffect(() => {
-    if (user?.id) {
+    if (user?.auth?.id) {
       loadFollowStats();
     }
   }, [user]);
 
   const loadFollowStats = async () => {
     try {
-      const stats = await followAPI.getFollowStats(user!.id);
+      const stats = await followAPI.getFollowStats(user!.auth.id);
       setFollowStats({
         followerCount: stats.followerCount,
         followingCount: stats.followingCount
@@ -267,11 +267,11 @@ export default function ProfilePage() {
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl font-bold">
-                {user.nickname?.[0] || user.email?.[0] || 'U'}
+                {user.nickname?.[0] || user.auth.email?.[0] || 'U'}
               </div>
               <div>
                 <div className="flex items-center gap-3">
-                  <h1 className="text-2xl font-bold">{user.nickname || user.email}</h1>
+                  <h1 className="text-2xl font-bold">{user.nickname || user.auth.email}</h1>
                   {pioneerProfile?.pioneer_number && (
                     <PioneerBadge 
                       pioneerNumber={pioneerProfile.pioneer_number}
@@ -348,7 +348,7 @@ export default function ProfilePage() {
 
         {/* AI Art Identity Section */}
         <AIArtIdentitySection 
-          userId={user.id} 
+          userId={user.auth.id} 
           personalityType={userPersonalityType} 
         />
 
@@ -365,7 +365,7 @@ export default function ProfilePage() {
               followerCount: followStats.followerCount,
               followingCount: followStats.followingCount
             }} 
-            userId={user?.id}
+            userId={user?.auth?.id}
           />
         </motion.div>
 
@@ -443,7 +443,7 @@ export default function ProfilePage() {
             <ProfileShareCard
               userInfo={{
                 nickname: user.nickname,
-                email: user.email,
+                email: user.auth.email,
                 personalityType: userPersonalityType,
                 level: mockUserStats.level,
                 totalPoints: mockUserStats.totalPoints,
@@ -461,7 +461,7 @@ export default function ProfilePage() {
         onClose={() => setShowSettings(false)}
         userInfo={{
           nickname: user.nickname,
-          email: user.email,
+          email: user.auth.email,
           personalityType: userPersonalityType
         }}
         onUpdate={(updates) => {
@@ -474,7 +474,7 @@ export default function ProfilePage() {
       {showIDCard && userPersonalityType && (
         <ProfileIDCard
           personalityType={userPersonalityType}
-          userName={user.nickname || user.email || 'SAYU Explorer'}
+          userName={user.nickname || user.auth.email || 'SAYU Explorer'}
           userLevel={userPoints?.level || mockUserStats.level}
           userPoints={userPoints?.totalPoints || mockUserStats.totalPoints}
           stats={{

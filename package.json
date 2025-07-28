@@ -7,7 +7,14 @@
   ],
   "scripts": {
     "build": "echo 'Build completed'",
-    "start": "cd backend && node sayu-living-server.js"
+    "start": "cd backend && node sayu-living-server.js",
+    "typecheck": "cd frontend && npm exec -- tsc --noEmit",
+    "typecheck:watch": "cd frontend && npx tsc --noEmit --watch",
+    "lint": "cd frontend && npm run lint",
+    "test": "cd backend && npm test",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "health-check": "npm run typecheck && npm run lint && npm run test"
   },
   "dependencies": {
     "cors": "^2.8.5",

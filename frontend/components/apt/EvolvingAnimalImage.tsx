@@ -1,6 +1,6 @@
 // Evolving Animal Image Component - 기존 이미지를 활용한 진화 시각화
 import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -121,12 +121,12 @@ export function EvolvingAnimalImage({
             filter: STAGE_FILTERS[evolutionStage as keyof typeof STAGE_FILTERS]
           }}
         >
-          <Image
+          <OptimizedImage
             src={IMAGE_PATHS[aptType]}
             alt={`${aptType} Animal`}
             fill
             className="object-contain"
-            priority
+            priority placeholder="blur" quality={90}
           />
         </div>
 

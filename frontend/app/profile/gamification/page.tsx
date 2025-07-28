@@ -52,8 +52,8 @@ export default function GamificationPage() {
     { id: 'evaluations' as TabType, label: language === 'ko' ? '평가' : 'Evaluations', icon: Star }
   ];
 
-  const activeMissions = dashboard.challenges?.filter(c => c.status === 'active') || [];
-  const completedMissions = dashboard.challenges?.filter(c => c.status === 'completed') || [];
+  const activeMissions = dashboard.challenges?.filter((c: any) => c.status === 'active') || [];
+  const completedMissions = dashboard.challenges?.filter((c: any) => c.status === 'completed') || [];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-pink-50">
@@ -120,7 +120,7 @@ export default function GamificationPage() {
                   <div className="flex items-center justify-between mb-4">
                     <Zap className="w-8 h-8 text-amber-500" />
                     <span className="text-2xl font-bold">
-                      {dashboard.achievements?.filter(a => a.earnedAt).length || 0}
+                      {dashboard.achievements?.filter((a: any) => a.earnedAt).length || 0}
                     </span>
                   </div>
                   <p className="text-gray-600">
@@ -184,7 +184,7 @@ export default function GamificationPage() {
                 </h3>
                 {activeMissions.length > 0 ? (
                   <div className="grid md:grid-cols-2 gap-4">
-                    {activeMissions.map(mission => (
+                    {activeMissions.map((mission: any) => (
                       <MissionCard
                         key={mission.id}
                         mission={mission}
@@ -212,7 +212,7 @@ export default function GamificationPage() {
                     {language === 'ko' ? '완료한 미션' : 'Completed Missions'}
                   </h3>
                   <div className="grid md:grid-cols-2 gap-4 opacity-60">
-                    {completedMissions.map(mission => (
+                    {completedMissions.map((mission: any) => (
                       <MissionCard key={mission.id} mission={mission} />
                     ))}
                   </div>
@@ -224,8 +224,8 @@ export default function GamificationPage() {
           {activeTab === 'achievements' && (
             <div className="space-y-6">
               {['exploration', 'social', 'knowledge', 'special'].map(category => {
-                const categoryAchievements = dashboard.achievements?.filter(a => a.category === category) || [];
-                const unlockedCount = categoryAchievements.filter(a => a.earnedAt).length;
+                const categoryAchievements = dashboard.achievements?.filter((a: any) => a.category === category) || [];
+                const unlockedCount = categoryAchievements.filter((a: any) => a.earnedAt).length;
 
                 return (
                   <div key={category} className="bg-white rounded-xl p-6 shadow-sm">
@@ -239,8 +239,8 @@ export default function GamificationPage() {
                       } ({unlockedCount}/{categoryAchievements.length})
                     </h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                      {categoryAchievements.map(achievement => {
-                        const userAchievement = categoryAchievements.find(a => a.id === achievement.id);
+                      {categoryAchievements.map((achievement: any) => {
+                        const userAchievement = categoryAchievements.find((a: any) => a.id === achievement.id);
                         return (
                           <AchievementBadge
                             key={achievement.id}

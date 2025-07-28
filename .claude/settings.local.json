@@ -8,7 +8,15 @@
       "Bash(npm init:*)",
       "Bash(git checkout:*)",
       "Bash(cp:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(sed:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(npx tsc:*)",
+      "Bash(od:*)",
+      "Bash(yarn tsc:*)",
+      "Bash(npm run typecheck:*)",
+      "Bash(powershell:*)"
     ],
     "deny": []
   }

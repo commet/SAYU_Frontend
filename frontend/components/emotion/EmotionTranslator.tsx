@@ -8,7 +8,7 @@ import {
   WeatherMetaphor,
   AbstractShape,
   SoundTexture 
-} from '@/types/emotion-translation';
+} from '@sayu/shared';
 import EmotionColorPicker from './EmotionColorPicker';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

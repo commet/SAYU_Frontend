@@ -2,7 +2,7 @@
 
 /* @ts-nocheck */
 
-import React, { useRef, useState, useEffect, Suspense } from 'react';
+import React, { useRef, useState, useEffect, Suspense, lazy } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { 
   PerspectiveCamera, 
@@ -30,14 +30,15 @@ import { motion } from 'framer-motion';
 import SpatialNavigator, { SAYU_DIMENSIONS } from '@/lib/spatial-architecture';
 import useAnimationStore from '@/lib/animation-system';
 import useThemeStore from '@/lib/unified-theme-system';
-import { 
-  PersonalityLabDimension, 
-  ArtStudioDimension, 
-  GalleryHallDimension, 
-  CommunityLoungeDimension 
-} from './InteractiveDimensions';
+// Dynamic imports for heavy 3D dimension components
+const PersonalityLabDimension = lazy(() => import('./InteractiveDimensions').then(mod => ({ default: mod.PersonalityLabDimension })));
+const ArtStudioDimension = lazy(() => import('./InteractiveDimensions').then(mod => ({ default: mod.ArtStudioDimension })));
+const GalleryHallDimension = lazy(() => import('./InteractiveDimensions').then(mod => ({ default: mod.GalleryHallDimension })));
+const CommunityLoungeDimension = lazy(() => import('./InteractiveDimensions').then(mod => ({ default: mod.CommunityLoungeDimension })));
 import { ParticleField, VolumetricLight, PortalEffect } from './WebGPUEffects';
-import { AICuratorAvatar, AICurator3DChat } from './AICuratorAvatar';
+// Dynamic imports for heavy 3D components
+const AICuratorAvatar = lazy(() => import('./AICuratorAvatar').then(mod => ({ default: mod.AICuratorAvatar })));
+const AICurator3DChat = lazy(() => import('./AICuratorAvatar').then(mod => ({ default: mod.AICurator3DChat })));
 
 // Portal Component
 function Portal({ 
@@ -305,20 +306,40 @@ function SpatialScene() {
         </>
       )}
       
-      {currentDimension === 'PERSONALITY_LAB' && <PersonalityLabDimension />}
-      {currentDimension === 'ART_STUDIO' && <ArtStudioDimension />}
-      {currentDimension === 'GALLERY_HALL' && <GalleryHallDimension />}
-      {currentDimension === 'COMMUNITY_LOUNGE' && <CommunityLoungeDimension />}
+      {currentDimension === 'PERSONALITY_LAB' && (
+        <Suspense fallback={null}>
+          <PersonalityLabDimension />
+        </Suspense>
+      )}
+      {currentDimension === 'ART_STUDIO' && (
+        <Suspense fallback={null}>
+          <ArtStudioDimension />
+        </Suspense>
+      )}
+      {currentDimension === 'GALLERY_HALL' && (
+        <Suspense fallback={null}>
+          <GalleryHallDimension />
+        </Suspense>
+      )}
+      {currentDimension === 'COMMUNITY_LOUNGE' && (
+        <Suspense fallback={null}>
+          <CommunityLoungeDimension />
+        </Suspense>
+      )}
 
       {/* AI Curator Avatar */}
-      <AICuratorAvatar 
-        position={[10, 3, 10]} 
-        onInteraction={() => setShowAIChat(true)}
-      />
+      <Suspense fallback={null}>
+        <AICuratorAvatar 
+          position={[10, 3, 10]} 
+          onInteraction={() => setShowAIChat(true)}
+        />
+      </Suspense>
       
       {/* AI Chat Interface */}
       {showAIChat && (
-        <AICurator3DChat onClose={() => setShowAIChat(false)} />
+        <Suspense fallback={null}>
+          <AICurator3DChat onClose={() => setShowAIChat(false)} />
+        </Suspense>
       )}
       
       {/* Floating Particles */}

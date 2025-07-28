@@ -13,7 +13,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { galleryApi, Artwork, FollowingArtist } from '@/lib/gallery-api';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import toast from 'react-hot-toast';
 
 interface UserProfile {
@@ -411,7 +411,7 @@ function GalleryContent() {
   const { user, loading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const isGuestMode = searchParams.get('guest') === 'true';
+  const isGuestMode = searchParams?.get('guest') === 'true';
   const [galleryArtworks, setGalleryArtworks] = useState<GalleryArtwork[]>([]);
   const [loading_artworks, setLoadingArtworks] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('paintings');
@@ -849,16 +849,16 @@ function GalleryContent() {
                 >
                   {/* Image */}
                   <div className="aspect-square relative overflow-hidden">
-                    <Image
+                    <OptimizedImage
                       src={artwork.imageUrl}
                       alt={artwork.title}
                       fill
                       sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                       className="object-cover group-hover:scale-110 transition-transform duration-300"
-                      onLoad={() => console.log('✅ Image loaded:', artwork.title)}
-                      onError={(e) => {
+                      placeholder="blur"
+                      quality={90}
+                      onError={() => {
                         console.error('❌ Image failed to load:', artwork.imageUrl);
-                        e.currentTarget.src = '/images/placeholder-artwork.svg';
                       }}
                     />
                     

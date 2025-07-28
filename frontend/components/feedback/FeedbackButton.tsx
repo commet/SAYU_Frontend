@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MessageCircle, Feedback } from 'lucide-react';
+import { MessageCircle, MessageSquare } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import FeedbackModal from './FeedbackModal';
 

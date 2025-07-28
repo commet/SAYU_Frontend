@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useRouter } from 'next/navigation';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { GalleryLayout } from '@/components/gallery/GalleryLayout';
 import { Button } from '@/components/ui/button';
 import { 
@@ -46,7 +46,7 @@ interface ArtworkDetail {
 export default function ArtworkDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const artworkId = params.id as string;
+  const artworkId = params?.id as string;
   
   const [artwork, setArtwork] = useState<ArtworkDetail | null>(null);
   const [loading, setLoading] = useState(true);
@@ -272,13 +272,13 @@ export default function ArtworkDetailPage() {
               className="artwork-frame cursor-zoom-in relative overflow-hidden"
               onClick={() => setShowZoom(true)}
             >
-              <Image
+              <OptimizedImage
                 src={artwork.imageUrl}
                 alt={artwork.title}
                 width={800}
                 height={600}
                 className="w-full h-auto"
-                priority
+                priority placeholder="blur" quality={90}
               />
               
               {/* Zoom Hint */}
@@ -489,7 +489,7 @@ export default function ArtworkDetailPage() {
               onMouseLeave={handleMouseUp}
               style={{ cursor: zoomLevel > 1 ? 'grab' : 'default' }}
             >
-              <Image
+              <OptimizedImage
                 src={artwork.highResImageUrl || artwork.imageUrl}
                 alt={artwork.title}
                 width={1200}
@@ -498,7 +498,7 @@ export default function ArtworkDetailPage() {
                 style={{
                   transform: `scale(${zoomLevel}) translate(${imagePosition.x / zoomLevel}px, ${imagePosition.y / zoomLevel}px)`,
                   transition: isDragging ? 'none' : 'transform 0.2s ease-out'
-                }}
+                }} placeholder="blur" quality={90}
               />
             </div>
 

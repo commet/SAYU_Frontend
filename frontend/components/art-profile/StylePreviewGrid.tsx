@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArtStyle } from '@/types/art-profile';
+import { ArtStyle } from '@sayu/shared';
 import { useLanguage } from '@/contexts/LanguageContext';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 
 interface StylePreviewGridProps {
   selectedStyle: ArtStyle | null;

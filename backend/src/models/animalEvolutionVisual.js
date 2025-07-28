@@ -1,5 +1,5 @@
 // Animal Evolution Visual System - 기존 이미지를 활용한 진화 시각화
-const { SAYU_TYPES } = require('../../../shared/SAYUTypeDefinitions');
+const { SAYU_TYPES } = require('@sayu/shared');
 
 class AnimalEvolutionVisual {
   constructor() {

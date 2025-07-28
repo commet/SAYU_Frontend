@@ -1,7 +1,7 @@
 // APT Cache Service - APT별 스마트 캐싱 시스템
 const { getRedisClient } = require('../config/redis');
 const APTVectorSystem = require('../models/aptVectorSystem');
-const { SAYU_TYPES } = require('../../../shared/SAYUTypeDefinitions');
+const { SAYU_TYPES } = require('@sayu/shared');
 const aptDataAccess = require('../models/aptDataAccess');
 
 class APTCacheService {

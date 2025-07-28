@@ -357,13 +357,13 @@ export default function ExhibitionsPage() {
                       exhibition={{
                         title: exhibition.title,
                         description: exhibition.description,
-                        location: `${exhibition.venue_name}, ${exhibition.venue_city}`,
+                        venue: `${exhibition.venue_name}, ${exhibition.venue_city}`,
                         startDate: new Date(exhibition.start_date),
                         endDate: new Date(exhibition.end_date),
                         url: exhibition.venues.website || `${window.location.origin}/exhibitions/${exhibition.id}`
                       }}
                       className="w-full"
-                      variant="outline"
+                      variant="minimal"
                       size="sm"
                     />
                   </div>

@@ -5,7 +5,7 @@ import VenueDetail from '@/components/venue/VenueDetail';
 
 export default function VenueDetailPage() {
   const params = useParams();
-  const venueId = params.id as string;
+  const venueId = params?.id as string;
 
   return (
     <div className="min-h-screen bg-gray-50">

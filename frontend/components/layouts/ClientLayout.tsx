@@ -13,7 +13,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
   // Pages where we don't want to show the navigation
   // These are immersive experiences that need full screen
   const hideNavPaths = ['/quiz/scenario', '/quiz/narrative'];
-  const shouldHideNav = hideNavPaths.some(path => pathname.startsWith(path));
+  const shouldHideNav = hideNavPaths.some(path => pathname?.startsWith(path));
 
   return (
     <>

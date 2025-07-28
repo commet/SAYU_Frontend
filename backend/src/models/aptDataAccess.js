@@ -1,5 +1,6 @@
 // APT Data Access Layer - 실제 DB 접근 함수들
 const db = require('../config/database');
+const { SAYU_TYPES } = require('@sayu/shared');
 
 class APTDataAccess {
   // ==================== 사용자 관련 ====================
@@ -552,7 +553,7 @@ class APTDataAccess {
   }
 
   generateExhibitionMatchReason(exhibition, aptType) {
-    const typeData = require('../../../shared/SAYUTypeDefinitions').SAYU_TYPES[aptType];
+    const typeData = SAYU_TYPES[aptType];
     const reasons = [];
     
     if (aptType[0] === 'L' && exhibition.tags?.includes('quiet')) {

@@ -4,7 +4,7 @@ import {
   EmotionInterpretation, 
   ArtworkMatch,
   EmotionInput 
-} from '@/types/emotion-translation';
+} from '@sayu/shared';
 
 // 감정 해석 결과 타입 가드
 export function isEmotionInterpretation(data: unknown): data is EmotionInterpretation {

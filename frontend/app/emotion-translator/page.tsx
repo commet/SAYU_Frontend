@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import EmotionTranslator from '@/components/emotion/EmotionTranslator';
-import { EmotionInput, ArtworkMatch } from '@/types/emotion-translation';
+import { EmotionInput, ArtworkMatch } from '@sayu/shared';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Sparkles, RefreshCw, Heart, Info, Loader2 } from 'lucide-react';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { useLanguage } from '@/contexts/LanguageContext';
 import toast from 'react-hot-toast';
 

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { throttle } from 'lodash';
-import { HSLColor, EmotionColor } from '@/types/emotion-translation';
+import { HSLColor, EmotionColor } from '@sayu/shared';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';

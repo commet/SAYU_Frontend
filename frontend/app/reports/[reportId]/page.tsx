@@ -65,7 +65,7 @@ export default function ReportPage() {
   const { user, loading } = useAuth();
   const [report, setReport] = useState<ExhibitionReport | null>(null);
   const [loadingReport, setLoadingReport] = useState(true);
-  const reportId = params.reportId as string;
+  const reportId = params?.reportId as string;
 
   useEffect(() => {
     if (!loading && !user) {

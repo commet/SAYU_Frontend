@@ -13,7 +13,7 @@ import {
   Clock,
   Music
 } from 'lucide-react';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -138,12 +138,12 @@ export function ArtworkInteractionPrompts({
       <Card className="p-4 glass-panel">
         <div className="flex gap-4">
           <div className="relative w-24 h-24">
-            <Image 
+            <OptimizedImage 
               src={artwork.image} 
               alt={artwork.title}
               fill
               className="object-cover rounded-lg"
-              sizes="96px"
+              sizes="96px" placeholder="blur" quality={90}
             />
           </div>
           <div className="flex-1">

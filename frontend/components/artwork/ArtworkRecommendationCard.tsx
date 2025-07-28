@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Artwork } from '@/lib/museums/api-client';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 
 interface ArtworkRecommendationCardProps {
   artwork: Artwork;
@@ -67,13 +67,15 @@ export default function ArtworkRecommendationCard({
       <Card className="artwork-recommendation-card overflow-hidden">
         <div className="relative aspect-[4/5] bg-sayu-powder-blue/10">
           {!imageError ? (
-            <Image
+            <OptimizedImage
               src={artwork.thumbnailUrl || artwork.imageUrl}
               alt={artwork.title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover"
               onError={() => setImageError(true)}
+              priority={false}
+              placeholder="blur"
             />
           ) : (
             <div className="flex items-center justify-center h-full bg-sayu-powder-blue/20">

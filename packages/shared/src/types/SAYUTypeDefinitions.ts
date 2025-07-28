@@ -7,6 +7,9 @@
  */
 
 // Type definitions
+export type PersonalityType = 'LAEF' | 'LAMC' | 'LREF' | 'LRMC' | 'SAEF' | 'SAMC' | 'SREF' | 'SRMC' | 
+                             'LAEM' | 'LAEC' | 'LREM' | 'LREC' | 'SAEM' | 'SAEC' | 'SREM' | 'SREC';
+
 export interface SAYUType {
   code: string;
   name: string;

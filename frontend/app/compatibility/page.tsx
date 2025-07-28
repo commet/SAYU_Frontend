@@ -20,8 +20,8 @@ function CompatibilityContent() {
 
   useEffect(() => {
     // Get types from URL params or localStorage
-    const urlType1 = searchParams.get('type1');
-    const urlType2 = searchParams.get('type2');
+    const urlType1 = searchParams?.get('type1');
+    const urlType2 = searchParams?.get('type2');
     
     if (urlType1 && urlType2) {
       setType1(urlType1);

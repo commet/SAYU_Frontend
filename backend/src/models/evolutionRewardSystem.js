@@ -1,5 +1,5 @@
 // Evolution Reward System - 진화 보상 및 마일스톤 체계
-const { SAYU_TYPES } = require('../../../shared/SAYUTypeDefinitions');
+const { SAYU_TYPES } = require('@sayu/shared');
 
 class EvolutionRewardSystem {
   constructor() {

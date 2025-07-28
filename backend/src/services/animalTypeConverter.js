@@ -10,7 +10,7 @@
  */
 
 // Import central SAYU definitions
-const { SAYU_TYPES, VALID_TYPE_CODES, getSAYUType } = require('../../../shared/SAYUTypeDefinitions');
+const { SAYU_TYPES, VALID_TYPE_CODES, getSAYUType } = require('@sayu/shared');
 
 // APT 코드에서 동물 유형 추출
 function getAnimalFromAPT(aptCode) {

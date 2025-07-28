@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Sparkles, Palette } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { ArtStyle, predefinedStyles } from '@/types/art-profile';
+import { ArtStyle, predefinedStyles } from '@sayu/shared';
 import { Button } from '@/components/ui/button';
 import { artProfileAPI } from '@/lib/art-profile-api';
 import { useAuth } from '@/hooks/useAuth';

@@ -3,10 +3,10 @@
 import { useState, memo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, ExternalLink, Calendar, MapPin, Palette } from 'lucide-react';
-import { Artist, ArtistColorPalette } from '@/types/artist';
+import { Artist, ArtistColorPalette } from '@sayu/shared';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 
 interface ArtistCardProps {
   artist: Artist;
@@ -81,13 +81,13 @@ export const ArtistCard = memo(function ArtistCard({
       case 'public_domain':
         return artist.images?.portrait ? (
           <div className="relative w-full h-48">
-            <Image
+            <OptimizedImage
               src={artist.images.portrait}
               alt={displayName}
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              priority={false}
+              priority={false} placeholder="blur" quality={90}
             />
           </div>
         ) : (
@@ -99,13 +99,13 @@ export const ArtistCard = memo(function ArtistCard({
       case 'licensed':
         return artist.images?.portrait ? (
           <div className="relative w-full h-48">
-            <Image
+            <OptimizedImage
               src={artist.images.portrait}
               alt={displayName}
               fill
               className="object-cover opacity-75"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              priority={false}
+              priority={false} placeholder="blur" quality={90}
             />
             <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
               <span className="text-white/80 text-sm font-medium bg-black/50 px-2 py-1 rounded">
@@ -122,13 +122,13 @@ export const ArtistCard = memo(function ArtistCard({
       case 'verified_artist':
         return artist.artistManaged?.profileImage ? (
           <div className="relative w-full h-48">
-            <Image
+            <OptimizedImage
               src={artist.artistManaged.profileImage}
               alt={displayName}
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              priority={false}
+              priority={false} placeholder="blur" quality={90}
             />
           </div>
         ) : (

@@ -4,7 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 import { Eye, MessageCircle, Vote } from 'lucide-react';
-import { ArtPulseSession } from '@/types/art-pulse';
+import { ArtPulseSession } from '@sayu/shared';
 import { cn } from '@/lib/utils';
 
 interface PhaseIndicatorProps {

@@ -1,0 +1,974 @@
+app/agent/page.tsx(48,32): error TS2339: Property 'nickname' does not exist on type 'User'.
+app/auth/callback/page.tsx(13,11): error TS2339: Property 'setTokens' does not exist on type 'AuthContextType'.
+app/community/page.tsx(113,50): error TS2339: Property 'nickname' does not exist on type 'User'.
+app/dashboard/page.tsx(337,11): error TS2322: Type '{ nudge: any; onViewed: () => Promise<void>; onClicked: () => Promise<void>; onClose: () => void; }' is not assignable to type 'IntrinsicAttributes & JourneyNudgeProps'.
+  Property 'onClose' does not exist on type 'IntrinsicAttributes & JourneyNudgeProps'.
+app/dashboard/page.tsx(345,13): error TS2322: Type '{ journeyStatus: any; onOpenJourney: () => void; }' is not assignable to type 'IntrinsicAttributes & JourneyProgressProps'.
+  Property 'journeyStatus' does not exist on type 'IntrinsicAttributes & JourneyProgressProps'.
+app/demo/page.tsx(116,21): error TS2322: Type 'any' is not assignable to type 'never'.
+app/demo/page.tsx(122,21): error TS2322: Type 'any' is not assignable to type 'never'.
+app/exhibitions/page-new.tsx(421,8): error TS2304: Cannot find name 'CreateCompanionRequestModal'.
+app/exhibitions/page.tsx(360,25): error TS2353: Object literal may only specify known properties, and 'location' does not exist in type 'Exhibition'.
+app/exhibitions/page.tsx(366,23): error TS2322: Type '"outline"' is not assignable to type '"button" | "icon" | "minimal" | undefined'.
+app/gallery/page-new.tsx(168,9): error TS2353: Object literal may only specify known properties, and 'action' does not exist in type 'Partial<Pick<Toast, "id" | "icon" | "style" | "duration" | "ariaProps" | "className" | "position" | "iconTheme" | "removeDelay">>'.
+app/home/page.tsx(445,55): error TS2345: Argument of type '{ name: string; icon: string; path: string; status: string; description: string; category: string; }' is not assignable to parameter of type 'Feature'.
+  Types of property 'status' are incompatible.
+    Type 'string' is not assignable to type '"available" | "locked" | undefined'.
+app/journey/page.tsx(81,32): error TS2339: Property 'nickname' does not exist on type 'User'.
+app/journey/page.tsx(100,45): error TS2339: Property 'nickname' does not exist on type 'User'.
+app/journey/page.tsx(116,25): error TS2339: Property 'typeCode' does not exist on type 'User'.
+app/journey/page.tsx(132,25): error TS2339: Property 'agencyLevel' does not exist on type 'User'.
+app/journey/page.tsx(148,25): error TS2339: Property 'journeyStage' does not exist on type 'User'.
+app/journey/page.tsx(164,25): error TS2339: Property 'hasProfile' does not exist on type 'User'.
+app/journey/page.tsx(183,20): error TS2339: Property 'hasProfile' does not exist on type 'User'.
+app/login/page-old.tsx(20,11): error TS2339: Property 'login' does not exist on type 'AuthContextType'.
+app/login/page.tsx(23,11): error TS2339: Property 'login' does not exist on type 'AuthContextType'.
+app/matching/MatchingPageClient.tsx(20,3): error TS2305: Module '"lucide-react"' has no exported member 'Gallery'.
+app/profile/art-profile/page.tsx(9,17): error TS2339: Property 'isAuthenticated' does not exist on type 'AuthContextType'.
+app/profile/gamification/page.tsx(55,36): error TS2339: Property 'challenges' does not exist on type 'DashboardStats'.
+app/profile/gamification/page.tsx(55,55): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/profile/gamification/page.tsx(56,39): error TS2339: Property 'challenges' does not exist on type 'DashboardStats'.
+app/profile/gamification/page.tsx(56,58): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/profile/gamification/page.tsx(75,26): error TS2740: Type 'DashboardStats' is missing the following properties from type 'UserPoints': userId, levelName_ko, achievements, missions, and 3 more.
+app/profile/gamification/page.tsx(113,69): error TS2339: Property 'stats' does not exist on type 'DashboardStats'.
+app/profile/gamification/page.tsx(123,34): error TS2339: Property 'achievements' does not exist on type 'DashboardStats'.
+app/profile/gamification/page.tsx(123,55): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/profile/gamification/page.tsx(134,34): error TS2339: Property 'stats' does not exist on type 'DashboardStats'.
+app/profile/gamification/page.tsx(148,28): error TS2339: Property 'recentActivities' does not exist on type 'DashboardStats'.
+app/profile/gamification/page.tsx(148,58): error TS2339: Property 'recentActivities' does not exist on type 'DashboardStats'.
+app/profile/gamification/page.tsx(150,32): error TS2339: Property 'recentActivities' does not exist on type 'DashboardStats'.
+app/profile/gamification/page.tsx(187,41): error TS7006: Parameter 'mission' implicitly has an 'any' type.
+app/profile/gamification/page.tsx(215,44): error TS7006: Parameter 'mission' implicitly has an 'any' type.
+app/profile/gamification/page.tsx(227,56): error TS2339: Property 'achievements' does not exist on type 'DashboardStats'.
+app/profile/gamification/page.tsx(227,77): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/profile/gamification/page.tsx(228,67): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/profile/gamification/page.tsx(242,49): error TS7006: Parameter 'achievement' implicitly has an 'any' type.
+app/profile/gamification/page.tsx(243,75): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/profile/gamification/page.tsx(268,26): error TS2339: Property 'recentExhibitions' does not exist on type 'DashboardStats'.
+app/profile/gamification/page.tsx(268,57): error TS2339: Property 'recentExhibitions' does not exist on type 'DashboardStats'.
+app/profile/gamification/page.tsx(270,30): error TS2339: Property 'recentExhibitions' does not exist on type 'DashboardStats'.
+app/profile/gamification/page.tsx(338,26): error TS2339: Property 'evaluationStats' does not exist on type 'DashboardStats'.
+app/profile/gamification/page.tsx(339,59): error TS2339: Property 'evaluationStats' does not exist on type 'DashboardStats'.
+app/profile/page.tsx(270,23): error TS2339: Property 'nickname' does not exist on type 'User'.
+app/profile/page.tsx(274,60): error TS2339: Property 'nickname' does not exist on type 'User'.
+app/profile/page.tsx(445,32): error TS2339: Property 'nickname' does not exist on type 'User'.
+app/profile/page.tsx(463,26): error TS2339: Property 'nickname' does not exist on type 'User'.
+app/profile/page.tsx(477,26): error TS2339: Property 'nickname' does not exist on type 'User'.
+app/profile/page.tsx(478,34): error TS2339: Property 'level' does not exist on type 'number'.
+app/profile/page.tsx(479,35): error TS2339: Property 'totalPoints' does not exist on type 'number'.
+app/profile/page.tsx(481,45): error TS2339: Property 'exhibitionHistory' does not exist on type 'number'.
+app/profile/page.tsx(482,47): error TS2339: Property 'achievements' does not exist on type 'number'.
+app/profile/page.tsx(482,68): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/profile/page.tsx(486,25): error TS2339: Property 'exhibitionHistory' does not exist on type 'number'.
+app/profile/page.tsx(486,60): error TS7006: Parameter 'visit' implicitly has an 'any' type.
+app/profile/page.tsx(489,20): error TS2552: Cannot find name 'mockExhibitionRecords'. Did you mean 'ExhibitionRecord'?
+app/profile/page.tsx(489,58): error TS7006: Parameter 'record' implicitly has an 'any' type.
+app/profile/page.tsx(500,25): error TS2339: Property 'achievements' does not exist on type 'number'.
+app/profile/page.tsx(500,46): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/profile/page.tsx(500,81): error TS7006: Parameter 'achievement' implicitly has an 'any' type.
+app/quiz/page.tsx(235,25): error TS2339: Property 'nickname' does not exist on type 'User'.
+app/quiz/results/page-backup.tsx(280,55): error TS7006: Parameter 'strength' implicitly has an 'any' type.
+app/quiz/results/page-backup.tsx(280,65): error TS7006: Parameter 'index' implicitly has an 'any' type.
+app/quiz/results/page-backup.tsx(321,66): error TS7006: Parameter 'movement' implicitly has an 'any' type.
+app/quiz/results/page-backup.tsx(321,76): error TS7006: Parameter 'index' implicitly has an 'any' type.
+app/quiz/results/page-backup.tsx(352,63): error TS7006: Parameter 'color' implicitly has an 'any' type.
+app/quiz/results/page-backup.tsx(352,70): error TS7006: Parameter 'index' implicitly has an 'any' type.
+app/quiz/results/page-backup.tsx(391,63): error TS7006: Parameter 'theme' implicitly has an 'any' type.
+app/quiz/results/page-backup.tsx(391,70): error TS7006: Parameter 'index' implicitly has an 'any' type.
+app/quiz/results/page-backup.tsx(466,43): error TS2339: Property 'additionalWorks' does not exist on type '{ representativeWork: { title: string; artist: string; year: string; image: string; description: { en: string; ko: string; }; recommendationReason: { en: string; ko: string; }; museum: string; }; additionalWorks: { ...; }[]; } | ... 14 more ... | { ...; }'.
+  Property 'additionalWorks' does not exist on type '{ representativeWork: { title: string; artist: string; year: string; image: string; description: { en: string; ko: string; }; recommendationReason: { en: string; ko: string; }; museum: string; }; }'.
+app/quiz/results/page-backup.tsx(466,85): error TS2339: Property 'additionalWorks' does not exist on type '{ representativeWork: { title: string; artist: string; year: string; image: string; description: { en: string; ko: string; }; recommendationReason: { en: string; ko: string; }; museum: string; }; additionalWorks: { ...; }[]; } | ... 14 more ... | { ...; }'.
+  Property 'additionalWorks' does not exist on type '{ representativeWork: { title: string; artist: string; year: string; image: string; description: { en: string; ko: string; }; recommendationReason: { en: string; ko: string; }; museum: string; }; }'.
+app/quiz/results/page-backup.tsx(470,49): error TS2339: Property 'additionalWorks' does not exist on type '{ representativeWork: { title: string; artist: string; year: string; image: string; description: { en: string; ko: string; }; recommendationReason: { en: string; ko: string; }; museum: string; }; additionalWorks: { ...; }[]; } | ... 14 more ... | { ...; }'.
+  Property 'additionalWorks' does not exist on type '{ representativeWork: { title: string; artist: string; year: string; image: string; description: { en: string; ko: string; }; recommendationReason: { en: string; ko: string; }; museum: string; }; }'.
+app/quiz/results/page-backup.tsx(470,82): error TS7006: Parameter 'work' implicitly has an 'any' type.
+app/quiz/results/page-backup.tsx(470,88): error TS7006: Parameter 'index' implicitly has an 'any' type.
+app/reflections/page.tsx(116,9): error TS2322: Type '{ children: Element; isOpen: boolean; onClose: () => void; title: string; }' is not assignable to type 'IntrinsicAttributes & DialogProps'.
+  Property 'isOpen' does not exist on type 'IntrinsicAttributes & DialogProps'. Did you mean 'open'?
+app/register/page.tsx(38,11): error TS2339: Property 'register' does not exist on type 'AuthContextType'.
+app/results/enhanced-results-page.tsx(44,43): error TS2339: Property 'length' does not exist on type 'NonNullable<NoInfer<TQueryFnData>>'.
+app/results/enhanced-results-page.tsx(45,37): error TS2339: Property 'slice' does not exist on type 'NonNullable<NoInfer<TQueryFnData>>'.
+app/results/enhanced-results-page.tsx(90,39): error TS7006: Parameter 'artwork' implicitly has an 'any' type.
+app/results/enhanced-results-page.tsx(90,48): error TS7006: Parameter 'index' implicitly has an 'any' type.
+app/results/enhanced-results-page.tsx(208,10): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ LAEF: { ko: string; en: string; }; LAEC: { ko: string; en: string; }; }'.
+  No index signature with a parameter of type 'string' was found on type '{ LAEF: { ko: string; en: string; }; LAEC: { ko: string; en: string; }; }'.
+app/results/optimized-page.tsx(400,9): error TS2322: Type '{ isOpen: boolean; onClose: () => void; personalityType: string; animalEmoji: any; userName: any; }' is not assignable to type 'IntrinsicAttributes & ShareModalProps'.
+  Property 'animalEmoji' does not exist on type 'IntrinsicAttributes & ShareModalProps'.
+app/results/optimized-page.tsx(401,25): error TS2339: Property 'nickname' does not exist on type 'User'.
+app/results/page-backup.tsx(375,24): error TS2304: Cannot find name 'shareResult'.
+app/results/page-backup.tsx(382,24): error TS2304: Cannot find name 'showProfile'.
+app/results/page-backup.tsx(436,9): error TS2304: Cannot find name 'authLoading'.
+app/results/page-backup.tsx(795,18): error TS2304: Cannot find name 'Heart'.
+app/results/page-backup.tsx(825,24): error TS2304: Cannot find name 'shareResult'.
+app/results/page-backup.tsx(833,24): error TS2304: Cannot find name 'showProfile'.
+app/results/page-backup.tsx(860,8): error TS2552: Cannot find name 'showProfileCard'. Did you mean 'ProfileIDCard'?
+app/results/page-backup.tsx(864,22): error TS2304: Cannot find name 'gamificationData'.
+app/results/page-backup.tsx(865,23): error TS2304: Cannot find name 'gamificationData'.
+app/results/page-backup.tsx(867,33): error TS2304: Cannot find name 'gamificationData'.
+app/results/page-backup.tsx(868,35): error TS2304: Cannot find name 'gamificationData'.
+app/results/page-backup.tsx(868,74): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/results/page-backup.tsx(872,13): error TS2304: Cannot find name 'gamificationData'.
+app/results/page-backup.tsx(872,66): error TS7006: Parameter 'visit' implicitly has an 'any' type.
+app/results/page-backup.tsx(882,13): error TS2304: Cannot find name 'gamificationData'.
+app/results/page-backup.tsx(882,52): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/results/page-backup.tsx(882,85): error TS7006: Parameter 'achievement' implicitly has an 'any' type.
+app/results/page-backup.tsx(887,26): error TS2304: Cannot find name 'setShowProfileCard'.
+app/results/page.tsx(878,51): error TS2339: Property 'exhibitionHistory' does not exist on type 'DashboardStats'.
+app/results/page.tsx(879,53): error TS2339: Property 'achievements' does not exist on type 'DashboardStats'.
+app/results/page.tsx(879,74): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/results/page.tsx(883,31): error TS2339: Property 'recentExhibitions' does not exist on type 'DashboardStats'.
+app/results/page.tsx(883,66): error TS7006: Parameter 'visit' implicitly has an 'any' type.
+app/results/page.tsx(893,31): error TS2339: Property 'achievements' does not exist on type 'DashboardStats'.
+app/results/page.tsx(893,52): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/results/page.tsx(893,85): error TS7006: Parameter 'achievement' implicitly has an 'any' type.
+app/test-components/page.tsx(66,51): error TS18046: 'component' is of type 'unknown'.
+app/test-components/page.tsx(67,61): error TS18046: 'component' is of type 'unknown'.
+app/test-components/page.tsx(76,35): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+app/test-components/page.tsx(79,20): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+app/test-components/page.tsx(83,44): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+app/test-components/page.tsx(84,44): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+app/test-components/page.tsx(85,44): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+app/test-components/page.tsx(86,20): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+app/test-components/page.tsx(87,47): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+app/test-components/page.tsx(89,20): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+app/test-components/page.tsx(90,47): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+components/admin/AdminDashboard.tsx(152,52): error TS18048: 'dashboardData.submissions.pending' is possibly 'undefined'.
+components/admin/EmailTestPage.tsx(24,75): error TS2345: Argument of type '""' is not assignable to parameter of type 'EmailTemplate | (() => EmailTemplate)'.
+components/admin/EmailTestPage.tsx(32,13): error TS2345: Argument of type '{ title: string; description: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/admin/EmailTestPage.tsx(53,13): error TS2345: Argument of type '{ title: string; description: string; }' is not assignable to parameter of type 'string'.
+components/admin/EmailTestPage.tsx(69,13): error TS2345: Argument of type '{ title: string; description: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/admin/EmailTestPage.tsx(109,11): error TS2345: Argument of type '{ title: string; description: string; }' is not assignable to parameter of type 'string'.
+components/admin/EmailTestPage.tsx(157,48): error TS2322: Type 'Dispatch<SetStateAction<EmailTemplate>>' is not assignable to type '(value: string) => void'.
+  Types of parameters 'value' and 'value' are incompatible.
+    Type 'string' is not assignable to type 'SetStateAction<EmailTemplate>'.
+components/animations/AnimalCompanion.tsx(199,9): error TS2322: Type '{ idle: { y: number[]; transition: { duration: number; repeat: number; ease: string; }; }; happy: { scale: number[]; rotate: number[]; transition: { duration: number; repeat: number; ease: string; }; }; thinking: { ...; }; sleeping: { ...; }; excited: { ...; }; }' is not assignable to type 'Variants'.
+  Property 'idle' is incompatible with index signature.
+    Type '{ y: number[]; transition: { duration: number; repeat: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ y: number[]; transition: { duration: number; repeat: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ y: number[]; transition: { duration: number; repeat: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; repeat: number; ease: string; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; repeat: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; repeat: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing | Easing[] | undefined'.
+components/apt-theme/APTArtworkCard.tsx(103,7): error TS2322: Type '{ initial: { opacity: number; y: number; scale: number; }; animate: { opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }; hover: { y: number; scale: number; transition: { ...; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing | Easing[] | undefined'.
+components/apt-theme/APTGalleryLayout.tsx(7,21): error TS2307: Cannot find module 'react-masonry-css' or its corresponding type declarations.
+components/apt-theme/APTGalleryLayout.tsx(135,15): error TS2322: Type '{ hidden: { opacity: number; y: number; scale: number; }; visible: { opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing | Easing[] | undefined'.
+components/apt-theme/APTGalleryLayout.tsx(165,15): error TS2322: Type '{ hidden: { opacity: number; y: number; scale: number; }; visible: { opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing | Easing[] | undefined'.
+components/apt-theme/APTGalleryLayout.tsx(218,17): error TS2322: Type '{ hidden: { opacity: number; y: number; scale: number; }; visible: { opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing | Easing[] | undefined'.
+components/apt-theme/APTGalleryLayout.tsx(256,13): error TS2322: Type '{ hidden: { opacity: number; y: number; scale: number; }; visible: { opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; scale: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing | Easing[] | undefined'.
+components/art-profile/ArtProfileGenerator.tsx(69,35): error TS2339: Property 'isPremium' does not exist on type 'User'.
+components/art-profile/ArtProfileGenerator.tsx(231,40): error TS2339: Property 'recentExhibitions' does not exist on type 'User'.
+components/art-pulse/ArtPulseSession.tsx(157,49): error TS7031: Binding element 'payload' implicitly has an 'any' type.
+components/art-pulse/ArtPulseSession.tsx(162,53): error TS7031: Binding element 'payload' implicitly has an 'any' type.
+components/art-pulse/ArtPulseSession.tsx(174,27): error TS7006: Parameter 'status' implicitly has an 'any' type.
+components/art-pulse/ArtPulseViewer.tsx(10,25): error TS2307: Cannot find module '@/contexts/AuthContext' or its corresponding type declarations.
+components/art-pulse/ArtPulseViewer.tsx(343,20): error TS18048: 'session.artwork' is possibly 'undefined'.
+components/art-pulse/ArtPulseViewer.tsx(344,20): error TS18048: 'session.artwork' is possibly 'undefined'.
+components/art-pulse/ArtPulseViewer.tsx(353,58): error TS18048: 'session.artwork' is possibly 'undefined'.
+components/art-pulse/ArtPulseViewer.tsx(354,54): error TS18048: 'session.artwork' is possibly 'undefined'.
+components/art-pulse/ArtPulseViewer.tsx(355,20): error TS18048: 'session.artwork' is possibly 'undefined'.
+components/art-pulse/ArtPulseViewer.tsx(356,56): error TS18048: 'session.artwork' is possibly 'undefined'.
+components/art-pulse/EmotionBubbleCanvas.tsx(15,24): error TS2554: Expected 1 arguments, but got 0.
+components/art-pulse/EmotionSelector.tsx(78,21): error TS2353: Object literal may only specify known properties, and 'ringColor' does not exist in type 'Properties<string | number, string & {}>'.
+components/art-pulse/PhaseIndicator.tsx(37,30): error TS2538: Type 'undefined' cannot be used as an index type.
+components/art-pulse/ReflectionInput.tsx(30,28): error TS2554: Expected 1 arguments, but got 0.
+components/art-pulse/SessionResults.tsx(44,53): error TS18048: 'session.artwork' is possibly 'undefined'.
+components/art-pulse/SessionResults.tsx(45,59): error TS18048: 'session.artwork' is possibly 'undefined'.
+components/artist-portal/index.ts(2,10): error TS2305: Module '"./ArtworkSubmissionForm"' has no exported member 'default'.
+components/artwork/ArtworkRecommendationCard.tsx(126,10): error TS2304: Cannot find name 'AnimatePresence'.
+components/artwork/ArtworkRecommendationCard.tsx(195,11): error TS2304: Cannot find name 'AnimatePresence'.
+components/chat/ChatRoom.tsx(8,28): error TS2307: Cannot find module '@/components/ui/scroll-area' or its corresponding type declarations.
+components/chatbot/ArtCuratorChatbot.tsx(51,38): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+components/chatbot/ArtCuratorChatbot.tsx(78,49): error TS2353: Object literal may only specify known properties, and 'personalityType' does not exist in type '{ artworkId?: string | undefined; artworkTitle?: string | undefined; artistName?: string | undefined; exhibitionName?: string | undefined; quizStep?: number | undefined; }'.
+components/chatbot/ArtCuratorChatbot.tsx(112,12): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ LAEF: string; LAEC: string; LAMF: string; LAMC: string; LREF: string; LREC: string; LRMF: string; LRMC: string; SAEF: string; SAEC: string; SAMF: string; SAMC: string; SREF: string; SREC: string; SRMF: string; SRMC: string; }'.
+  No index signature with a parameter of type 'string' was found on type '{ LAEF: string; LAEC: string; LAMF: string; LAMC: string; LREF: string; LREC: string; LRMF: string; LRMC: string; SAEF: string; SAEC: string; SAMF: string; SAMC: string; SREF: string; SREC: string; SRMF: string; SRMC: string; }'.
+components/chatbot/ArtCuratorChatbot.tsx(253,9): error TS2322: Type 'Dispatch<SetStateAction<"idle" | "happy" | "thinking" | "excited">>' is not assignable to type '(mood: CompanionMood) => void'.
+  Types of parameters 'value' and 'mood' are incompatible.
+    Type 'CompanionMood' is not assignable to type 'SetStateAction<"idle" | "happy" | "thinking" | "excited">'.
+      Type '"sleeping"' is not assignable to type 'SetStateAction<"idle" | "happy" | "thinking" | "excited">'.
+components/chatbot/MinimalGuideBot.tsx(72,35): error TS2538: Type 'null' cannot be used as an index type.
+components/chatbot/MinimalGuideBot.tsx(73,43): error TS7006: Parameter 'g' implicitly has an 'any' type.
+components/chatbot/MinimalGuideBot.tsx(97,37): error TS2538: Type 'null' cannot be used as an index type.
+components/chatbot/MinimalGuideBot.tsx(98,39): error TS7006: Parameter 'g' implicitly has an 'any' type.
+components/chatbot/MinimalGuideBot.tsx(141,37): error TS2538: Type 'null' cannot be used as an index type.
+components/chatbot/SmartChatbot.tsx(31,25): error TS2554: Expected 1 arguments, but got 0.
+components/chatbot/SmartChatbot.tsx(34,38): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+components/collection/SharedCollectionCreator.tsx(27,10): error TS2305: Module '"@/shared/SAYUTypeDefinitions"' has no exported member 'PersonalityType'.
+components/collection/SharedCollectionCreator.tsx(203,14): error TS2739: Type '{ className: string; }' is missing the following properties from type '{ src: string | StaticImport; alt: string; width?: number | `${number}` | undefined; height?: number | `${number}` | undefined; fill?: boolean | undefined; loader?: ImageLoader | undefined; ... 12 more ...; lazyRoot?: string | undefined; }': src, alt
+components/collection/SharedCollectionViewer.tsx(22,10): error TS2305: Module '"@/shared/SAYUTypeDefinitions"' has no exported member 'PersonalityType'.
+components/collection/SharedCollectionViewer.tsx(282,30): error TS2339: Property 'id' does not exist on type '{ artworkId: string; addedBy: string; note?: string | undefined; voiceNote?: string | undefined; addedAt: Date; }'.
+components/collection/SharedCollectionViewer.tsx(285,51): error TS2345: Argument of type '{ artworkId: string; addedBy: string; note?: string | undefined; voiceNote?: string | undefined; addedAt: Date; }' is not assignable to parameter of type 'SetStateAction<CollectionArtwork | null>'.
+  Type '{ artworkId: string; addedBy: string; note?: string | undefined; voiceNote?: string | undefined; addedAt: Date; }' is missing the following properties from type 'CollectionArtwork': id, title, artist, image
+components/collection/SharedCollectionViewer.tsx(288,32): error TS2339: Property 'image' does not exist on type '{ artworkId: string; addedBy: string; note?: string | undefined; voiceNote?: string | undefined; addedAt: Date; }'.
+components/collection/SharedCollectionViewer.tsx(289,32): error TS2339: Property 'title' does not exist on type '{ artworkId: string; addedBy: string; note?: string | undefined; voiceNote?: string | undefined; addedAt: Date; }'.
+components/collection/SharedCollectionViewer.tsx(294,63): error TS2339: Property 'title' does not exist on type '{ artworkId: string; addedBy: string; note?: string | undefined; voiceNote?: string | undefined; addedAt: Date; }'.
+components/collection/SharedCollectionViewer.tsx(295,62): error TS2339: Property 'artist' does not exist on type '{ artworkId: string; addedBy: string; note?: string | undefined; voiceNote?: string | undefined; addedAt: Date; }'.
+components/collections/AddArtworkModal.tsx(50,40): error TS2339: Property 'searchArtworks' does not exist on type '{ metMuseum: { name: string; baseUrl: string; commercialUse: boolean; documentation: string; features: string[]; getArtwork: (objectID: number) => Promise<any>; search: (query: string) => Promise<...>; }; artInstituteChicago: { ...; }; rijksmuseum: { ...; }; clevelandMuseum: { ...; }; harvardMuseums: { ...; }; }'.
+components/collections/AddToCollectionButton.tsx(105,13): error TS2345: Argument of type '{ title: string; description: string; }' is not assignable to parameter of type 'string'.
+components/collections/AddToCollectionButton.tsx(116,15): error TS2345: Argument of type '{ title: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/collections/AddToCollectionButton.tsx(121,15): error TS2345: Argument of type '{ title: string; description: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/collections/CreateCollectionModal.tsx(41,13): error TS2345: Argument of type '{ title: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/collections/CreateCollectionModal.tsx(56,13): error TS2345: Argument of type '{ title: string; description: string; }' is not assignable to parameter of type 'string'.
+components/collections/CreateCollectionModal.tsx(70,13): error TS2345: Argument of type '{ title: string; description: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/community/PersonalityLounge.tsx(34,25): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ GAMF: { name: string; emoji: string; theme: { primary: string; secondary: string; gradient: string; }; welcomeMessage: string; }; }'.
+  No index signature with a parameter of type 'string' was found on type '{ GAMF: { name: string; emoji: string; theme: { primary: string; secondary: string; gradient: string; }; welcomeMessage: string; }; }'.
+components/daily-challenge/DailyChallengeCard.tsx(51,13): error TS2345: Argument of type '{ title: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/daily-challenge/DailyChallengeCard.tsx(200,37): error TS2551: Property 'artwork_image' does not exist on type 'DailyChallenge'. Did you mean 'artwork_id'?
+components/daily-challenge/DailyChallengeCard.tsx(201,34): error TS2551: Property 'artwork_title' does not exist on type 'DailyChallenge'. Did you mean 'artwork_id'?
+components/daily-challenge/DailyChallengeCard.tsx(202,35): error TS2339: Property 'artwork_artist' does not exist on type 'DailyChallenge'.
+components/daily-challenge/DailyChallengeCard.tsx(205,34): error TS2551: Property 'apt_type' does not exist on type '{ id: string; aptType: string; }'. Did you mean 'aptType'?
+components/daily-challenge/EmotionSelector.tsx(82,13): error TS2345: Argument of type '{ title: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/daily-challenge/EmotionSelector.tsx(101,13): error TS2345: Argument of type '{ title: string; description: string; }' is not assignable to parameter of type 'string'.
+components/daily-challenge/EmotionSelector.tsx(112,15): error TS2345: Argument of type '{ title: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/daily-challenge/EmotionSelector.tsx(117,15): error TS2345: Argument of type '{ title: string; description: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/daily-challenge/MatchResults.tsx(101,17): error TS2345: Argument of type '{ title: string; description: string; }' is not assignable to parameter of type 'string'.
+components/daily-challenge/MatchResults.tsx(110,15): error TS2345: Argument of type '{ title: string; description: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/daily-challenge/MatchResults.tsx(139,11): error TS2345: Argument of type '{ title: string; description: string | undefined; }' is not assignable to parameter of type 'string'.
+components/daily-challenge/MatchResults.tsx(518,18): error TS2339: Property 'participation_rate' does not exist on type 'DailyChallengeStats'.
+components/daily-challenge/MatchResults.tsx(520,38): error TS2339: Property 'participation_rate' does not exist on type 'DailyChallengeStats'.
+components/daily-challenge/MatchResults.tsx(522,32): error TS2339: Property 'participation_rate' does not exist on type 'DailyChallengeStats'.
+components/daily-habit/HabitSettings.tsx(239,39): error TS7006: Parameter 'checked' implicitly has an 'any' type.
+components/daily-habit/HabitSettings.tsx(259,39): error TS7006: Parameter 'checked' implicitly has an 'any' type.
+components/daily-habit/HabitSettings.tsx(279,39): error TS7006: Parameter 'checked' implicitly has an 'any' type.
+components/daily-habit/HabitSettings.tsx(337,37): error TS7006: Parameter 'checked' implicitly has an 'any' type.
+components/dashboard/UserJourneyWidget.tsx(204,36): error TS2339: Property 'completed' does not exist on type '{ title: string; completed: boolean; } | { title: string; locked: boolean; }'.
+  Property 'completed' does not exist on type '{ title: string; locked: boolean; }'.
+components/dashboard/UserJourneyWidget.tsx(206,39): error TS2339: Property 'locked' does not exist on type '{ title: string; completed: boolean; } | { title: string; locked: boolean; }'.
+  Property 'locked' does not exist on type '{ title: string; completed: boolean; }'.
+components/dashboard/UserJourneyWidget.tsx(212,37): error TS2339: Property 'completed' does not exist on type '{ title: string; completed: boolean; } | { title: string; locked: boolean; }'.
+  Property 'completed' does not exist on type '{ title: string; locked: boolean; }'.
+components/dashboard/UserJourneyWidget.tsx(213,37): error TS2339: Property 'locked' does not exist on type '{ title: string; completed: boolean; } | { title: string; locked: boolean; }'.
+  Property 'locked' does not exist on type '{ title: string; completed: boolean; }'.
+components/emotion/EmotionColorPicker.tsx(5,26): error TS7016: Could not find a declaration file for module 'lodash'. 'C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/node_modules/lodash/lodash.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/lodash` if it exists or add a new declaration (.d.ts) file containing `declare module 'lodash';`
+components/emotion/EmotionColorPicker.tsx(273,34): error TS2349: This expression is not callable.
+  Type 'String' has no call signatures.
+components/exhibition-companion/CreateCompanionRequest.tsx(106,53): error TS2551: Property 'getMyCompanionRequests' does not exist on type '{ getExhibitions(filters?: { category?: string | undefined; venue?: string | undefined; dateRange?: { start: string; end: string; } | undefined; } | undefined): Promise<Exhibition[]>; ... 12 more ...; createMatch(requestId: string): Promise<...>; }'. Did you mean 'createCompanionRequest'?
+components/exhibition-companion/CreateCompanionRequest.tsx(107,43): error TS7006: Parameter 'req' implicitly has an 'any' type.
+components/exhibition-companion/CreateCompanionRequest.tsx(119,53): error TS2339: Property 'getRequestsByDate' does not exist on type '{ getExhibitions(filters?: { category?: string | undefined; venue?: string | undefined; dateRange?: { start: string; end: string; } | undefined; } | undefined): Promise<Exhibition[]>; ... 12 more ...; createMatch(requestId: string): Promise<...>; }'.
+components/exhibition-companion/CreateCompanionRequest.tsx(141,13): error TS2345: Argument of type '{ title: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/exhibition-companion/CreateCompanionRequest.tsx(155,13): error TS2345: Argument of type '{ title: string; description: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/exhibition-companion/CreateCompanionRequest.tsx(172,9): error TS2353: Object literal may only specify known properties, and 'apt_compatibility_mode' does not exist in type 'CreateCompanionRequestData'.
+components/exhibition-companion/CreateCompanionRequest.tsx(177,13): error TS2345: Argument of type '{ title: string; description: string; }' is not assignable to parameter of type 'string'.
+components/exhibition-companion/CreateCompanionRequest.tsx(189,13): error TS2345: Argument of type '{ title: string; description: any; variant: string; }' is not assignable to parameter of type 'string'.
+components/exhibition/ExhibitionSubmissionForm.tsx(45,5): error TS2353: Object literal may only specify known properties, and 'required_error' does not exist in type '{ error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>> | undefined; message?: string | undefined; }'.
+components/exhibition/ExhibitionSubmissionForm.tsx(48,5): error TS2353: Object literal may only specify known properties, and 'required_error' does not exist in type '{ error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>> | undefined; message?: string | undefined; }'.
+components/exhibition/ExhibitionSubmissionForm.tsx(106,13): error TS2345: Argument of type '{ title: string; description: string; }' is not assignable to parameter of type 'Toast'.
+  Property 'id' is missing in type '{ title: string; description: string; }' but required in type '{ id: string; action?: ToastActionElement | undefined; }'.
+components/exhibition/ExhibitionSubmissionForm.tsx(113,13): error TS2345: Argument of type '{ title: string; description: string; variant: "destructive"; }' is not assignable to parameter of type 'Toast'.
+  Property 'id' is missing in type '{ title: string; description: string; variant: "destructive"; }' but required in type '{ id: string; action?: ToastActionElement | undefined; }'.
+components/exhibition/ExhibitionSubmissionForm.tsx(295,34): error TS2345: Argument of type 'Date | undefined' is not assignable to parameter of type 'string | number | Date'.
+  Type 'undefined' is not assignable to type 'string | number | Date'.
+components/exhibition/ReflectionsList.tsx(276,51): error TS2339: Property 'profiles' does not exist on type 'Reflection'.
+components/exhibition/ReflectionsList.tsx(282,43): error TS2339: Property 'profiles' does not exist on type 'Reflection'.
+components/feedback/FeedbackButton.tsx(4,25): error TS2305: Module '"lucide-react"' has no exported member 'Feedback'.
+components/follow/FollowButton.tsx(31,17): error TS2339: Property 'isAuthenticated' does not exist on type 'AuthContextType'.
+components/gallery/ModernGalleryGrid.tsx(232,15): error TS2322: Type '{ hidden: { opacity: number; y: number; }; visible: { opacity: number; y: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing | Easing[] | undefined'.
+components/gallery/RealtimeGalleryExplorer.tsx(24,10): error TS2305: Module '"@/shared/SAYUTypeDefinitions"' has no exported member 'PersonalityType'.
+components/home/FeaturedArtists.tsx(33,9): error TS2353: Object literal may only specify known properties, and 'params' does not exist in type 'RequestInit'.
+components/home/FeaturedArtists.tsx(48,12): error TS2352: Conversion of type '({ id: string; name: { en: string; ko: string; }; nationality: string; birthYear: number; deathYear: number; bio: { en: string; ko: string; }; copyrightStatus: "public_domain"; images: { profile: string; }; workCount: number; followCount: number; } | { ...; })[]' to type 'Artist[]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type '{ id: string; name: { en: string; ko: string; }; nationality: string; birthYear: number; deathYear: number; bio: { en: string; ko: string; }; copyrightStatus: "licensed"; images: { profile: string; }; workCount: number; followCount: number; licenseInfo: { ...; }; }' is not comparable to type 'Artist'.
+    Types of property 'name' are incompatible.
+      Type '{ en: string; ko: string; }' is not comparable to type 'string'.
+components/home/FeaturedArtists.tsx(140,33): error TS2339: Property 'images' does not exist on type 'Artist'.
+  Property 'images' does not exist on type 'ContemporaryArtist'.
+components/home/FeaturedArtists.tsx(140,58): error TS2339: Property 'images' does not exist on type 'Artist'.
+  Property 'images' does not exist on type 'ContemporaryArtist'.
+components/home/FeaturedArtists.tsx(140,145): error TS2339: Property 'en' does not exist on type 'string'.
+components/home/FeaturedArtists.tsx(141,38): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+components/home/FeaturedArtists.tsx(141,63): error TS2339: Property 'en' does not exist on type 'string'.
+components/home/FeaturedArtists.tsx(166,32): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+components/home/FeaturedArtists.tsx(166,57): error TS2339: Property 'en' does not exist on type 'string'.
+components/home/FeaturedArtists.tsx(170,33): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+components/home/FeaturedArtists.tsx(170,58): error TS2339: Property 'en' does not exist on type 'string'.
+components/home/FeaturedArtists.tsx(180,29): error TS2339: Property 'workCount' does not exist on type 'Artist'.
+  Property 'workCount' does not exist on type 'PublicDomainArtist'.
+components/insights/BehavioralInsightsDashboard.tsx(236,10): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ viewing_pattern: Element; emotional_pattern: Element; growth_pattern: Element; social_pattern: Element; style_pattern: Element; }'.
+  No index signature with a parameter of type 'string' was found on type '{ viewing_pattern: Element; emotional_pattern: Element; growth_pattern: Element; social_pattern: Element; style_pattern: Element; }'.
+components/insights/EmotionalJourneyMap.tsx(70,14): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ joy: string; awe: string; peace: string; curiosity: string; melancholy: string; contemplation: string; }'.
+components/insights/EmotionalJourneyMap.tsx(116,44): error TS7006: Parameter 'entry' implicitly has an 'any' type.
+components/insights/EmotionalJourneyMap.tsx(116,51): error TS7006: Parameter 'index' implicitly has an 'any' type.
+components/insights/EmotionalJourneyMap.tsx(130,40): error TS7006: Parameter 'emotion' implicitly has an 'any' type.
+components/insights/EmotionalJourneyMap.tsx(175,36): error TS7006: Parameter 'transition' implicitly has an 'any' type.
+components/insights/EmotionalJourneyMap.tsx(175,48): error TS7006: Parameter 'index' implicitly has an 'any' type.
+components/insights/EmotionalJourneyMap.tsx(216,27): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ joy: string; awe: string; peace: string; curiosity: string; melancholy: string; contemplation: string; }'.
+  No index signature with a parameter of type 'string' was found on type '{ joy: string; awe: string; peace: string; curiosity: string; melancholy: string; contemplation: string; }'.
+components/insights/GrowthTracker.tsx(89,12): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ rapidly_expanding: { title: string; description: string; tip: string; }; steadily_exploring: { title: string; description: string; tip: string; }; socially_active: { title: string; description: string; tip: string; }; focused_appreciation: { ...; }; }'.
+  No index signature with a parameter of type 'string' was found on type '{ rapidly_expanding: { title: string; description: string; tip: string; }; steadily_exploring: { title: string; description: string; tip: string; }; socially_active: { title: string; description: string; tip: string; }; focused_appreciation: { ...; }; }'.
+components/insights/GrowthTracker.tsx(235,24): error TS7006: Parameter 'd' implicitly has an 'any' type.
+components/insights/PersonalityEvolution.tsx(23,12): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ VISIONARY: string; EXPLORER: string; CURATOR: string; SOCIAL: string; }'.
+  No index signature with a parameter of type 'string' was found on type '{ VISIONARY: string; EXPLORER: string; CURATOR: string; SOCIAL: string; }'.
+components/insights/PersonalityEvolution.tsx(34,12): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ VISIONARY: string; EXPLORER: string; CURATOR: string; SOCIAL: string; }'.
+  No index signature with a parameter of type 'string' was found on type '{ VISIONARY: string; EXPLORER: string; CURATOR: string; SOCIAL: string; }'.
+components/insights/PersonalityEvolution.tsx(142,10): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ VISIONARY_EXPLORER: string; VISIONARY_CURATOR: string; VISIONARY_SOCIAL: string; EXPLORER_CURATOR: string; EXPLORER_SOCIAL: string; CURATOR_SOCIAL: string; EXPLORER_VISIONARY: string; ... 4 more ...; SOCIAL_CURATOR: string; }'.
+  No index signature with a parameter of type 'string' was found on type '{ VISIONARY_EXPLORER: string; VISIONARY_CURATOR: string; VISIONARY_SOCIAL: string; EXPLORER_CURATOR: string; EXPLORER_SOCIAL: string; CURATOR_SOCIAL: string; EXPLORER_VISIONARY: string; ... 4 more ...; SOCIAL_CURATOR: string; }'.
+components/layout/ClientLayout.tsx(5,28): error TS2307: Cannot find module '@/components/layout/Navigation' or its corresponding type declarations.
+components/layout/ClientLayout.tsx(6,24): error TS2307: Cannot find module '@/components/layout/Footer' or its corresponding type declarations.
+components/layout/MainNav.tsx(20,51): error TS2307: Cannot find module '@/components/ui/sheet' or its corresponding type declarations.
+components/matching/APTCompatibilityVisualization.tsx(19,10): error TS2305: Module '"@/shared/SAYUTypeDefinitions"' has no exported member 'PersonalityType'.
+components/matching/APTCompatibilityVisualization.tsx(130,11): error TS7034: Variable 'shared' implicitly has type 'any[]' in some locations where its type cannot be determined.
+components/matching/APTCompatibilityVisualization.tsx(139,12): error TS7005: Variable 'shared' implicitly has an 'any[]' type.
+components/matching/ArtworkInteractionPrompts.tsx(21,10): error TS2305: Module '"@/shared/SAYUTypeDefinitions"' has no exported member 'PersonalityType'.
+components/matching/ExhibitionCompanionMatch.tsx(22,10): error TS2305: Module '"@/shared/SAYUTypeDefinitions"' has no exported member 'PersonalityType'.
+components/matching/MatchedInteractionView.tsx(19,10): error TS2305: Module '"@/shared/SAYUTypeDefinitions"' has no exported member 'PersonalityType'.
+components/MuseumSimulation.tsx(119,41): error TS18048: 'stage.backgroundImage' is possibly 'undefined'.
+components/navigation/GlobalNav.tsx(51,7): error TS2353: Object literal may only specify known properties, and 'adminOnly' does not exist in type '{ href: string; icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>; label: { ...; }; requireAuth: boolean; }'.
+components/notifications/NotificationCenter.tsx(7,28): error TS2307: Cannot find module '@/components/ui/scroll-area' or its corresponding type declarations.
+components/perception-exchange/ExchangeChat.tsx(10,28): error TS2307: Cannot find module '@/components/ui/scroll-area' or its corresponding type declarations.
+components/perception-exchange/ExchangeChat.tsx(60,13): error TS2345: Argument of type '{ title: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/perception-exchange/ExchangeChat.tsx(95,13): error TS2345: Argument of type '{ title: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/perception-exchange/ExchangeChat.tsx(117,15): error TS2345: Argument of type '{ title: string; description: "서로의 닉네임이 공개됩니다" | "APT 유형과 기본 프로필이 공개됩니다" | "모든 프로필이 공개되고 자유롭게 대화할 수 있습니다"; action: React.JSX.Element; }' is not assignable to parameter of type 'string'.
+components/perception-exchange/ExchangeChat.tsx(137,15): error TS2345: Argument of type '{ title: string; description: string; }' is not assignable to parameter of type 'string'.
+components/perception-exchange/ExchangeInviteModal.tsx(57,13): error TS2345: Argument of type '{ title: string; description: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/perception-exchange/ExchangeInviteModal.tsx(75,13): error TS2345: Argument of type '{ title: string; description: string; }' is not assignable to parameter of type 'string'.
+components/perception-exchange/ExchangeInviteModal.tsx(84,13): error TS2345: Argument of type '{ title: string; description: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/perception-exchange/StartExchangeModal.tsx(41,40): error TS2339: Property 'searchArtworks' does not exist on type '{ metMuseum: { name: string; baseUrl: string; commercialUse: boolean; documentation: string; features: string[]; getArtwork: (objectID: number) => Promise<any>; search: (query: string) => Promise<...>; }; artInstituteChicago: { ...; }; rijksmuseum: { ...; }; clevelandMuseum: { ...; }; harvardMuseums: { ...; }; }'.
+components/PersonalityTypeGrid.tsx(145,18): error TS1345: An expression of type 'void' cannot be tested for truthiness.
+components/privacy/ProgressiveRevealProfile.tsx(10,10): error TS2305: Module '"@/shared/SAYUTypeDefinitions"' has no exported member 'PersonalityType'.
+components/privacy/ProgressiveRevealProfile.tsx(14,10): error TS2305: Module '"@/hooks/usePersonalizedTheme"' has no exported member 'useTheme'.
+components/profile/AIArtIdentitySection.tsx(30,44): error TS2551: Property 'getUserProfiles' does not exist on type 'ArtProfileAPI'. Did you mean 'getUserArtProfiles'?
+components/profile/GalleryProfile.tsx(55,26): error TS2353: Object literal may only specify known properties, and 'shadow' does not exist in type 'string[] | TargetAndTransition'.
+components/profile/GalleryProfile.tsx(265,40): error TS2353: Object literal may only specify known properties, and 'shadow' does not exist in type 'string[] | TargetAndTransition'.
+components/profile/ModernProfile.tsx(46,17): error TS2339: Property 'logout' does not exist on type 'AuthContextType'.
+components/profile/ModernProfile.tsx(125,26): error TS2339: Property 'profileImage' does not exist on type 'User'.
+components/profile/ModernProfile.tsx(127,33): error TS2339: Property 'profileImage' does not exist on type 'User'.
+components/profile/ModernProfile.tsx(128,33): error TS2339: Property 'name' does not exist on type 'User'.
+components/profile/ModernProfile.tsx(156,32): error TS2339: Property 'name' does not exist on type 'User'.
+components/profile/ModernProfile.tsx(159,33): error TS2339: Property 'username' does not exist on type 'User'.
+components/profile/ModernProfile.tsx(192,26): error TS2339: Property 'bio' does not exist on type 'User'.
+components/profile/ModernProfile.tsx(194,29): error TS2339: Property 'bio' does not exist on type 'User'.
+components/profile/ProfileIDCard.tsx(176,61): error TS2339: Property 'emoji' does not exist on type 'never'.
+components/profile/ProfileSettingsModal.tsx(29,11): error TS2339: Property 'logout' does not exist on type 'AuthContextType'.
+components/profile/ProfileStats.tsx(71,9): error TS2322: Type 'string | null' is not assignable to type 'null'.
+  Type 'string' is not assignable to type 'null'.
+components/profile/RelationshipPreferences.tsx(12,27): error TS2307: Cannot find module '@/components/ui/separator' or its corresponding type declarations.
+components/profile/RelationshipPreferences.tsx(140,13): error TS2345: Argument of type '{ title: string; description: string; }' is not assignable to parameter of type 'string'.
+components/profile/RelationshipPreferences.tsx(146,13): error TS2345: Argument of type '{ title: string; description: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/profile/RelationshipPreferences.tsx(268,31): error TS7006: Parameter 'value' implicitly has an 'any' type.
+components/profile/RelationshipPreferences.tsx(339,31): error TS7006: Parameter 'value' implicitly has an 'any' type.
+components/profile/RelationshipPreferences.tsx(361,31): error TS7006: Parameter 'value' implicitly has an 'any' type.
+components/profile/RelationshipPreferences.tsx(390,35): error TS7006: Parameter 'checked' implicitly has an 'any' type.
+components/profile/RelationshipPreferences.tsx(406,35): error TS7006: Parameter 'checked' implicitly has an 'any' type.
+components/quiz/EnhancedQuizComponent.tsx(266,9): error TS2322: Type '({ id: number; phase: string; type: string; title: string; description: string; scene: { background: string; ambiance: string; }; options: ({ id: string; text: string; icon: Element; weight: { ...; }; feedback: string; visual: string; } | { ...; })[]; ... 7 more ...; responses?: undefined; } | ... 8 more ... | { ......' is not assignable to type 'QuizQuestion[]'.
+  Type '{ id: number; phase: string; type: string; title: string; description: string; scene: { background: string; ambiance: string; }; options: ({ id: string; text: string; icon: Element; weight: { ...; }; feedback: string; visual: string; } | { ...; })[]; ... 7 more ...; responses?: undefined; } | ... 8 more ... | { ...; }' is not assignable to type 'QuizQuestion'.
+    Type '{ id: number; phase: string; type: string; title: string; description: string; scene: { background: string; ambiance: string; }; options: ({ id: string; text: string; icon: React.JSX.Element; weight: { ...; }; feedback: string; visual: string; } | { ...; })[]; ... 7 more ...; responses?: undefined; }' is not assignable to type 'QuizQuestion'.
+      Types of property 'options' are incompatible.
+        Type '({ id: string; text: string; icon: Element; weight: { A: number; F: number; R?: undefined; C?: undefined; }; feedback: string; visual: string; } | { id: string; text: string; icon: Element; weight: { ...; }; feedback: string; visual: string; })[]' is not assignable to type 'QuizOption[]'.
+          Type '{ id: string; text: string; icon: Element; weight: { A: number; F: number; R?: undefined; C?: undefined; }; feedback: string; visual: string; } | { id: string; text: string; icon: Element; weight: { ...; }; feedback: string; visual: string; }' is not assignable to type 'QuizOption'.
+            Type '{ id: string; text: string; icon: React.JSX.Element; weight: { A: number; F: number; R?: undefined; C?: undefined; }; feedback: string; visual: string; }' is not assignable to type 'QuizOption'.
+              Types of property 'weight' are incompatible.
+                Type '{ A: number; F: number; R?: undefined; C?: undefined; }' is not assignable to type 'Record<string, number>'.
+                  Property 'R' is incompatible with index signature.
+                    Type 'undefined' is not assignable to type 'number'.
+components/results/ArtworkRecommendations.tsx(52,17): error TS2339: Property 'length' does not exist on type 'never[] | NoInfer<TQueryFnData>'.
+  Property 'length' does not exist on type 'NoInfer<TQueryFnData>'.
+components/results/ArtworkRecommendations.tsx(96,21): error TS2339: Property 'map' does not exist on type 'never[] | NoInfer<TQueryFnData>'.
+  Property 'map' does not exist on type 'NoInfer<TQueryFnData>'.
+components/results/ArtworkRecommendations.tsx(96,26): error TS7006: Parameter 'artwork' implicitly has an 'any' type.
+components/results/ArtworkRecommendations.tsx(96,35): error TS7006: Parameter 'index' implicitly has an 'any' type.
+components/settings/EmailSettings.tsx(9,27): error TS2307: Cannot find module '@/components/ui/separator' or its corresponding type declarations.
+components/settings/EmailSettings.tsx(56,13): error TS2345: Argument of type '{ title: string; description: string; }' is not assignable to parameter of type 'string'.
+components/settings/EmailSettings.tsx(62,13): error TS2345: Argument of type '{ title: string; description: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/settings/EmailSettings.tsx(76,13): error TS2345: Argument of type '{ title: string; description: string; }' is not assignable to parameter of type 'string'.
+components/settings/EmailSettings.tsx(82,13): error TS2345: Argument of type '{ title: string; description: string; variant: string; }' is not assignable to parameter of type 'string'.
+components/settings/EmailSettings.tsx(183,35): error TS7006: Parameter 'value' implicitly has an 'any' type.
+components/settings/EmailSettings.tsx(198,35): error TS7006: Parameter 'value' implicitly has an 'any' type.
+components/settings/EmailSettings.tsx(213,35): error TS7006: Parameter 'value' implicitly has an 'any' type.
+components/settings/EmailSettings.tsx(228,35): error TS7006: Parameter 'value' implicitly has an 'any' type.
+components/settings/EmailSettings.tsx(243,35): error TS7006: Parameter 'value' implicitly has an 'any' type.
+components/settings/EmailSettings.tsx(258,35): error TS7006: Parameter 'value' implicitly has an 'any' type.
+components/settings/EmailSettings.tsx(276,29): error TS7006: Parameter 'value' implicitly has an 'any' type.
+components/share/ShareModal.tsx(307,18): error TS2774: This condition will always return true since this function is always defined. Did you mean to call it instead?
+components/social/ShareButton.tsx(217,22): error TS2774: This condition will always return true since this function is always defined. Did you mean to call it instead?
+components/social/ShareButton.tsx(232,22): error TS2774: This condition will always return true since this function is always defined. Did you mean to call it instead?
+components/social/ShareButton.tsx(243,22): error TS2774: This condition will always return true since this function is always defined. Did you mean to call it instead?
+components/spatial/AICuratorAvatar.tsx(39,35): error TS2339: Property 'color' does not exist on type 'PersonalityAnimal'.
+components/spatial/AICuratorAvatar.tsx(112,7): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(114,9): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(121,11): error TS2339: Property 'sphereGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(131,9): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(145,11): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(147,15): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(151,17): error TS2339: Property 'sphereGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(152,17): error TS2339: Property 'meshBasicMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(153,15): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(155,11): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(167,46): error TS2339: Property 'nameKo' does not exist on type 'PersonalityAnimal'.
+components/spatial/AICuratorAvatar.tsx(168,15): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(192,11): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(193,13): error TS2339: Property 'sphereGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(194,13): error TS2339: Property 'meshBasicMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(200,11): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(202,7): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(230,9): error TS2345: Argument of type 'ChatMessage[]' is not assignable to parameter of type 'string'.
+components/spatial/AICuratorAvatar.tsx(239,27): error TS2339: Property 'content' does not exist on type 'ChatbotResponse'.
+components/spatial/AICuratorAvatar.tsx(249,5): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(252,9): error TS2339: Property 'meshPhysicalMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/AICuratorAvatar.tsx(321,5): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(14,3): error TS2724: '"@react-three/drei"' has no exported member named 'softShadows'. Did you mean 'SoftShadows'?
+components/spatial/InteractiveDimensions.tsx(57,5): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(78,9): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(80,13): error TS2339: Property 'meshPhysicalMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(110,9): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(125,15): error TS2339: Property 'meshPhysicalMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(139,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(140,9): error TS2339: Property 'planeGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(141,10): error TS2741: Property 'mirror' is missing in type '{ blur: [number, number]; resolution: number; mixBlur: number; mixStrength: number; roughness: number; depthScale: number; minDepthThreshold: number; maxDepthThreshold: number; color: string; metalness: number; }' but required in type 'Omit<Props, "ref">'.
+components/spatial/InteractiveDimensions.tsx(153,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(166,5): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(185,5): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(187,7): error TS2339: Property 'ambientLight' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(188,7): error TS2339: Property 'directionalLight' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(189,7): error TS2339: Property 'pointLight' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(192,7): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(198,11): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(203,11): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(208,13): error TS2339: Property 'sphereGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(209,13): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(214,11): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(216,7): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(220,9): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(228,17): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(236,9): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(240,7): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(242,11): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(245,11): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(248,11): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(250,7): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(253,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(254,9): error TS2339: Property 'planeGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(255,9): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(260,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(264,5): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(280,5): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(282,7): error TS2339: Property 'ambientLight' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(284,9): error TS2339: Property 'spotLight' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(298,11): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(301,15): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(306,15): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(319,11): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(324,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(325,9): error TS2339: Property 'planeGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(326,10): error TS2741: Property 'mirror' is missing in type '{ blur: [number, number]; resolution: number; mixBlur: number; mixStrength: number; roughness: number; depthScale: number; minDepthThreshold: number; maxDepthThreshold: number; color: string; metalness: number; }' but required in type 'Omit<Props, "ref">'.
+components/spatial/InteractiveDimensions.tsx(338,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(341,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(342,9): error TS2339: Property 'planeGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(343,9): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(344,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(345,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(346,9): error TS2339: Property 'planeGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(347,9): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(348,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(349,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(350,9): error TS2339: Property 'planeGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(351,9): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(352,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(353,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(354,9): error TS2339: Property 'planeGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(355,9): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(356,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(359,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(360,9): error TS2339: Property 'planeGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(361,9): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(362,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(363,5): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(377,5): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(379,7): error TS2339: Property 'ambientLight' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(380,7): error TS2339: Property 'pointLight' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(383,7): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(385,9): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(386,11): error TS2339: Property 'cylinderGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(387,11): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(388,9): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(398,15): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(400,19): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(411,15): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(415,7): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(418,7): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(420,11): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(437,7): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(440,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(441,9): error TS2339: Property 'planeGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(442,9): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(447,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/InteractiveDimensions.tsx(451,5): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(54,19): error TS2554: Expected 1 arguments, but got 0.
+components/spatial/SpatialNavigation.tsx(64,5): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(74,11): error TS2339: Property 'ambientLight' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(77,11): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(78,13): error TS2339: Property 'sphereGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(79,13): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(84,11): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(102,5): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(116,19): error TS2554: Expected 1 arguments, but got 0.
+components/spatial/SpatialNavigation.tsx(149,7): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(156,9): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(157,11): error TS2339: Property 'sphereGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(158,11): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(165,9): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(174,7): error TS2339: Property 'group' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(207,7): error TS2339: Property 'ambientLight' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(208,7): error TS2339: Property 'directionalLight' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(209,7): error TS2339: Property 'pointLight' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(225,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(226,9): error TS2339: Property 'planeGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(227,9): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(232,7): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/SpatialNavigation.tsx(251,15): error TS2339: Property 'meshStandardMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/ThreeScene.tsx(5,31): error TS2307: Cannot find module 'three/examples/jsm/controls/OrbitControls' or its corresponding type declarations.
+components/spatial/ThreeScene.tsx(6,32): error TS2307: Cannot find module 'three/examples/jsm/postprocessing/EffectComposer' or its corresponding type declarations.
+components/spatial/ThreeScene.tsx(7,28): error TS2307: Cannot find module 'three/examples/jsm/postprocessing/RenderPass' or its corresponding type declarations.
+components/spatial/ThreeScene.tsx(8,33): error TS2307: Cannot find module 'three/examples/jsm/postprocessing/UnrealBloomPass' or its corresponding type declarations.
+components/spatial/WebGPUEffects.tsx(209,18): error TS2554: Expected 1 arguments, but got 0.
+components/spatial/WebGPUEffects.tsx(278,5): error TS2339: Property 'points' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(279,7): error TS2339: Property 'bufferGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(280,9): error TS2339: Property 'bufferAttribute' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(286,9): error TS2339: Property 'bufferAttribute' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(292,9): error TS2339: Property 'bufferAttribute' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(298,7): error TS2339: Property 'bufferGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(299,7): error TS2339: Property 'shaderMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(334,5): error TS2339: Property 'points' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(349,5): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(350,7): error TS2339: Property 'coneGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(351,7): error TS2339: Property 'shaderMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(391,5): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(416,5): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(417,7): error TS2339: Property 'planeGeometry' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(418,7): error TS2339: Property 'portalShaderMaterial' does not exist on type 'JSX.IntrinsicElements'.
+components/spatial/WebGPUEffects.tsx(424,5): error TS2339: Property 'mesh' does not exist on type 'JSX.IntrinsicElements'.
+components/system/SystemInitializer.tsx(40,22): error TS2339: Property 'requestAdapter' does not exist on type '{}'.
+components/system/SystemInitializer.tsx(40,44): error TS7006: Parameter 'adapter' implicitly has an 'any' type.
+components/ui/ArtworkActions.tsx(26,11): error TS2345: Argument of type '{ description: string; }' is not assignable to parameter of type 'string'.
+components/ui/ArtworkActions.tsx(33,11): error TS2345: Argument of type '{ description: string; }' is not assignable to parameter of type 'string'.
+components/ui/ArtworkActions.tsx(52,13): error TS2345: Argument of type '{ description: string; }' is not assignable to parameter of type 'string'.
+components/ui/ArtworkActions.tsx(59,11): error TS2345: Argument of type '{ description: string; }' is not assignable to parameter of type 'string'.
+components/ui/beams-background.tsx(4,24): error TS2307: Cannot find module 'motion/react' or its corresponding type declarations.
+components/ui/button-demo.tsx(76,19): error TS2322: Type '"glass"' is not assignable to type '"destructive" | "secondary" | "ghost" | "gallery" | "primary" | null | undefined'.
+components/ui/button-demo.tsx(81,19): error TS2322: Type '"glass"' is not assignable to type '"destructive" | "secondary" | "ghost" | "gallery" | "primary" | null | undefined'.
+components/ui/button-demo.tsx(92,19): error TS2322: Type '"outline"' is not assignable to type '"destructive" | "secondary" | "ghost" | "gallery" | "primary" | null | undefined'.
+components/ui/button-demo.tsx(93,19): error TS2322: Type '"link"' is not assignable to type '"destructive" | "secondary" | "ghost" | "gallery" | "primary" | null | undefined'.
+components/ui/button-demo.tsx(109,19): error TS2322: Type '"glass"' is not assignable to type '"destructive" | "secondary" | "ghost" | "gallery" | "primary" | null | undefined'.
+components/ui/calendar.tsx(49,9): error TS2353: Object literal may only specify known properties, and 'IconLeft' does not exist in type 'Partial<CustomComponents>'.
+components/ui/carousel.tsx(6,8): error TS2307: Cannot find module 'embla-carousel-react' or its corresponding type declarations.
+components/ui/glowing-effect.tsx(5,25): error TS2307: Cannot find module 'motion/react' or its corresponding type declarations.
+components/ui/glowing-effect.tsx(91,24): error TS7006: Parameter 'value' implicitly has an 'any' type.
+components/ui/mobile-nav.tsx(89,18): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'SetStateAction<string>'.
+  Type 'null' is not assignable to type 'SetStateAction<string>'.
+components/ui/mobile-nav.tsx(260,31): error TS2339: Property 'nickname' does not exist on type 'User'.
+components/ui/mobile-nav.tsx(264,33): error TS2339: Property 'nickname' does not exist on type 'User'.
+components/ui/oauth-account-manager.tsx(15,17): error TS2339: Property 'linkOAuthAccount' does not exist on type 'AuthContextType'.
+components/ui/oauth-account-manager.tsx(15,35): error TS2339: Property 'unlinkOAuthAccount' does not exist on type 'AuthContextType'.
+components/ui/radio-group.tsx(4,38): error TS2307: Cannot find module '@radix-ui/react-radio-group' or its corresponding type declarations.
+components/ui/session-manager.tsx(20,11): error TS2339: Property 'logoutAll' does not exist on type 'AuthContextType'.
+components/ui/sparkles.tsx(4,48): error TS2307: Cannot find module '@tsparticles/react' or its corresponding type declarations.
+components/ui/sparkles.tsx(5,26): error TS2307: Cannot find module '@tsparticles/slim' or its corresponding type declarations.
+components/ui/sparkles.tsx(39,32): error TS7006: Parameter 'engine' implicitly has an 'any' type.
+components/ui/switch.tsx(4,35): error TS2307: Cannot find module '@radix-ui/react-switch' or its corresponding type declarations.
+components/ui/testimonials-columns-1-demo.tsx(2,24): error TS2307: Cannot find module 'motion/react' or its corresponding type declarations.
+components/ui/testimonials-columns-1.tsx(3,24): error TS2307: Cannot find module 'motion/react' or its corresponding type declarations.
+components/ui/text-animation-demo.tsx(180,14): error TS2745: This JSX tag's 'children' prop expects type 'string' which requires multiple children, but only a single child was provided.
+components/ui/use-toast.ts(11,6): error TS2300: Duplicate identifier 'Toast'.
+components/ui/use-toast.ts(141,6): error TS2300: Duplicate identifier 'Toast'.
+components/ui/use-toast.ts(158,7): error TS2353: Object literal may only specify known properties, and 'open' does not exist in type 'Toast'.
+components/venue/VenueDetail.tsx(383,36): error TS2551: Property 'address_ko' does not exist on type 'Venue'. Did you mean 'address'?
+components/venue/VenueDetail.tsx(384,20): error TS2551: Property 'address_ko' does not exist on type 'Venue'. Did you mean 'address'?
+components/venue/VenueDetail.tsx(424,36): error TS2551: Property 'admission_info_ko' does not exist on type 'Venue'. Did you mean 'admission_info'?
+components/venue/VenueDetail.tsx(425,20): error TS2551: Property 'admission_info_ko' does not exist on type 'Venue'. Did you mean 'admission_info'?
+components/venue/VenueInfoCard.tsx(118,20): error TS2551: Property 'address_ko' does not exist on type 'Venue'. Did you mean 'address'?
+components/venue/VenueInfoCard.tsx(120,18): error TS2551: Property 'address_en' does not exist on type 'Venue'. Did you mean 'address'?
+components/venue/VenueInfoCard.tsx(309,20): error TS2551: Property 'address_ko' does not exist on type 'Venue'. Did you mean 'address'?
+components/venue/VenueInfoCard.tsx(311,18): error TS2551: Property 'address_en' does not exist on type 'Venue'. Did you mean 'address'?
+contexts/ArtworkViewingContext.tsx(134,7): error TS2322: Type '(prev: any) => any' is not assignable to type 'number'.
+contexts/ArtworkViewingContext.tsx(134,22): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+contexts/OnboardingContext.tsx(49,34): error TS2339: Property 'hasProfile' does not exist on type 'User'.
+contexts/OnboardingContext.tsx(60,49): error TS2339: Property 'hasProfile' does not exist on type 'User'.
+data/chemistry-matrix.ts(142,9): error TS2322: Type '"gold" | "silver" | "bronze" | "platinum"' is not assignable to type '"perfect" | "good" | "challenging" | "learning"'.
+  Type '"gold"' is not assignable to type '"perfect" | "good" | "challenging" | "learning"'.
+data/narrative-quiz-questions-improved.ts(66,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions-improved.ts(99,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions-improved.ts(134,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions-improved.ts(167,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions-improved.ts(200,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions-improved.ts(233,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions-improved.ts(268,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions-improved.ts(301,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions-improved.ts(334,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions-improved.ts(369,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions-improved.ts(402,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions-improved.ts(435,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions-improved.ts(468,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions-improved.ts(501,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions.ts(65,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions.ts(98,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions.ts(133,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions.ts(166,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions.ts(199,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions.ts(232,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions.ts(267,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions.ts(300,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions.ts(333,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions.ts(368,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions.ts(401,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions.ts(434,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions.ts(467,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/narrative-quiz-questions.ts(500,5): error TS2741: Property 'setup' is missing in type '{ transition: string; transition_ko: string; atmosphere: string; }' but required in type '{ setup: string; setup_ko?: string | undefined; transition?: string | undefined; transition_ko?: string | undefined; atmosphere?: string | undefined; }'.
+data/personality-animals.ts(308,8): error TS1345: An expression of type 'void' cannot be tested for truthiness.
+data/personality-descriptions.ts(730,5): error TS1117: An object literal cannot have multiple properties with the same name.
+hooks/use-user.ts(27,73): error TS7006: Parameter '_event' implicitly has an 'any' type.
+hooks/use-user.ts(27,81): error TS7006: Parameter 'session' implicitly has an 'any' type.
+hooks/useArtistFollow.ts(136,21): error TS2304: Cannot find name 'originalFollowings'.
+hooks/useArtvee.ts(51,5): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(options: DefinedInitialDataOptions<{ success: boolean; data: Artwork[]; personality_type: string; count: number; }, Error, { success: boolean; data: Artwork[]; personality_type: string; count: number; }, readonly unknown[]>, queryClient?: QueryClient | undefined): DefinedUseQueryResult<...>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'DefinedInitialDataOptions<{ success: boolean; data: Artwork[]; personality_type: string; count: number; }, Error, { success: boolean; data: Artwork[]; personality_type: string; count: number; }, readonly unknown[]>'.
+  Overload 2 of 3, '(options: UndefinedInitialDataOptions<{ success: boolean; data: Artwork[]; personality_type: string; count: number; }, Error, { success: boolean; data: Artwork[]; personality_type: string; count: number; }, readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<...>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'UndefinedInitialDataOptions<{ success: boolean; data: Artwork[]; personality_type: string; count: number; }, Error, { success: boolean; data: Artwork[]; personality_type: string; count: number; }, readonly unknown[]>'.
+  Overload 3 of 3, '(options: UseQueryOptions<{ success: boolean; data: Artwork[]; personality_type: string; count: number; }, Error, { success: boolean; data: Artwork[]; personality_type: string; count: number; }, readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<...>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'UseQueryOptions<{ success: boolean; data: Artwork[]; personality_type: string; count: number; }, Error, { success: boolean; data: Artwork[]; personality_type: string; count: number; }, readonly unknown[]>'.
+hooks/useArtvee.ts(67,5): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(options: DefinedInitialDataOptions<Artwork, Error, Artwork, readonly unknown[]>, queryClient?: QueryClient | undefined): DefinedUseQueryResult<...>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'DefinedInitialDataOptions<Artwork, Error, Artwork, readonly unknown[]>'.
+  Overload 2 of 3, '(options: UndefinedInitialDataOptions<Artwork, Error, Artwork, readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<...>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'UndefinedInitialDataOptions<Artwork, Error, Artwork, readonly unknown[]>'.
+  Overload 3 of 3, '(options: UseQueryOptions<Artwork, Error, Artwork, readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<Artwork, Error>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'UseQueryOptions<Artwork, Error, Artwork, readonly unknown[]>'.
+hooks/useArtvee.ts(86,5): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(options: DefinedInitialDataOptions<Artwork[], Error, Artwork[], readonly unknown[]>, queryClient?: QueryClient | undefined): DefinedUseQueryResult<...>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'DefinedInitialDataOptions<Artwork[], Error, Artwork[], readonly unknown[]>'.
+  Overload 2 of 3, '(options: UndefinedInitialDataOptions<Artwork[], Error, Artwork[], readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<...>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'UndefinedInitialDataOptions<Artwork[], Error, Artwork[], readonly unknown[]>'.
+  Overload 3 of 3, '(options: UseQueryOptions<Artwork[], Error, Artwork[], readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<Artwork[], Error>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'UseQueryOptions<Artwork[], Error, Artwork[], readonly unknown[]>'.
+hooks/useArtvee.ts(114,5): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(options: DefinedInitialDataOptions<{ results: Artwork[]; total: number; }, Error, { results: Artwork[]; total: number; }, readonly unknown[]>, queryClient?: QueryClient | undefined): DefinedUseQueryResult<...>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'DefinedInitialDataOptions<{ results: Artwork[]; total: number; }, Error, { results: Artwork[]; total: number; }, readonly unknown[]>'.
+  Overload 2 of 3, '(options: UndefinedInitialDataOptions<{ results: Artwork[]; total: number; }, Error, { results: Artwork[]; total: number; }, readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<...>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'UndefinedInitialDataOptions<{ results: Artwork[]; total: number; }, Error, { results: Artwork[]; total: number; }, readonly unknown[]>'.
+  Overload 3 of 3, '(options: UseQueryOptions<{ results: Artwork[]; total: number; }, Error, { results: Artwork[]; total: number; }, readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<...>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'UseQueryOptions<{ results: Artwork[]; total: number; }, Error, { results: Artwork[]; total: number; }, readonly unknown[]>'.
+hooks/useArtvee.ts(130,5): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(options: DefinedInitialDataOptions<Artwork[], Error, Artwork[], readonly unknown[]>, queryClient?: QueryClient | undefined): DefinedUseQueryResult<...>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'DefinedInitialDataOptions<Artwork[], Error, Artwork[], readonly unknown[]>'.
+  Overload 2 of 3, '(options: UndefinedInitialDataOptions<Artwork[], Error, Artwork[], readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<...>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'UndefinedInitialDataOptions<Artwork[], Error, Artwork[], readonly unknown[]>'.
+  Overload 3 of 3, '(options: UseQueryOptions<Artwork[], Error, Artwork[], readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<Artwork[], Error>', gave the following error.
+    Object literal may only specify known properties, and 'cacheTime' does not exist in type 'UseQueryOptions<Artwork[], Error, Artwork[], readonly unknown[]>'.
+hooks/useAuth.tsx(78,48): error TS7031: Binding element 'session' implicitly has an 'any' type.
+hooks/useAuth.tsx(100,48): error TS7006: Parameter 'event' implicitly has an 'any' type.
+hooks/useAuth.tsx(100,55): error TS7006: Parameter 'session' implicitly has an 'any' type.
+lib/animation-system.ts(339,21): error TS2339: Property 'animationTimeline' does not exist on type 'CSSStyleDeclaration'.
+lib/animation-system.ts(341,23): error TS2551: Property 'animationRange' does not exist on type 'CSSStyleDeclaration'. Did you mean 'animationName'?
+lib/animation-system.ts(402,15): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(404,29): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(404,64): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(406,20): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(406,44): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(406,68): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(407,20): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(407,42): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(407,64): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(414,29): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(414,64): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(415,38): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(415,59): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(416,38): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(416,59): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(417,38): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(417,59): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(422,29): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(422,64): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(423,35): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(423,56): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(424,35): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(424,56): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(425,35): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(425,56): error TS18048: 'threeConfig' is possibly 'undefined'.
+lib/animation-system.ts(462,7): error TS2322: Type 'string | [number, number, number, number]' is not assignable to type 'EaseString | EaseFunction | undefined'.
+  Type '[number, number, number, number]' is not assignable to type 'EaseString | EaseFunction | undefined'.
+    Type '[number, number, number, number]' is not assignable to type '{} & string'.
+      Type '[number, number, number, number]' is not assignable to type 'string'.
+lib/animation-system.ts(470,34): error TS2339: Property 'progress' does not exist on type 'Number | TweenVars'.
+  Property 'progress' does not exist on type 'Number'.
+lib/animation-system.ts(471,36): error TS2339: Property 'progress' does not exist on type 'Number | TweenVars'.
+  Property 'progress' does not exist on type 'Number'.
+lib/api/art-pulse.ts(153,47): error TS7006: Parameter 'p' implicitly has an 'any' type.
+lib/api/art-pulse.ts(160,56): error TS7006: Parameter 'acc' implicitly has an 'any' type.
+lib/api/art-pulse.ts(160,61): error TS7006: Parameter 'p' implicitly has an 'any' type.
+lib/api/art-pulse.ts(196,21): error TS7006: Parameter 'd' implicitly has an 'any' type.
+lib/api/art-pulse.ts(256,9): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ sensory: number; emotional: number; cognitive: number; }'.
+lib/api/artist-apt.ts(3,27): error TS2307: Cannot find module '../apiClient' or its corresponding type declarations.
+lib/api/daily-challenge.ts(190,37): error TS7006: Parameter 'emotion' implicitly has an 'any' type.
+lib/api/exhibition-companion-simple.ts(303,11): error TS2345: Argument of type 'PostgrestFilterBuilder<any, any, { id: any; }[], "companion_matches", unknown>' is not assignable to parameter of type 'readonly any[]'.
+  Type 'PostgrestFilterBuilder<any, any, { id: any; }[], "companion_matches", unknown>' is missing the following properties from type 'readonly any[]': length, concat, join, slice, and 25 more.
+lib/api/exhibition-companion-simple.ts(311,39): error TS1215: Invalid use of 'eval'. Modules are automatically in strict mode.
+lib/api/exhibition-companion.ts(487,9): error TS2300: Duplicate identifier 'respondToMatch'.
+lib/api/exhibitionMatching.ts(2,34): error TS2307: Cannot find module './base' or its corresponding type declarations.
+lib/api/exhibitionMatching.ts(227,33): error TS2304: Cannot find name 'useState'.
+lib/api/exhibitionMatching.ts(228,37): error TS2304: Cannot find name 'useState'.
+lib/api/exhibitionMatching.ts(229,37): error TS2304: Cannot find name 'useState'.
+lib/api/exhibitionMatching.ts(230,37): error TS2304: Cannot find name 'useState'.
+lib/api/exhibitionMatching.ts(231,29): error TS2304: Cannot find name 'useState'.
+lib/api/exhibitionMatching.ts(232,55): error TS2304: Cannot find name 'useState'.
+lib/api/exhibitionMatching.ts(235,30): error TS2304: Cannot find name 'useCallback'.
+lib/api/exhibitionMatching.ts(258,23): error TS2304: Cannot find name 'useCallback'.
+lib/api/exhibitionMatching.ts(280,23): error TS2304: Cannot find name 'useCallback'.
+lib/api/exhibitionMatching.ts(303,23): error TS2304: Cannot find name 'useCallback'.
+lib/api/exhibitionMatching.ts(311,20): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+lib/api/exhibitionMatching.ts(311,40): error TS7006: Parameter 'match' implicitly has an 'any' type.
+lib/api/exhibitionMatching.ts(326,28): error TS2304: Cannot find name 'useCallback'.
+lib/api/exhibitionMatching.ts(338,25): error TS2304: Cannot find name 'useCallback'.
+lib/api/exhibitionMatching.ts(350,27): error TS2304: Cannot find name 'useCallback'.
+lib/api/exhibitionMatching.ts(387,30): error TS2304: Cannot find name 'useCallback'.
+lib/api/exhibitionMatching.ts(399,3): error TS2304: Cannot find name 'useEffect'.
+lib/api/journey.ts(1,10): error TS2614: Module '"./client"' has no exported member 'api'. Did you mean to use 'import api from "./client"' instead?
+lib/api/perception-exchange.ts(76,9): error TS7006: Parameter 'msg' implicitly has an 'any' type.
+lib/api/perception-exchange.ts(113,30): error TS2339: Property 'initiator_id' does not exist on type 'ParserError<"Unexpected input: ORDER BY sent_at ASC,\n        quality_metrics:exchange_quality_metrics(*)\n      ">'.
+lib/api/perception-exchange.ts(114,42): error TS2339: Property 'partner_id' does not exist on type 'ParserError<"Unexpected input: ORDER BY sent_at ASC,\n        quality_metrics:exchange_quality_metrics(*)\n      ">'.
+lib/api/perception-exchange.ts(114,60): error TS2339: Property 'initiator_id' does not exist on type 'ParserError<"Unexpected input: ORDER BY sent_at ASC,\n        quality_metrics:exchange_quality_metrics(*)\n      ">'.
+lib/api/perception-exchange.ts(118,14): error TS2339: Property 'current_phase' does not exist on type 'ParserError<"Unexpected input: ORDER BY sent_at ASC,\n        quality_metrics:exchange_quality_metrics(*)\n      ">'.
+lib/api/perception-exchange.ts(129,14): error TS2339: Property 'current_phase' does not exist on type 'ParserError<"Unexpected input: ORDER BY sent_at ASC,\n        quality_metrics:exchange_quality_metrics(*)\n      ">'.
+lib/api/perception-exchange.ts(144,42): error TS2339: Property 'messages' does not exist on type 'ParserError<"Unexpected input: ORDER BY sent_at ASC,\n        quality_metrics:exchange_quality_metrics(*)\n      ">'.
+lib/api/perception-exchange.ts(144,62): error TS7006: Parameter 'msg' implicitly has an 'any' type.
+lib/api/perception-exchange.ts(148,18): error TS2339: Property 'current_phase' does not exist on type 'ParserError<"Unexpected input: ORDER BY sent_at ASC,\n        quality_metrics:exchange_quality_metrics(*)\n      ">'.
+lib/api/perception-exchange.ts(149,18): error TS2339: Property 'current_phase' does not exist on type 'ParserError<"Unexpected input: ORDER BY sent_at ASC,\n        quality_metrics:exchange_quality_metrics(*)\n      ">'.
+lib/api/perception-exchange.ts(157,7): error TS2698: Spread types may only be created from object types.
+lib/api/pioneer.ts(1,10): error TS2614: Module '"./client"' has no exported member 'api'. Did you mean to use 'import api from "./client"' instead?
+lib/api/simple-exchange.ts(76,17): error TS2339: Property 'apt_type' does not exist on type '{ id: any; apt_type: any; apt_dimensions: any; }[]'.
+lib/api/simple-exchange.ts(77,17): error TS2339: Property 'apt_dimensions' does not exist on type '{ id: any; apt_type: any; apt_dimensions: any; }[]'.
+lib/api/simple-exchange.ts(82,29): error TS2339: Property 'id' does not exist on type '{ id: any; apt_type: any; apt_dimensions: any; }[]'.
+lib/api/simple-exchange.ts(103,9): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ LAEF: string[]; LAEC: string[]; LAMF: string[]; LAMC: string[]; }'.
+  No index signature with a parameter of type 'string' was found on type '{ LAEF: string[]; LAEC: string[]; LAMF: string[]; LAMC: string[]; }'.
+lib/api/simple-exchange.ts(223,39): error TS1215: Invalid use of 'eval'. Modules are automatically in strict mode.
+lib/api/simple-exchange.ts(226,59): error TS1215: Invalid use of 'eval'. Modules are automatically in strict mode.
+lib/api/user-profile.ts(82,5): error TS2322: Type 'string | false' is not assignable to type 'boolean'.
+  Type 'string' is not assignable to type 'boolean'.
+lib/artist-adapter.ts(44,14): error TS2352: Conversion of type '{ copyrightStatus: "public_domain"; sources: { wikidata: string | undefined; wikimedia: string | undefined; }; id: string; name: { en: string; ko: string; }; nationality: string; birthYear: number | undefined; ... 4 more ...; followCount: number; }' to type 'PublicDomainArtist' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type '{ copyrightStatus: "public_domain"; sources: { wikidata: string | undefined; wikimedia: string | undefined; }; id: string; name: { en: string; ko: string; }; nationality: string; birthYear: number | undefined; ... 4 more ...; followCount: number; }' is missing the following properties from type 'PublicDomainArtist': createdAt, updatedAt
+lib/artist-adapter.ts(54,14): error TS2352: Conversion of type '{ copyrightStatus: "licensed"; licenseInfo: { holder: string; contact: string; type: string; usageRights: string[]; }; id: string; name: { en: string; ko: string; }; nationality: string; birthYear: number | undefined; ... 4 more ...; followCount: number; }' to type 'LicensedArtist' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type '{ copyrightStatus: "licensed"; licenseInfo: { holder: string; contact: string; type: string; usageRights: string[]; }; id: string; name: { en: string; ko: string; }; nationality: string; birthYear: number | undefined; ... 4 more ...; followCount: number; }' is missing the following properties from type 'LicensedArtist': createdAt, updatedAt
+lib/artist-adapter.ts(66,14): error TS2352: Conversion of type '{ copyrightStatus: "contemporary"; representation: { gallery: string; website: string; }; recentExhibitions: never[]; id: string; name: { en: string; ko: string; }; nationality: string; birthYear: number | undefined; ... 4 more ...; followCount: number; }' to type 'ContemporaryArtist' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type '{ copyrightStatus: "contemporary"; representation: { gallery: string; website: string; }; recentExhibitions: never[]; id: string; name: { en: string; ko: string; }; nationality: string; birthYear: number | undefined; ... 4 more ...; followCount: number; }' is missing the following properties from type 'ContemporaryArtist': officialLinks, mediaLinks, createdAt, updatedAt
+lib/artist-adapter.ts(77,14): error TS2352: Conversion of type '{ copyrightStatus: "verified_artist"; isVerified: true; verificationDate: string; artistManaged: { profileImage: any; allowedWorks: never[]; socialLinks: {}; }; permissions: { canShareImages: true; allowCommercialUse: false; allowDerivativeWorks: false; }; ... 8 more ...; followCount: number; }' to type 'VerifiedArtist' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type '{ copyrightStatus: "verified_artist"; isVerified: true; verificationDate: string; artistManaged: { profileImage: any; allowedWorks: never[]; socialLinks: {}; }; permissions: { canShareImages: true; allowCommercialUse: false; allowDerivativeWorks: false; }; ... 8 more ...; followCount: number; }' is missing the following properties from type 'VerifiedArtist': verificationMethod, createdAt, updatedAt
+lib/artist-adapter.ts(96,14): error TS2352: Conversion of type '{ copyrightStatus: "contemporary"; representation: {}; recentExhibitions: never[]; id: string; name: { en: string; ko: string; }; nationality: string; birthYear: number | undefined; deathYear: number | undefined; bio: { ...; }; images: any; workCount: number; followCount: number; }' to type 'ContemporaryArtist' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type '{ copyrightStatus: "contemporary"; representation: {}; recentExhibitions: never[]; id: string; name: { en: string; ko: string; }; nationality: string; birthYear: number | undefined; deathYear: number | undefined; bio: { ...; }; images: any; workCount: number; followCount: number; }' is missing the following properties from type 'ContemporaryArtist': officialLinks, mediaLinks, createdAt, updatedAt
+lib/artists-api.ts(2,36): error TS2307: Cannot find module '@/types/common' or its corresponding type declarations.
+lib/artists-api.ts(135,23): error TS2484: Export declaration conflicts with exported declaration of 'ArtistFilters'.
+lib/artists-api.ts(135,38): error TS2484: Export declaration conflicts with exported declaration of 'ArtistListParams'.
+lib/auth.ts(54,5): error TS2345: Argument of type 'OAuthConfig<GoogleProfile>' is not assignable to parameter of type 'CredentialsConfig<{ email: { label: string; type: string; }; password: { label: string; type: string; }; }>'.
+  Type 'OAuthConfig<GoogleProfile>' is missing the following properties from type 'CredentialsConfig<{ email: { label: string; type: string; }; password: { label: string; type: string; }; }>': credentials, authorize
+lib/auth.ts(63,5): error TS2345: Argument of type 'OAuthConfig<GithubProfile>' is not assignable to parameter of type 'CredentialsConfig<{ email: { label: string; type: string; }; password: { label: string; type: string; }; }>'.
+  Type 'OAuthConfig<GithubProfile>' is missing the following properties from type 'CredentialsConfig<{ email: { label: string; type: string; }; password: { label: string; type: string; }; }>': credentials, authorize
+lib/auth.ts(72,5): error TS2345: Argument of type 'OAuthConfig<AppleProfile>' is not assignable to parameter of type 'CredentialsConfig<{ email: { label: string; type: string; }; password: { label: string; type: string; }; }>'.
+  Type 'OAuthConfig<AppleProfile>' is missing the following properties from type 'CredentialsConfig<{ email: { label: string; type: string; }; password: { label: string; type: string; }; }>': credentials, authorize
+lib/auth.ts(81,5): error TS2345: Argument of type 'OAuthConfig<DiscordProfile>' is not assignable to parameter of type 'CredentialsConfig<{ email: { label: string; type: string; }; password: { label: string; type: string; }; }>'.
+  Type 'OAuthConfig<DiscordProfile>' is missing the following properties from type 'CredentialsConfig<{ email: { label: string; type: string; }; password: { label: string; type: string; }; }>': credentials, authorize
+lib/auth.ts(96,11): error TS2322: Type '({ user, account, profile }: { user: any; account: any; profile: any; }) => Promise<boolean>' is not assignable to type '(params: { user: User | AdapterUser; account: Account | null; profile?: Profile | undefined; email?: { verificationRequest?: boolean | undefined; } | undefined; credentials?: Record<...> | undefined; }) => Awaitable<...>'.
+  Types of parameters '__0' and 'params' are incompatible.
+    Type '{ user: User | AdapterUser; account: Account | null; profile?: Profile | undefined; email?: { verificationRequest?: boolean | undefined; } | undefined; credentials?: Record<...> | undefined; }' is not assignable to type '{ user: any; account: any; profile: any; }'.
+      Property 'profile' is optional in type '{ user: User | AdapterUser; account: Account | null; profile?: Profile | undefined; email?: { verificationRequest?: boolean | undefined; } | undefined; credentials?: Record<...> | undefined; }' but required in type '{ user: any; account: any; profile: any; }'.
+lib/chatbot-context.ts(221,24): error TS7053: Element implicitly has an 'any' type because expression of type '"results" | "unknown" | "artwork" | "gallery" | "profile" | "quiz" | "exhibition" | "home"' can't be used to index type '{ home: { initial: string[]; suggestions: string[]; idlePrompts: string[]; }; quiz: { initial: string[]; suggestions: string[]; idlePrompts: string[]; }; gallery: { initial: string[]; suggestions: string[]; idlePrompts: string[]; }; artwork: { ...; }; profile: { ...; }; exhibition: { ...; }; results: { ...; }; }'.
+  Property 'unknown' does not exist on type '{ home: { initial: string[]; suggestions: string[]; idlePrompts: string[]; }; quiz: { initial: string[]; suggestions: string[]; idlePrompts: string[]; }; gallery: { initial: string[]; suggestions: string[]; idlePrompts: string[]; }; artwork: { ...; }; profile: { ...; }; exhibition: { ...; }; results: { ...; }; }'.
+lib/chatbot-context.ts(231,54): error TS2339: Property 'personalityType' does not exist on type '{ artworkId?: string | undefined; artworkTitle?: string | undefined; artistName?: string | undefined; exhibitionName?: string | undefined; quizStep?: number | undefined; }'.
+lib/chatbot-performance.ts(32,25): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+lib/chatbot-performance.ts(141,13): error TS2339: Property 'src' does not exist on type 'Element'.
+lib/chatbot-performance.ts(141,23): error TS2339: Property 'dataset' does not exist on type 'Element'.
+lib/chatbot-performance.ts(142,20): error TS2339: Property 'dataset' does not exist on type 'Element'.
+lib/email-api.ts(39,30): error TS2339: Property 'get' does not exist on type '{ quiz: { start: (data: { userPreferences?: any; language?: string | undefined; sessionType?: string | undefined; }) => Promise<any>; answer: (data: { sessionId: string; questionId: string; choiceId: string; }) => Promise<...>; getResults: () => Promise<...>; }; ... 7 more ...; health: () => Promise<...>; }'.
+lib/email-api.ts(49,30): error TS2339: Property 'put' does not exist on type '{ quiz: { start: (data: { userPreferences?: any; language?: string | undefined; sessionType?: string | undefined; }) => Promise<any>; answer: (data: { sessionId: string; questionId: string; choiceId: string; }) => Promise<...>; getResults: () => Promise<...>; }; ... 7 more ...; health: () => Promise<...>; }'.
+lib/email-api.ts(57,13): error TS2339: Property 'post' does not exist on type '{ quiz: { start: (data: { userPreferences?: any; language?: string | undefined; sessionType?: string | undefined; }) => Promise<any>; answer: (data: { sessionId: string; questionId: string; choiceId: string; }) => Promise<...>; getResults: () => Promise<...>; }; ... 7 more ...; health: () => Promise<...>; }'.
+lib/email-api.ts(64,13): error TS2339: Property 'post' does not exist on type '{ quiz: { start: (data: { userPreferences?: any; language?: string | undefined; sessionType?: string | undefined; }) => Promise<any>; answer: (data: { sessionId: string; questionId: string; choiceId: string; }) => Promise<...>; getResults: () => Promise<...>; }; ... 7 more ...; health: () => Promise<...>; }'.
+lib/email-api.ts(71,13): error TS2339: Property 'post' does not exist on type '{ quiz: { start: (data: { userPreferences?: any; language?: string | undefined; sessionType?: string | undefined; }) => Promise<any>; answer: (data: { sessionId: string; questionId: string; choiceId: string; }) => Promise<...>; getResults: () => Promise<...>; }; ... 7 more ...; health: () => Promise<...>; }'.
+lib/email-api.ts(78,30): error TS2339: Property 'get' does not exist on type '{ quiz: { start: (data: { userPreferences?: any; language?: string | undefined; sessionType?: string | undefined; }) => Promise<any>; answer: (data: { sessionId: string; questionId: string; choiceId: string; }) => Promise<...>; getResults: () => Promise<...>; }; ... 7 more ...; health: () => Promise<...>; }'.
+lib/email-api.ts(86,13): error TS2339: Property 'post' does not exist on type '{ quiz: { start: (data: { userPreferences?: any; language?: string | undefined; sessionType?: string | undefined; }) => Promise<any>; answer: (data: { sessionId: string; questionId: string; choiceId: string; }) => Promise<...>; getResults: () => Promise<...>; }; ... 7 more ...; health: () => Promise<...>; }'.
+lib/email-api.ts(97,13): error TS2339: Property 'post' does not exist on type '{ quiz: { start: (data: { userPreferences?: any; language?: string | undefined; sessionType?: string | undefined; }) => Promise<any>; answer: (data: { sessionId: string; questionId: string; choiceId: string; }) => Promise<...>; getResults: () => Promise<...>; }; ... 7 more ...; health: () => Promise<...>; }'.
+lib/evolution-api.ts(18,12): error TS18046: 'response' is of type 'unknown'.
+lib/evolution-api.ts(27,12): error TS18046: 'response' is of type 'unknown'.
+lib/evolution-api.ts(33,12): error TS18046: 'response' is of type 'unknown'.
+lib/evolution-api.ts(43,12): error TS18046: 'response' is of type 'unknown'.
+lib/evolution-api.ts(53,12): error TS18046: 'response' is of type 'unknown'.
+lib/evolution-api.ts(59,7): error TS2353: Object literal may only specify known properties, and 'params' does not exist in type 'RequestInit'.
+lib/evolution-api.ts(61,12): error TS18046: 'response' is of type 'unknown'.
+lib/evolution-api.ts(80,12): error TS18046: 'response' is of type 'unknown'.
+lib/evolution-api.ts(93,12): error TS18046: 'response' is of type 'unknown'.
+lib/gallery-api.ts(1,36): error TS2307: Cannot find module '@/types/common' or its corresponding type declarations.
+lib/gallery-api.ts(95,45): error TS2345: Argument of type '{ isLiked: string; page?: number; limit?: number; artist?: string; sayuType?: string; search?: string; isArchived?: boolean; sortBy?: "title" | "artist" | "createdAt" | "updatedAt"; sortOrder?: "asc" | "desc"; }' is not assignable to parameter of type 'string | Record<string, string> | URLSearchParams | string[][] | undefined'.
+  Type '{ isLiked: string; page?: number; limit?: number; artist?: string; sayuType?: string; search?: string; isArchived?: boolean; sortBy?: "title" | "artist" | "createdAt" | "updatedAt"; sortOrder?: "asc" | "desc"; }' is not assignable to type 'undefined'.
+lib/gallery-api.ts(110,45): error TS2345: Argument of type '{ isArchived: string; page?: number; limit?: number; artist?: string; sayuType?: string; search?: string; isLiked?: boolean; sortBy?: "title" | "artist" | "createdAt" | "updatedAt"; sortOrder?: "asc" | "desc"; }' is not assignable to parameter of type 'string | Record<string, string> | URLSearchParams | string[][] | undefined'.
+  Type '{ isArchived: string; page?: number; limit?: number; artist?: string; sayuType?: string; search?: string; isLiked?: boolean; sortBy?: "title" | "artist" | "createdAt" | "updatedAt"; sortOrder?: "asc" | "desc"; }' is not assignable to type 'undefined'.
+lib/gallery-api.ts(168,45): error TS2345: Argument of type '{ artist: string; page?: number; limit?: number; sayuType?: string; search?: string; isLiked?: boolean; isArchived?: boolean; sortBy?: "title" | "artist" | "createdAt" | "updatedAt"; sortOrder?: "asc" | "desc"; }' is not assignable to parameter of type 'string | Record<string, string> | URLSearchParams | string[][] | undefined'.
+  Type '{ artist: string; page?: number; limit?: number; sayuType?: string; search?: string; isLiked?: boolean; isArchived?: boolean; sortBy?: "title" | "artist" | "createdAt" | "updatedAt"; sortOrder?: "asc" | "desc"; }' is not assignable to type 'undefined'.
+lib/gallery-api.ts(183,40): error TS2345: Argument of type '{ artist?: string; sayuType?: string; search: string; isLiked?: boolean; isArchived?: boolean; sortBy?: "title" | "artist" | "createdAt" | "updatedAt"; sortOrder?: "asc" | "desc"; }' is not assignable to parameter of type 'string | Record<string, string> | URLSearchParams | string[][] | undefined'.
+  Type '{ artist?: string; sayuType?: string; search: string; isLiked?: boolean; isArchived?: boolean; sortBy?: "title" | "artist" | "createdAt" | "updatedAt"; sortOrder?: "asc" | "desc"; }' is not assignable to type 'undefined'.
+lib/gallery-api.ts(254,15): error TS2484: Export declaration conflicts with exported declaration of 'Artwork'.
+lib/gallery-api.ts(254,24): error TS2484: Export declaration conflicts with exported declaration of 'ArtworkFilters'.
+lib/gallery-api.ts(254,40): error TS2484: Export declaration conflicts with exported declaration of 'ArtworkListParams'.
+lib/gallery-api.ts(254,59): error TS2484: Export declaration conflicts with exported declaration of 'FollowingArtist'.
+lib/gamification-api.ts(131,9): error TS2393: Duplicate function implementation.
+lib/gamification-api.ts(147,9): error TS2393: Duplicate function implementation.
+lib/gamification-api.ts(355,9): error TS2393: Duplicate function implementation.
+lib/gamification-api.ts(373,9): error TS2393: Duplicate function implementation.
+lib/i18n/config.ts(15,4): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(callback?: Callback | undefined): Promise<TFunction<"translation", undefined>>', gave the following error.
+    Object literal may only specify known properties, and 'resources' does not exist in type 'Callback'.
+  Overload 2 of 2, '(options: InitOptions<unknown>, callback?: Callback | undefined): Promise<TFunction<"translation", undefined>>', gave the following error.
+    Type '(lng: string[], ns: string, key: string) => void' is not assignable to type 'false | ((lngs: readonly string[], ns: string, key: string, fallbackValue: string, updateMissing: boolean, options: any) => void) | undefined'.
+      Type '(lng: string[], ns: string, key: string) => void' is not assignable to type '(lngs: readonly string[], ns: string, key: string, fallbackValue: string, updateMissing: boolean, options: any) => void'.
+        Types of parameters 'lng' and 'lngs' are incompatible.
+          The type 'readonly string[]' is 'readonly' and cannot be assigned to the mutable type 'string[]'.
+lib/profile-api.ts(1,36): error TS2307: Cannot find module '@/types/common' or its corresponding type declarations.
+lib/profile-api.ts(390,15): error TS2484: Export declaration conflicts with exported declaration of 'UserProfile'.
+lib/profile-api.ts(390,28): error TS2484: Export declaration conflicts with exported declaration of 'Museum'.
+lib/profile-api.ts(390,36): error TS2484: Export declaration conflicts with exported declaration of 'ExhibitionVisit'.
+lib/profile-api.ts(390,53): error TS2484: Export declaration conflicts with exported declaration of 'Badge'.
+lib/profile-api.ts(390,60): error TS2484: Export declaration conflicts with exported declaration of 'ProfileVisitParams'.
+lib/push-notifications.ts(78,9): error TS2353: Object literal may only specify known properties, and 'keys' does not exist in type 'PushSubscription'.
+lib/simulationDesign.ts(300,9): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ L: number; S: number; A: number; R: number; E: number; M: number; F: number; C: number; }'.
+  No index signature with a parameter of type 'string' was found on type '{ L: number; S: number; A: number; R: number; E: number; M: number; F: number; C: number; }'.
+lib/simulationDesign.ts(300,25): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ L: number; S: number; A: number; R: number; E: number; M: number; F: number; C: number; }'.
+  No index signature with a parameter of type 'string' was found on type '{ L: number; S: number; A: number; R: number; E: number; M: number; F: number; C: number; }'.
+lib/supabase-mock.ts(45,3): error TS2416: Property 'on' in type 'MockChannel' is not assignable to the same property in base type 'EventEmitter'.
+  Type '(event: string, config: any, callback: (payload: any) => void) => this' is not assignable to type '(event: string, listener: (...args: any[]) => void) => this'.
+    Target signature provides too few arguments. Expected 3 or more, but got 2.
+lib/supabase/matching-api.ts(2,10): error TS2305: Module '"@/shared/SAYUTypeDefinitions"' has no exported member 'PersonalityType'.
+lib/themes.ts(360,5): error TS2322: Type '{ accent?: string | undefined; gradient?: string | undefined; primary?: string | undefined; secondary?: string | undefined; background?: string | undefined; surface?: string | undefined; muted?: string | undefined; text?: string | undefined; textSecondary?: string | undefined; border?: string | undefined; }' is not assignable to type 'ThemeColors'.
+  Types of property 'primary' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+lib/themes.ts(368,5): error TS2322: Type '{ headingFont?: string | undefined; bodyFont?: string | undefined; headingWeight?: string | undefined; bodyWeight?: string | undefined; letterSpacing?: string | undefined; lineHeight?: string | undefined; }' is not assignable to type 'ThemeTypography'.
+  Types of property 'headingFont' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+lib/themes.ts(374,5): error TS2322: Type '{ borderRadius?: string | undefined; spacing?: string | undefined; cardPadding?: string | undefined; maxWidth?: string | undefined; shadows?: string | undefined; }' is not assignable to type 'ThemeLayout'.
+  Types of property 'borderRadius' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+lib/themes.ts(380,5): error TS2322: Type '{ duration?: string | undefined; easing?: string | undefined; hoverScale?: string | undefined; entranceAnimation?: string | undefined; }' is not assignable to type 'ThemeAnimations'.
+  Types of property 'duration' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+lib/unified-theme-system.ts(254,13): error TS18004: No value exists in scope for the shorthand property 'colorScheme'. Either declare one or provide an initializer.
+pages/api/exhibitions/index.ts(90,52): error TS2554: Expected 0-1 arguments, but got 2.
+pages/api/quiz/answer.ts(11,33): error TS2307: Cannot find module '@/data/exhibitionQuestions.json' or its corresponding type declarations.
+pages/api/quiz/answer.ts(12,30): error TS2307: Cannot find module '@/data/artworkQuestions.json' or its corresponding type declarations.
+pages/api/quiz/start.ts(12,33): error TS2307: Cannot find module '@/data/exhibitionQuestions.json' or its corresponding type declarations.
+pages/api/quiz/start.ts(13,30): error TS2307: Cannot find module '@/data/artworkQuestions.json' or its corresponding type declarations.
+src/app/auth/signin/page.tsx(1,34): error TS2307: Cannot find module '@/components/auth/supabase-auth-form' or its corresponding type declarations.
+src/app/auth/signup/page.tsx(1,34): error TS2307: Cannot find module '@/components/auth/supabase-auth-form' or its corresponding type declarations.
+src/app/profile/gamification/page.tsx(4,10): error TS2614: Module '"@/components/gamification/GamificationDashboard"' has no exported member 'GamificationDashboard'. Did you mean to use 'import GamificationDashboard from "@/components/gamification/GamificationDashboard"' instead?
+src/components/auth/supabase-auth-form.tsx(9,23): error TS2307: Cannot find module 'sonner' or its corresponding type declarations.
+src/components/gamification/DailyQuestList.tsx(9,15): error TS2305: Module '"@/types/gamification"' has no exported member 'DailyQuest'.
+src/components/gamification/GamificationDashboard.tsx(6,10): error TS2305: Module '"@/hooks/useGamification"' has no exported member 'useUserStats'.
+src/components/gamification/GamificationDashboard.tsx(6,24): error TS2305: Module '"@/hooks/useGamification"' has no exported member 'useDailyQuests'.
+src/components/gamification/GamificationDashboard.tsx(6,40): error TS2305: Module '"@/hooks/useGamification"' has no exported member 'useDailyLogin'.
+src/components/gamification/Leaderboard.tsx(11,15): error TS2305: Module '"@/types/gamification"' has no exported member 'LeaderboardEntry'.
+src/components/gamification/Leaderboard.tsx(11,33): error TS2305: Module '"@/types/gamification"' has no exported member 'LeaderboardType'.
+src/hooks/use-user.ts(21,73): error TS7006: Parameter '_event' implicitly has an 'any' type.
+src/hooks/use-user.ts(21,81): error TS7006: Parameter 'session' implicitly has an 'any' type.
+src/hooks/useGamification.ts(2,23): error TS2307: Cannot find module 'sonner' or its corresponding type declarations.
+src/hooks/useGamification.ts(4,15): error TS2305: Module '"@/types/gamification"' has no exported member 'XPEventType'.
+src/hooks/useGamification.ts(4,28): error TS2305: Module '"@/types/gamification"' has no exported member 'LeaderboardType'.
+src/hooks/useGamification.ts(18,30): error TS2339: Property 'getUserStats' does not exist on type 'typeof import("C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/lib/gamification-api")'.
+src/hooks/useGamification.ts(28,30): error TS2339: Property 'getDailyQuests' does not exist on type 'typeof import("C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/lib/gamification-api")'.
+src/hooks/useGamification.ts(38,36): error TS2339: Property 'getLeaderboard' does not exist on type 'typeof import("C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/lib/gamification-api")'.
+src/hooks/useGamification.ts(48,36): error TS2339: Property 'getUserProfile' does not exist on type 'typeof import("C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/lib/gamification-api")'.
+src/hooks/useGamification.ts(63,27): error TS2339: Property 'earnXP' does not exist on type 'typeof import("C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/lib/gamification-api")'.
+src/hooks/useGamification.ts(71,18): error TS2339: Property 'leveledUp' does not exist on type '{}'.
+src/hooks/useGamification.ts(72,41): error TS2339: Property 'level' does not exist on type '{}'.
+src/hooks/useGamification.ts(77,34): error TS2339: Property 'xpGained' does not exist on type '{}'.
+src/hooks/useGamification.ts(96,33): error TS2339: Property 'processDailyLogin' does not exist on type 'typeof import("C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/lib/gamification-api")'.
+src/hooks/useGamification.ts(98,11): error TS18046: 'data' is of type 'unknown'.
+src/hooks/useGamification.ts(99,20): error TS18046: 'data' is of type 'unknown'.
+src/hooks/useGamification.ts(103,23): error TS18046: 'data' is of type 'unknown'.
+src/hooks/useGamification.ts(118,56): error TS2339: Property 'recordArtworkView' does not exist on type 'typeof import("C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/lib/gamification-api")'.
+src/hooks/useGamification.ts(123,39): error TS2339: Property 'userId' does not exist on type '{}'.
+src/hooks/useGamification.ts(136,23): error TS2339: Property 'recordQuizCompletion' does not exist on type 'typeof import("C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/lib/gamification-api")'.
+src/hooks/useGamification.ts(152,59): error TS2339: Property 'recordFollowUser' does not exist on type 'typeof import("C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/lib/gamification-api")'.
+src/hooks/useGamification.ts(157,42): error TS2339: Property 'userId' does not exist on type '{}'.
+src/hooks/useGamification.ts(172,27): error TS2339: Property 'recordArtworkShare' does not exist on type 'typeof import("C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/lib/gamification-api")'.
+src/hooks/useGamification.ts(177,39): error TS2339: Property 'userId' does not exist on type '{}'.
+src/hooks/useGamification.ts(190,33): error TS2339: Property 'recordAIProfileCreation' does not exist on type 'typeof import("C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/lib/gamification-api")'.
+src/hooks/useGamification.ts(208,27): error TS2339: Property 'recordExhibitionVisit' does not exist on type 'typeof import("C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/lib/gamification-api")'.
+src/hooks/useGamification.ts(228,27): error TS2339: Property 'recordReviewWrite' does not exist on type 'typeof import("C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/lib/gamification-api")'.
+src/hooks/useGamification.ts(243,33): error TS2339: Property 'initializeUser' does not exist on type 'typeof import("C:/Users/SAMSUNG/Documents/GitHub/SAYU/frontend/lib/gamification-api")'.
+src/lib/gamification-api.ts(2,3): error TS2305: Module '"@/types/gamification"' has no exported member 'UserStats'.
+src/lib/gamification-api.ts(3,3): error TS2305: Module '"@/types/gamification"' has no exported member 'DailyQuest'.
+src/lib/gamification-api.ts(4,3): error TS2305: Module '"@/types/gamification"' has no exported member 'XPEventType'.
+src/lib/gamification-api.ts(5,3): error TS2305: Module '"@/types/gamification"' has no exported member 'XPResult'.
+src/lib/gamification-api.ts(6,3): error TS2305: Module '"@/types/gamification"' has no exported member 'LeaderboardEntry'.
+src/lib/gamification-api.ts(7,3): error TS2305: Module '"@/types/gamification"' has no exported member 'LeaderboardType'.
+src/lib/gamification-api.ts(8,3): error TS2305: Module '"@/types/gamification"' has no exported member 'GamificationApiResponse'.
+types/art-persona-matching.ts(2,10): error TS2305: Module '"@/shared/SAYUTypeDefinitions"' has no exported member 'PersonalityType'.

@@ -44,7 +44,7 @@ export default function ArtistProfilePage() {
   const router = useRouter();
   const { language } = useLanguage();
   const { user } = useAuth();
-  const artistId = params.artistId as string;
+  const artistId = params?.artistId as string;
 
   const [artist, setArtist] = useState<Artist | null>(null);
   const [artworks, setArtworks] = useState<Artwork[]>([]);
@@ -112,7 +112,7 @@ export default function ArtistProfilePage() {
       // Check if following
       if (user) {
         try {
-          const followingList = await followAPI.getFollowing(user.id);
+          const followingList = await followAPI.getFollowing(user.auth.id);
           setIsFollowing(followingList.users.some((f: any) => f.id === artistId));
         } catch (error) {
           console.error('Failed to check following status:', error);

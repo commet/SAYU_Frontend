@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArtPulseReflection, TypingIndicator } from '@/types/art-pulse';
+import { ArtPulseReflection, TypingIndicator } from '@sayu/shared';
 import { Heart, MessageCircle, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';

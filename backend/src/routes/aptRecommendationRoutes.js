@@ -5,6 +5,7 @@ const aptRecommendationController = require('../controllers/aptRecommendationCon
 const authMiddleware = require('../middleware/auth');
 const { optionalAuth } = require('../middleware/authHelpers');
 const { asyncHandler } = require('../middleware/errorHandler');
+const { SAYU_TYPES } = require('@sayu/shared');
 
 // ==================== 공개 엔드포인트 ====================
 
@@ -112,7 +113,7 @@ router.post('/cache/warmup',
   authMiddleware,
   asyncHandler(async (req, res) => {
     // TODO: 관리자 권한 체크
-    const { aptTypes = Object.keys(require('../../../shared/SAYUTypeDefinitions').SAYU_TYPES) } = req.body;
+    const { aptTypes = Object.keys(SAYU_TYPES) } = req.body;
     
     // 백그라운드에서 실행
     setImmediate(async () => {
@@ -161,7 +162,7 @@ router.delete('/cache/:aptType',
  * 모든 APT 유형 정보
  */
 router.get('/types', (req, res) => {
-  const { SAYU_TYPES } = require('../../../shared/SAYUTypeDefinitions');
+  
   
   res.json({
     success: true,
@@ -184,7 +185,7 @@ router.get('/types', (req, res) => {
  * 특정 APT 유형 상세 정보
  */
 router.get('/types/:aptType', (req, res) => {
-  const { SAYU_TYPES } = require('../../../shared/SAYUTypeDefinitions');
+  
   const { aptType } = req.params;
   
   if (!SAYU_TYPES[aptType]) {

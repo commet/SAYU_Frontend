@@ -23,6 +23,7 @@ import { userActivityApi } from '@/lib/api/collections';
 import { exhibitionCompanionApi } from '@/lib/api/exhibition-companion';
 // import { ExhibitionCard } from '@/components/exhibition-companion/ExhibitionCard';
 import { CompanionRequestCard } from '@/components/exhibition-companion/CompanionRequestCard';
+import { CreateCompanionRequest } from '@/components/exhibition-companion/CreateCompanionRequest';
 // import { CreateCompanionRequestModal } from '@/components/exhibition-companion/CreateCompanionRequestModal';
 // import { CompanionMatchCard } from '@/components/exhibition-companion/CompanionMatchCard';
 import { useRouter } from 'next/navigation';
@@ -417,14 +418,16 @@ export default function ExhibitionsPage() {
         </TabsContent>
       </Tabs>
 
-      {/* Create Request Modal */}
-      <CreateCompanionRequestModal
-        open={showCreateModal}
-        onOpenChange={setShowCreateModal}
-        exhibitions={exhibitions}
-        selectedExhibition={selectedExhibition}
-        onSubmit={handleCreateRequest}
-      />
+      {/* Create Request Component */}
+      {showCreateModal && (
+        <CreateCompanionRequest
+          onClose={() => setShowCreateModal(false)}
+          onSuccess={() => {
+            setShowCreateModal(false);
+            handleCreateRequest();
+          }}
+        />
+      )}
     </div>
   );
 }

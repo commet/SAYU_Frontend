@@ -4,7 +4,7 @@ import type {
   CompanionRequest,
   CompanionMatch,
   CreateCompanionRequestData
-} from '@/types/exhibition-companion';
+} from '@sayu/shared';
 
 const supabase = createClientComponentClient();
 

@@ -42,10 +42,10 @@ export default function ExhibitionDetailPage() {
   const [likeCount, setLikeCount] = useState(0);
 
   useEffect(() => {
-    if (params.id) {
+    if (params?.id) {
       fetchExhibition(params.id as string);
     }
-  }, [params.id]);
+  }, [params?.id]);
 
   const fetchExhibition = async (id: string) => {
     try {

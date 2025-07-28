@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { apiClient } from '@/lib/api-client';
 import { ChevronRight, Users, Heart } from 'lucide-react';
-import { PublicDomainArtist, LicensedArtist, ContemporaryArtist, VerifiedArtist } from '@/types/artist';
+import { PublicDomainArtist, LicensedArtist, ContemporaryArtist, VerifiedArtist } from '@sayu/shared';
 import { BackendArtist, adaptArtistsFromBackend } from '@/lib/artist-adapter';
 
 type Artist = PublicDomainArtist | LicensedArtist | ContemporaryArtist | VerifiedArtist;
@@ -136,12 +136,12 @@ export function FeaturedArtists({ limit = 4 }: FeaturedArtistsProps) {
             <Link href={`/artists/${artist.id}`}>
               <div className="group cursor-pointer">
                 <div className="relative overflow-hidden rounded-lg mb-4 h-64">
-                  <Image
+                  <OptimizedImage
                     src={artist.images.profile || artist.images.thumbnail || `https://ui-avatars.com/api/?name=${encodeURIComponent(artist.name.en)}&size=400&background=random`}
                     alt={artist.name[language] || artist.name.en}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-300"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" placeholder="blur" quality={90}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   

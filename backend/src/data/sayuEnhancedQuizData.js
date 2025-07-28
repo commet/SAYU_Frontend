@@ -1,7 +1,7 @@
 // SAYU Art Personality Quiz Data Structure
 // Backend: /backend/src/data/sayuEnhancedQuizData.js
 
-const { SAYU_TYPES, validateSAYUType } = require('../../../shared/SAYUTypeDefinitions');
+const { SAYU_TYPES, validateSAYUType } = require('@sayu/shared');
 
 const sayuEnhancedQuizData = {
   title: "SAYU Art Personality Assessment",

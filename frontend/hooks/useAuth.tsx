@@ -1,270 +1,224 @@
-'use client';
-
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import { useEffect, useState, createContext, useContext } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import { User, Session } from '@supabase/supabase-js';
+import { Database } from '@/lib/supabase/database.types';
+import { AuthUser, UserProfile } from '@/types/auth';
 import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
 
 interface AuthContextType {
-  user: any | null;
-  login: (email: string, password: string) => Promise<void>;
-  register: (data: any) => Promise<void>;
-  logout: () => void;
-  logoutAll: () => Promise<void>;
-  refreshToken: () => Promise<string | null>;
+  user: AuthUser | null;
+  profile: UserProfile | null;
+  session: Session | null;
   loading: boolean;
-  setTokens: (accessToken: string, refreshToken: string) => void;
-  linkOAuthAccount: (provider: string) => Promise<void>;
-  unlinkOAuthAccount: (provider: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string, metadata?: any) => Promise<void>;
+  signOut: () => Promise<void>;
+  updateProfile: (updates: Partial<UserProfile>) => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState(null);
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [refreshPromise, setRefreshPromise] = useState<Promise<string | null> | null>(null);
   const router = useRouter();
+  const supabase = createClient();
 
-  useEffect(() => {
-    checkAuth();
-  }, []);
+  // Helper function to create AuthUser from Supabase User and UserProfile
+  const createAuthUser = (supabaseUser: User, userProfile: UserProfile | null): AuthUser => {
+    return {
+      auth: supabaseUser,
+      profile: userProfile,
+      nickname: userProfile?.username || null,
+      agencyLevel: userProfile?.personality_type || 'novice',
+      journeyStage: userProfile?.onboarding_completed ? 'active' : 'onboarding',
+      hasProfile: !!userProfile,
+      typeCode: userProfile?.personality_type || null,
+      archetypeName: userProfile?.personality_type || null,
+    };
+  };
 
-  const refreshToken = useCallback(async (): Promise<string | null> => {
-    // If there's already a refresh in progress, return that promise
-    if (refreshPromise) {
-      return refreshPromise;
-    }
+  // Fetch user profile
+  const fetchProfile = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('auth_id', userId)
+        .single();
 
-    const refreshTokenValue = localStorage.getItem('refreshToken');
-    if (!refreshTokenValue) {
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error fetching profile:', error);
+        return null;
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Profile fetch error:', error);
       return null;
     }
+  };
 
-    const promise = (async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ refreshToken: refreshTokenValue })
-        });
+  // Create user profile if it doesn't exist
+  const createProfile = async (user: User) => {
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .insert({
+          auth_id: user.id,
+          email: user.email!,
+          created_at: new Date().toISOString()
+        })
+        .select()
+        .single();
 
-        if (res.ok) {
-          const data = await res.json();
-          localStorage.setItem('token', data.accessToken);
-          localStorage.setItem('refreshToken', data.refreshToken);
-          return data.accessToken;
-        } else {
-          // Refresh failed, clear tokens
-          localStorage.removeItem('token');
-          localStorage.removeItem('refreshToken');
-          setUser(null);
-          return null;
-        }
-      } catch (error) {
-        console.error('Token refresh failed:', error);
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        setUser(null);
+      if (error) {
+        console.error('Error creating profile:', error);
         return null;
-      } finally {
-        setRefreshPromise(null);
       }
-    })();
 
-    setRefreshPromise(promise);
-    return promise;
-  }, [refreshPromise]);
-
-  const apiCall = useCallback(async (url: string, options: RequestInit = {}) => {
-    let token = localStorage.getItem('token');
-    
-    const makeRequest = async (authToken: string) => {
-      return fetch(url, {
-        ...options,
-        headers: {
-          ...options.headers,
-          Authorization: `Bearer ${authToken}`
-        }
-      });
-    };
-
-    if (!token) {
-      throw new Error('No token available');
-    }
-
-    let response = await makeRequest(token);
-
-    // If token expired, try to refresh
-    if (response.status === 401) {
-      const newToken = await refreshToken();
-      if (newToken) {
-        response = await makeRequest(newToken);
-      } else {
-        throw new Error('Authentication failed');
-      }
-    }
-
-    return response;
-  }, [refreshToken]);
-
-  const checkAuth = async () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        const res = await apiCall(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`);
-        if (res.ok) {
-          const data = await res.json();
-          setUser(data.user);
-        }
-      } catch (error) {
-        console.error('Auth check failed:', error);
-        // Try to refresh token
-        const newToken = await refreshToken();
-        if (newToken) {
-          try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`, {
-              headers: { Authorization: `Bearer ${newToken}` }
-            });
-            if (res.ok) {
-              const data = await res.json();
-              setUser(data.user);
-            }
-          } catch (retryError) {
-            console.error('Retry auth check failed:', retryError);
-          }
-        }
-      }
-    }
-    setLoading(false);
-  };
-
-  const login = async (email: string, password: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-
-    if (!res.ok) throw new Error('Login failed');
-
-    const data = await res.json();
-    localStorage.setItem('token', data.accessToken);
-    localStorage.setItem('refreshToken', data.refreshToken);
-    setUser(data.user);
-    toast.success('Welcome back!');
-    router.push(data.user.hasProfile ? '/journey' : '/quiz');
-  };
-
-  const register = async (formData: any) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    });
-
-    if (!res.ok) throw new Error('Registration failed');
-
-    const data = await res.json();
-    localStorage.setItem('token', data.accessToken);
-    localStorage.setItem('refreshToken', data.refreshToken);
-    setUser(data.user);
-    toast.success('Welcome to SAYU!');
-    router.push('/quiz');
-  };
-
-  const logout = async () => {
-    const refreshTokenValue = localStorage.getItem('refreshToken');
-    
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ refreshToken: refreshTokenValue })
-      });
+      return data;
     } catch (error) {
-      console.error('Logout request failed:', error);
+      console.error('Profile creation error:', error);
+      return null;
     }
-
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    setUser(null);
-    router.push('/');
   };
 
-  const logoutAll = async () => {
-    try {
-      await apiCall(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout-all`, {
-        method: 'POST'
-      });
-      toast.success('Logged out from all devices');
-    } catch (error) {
-      console.error('Logout all failed:', error);
-    }
-
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    setUser(null);
-    router.push('/');
-  };
-
-  const setTokens = (accessToken: string, refreshToken: string) => {
-    localStorage.setItem('token', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
-    checkAuth();
-  };
-
-  const linkOAuthAccount = async (provider: string) => {
-    try {
-      const res = await apiCall(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/link/${provider}`, {
-        method: 'POST'
-      });
+  useEffect(() => {
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
       
-      const data = await res.json();
-      if (data.redirectUrl) {
-        window.location.href = data.redirectUrl;
+      if (session?.user) {
+        fetchProfile(session.user.id).then(profile => {
+          if (!profile && session.user) {
+            createProfile(session.user).then(newProfile => {
+              setProfile(newProfile);
+              setUser(createAuthUser(session.user, newProfile));
+            });
+          } else {
+            setProfile(profile);
+            setUser(createAuthUser(session.user, profile));
+          }
+        });
+      } else {
+        setUser(null);
       }
-    } catch (error) {
-      toast.error(`Failed to link ${provider} account`);
+      
+      setLoading(false);
+    });
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setSession(session);
+      
+      if (session?.user) {
+        let userProfile = await fetchProfile(session.user.id);
+        
+        if (!userProfile) {
+          userProfile = await createProfile(session.user);
+        }
+        
+        setProfile(userProfile);
+        setUser(createAuthUser(session.user, userProfile));
+      } else {
+        setProfile(null);
+        setUser(null);
+      }
+      
+      setLoading(false);
+
+      // Handle auth events
+      if (event === 'SIGNED_IN') {
+        router.push('/dashboard');
+      } else if (event === 'SIGNED_OUT') {
+        router.push('/');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const signIn = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
       throw error;
     }
   };
 
-  const unlinkOAuthAccount = async (provider: string) => {
-    try {
-      await apiCall(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/unlink/${provider}`, {
-        method: 'DELETE'
-      });
-      toast.success(`${provider} account unlinked successfully`);
-      await checkAuth(); // Refresh user data
-    } catch (error) {
-      toast.error(`Failed to unlink ${provider} account`);
+  const signUp = async (email: string, password: string, metadata?: any) => {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: metadata,
+      },
+    });
+
+    if (error) {
       throw error;
     }
+  };
+
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    
+    if (error) {
+      throw error;
+    }
+  };
+
+  const updateProfile = async (updates: Partial<UserProfile>) => {
+    if (!profile) {
+      throw new Error('No profile to update');
+    }
+
+    const { data, error } = await supabase
+      .from('users')
+      .update(updates)
+      .eq('id', profile.id)
+      .select()
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    setProfile(data);
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      login, 
-      register, 
-      logout, 
-      logoutAll, 
-      refreshToken, 
-      loading, 
-      setTokens,
-      linkOAuthAccount,
-      unlinkOAuthAccount
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        profile,
+        session,
+        loading,
+        signIn,
+        signUp,
+        signOut,
+        updateProfile,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
-export const useAuth = () => {
+export function useAuth() {
   const context = useContext(AuthContext);
-  if (!context) throw new Error('useAuth must be used within AuthProvider');
+  
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  
   return context;
-};
+}

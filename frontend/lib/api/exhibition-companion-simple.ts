@@ -307,7 +307,7 @@ export const exhibitionCompanionApi = {
         )
     ]);
 
-    const avgRating = evaluations.data?.length > 0
+    const avgRating = evaluations.data && evaluations.data.length > 0
       ? evaluations.data.reduce((sum, eval) => sum + eval.companion_rating, 0) / evaluations.data.length
       : 0;
 

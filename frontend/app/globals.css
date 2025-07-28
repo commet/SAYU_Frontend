@@ -44,6 +44,16 @@
   animation-delay: 4s;
 }
 
+/* Liquid Glass Background Animation */
+@keyframes moveBackground {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 0% -1000%;
+  }
+}
+
 /* SAYU 색상 조합 시스템 */
 :root {
   /* === 따뜻하고 부드러운 조합 === */
@@ -229,6 +239,10 @@
   --glow-lg: 0 0 40px;
   --glow-xl: 0 0 60px;
   
+  /* === SPARKLES COMPONENT === */
+  --gradient-color: #8350e8;
+  --sparkles-color: #8350e8;
+  
   /* === NOISE & TEXTURE === */
   --noise-opacity: 0.03;
   --grain-opacity: 0.05;
@@ -263,6 +277,10 @@
   --secondary-foreground: 255 255 255;
   --accent: var(--calm-elegant-3-secondary); /* Ivory Mist */
   --accent-foreground: 10 10 10;
+  
+  /* === SPARKLES COMPONENT (DARK) === */
+  --gradient-color: #8350e8;
+  --sparkles-color: #ffffff;
   
   --card: 20 20 20;
   --card-foreground: 250 250 250;

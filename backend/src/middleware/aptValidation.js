@@ -1,4 +1,4 @@
-const { VALID_TYPE_CODES, getSAYUType } = require('../../../shared/SAYUTypeDefinitions');
+const { VALID_TYPE_CODES, getSAYUType } = require('@sayu/shared');
 
 /**
  * APT 프로필 검증 미들웨어

@@ -181,7 +181,6 @@ export default function DashboardPage() {
         communityStatus={communityStatus}
       />
 
-<<<<<<< HEAD
       {/* Tab Navigation */}
       <Tabs value={activeTab} onValueChange={(value: any) => setActiveTab(value)} className="space-y-6">
         <TabsList className="grid w-full grid-cols-3">
@@ -222,59 +221,11 @@ export default function DashboardPage() {
             communityStatus={communityStatus}
           />
 
-          {/* Community Progress (if not unlocked) */}
-          {!communityStatus?.isUnlocked && (
-        <Card className="border-purple-200 bg-purple-50/50 dark:bg-purple-950/20">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Lock className="h-5 w-5" />
-              커뮤니티 잠금 해제 진행률
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>컬렉션 생성</span>
-                <span>{activityStats?.collectionsCreated || 0} / {communityStatus?.requirements?.minCollections || 3}</span>
-              </div>
-              <Progress 
-                value={(activityStats?.collectionsCreated || 0) / (communityStatus?.requirements?.minCollections || 3) * 100} 
-                className="h-2"
-              />
-            </div>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>작품 수집</span>
-                <span>{activityStats?.itemsCollected || 0} / {communityStatus?.requirements?.minItems || 10}</span>
-              </div>
-              <Progress 
-                value={(activityStats?.itemsCollected || 0) / (communityStatus?.requirements?.minItems || 10) * 100} 
-                className="h-2"
-              />
-            </div>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>활동 일수</span>
-                <span>{activityStats?.activeDays || 0} / {communityStatus?.requirements?.minActiveDays || 7}</span>
-              </div>
-              <Progress 
-                value={(activityStats?.activeDays || 0) / (communityStatus?.requirements?.minActiveDays || 7) * 100} 
-                className="h-2"
-              />
-            </div>
-            <p className="text-sm text-muted-foreground mt-4">
-              커뮤니티 기능을 잠금 해제하면 다른 사용자들과 교류할 수 있습니다
-            </p>
-          </CardContent>
-        </Card>
-          )}
-=======
-      {/* Community Progress */}
-      <CommunityUnlockProgress 
-        showCompact={communityStatus?.isUnlocked} 
-        onUnlock={() => loadDashboardData()} 
-      />
->>>>>>> 387884c5e2dc7dc27995f48a8e33a2a1e7032884
+          {/* Community Progress */}
+          <CommunityUnlockProgress 
+            showCompact={communityStatus?.isUnlocked} 
+            onUnlock={() => loadDashboardData()} 
+          />
 
           {/* Activity Stats Row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -383,7 +334,7 @@ export default function DashboardPage() {
           nudge={todaysNudge}
           onViewed={() => handleNudgeViewed(todaysNudge.day_number)}
           onClicked={() => handleNudgeClicked(todaysNudge.day_number)}
-          onClose={handleJourneyModalDismiss}
+          onDismiss={handleJourneyModalDismiss}
         />
       )}
 
@@ -391,8 +342,9 @@ export default function DashboardPage() {
       {journeyStatus && (
         <div className="fixed bottom-4 right-4 z-40">
           <JourneyProgress 
-            journeyStatus={journeyStatus}
-            onOpenJourney={() => setShowJourneyModal(true)}
+            currentDay={journeyStatus?.current_day || 1}
+            totalDays={journeyStatus?.total_days || 30}
+            completedDays={journeyStatus?.completed_days || 0}
           />
         </div>
       )}

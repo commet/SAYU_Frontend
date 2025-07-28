@@ -5,9 +5,9 @@ import { motion } from 'framer-motion';
 import { Heart, TrendingUp, Clock, Grid, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { artProfileAPI } from '@/lib/art-profile-api';
-import { ArtProfileGalleryItem } from '@/types/art-profile';
+import { ArtProfileGalleryItem } from '@sayu/shared';
 import Link from 'next/link';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 
 export default function ArtProfileGallery() {
   const { language } = useLanguage();
@@ -134,12 +134,12 @@ export default function ArtProfileGallery() {
               >
                 {/* Image */}
                 <div className="relative aspect-square overflow-hidden">
-                  <Image 
+                  <OptimizedImage 
                     src={item.artProfile.transformedImage}
                     alt={`Art profile by ${item.user.nickname}`}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="blur" quality={90}
                   />
                   
                   {/* Overlay */}

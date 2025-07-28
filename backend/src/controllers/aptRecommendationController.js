@@ -1,7 +1,7 @@
 // APT Recommendation Controller - APT 기반 추천 엔드포인트
 const APTCacheService = require('../services/aptCacheService');
 const APTVectorSystem = require('../models/aptVectorSystem');
-const { SAYU_TYPES } = require('../../../shared/SAYUTypeDefinitions');
+const { SAYU_TYPES } = require('@sayu/shared');
 const aptDataAccess = require('../models/aptDataAccess');
 
 class APTRecommendationController {

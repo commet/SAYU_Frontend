@@ -41,7 +41,7 @@ function ResultsContent() {
     const loadResultData = async () => {
       try {
         const storedResult = localStorage.getItem('quizResult');
-        const personalityType = searchParams.get('type');
+        const personalityType = searchParams?.get('type');
         
         let currentResult = null;
         
@@ -55,7 +55,7 @@ function ResultsContent() {
         }
         
         // Check if this is from scenario quiz
-        const quizType = searchParams.get('type') || searchParams.get('quizType') || localStorage.getItem('lastQuizType');
+        const quizType = searchParams?.get('type') || searchParams?.get('quizType') || localStorage.getItem('lastQuizType');
         if (quizType === 'scenario') {
           currentResult.isScenarioQuiz = true;
           

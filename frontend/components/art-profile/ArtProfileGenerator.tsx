@@ -6,7 +6,7 @@ import { Camera, Upload, Sparkles, Share2, Download, X } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
 import { artProfileAPI } from '@/lib/art-profile-api';
-import { ArtStyle, predefinedStyles, ArtProfileResult } from '@/types/art-profile';
+import { ArtStyle, predefinedStyles, ArtProfileResult } from '@sayu/shared';
 import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
 import StyleSelector from './StyleSelector';

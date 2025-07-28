@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Download, Share2, RefreshCw, Heart, Instagram, Save } from 'lucide-react';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { ArtProfileResult as ArtProfileResultType } from '@/types/art-profile';
+import { ArtProfileResult as ArtProfileResultType } from '@sayu/shared';
 import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
 import html2canvas from 'html2canvas';
@@ -115,12 +115,12 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
             {language === 'ko' ? '원본' : 'Original'}
           </h3>
           <div className="relative w-full aspect-square">
-            <Image 
+            <OptimizedImage 
               src={result.originalImage} 
               alt="Original"
               fill
               className="object-cover rounded-xl"
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 50vw" placeholder="blur" quality={90}
             />
           </div>
         </motion.div>
@@ -134,13 +134,13 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
             {result.styleUsed.nameKo || result.styleUsed.name}
           </h3>
           <div className="relative w-full aspect-square">
-            <Image 
+            <OptimizedImage 
               src={result.transformedImage} 
               alt="Transformed"
               fill
               className="object-cover rounded-xl"
               sizes="(max-width: 768px) 100vw, 50vw"
-              priority
+              priority placeholder="blur" quality={90}
             />
           </div>
         </motion.div>
@@ -205,11 +205,11 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
       >
         <div className="bg-white rounded-3xl p-8 h-full flex flex-col items-center justify-center">
           <div className="relative w-[800px] h-[800px] mb-8">
-            <Image 
+            <OptimizedImage 
               src={result.transformedImage} 
               alt="Art Profile"
               fill
-              className="object-cover rounded-2xl"
+              className="object-cover rounded-2xl" placeholder="blur" quality={90}
             />
           </div>
           <div className="text-center">
@@ -220,7 +220,7 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
               {result.styleUsed.nameKo || result.styleUsed.name} Style
             </p>
             <div className="flex items-center justify-center gap-2">
-              <Image src="/logo.png" alt="SAYU" width={32} height={32} className="h-8" />
+              <OptimizedImage src="/logo.png" alt="SAYU" width={32} height={32} className="h-8" placeholder="blur" quality={90} />
               <span className="text-lg font-medium">SAYU</span>
             </div>
           </div>

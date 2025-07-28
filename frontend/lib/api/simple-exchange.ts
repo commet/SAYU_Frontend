@@ -219,7 +219,7 @@ export const exchangeApi = {
         .eq('evaluator_id', user.id)
     ]);
 
-    const avgConnectionScore = evaluations.data?.length > 0
+    const avgConnectionScore = evaluations.data && evaluations.data.length > 0
       ? evaluations.data.reduce((sum, eval) => sum + eval.connection_quality, 0) / evaluations.data.length
       : 0;
 

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { Calendar, Clock, Sparkles, TrendingUp, Zap } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,7 +10,7 @@ import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import { dailyChallengeApi } from '@/lib/api/daily-challenge';
 import { useToast } from '@/hooks/use-toast';
-import type { DailyChallenge, ChallengeProgressState } from '@/types/daily-challenge';
+import type { DailyChallenge, ChallengeProgressState } from '@sayu/shared';
 import { EmotionSelector } from './EmotionSelector';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
@@ -87,12 +87,12 @@ export function DailyChallengeCard({ onComplete }: DailyChallengeCardProps) {
         {/* 작품 이미지 */}
         <div className="aspect-[16/9] relative bg-muted">
           {challenge.artwork_data.image_url && (
-            <Image
+            <OptimizedImage
               src={challenge.artwork_data.image_url}
               alt={challenge.artwork_data.title}
               fill
               className="object-cover"
-              priority
+              priority placeholder="blur" quality={90}
             />
           )}
           

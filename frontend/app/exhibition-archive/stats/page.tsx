@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import ExhibitionStats from '@/components/exhibition/ExhibitionStats';
 import { exportAllExhibitionsToPDF } from '@/lib/exportPDF';
+
+// Dynamic import for heavy chart component
+const ExhibitionStats = lazy(() => import('@/components/exhibition/ExhibitionStats'));
 
 interface Insight {
   id: string;
@@ -111,7 +113,13 @@ export default function ExhibitionStatsPage() {
         </motion.div>
 
         {/* Statistics Component */}
-        <ExhibitionStats exhibitions={exhibitions} />
+        <Suspense fallback={
+          <div className="flex items-center justify-center p-8">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+          </div>
+        }>
+          <ExhibitionStats exhibitions={exhibitions} />
+        </Suspense>
       </div>
     </div>
   );

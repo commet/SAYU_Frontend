@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { dailyChallengeApi } from '@/lib/api/daily-challenge';
 import { userActivityApi } from '@/lib/api/collections';
-import type { ChallengeMatch, DailyChallengeStats } from '@/types/daily-challenge';
+import type { ChallengeMatch, DailyChallengeStats } from '@sayu/shared';
 import { cn } from '@/lib/utils';
 
 interface MatchResultsProps {

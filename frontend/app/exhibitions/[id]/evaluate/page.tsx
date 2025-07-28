@@ -22,7 +22,7 @@ export default function ExhibitionEvaluatePage() {
 
   // Mock data - in real implementation, this would come from the exhibition visit record
   const exhibitionData = {
-    id: params.id as string,
+    id: params?.id as string,
     name: language === 'ko' ? '모네의 정원: 빛과 색의 향연' : "Monet's Garden: Symphony of Light and Color",
     visitDate: new Date(),
     companionId: 'companion123',

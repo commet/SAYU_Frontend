@@ -105,7 +105,7 @@ export function ReflectionInput({
             value={reflection}
             onChange={(e) => setReflection(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="작품을 보며 떠오르는 생각, 감정, 기억을 자유롭게 표현해보세요...\n\n예: \"이 작품의 색채가 어린 시절 할머니 집의 따뜻한 오후를 떠올리게 합니다. 그 시절의 평온함과 안전함이 그리워지네요.\""
+            placeholder="작품을 보며 떠오르는 생각, 감정, 기억을 자유롭게 표현해보세요...\n\n예: '이 작품의 색채가 어린 시절 할머니 집의 따뜻한 오후를 떠올리게 합니다. 그 시절의 평온함과 안전함이 그리워지네요.'"
             className={cn(
               "min-h-[120px] resize-none transition-all duration-200",
               "focus:ring-2 focus:ring-primary/20",

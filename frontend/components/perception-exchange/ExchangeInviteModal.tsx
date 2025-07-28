@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { Send, Info } from 'lucide-react';
 import {
   Dialog,
@@ -18,7 +18,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { perceptionExchangeApi } from '@/lib/api/perception-exchange';
 import { useToast } from '@/hooks/use-toast';
-import { PHASE_INFO } from '@/types/perception-exchange';
+import { PHASE_INFO } from '@sayu/shared';
 
 interface ExchangeInviteModalProps {
   isOpen: boolean;
@@ -112,11 +112,11 @@ export function ExchangeInviteModal({
           {/* 작품 정보 */}
           <div className="flex gap-4 p-4 bg-muted rounded-lg">
             <div className="w-20 h-20 relative rounded overflow-hidden flex-shrink-0">
-              <Image
+              <OptimizedImage
                 src={artwork.image_url}
                 alt={artwork.title}
                 fill
-                className="object-cover"
+                className="object-cover" placeholder="blur" quality={90}
               />
             </div>
             <div className="flex-1">

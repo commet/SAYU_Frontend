@@ -28,7 +28,7 @@ interface WaitlistStats {
 
 export function WaitlistForm() {
   const searchParams = useSearchParams();
-  const referralCode = searchParams.get('ref');
+  const referralCode = searchParams?.get('ref');
   
   const [loading, setLoading] = useState(false);
   const [joined, setJoined] = useState(false);

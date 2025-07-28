@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import Link from 'next/link';
 import { 
   ArrowLeft, 
@@ -40,7 +40,7 @@ export default function CollectionDetailPage() {
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [showAddArtworkModal, setShowAddArtworkModal] = useState(false);
   
-  const collectionId = params.id as string;
+  const collectionId = params?.id as string;
   const supabase = createClientComponentClient();
 
   useEffect(() => {
@@ -303,11 +303,11 @@ function CollectionArtworks({
         <div key={item.id} className="group">
           <div className="aspect-[4/5] relative bg-muted rounded-lg overflow-hidden">
             {item.artwork_data.image_url && (
-              <Image
+              <OptimizedImage
                 src={item.artwork_data.image_url}
                 alt={item.artwork_data.title}
                 fill
-                className="object-cover group-hover:scale-105 transition-transform"
+                className="object-cover group-hover:scale-105 transition-transform" placeholder="blur" quality={90}
               />
             )}
           </div>

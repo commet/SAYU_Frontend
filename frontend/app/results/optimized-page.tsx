@@ -238,7 +238,7 @@ function OptimizedResultsContent() {
       const parsed = JSON.parse(storedResults);
       setResults(parsed);
       
-      const type = searchParams.get('type') || parsed.personalityType;
+      const type = searchParams?.get('type') || parsed.personalityType;
       const personalityData = personalityDescriptions[type];
       const animalData = getAnimalByType(type);
       

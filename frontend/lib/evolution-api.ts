@@ -9,7 +9,7 @@ import type {
   LeaderboardData,
   Milestone,
   EvolutionAnimation
-} from '@/types/evolution';
+} from '@sayu/shared';
 
 export const evolutionApi = {
   // 사용자 진화 상태 조회

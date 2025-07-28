@@ -5,7 +5,7 @@ import type {
   ExchangePreferences,
   CreateExchangeRequest,
   ExchangeListItem
-} from '@/types/perception-exchange';
+} from '@sayu/shared';
 
 const supabase = createClientComponentClient();
 

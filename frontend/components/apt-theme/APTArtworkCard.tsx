@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { useAPTTheme } from './APTThemeProvider';
 import { cn } from '@/lib/utils';
 import { Heart, Share2, Bookmark, Eye } from 'lucide-react';
@@ -118,14 +118,14 @@ export function APTArtworkCard({ artwork, className, onClick }: APTArtworkCardPr
     >
       {/* 이미지 컨테이너 */}
       <div className="relative aspect-[4/3] overflow-hidden">
-        <Image
+        <OptimizedImage
           src={artwork.imageUrl}
           alt={artwork.title}
           fill
           className="object-cover transition-transform duration-300"
           style={{
             transform: theme.interaction.hover === 'transform' ? 'scale(1.05)' : 'scale(1)'
-          }}
+          }} placeholder="blur" quality={90}
         />
         
         {/* 오버레이 - 유형별 차별화 */}

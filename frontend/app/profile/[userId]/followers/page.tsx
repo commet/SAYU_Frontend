@@ -10,7 +10,7 @@ import { useParams, useRouter } from 'next/navigation';
 export default function FollowersPage() {
   const params = useParams();
   const router = useRouter();
-  const userId = params.userId as string;
+  const userId = params?.userId as string;
   const [activeTab, setActiveTab] = useState<'followers' | 'following'>('followers');
 
   return (

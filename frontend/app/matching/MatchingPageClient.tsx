@@ -17,7 +17,7 @@ import {
   Users,
   Calendar,
   Palette,
-  Gallery,
+  Images,
   Shield,
   Sparkles,
   AlertCircle
@@ -133,7 +133,7 @@ export default function MatchingPageClient() {
               전시 동행
             </TabsTrigger>
             <TabsTrigger value="collection" className="gap-2">
-              <Gallery className="w-4 h-4" />
+              <Images className="w-4 h-4" />
               컬렉션
             </TabsTrigger>
             <TabsTrigger value="compatibility" className="gap-2">

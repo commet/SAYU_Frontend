@@ -10,38 +10,26 @@ import { useAuth } from '@/hooks/useAuth';
 function AuthCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { setTokens } = useAuth();
 
   useEffect(() => {
     const handleCallback = async () => {
-      const accessToken = searchParams.get('accessToken');
-      const refreshToken = searchParams.get('refreshToken');
-      const provider = searchParams.get('provider');
-      const error = searchParams.get('error');
+      const error = searchParams?.get('error');
+      const error_description = searchParams?.get('error_description');
 
       if (error) {
-        console.error('OAuth error:', error);
+        console.error('Auth error:', error, error_description);
         router.push(`/login?error=${error}`);
         return;
       }
 
-      if (accessToken && refreshToken) {
-        // Store tokens
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-        
-        // Update auth context
-        setTokens(accessToken, refreshToken);
-
-        // Redirect to dashboard or onboarding
-        router.push('/');
-      } else {
-        router.push('/login?error=missing_tokens');
-      }
+      // Supabase handles the auth callback automatically
+      // Just redirect to the intended destination
+      const next = searchParams?.get('next') || '/dashboard';
+      router.push(next);
     };
 
     handleCallback();
-  }, [searchParams, router, setTokens]);
+  }, [searchParams, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">

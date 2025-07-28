@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Activity, 
@@ -14,10 +14,12 @@ import {
   Palette
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import ViewingPatternsChart from './ViewingPatternsChart';
-import EmotionalJourneyMap from './EmotionalJourneyMap';
-import GrowthTracker from './GrowthTracker';
-import PersonalityEvolution from './PersonalityEvolution';
+
+// Dynamic imports for heavy chart components
+const ViewingPatternsChart = lazy(() => import('./ViewingPatternsChart'));
+const EmotionalJourneyMap = lazy(() => import('./EmotionalJourneyMap'));
+const GrowthTracker = lazy(() => import('./GrowthTracker'));
+const PersonalityEvolution = lazy(() => import('./PersonalityEvolution'));
 
 interface InsightsSummary {
   patterns: any;
@@ -179,7 +181,15 @@ export default function BehavioralInsightsDashboard() {
         </div>
 
         <div className="p-6">
-          <AnimatePresence mode="wait">
+          <Suspense fallback={
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-pulse">
+                <BarChart3 className="w-12 h-12 text-gray-300" />
+                <p className="text-sm text-gray-500 mt-2">Loading chart...</p>
+              </div>
+            </div>
+          }>
+            <AnimatePresence mode="wait">
             {activeView === 'patterns' && (
               <motion.div
                 key="patterns"
@@ -213,12 +223,21 @@ export default function BehavioralInsightsDashboard() {
               </motion.div>
             )}
           </AnimatePresence>
+          </Suspense>
         </div>
       </div>
 
       {/* Personality Evolution */}
       {summary?.growthMetrics?.personalityEvolution && (
-        <PersonalityEvolution evolution={summary.growthMetrics.personalityEvolution} />
+        <Suspense fallback={
+          <div className="flex items-center justify-center h-32">
+            <div className="animate-pulse">
+              <Sparkles className="w-8 h-8 text-gray-300" />
+            </div>
+          </div>
+        }>
+          <PersonalityEvolution evolution={summary.growthMetrics.personalityEvolution} />
+        </Suspense>
       )}
     </div>
   );

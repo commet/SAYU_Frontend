@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { useSocket } from '@/lib/socket';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import { 
   ArtPulseSession, 
   EmotionType, 
@@ -16,7 +16,7 @@ import {
   ArtPulseReflection,
   TypingIndicator,
   ArtPulseSocketEvents
-} from '@/types/art-pulse';
+} from '@sayu/shared';
 import { EmotionBubbleCanvas } from './EmotionBubbleCanvas';
 import { ReflectionFeed } from './ReflectionFeed';
 import { EmotionSelector } from './EmotionSelector';

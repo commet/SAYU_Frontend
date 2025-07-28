@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { followAPI } from '@/lib/follow-api';
-import { FollowUser } from '@/types/follow';
+import { FollowUser } from '@sayu/shared';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { FollowButton } from './FollowButton';

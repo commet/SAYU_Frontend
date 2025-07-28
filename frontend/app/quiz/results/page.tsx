@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { getTranslatedText, getColorCodes, getArtEmoji } from '@/lib/artTranslations';
 import { getArtworkRecommendations } from '@/lib/artworkRecommendations';
 import { calculatePersonalityFromSimulation } from '@/lib/simulationDesign';
@@ -49,7 +49,7 @@ function ResultsContent() {
     const loadResultData = async () => {
       try {
         const storedResult = localStorage.getItem('quizResult');
-        const personalityType = searchParams.get('type');
+        const personalityType = searchParams?.get('type');
         
         let currentResult = null;
         
@@ -63,7 +63,7 @@ function ResultsContent() {
         }
         
         // Check if this is from scenario quiz
-        const quizType = searchParams.get('type') || searchParams.get('quizType') || localStorage.getItem('lastQuizType');
+        const quizType = searchParams?.get('type') || searchParams?.get('quizType') || localStorage.getItem('lastQuizType');
         if (quizType === 'scenario') {
           currentResult.isScenarioQuiz = true;
           
@@ -279,13 +279,13 @@ function ResultsContent() {
                   className="relative group w-full"
                 >
                   <div className="relative overflow-hidden rounded-xl shadow-2xl aspect-[4/5]">
-                    <Image
+                    <OptimizedImage
                       src={artworkRecommendations.representativeWork.image}
                       alt={artworkRecommendations.representativeWork.title}
                       fill
                       className="object-cover transform transition-transform duration-500 group-hover:scale-110"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                      priority
+                      priority placeholder="blur" quality={90}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
@@ -347,12 +347,12 @@ function ResultsContent() {
                   className="relative group w-full"
                 >
                   <div className="relative overflow-hidden rounded-xl shadow-2xl aspect-[4/5]">
-                    <Image
+                    <OptimizedImage
                       src={exhibitionRecommendation.image}
                       alt={exhibitionRecommendation.title[language]}
                       fill
                       className="object-cover transform transition-transform duration-500 group-hover:scale-110"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw" placeholder="blur" quality={90}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>

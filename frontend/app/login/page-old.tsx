@@ -17,12 +17,12 @@ function LoginContent() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { signIn } = useAuth();
   const searchParams = useSearchParams();
   const { language } = useLanguage();
 
   useEffect(() => {
-    const error = searchParams.get('error');
+    const error = searchParams?.get('error');
     if (error) {
       const errorMessages: Record<string, Record<string, string>> = {
         auth_failed: { en: 'Authentication failed. Please try again.', ko: '인증에 실패했습니다. 다시 시도해주세요.' },
@@ -42,7 +42,7 @@ function LoginContent() {
     setLoading(true);
     
     try {
-      await login(email, password);
+      await signIn(email, password);
     } catch (error) {
       toast.error(language === 'ko' ? '잘못된 인증 정보입니다' : 'Invalid credentials');
     } finally {

@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const { VALID_TYPE_CODES, getSAYUType } = require('../shared/SAYUTypeDefinitions');
+const { VALID_TYPE_CODES, getSAYUType } = require('@sayu/shared');
 require('dotenv').config();
 
 const pool = new Pool({

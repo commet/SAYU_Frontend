@@ -1,6 +1,6 @@
 // APT Vector System - 벡터 기반 추천을 위한 핵심 시스템
 const { openai, createEmbeddingWithRetry } = require('../config/openai');
-const { SAYU_TYPES, SAYU_FUNCTIONS } = require('../../../shared/SAYUTypeDefinitions');
+const { SAYU_TYPES, SAYU_FUNCTIONS } = require('@sayu/shared');
 
 class APTVectorSystem {
   constructor() {

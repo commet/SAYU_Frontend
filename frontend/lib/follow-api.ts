@@ -1,4 +1,4 @@
-import { FollowUser, FollowListResponse, FollowStats } from '@/types/follow';
+import { FollowUser, FollowListResponse, FollowStats } from '@sayu/shared';
 import { API_CONFIG } from '@/config/api';
 
 const API_BASE_URL = API_CONFIG.baseUrl;

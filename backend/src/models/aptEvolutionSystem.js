@@ -1,5 +1,5 @@
 // APT Evolution System - 사용자의 예술 취향이 진화하는 시스템
-const { SAYU_TYPES } = require('../../../shared/SAYUTypeDefinitions');
+const { SAYU_TYPES } = require('@sayu/shared');
 const aptDataAccess = require('./aptDataAccess');
 const APTVectorSystem = require('./aptVectorSystem');
 

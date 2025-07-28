@@ -53,7 +53,7 @@ function GalleryContent() {
   const { user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const isGuestMode = searchParams.get('guest') === 'true';
+  const isGuestMode = searchParams?.get('guest') === 'true';
   const { trackArtworkViewed, trackArtworkLiked } = useAchievements();
   
   const [artworks, setArtworks] = useState<Artwork[]>([]);
@@ -164,11 +164,7 @@ function GalleryContent() {
   const handleLike = (artworkId: string) => {
     if (isGuestMode) {
       toast('Sign in to save favorites', {
-        icon: '🎨',
-        action: {
-          label: 'Sign In',
-          onClick: () => router.push('/login')
-        }
+        icon: '🎨'
       });
       return;
     }

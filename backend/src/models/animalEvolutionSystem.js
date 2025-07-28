@@ -1,5 +1,5 @@
 // Animal Evolution System - 동물 캐릭터의 시각적 진화 시스템
-const { SAYU_TYPES } = require('../../../shared/SAYUTypeDefinitions');
+const { SAYU_TYPES } = require('@sayu/shared');
 
 class AnimalEvolutionSystem {
   constructor() {
