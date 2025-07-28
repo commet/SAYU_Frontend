@@ -9,27 +9,39 @@ module.exports = {
   theme: {
   	extend: {
   		colors: {
-  			white: '#FFFFFF',
-  			'off-white': '#FAFAFA',
-  			'light-gray': '#F5F5F5',
-  			gray: '#E0E0E0',
-  			'dark-gray': '#616161',
-  			black: '#212121',
+  			/* SAYU 색상 조합 시스템 */
+  			'warm-soft': {
+  				'peach-breeze': 'rgb(245 217 196)',
+  				'lavender-dream': 'rgb(186 152 212)',
+  				'apricot-whisper': 'rgb(244 207 163)',
+  				'tangerine-zest': 'rgb(245 123 40)',
+  				'peppermint-pink': 'rgb(246 198 194)',
+  				'silent-night': 'rgb(98 112 159)',
+  				'tea-rose': 'rgb(229 200 205)',
+  				'fern-green': 'rgb(78 114 76)',
+  			},
+  			'calm-elegant': {
+  				'sage': 'rgb(195 201 141)',
+  				'dark-purple': 'rgb(49 36 62)',
+  				'dusty-jupiter': 'rgb(64 85 75)',
+  				'lime-cream': 'rgb(214 239 132)',
+  				'dusty-mauve': 'rgb(119 107 117)',
+  				'ivory-mist': 'rgb(240 237 233)',
+  				'powder-blue': 'rgb(169 199 236)',
+  				'urban-smoke': 'rgb(83 83 80)',
+  			},
+  			'vibrant-contrast': {
+  				'match-point': 'rgb(218 222 85)',
+  				'double-bounce': 'rgb(240 86 146)',
+  				'soft-melon': 'rgb(246 207 181)',
+  				'astral-blue': 'rgb(25 27 71)',
+  				'ucla-blue': 'rgb(83 104 149)',
+  				'pearl': 'rgb(219 218 190)',
+  			},
+  			/* shadcn 기본 색상 */
   			primary: {
   				DEFAULT: 'hsl(var(--primary))',
-  				light: '#8B7BAB',
-  				dark: '#4B3B75',
   				foreground: 'hsl(var(--primary-foreground))'
-  			},
-  			success: '#4CAF50',
-  			error: '#F44336',
-  			warning: '#FF9800',
-  			sayu: {
-  				amber: '#FBB040',
-  				rose: '#F15A5A',
-  				stone: '#78716C',
-  				ivory: '#FAFAF8',
-  				charcoal: '#2C2C2C'
   			},
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

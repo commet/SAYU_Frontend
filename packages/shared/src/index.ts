@@ -4,3 +4,6 @@
 export * from './types/SAYUTypeDefinitions';
 export * from './types/index';
 export * from './types/artist';
+export * from './types/gamification';
+export * from './types/venue';
+export * from './types/collection';
