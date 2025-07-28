@@ -1,0 +1,130 @@
+{
+  "timestamp": "2025-07-28T10:55:37.407Z",
+  "phases": [
+    {
+      "id": "phase1-foundation",
+      "name": "기반 구조 설정",
+      "duration": "1주",
+      "priority": "critical",
+      "tasks": [
+        "workspace-setup",
+        "shared-package-creation",
+        "common-types-extraction",
+        "build-config-unification"
+      ]
+    },
+    {
+      "id": "phase2-feature-modules",
+      "name": "기능별 모듈화",
+      "duration": "2-3주",
+      "priority": "high",
+      "tasks": [
+        "auth-module-creation",
+        "apt-module-creation",
+        "gallery-module-creation",
+        "community-module-creation"
+      ]
+    },
+    {
+      "id": "phase3-file-splitting",
+      "name": "대용량 파일 분할",
+      "duration": "1-2주",
+      "priority": "medium",
+      "tasks": [
+        "identify-large-files",
+        "split-personality-descriptions",
+        "split-gamification-service",
+        "split-quiz-components"
+      ]
+    },
+    {
+      "id": "phase4-typescript-migration",
+      "name": "TypeScript 마이그레이션",
+      "duration": "2-3주",
+      "priority": "medium",
+      "tasks": [
+        "convert-js-to-ts",
+        "add-type-definitions",
+        "enable-strict-mode",
+        "remove-any-types"
+      ]
+    }
+  ],
+  "features": [
+    {
+      "name": "auth",
+      "priority": 1,
+      "complexity": "low",
+      "dependencies": [],
+      "estimatedEffort": "3일",
+      "files": [
+        "backend/src/controllers/authController.js",
+        "backend/src/routes/auth.js",
+        "frontend/hooks/useAuth.ts",
+        "frontend/components/auth/*"
+      ]
+    },
+    {
+      "name": "apt",
+      "priority": 2,
+      "complexity": "medium",
+      "dependencies": [
+        "auth"
+      ],
+      "estimatedEffort": "5일",
+      "files": [
+        "backend/src/controllers/sayuQuizController.js",
+        "frontend/components/quiz/*",
+        "frontend/data/personality-*",
+        "frontend/hooks/usePersonality*"
+      ]
+    },
+    {
+      "name": "gallery",
+      "priority": 3,
+      "complexity": "medium",
+      "dependencies": [
+        "auth",
+        "apt"
+      ],
+      "estimatedEffort": "4일",
+      "files": [
+        "frontend/app/gallery/*",
+        "frontend/components/gallery/*",
+        "backend/src/routes/gallery.js"
+      ]
+    },
+    {
+      "name": "community",
+      "priority": 4,
+      "complexity": "high",
+      "dependencies": [
+        "auth",
+        "apt",
+        "gallery"
+      ],
+      "estimatedEffort": "7일",
+      "files": [
+        "frontend/components/community/*",
+        "backend/src/controllers/matchingController.js",
+        "backend/src/services/matchingService.js"
+      ]
+    }
+  ],
+  "estimatedTotalTime": "6-9주",
+  "riskLevel": "Medium",
+  "benefits": [
+    "파일 수 40% 감소",
+    "평균 파일 크기 40% 감소",
+    "TypeScript 비율 95% 달성",
+    "개발 생산성 향상",
+    "유지보수성 개선"
+  ],
+  "nextSteps": [
+    "1. Phase 1 실행 후 테스트",
+    "2. 기능별 점진적 마이그레이션",
+    "3. 대용량 파일 분할",
+    "4. TypeScript 완전 전환",
+    "5. 성능 최적화 및 모니터링"
+  ]
+}

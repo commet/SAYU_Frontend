@@ -1,0 +1,253 @@
+{
+  "timestamp": "2025-07-28T10:51:45.786Z",
+  "stats": {},
+  "circularDependencies": [],
+  "complexModules": [
+    {
+      "file": "backend\\src\\server.js",
+      "internalDependencies": 73,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 146
+    },
+    {
+      "file": "backend\\src\\routes\\museums.js",
+      "internalDependencies": 12,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 24
+    },
+    {
+      "file": "backend\\src\\routes\\evaluation.js",
+      "internalDependencies": 12,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 24
+    },
+    {
+      "file": "backend\\src\\routes\\oauth.js",
+      "internalDependencies": 11,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 22
+    },
+    {
+      "file": "backend\\src\\server.test.js",
+      "internalDependencies": 10,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 20
+    },
+    {
+      "file": "backend\\src\\controllers\\quizController.js",
+      "internalDependencies": 10,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 20
+    },
+    {
+      "file": "frontend\\components\\art-pulse\\ArtPulseViewer.tsx",
+      "internalDependencies": 9,
+      "externalDependencies": 9,
+      "dependents": 0,
+      "complexityScore": 18
+    },
+    {
+      "file": "backend\\src\\routes\\artistPortal.js",
+      "internalDependencies": 9,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 18
+    },
+    {
+      "file": "backend\\src\\routes\\aptRecommendationRoutes.js",
+      "internalDependencies": 9,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 18
+    },
+    {
+      "file": "backend\\src\\controllers\\quizController-supabase.js",
+      "internalDependencies": 9,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 18
+    },
+    {
+      "file": "backend\\src\\routes\\reservations.js",
+      "internalDependencies": 8,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 16
+    },
+    {
+      "file": "backend\\src\\routes\\admin.js",
+      "internalDependencies": 8,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 16
+    },
+    {
+      "file": "backend\\src\\controllers\\sayuQuizController.js",
+      "internalDependencies": 8,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 16
+    },
+    {
+      "file": "frontend\\src\\components\\gamification\\GamificationDashboard.tsx",
+      "internalDependencies": 7,
+      "externalDependencies": 6,
+      "dependents": 0,
+      "complexityScore": 14
+    },
+    {
+      "file": "frontend\\components\\daily-habit\\DailyHabitDashboard.tsx",
+      "internalDependencies": 7,
+      "externalDependencies": 8,
+      "dependents": 0,
+      "complexityScore": 14
+    },
+    {
+      "file": "backend\\src\\server-minimal.js",
+      "internalDependencies": 7,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 14
+    },
+    {
+      "file": "backend\\src\\routes\\exhibitionRoutes.js",
+      "internalDependencies": 7,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 14
+    },
+    {
+      "file": "backend\\src\\models\\evolutionRewardSystem.js",
+      "internalDependencies": 7,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 14
+    },
+    {
+      "file": "backend\\src\\models\\aptEvolutionSystem.js",
+      "internalDependencies": 7,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 14
+    },
+    {
+      "file": "backend\\src\\controllers\\venueController.js",
+      "internalDependencies": 7,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 14
+    }
+  ],
+  "isolatedModules": [
+    {
+      "file": "test-venue-api.js",
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 0
+    },
+    {
+      "file": "run-changelog.js",
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 0
+    },
+    {
+      "file": "run-changelog-fixed.js",
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 0
+    },
+    {
+      "file": "run-changelog-auth.js",
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 0
+    },
+    {
+      "file": "ecosystem.config.js",
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 0
+    },
+    {
+      "file": "CUsersSAMSUNGDocumentsGitHubSAYUfrontendappartist-portalpage.tsx",
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 0
+    },
+    {
+      "file": "check-tags.js",
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 0
+    },
+    {
+      "file": "check-tags-v2.js",
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 0
+    },
+    {
+      "file": "supabase\\functions\\_shared\\cors.ts",
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 0
+    },
+    {
+      "file": "shared\\validateSAYUIntegrity.js",
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "dependents": 0,
+      "complexityScore": 0
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "medium",
+      "category": "complexity",
+      "title": "복잡한 모듈 단순화 필요",
+      "description": "4개의 모듈이 과도하게 복잡합니다.",
+      "action": "단일 책임 원칙에 따라 모듈을 분할하고 의존성을 줄이세요",
+      "affectedFiles": [
+        "backend\\src\\server.js",
+        "backend\\src\\routes\\museums.js",
+        "backend\\src\\routes\\evaluation.js",
+        "backend\\src\\routes\\oauth.js"
+      ]
+    },
+    {
+      "priority": "low",
+      "category": "unused-code",
+      "title": "사용되지 않는 모듈 정리",
+      "description": "10개의 고립된 모듈이 발견되었습니다.",
+      "action": "실제로 사용되지 않는다면 제거를 고려하세요",
+      "affectedFiles": [
+        "test-venue-api.js",
+        "run-changelog.js",
+        "run-changelog-fixed.js",
+        "run-changelog-auth.js",
+        "ecosystem.config.js",
+        "CUsersSAMSUNGDocumentsGitHubSAYUfrontendappartist-portalpage.tsx",
+        "check-tags.js",
+        "check-tags-v2.js",
+        "supabase\\functions\\_shared\\cors.ts",
+        "shared\\validateSAYUIntegrity.js"
+      ]
+    }
+  ]
+}
