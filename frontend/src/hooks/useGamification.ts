@@ -15,7 +15,7 @@ const QUERY_KEYS = {
 export function useUserStats() {
   return useQuery({
     queryKey: QUERY_KEYS.userStats,
-    queryFn: gamificationApi.getUserStats,
+    queryFn: () => gamificationApi.getUserStats(),
     staleTime: 5 * 60 * 1000, // 5분
     gcTime: 10 * 60 * 1000, // 10분
   });
@@ -25,7 +25,7 @@ export function useUserStats() {
 export function useDailyQuests() {
   return useQuery({
     queryKey: QUERY_KEYS.dailyQuests,
-    queryFn: gamificationApi.getDailyQuests,
+    queryFn: () => gamificationApi.getDailyQuests(),
     staleTime: 60 * 60 * 1000, // 1시간
     gcTime: 2 * 60 * 60 * 1000, // 2시간
   });
@@ -261,9 +261,9 @@ export function useGamificationDashboard() {
   const dailyLogin = useDailyLogin();
 
   return {
-    dashboard: stats?.data,
+    dashboard: stats?.data || {},
     isLoading: statsLoading || questsLoading,
-    quests: quests?.data,
+    quests: Array.isArray(quests) ? quests : quests?.data || [],
     dailyLogin
   };
 }

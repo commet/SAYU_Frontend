@@ -297,7 +297,9 @@ export const calculatePersonalityFromSimulation = (responses: any[]) => {
   responses.forEach(response => {
     if (response.weights) {
       Object.entries(response.weights).forEach(([axis, value]) => {
-        scores[axis] = (scores[axis] || 0) + value;
+        if (axis in scores && typeof value === 'number') {
+          scores[axis as keyof typeof scores] = (scores[axis as keyof typeof scores] || 0) + value;
+        }
       });
     }
   });

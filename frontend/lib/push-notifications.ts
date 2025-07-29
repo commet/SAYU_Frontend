@@ -73,16 +73,21 @@ export class PushNotificationService {
       });
 
       // 서버에 구독 정보 전송
-      await dailyHabitApi.subscribePush({
+      const p256dhKey = subscription.getKey('p256dh');
+      const authKey = subscription.getKey('auth');
+      
+      const subscriptionData = {
         endpoint: subscription.endpoint,
         keys: {
-          p256dh: subscription.getKey('p256dh') ? 
-            btoa(String.fromCharCode(...new Uint8Array(subscription.getKey('p256dh')!))) : '',
-          auth: subscription.getKey('auth') ? 
-            btoa(String.fromCharCode(...new Uint8Array(subscription.getKey('auth')!))) : ''
+          p256dh: p256dhKey ? 
+            btoa(String.fromCharCode(...new Uint8Array(p256dhKey))) : '',
+          auth: authKey ? 
+            btoa(String.fromCharCode(...new Uint8Array(authKey))) : ''
         },
         userAgent: navigator.userAgent
-      });
+      };
+      
+      await dailyHabitApi.subscribePush(subscriptionData);
 
       console.log('Push subscription successful');
       return true;
