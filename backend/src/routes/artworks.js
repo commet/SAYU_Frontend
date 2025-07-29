@@ -23,7 +23,19 @@ router.use(authMiddleware);
 const recommendationsValidation = [
   query('category')
     .optional()
-    .isIn(['paintings', 'sculpture', 'modern', 'asian-art', 'photography', 'contemporary'])
+    .isIn([
+      'paintings', 'sculpture', 'modern', 'contemporary', 'photography',
+      // 아시아 미술 세분화
+      'asian-art', 'korean-art', 'japanese-art', 'chinese-art', 'indian-art', 'southeast-asian-art',
+      // 3D 미술 및 조각
+      'sculpture-classical', 'sculpture-modern', 'installation-art', 'ceramic-art',
+      // 현대 미디어 아트
+      'digital-art', 'video-art', 'interactive-art', 'new-media',
+      // 사진 예술 세분화
+      'photography-portrait', 'photography-landscape', 'photography-documentary', 'photography-conceptual',
+      // 기타 전통 및 민속 예술
+      'folk-art', 'textile-art', 'calligraphy', 'printmaking'
+    ])
     .withMessage('Invalid category'),
 
   query('count')
@@ -412,20 +424,44 @@ function getPersonalizedTips(profile, interactions) {
 }
 
 function getDailyCategoryForProfile(profile, dayOfYear) {
-  const categories = ['paintings', 'sculpture', 'modern', 'asian-art', 'photography', 'contemporary'];
+  const baseCategories = [
+    'paintings', 'sculpture', 'modern', 'contemporary', 'photography',
+    'asian-art', 'korean-art', 'japanese-art', 'chinese-art', 'indian-art',
+    'sculpture-classical', 'sculpture-modern', 'installation-art', 'ceramic-art',
+    'digital-art', 'video-art', 'interactive-art', 'new-media',
+    'photography-portrait', 'photography-landscape', 'photography-documentary',
+    'folk-art', 'textile-art', 'calligraphy', 'printmaking'
+  ];
+  
   const typeCode = profile.type_code || '';
+  const emotionalTags = profile.emotional_tags || [];
 
   // Bias categories based on profile
-  const weightedCategories = [...categories];
+  let weightedCategories = [...baseCategories];
 
+  // APT 유형별 선호 카테고리 추가
   if (typeCode.includes('A')) {
-    weightedCategories.push('modern', 'contemporary', 'abstract');
+    weightedCategories.push('modern', 'contemporary', 'digital-art', 'interactive-art', 'new-media');
   }
   if (typeCode.includes('R')) {
-    weightedCategories.push('paintings', 'portraits');
+    weightedCategories.push('paintings', 'photography-portrait', 'sculpture-classical');
   }
   if (typeCode.includes('S')) {
-    weightedCategories.push('asian-art', 'sculpture');
+    weightedCategories.push('asian-art', 'korean-art', 'japanese-art', 'installation-art', 'folk-art');
+  }
+  if (typeCode.includes('E')) {
+    weightedCategories.push('contemporary', 'video-art', 'photography-conceptual', 'textile-art');
+  }
+
+  // 감정 태그별 추가 가중치
+  if (emotionalTags.includes('contemplative')) {
+    weightedCategories.push('calligraphy', 'photography-landscape', 'sculpture-classical');
+  }
+  if (emotionalTags.includes('traditional')) {
+    weightedCategories.push('folk-art', 'textile-art', 'ceramic-art', 'printmaking');
+  }
+  if (emotionalTags.includes('innovative')) {
+    weightedCategories.push('digital-art', 'new-media', 'interactive-art', 'video-art');
   }
 
   return weightedCategories[dayOfYear % weightedCategories.length];

@@ -22,7 +22,9 @@
       "Bash(curl:*)",
       "Bash(npm run typecheck:*)",
       "Bash(npm run build:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(git push:*)",
+      "Bash(SKIP_ENV_VALIDATION=true npx next build)"
     ],
     "deny": []
   }
