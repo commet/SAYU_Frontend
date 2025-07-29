@@ -7,6 +7,7 @@
 
 const { Pool } = require('pg');
 const { createClient } = require('@supabase/supabase-js');
+const crypto = require('crypto');
 
 class SAYUSupabaseMigrator {
   constructor() {
@@ -221,7 +222,7 @@ class SAYUSupabaseMigrator {
         // Supabase Auth에 사용자 생성
         const { data: authUser, error: authError } = await this.supabase.auth.admin.createUser({
           email: user.email,
-          password: user.password_hash || `temp-password-${Math.random()}`,
+          password: user.password_hash || `temp-password-${crypto.randomBytes(16).toString('hex')}`,
           email_confirm: true,
           user_metadata: {
             username: user.username,
