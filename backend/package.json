@@ -1,5 +1,5 @@
 {
-  "name": "sayu-backend",
+  "name": "backend",
   "version": "1.0.0",
   "description": "SAYU Art Life Platform Backend",
   "main": "sayu-living-server.js",
@@ -50,6 +50,7 @@
   "author": "SAYU Team",
   "license": "MIT",
   "dependencies": {
+    "@sayu/shared": "file:../shared",
     "@google/generative-ai": "^0.24.1",
     "@modelcontextprotocol/sdk": "^1.12.3",
     "@sentry/node": "^9.42.1",

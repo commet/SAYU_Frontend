@@ -18,7 +18,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import { PersonalityType } from '@/shared/SAYUTypeDefinitions';
+import { PersonalityType } from '@sayu/shared';
 import { InteractionPrompt, InteractionType } from '@/types/art-persona-matching';
 
 interface ArtworkData {

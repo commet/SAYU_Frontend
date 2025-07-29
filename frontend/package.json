@@ -25,6 +25,7 @@
     "resize-animals": "node scripts/resize-animal-images.js"
   },
   "dependencies": {
+    "@sayu/shared": "file:../shared",
     "@google/generative-ai": "^0.24.1",
     "@hookform/resolvers": "^5.1.1",
     "@radix-ui/react-avatar": "^1.1.10",

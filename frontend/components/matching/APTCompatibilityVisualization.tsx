@@ -16,7 +16,7 @@ import {
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { PersonalityType } from '@/shared/SAYUTypeDefinitions';
+import { PersonalityType } from '@sayu/shared';
 import { APT_TO_ART_MOVEMENT, APTCompatibilityScore } from '@/types/art-persona-matching';
 import { ART_MOVEMENT_PROFILES } from '@/lib/art-movement-profiles';
 

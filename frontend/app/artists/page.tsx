@@ -37,7 +37,7 @@ export default function ArtistsPage() {
           artistsApi.getArtistStats()
         ]);
         
-        setArtists(artistsResponse.artists);
+        setArtists(artistsResponse.data);
         setStats(statsResponse);
       } catch (err) {
         console.error('Failed to load artists:', err);

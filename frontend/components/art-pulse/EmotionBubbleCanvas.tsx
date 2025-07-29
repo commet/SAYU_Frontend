@@ -2,10 +2,10 @@
 
 import React, { useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { EmotionDistribution, EmotionType, EMOTION_CONFIGS, EmotionBubble } from '../../../shared';
+import { EmotionDistribution, EmotionType, EMOTION_CONFIGS, EmotionBubble } from '@sayu/shared';
 
 interface EmotionBubbleCanvasProps {
-  emotions: EmotionDistribution;
+  emotions: EmotionDistribution[];
   container: HTMLElement | null;
   className?: string;
 }
@@ -31,17 +31,18 @@ export function EmotionBubbleCanvas({ emotions, container, className }: EmotionB
     const bubbles: EmotionBubble[] = [];
     const { width, height } = getCanvasDimensions();
     
-    Object.entries(emotions).forEach(([emotion, data]) => {
-      const emotionType = emotion as EmotionType;
+    emotions.forEach((emotionDist) => {
+      const emotionType = emotionDist.emotion;
       const config = EMOTION_CONFIGS[emotionType];
-      const count = Math.min(data.count, 20); // Limit bubbles for performance
+      const count = Math.min(emotionDist.count, 20); // Limit bubbles for performance
+      const intensity = emotionDist.percentage / 100; // Convert percentage to 0-1 range
       
       for (let i = 0; i < count; i++) {
-        const radius = 8 + (data.intensity * 12) + Math.random() * 8;
+        const radius = 8 + (intensity * 12) + Math.random() * 8;
         const bubble: EmotionBubble = {
-          id: `${emotion}-${i}-${Date.now()}`,
+          id: `${emotionType}-${i}-${Date.now()}`,
           emotion: emotionType,
-          intensity: data.intensity,
+          intensity: intensity,
           x: Math.random() * width,
           y: Math.random() * height,
           size: radius * 2,  // Required property
@@ -49,7 +50,7 @@ export function EmotionBubbleCanvas({ emotions, container, className }: EmotionB
           vx: (Math.random() - 0.5) * 2,
           vy: (Math.random() - 0.5) * 2,
           radius: radius,
-          opacity: 0.6 + (data.intensity * 0.4),
+          opacity: 0.6 + (intensity * 0.4),
           userId: `user-${i}`,
           timestamp: Date.now()
         };

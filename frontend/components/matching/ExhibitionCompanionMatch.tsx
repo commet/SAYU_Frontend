@@ -19,7 +19,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { PersonalityType } from '@/shared/SAYUTypeDefinitions';
+import { PersonalityType } from '@sayu/shared';
 import { ExhibitionMatch } from '@/types/art-persona-matching';
 import { APT_TO_ART_MOVEMENT } from '@/types/art-persona-matching';
 import { ART_MOVEMENT_PROFILES } from '@/lib/art-movement-profiles';

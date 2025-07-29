@@ -1,5 +1,5 @@
 // APT (Art Persona Type) 기반 예술 스타일 매칭 시스템
-import { PersonalityType } from '../../shared/SAYUTypeDefinitions';
+import { PersonalityType } from '@sayu/shared';
 
 export type ArtMovement = 
   | 'RENAISSANCE'        // 르네상스

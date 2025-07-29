@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "frontend",
+    "backend",
+    "shared"
   ],
   "scripts": {
-    "build": "echo 'Build completed'",
+    "build": "npm run build:shared && echo 'Build completed'",
+    "build:shared": "npm run build --workspace=@sayu/shared",
     "start": "cd backend && node sayu-living-server.js",
     "typecheck": "cd frontend && npm exec -- tsc --noEmit",
     "typecheck:watch": "cd frontend && npx tsc --noEmit --watch",
@@ -14,6 +17,7 @@
     "test": "cd backend && npm test",
     "dev:frontend": "cd frontend && npm run dev",
     "dev:backend": "cd backend && npm run dev",
+    "dev:shared": "npm run dev --workspace=@sayu/shared",
     "health-check": "npm run typecheck && npm run lint && npm run test"
   },
   "dependencies": {

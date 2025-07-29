@@ -42,9 +42,9 @@ export function GamificationDashboard() {
           <div className="flex items-center gap-4">
             <UserLevelBadge
               level={userStats.level}
-              levelName={userStats.levelName}
-              levelColor={userStats.levelColor}
-              levelIcon={userStats.levelIcon}
+              levelName={userStats.levelName || ''}
+              levelColor={userStats.levelColor || ''}
+              levelIcon={userStats.levelIcon || ''}
               size="lg"
               showName={true}
               className="text-white"
@@ -82,7 +82,7 @@ export function GamificationDashboard() {
         <StreakDisplay
           currentStreak={0}
           longestStreak={0}
-          lastActivityDate={new Date()}
+          lastActivityDate={userStats.lastActivityDate || new Date().toISOString()}
         />
       </motion.div>
 

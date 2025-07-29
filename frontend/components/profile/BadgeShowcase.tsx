@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { Trophy, Star, Lock, Sparkles } from 'lucide-react';
 import { useEasterEgg } from '@/contexts/EasterEggContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Badge } from '../../../shared/easterEggDefinitions';
+import { Badge } from '@sayu/shared';
 
 export function BadgeShowcase() {
   const { language } = useLanguage();

@@ -24,7 +24,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { SharedCollection } from '@/types/art-persona-matching';
-import { PersonalityType } from '@/shared/SAYUTypeDefinitions';
+import { PersonalityType } from '@sayu/shared';
 
 interface Artwork {
   id: string;

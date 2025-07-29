@@ -6,6 +6,7 @@
 // Re-export SAYU type definitions
 export * from './SAYUTypeDefinitions';
 export * from './easterEggDefinitions';
+export * from './artist-types';
 
 // Common API types
 export interface EmotionInterpretation {
@@ -286,7 +287,7 @@ export interface ArtPulseSocketEvents {
   art_pulse_participant_left: { userId: string };
   art_pulse_emotion_update: { emotions: EmotionDistribution };
   art_pulse_new_reflection: ArtPulseReflection;
-  art_pulse_reflection_liked: { reflectionId: string; likes: number };
+  art_pulse_reflection_liked: { reflectionId: string; likes: number; likedBy?: string[] };
   art_pulse_user_typing: { userId: string; isTyping: boolean };
   art_pulse_phase_change: { phase: ArtPulseSession['phase'] };
   art_pulse_session_ended: { sessionId: string; results?: SessionResults };
@@ -302,6 +303,15 @@ export interface SessionResults {
   totalParticipants?: number;
   emotionDiversity?: number;
   averageEngagement?: number;
+  totalReflections?: number;
+  topReflections?: ArtPulseReflection[];
+  sayuDistribution?: Record<string, number>;
+  artwork?: {
+    id: string;
+    title: string;
+    artist?: string;
+    imageUrl?: string;
+  };
 }
 
 export interface EmotionBubble {
@@ -310,10 +320,10 @@ export interface EmotionBubble {
   x: number;
   y: number;
   size: number;
-  radius?: number;  // Alternative to size
+  radius?: number;
   velocity: { x: number; y: number };
-  vx?: number;  // Alternative velocity x
-  vy?: number;  // Alternative velocity y
+  vx?: number;
+  vy?: number;
   intensity?: number;
   opacity?: number;
   userId?: string;
@@ -350,32 +360,9 @@ export const EMOTION_CONFIGS: Record<EmotionType, EmotionConfig> = {
   hope: { color: '#48BB78', label: 'Hope', icon: '🌟', name: 'Hope', description: 'Feeling of expectation and desire' }
 };
 
-// Artist types
-export interface Artist {
-  id: string;
-  name: string;
-  nameKo?: string;
-  bio?: string;
-  bioKo?: string;
-  birthYear?: number;
-  deathYear?: number;
-  nationality?: string;
-  nationalityKo?: string;
-  artMovements?: string[];
-  notableWorks?: string[];
-  imageUrl?: string;
-  images?: string[];
-  followCount?: number;
-  copyrightStatus?: CopyrightStatus;
-}
-
-export type CopyrightStatus = 'public_domain' | 'licensed' | 'contemporary' | 'verified_artist';
-
-export interface ArtistColorPalette {
-  primary: string;
-  secondary: string;
-  accent: string;
-}
+// Note: Artist types are now exported from './artist-types'
+// The complex Artist type system (PublicDomainArtist, LicensedArtist, etc.) is defined there
+// For backward compatibility, SimpleArtist interface is also available
 
 // Emotion translation types
 export interface EmotionColor {
@@ -401,6 +388,43 @@ export interface SoundTexture {
   pitch: 'low' | 'medium' | 'high';
   volume: number;
   rhythm: 'regular' | 'syncopated' | 'free' | 'absent';
+}
+
+// Gamification types
+export interface UserStats {
+  userId: string;
+  totalXP: number;
+  level: number;
+  levelName: string;
+  levelColor?: string;
+  levelIcon?: string;
+  nextLevelXP: number;
+  currentLevelXP: number;
+  progress: number;
+  weeklyRank?: number;
+  achievements: any[];
+  recentActivity: any[];
+  lastActivityDate?: Date | string;
+}
+
+export interface Mission {
+  id: string;
+  title: string;
+  description: string;
+  description_ko: string;
+  points: number;
+  xpReward?: number;
+  progress: number;
+  target: number;
+  completed: boolean;
+}
+
+export interface DailyQuest {
+  id: string;
+  title: string;
+  description: string;
+  xpReward: number;
+  completed: boolean;
 }
 
 // Daily Challenge types

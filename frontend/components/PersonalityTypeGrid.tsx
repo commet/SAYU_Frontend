@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { personalityGradients } from '@/constants/personality-gradients';
-import { SAYUTypeCode, validateSAYUType } from '@/shared/SAYUTypeDefinitions';
+import { SAYUTypeCode, validateSAYUType } from '@sayu/shared';
 
 interface PersonalityDimension {
   name: { en: string; ko: string };

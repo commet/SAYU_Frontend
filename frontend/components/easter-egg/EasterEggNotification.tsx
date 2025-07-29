@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Sparkles, Trophy, Star } from 'lucide-react';
-import { EasterEgg, Badge, getBadgeById } from '../../../shared/easterEggDefinitions';
+import { EasterEgg, Badge, getBadgeById } from '@sayu/shared';
 import { useLanguage } from '@/contexts/LanguageContext';
 import confetti from 'canvas-confetti';
 
