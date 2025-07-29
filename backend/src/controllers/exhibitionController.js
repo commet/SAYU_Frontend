@@ -1,6 +1,9 @@
 const { pool } = require('../config/database');
 const { body, validationResult } = require('express-validator');
 const { log } = require('../config/logger');
+const ExhibitionModel = require('../models/exhibitionModel');
+const ExhibitionSubmissionModel = require('../models/exhibitionSubmissionModel');
+const VenueModel = require('../models/venueModel');
 
 // 메모리 캐시 설정
 const cache = new Map();

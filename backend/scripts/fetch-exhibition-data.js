@@ -90,6 +90,8 @@ async function fetchMetExhibitions() {
         ]
       }
     ];
+    
+    return exhibitions;
   } catch (error) {
     log.error('Error fetching Met exhibitions:', error);
     return [];

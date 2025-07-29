@@ -70,7 +70,6 @@ module.exports = {
     // 에러 처리 규칙 (완화)
     'no-throw-literal': 'warn',
     'prefer-promise-reject-errors': 'warn',
-    
     // 추가 완화 규칙
     'no-case-declarations': 'warn',
     'no-prototype-builtins': 'warn',
