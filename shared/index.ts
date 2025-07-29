@@ -240,6 +240,7 @@ export interface ArtPulseSession {
   participants: string[];
   startTime: Date;
   endTime?: Date;
+  status: 'active' | 'completed' | 'cancelled';
 }
 
 export type EmotionType = 'joy' | 'sadness' | 'anger' | 'fear' | 'love' | 'surprise' | 'calm' | 'excitement';
@@ -269,6 +270,15 @@ export interface ArtPulseSocketEvents {
   reflectionSubmitted: ArtPulseReflection;
   typingStatus: TypingIndicator;
   phaseChanged: { phase: ArtPulseSession['phase'] };
+  art_pulse_joined: { sessionId: string; participantCount: number };
+  art_pulse_state_update: { session: ArtPulseSession };
+  art_pulse_participant_joined: { userId: string; nickname: string };
+  art_pulse_participant_left: { userId: string };
+  art_pulse_emotion_update: { emotions: EmotionDistribution };
+  art_pulse_new_reflection: ArtPulseReflection;
+  art_pulse_reflection_liked: { reflectionId: string; likes: number };
+  art_pulse_user_typing: { userId: string; isTyping: boolean };
+  art_pulse_phase_change: { phase: ArtPulseSession['phase'] };
 }
 
 export interface SessionResults {

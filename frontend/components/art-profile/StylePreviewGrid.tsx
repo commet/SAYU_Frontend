@@ -29,6 +29,7 @@ const STYLE_PREVIEWS: Record<string, string> = {
 
 // 임시 placeholder 이미지 (실제 이미지가 없을 때 사용)
 const PLACEHOLDER_BASE = 'https://images.unsplash.com/photo-1494790108755-2616c96b99c0?w=128&h=128&fit=crop&crop=face';
+const PLACEHOLDER_IMAGE = PLACEHOLDER_BASE;
 const PLACEHOLDER_PREVIEWS: Record<string, string> = {
   'monet-impressionism': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Claude_Monet%2C_Impression%2C_soleil_levant.jpg/128px-Claude_Monet%2C_Impression%2C_soleil_levant.jpg',
   'picasso-cubism': 'https://upload.wikimedia.org/wikipedia/en/thumb/1/1c/Pablo_Picasso%2C_1910%2C_Girl_with_a_Mandolin_%28Fanny_Tellier%29%2C_oil_on_canvas%2C_100.3_x_73.6_cm%2C_Museum_of_Modern_Art_New_York..jpg/128px-Pablo_Picasso%2C_1910%2C_Girl_with_a_Mandolin_%28Fanny_Tellier%29%2C_oil_on_canvas%2C_100.3_x_73.6_cm%2C_Museum_of_Modern_Art_New_York..jpg',

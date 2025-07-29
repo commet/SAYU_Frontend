@@ -1,15 +1,17 @@
 export interface ArtStyle {
   id: string;
   name: string;
-  nameKo: string;
+  nameKo?: string;
   description: string;
-  descriptionKo: string;
-  sample: string;
-  tags: string[];
+  descriptionKo?: string;
+  sample?: string;
+  tags?: string[];
   artist?: string;
   movement?: string;
-  colorPalette?: string[];
+  colorPalette: string[];
   intensity?: number;
+  examples: string[];
+  characteristics: string[];
 }
 
 export interface ArtProfileRequest {
@@ -57,7 +59,9 @@ export const predefinedStyles: ArtStyle[] = [
     tags: ['impressionism', 'pastel', 'brushstroke'],
     artist: 'Claude Monet',
     movement: 'Impressionism',
-    colorPalette: ['#E6E6FA', '#87CEEB', '#98FB98']
+    colorPalette: ['#E6E6FA', '#87CEEB', '#98FB98'],
+    examples: ['Water Lilies', 'Impression, Sunrise', 'Haystacks'],
+    characteristics: ['soft brushstrokes', 'natural light', 'atmospheric effects']
   },
   {
     id: 'picasso-cubism',
@@ -69,7 +73,9 @@ export const predefinedStyles: ArtStyle[] = [
     tags: ['cubism', 'geometric', 'abstract'],
     artist: 'Pablo Picasso',
     movement: 'Cubism',
-    colorPalette: ['#8B4513', '#D2691E', '#F4A460']
+    colorPalette: ['#8B4513', '#D2691E', '#F4A460'],
+    examples: ['Les Demoiselles d\'Avignon', 'Guernica', 'Girl with a Mandolin'],
+    characteristics: ['geometric shapes', 'multiple perspectives', 'fragmentation']
   },
   {
     id: 'vangogh-postimpressionism',
@@ -81,7 +87,9 @@ export const predefinedStyles: ArtStyle[] = [
     tags: ['postimpressionism', 'expressive', 'swirls'],
     artist: 'Vincent van Gogh',
     movement: 'Post-Impressionism',
-    colorPalette: ['#1E90FF', '#FFD700', '#FF8C00']
+    colorPalette: ['#1E90FF', '#FFD700', '#FF8C00'],
+    examples: ['Starry Night', 'Sunflowers', 'The Bedroom'],
+    characteristics: ['expressive brushwork', 'vibrant colors', 'emotional intensity']
   },
   {
     id: 'warhol-popart',
@@ -93,7 +101,9 @@ export const predefinedStyles: ArtStyle[] = [
     tags: ['popart', 'colorful', 'repetition'],
     artist: 'Andy Warhol',
     movement: 'Pop Art',
-    colorPalette: ['#FF1493', '#00CED1', '#FFD700']
+    colorPalette: ['#FF1493', '#00CED1', '#FFD700'],
+    examples: ['Campbell\'s Soup Cans', 'Marilyn Diptych', 'Elvis'],
+    characteristics: ['repetition', 'bright colors', 'commercial imagery']
   },
   {
     id: 'pixel-art',
@@ -104,7 +114,9 @@ export const predefinedStyles: ArtStyle[] = [
     sample: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAARElEQVQYV2NkYGD4z0ABYKJAAdGKGBgYGP7//w9nMzIyYmVjKkC3AKcCZBNwKkA2AacCZBNwKkA2AacCZBNwKqBgNQMAW6AJCb3J3ekAAAAASUVORK5CYII=',
     tags: ['digital', '8bit', 'retro'],
     movement: 'Digital Art',
-    colorPalette: ['#FF0000', '#00FF00', '#0000FF']
+    colorPalette: ['#FF0000', '#00FF00', '#0000FF'],
+    examples: ['8-bit games', 'pixel portraits', 'retro graphics'],
+    characteristics: ['pixelated', 'limited palette', 'nostalgic']
   },
   {
     id: 'korean-minhwa',
@@ -115,7 +127,9 @@ export const predefinedStyles: ArtStyle[] = [
     sample: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Kkachi_horangi.jpg/300px-Kkachi_horangi.jpg',
     tags: ['korean', 'traditional', 'folk'],
     movement: 'Korean Traditional',
-    colorPalette: ['#DC143C', '#4682B4', '#FFD700']
+    colorPalette: ['#DC143C', '#4682B4', '#FFD700'],
+    examples: ['Tiger and Magpie', 'Ten Longevity Symbols', 'Flowers and Birds'],
+    characteristics: ['symbolic imagery', 'vibrant colors', 'folk motifs']
   },
   {
     id: 'klimt-artnouveau',
@@ -127,7 +141,9 @@ export const predefinedStyles: ArtStyle[] = [
     tags: ['artnouveau', 'gold', 'decorative'],
     artist: 'Gustav Klimt',
     movement: 'Art Nouveau',
-    colorPalette: ['#FFD700', '#B8860B', '#CD853F']
+    colorPalette: ['#FFD700', '#B8860B', '#CD853F'],
+    examples: ['The Kiss', 'Portrait of Adele Bloch-Bauer I', 'The Tree of Life'],
+    characteristics: ['gold leaf', 'decorative patterns', 'symbolism']
   },
   {
     id: 'mondrian-neoplasticism',
@@ -139,7 +155,9 @@ export const predefinedStyles: ArtStyle[] = [
     tags: ['abstract', 'geometric', 'primary'],
     artist: 'Piet Mondrian',
     movement: 'Neoplasticism',
-    colorPalette: ['#FF0000', '#0000FF', '#FFFF00', '#000000', '#FFFFFF']
+    colorPalette: ['#FF0000', '#0000FF', '#FFFF00', '#000000', '#FFFFFF'],
+    examples: ['Composition with Red Blue and Yellow', 'Broadway Boogie Woogie', 'Victory Boogie Woogie'],
+    characteristics: ['grid composition', 'primary colors', 'geometric abstraction']
   }
 ];
 

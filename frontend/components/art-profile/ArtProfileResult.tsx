@@ -23,12 +23,15 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
 
   const handleDownload = async () => {
     try {
+      if (!result.transformedImage) {
+        throw new Error('No transformed image available');
+      }
       const response = await fetch(result.transformedImage);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `art-profile-${result.styleUsed.id}-${Date.now()}.jpg`;
+      a.download = `art-profile-${result.styleUsed?.id || 'unknown'}-${Date.now()}.jpg`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -63,8 +66,8 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
             files: [file],
             title: language === 'ko' ? '나의 아트 프로필' : 'My Art Profile',
             text: language === 'ko' 
-              ? `AI가 만든 나만의 ${result.styleUsed.nameKo} 스타일 아트 프로필! #SAYU #아트프로필` 
-              : `My AI-generated ${result.styleUsed.name} style art profile! #SAYU #ArtProfile`,
+              ? `AI가 만든 나만의 ${result.styleUsed?.nameKo || result.styleUsed?.name || 'Art'} 스타일 아트 프로필! #SAYU #아트프로필` 
+              : `My AI-generated ${result.styleUsed?.name || 'Art'} style art profile! #SAYU #ArtProfile`,
           });
         } else {
           // 데스크톱에서는 이미지 다운로드
@@ -238,7 +241,7 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
           {language === 'ko' ? '사용된 화풍' : 'Style Used'}
         </h4>
         <p className="text-lg mb-2">
-          {language === 'ko' ? result.styleUsed.nameKo : result.styleUsed.name}
+          {language === 'ko' ? (result.styleUsed?.nameKo || result.styleUsed?.name || 'Unknown Style') : (result.styleUsed?.name || 'Unknown Style')}
         </p>
         <p className="text-gray-600">
           {result.styleUsed?.description || 'A unique artistic style'}
