@@ -154,12 +154,12 @@ export function ArtPulseSession({
       });
 
       channel
-        .on('broadcast', { event: 'touch' }, ({ payload }) => {
+        .on('broadcast', { event: 'touch' }, ({ payload }: { payload: { userId: string; touch: any } }) => {
           if (payload.userId !== userId) {
             setTouchHeatmap(prev => [...prev, payload.touch]);
           }
         })
-        .on('broadcast', { event: 'resonance' }, ({ payload }) => {
+        .on('broadcast', { event: 'resonance' }, ({ payload }: { payload: { userId: string; resonance: any } }) => {
           if (payload.userId !== userId) {
             setOtherResonances(prev => {
               const updated = prev.filter(r => r.userId !== payload.userId);
@@ -171,7 +171,7 @@ export function ArtPulseSession({
           const state = channel.presenceState();
           setActiveUsers(Object.keys(state).length);
         })
-        .subscribe(async (status) => {
+        .subscribe(async (status: any) => {
           if (status === 'SUBSCRIBED') {
             await channel.track({ userId, aptType: userAptType });
           }

@@ -17,6 +17,7 @@ export interface SAYUUser extends SupabaseUser {
 
 // AuthContext에서 사용할 완전한 타입
 export interface AuthUser {
+  id: string;  // User ID (same as auth.id)
   auth: SupabaseUser;  // Supabase 인증 정보
   profile: UserProfile | null;  // DB 프로필 정보
   // 편의를 위한 계산된 속성들
@@ -26,4 +27,5 @@ export interface AuthUser {
   hasProfile: boolean;
   typeCode: string | null;
   archetypeName: string | null;
+  token?: string;  // JWT token for API authentication
 }

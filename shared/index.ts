@@ -194,7 +194,7 @@ export interface ArtProfileResult {
   transformedImage?: string;
   originalImage?: string;
   styleUsed?: ArtStyle;
-  createdAt: Date;
+  createdAt: Date | string;  // Allow both Date and string
 }
 
 export interface ArtProfileGalleryItem {
@@ -236,14 +236,16 @@ export const predefinedStyles: ArtStyle[] = [
 export interface ArtPulseSession {
   id: string;
   artworkId: string;
+  artwork?: any;  // Full artwork data
   phase: 'contemplation' | 'sharing' | 'voting';
   participants: string[];
   startTime: Date;
   endTime?: Date;
   status: 'active' | 'completed' | 'cancelled';
+  results?: SessionResults;
 }
 
-export type EmotionType = 'joy' | 'sadness' | 'anger' | 'fear' | 'love' | 'surprise' | 'calm' | 'excitement';
+export type EmotionType = 'joy' | 'sadness' | 'anger' | 'fear' | 'love' | 'surprise' | 'calm' | 'excitement' | 'wonder' | 'melancholy' | 'contemplation' | 'nostalgia' | 'awe' | 'serenity' | 'passion' | 'mystery' | 'hope';
 
 export interface EmotionDistribution {
   emotion: EmotionType;
@@ -258,11 +260,15 @@ export interface ArtPulseReflection {
   content: string;
   emotion: EmotionType;
   createdAt: Date;
+  username?: string;
+  isAnonymous?: boolean;
+  sayuType?: string;
 }
 
 export interface TypingIndicator {
   userId: string;
   isTyping: boolean;
+  username?: string;
 }
 
 export interface ArtPulseSocketEvents {
@@ -279,6 +285,9 @@ export interface ArtPulseSocketEvents {
   art_pulse_reflection_liked: { reflectionId: string; likes: number };
   art_pulse_user_typing: { userId: string; isTyping: boolean };
   art_pulse_phase_change: { phase: ArtPulseSession['phase'] };
+  art_pulse_session_ended: { sessionId: string; results?: SessionResults };
+  art_pulse_session_started: { sessionId: string; artwork: any };
+  art_pulse_error: { message: string; code?: string };
 }
 
 export interface SessionResults {
@@ -289,22 +298,45 @@ export interface SessionResults {
 }
 
 export interface EmotionBubble {
+  id?: string;
   emotion: EmotionType;
   x: number;
   y: number;
   size: number;
+  radius?: number;  // Alternative to size
   velocity: { x: number; y: number };
+  vx?: number;  // Alternative velocity x
+  vy?: number;  // Alternative velocity y
 }
 
-export const EMOTION_CONFIGS: Record<EmotionType, { color: string; label: string }> = {
-  joy: { color: '#FFD93D', label: 'Joy' },
-  sadness: { color: '#6C5CE7', label: 'Sadness' },
-  anger: { color: '#FF6B6B', label: 'Anger' },
-  fear: { color: '#A8E6CF', label: 'Fear' },
-  love: { color: '#FF8B94', label: 'Love' },
-  surprise: { color: '#4ECDC4', label: 'Surprise' },
-  calm: { color: '#95E1D3', label: 'Calm' },
-  excitement: { color: '#F38181', label: 'Excitement' }
+export interface EmotionConfig {
+  color: string;
+  label: string;
+  icon?: string;
+  name?: string;
+  description?: string;
+  bgColor?: string;
+  ringColor?: string;
+}
+
+export const EMOTION_CONFIGS: Record<EmotionType, EmotionConfig> = {
+  joy: { color: '#FFD93D', label: 'Joy', icon: '😊' },
+  sadness: { color: '#6C5CE7', label: 'Sadness', icon: '😢' },
+  anger: { color: '#FF6B6B', label: 'Anger', icon: '😠' },
+  fear: { color: '#A8E6CF', label: 'Fear', icon: '😰' },
+  love: { color: '#FF8B94', label: 'Love', icon: '❤️' },
+  surprise: { color: '#4ECDC4', label: 'Surprise', icon: '😮' },
+  calm: { color: '#95E1D3', label: 'Calm', icon: '😌' },
+  excitement: { color: '#F38181', label: 'Excitement', icon: '🤩' },
+  wonder: { color: '#B794F4', label: 'Wonder', icon: '🤔' },
+  melancholy: { color: '#718096', label: 'Melancholy', icon: '😔' },
+  contemplation: { color: '#4FD1C5', label: 'Contemplation', icon: '🧐' },
+  nostalgia: { color: '#F6AD55', label: 'Nostalgia', icon: '🥺' },
+  awe: { color: '#FC8181', label: 'Awe', icon: '😲' },
+  serenity: { color: '#9F7AEA', label: 'Serenity', icon: '😇' },
+  passion: { color: '#F687B3', label: 'Passion', icon: '🔥' },
+  mystery: { color: '#667EEA', label: 'Mystery', icon: '🎭' },
+  hope: { color: '#48BB78', label: 'Hope', icon: '🌟' }
 };
 
 // Artist types

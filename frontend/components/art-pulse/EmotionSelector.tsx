@@ -75,14 +75,14 @@ export function EmotionSelector({
                   style={{
                     backgroundColor: isSelected ? config.color : undefined,
                     borderColor: isSelected || isHovered ? config.color : undefined,
-                    ringColor: isSelected ? config.color : undefined
+                    boxShadow: isSelected ? `0 0 0 3px ${config.color}40` : undefined
                   }}
                   onClick={() => handleEmotionClick(emotion)}
                   disabled={disabled}
                 >
                   <span className="text-lg">{config.icon}</span>
                   <span className="text-xs font-medium truncate">
-                    {config.name}
+                    {config.label}
                   </span>
                 </Button>
               </motion.div>

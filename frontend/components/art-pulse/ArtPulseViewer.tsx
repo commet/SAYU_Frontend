@@ -36,7 +36,7 @@ export function ArtPulseViewer({ className }: ArtPulseViewerProps) {
   const [session, setSession] = useState<ArtPulseSession | null>(null);
   const [isJoined, setIsJoined] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [emotions, setEmotions] = useState<EmotionDistribution>({});
+  const [emotions, setEmotions] = useState<EmotionDistribution[]>([]);
   const [reflections, setReflections] = useState<ArtPulseReflection[]>([]);
   const [participantCount, setParticipantCount] = useState(0);
   const [typingUsers, setTypingUsers] = useState<TypingIndicator[]>([]);
@@ -108,19 +108,19 @@ export function ArtPulseViewer({ className }: ArtPulseViewerProps) {
 
     // Session events
     socket.on('art_pulse_joined', (data: ArtPulseSocketEvents['art_pulse_joined']) => {
-      setSession(data.session);
+      // data only contains sessionId and participantCount
       setParticipantCount(data.participantCount);
       setIsJoined(true);
     });
 
     socket.on('art_pulse_state_update', (data: ArtPulseSocketEvents['art_pulse_state_update']) => {
-      setEmotions(data.emotions);
-      setReflections(data.reflections);
-      setParticipantCount(data.participantCount);
+      // data only contains session
+      setSession(data.session);
     });
 
     socket.on('art_pulse_participant_joined', (data: ArtPulseSocketEvents['art_pulse_participant_joined']) => {
-      setParticipantCount(data.participantCount);
+      // data only contains userId and nickname
+      setParticipantCount(prev => prev + 1);
     });
 
     socket.on('art_pulse_participant_left', (data: ArtPulseSocketEvents['art_pulse_participant_left']) => {
@@ -129,7 +129,10 @@ export function ArtPulseViewer({ className }: ArtPulseViewerProps) {
 
     // Emotion events
     socket.on('art_pulse_emotion_update', (data: ArtPulseSocketEvents['art_pulse_emotion_update']) => {
-      setEmotions(data.distribution);
+      // data.emotions is already the distribution
+      if (Array.isArray(data.emotions)) {
+        setEmotions(data.emotions);
+      }
     });
 
     // Reflection events
@@ -169,10 +172,10 @@ export function ArtPulseViewer({ className }: ArtPulseViewerProps) {
 
     // New session events
     socket.on('art_pulse_session_started', (data: ArtPulseSocketEvents['art_pulse_session_started']) => {
-      setSession(data.session);
+      setSession({ id: data.sessionId, artworkId: '', phase: 'contemplation', participants: [], startTime: new Date(), status: 'active', artwork: data.artwork } as ArtPulseSession);
       setIsJoined(false);
       setShowResults(false);
-      setEmotions({});
+      setEmotions([]);
       setReflections([]);
       setParticipantCount(0);
     });

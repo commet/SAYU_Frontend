@@ -31,7 +31,7 @@ export interface ArtProfileResult {
   originalImage: string;
   transformedImage: string;
   styleUsed: ArtStyle;
-  createdAt: string;
+  createdAt: Date | string;  // Allow both Date and string for compatibility
   likes?: number;
   shared?: boolean;
 }
