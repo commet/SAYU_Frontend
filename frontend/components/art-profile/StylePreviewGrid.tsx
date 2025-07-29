@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArtStyle } from '../../../shared';
+import { ArtStyle } from '@/types/art-profile';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 
@@ -84,11 +84,11 @@ export default function StylePreviewGrid({ selectedStyle, onStyleSelect, styles 
             >
               <div className="relative aspect-square bg-gray-100">
                 <img 
-                  src={STYLE_PREVIEWS[style.id] || style.sample}
+                  src={STYLE_PREVIEWS[style.id] || PLACEHOLDER_IMAGE}
                   alt={`${style.name} preview`}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = PLACEHOLDER_PREVIEWS[style.id] || style.sample;
+                    (e.target as HTMLImageElement).src = PLACEHOLDER_PREVIEWS[style.id] || PLACEHOLDER_IMAGE;
                   }}
                 />
                 {selectedStyle?.id === style.id && (

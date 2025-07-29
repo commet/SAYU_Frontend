@@ -58,7 +58,7 @@ export function APTArtworkCard({ artwork, className, onClick }: APTArtworkCardPr
       scale: 1,
       transition: {
         duration: animationEnabled ? 0.3 : 0,
-        ease: theme.animations.easing
+        ease: theme.animations.easing as any
       }
     },
     hover: {
@@ -122,10 +122,12 @@ export function APTArtworkCard({ artwork, className, onClick }: APTArtworkCardPr
           src={artwork.imageUrl}
           alt={artwork.title}
           fill
-          className="object-cover transition-transform duration-300"
-          style={{
-            transform: theme.interaction.hover === 'transform' ? 'scale(1.05)' : 'scale(1)'
-          }} placeholder="blur" quality={90}
+          className={cn(
+            "object-cover transition-transform duration-300",
+            theme.interaction.hover === 'transform' && "hover:scale-105"
+          )}
+          placeholder="blur" 
+          quality={90}
         />
         
         {/* 오버레이 - 유형별 차별화 */}

@@ -251,7 +251,7 @@ export const useThemeStore = create<ThemeState>()(
     },
 
     setColorScheme: (scheme: ColorScheme) => {
-      set({ colorScheme });
+      set({ colorScheme: scheme });
       
       // Regenerate tokens with new scheme
       const newTokens = createBaseDesignTokens(scheme);

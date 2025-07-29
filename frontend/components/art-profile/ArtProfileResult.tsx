@@ -116,7 +116,7 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
           </h3>
           <div className="relative w-full aspect-square">
             <OptimizedImage 
-              src={result.originalImage} 
+              src={result.originalImage || '/placeholder.jpg'} 
               alt="Original"
               fill
               className="object-cover rounded-xl"
@@ -131,11 +131,11 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
           className="sayu-liquid-glass rounded-2xl p-6"
         >
           <h3 className="text-lg font-semibold mb-4">
-            {result.styleUsed.nameKo || result.styleUsed.name}
+            {result.styleUsed?.nameKo || result.styleUsed?.name || 'Unknown Style'}
           </h3>
           <div className="relative w-full aspect-square">
             <OptimizedImage 
-              src={result.transformedImage} 
+              src={result.transformedImage || '/placeholder.jpg'} 
               alt="Transformed"
               fill
               className="object-cover rounded-xl"
@@ -206,7 +206,7 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
         <div className="bg-white rounded-3xl p-8 h-full flex flex-col items-center justify-center">
           <div className="relative w-[800px] h-[800px] mb-8">
             <OptimizedImage 
-              src={result.transformedImage} 
+              src={result.transformedImage || '/placeholder.jpg'} 
               alt="Art Profile"
               fill
               className="object-cover rounded-2xl" placeholder="blur" quality={90}
@@ -217,7 +217,7 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
               {language === 'ko' ? '나의 아트 프로필' : 'My Art Profile'}
             </h2>
             <p className="text-xl text-gray-600 mb-4">
-              {result.styleUsed.nameKo || result.styleUsed.name} Style
+              {result.styleUsed?.nameKo || result.styleUsed?.name || 'Unknown Style'} Style
             </p>
             <div className="flex items-center justify-center gap-2">
               <OptimizedImage src="/logo.png" alt="SAYU" width={32} height={32} className="h-8" placeholder="blur" quality={90} />
@@ -241,13 +241,8 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
           {language === 'ko' ? result.styleUsed.nameKo : result.styleUsed.name}
         </p>
         <p className="text-gray-600">
-          {language === 'ko' ? result.styleUsed.descriptionKo : result.styleUsed.description}
+          {result.styleUsed?.description || 'A unique artistic style'}
         </p>
-        {result.styleUsed.artist && (
-          <p className="text-sm text-gray-500 mt-2">
-            {result.styleUsed.artist} • {result.styleUsed.movement}
-          </p>
-        )}
       </motion.div>
     </motion.div>
   );

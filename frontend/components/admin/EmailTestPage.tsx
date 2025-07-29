@@ -21,7 +21,7 @@ interface TestResult {
 }
 
 export default function EmailTestPage() {
-  const [selectedTemplate, setSelectedTemplate] = useState<EmailTemplate>('');
+  const [selectedTemplate, setSelectedTemplate] = useState<EmailTemplate | ''>('');
   const [testEmail, setTestEmail] = useState('');
   const [sending, setSending] = useState(false);
   const [testResults, setTestResults] = useState<TestResult[]>([]);
@@ -29,11 +29,7 @@ export default function EmailTestPage() {
 
   const handleSendTest = async () => {
     if (!selectedTemplate) {
-      toast({
-        title: 'Error',
-        description: 'Please select an email template.',
-        variant: 'destructive',
-      });
+      toast('Please select an email template.', { type: 'error' });
       return;
     }
 
@@ -50,10 +46,7 @@ export default function EmailTestPage() {
       
       setTestResults(prev => [result, ...prev]);
       
-      toast({
-        title: 'Test email sent',
-        description: `${selectedTemplate} template sent successfully`,
-      });
+      toast(`${selectedTemplate} template sent successfully`, { type: 'success' });
     } catch (error: any) {
       console.error('Failed to send test email:', error);
       
@@ -66,11 +59,7 @@ export default function EmailTestPage() {
       
       setTestResults(prev => [result, ...prev]);
       
-      toast({
-        title: 'Error',
-        description: 'Failed to send test email. Check console for details.',
-        variant: 'destructive',
-      });
+      toast('Failed to send test email. Check console for details.', { type: 'error' });
     } finally {
       setSending(false);
     }
@@ -106,10 +95,7 @@ export default function EmailTestPage() {
       await new Promise(resolve => setTimeout(resolve, 500));
     }
     
-    toast({
-      title: 'Bulk test completed',
-      description: 'All email templates have been tested',
-    });
+    toast('All email templates have been tested', { type: 'success' });
   };
 
   if (process.env.NODE_ENV === 'production') {
@@ -154,7 +140,7 @@ export default function EmailTestPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="template">Email Template</Label>
-              <Select value={selectedTemplate} onValueChange={setSelectedTemplate}>
+              <Select value={selectedTemplate} onValueChange={(value) => setSelectedTemplate(value as EmailTemplate)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select an email template" />
                 </SelectTrigger>

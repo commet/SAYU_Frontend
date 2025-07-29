@@ -1,4 +1,4 @@
-import { SupabaseAuthForm } from '@/components/auth/supabase-auth-form'
+import { SupabaseAuthForm } from '@/src/components/auth/supabase-auth-form'
 import Link from 'next/link'
 
 export default function SignInPage() {

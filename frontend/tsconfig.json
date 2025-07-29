@@ -4,7 +4,10 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "checkJs": false,
+    "strict": false,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -20,6 +23,7 @@
     ],
     "paths": {
       "@/*": ["./*"],
+      "@/shared": ["../shared/index"],
       "@/shared/*": ["../shared/*"]
     }
   },

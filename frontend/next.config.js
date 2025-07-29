@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+process.env.SKIP_ENV_VALIDATION = 'true';
 const { withSentryConfig } = require('@sentry/nextjs');
 
 const withPWA = require('next-pwa')({

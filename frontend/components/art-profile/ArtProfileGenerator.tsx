@@ -6,7 +6,9 @@ import { Camera, Upload, Sparkles, Share2, Download, X } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
 import { artProfileAPI } from '@/lib/art-profile-api';
-import { ArtStyle, predefinedStyles, ArtProfileResult } from '../../../shared';
+import { ArtProfileResult } from '../../../shared';
+import { ArtStyle } from '@/types/art-profile';
+import { predefinedStyles } from '@/data/art-styles';
 import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
 import StyleSelector from './StyleSelector';
@@ -66,7 +68,7 @@ export default function ArtProfileGenerator() {
   const handleGenerate = async () => {
     if (!selectedImage || !selectedStyle || !user) return;
 
-    if (userCredits <= 0 && !user.isPremium) {
+    if (userCredits <= 0) {
       toast.error(language === 'ko' 
         ? '이번 달 무료 생성 횟수를 모두 사용했습니다' 
         : 'You have used all free generations this month'
@@ -99,7 +101,7 @@ export default function ArtProfileGenerator() {
 
       // AI 생성 요청
       const result = await artProfileAPI.generateArtProfile({
-        userId: user.id,
+        userId: user.auth.id,
         imageUrl: base64Image,
         styleId: selectedStyle.id,
       });
@@ -228,7 +230,7 @@ export default function ArtProfileGenerator() {
                 selectedStyle={selectedStyle}
                 onBack={() => setStep('upload')}
                 onGenerate={handleGenerate}
-                userPreferences={user?.recentExhibitions}
+                userPreferences={[]}
               />
             </motion.div>
           )}

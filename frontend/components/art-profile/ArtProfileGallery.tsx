@@ -42,7 +42,7 @@ export default function ArtProfileGallery() {
       setGalleryItems(prev => 
         prev.map(item => 
           item.id === itemId 
-            ? { ...item, isLiked: !item.isLiked, likeCount: item.isLiked ? item.likeCount - 1 : item.likeCount + 1 }
+            ? { ...item, isLiked: !item.isLiked, likeCount: item.isLiked ? (item.likeCount || 0) - 1 : (item.likeCount || 0) + 1 }
             : item
         )
       );
@@ -135,8 +135,8 @@ export default function ArtProfileGallery() {
                 {/* Image */}
                 <div className="relative aspect-square overflow-hidden">
                   <OptimizedImage 
-                    src={item.artProfile.transformedImage}
-                    alt={`Art profile by ${item.user.nickname}`}
+                    src={item.artProfile?.transformedImage || item.imageUrl}
+                    alt={`Art profile by ${item.user?.username || 'Unknown'}`}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="blur" quality={90}
@@ -146,7 +146,7 @@ export default function ArtProfileGallery() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="absolute bottom-0 left-0 right-0 p-4">
                       <p className="text-white font-semibold">
-                        {item.artProfile.styleUsed.nameKo || item.artProfile.styleUsed.name}
+                        {item.artProfile?.styleUsed?.nameKo || item.artProfile?.styleUsed?.name || item.style}
                       </p>
                     </div>
                   </div>
@@ -156,13 +156,13 @@ export default function ArtProfileGallery() {
                 <div className="p-4">
                   <div className="flex items-center justify-between mb-2">
                     <Link 
-                      href={`/profile/${item.user.id}`}
+                      href={`/profile/${item.userId}`}
                       className="flex items-center gap-2 hover:underline"
                     >
                       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-xs font-bold">
-                        {item.user.nickname[0]}
+                        {item.user?.username?.[0] || 'U'}
                       </div>
-                      <span className="font-medium">{item.user.nickname}</span>
+                      <span className="font-medium">{item.user?.username || 'Unknown'}</span>
                     </Link>
                     
                     <button
@@ -172,13 +172,13 @@ export default function ArtProfileGallery() {
                       }`}
                     >
                       <Heart className={`w-5 h-5 ${item.isLiked ? 'fill-current' : ''}`} />
-                      <span className="text-sm">{item.likeCount}</span>
+                      <span className="text-sm">{item.likeCount || 0}</span>
                     </button>
                   </div>
                   
-                  {item.user.personalityType && (
+                  {item.style && (
                     <p className="text-sm text-gray-600">
-                      {item.user.personalityType}
+                      {item.style}
                     </p>
                   )}
                 </div>

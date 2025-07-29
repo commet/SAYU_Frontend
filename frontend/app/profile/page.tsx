@@ -201,7 +201,7 @@ export default function ProfilePage() {
     try {
       const stats = await followAPI.getFollowStats(user!.auth.id);
       setFollowStats({
-        followerCount: stats.followerCount,
+        followerCount: stats.followersCount,
         followingCount: stats.followingCount
       });
     } catch (error) {

@@ -23,9 +23,9 @@ export function Leaderboard({ className }: LeaderboardProps) {
   React.useEffect(() => {
     // 데모 데이터
     setLeaderboardData([
-      { rank: 1, user_id: 1, username: 'ArtLover', avatar_url: '', level: 5, weekly_xp: 1250 },
-      { rank: 2, user_id: 2, username: 'MuseumExplorer', avatar_url: '', level: 4, weekly_xp: 1100 },
-      { rank: 3, user_id: 3, username: 'CreativeSOul', avatar_url: '', level: 4, weekly_xp: 950 },
+      { rank: 1, userId: '1', userName: 'ArtLover', username: 'ArtLover', avatar_url: '', level: 5, totalXP: 1250, weekly_xp: 1250 },
+      { rank: 2, userId: '2', userName: 'MuseumExplorer', username: 'MuseumExplorer', avatar_url: '', level: 4, totalXP: 1100, weekly_xp: 1100 },
+      { rank: 3, userId: '3', userName: 'CreativeSOul', username: 'CreativeSOul', avatar_url: '', level: 4, totalXP: 950, weekly_xp: 950 },
     ]);
     setLoading(false);
   }, [selectedType]);
@@ -82,7 +82,7 @@ export function Leaderboard({ className }: LeaderboardProps) {
               <>
                 {leaderboardData.map((entry, index) => (
                   <motion.div
-                    key={entry.user_id}
+                    key={entry.userId || entry.user_id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
@@ -97,13 +97,13 @@ export function Leaderboard({ className }: LeaderboardProps) {
                     </div>
                     
                     <Avatar className="h-10 w-10">
-                      <AvatarImage src={entry.avatar_url} alt={entry.username} />
-                      <AvatarFallback>{entry.username.slice(0, 2).toUpperCase()}</AvatarFallback>
+                      <AvatarImage src={entry.avatar || entry.avatar_url} alt={entry.userName || entry.username} />
+                      <AvatarFallback>{(entry.userName || entry.username || 'U').slice(0, 2).toUpperCase()}</AvatarFallback>
                     </Avatar>
                     
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium">{entry.username}</span>
+                        <span className="font-medium">{entry.userName || entry.username}</span>
                         <Badge variant="secondary" className="text-xs">
                           Lv.{entry.level}
                         </Badge>
@@ -116,7 +116,7 @@ export function Leaderboard({ className }: LeaderboardProps) {
                       <div className="text-sm text-muted-foreground">
                         {selectedType === 'weekly' && `${entry.weekly_xp?.toLocaleString()} XP`}
                         {selectedType === 'monthly' && `${entry.weekly_xp?.toLocaleString()} XP`}
-                        {selectedType === 'all-time' && `${entry.total_xp?.toLocaleString()} XP`}
+                        {selectedType === 'all' && `${entry.totalXP?.toLocaleString()} XP`}
                       </div>
                     </div>
                     

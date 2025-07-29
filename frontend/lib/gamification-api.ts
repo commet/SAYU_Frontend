@@ -452,8 +452,12 @@ class GamificationAPI {
   }
 
   // Additional methods for hooks
-  async getUserStats(): Promise<UserStats> {
-    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/stats`, {
+  async getUserStats(userId?: string): Promise<{ data: UserStats }> {
+    const url = userId 
+      ? `${API_CONFIG.baseUrl}/api/gamification/stats/${userId}`
+      : `${API_CONFIG.baseUrl}/api/gamification/stats`;
+    
+    const response = await fetch(url, {
       headers: this.getAuthHeaders(),
     });
 
@@ -461,7 +465,8 @@ class GamificationAPI {
       throw new Error('Failed to fetch user stats');
     }
 
-    return response.json();
+    const data = await response.json();
+    return { data };
   }
 
   async getDailyQuests(): Promise<DailyQuest[]> {
@@ -625,6 +630,25 @@ class GamificationAPI {
     }
 
     return response.json();
+  }
+
+  async dailyCheckIn(): Promise<{ success: boolean; data: { xpGained: number } }> {
+    const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/daily-login`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to process daily check-in');
+    }
+
+    const data = await response.json();
+    return { 
+      success: true, 
+      data: { 
+        xpGained: data.data?.xpGained || data.xpGained || 0 
+      } 
+    };
   }
 }
 

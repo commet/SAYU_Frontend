@@ -42,13 +42,22 @@ class MockChannel extends EventEmitter {
   private presence: Map<string, any> = new Map();
   private subscribed = false;
 
-  on(event: string, config: any, callback: (payload: any) => void): this {
-    if (event === 'broadcast') {
-      super.on(`broadcast:${config.event}`, callback);
-    } else if (event === 'presence' && config.event === 'sync') {
-      super.on('presence:sync', callback);
+  on(event: string, listener: (...args: any[]) => void): this;
+  on(event: string, config: any, callback: (payload: any) => void): this;
+  on(event: string, configOrListener: any, callback?: (payload: any) => void): this {
+    if (typeof configOrListener === 'function') {
+      // Standard EventEmitter call
+      return super.on(event, configOrListener);
+    } else {
+      // Supabase-style call with config
+      const config = configOrListener;
+      if (event === 'broadcast' && callback) {
+        super.on(`broadcast:${config.event}`, callback);
+      } else if (event === 'presence' && config.event === 'sync' && callback) {
+        super.on('presence:sync', callback);
+      }
+      return this;
     }
-    return this;
   }
 
   async subscribe(callback?: (status: string) => void): Promise<void> {

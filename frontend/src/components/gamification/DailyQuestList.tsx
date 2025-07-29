@@ -74,7 +74,7 @@ export function DailyQuestList({ quests, className }: DailyQuestListProps) {
             {quest.progress > 0 && !quest.completed && (
               <div className="w-16">
                 <Progress 
-                  value={(quest.progress / quest.required) * 100} 
+                  value={(quest.progress / (quest.required || 1)) * 100} 
                   className="h-2"
                 />
               </div>

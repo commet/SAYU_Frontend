@@ -91,7 +91,7 @@ export function APTGalleryLayout({ children, className }: APTGalleryLayoutProps)
       scale: 1,
       transition: {
         duration: animationEnabled ? 0.5 : 0,
-        ease: theme.animations.easing
+        ease: theme.animations.easing as any
       }
     }
   };

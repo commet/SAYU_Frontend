@@ -12,6 +12,8 @@ export interface CollectedComponent {
   dateCollected?: string;
 }
 
+export type { CollectedComponent as CollectedComponentType };
+
 export const collectedComponents: Record<string, CollectedComponent> = {
   aurora: {
     name: 'AuroraBackground',

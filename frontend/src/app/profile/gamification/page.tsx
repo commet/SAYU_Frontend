@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { GamificationDashboard } from '@/components/gamification/GamificationDashboard';
+import GamificationDashboard from '@/components/gamification/GamificationDashboard';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 

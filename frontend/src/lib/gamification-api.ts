@@ -35,7 +35,7 @@ async function fetchAPI<T>(
     console.error('Gamification API error:', error);
     return {
       success: false,
-      data: undefined,
+      data: undefined as any,
       error: error instanceof Error ? error.message : 'Unknown error',
     };
   }

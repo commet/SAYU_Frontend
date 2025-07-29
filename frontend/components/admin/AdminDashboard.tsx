@@ -149,9 +149,9 @@ export function AdminDashboard() {
                       <span className="font-medium">{tab.label}</span>
                       
                       {/* 알림 배지 */}
-                      {tab.id === 'submissions' && dashboardData?.submissions.pending > 0 && (
+                      {tab.id === 'submissions' && dashboardData?.submissions?.pending && dashboardData.submissions.pending > 0 && (
                         <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">
-                          {dashboardData?.submissions.pending}
+                          {dashboardData.submissions.pending}
                         </span>
                       )}
                     </button>

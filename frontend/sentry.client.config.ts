@@ -23,10 +23,7 @@ Sentry.init({
       maskAllText: process.env.NODE_ENV === 'production',
       blockAllMedia: process.env.NODE_ENV === 'production',
     }),
-    Sentry.browserTracingIntegration({
-      // Only create transactions for navigation
-      routingInstrumentation: Sentry.nextjsRouterInstrumentation(),
-    }),
+    Sentry.browserTracingIntegration(),
   ],
   
   // Performance monitoring

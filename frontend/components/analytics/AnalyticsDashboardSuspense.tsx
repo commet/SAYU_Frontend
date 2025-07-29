@@ -381,7 +381,7 @@ export function AnalyticsDashboardSuspense() {
 
         {/* React 19 Suspense로 데이터 로딩 관리 */}
         <Suspense fallback={<AnalyticsLoading />}>
-          <ErrorBoundary fallback={(error, retry) => <AnalyticsError error={error} retry={retry} />}>
+          <ErrorBoundary fallbackRender={({ error, resetErrorBoundary }) => <AnalyticsError error={error} retry={resetErrorBoundary} />}>
             <AnalyticsContent 
               timeframe={deferredTimeframe}
               activeTab={activeTab}

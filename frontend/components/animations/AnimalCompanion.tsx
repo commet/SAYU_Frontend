@@ -64,7 +64,7 @@ export const AnimalCompanion = ({
       transition: {
         duration: 3,
         repeat: Infinity,
-        ease: "easeInOut"
+        ease: "easeInOut" as const
       }
     },
     happy: {
@@ -73,7 +73,7 @@ export const AnimalCompanion = ({
       transition: {
         duration: 2,
         repeat: Infinity,
-        ease: "easeInOut"
+        ease: "easeInOut" as const
       }
     },
     thinking: {
@@ -82,7 +82,7 @@ export const AnimalCompanion = ({
       transition: {
         duration: 4,
         repeat: Infinity,
-        ease: "easeInOut"
+        ease: "easeInOut" as const
       }
     },
     sleeping: {
@@ -90,7 +90,7 @@ export const AnimalCompanion = ({
       opacity: 0.7,
       transition: {
         duration: 1,
-        ease: "easeOut"
+        ease: "easeOut" as const
       }
     },
     excited: {
@@ -99,7 +99,7 @@ export const AnimalCompanion = ({
       transition: {
         duration: 0.5,
         repeat: 3,
-        ease: "easeOut"
+        ease: "easeOut" as const
       }
     }
   };

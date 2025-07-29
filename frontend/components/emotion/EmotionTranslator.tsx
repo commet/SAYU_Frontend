@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  EmotionInput, 
   EmotionColor,
   WeatherMetaphor,
   AbstractShape,
   SoundTexture 
-} from '../../../shared';
+} from '@/shared';
+import { EmotionInput } from '@/types/emotion-translation';
 import EmotionColorPicker from './EmotionColorPicker';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -30,7 +30,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 type InputMode = 'color' | 'weather' | 'shape' | 'sound' | 'complete';
 
 interface EmotionTranslatorProps {
-  onTranslationComplete: (input: EmotionInput) => void;
+  onTranslationComplete: (input: EmotionInput) => void | Promise<void>;
   className?: string;
 }
 

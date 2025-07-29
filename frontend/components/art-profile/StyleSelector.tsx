@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Sparkles, Palette } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { ArtStyle, predefinedStyles } from '../../../shared';
+import { ArtStyle } from '@/types/art-profile';
+import { predefinedStyles } from '@/data/art-styles';
 import { Button } from '@/components/ui/button';
 import { artProfileAPI } from '@/lib/art-profile-api';
 import { useAuth } from '@/hooks/useAuth';
@@ -52,7 +53,7 @@ export default function StyleSelector({
     
     try {
       // API 추천 시도
-      const recommendations = await artProfileAPI.getRecommendedStyles(user.id);
+      const recommendations = await artProfileAPI.getRecommendedStyles(user.auth.id);
       setRecommendedStyles(recommendations);
     } catch (error) {
       // 실패 시 성격 유형 기반 추천

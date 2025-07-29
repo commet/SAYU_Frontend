@@ -358,32 +358,57 @@ function blendThemes(base: Partial<PersonalizedTheme>, overlay: Partial<Personal
   return {
     ...base,
     colors: {
+      primary: '',
+      secondary: '',
+      background: '',
+      surface: '',
+      muted: '',
+      text: '',
+      textSecondary: '',
+      border: '',
+      accent: '',
+      gradient: '',
       ...base.colors,
       // Blend specific properties from overlay
       ...(overlay.colors && {
         accent: overlay.colors.accent,
         gradient: overlay.colors.gradient
       })
-    },
+    } as ThemeColors,
     typography: {
+      headingFont: '',
+      bodyFont: '',
+      headingWeight: '',
+      bodyWeight: '',
+      letterSpacing: '',
+      lineHeight: '',
       ...base.typography,
       ...(overlay.typography && {
         headingFont: overlay.typography.headingFont
       })
-    },
+    } as ThemeTypography,
     layout: {
+      borderRadius: '',
+      spacing: '',
+      cardPadding: '',
+      maxWidth: '',
+      shadows: '',
       ...base.layout,
       ...(overlay.layout && {
         borderRadius: overlay.layout.borderRadius
       })
-    },
+    } as ThemeLayout,
     animations: {
+      duration: '',
+      easing: '',
+      hoverScale: '',
+      entranceAnimation: '',
       ...base.animations,
       ...(overlay.animations && {
         duration: overlay.animations.duration,
         easing: overlay.animations.easing
       })
-    }
+    } as ThemeAnimations
   };
 }
 

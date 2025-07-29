@@ -254,3 +254,16 @@ export function useInitializeUser() {
   });
 }
 
+// 게이미피케이션 대시보드 훅
+export function useGamificationDashboard() {
+  const { data: stats, isLoading: statsLoading } = useUserStats();
+  const { data: quests, isLoading: questsLoading } = useDailyQuests();
+  const dailyLogin = useDailyLogin();
+
+  return {
+    dashboard: stats?.data,
+    isLoading: statsLoading || questsLoading,
+    quests: quests?.data,
+    dailyLogin
+  };
+}

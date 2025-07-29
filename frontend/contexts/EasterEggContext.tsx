@@ -6,7 +6,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { EasterEggService } from '@/lib/easter-egg/easter-egg-service';
 import { EasterEggNotification } from '@/components/easter-egg/EasterEggNotification';
-import { EasterEgg, Badge, UserEasterEggProgress } from '../../shared/easterEggDefinitions';
+import { EasterEgg, Badge, UserEasterEggProgress } from '@/shared/easterEggDefinitions';
 
 interface EasterEggContextType {
   progress: UserEasterEggProgress | null;

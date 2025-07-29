@@ -9,7 +9,7 @@ import type {
   LeaderboardData,
   Milestone,
   EvolutionAnimation
-} from '../../shared';
+} from '@/shared';
 
 export const evolutionApi = {
   // 사용자 진화 상태 조회

@@ -15,14 +15,14 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export function GamificationDashboard() {
-  const { data: userStats, isLoading: statsLoading } = useUserStats();
-  const { data: dailyQuests, isLoading: questsLoading } = useDailyQuests();
+  const { stats: userStats, isLoading: statsLoading } = useUserStats();
+  const { quests: dailyQuests, isLoading: questsLoading } = useDailyQuests();
   const dailyLogin = useDailyLogin();
 
   React.useEffect(() => {
     // 자동 일일 로그인 처리
-    if (userStats && !dailyLogin.isPending) {
-      dailyLogin.mutate();
+    if (userStats && !dailyLogin.isCheckingIn) {
+      dailyLogin.checkIn();
     }
   }, [userStats]);
 
@@ -64,10 +64,10 @@ export function GamificationDashboard() {
         </div>
         
         <XPProgressBar
-          currentXP={userStats.currentXP}
+          currentXP={userStats.currentLevelXP}
           totalXP={userStats.totalXP}
           nextLevelXP={userStats.nextLevelXP}
-          progressToNextLevel={userStats.progressToNextLevel}
+          progressToNextLevel={userStats.progress}
           levelColor="#ffffff"
           showNumbers={true}
         />
@@ -80,9 +80,9 @@ export function GamificationDashboard() {
         transition={{ delay: 0.1 }}
       >
         <StreakDisplay
-          currentStreak={userStats.currentStreak}
-          longestStreak={userStats.longestStreak}
-          lastActivityDate={userStats.lastActivityDate}
+          currentStreak={0}
+          longestStreak={0}
+          lastActivityDate={new Date()}
         />
       </motion.div>
 
@@ -116,7 +116,7 @@ export function GamificationDashboard() {
         </TabsContent>
 
         <TabsContent value="rewards" className="mt-4">
-          <RewardsSection totalRewards={userStats.totalRewards} />
+          <RewardsSection totalRewards={userStats.totalXP} />
         </TabsContent>
       </Tabs>
 
@@ -124,19 +124,19 @@ export function GamificationDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <StatsCard
           title="일일 퀘스트"
-          value={`${userStats.dailyQuestsCompleted}/${userStats.totalDailyQuests}`}
+          value={`${dailyQuests?.filter(q => q.completed).length || 0}/${dailyQuests?.length || 0}`}
           description="오늘 완료한 퀘스트"
           icon={<Target className="h-4 w-4" />}
         />
         <StatsCard
           title="보상 획득"
-          value={userStats.totalRewards}
+          value={userStats.totalXP}
           description="잠금 해제된 보상"
           icon={<Award className="h-4 w-4" />}
         />
         <StatsCard
           title="주간 활동"
-          value={userStats.weeklyRank ? `#${userStats.weeklyRank}` : '-'}
+          value="-"
           description="현재 주간 순위"
           icon={<Users className="h-4 w-4" />}
         />

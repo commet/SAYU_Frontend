@@ -345,5 +345,59 @@ export function getLevelInfo(level: number) {
   return { name: '예술혼', icon: '🎨', color: '#FFFFD2' };
 }
 
+// Additional hooks for compatibility
+export function useUserStats(userId?: string) {
+  const { data, isLoading, error } = useQuery({
+    queryKey: QUERY_KEYS.userStats(userId),
+    queryFn: ({ queryKey }) => {
+      const id = queryKey[2] as string | undefined;
+      return gamificationAPI.getUserStats(id);
+    },
+    staleTime: 60000 // 1분
+  });
+
+  return {
+    stats: data?.data,
+    isLoading,
+    error
+  };
+}
+
+export function useDailyQuests() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: QUERY_KEYS.challenges('daily'),
+    queryFn: () => gamificationAPI.getChallenges('available'),
+    staleTime: 300000 // 5분
+  });
+
+  return {
+    quests: data?.data?.filter((c: Challenge) => c.type === 'daily') || [],
+    isLoading,
+    error
+  };
+}
+
+export function useDailyLogin() {
+  const queryClient = useQueryClient();
+  
+  const checkIn = useMutation({
+    mutationFn: () => gamificationAPI.dailyCheckIn(),
+    onSuccess: (response) => {
+      if (response.success) {
+        toast.success(`출석 체크 완료! +${response.data.xpGained} XP`);
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.dashboard });
+      }
+    },
+    onError: () => {
+      toast.error('이미 오늘 출석 체크를 하셨습니다');
+    }
+  });
+
+  return {
+    checkIn: checkIn.mutate,
+    isCheckingIn: checkIn.isPending
+  };
+}
+
 // Default export for backward compatibility
 export { useGamificationDashboard as useGamification };
