@@ -37,15 +37,18 @@ export function EmotionBubbleCanvas({ emotions, container, className }: EmotionB
       const count = Math.min(data.count, 20); // Limit bubbles for performance
       
       for (let i = 0; i < count; i++) {
+        const radius = 8 + (data.intensity * 12) + Math.random() * 8;
         const bubble: EmotionBubble = {
           id: `${emotion}-${i}-${Date.now()}`,
           emotion: emotionType,
           intensity: data.intensity,
           x: Math.random() * width,
           y: Math.random() * height,
+          size: radius * 2,  // Required property
+          velocity: { x: (Math.random() - 0.5) * 2, y: (Math.random() - 0.5) * 2 },  // Required property
           vx: (Math.random() - 0.5) * 2,
           vy: (Math.random() - 0.5) * 2,
-          radius: 8 + (data.intensity * 12) + Math.random() * 8,
+          radius: radius,
           opacity: 0.6 + (data.intensity * 0.4),
           userId: `user-${i}`,
           timestamp: Date.now()

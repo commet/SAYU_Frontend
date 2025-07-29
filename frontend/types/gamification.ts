@@ -34,6 +34,7 @@ export interface Mission {
   description: string;
   description_ko: string;
   points: number;
+  xpReward?: number; // For compatibility with DailyQuest
   progress: number;
   target: number;
   completed: boolean;
@@ -111,9 +112,12 @@ export interface UserStats {
   totalXP: number;
   level: number;
   levelName: string;
+  levelColor?: string;
+  levelIcon?: string;
   nextLevelXP: number;
   currentLevelXP: number;
   progress: number;
+  weeklyRank?: number;
   achievements: Achievement[];
   recentActivity: PointActivity[];
 }

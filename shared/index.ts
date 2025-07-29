@@ -263,6 +263,10 @@ export interface ArtPulseReflection {
   username?: string;
   isAnonymous?: boolean;
   sayuType?: string;
+  timestamp?: Date | string;
+  reflection?: string;
+  likedBy?: string[];
+  likes?: number;
 }
 
 export interface TypingIndicator {
@@ -295,6 +299,9 @@ export interface SessionResults {
   topEmotions: EmotionDistribution[];
   reflections: ArtPulseReflection[];
   participantCount: number;
+  totalParticipants?: number;
+  emotionDiversity?: number;
+  averageEngagement?: number;
 }
 
 export interface EmotionBubble {
@@ -307,6 +314,10 @@ export interface EmotionBubble {
   velocity: { x: number; y: number };
   vx?: number;  // Alternative velocity x
   vy?: number;  // Alternative velocity y
+  intensity?: number;
+  opacity?: number;
+  userId?: string;
+  timestamp?: number;
 }
 
 export interface EmotionConfig {
@@ -320,36 +331,41 @@ export interface EmotionConfig {
 }
 
 export const EMOTION_CONFIGS: Record<EmotionType, EmotionConfig> = {
-  joy: { color: '#FFD93D', label: 'Joy', icon: '😊' },
-  sadness: { color: '#6C5CE7', label: 'Sadness', icon: '😢' },
-  anger: { color: '#FF6B6B', label: 'Anger', icon: '😠' },
-  fear: { color: '#A8E6CF', label: 'Fear', icon: '😰' },
-  love: { color: '#FF8B94', label: 'Love', icon: '❤️' },
-  surprise: { color: '#4ECDC4', label: 'Surprise', icon: '😮' },
-  calm: { color: '#95E1D3', label: 'Calm', icon: '😌' },
-  excitement: { color: '#F38181', label: 'Excitement', icon: '🤩' },
-  wonder: { color: '#B794F4', label: 'Wonder', icon: '🤔' },
-  melancholy: { color: '#718096', label: 'Melancholy', icon: '😔' },
-  contemplation: { color: '#4FD1C5', label: 'Contemplation', icon: '🧐' },
-  nostalgia: { color: '#F6AD55', label: 'Nostalgia', icon: '🥺' },
-  awe: { color: '#FC8181', label: 'Awe', icon: '😲' },
-  serenity: { color: '#9F7AEA', label: 'Serenity', icon: '😇' },
-  passion: { color: '#F687B3', label: 'Passion', icon: '🔥' },
-  mystery: { color: '#667EEA', label: 'Mystery', icon: '🎭' },
-  hope: { color: '#48BB78', label: 'Hope', icon: '🌟' }
+  joy: { color: '#FFD93D', label: 'Joy', icon: '😊', name: 'Joy', description: 'Feeling of happiness and delight' },
+  sadness: { color: '#6C5CE7', label: 'Sadness', icon: '😢', name: 'Sadness', description: 'Feeling of sorrow or unhappiness' },
+  anger: { color: '#FF6B6B', label: 'Anger', icon: '😠', name: 'Anger', description: 'Feeling of strong displeasure' },
+  fear: { color: '#A8E6CF', label: 'Fear', icon: '😰', name: 'Fear', description: 'Feeling of anxiety or apprehension' },
+  love: { color: '#FF8B94', label: 'Love', icon: '❤️', name: 'Love', description: 'Feeling of deep affection' },
+  surprise: { color: '#4ECDC4', label: 'Surprise', icon: '😮', name: 'Surprise', description: 'Feeling of unexpected wonder' },
+  calm: { color: '#95E1D3', label: 'Calm', icon: '😌', name: 'Calm', description: 'Feeling of peace and tranquility' },
+  excitement: { color: '#F38181', label: 'Excitement', icon: '🤩', name: 'Excitement', description: 'Feeling of enthusiasm and energy' },
+  wonder: { color: '#B794F4', label: 'Wonder', icon: '🤔', name: 'Wonder', description: 'Feeling of curiosity and amazement' },
+  melancholy: { color: '#718096', label: 'Melancholy', icon: '😔', name: 'Melancholy', description: 'Feeling of pensive sadness' },
+  contemplation: { color: '#4FD1C5', label: 'Contemplation', icon: '🧐', name: 'Contemplation', description: 'Deep reflective thought' },
+  nostalgia: { color: '#F6AD55', label: 'Nostalgia', icon: '🥺', name: 'Nostalgia', description: 'Sentimental longing for the past' },
+  awe: { color: '#FC8181', label: 'Awe', icon: '😲', name: 'Awe', description: 'Feeling of reverent wonder' },
+  serenity: { color: '#9F7AEA', label: 'Serenity', icon: '😇', name: 'Serenity', description: 'State of being calm and peaceful' },
+  passion: { color: '#F687B3', label: 'Passion', icon: '🔥', name: 'Passion', description: 'Intense enthusiasm or desire' },
+  mystery: { color: '#667EEA', label: 'Mystery', icon: '🎭', name: 'Mystery', description: 'Feeling of intrigue and curiosity' },
+  hope: { color: '#48BB78', label: 'Hope', icon: '🌟', name: 'Hope', description: 'Feeling of expectation and desire' }
 };
 
 // Artist types
 export interface Artist {
   id: string;
   name: string;
+  nameKo?: string;
   bio?: string;
+  bioKo?: string;
   birthYear?: number;
   deathYear?: number;
   nationality?: string;
+  nationalityKo?: string;
   artMovements?: string[];
   notableWorks?: string[];
   imageUrl?: string;
+  images?: string[];
+  followCount?: number;
   copyrightStatus?: CopyrightStatus;
 }
 
@@ -385,4 +401,81 @@ export interface SoundTexture {
   pitch: 'low' | 'medium' | 'high';
   volume: number;
   rhythm: 'regular' | 'syncopated' | 'free' | 'absent';
+}
+
+// Daily Challenge types
+export interface DailyChallenge {
+  id: string;
+  date: string;
+  theme: string;
+  description: string;
+  emotion: EmotionType;
+  artwork?: any;
+  completedBy?: string[];
+}
+
+export interface ChallengeMatch {
+  id: string;
+  userId: string;
+  userName: string;
+  userAvatar?: string;
+  emotion: EmotionType;
+  reflection: string;
+  createdAt: Date;
+  similarity?: number;
+}
+
+export interface DailyChallengeStats {
+  totalChallenges: number;
+  completedChallenges: number;
+  streak: number;
+  longestStreak: number;
+}
+
+// Exhibition Companion types
+export interface CompanionRequest {
+  id: string;
+  userId: string;
+  exhibitionId: string;
+  preferredDate: Date;
+  timeSlot: string;
+  message?: string;
+  status: 'pending' | 'matched' | 'cancelled';
+}
+
+export interface Exhibition {
+  id: string;
+  title: string;
+  venueId: string;
+  startDate: Date;
+  endDate: Date;
+  description?: string;
+  imageUrl?: string;
+  artists?: string[];
+}
+
+// Constants
+export const TIME_SLOT_OPTIONS = [
+  'morning',
+  'afternoon', 
+  'evening'
+] as const;
+
+export const VIEWING_PACE_OPTIONS = [
+  'slow',
+  'moderate',
+  'fast'
+] as const;
+
+export const INTERACTION_STYLE_OPTIONS = [
+  'quiet',
+  'discussion',
+  'guided'
+] as const;
+
+// Color types
+export interface HSLColor {
+  h: number;
+  s: number;
+  l: number;
 }

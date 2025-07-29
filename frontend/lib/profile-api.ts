@@ -385,6 +385,3 @@ class ProfileApiClient {
 
 // Create singleton instance
 export const profileApi = new ProfileApiClient();
-
-// Export types for convenience
-export type { UserProfile, Museum, ExhibitionVisit, Badge, ProfileVisitParams };

@@ -87,7 +87,7 @@ export function ArtPulseViewer({ className }: ArtPulseViewerProps) {
 
     const updateTimeRemaining = () => {
       const now = new Date().getTime();
-      const endTime = new Date(session.endTime).getTime();
+      const endTime = session.endTime ? new Date(session.endTime).getTime() : now + 3600000; // Default to 1 hour if no end time
       const remaining = Math.max(0, endTime - now);
       setTimeRemaining(remaining);
 
@@ -255,7 +255,8 @@ export function ArtPulseViewer({ className }: ArtPulseViewerProps) {
   // Get progress percentage
   const getProgressPercentage = () => {
     if (!session) return 0;
-    const totalDuration = new Date(session.endTime).getTime() - new Date(session.startTime).getTime();
+    const endTime = session.endTime ? new Date(session.endTime).getTime() : new Date(session.startTime).getTime() + 3600000;
+    const totalDuration = endTime - new Date(session.startTime).getTime();
     const elapsed = totalDuration - timeRemaining;
     return Math.max(0, Math.min(100, (elapsed / totalDuration) * 100));
   };
