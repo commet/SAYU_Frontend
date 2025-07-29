@@ -15,7 +15,7 @@ class SecurityAuditService {
       /(--|\/\*|\*\/|;|'|")/,
 
       // XSS patterns
-      /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+      /<script[^>]*>[\s\S]*?<\/script[^>]*>/gi,
       /javascript:/i,
       /on\w+\s*=/i,
       /<iframe\b[^>]*>/i,

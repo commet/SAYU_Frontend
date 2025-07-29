@@ -98,7 +98,7 @@ const maliciousPayloadDetector = (req, res, next) => {
     // SQL Injection 패턴
     /(\bUNION\b|\bSELECT\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bDROP\b|\bCREATE\b|\bALTER\b)/i,
     // XSS 패턴
-    /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+    /<script[^>]*>[\s\S]*?<\/script[^>]*>/gi,
     /<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi,
     /javascript:/gi,
     /on\w+\s*=/gi,

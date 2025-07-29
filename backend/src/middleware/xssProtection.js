@@ -9,7 +9,7 @@ const validator = require('validator');
 // XSS 위험 패턴 정의
 const XSS_PATTERNS = [
   // JavaScript 실행 패턴
-  /<script[\s\S]*?>[\s\S]*?<\/script>/gi,
+  /<script[^>]*>[\s\S]*?<\/script[^>]*>/gi,
   /javascript:/gi,
   /on\w+\s*=/gi, // onclick, onload 등
 
@@ -34,7 +34,7 @@ const XSS_PATTERNS = [
   /\.\.[\/\\]/g,
 
   // Null 바이트
-  /\x00/g
+  /\\x00/g
 ];
 
 // 콘텐츠 타입별 살균 설정
