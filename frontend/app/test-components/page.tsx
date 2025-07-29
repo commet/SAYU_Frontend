@@ -1,13 +1,13 @@
 'use client';
 
-import { collectedComponents, getComponentsByStatus } from '@/components/collected-components';
+import { collectedComponents, getComponentsByStatus, type CollectedComponent } from '@/components/collected-components';
 import { useState } from 'react';
 
 export default function TestComponentsPage() {
   const [selectedComponent, setSelectedComponent] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<'all' | 'collected' | 'customized' | 'integrated'>('all');
 
-  const filteredComponents = statusFilter === 'all' 
+  const filteredComponents: Record<string, CollectedComponent> = statusFilter === 'all' 
     ? collectedComponents 
     : getComponentsByStatus(statusFilter);
 
@@ -53,7 +53,7 @@ export default function TestComponentsPage() {
               <p className="text-gray-500">아직 수집된 컴포넌트가 없습니다.</p>
             ) : (
               <ul className="space-y-2">
-                {Object.entries(filteredComponents).map(([key, component]) => (
+                {Object.entries(filteredComponents).map(([key, component]: [string, CollectedComponent]) => (
                   <li
                     key={key}
                     onClick={() => setSelectedComponent(key)}
@@ -73,7 +73,7 @@ export default function TestComponentsPage() {
 
           {/* 메인 영역 - 컴포넌트 상세 & 미리보기 */}
           <div className="md:col-span-2 bg-white rounded-lg p-6 shadow-md">
-            {selectedComponent && filteredComponents[selectedComponent] ? (
+            {selectedComponent && selectedComponent in filteredComponents ? (
               <>
                 <h2 className="text-xl font-semibold mb-4">
                   {filteredComponents[selectedComponent].name}

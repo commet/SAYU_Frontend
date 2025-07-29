@@ -867,7 +867,7 @@ function ResultsContent() {
           userLevel={gamificationData?.level || 1}
           userPoints={gamificationData?.totalPoints || 0}
           stats={{
-            exhibitionsVisited: gamificationData?.exhibitionHistory?.length || 0,
+            exhibitionsVisited: gamificationData?.recentExhibitions?.length || 0,
             achievementsUnlocked: gamificationData?.achievements?.filter((a: any) => a.earnedAt).length || 0,
             companionsMetCount: 0 // This would come from evaluation system
           }}

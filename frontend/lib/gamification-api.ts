@@ -95,7 +95,7 @@ class GamificationAPI {
     }));
   }
 
-  async getChallenges(): Promise<Challenge[]> {
+  async getChallengesNew(): Promise<Challenge[]> {
     const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/challenges`, {
       headers: this.getAuthHeaders(),
     });
@@ -111,13 +111,9 @@ class GamificationAPI {
     }));
   }
 
-  async getLeaderboard(timeframe: LeaderboardType): Promise<{
-    rank: number;
-    total: number;
-    topUsers: LeaderboardEntry[];
-  }> {
+  async getLeaderboard(timeframe: LeaderboardType, limit: number = 100): Promise<LeaderboardEntry[]> {
     const response = await fetch(
-      `${API_CONFIG.baseUrl}/api/gamification/leaderboard?timeframe=${timeframe}`,
+      `${API_CONFIG.baseUrl}/api/gamification/leaderboard?timeframe=${timeframe}&limit=${limit}`,
       {
         headers: this.getAuthHeaders(),
       }
@@ -127,7 +123,8 @@ class GamificationAPI {
       throw new Error('Failed to fetch leaderboard');
     }
 
-    return response.json();
+    const data = await response.json();
+    return data.topUsers || [];
   }
 
   async claimChallenge(challengeId: string): Promise<{
@@ -342,8 +339,8 @@ class GamificationAPI {
     }
   }
 
-  // 리더보드 조회
-  async getLeaderboard(type: string): Promise<{ data: { leaderboard: LeaderboardEntry[]; userRank: number } }> {
+  // 리더보드 조회 (old method for backward compatibility)
+  async getLeaderboardOld(type: string): Promise<{ data: { leaderboard: LeaderboardEntry[]; userRank: number } }> {
     try {
       const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/leaderboard?type=${type}`, {
         headers: this.getAuthHeaders(),
@@ -493,7 +490,7 @@ class GamificationAPI {
     return response.json();
   }
 
-  async getUserProfile(userId: string): Promise<UserStats> {
+  async getUserProfile(userId: number): Promise<UserStats> {
     const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/profile/${userId}`, {
       headers: this.getAuthHeaders(),
     });
@@ -505,7 +502,7 @@ class GamificationAPI {
     return response.json();
   }
 
-  async processDailyLogin(): Promise<{ data: XPResult }> {
+  async processDailyLogin(): Promise<{ alreadyCompleted?: boolean; message?: string } & Partial<XPResult>> {
     const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/daily-login`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
@@ -515,7 +512,8 @@ class GamificationAPI {
       throw new Error('Failed to process daily login');
     }
 
-    return response.json();
+    const data = await response.json();
+    return data.data || data;
   }
 
   async recordArtworkView(artworkId: string): Promise<XPResult> {
@@ -532,11 +530,11 @@ class GamificationAPI {
     return response.json();
   }
 
-  async recordQuizCompletion(quizId: string, score: number): Promise<XPResult> {
+  async recordQuizCompletion(quizType: string, score?: number): Promise<XPResult> {
     const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/quiz-complete`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
-      body: JSON.stringify({ quizId, score }),
+      body: JSON.stringify({ quizType, score }),
     });
 
     if (!response.ok) {
@@ -546,11 +544,11 @@ class GamificationAPI {
     return response.json();
   }
 
-  async recordFollowUser(followedUserId: string): Promise<XPResult> {
+  async recordFollowUser(targetUserId: number): Promise<XPResult> {
     const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/follow-user`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
-      body: JSON.stringify({ followedUserId }),
+      body: JSON.stringify({ targetUserId }),
     });
 
     if (!response.ok) {
@@ -587,11 +585,11 @@ class GamificationAPI {
     return response.json();
   }
 
-  async recordExhibitionVisit(exhibitionId: string, duration: number): Promise<XPResult> {
+  async recordExhibitionVisit(exhibitionId: string, exhibitionName: string): Promise<XPResult> {
     const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/exhibition-visit`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
-      body: JSON.stringify({ exhibitionId, duration }),
+      body: JSON.stringify({ exhibitionId, exhibitionName }),
     });
 
     if (!response.ok) {
@@ -601,11 +599,11 @@ class GamificationAPI {
     return response.json();
   }
 
-  async recordReviewWrite(exhibitionId: string, rating: number): Promise<XPResult> {
+  async recordReviewWrite(targetId: string, targetType: 'artwork' | 'exhibition' | 'artist', reviewLength?: number): Promise<XPResult> {
     const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/review-write`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
-      body: JSON.stringify({ exhibitionId, rating }),
+      body: JSON.stringify({ targetId, targetType, reviewLength }),
     });
 
     if (!response.ok) {
@@ -615,11 +613,11 @@ class GamificationAPI {
     return response.json();
   }
 
-  async initializeUser(userId: string): Promise<UserStats> {
+  async initializeUser(): Promise<UserStats> {
     const response = await fetch(`${API_CONFIG.baseUrl}/api/gamification/initialize`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
-      body: JSON.stringify({ userId }),
+      body: JSON.stringify({}),
     });
 
     if (!response.ok) {
@@ -630,4 +628,42 @@ class GamificationAPI {
   }
 }
 
-export const gamificationAPI = new GamificationAPI();
+const gamificationAPIInstance = new GamificationAPI();
+
+// Export the instance and all methods
+export const gamificationAPI = gamificationAPIInstance;
+
+// Export individual methods for backward compatibility
+export const {
+  getDashboardStats,
+  getUserAchievements,
+  getChallengesNew,
+  getLeaderboard,
+  claimChallenge,
+  updateExhibitionProgress,
+  getDashboard,
+  getCurrentSession,
+  startExhibition,
+  endExhibition,
+  getTitles,
+  setMainTitle,
+  getChallenges,
+  getLeaderboardOld,
+  earnPoints,
+  generateShareCard,
+  getWeeklyProgress,
+  subscribeToUpdates,
+  getUserStats,
+  getDailyQuests,
+  earnXP,
+  getUserProfile,
+  processDailyLogin,
+  recordArtworkView,
+  recordQuizCompletion,
+  recordFollowUser,
+  recordArtworkShare,
+  recordAIProfileCreation,
+  recordExhibitionVisit,
+  recordReviewWrite,
+  initializeUser
+} = gamificationAPIInstance;

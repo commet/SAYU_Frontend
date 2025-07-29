@@ -95,14 +95,14 @@ export type PointActivityType =
 
 // Additional types for gamification hooks
 export type XPEventType = 
-  | 'daily_login'
-  | 'artwork_view'
-  | 'quiz_complete'
-  | 'follow_user'
-  | 'share_artwork'
-  | 'ai_profile_create'
-  | 'exhibition_visit'
-  | 'review_write';
+  | 'DAILY_LOGIN'
+  | 'VIEW_ARTWORK'
+  | 'QUIZ_COMPLETE'
+  | 'FOLLOW_USER'
+  | 'SHARE_ARTWORK'
+  | 'AI_PROFILE_CREATE'
+  | 'EXHIBITION_VISIT'
+  | 'REVIEW_WRITE';
 
 export type LeaderboardType = 'daily' | 'weekly' | 'monthly' | 'all';
 
@@ -120,11 +120,14 @@ export interface UserStats {
 
 export interface DailyQuest {
   id: string;
+  name?: string; // Backward compatibility
   title: string;
   description: string;
+  xp?: number; // Backward compatibility
   xpReward: number;
   progress: number;
   target: number;
+  required?: number; // Backward compatibility
   completed: boolean;
   type: 'daily' | 'weekly' | 'special';
 }
@@ -132,8 +135,12 @@ export interface DailyQuest {
 export interface XPResult {
   xpGained: number;
   leveledUp?: boolean;
-  level?: number;
+  level?: {
+    name: string;
+    number: number;
+  };
   newAchievements?: Achievement[];
+  userId?: string;
 }
 
 export interface GamificationApiResponse<T> {
@@ -178,4 +185,21 @@ export interface FriendActivity {
   userName: string;
   action: string;
   timestamp: Date;
+}
+
+// Leaderboard entry type
+export interface LeaderboardEntry {
+  userId: string;
+  user_id?: string; // Backward compatibility
+  userName: string;
+  username?: string; // Backward compatibility
+  aptType?: string;
+  totalXP: number;
+  total_xp?: number; // Backward compatibility
+  weekly_xp?: number; // For weekly leaderboard
+  level: number;
+  rank: number;
+  avatar?: string;
+  avatar_url?: string; // Backward compatibility
+  isCurrentUser?: boolean;
 }

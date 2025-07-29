@@ -68,7 +68,7 @@ export function useEarnXP() {
         queryClient.invalidateQueries({ queryKey: QUERY_KEYS.dailyQuests });
 
         // 레벨업 시 특별 알림
-        if (data.leveledUp) {
+        if (data.leveledUp && data.level) {
           toast.success(`🎉 레벨업! ${data.level.name}에 도달했습니다!`, {
             duration: 5000,
             position: 'top-center',
@@ -96,7 +96,9 @@ export function useDailyLogin() {
     mutationFn: gamificationApi.processDailyLogin,
     onSuccess: (data) => {
       if (data.alreadyCompleted) {
-        toast.info(data.message);
+        toast(data.message || '오늘은 이미 로그인 보상을 받았습니다.', {
+          icon: '✅',
+        });
       } else {
         queryClient.invalidateQueries({ queryKey: QUERY_KEYS.userStats });
         queryClient.invalidateQueries({ queryKey: QUERY_KEYS.dailyQuests });
@@ -116,11 +118,11 @@ export function useRecordArtworkView() {
 
   return useMutation({
     mutationFn: (artworkId: string) => gamificationApi.recordArtworkView(artworkId),
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       if (data) {
         earnXP.mutate({ 
           eventType: 'VIEW_ARTWORK' as XPEventType, 
-          metadata: { artworkId: data.userId } 
+          metadata: { artworkId: variables } 
         });
       }
     },
@@ -141,6 +143,10 @@ export function useRecordQuizCompletion() {
         toast.success('퀴즈 완료! XP를 획득했습니다.');
       }
     },
+    onError: (error) => {
+      toast.error('퀴즈 기록에 실패했습니다.');
+      console.error('Quiz completion error:', error);
+    },
   });
 }
 
@@ -150,11 +156,11 @@ export function useRecordFollow() {
 
   return useMutation({
     mutationFn: (targetUserId: number) => gamificationApi.recordFollowUser(targetUserId),
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       if (data) {
         earnXP.mutate({ 
           eventType: 'FOLLOW_USER' as XPEventType, 
-          metadata: { targetUserId: data.userId } 
+          metadata: { targetUserId: variables } 
         });
       }
     },
@@ -174,7 +180,7 @@ export function useRecordShare() {
       if (data) {
         earnXP.mutate({ 
           eventType: 'SHARE_ARTWORK' as XPEventType, 
-          metadata: { artworkId: data.userId } 
+          metadata: { artworkId: data.xpGained } 
         });
         toast.success('공유 완료! XP를 획득했습니다.');
       }
@@ -247,3 +253,4 @@ export function useInitializeUser() {
     },
   });
 }
+
