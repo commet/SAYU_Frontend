@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Palette, Grid3X3, Heart, Bookmark, User, Filter, Search, Loader2, ArrowLeft, Shuffle, ExternalLink, Eye, UserPlus } from 'lucide-react';
+import { Palette, Grid3X3, Heart, Bookmark, User, Filter, Search, Loader2, ArrowLeft, Shuffle, ExternalLink, Eye, UserPlus, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -15,6 +15,14 @@ import { useAuth } from '@/hooks/useAuth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import toast from 'react-hot-toast';
+
+// 새로운 컴포넌트들 import
+import { SayuBeamsBackground } from '@/components/ui/sayu-beams-background';
+import { Badge } from '@/components/ui/badge';
+import { CategoryFilter, FloatingDock, MobileBottomNav, GalleryStats } from './gallery-components';
+import { Gallery4 } from '@/components/ui/gallery4';
+import { SayuGalleryGrid } from '@/components/ui/sayu-gallery-grid';
+import { ChevronRight, LayoutGrid, List } from 'lucide-react';
 
 interface UserProfile {
   id: string;
@@ -399,12 +407,13 @@ interface UserProfile {
 }
 
 const ART_CATEGORIES = [
-  { id: 'paintings', name: 'Paintings', metDepartment: 11 },
-  { id: 'sculpture', name: 'Sculpture', metDepartment: 12 },
-  { id: 'photography', name: 'Photography', metDepartment: 12 },
-  { id: 'asian-art', name: 'Asian Art', metDepartment: 6 },
-  { id: 'modern', name: 'Modern Art', metDepartment: 21 },
-  { id: 'contemporary', name: 'Contemporary', metDepartment: 21 }
+  { id: 'all', name: '전체', icon: Sparkles },
+  { id: 'paintings', name: '회화', metDepartment: 11 },
+  { id: 'sculpture', name: '조각', metDepartment: 12 },
+  { id: 'photography', name: '사진', metDepartment: 12 },
+  { id: 'asian-art', name: '동양미술', metDepartment: 6 },
+  { id: 'modern', name: '현대미술', metDepartment: 21 },
+  { id: 'contemporary', name: '컨템포러리', metDepartment: 21 }
 ];
 
 function GalleryContent() {
@@ -414,10 +423,12 @@ function GalleryContent() {
   const isGuestMode = searchParams?.get('guest') === 'true';
   const [galleryArtworks, setGalleryArtworks] = useState<GalleryArtwork[]>([]);
   const [loading_artworks, setLoadingArtworks] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState('paintings');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [likedArtworks, setLikedArtworks] = useState<Set<string>>(new Set());
   const [viewedArtworks, setViewedArtworks] = useState<Set<string>>(new Set());
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [recommendedArtworks, setRecommendedArtworks] = useState<any[]>([]);
+  const [layout, setLayout] = useState<'masonry' | 'grid' | 'list'>('masonry');
 
   // Load user profile and preferences
   useEffect(() => {
@@ -436,6 +447,11 @@ function GalleryContent() {
       fetchArtworks(selectedCategory);
     }
   }, [selectedCategory]);
+
+  // Load recommended artworks
+  useEffect(() => {
+    loadRecommendedArtworks();
+  }, [userProfile]);
 
   const fetchUserProfile = async () => {
     try {
@@ -464,12 +480,34 @@ function GalleryContent() {
     localStorage.setItem('viewedArtworks', JSON.stringify([...viewedArtworks]));
   };
 
+  const loadRecommendedArtworks = async () => {
+    try {
+      // APT 기반 추천 작품 로드 (실제로는 API 호출)
+      const recommendations = [];
+      
+      // 임시 데이터 - 실제로는 사용자 프로필 기반 추천
+      for (let i = 0; i < 5; i++) {
+        recommendations.push({
+          id: `rec-${i}`,
+          title: userProfile ? `${userProfile.archetypeName}를 위한 추천 작품 ${i + 1}` : `추천 작품 ${i + 1}`,
+          description: 'APT 분석을 통해 당신에게 완벽한 작품을 선별했습니다',
+          href: '#',
+          image: `https://picsum.photos/600/400?random=rec${i}`
+        });
+      }
+      
+      setRecommendedArtworks(recommendations);
+    } catch (error) {
+      console.error('Failed to load recommendations:', error);
+    }
+  };
+
   const fetchArtworks = async (category: string) => {
     setLoadingArtworks(true);
     try {
       // Get personalized recommendations from backend (only for authenticated users)
       let searchQuery = 'masterpiece';
-      let departmentId = ART_CATEGORIES.find(cat => cat.id === category)?.metDepartment || 11;
+      let departmentId = category === 'all' ? null : ART_CATEGORIES.find(cat => cat.id === category)?.metDepartment || 11;
       
       if (!isGuestMode && user) {
         try {
@@ -510,9 +548,11 @@ function GalleryContent() {
       }
       
       // COMPLIANCE: Search with isPublicDomain filter to get only CC0 artworks
-      const searchResponse = await fetch(
-        `https://collectionapi.metmuseum.org/public/collection/v1/search?departmentId=${departmentId}&q=${searchQuery}&hasImages=true&isPublicDomain=true`
-      );
+      const searchUrl = departmentId 
+        ? `https://collectionapi.metmuseum.org/public/collection/v1/search?departmentId=${departmentId}&q=${searchQuery}&hasImages=true&isPublicDomain=true`
+        : `https://collectionapi.metmuseum.org/public/collection/v1/search?q=${searchQuery}&hasImages=true&isPublicDomain=true`;
+      
+      const searchResponse = await fetch(searchUrl);
       
       if (!searchResponse.ok) {
         throw new Error('Failed to fetch artworks');
@@ -736,16 +776,22 @@ function GalleryContent() {
     );
   }
 
+  // 사용자 APT 타입 가져오기 (SAYU 4축 코드)
+  const userAptType = userProfile?.typeCode || (user as any)?.personality_type || 'SREF';
+
   return (
-    <div 
-      className="min-h-screen theme-animated-element personalized-container"
-      style={{ background: '#f9fafb' }}
+    <SayuBeamsBackground 
+      intensity="subtle" 
+      colorScheme="apt" 
+      aptType={userAptType}
+      className="min-h-screen"
     >
       {/* Header */}
-      <div 
-        className="border-b backdrop-blur-sm sticky top-0 z-10"
+      <motion.div 
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="border-b backdrop-blur-xl sticky top-0 z-10 bg-white/80 dark:bg-gray-900/80"
         style={{ 
-          backgroundColor: 'rgba(255, 255, 255, 0.8)',
           borderColor: '#e5e7eb'
         }}
       >
@@ -760,18 +806,18 @@ function GalleryContent() {
                 <ArrowLeft className="w-5 h-5" />
               </Button>
               <div>
-                <h1 className="text-2xl font-bold">
-                  Art Gallery
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  아트 갤러리
                   {isGuestMode && (
-                    <span className="ml-2 text-sm bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded-full">
+                    <Badge variant="secondary" className="ml-2 rounded-full">
                       Guest Mode
-                    </span>
+                    </Badge>
                   )}
                 </h1>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground mt-1">
                   {isGuestMode 
-                    ? `Discover amazing artworks • ${galleryArtworks.length} artworks`
-                    : `Curated for ${userProfile?.archetypeName || 'your aesthetic'} • ${galleryArtworks.length} artworks`
+                    ? `놀라운 작품들을 발견하세요`
+                    : `${userAptType} 님을 위한 맞춤 큐레이션`
                   }
                 </p>
               </div>
@@ -793,131 +839,85 @@ function GalleryContent() {
                     <Shuffle className="w-4 h-4 mr-2" />
                     Shuffle
                   </Button>
-                  <div className="text-sm text-muted-foreground">
-                    ♥ {likedArtworks.size} • 👁 {viewedArtworks.size}
-                  </div>
+                  <GalleryStats 
+                    totalArtworks={galleryArtworks.length}
+                    likedCount={likedArtworks.size}
+                    viewedCount={viewedArtworks.size}
+                  />
                 </>
               )}
             </div>
           </div>
           
-          {/* Category Filter */}
-          <div className="flex gap-2 mt-4 overflow-x-auto pb-2">
-            {ART_CATEGORIES.map((category) => (
-              <Button
-                key={category.id}
-                variant={selectedCategory === category.id ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setSelectedCategory(category.id)}
-                className="whitespace-nowrap"
-              >
-                {category.name}
-              </Button>
-            ))}
+          {/* Category Filter - Feature 108 스타일 */}
+          <div className="mt-4">
+            <CategoryFilter 
+              categories={ART_CATEGORIES}
+              selected={selectedCategory}
+              onChange={setSelectedCategory}
+            />
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Gallery Grid */}
+      {/* Main Content */}
       <div className="max-w-7xl mx-auto p-4">
+        {/* 추천 섹션 - 3D Carousel */}
+        {!isGuestMode && recommendedArtworks.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mb-12"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-xl font-semibold mb-1">
+                  당신의 APT 유형을 위한 추천
+                </h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {userAptType} 유형에 맞춰 선별된 작품들입니다
+                </p>
+              </div>
+              <Button variant="ghost" size="sm" className="rounded-full">
+                더보기 <ChevronRight className="w-4 h-4 ml-1" />
+              </Button>
+            </div>
+            
+            <Gallery4 
+              items={recommendedArtworks}
+              title=""
+              description=""
+            />
+          </motion.div>
+        )}
+
+        {/* Gallery Grid - SAYU Gallery Grid 사용 */}
         {loading_artworks ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {[...Array(12)].map((_, i) => (
-              <div key={i} className="aspect-square bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse" />
+              <div key={i} className="aspect-square bg-gray-200 dark:bg-gray-800 rounded-xl animate-pulse" />
             ))}
           </div>
         ) : (
-          <motion.div
-            layout
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-          >
-            <AnimatePresence>
-              {galleryArtworks.map((artwork: any) => (
-                <motion.div
-                  key={artwork.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="group relative personalized-card cursor-pointer"
-                  style={{
-                    transition: 'all 0.3s ease',
-                    borderRadius: '0.5rem'
-                  }}
-                  whileHover={{ scale: 1.05 }}
-                  onClick={() => handleView(artwork.id)}
-                >
-                  {/* Image */}
-                  <div className="aspect-square relative overflow-hidden">
-                    <OptimizedImage
-                      src={artwork.imageUrl}
-                      alt={artwork.title}
-                      fill
-                      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                      className="object-cover group-hover:scale-110 transition-transform duration-300"
-                      placeholder="blur"
-                      quality={90}
-                      onError={() => {
-                        console.error('❌ Image failed to load:', artwork.imageUrl);
-                      }}
-                    />
-                    
-                    {/* Overlay */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-                    
-                    {/* Action buttons */}
-                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <Button
-                        size="icon"
-                        variant="secondary"
-                        className="w-8 h-8 backdrop-blur-sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleLike(artwork.id);
-                        }}
-                      >
-                        <Heart className={`w-4 h-4 ${likedArtworks.has(artwork.id) ? 'fill-red-500 text-red-500' : ''}`} />
-                      </Button>
-                    </div>
-
-                    {/* Viewed indicator */}
-                    {viewedArtworks.has(artwork.id) && (
-                      <div className="absolute top-2 left-2">
-                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                          <Eye className="w-3 h-3 text-white" />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Info */}
-                  <div className="p-3">
-                    <h3 className="font-medium text-sm line-clamp-2 mb-1">{artwork.title}</h3>
-                    <p className="text-xs text-muted-foreground line-clamp-1">{artwork.artist}</p>
-                    <p className="text-xs text-muted-foreground">{artwork.year}</p>
-                    <div className="flex items-center justify-between mt-2">
-                      <span className="text-xs bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded-full">
-                        {artwork.museum.split(' ')[0]}
-                      </span>
-                      {artwork.museumUrl && (
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          className="w-6 h-6"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            window.open(artwork.museumUrl, '_blank');
-                          }}
-                        >
-                          <ExternalLink className="w-3 h-3" />
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+          <SayuGalleryGrid
+            artworks={galleryArtworks.map(artwork => ({
+              ...artwork,
+              isLiked: likedArtworks.has(artwork.id),
+              viewCount: viewedArtworks.has(artwork.id) ? 1 : 0,
+              perceptionCount: Math.floor(Math.random() * 20), // 임시 데이터
+              tags: ['인상주의', '풍경화', '19세기'].slice(0, Math.floor(Math.random() * 3) + 1)
+            }))}
+            onLike={handleLike}
+            onArchive={(id) => toast.success('보관함에 추가되었습니다')}
+            onView={handleView}
+            onPerceptionClick={(artwork) => {
+              router.push(`/perception-exchange?artwork=${artwork.id}`);
+            }}
+            layout={layout}
+            showPerceptionPreview={true}
+            enableGlareEffect={true}
+          />
         )}
 
         {/* Empty state */}
@@ -976,8 +976,27 @@ function GalleryContent() {
             </a>
           </p>
         </div>
+        
+        {/* 모바일 하단 여백 추가 */}
+        <div className="h-20 md:hidden" />
       </div>
-    </div>
+      
+      {/* Floating Dock - 데스크톱 */}
+      <FloatingDock
+        onShuffle={shuffleArtworks}
+        onFilter={() => toast('고급 필터 기능 준비 중입니다')}
+        onLayoutChange={setLayout}
+        currentLayout={layout}
+      />
+      
+      {/* Mobile Bottom Navigation */}
+      <MobileBottomNav
+        onShuffle={shuffleArtworks}
+        onFilter={() => toast('고급 필터 기능 준비 중입니다')}
+        currentLayout={layout}
+        onLayoutChange={setLayout}
+      />
+    </SayuBeamsBackground>
   );
 }
 

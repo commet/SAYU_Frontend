@@ -16,24 +16,31 @@ export const sayuColors = {
     900: '#7f1d1d'
   },
   
-  // APT 동물별 시그니처 색상 (16가지)
+  // SAYU APT 16가지 유형별 시그니처 색상 (4축 코드 + 동물)
   aptColors: {
-    'INFP_호랑이': { primary: '#FF6B6B', secondary: '#FFE66D', accent: '#4ECDC4' },
-    'ENFJ_돌고래': { primary: '#4ECDC4', secondary: '#95E1D3', accent: '#F38181' },
-    'INTJ_올빼미': { primary: '#845EC2', secondary: '#D65DB1', accent: '#FF6F91' },
-    'ENTP_원숭이': { primary: '#FFC75F', secondary: '#F9F871', accent: '#845EC2' },
-    'ISFJ_코끼리': { primary: '#4E8397', secondary: '#82C0CC', accent: '#FFA69E' },
-    'ESFP_나비': { primary: '#FF6B9D', secondary: '#FEC8D8', accent: '#FFDAB9' },
-    'INFJ_늑대': { primary: '#667EEA', secondary: '#764BA2', accent: '#F093FB' },
-    'ENFP_강아지': { primary: '#F7B731', secondary: '#5F27CD', accent: '#00D2D3' },
-    'ISTJ_곰': { primary: '#6C5B7B', secondary: '#C06C84', accent: '#F8B195' },
-    'ESTP_치타': { primary: '#EB3B5A', secondary: '#FC5C65', accent: '#FD79A8' },
-    'INTP_부엉이': { primary: '#4B7BEC', secondary: '#5F3DC4', accent: '#364F6B' },
-    'ESFJ_펭귄': { primary: '#26DE81', secondary: '#A8E6CF', accent: '#FFD3B6' },
-    'ISTP_고양이': { primary: '#778BEB', secondary: '#786FA6', accent: '#63CDDA' },
-    'ENFJ_사슴': { primary: '#F19066', secondary: '#F5CD79', accent: '#546DE5' },
-    'ISFP_여우': { primary: '#E77F67', secondary: '#F8B500', accent: '#3C6382' },
-    'ESTJ_독수리': { primary: '#596275', secondary: '#303952', accent: '#E15F41' }
+    // L-A 그룹 (논리적-추상적)
+    'LAEF': { primary: '#E77F67', secondary: '#F8B500', accent: '#3C6382' }, // Fox (여우)
+    'LAEC': { primary: '#778BEB', secondary: '#786FA6', accent: '#63CDDA' }, // Cat (고양이)
+    'LAMF': { primary: '#845EC2', secondary: '#D65DB1', accent: '#FF6F91' }, // Owl (올빼미)
+    'LAMC': { primary: '#4E8397', secondary: '#82C0CC', accent: '#A8E6CF' }, // Turtle (거북이)
+    
+    // L-R 그룹 (논리적-현실적)
+    'LREF': { primary: '#26DE81', secondary: '#A8E6CF', accent: '#FFD3B6' }, // Chameleon (카멜레온)
+    'LREC': { primary: '#4B7BEC', secondary: '#5F3DC4', accent: '#364F6B' }, // Hedgehog (고슴도치)
+    'LRMF': { primary: '#667EEA', secondary: '#764BA2', accent: '#F093FB' }, // Octopus (문어)
+    'LRMC': { primary: '#6C5B7B', secondary: '#C06C84', accent: '#F8B195' }, // Beaver (비버)
+    
+    // S-A 그룹 (감성적-추상적)
+    'SAEF': { primary: '#FF6B9D', secondary: '#FEC8D8', accent: '#FFDAB9' }, // Butterfly (나비)
+    'SAEC': { primary: '#4ECDC4', secondary: '#95E1D3', accent: '#F38181' }, // Penguin (펭귄)
+    'SAMF': { primary: '#F7B731', secondary: '#5F27CD', accent: '#00D2D3' }, // Parrot (앵무새)
+    'SAMC': { primary: '#F19066', secondary: '#F5CD79', accent: '#546DE5' }, // Deer (사슴)
+    
+    // S-R 그룹 (감성적-현실적)
+    'SREF': { primary: '#FF6B6B', secondary: '#FFE66D', accent: '#4ECDC4' }, // Dog (강아지)
+    'SREC': { primary: '#FFC75F', secondary: '#F9F871', accent: '#845EC2' }, // Duck (오리)
+    'SRMF': { primary: '#EB3B5A', secondary: '#FC5C65', accent: '#FD79A8' }, // Elephant (코끼리)
+    'SRMC': { primary: '#596275', secondary: '#303952', accent: '#E15F41' }  // Eagle (독수리)
   },
   
   // 감정 상태 색상
@@ -257,15 +264,15 @@ export const componentStyles = {
 
 // 유틸리티 함수
 export const getAPTTheme = (typeCode: string) => {
-  const theme = sayuColors.aptColors[typeCode];
+  const theme = sayuColors.aptColors[typeCode as keyof typeof sayuColors.aptColors];
   if (!theme) {
-    return sayuColors.aptColors['INFP_호랑이']; // 기본값
+    return sayuColors.aptColors['SREF']; // 기본값: Dog (강아지)
   }
   return theme;
 };
 
 export const getEmotionColor = (emotion: string) => {
-  return sayuColors.emotions[emotion.toLowerCase()] || sayuColors.emotions.curious;
+  return sayuColors.emotions[emotion.toLowerCase() as keyof typeof sayuColors.emotions] || sayuColors.emotions.curious;
 };
 
 // 다크모드 대응

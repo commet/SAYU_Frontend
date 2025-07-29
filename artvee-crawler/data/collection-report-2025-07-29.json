@@ -1,0 +1,263 @@
+{
+  "timestamp": "2025-07-29T11:45:57.832Z",
+  "summary": {
+    "existing_count": 836,
+    "found_new": 40,
+    "processed": 40,
+    "uploaded": 40,
+    "skipped": 0,
+    "errors": 0,
+    "total_in_cloudinary": 876
+  },
+  "by_artist": {
+    "Manet": 20,
+    "Velázquez": 20
+  },
+  "by_importance": {
+    "high": 40,
+    "medium": 0,
+    "normal": 0
+  },
+  "artworks": [
+    {
+      "id": "the-dead-toreador",
+      "title": "The Dead Toreador (probably 1864)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "the-man-with-the-dog",
+      "title": "The Man with the Dog (1877–1883)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "the-old-musician",
+      "title": "The Old Musician (1862)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "the-railway",
+      "title": "The Railway (1873)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "the-reader",
+      "title": "The Reader (1861)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "the-rue-mosnier-with-flags",
+      "title": "The Rue Mosnier with Flags (1878)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "the-spanish-singer",
+      "title": "The Spanish Singer (1860)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "the-tragic-actor-rouviere-as-hamlet",
+      "title": "The Tragic Actor (Rouvière as Hamlet) (1866)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "woman-reading-2",
+      "title": "Woman Reading (1880)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "young-man-in-the-costume-of-a-majo",
+      "title": "Young Man in the Costume of a Majo (1863)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "jesus-mocked-by-the-soldiers",
+      "title": "Jesus Mocked by the Soldiers (1865)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "fishing",
+      "title": "Fishing (ca. 1862–63)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "the-races-at-longchamp",
+      "title": "The Races at Longchamp (1866)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "two-apples",
+      "title": "Two apples",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "flowers-in-a-crystal-vase",
+      "title": "Flowers in a Crystal Vase (c. 1882)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "oysters",
+      "title": "Oysters (1862)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "pears",
+      "title": "Pears (1880)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "still-life-with-melon-and-peaches",
+      "title": "Still Life with Melon and Peaches (c. 1866)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "the-melon",
+      "title": "The Melon (c. 1880)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "vase-of-white-lilacs-and-roses",
+      "title": "Vase of White Lilacs and Roses (1883)",
+      "artist": "Manet",
+      "importance": "high"
+    },
+    {
+      "id": "las-meninas",
+      "title": "Las meninas (1656)",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "saint-anthony-abbot",
+      "title": "Saint Anthony Abbot",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "portrait-of-a-man-105",
+      "title": "Portrait of a Man (between 1623 and 1630)",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "portrait-of-the-jester-calabazas",
+      "title": "Portrait of the Jester Calabazas (c. 1631–32)",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "the-lady-with-a-fan",
+      "title": "The Lady with a Fan (c. 1640)",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "prince-baltasar-carlos-in-silver",
+      "title": "Prince Baltasar Carlos in Silver (1633)",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "infanta-margarita-teresa-in-a-blue-dress",
+      "title": "Infanta Margarita Teresa in a Blue Dress",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "the-needlewoman",
+      "title": "The Needlewoman (c. 1640-1650)",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "the-supper-at-emmaus-2",
+      "title": "The Supper at Emmaus (1622–23)",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "la-coronacion-de-la-virgen",
+      "title": "La Coronación De La Virgen (C.1635)",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "saint-rufina",
+      "title": "Saint Rufina",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "an-old-woman-cooking-eggs",
+      "title": "An Old Woman Cooking Eggs",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "don-baltasar-carlos-with-a-dwarf",
+      "title": "Don Baltasar Carlos with a Dwarf (1632)",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "don-juan-mateos-d-1643",
+      "title": "Don Juan Mateos (d.1643) (1634)",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "juan-de-pareja",
+      "title": "Juan de Pareja (1650)",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "luis-de-gongora-y-argote",
+      "title": "Luis de Góngora y Argote",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "philip-iv-king-of-spain",
+      "title": "Philip IV, King of Spain",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "portrait-of-don-pedro-de-barberana",
+      "title": "Portrait of Don Pedro de Barberana (c. 1631–33)",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "saint-paul-4",
+      "title": "Saint Paul (circa 1619)",
+      "artist": "Velázquez",
+      "importance": "high"
+    },
+    {
+      "id": "the-infante-baltasar-carlos-on-horseback",
+      "title": "The Infante Baltasar Carlos on Horseback",
+      "artist": "Velázquez",
+      "importance": "high"
+    }
+  ]
+}

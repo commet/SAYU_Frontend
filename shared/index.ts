@@ -320,10 +320,10 @@ export interface EmotionBubble {
   x: number;
   y: number;
   size: number;
-  radius?: number;
+  radius: number;
   velocity: { x: number; y: number };
-  vx?: number;
-  vy?: number;
+  vx: number;
+  vy: number;
   intensity?: number;
   opacity?: number;
   userId?: string;
@@ -413,7 +413,7 @@ export interface Mission {
   description: string;
   description_ko: string;
   points: number;
-  xpReward?: number;
+  xpReward: number;
   progress: number;
   target: number;
   completed: boolean;
