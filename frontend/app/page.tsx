@@ -5,13 +5,13 @@ import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import Image from 'next/image';
 
-// 로컬 유명 작품들
+// 로컬 유명 작품들 - public/samples 폴더의 실제 작품 이미지 사용
 const famousArtworks = [
   {
     id: 1,
-    url: 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&h=1000&fit=crop&q=80',
+    url: '/samples/preview-vangogh.png',
     title: '별이 빛나는 밤',
-    artist: '반 고흐',
+    artist: '빈센트 반 고흐',
     perceptions: [
       "소용돌이치는 불안감",
       "우주와의 교감",
@@ -23,9 +23,9 @@ const famousArtworks = [
   },
   {
     id: 2,
-    url: 'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=800&h=1000&fit=crop',
+    url: '/samples/preview-monet.png',
     title: '수련',
-    artist: '모네',
+    artist: '클로드 모네',
     perceptions: [
       "시간이 멈춘 연못",
       "빛의 춤",
@@ -37,9 +37,9 @@ const famousArtworks = [
   },
   {
     id: 3,
-    url: 'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?w=800&h=1000&fit=crop',
+    url: '/samples/preview-klimt.png',
     title: '키스',
-    artist: '클림트',
+    artist: '구스타프 클림트',
     perceptions: [
       "황금빛 영원",
       "순간의 절정",
@@ -51,37 +51,37 @@ const famousArtworks = [
   },
   {
     id: 4,
-    url: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&h=1000&fit=crop',
-    title: '절규',
-    artist: '뭉크',
+    url: '/samples/preview-picasso.png',
+    title: '게르니카',
+    artist: '파블로 피카소',
     perceptions: [
-      "실존적 공포",
-      "도시인의 고립",
-      "침묵 속 비명",
-      "현대의 불안",
-      "자연의 경고",
-      "내면의 메아리"
+      "전쟁의 참혹함",
+      "분열된 현실",
+      "고통의 울부짖음",
+      "파괴된 평화",
+      "저항의 예술",
+      "역사의 상처"
     ]
   },
   {
     id: 5,
-    url: 'https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=800&h=1000&fit=crop',
-    title: '마릴린',
-    artist: '워홀',
+    url: '/samples/preview-warhol.png',
+    title: '캠벨 수프 캔',
+    artist: '앤디 워홀',
     perceptions: [
-      "팝의 아이콘",
-      "대중문화의 성찰",
-      "반복의 미학",
-      "명성의 허상",
-      "미디어의 힘",
-      "현대적 초상"
+      "일상의 예술화",
+      "대량생산의 미학",
+      "소비문화 비판",
+      "팝아트의 정수",
+      "복제의 시대",
+      "현대의 아이콘"
     ]
   },
   {
     id: 6,
-    url: 'https://images.unsplash.com/photo-1541367777708-7905fe3296c0?w=800&h=1000&fit=crop',
+    url: '/samples/preview-mondrian.jpg',
     title: '빨강, 파랑, 노랑의 구성',
-    artist: '몬드리안',
+    artist: '피트 몬드리안',
     perceptions: [
       "순수한 추상",
       "질서의 아름다움",
@@ -435,22 +435,16 @@ export default function JourneyHomePage() {
           style={{ opacity: artworksOpacity }}
         >
           <div className="relative w-full h-full">
-            {/* 디버깅 정보 */}
-            <div className="absolute top-4 left-4 bg-black/80 text-white p-2 rounded z-50 text-xs">
-              <p>Current Artwork: {currentArtwork}</p>
-              <p>URL: {famousArtworks[currentArtwork].url.substring(0, 50)}...</p>
-              <p>Title: {famousArtworks[currentArtwork].title}</p>
-            </div>
             {/* 배경 - 좀 더 밝아진 미로 */}
             <div className="absolute inset-0 bg-gradient-to-b from-green-900/60 to-green-950/80" />
             
             {/* 작품 캐러셀 컨테이너 */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-full h-full max-w-7xl mx-auto px-8">
-                {/* 중앙 작품 영역 */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="relative w-full h-full max-w-6xl mx-auto px-8">
+                {/* 중앙 작품 영역 - 위치 조정 */}
+                <div className="absolute top-[45%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <motion.div 
-                    className="relative w-[350px] h-[450px]"
+                    className="relative w-[300px] h-[380px]"
                     key={currentArtwork}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -466,15 +460,7 @@ export default function JourneyHomePage() {
                         crossOrigin="anonymous"
                         onError={(e) => {
                           console.error('Image failed to load:', famousArtworks[currentArtwork].url);
-                          // 기본 플레이스홀더 이미지
-                          e.currentTarget.src = `data:image/svg+xml;base64,${btoa(`
-                            <svg width="350" height="450" xmlns="http://www.w3.org/2000/svg">
-                              <rect width="350" height="450" fill="#e5e7eb"/>
-                              <text x="50%" y="50%" text-anchor="middle" font-family="Arial" font-size="20" fill="#6b7280" dy=".3em">
-                                ${famousArtworks[currentArtwork].title}
-                              </text>
-                            </svg>
-                          `)}`;
+                          e.currentTarget.src = '/placeholder-artwork.jpg';
                         }}
                       />
                     </div>
@@ -491,104 +477,99 @@ export default function JourneyHomePage() {
                   </motion.div>
                 </div>
                 
-                {/* 다른 사람들의 감상 - 육각형 배치 */}
-                <div className="absolute inset-0 pointer-events-none">
-                  {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
-                    // 육각형의 6개 꼭짓점 위치 (작품을 중심으로)
-                    const radius = 320; // 반지름
-                    const angleStep = 60; // 60도씩
-                    const positions = Array.from({ length: 6 }, (_, i) => {
-                      const angle = (i * angleStep - 90) * Math.PI / 180; // -90도에서 시작 (12시 방향)
-                      return {
-                        x: Math.cos(angle) * radius,
-                        y: Math.sin(angle) * radius
-                      };
-                    });
-                    
-                    return (
+                {/* 6개의 감상 - 육각형 배치 */}
+                {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
+                  // 육각형 꼭짓점 위치 계산 - 작품 주변에 배치
+                  const angle = (i * 60 - 90) * Math.PI / 180; // 60도씩, 12시부터 시작
+                  const radius = 250; // 작품 중심부터의 거리
+                  const x = Math.cos(angle) * radius;
+                  const y = Math.sin(angle) * radius;
+                  
+                  return (
+                    <motion.div
+                      key={`${currentArtwork}-${i}`}
+                      className="absolute"
+                      style={{
+                        left: `50%`,
+                        top: `45%`,
+                        transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
+                      }}
+                      initial={{ 
+                        opacity: 0,
+                        scale: 0,
+                      }}
+                      animate={{ 
+                        opacity: 1,
+                        scale: 1,
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        delay: i * 0.1,
+                        ease: "backOut"
+                      }}
+                    >
                       <motion.div
-                        key={`${currentArtwork}-${i}`}
-                        className="absolute top-1/2 left-1/2 pointer-events-auto"
-                        style={{
-                          transform: `translate(calc(-50% + ${positions[i].x}px), calc(-50% + ${positions[i].y}px))`,
-                        }}
-                        initial={{ 
-                          opacity: 0,
-                          scale: 0,
-                        }}
-                        animate={{ 
-                          opacity: 1,
-                          scale: 1,
+                        className="bg-white/95 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg border border-gray-200 hover:bg-white transition-all cursor-pointer"
+                        whileHover={{ scale: 1.05 }}
+                        animate={{
+                          y: [0, -5, 0],
                         }}
                         transition={{
-                          duration: 0.5,
-                          delay: i * 0.1,
-                          ease: "backOut"
+                          duration: 4,
+                          delay: i * 0.2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
                         }}
                       >
-                        <motion.div
-                          className="bg-white/90 backdrop-blur-md px-5 py-3 rounded-xl shadow-xl border border-white/50 hover:bg-white/95 transition-all cursor-pointer"
-                          whileHover={{ scale: 1.05 }}
-                          animate={{
-                            y: [0, -10, 0],
-                          }}
-                          transition={{
-                            duration: 3,
-                            delay: i * 0.3,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                          }}
-                        >
-                          <p className="text-gray-800 text-sm font-medium whitespace-nowrap">
-                            "{perception}"
-                          </p>
-                        </motion.div>
+                        <p className="text-gray-800 text-sm font-medium whitespace-nowrap">
+                          "{perception}"
+                        </p>
                       </motion.div>
-                    );
-                  })}
-                </div>
+                    </motion.div>
+                  );
+                })}
                 
-                {/* 네비게이션 버튼 */}
+                {/* 네비게이션 버튼 - 작품 양옆에 배치 */}
                 <button
-                  className="absolute left-8 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all z-10 group"
+                  className="absolute left-[calc(50%-250px)] top-[45%] -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all z-10 group"
                   onClick={() => setCurrentArtwork((prev) => (prev - 1 + famousArtworks.length) % famousArtworks.length)}
                   type="button"
                 >
-                  <svg className="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
                 
                 <button
-                  className="absolute right-8 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all z-10 group"
+                  className="absolute right-[calc(50%-250px)] top-[45%] -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all z-10 group"
                   onClick={() => setCurrentArtwork((prev) => (prev + 1) % famousArtworks.length)}
                   type="button"
                 >
-                  <svg className="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
               </div>
             </div>
             
-            {/* 하단 메시지 및 인디케이터 - 절대 위치 */}
-            <div className="absolute bottom-40 left-0 right-0 flex flex-col items-center gap-6 z-30">
+            {/* 상단 메시지 - 작품 위에 배치 */}
+            <div className="absolute top-16 left-0 right-0 flex flex-col items-center gap-2 z-30">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
+                transition={{ delay: 0.5 }}
                 className="text-center"
               >
-                <p className="text-white text-4xl font-bold mb-3 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
+                <p className="text-white text-3xl font-bold mb-2 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
                   같은 작품, 다른 시선
                 </p>
-                <p className="text-white/90 text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
+                <p className="text-white/90 text-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
                   16가지 Art Persona가 바라보는 각자의 예술 세계
                 </p>
               </motion.div>
               
-              {/* 작품 인디케이터 */}
-              <div className="flex gap-2">
+              {/* 작품 인디케이터 - 하단으로 이동 */}
+              <div className="flex gap-2 absolute bottom-48 left-1/2 transform -translate-x-1/2">
                 {famousArtworks.map((_, i) => (
                   <button
                     key={i}
@@ -605,56 +586,56 @@ export default function JourneyHomePage() {
             
             {/* 하단 기능 소개 카드들 */}
             <motion.div 
-              className="absolute bottom-0 left-0 right-0 px-8 pb-12"
+              className="absolute bottom-0 left-0 right-0 px-8 pb-8"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
             >
-              <div className="max-w-5xl mx-auto grid grid-cols-3 gap-6">
+              <div className="max-w-5xl mx-auto grid grid-cols-3 gap-4">
                 {/* 시선 공유 */}
                 <motion.div 
-                  className="bg-white/15 backdrop-blur-md rounded-xl p-6 border border-white/30 cursor-pointer hover:bg-white/25 transition-all shadow-lg"
-                  whileHover={{ y: -6, scale: 1.02 }}
+                  className="bg-white/15 backdrop-blur-md rounded-lg p-4 border border-white/30 cursor-pointer hover:bg-white/25 transition-all shadow-lg"
+                  whileHover={{ y: -4, scale: 1.02 }}
                 >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                      <span className="text-xl">👁️</span>
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                      <span className="text-lg">👁️</span>
                     </div>
-                    <h4 className="text-white font-semibold text-lg">시선 공유</h4>
+                    <h4 className="text-white font-semibold text-base">시선 공유</h4>
                   </div>
-                  <p className="text-white/70 text-sm leading-relaxed">
+                  <p className="text-white/70 text-xs leading-relaxed">
                     같은 작품에 대한 다양한 해석을 공유하고 대화하세요
                   </p>
                 </motion.div>
                 
                 {/* 전시 동행 */}
                 <motion.div 
-                  className="bg-white/15 backdrop-blur-md rounded-xl p-6 border border-white/30 cursor-pointer hover:bg-white/25 transition-all shadow-lg"
-                  whileHover={{ y: -6, scale: 1.02 }}
+                  className="bg-white/15 backdrop-blur-md rounded-lg p-4 border border-white/30 cursor-pointer hover:bg-white/25 transition-all shadow-lg"
+                  whileHover={{ y: -4, scale: 1.02 }}
                 >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                      <span className="text-xl">🤝</span>
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                      <span className="text-lg">🤝</span>
                     </div>
-                    <h4 className="text-white font-semibold text-lg">전시 동행 매칭</h4>
+                    <h4 className="text-white font-semibold text-base">전시 동행 매칭</h4>
                   </div>
-                  <p className="text-white/70 text-sm leading-relaxed">
+                  <p className="text-white/70 text-xs leading-relaxed">
                     비슷한 취향의 사람과 안전하게 전시를 관람하세요
                   </p>
                 </motion.div>
                 
                 {/* AI 큐레이터 */}
                 <motion.div 
-                  className="bg-white/15 backdrop-blur-md rounded-xl p-6 border border-white/30 cursor-pointer hover:bg-white/25 transition-all shadow-lg"
-                  whileHover={{ y: -6, scale: 1.02 }}
+                  className="bg-white/15 backdrop-blur-md rounded-lg p-4 border border-white/30 cursor-pointer hover:bg-white/25 transition-all shadow-lg"
+                  whileHover={{ y: -4, scale: 1.02 }}
                 >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                      <span className="text-xl">🤖</span>
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                      <span className="text-lg">🤖</span>
                     </div>
-                    <h4 className="text-white font-semibold text-lg">AI 아트 큐레이터</h4>
+                    <h4 className="text-white font-semibold text-base">AI 아트 큐레이터</h4>
                   </div>
-                  <p className="text-white/70 text-sm leading-relaxed">
+                  <p className="text-white/70 text-xs leading-relaxed">
                     당신의 감정과 상황에 맞는 작품을 AI가 추천해드려요
                   </p>
                 </motion.div>
