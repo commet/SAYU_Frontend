@@ -143,8 +143,11 @@ export default function JourneyHomePage() {
           style={{ opacity: mazeOpacity }}
         >
           <div className="relative w-full h-full overflow-hidden">
-            {/* 미로 배경 - 깊은 어둠 */}
-            <div className="absolute inset-0 bg-gradient-radial from-green-950/20 via-black to-black" />
+            {/* 미로 배경 - 깊은 어둠과 절망감 */}
+            <div className="absolute inset-0 bg-gradient-radial from-gray-900/40 via-gray-950 to-black" />
+            
+            {/* 어둠 오버레이 */}
+            <div className="absolute inset-0 bg-black/60" />
             
             {/* 손전등 효과 */}
             <motion.div
@@ -161,26 +164,59 @@ export default function JourneyHomePage() {
               }}
             />
             
-            {/* 유기적인 미로 벽 패턴 */}
-            <svg className="absolute inset-0 w-full h-full opacity-30">
+            {/* 실제 미로 벽 패턴 */}
+            <svg className="absolute inset-0 w-full h-full opacity-40">
               <defs>
-                <pattern id="organic-maze" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
-                  <path 
-                    d="M0,100 Q50,80 100,100 T200,100 M100,0 Q80,50 100,100 T100,200 M50,50 Q70,70 90,50 M150,50 Q130,70 150,90 M50,150 Q70,130 90,150 M150,150 Q130,130 110,150"
-                    stroke="rgba(34, 197, 94, 0.3)" 
-                    fill="none" 
-                    strokeWidth="2"
-                  />
-                  <circle cx="100" cy="100" r="3" fill="rgba(34, 197, 94, 0.2)" />
+                <pattern id="maze-walls" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                  {/* 미로 벽들 - 더 복잡하고 실제 미로처럼 */}
+                  <rect x="0" y="0" width="10" height="60" fill="rgba(100, 100, 100, 0.8)" />
+                  <rect x="30" y="10" width="40" height="10" fill="rgba(100, 100, 100, 0.8)" />
+                  <rect x="80" y="0" width="10" height="40" fill="rgba(100, 100, 100, 0.8)" />
+                  <rect x="20" y="70" width="30" height="10" fill="rgba(100, 100, 100, 0.8)" />
+                  <rect x="60" y="40" width="10" height="60" fill="rgba(100, 100, 100, 0.8)" />
+                  <rect x="10" y="30" width="15" height="10" fill="rgba(100, 100, 100, 0.8)" />
+                  <rect x="75" y="60" width="25" height="10" fill="rgba(100, 100, 100, 0.8)" />
+                  
+                  {/* 막다른 길 표시 */}
+                  <circle cx="15" cy="85" r="3" fill="rgba(120, 120, 120, 0.5)" />
+                  <circle cx="85" cy="25" r="3" fill="rgba(120, 120, 120, 0.5)" />
                 </pattern>
-                <filter id="noise">
-                  <feTurbulence baseFrequency="0.02" numOctaves="3" seed="1" />
-                  <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" />
-                </filter>
               </defs>
-              <rect width="100%" height="100%" fill="url(#organic-maze)" />
-              <rect width="100%" height="100%" filter="url(#noise)" opacity="0.1" />
+              <rect width="100%" height="100%" fill="url(#maze-walls)" />
             </svg>
+            
+            {/* 미로 경로들 - 어두운 통로들 */}
+            <div className="absolute inset-0">
+              {[...Array(12)].map((_, i) => (
+                <div
+                  key={`path-${i}`}
+                  className="absolute bg-gray-900/60 rounded-sm"
+                  style={{
+                    left: `${10 + (i % 4) * 25}%`,
+                    top: `${15 + Math.floor(i / 4) * 30}%`,
+                    width: `${15 + Math.random() * 10}%`,
+                    height: '8px',
+                    transform: `rotate(${Math.random() * 90 - 45}deg)`,
+                  }}
+                />
+              ))}
+            </div>
+            
+            {/* 막다른 길들 */}
+            <div className="absolute inset-0">
+              {[...Array(6)].map((_, i) => (
+                <div
+                  key={`dead-end-${i}`}
+                  className="absolute text-red-400/30 text-xs"
+                  style={{
+                    left: `${20 + i * 15}%`,
+                    top: `${25 + (i % 2) * 50}%`,
+                  }}
+                >
+                  ✕
+                </div>
+              ))}
+            </div>
             
             {/* 미로 바닥 그리드 - retro grid 스타일 */}
             <div className="absolute inset-0" style={{ perspective: '1000px' }}>
@@ -240,23 +276,31 @@ export default function JourneyHomePage() {
             
             <div className="relative z-10 flex flex-col items-center justify-center h-full">
               <motion.h1 
-                className="text-6xl font-bold text-white/80 mb-4"
+                className="text-6xl font-bold text-white/90 mb-4 text-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
               >
-                길을 잃은 것 같나요?
+                어둠 속에서<br/>길을 잃으셨나요?
               </motion.h1>
               <motion.p 
-                className="text-xl text-white/60 mb-16"
+                className="text-xl text-white/70 mb-4 text-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.5 }}
               >
-                예술이 당신의 나침반이 되어드릴게요
+                복잡한 감정의 미로에서 방황하고 계신가요?
+              </motion.p>
+              <motion.p 
+                className="text-lg text-white/60 mb-16 text-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.8 }}
+              >
+                예술이 당신만의 출구를 안내해드릴게요
               </motion.p>
               
-              {/* APT 테스트로 가는 포털 */}
+              {/* 미로의 출구 - 희망의 빛 */}
               <motion.div
                 className="relative cursor-pointer group"
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -264,47 +308,76 @@ export default function JourneyHomePage() {
                 transition={{ duration: 1, delay: 1 }}
                 onClick={() => router.push('/quiz')}
               >
-                {/* 포털 빛나는 효과 */}
+                {/* 출구에서 새어나오는 빛 */}
                 <motion.div
-                  className="absolute inset-0 -inset-8"
+                  className="absolute inset-0 -inset-12"
                   animate={{
-                    opacity: [0.3, 0.6, 0.3],
-                    scale: [0.9, 1.1, 0.9],
+                    opacity: [0.4, 0.8, 0.4],
+                    scale: [0.8, 1.2, 0.8],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <div className="w-full h-full rounded-full bg-gradient-to-r from-cyan-200/30 via-white/40 to-cyan-200/30 blur-2xl" />
+                </motion.div>
+                
+                {/* 미로 출구 문 */}
+                <div className="relative w-56 h-72 rounded-t-full bg-gradient-to-t from-gray-800/40 via-gray-600/30 to-white/60 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center overflow-hidden">
+                  {/* 문틀 효과 */}
+                  <div className="absolute inset-2 rounded-t-full border border-white/20" />
+                  
+                  {/* 밝은 빛이 새어나오는 효과 */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-t from-transparent via-white/20 to-white/40"
+                    animate={{
+                      opacity: [0.3, 0.7, 0.3],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  />
+                  
+                  <div className="relative z-10 text-center px-6">
+                    <motion.div
+                      animate={{ y: [-2, 2, -2] }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    >
+                      <p className="text-white/90 font-bold text-xl mb-2">
+                        미로의 출구
+                      </p>
+                      <p className="text-white/70 text-sm mb-3">
+                        나를 알아가는 여정
+                      </p>
+                      <p className="text-white/60 text-xs">
+                        Art Persona Type 테스트
+                      </p>
+                    </motion.div>
+                  </div>
+                  
+                  {/* 문 손잡이 */}
+                  <div className="absolute right-4 top-1/2 w-3 h-3 rounded-full bg-white/60 shadow-lg" />
+                </div>
+                
+                {/* 빛의 파문 효과 */}
+                <motion.div
+                  className="absolute inset-0 rounded-t-full border-2 border-white/30"
+                  animate={{
+                    scale: [1, 1.15, 1],
+                    opacity: [0.8, 0.3, 0.8],
                   }}
                   transition={{
                     duration: 3,
                     repeat: Infinity,
                     ease: "easeInOut"
-                  }}
-                >
-                  <div className="w-full h-full rounded-full bg-gradient-to-r from-amber-400/20 via-yellow-300/20 to-amber-400/20 blur-xl" />
-                </motion.div>
-                
-                {/* 포털 본체 */}
-                <div className="relative w-48 h-48 rounded-full bg-gradient-to-br from-amber-500/30 to-yellow-400/30 backdrop-blur-sm border border-amber-300/20 flex items-center justify-center">
-                  <div className="text-center">
-                    <p className="text-white/80 font-medium text-lg mb-1">
-                      나를 알아가는 여정
-                    </p>
-                    <p className="text-white/60 text-xs mb-1">
-                      Art Persona Type
-                    </p>
-                    <p className="text-white/50 text-xs">
-                      (APT) 테스트 시작하기
-                    </p>
-                  </div>
-                </div>
-                
-                {/* 호버 효과 */}
-                <motion.div
-                  className="absolute inset-0 rounded-full border-2 border-white/40"
-                  animate={{
-                    scale: [1, 1.1, 1],
-                    opacity: [0, 0.5, 0],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
                   }}
                 />
               </motion.div>
