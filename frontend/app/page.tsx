@@ -17,9 +17,9 @@ const famousArtworks = [
     perceptions: [
       "소용돌이치는 불안감",
       "우주와의 교감",
-      "고독한 영혼의 외침",
+      "붓질의 역동적 리듬",
       "생명력 넘치는 밤하늘",
-      "내면의 폭풍",
+      "후기인상주의 기법",
       "희망의 별빛"
     ]
   },
@@ -30,9 +30,9 @@ const famousArtworks = [
     artist: '클로드 모네',
     perceptions: [
       "시간이 멈춘 연못",
-      "빛의 춤",
+      "빛의 순간적 포착",
       "명상의 순간",
-      "자연과의 합일",
+      "인상주의 색채론",
       "흐릿한 경계",
       "평온한 무의식"
     ]
@@ -44,10 +44,10 @@ const famousArtworks = [
     artist: '구스타프 클림트',
     perceptions: [
       "황금빛 영원",
-      "순간의 절정",
+      "비잔틴 양식의 현대화",
       "관능적 신성함",
       "보호하는 포옹",
-      "장식적 사랑",
+      "장식미술의 정수",
       "벼랑 끝의 열정"
     ]
   },
@@ -58,9 +58,9 @@ const famousArtworks = [
     artist: '레오나르도 다 빈치',
     perceptions: [
       "신비로운 미소",
-      "시선의 추격",
+      "스푸마토 기법의 극치",
       "내면의 비밀",
-      "영원한 수수께끼",
+      "르네상스 초상화의 혁신",
       "침묵의 대화",
       "시간을 초월한 아름다움"
     ]
@@ -75,7 +75,7 @@ const famousArtworks = [
       "순간의 긴장감",
       "삶과 죽음의 경계",
       "역동적 평형",
-      "동양의 미학",
+      "우키요에 판화의 정점",
       "파도 속 후지산"
     ]
   },
@@ -86,7 +86,7 @@ const famousArtworks = [
     artist: '에드바르 뭉크',
     perceptions: [
       "실존적 공포",
-      "현대인의 불안",
+      "표현주의의 선구",
       "침묵의 비명",
       "고립된 영혼",
       "불타는 하늘",
@@ -479,10 +479,10 @@ export default function JourneyHomePage() {
                 {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
                   // 각 텍스트의 위치를 화면 전체에 분산
                   const positions = [
-                    { left: '25%', top: '30%' },     // 좌상단
-                    { left: '65%', top: '30%' },     // 우상단
-                    { left: '15%', top: '50%' },     // 좌중앙 - 더 왼쪽으로
-                    { left: '75%', top: '50%' },     // 우중앙 - 더 오른쪽으로
+                    { left: '20%', top: '30%' },     // 좌상단 - 더 왼쪽으로
+                    { left: '70%', top: '30%' },     // 우상단 - 더 오른쪽으로
+                    { left: '15%', top: '50%' },     // 좌중앙
+                    { left: '75%', top: '50%' },     // 우중앙
                     { left: '25%', top: '65%' },     // 좌하단
                     { left: '65%', top: '65%' }      // 우하단
                   ];
@@ -561,8 +561,8 @@ export default function JourneyHomePage() {
               </div>
             </div>
             
-            {/* 상단 메시지 - 중간 위치로 조정 */}
-            <div className="absolute top-28 left-0 right-0 text-center z-30">
+            {/* 상단 메시지 - 더 아래로 조정 */}
+            <div className="absolute top-36 left-0 right-0 text-center z-30">
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
