@@ -824,29 +824,58 @@ export default function JourneyHomePage() {
               {/* 바닥의 부드러운 그라데이션 */}
               <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-green-50/80 via-transparent to-transparent" />
               
-              {/* 서사의 완성 메시지 */}
+              {/* 실질적 효과와 행동 유도 메시지 */}
               <motion.div
-                className="relative z-10 pb-16 text-center"
+                className="relative z-10 pb-16 text-center px-8"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 2.5, duration: 1 }}
               >
-                <p className="text-green-700/80 text-lg mb-2">
-                  미로에서 시작해 정원에 다다른 당신의 여정
-                </p>
-                <p className="text-green-800 text-2xl font-bold mb-8">
-                  이제 당신이 이 정원의 주인공입니다
-                </p>
+                {/* 실제 효과 강조 */}
+                <div className="max-w-4xl mx-auto mb-8">
+                  <div className="grid grid-cols-3 gap-4 mb-8">
+                    <motion.div 
+                      className="bg-white/20 backdrop-blur-sm rounded-lg p-4"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 2.8 }}
+                    >
+                      <p className="text-3xl mb-2">🎭</p>
+                      <p className="text-green-800 font-bold">월 평균 12개</p>
+                      <p className="text-green-700 text-sm">새로운 전시 발견</p>
+                    </motion.div>
+                    <motion.div 
+                      className="bg-white/20 backdrop-blur-sm rounded-lg p-4"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 2.9 }}
+                    >
+                      <p className="text-3xl mb-2">🤝</p>
+                      <p className="text-green-800 font-bold">87% 만족도</p>
+                      <p className="text-green-700 text-sm">동행 매칭 성공률</p>
+                    </motion.div>
+                    <motion.div 
+                      className="bg-white/20 backdrop-blur-sm rounded-lg p-4"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 3.0 }}
+                    >
+                      <p className="text-3xl mb-2">💬</p>
+                      <p className="text-green-800 font-bold">3.2만 건</p>
+                      <p className="text-green-700 text-sm">감상 교류 대화</p>
+                    </motion.div>
+                  </div>
+                </div>
                 
                 {/* 16가지 APT 타입 아이콘들 */}
-                <div className="flex justify-center gap-3 mb-6">
+                <div className="flex justify-center gap-3 mb-4">
                   {['🦊', '🐱', '🦉', '🦔', '🐶', '🦆', '🦝', '🐻'].map((emoji, i) => (
                     <motion.div
                       key={i}
                       className="text-3xl"
                       initial={{ opacity: 0, scale: 0 }}
                       animate={{ opacity: 0.8, scale: 1 }}
-                      transition={{ delay: 3 + i * 0.1, type: 'spring', stiffness: 200 }}
+                      transition={{ delay: 3.5 + i * 0.1, type: 'spring', stiffness: 200 }}
                     >
                       {emoji}
                     </motion.div>
