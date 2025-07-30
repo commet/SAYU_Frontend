@@ -438,12 +438,6 @@ export default function JourneyHomePage() {
             {/* 배경 - 좀 더 밝아진 미로 */}
             <div className="absolute inset-0 bg-gradient-to-b from-green-900/60 to-green-950/80" />
             
-            {/* 디버깅 정보 */}
-            <div className="absolute top-4 right-4 bg-black/80 text-white p-2 rounded text-xs z-50">
-              <p>Current: {currentArtwork}</p>
-              <p>Title: {famousArtworks[currentArtwork].title}</p>
-              <p>URL: {famousArtworks[currentArtwork].url}</p>
-            </div>
             
             {/* 작품 캐러셀 컨테이너 */}
             <div className="absolute inset-0 flex items-center justify-center">
@@ -458,15 +452,14 @@ export default function JourneyHomePage() {
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <div 
-                      className="w-full h-full rounded-lg overflow-hidden shadow-2xl relative"
-                      style={{
-                        backgroundImage: `url(${famousArtworks[currentArtwork].url})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        backgroundColor: '#e5e7eb'
-                      }}
-                    />
+                    <div className="w-full h-full rounded-lg overflow-hidden shadow-2xl relative bg-gray-200">
+                      <img 
+                        src={famousArtworks[currentArtwork].url}
+                        alt={famousArtworks[currentArtwork].title}
+                        className="w-full h-full object-cover"
+                        style={{ display: 'block' }}
+                      />
+                    </div>
                     
                     {/* 작품 정보 */}
                     <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent rounded-b-lg">
@@ -480,63 +473,62 @@ export default function JourneyHomePage() {
                   </motion.div>
                 </div>
                 
-                {/* 6개의 감상 - 육각형 배치 */}
-                <div className="absolute inset-0 pointer-events-none">
-                  {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
-                    // 육각형 배치
-                    const positions = [
-                      { x: 0, y: -320 },      // 상단
-                      { x: 280, y: -160 },    // 우상단
-                      { x: 280, y: 160 },     // 우하단
-                      { x: 0, y: 320 },       // 하단
-                      { x: -280, y: 160 },    // 좌하단
-                      { x: -280, y: -160 }    // 좌상단
-                    ];
-                    
-                    return (
+                {/* 6개의 감상 텍스트 - 작품 주변 분산 배치 */}
+                {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
+                  // 각 텍스트의 위치를 화면 전체에 분산
+                  const positions = [
+                    { left: '10%', top: '20%' },     // 좌상단
+                    { left: '80%', top: '20%' },     // 우상단
+                    { left: '10%', top: '50%' },     // 좌중앙
+                    { left: '80%', top: '50%' },     // 우중앙
+                    { left: '10%', top: '75%' },     // 좌하단
+                    { left: '80%', top: '75%' }      // 우하단
+                  ];
+                  
+                  return (
+                    <motion.div
+                      key={`${currentArtwork}-${i}`}
+                      className="absolute"
+                      style={{
+                        left: positions[i].left,
+                        top: positions[i].top,
+                        transform: 'translate(-50%, -50%)',
+                        zIndex: 20
+                      }}
+                      initial={{ 
+                        opacity: 0,
+                        scale: 0,
+                      }}
+                      animate={{ 
+                        opacity: 1,
+                        scale: 1,
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        delay: i * 0.1,
+                        ease: "backOut"
+                      }}
+                    >
                       <motion.div
-                        key={`${currentArtwork}-${i}`}
-                        className="absolute pointer-events-auto"
-                        style={{
-                          left: '50%',
-                          top: '45%',
-                          transform: `translate(calc(-50% + ${positions[i].x}px), calc(-50% + ${positions[i].y}px))`,
-                        }}
-                        initial={{ 
-                          opacity: 0,
-                          scale: 0,
-                        }}
-                        animate={{ 
-                          opacity: 1,
-                          scale: 1,
+                        className="bg-white/95 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg border border-gray-200 hover:bg-white transition-all cursor-pointer"
+                        whileHover={{ scale: 1.05 }}
+                        animate={{
+                          y: [0, -5, 0],
                         }}
                         transition={{
-                          duration: 0.5,
-                          delay: i * 0.1,
-                          ease: "backOut"
+                          duration: 4,
+                          delay: i * 0.2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
                         }}
                       >
-                        <motion.div
-                          className="bg-white/95 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg border border-gray-200 hover:bg-white transition-all cursor-pointer"
-                          whileHover={{ scale: 1.05 }}
-                          animate={{
-                            y: [0, -5, 0],
-                          }}
-                          transition={{
-                            duration: 4,
-                            delay: i * 0.2,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                          }}
-                        >
-                          <p className="text-gray-800 text-sm font-medium whitespace-nowrap">
-                            "{perception}"
-                          </p>
-                        </motion.div>
+                        <p className="text-gray-800 text-sm font-medium whitespace-nowrap">
+                          "{perception}"
+                        </p>
                       </motion.div>
-                    );
-                  })}
-                </div>
+                    </motion.div>
+                  );
+                })}
                 
                 {/* 네비게이션 버튼 - 작품 양옆에 배치 */}
                 <button
@@ -561,17 +553,17 @@ export default function JourneyHomePage() {
               </div>
             </div>
             
-            {/* 상단 메시지 */}
-            <div className="absolute top-10 left-0 right-0 text-center z-30">
+            {/* 상단 메시지 - 네비게이션 바 아래로 이동 */}
+            <div className="absolute top-24 left-0 right-0 text-center z-30">
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                <p className="text-white text-4xl font-bold mb-2 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
+                <p className="text-white text-3xl font-bold mb-1 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
                   같은 작품, 다른 시선
                 </p>
-                <p className="text-white/90 text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
+                <p className="text-white/90 text-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
                   16가지 Art Persona가 바라보는 각자의 예술 세계
                 </p>
               </motion.div>
