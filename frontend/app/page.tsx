@@ -67,7 +67,7 @@ const famousArtworks = [
   },
   {
     id: 5,
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Katsushika_Hokusai_-_Thirty-six_Views_of_Mount_Fuji-_The_Great_Wave_off_Kanagawa_-_Google_Art_Project.jpg/1280px-Katsushika_Hokusai_-_Thirty-six_Views_of_Mount_Fuji-_The_Great_Wave_off_Kanagawa_-_Google_Art_Project.jpg',
+    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/1280px-The_Great_Wave_off_Kanagawa.jpg',
     title: '가나가와 해변의 큰 파도',
     artist: '가쓰시카 호쿠사이',
     perceptions: [
@@ -81,7 +81,7 @@ const famousArtworks = [
   },
   {
     id: 6,
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Edvard_Munch_-_The_Scream_-_Google_Art_Project.jpg/800px-Edvard_Munch_-_The_Scream_-_Google_Art_Project.jpg',
+    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/800px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg',
     title: '절규',
     artist: '에드바르 뭉크',
     perceptions: [
@@ -481,8 +481,8 @@ export default function JourneyHomePage() {
                   const positions = [
                     { left: '25%', top: '30%' },     // 좌상단
                     { left: '65%', top: '30%' },     // 우상단
-                    { left: '20%', top: '50%' },     // 좌중앙
-                    { left: '70%', top: '50%' },     // 우중앙
+                    { left: '15%', top: '50%' },     // 좌중앙 - 더 왼쪽으로
+                    { left: '75%', top: '50%' },     // 우중앙 - 더 오른쪽으로
                     { left: '25%', top: '65%' },     // 좌하단
                     { left: '65%', top: '65%' }      // 우하단
                   ];
