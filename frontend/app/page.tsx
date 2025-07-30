@@ -579,18 +579,17 @@ export default function JourneyHomePage() {
             
             {/* 작품 인디케이터 */}
             <div className="absolute bottom-[25%] left-1/2 transform -translate-x-1/2 flex gap-2 z-30">
-                {famousArtworks.map((_, i) => (
-                  <button
-                    key={i}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      i === currentArtwork 
-                        ? 'w-8 bg-white/80' 
-                        : 'bg-white/30 hover:bg-white/50'
-                    }`}
-                    onClick={() => setCurrentArtwork(i)}
-                  />
-                ))}
-              </div>
+              {famousArtworks.map((_, i) => (
+                <button
+                  key={i}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    i === currentArtwork 
+                      ? 'w-8 bg-white/80' 
+                      : 'bg-white/30 hover:bg-white/50'
+                  }`}
+                  onClick={() => setCurrentArtwork(i)}
+                />
+              ))}
             </div>
             
             {/* 하단 기능 소개 카드들 */}
@@ -652,7 +651,7 @@ export default function JourneyHomePage() {
             </motion.div>
           </div>
         </motion.div>
-
+        
         {/* Scene 3: 다른 사람들과의 만남 */}
         <motion.div 
           className="absolute inset-0"
