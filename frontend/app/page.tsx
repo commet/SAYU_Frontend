@@ -819,41 +819,43 @@ export default function JourneyHomePage() {
               />
             ))}
             
-            {/* 정원의 사람들 - 더 따뜻한 실루엣 */}
-            <div className="absolute bottom-0 left-0 right-0 h-1/3">
-              {[...Array(6)].map((_, i) => (
-                <motion.div
-                  key={`person-${i}`}
-                  className="absolute bottom-0"
-                  style={{
-                    left: `${15 + i * 12}%`,
-                  }}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 0.6, y: 0 }}
-                  transition={{ delay: 0.5 + i * 0.1 }}
-                >
-                  <div className="relative">
-                    {/* 사람 실루엣 */}
-                    <div className="w-20 h-32 bg-gradient-to-t from-green-600/40 to-transparent rounded-t-full" />
-                    {/* 대화 풍선 */}
+            {/* 하단 서사의 완성 - 표현하고자 하는 내용 */}
+            <div className="absolute bottom-0 left-0 right-0">
+              {/* 바닥의 부드러운 그라데이션 */}
+              <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-green-50/80 via-transparent to-transparent" />
+              
+              {/* 서사의 완성 메시지 */}
+              <motion.div
+                className="relative z-10 pb-16 text-center"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 2.5, duration: 1 }}
+              >
+                <p className="text-green-700/80 text-lg mb-2">
+                  미로에서 시작해 정원에 다다른 당신의 여정
+                </p>
+                <p className="text-green-800 text-2xl font-bold mb-8">
+                  이제 당신이 이 정원의 주인공입니다
+                </p>
+                
+                {/* 16가지 APT 타입 아이콘들 */}
+                <div className="flex justify-center gap-3 mb-6">
+                  {['🦊', '🐱', '🦉', '🦔', '🐶', '🦆', '🦝', '🐻'].map((emoji, i) => (
                     <motion.div
-                      className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white/90 rounded-lg px-3 py-1 text-xs text-green-700"
+                      key={i}
+                      className="text-3xl"
                       initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 1 + i * 0.2 }}
+                      animate={{ opacity: 0.8, scale: 1 }}
+                      transition={{ delay: 3 + i * 0.1, type: 'spring', stiffness: 200 }}
                     >
-                      {[
-                        "아름다워요",
-                        "감동적이에요",
-                        "함께해요",
-                        "좋아요",
-                        "공감돼요",
-                        "따뜻해요"
-                      ][i]}
+                      {emoji}
                     </motion.div>
-                  </div>
-                </motion.div>
-              ))}
+                  ))}
+                </div>
+                <p className="text-green-600/70 text-sm">
+                  16가지 Art Persona가 당신을 기다리고 있습니다
+                </p>
+              </motion.div>
             </div>
             
             {/* 중앙 콘텐츠 */}
@@ -896,16 +898,19 @@ export default function JourneyHomePage() {
                   />
                 </motion.button>
                 
-                {/* 현재 접속자 수 */}
+                {/* 여정 진행 상황 */}
                 <motion.div
                   className="mt-8 text-green-600"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.5 }}
                 >
-                  <p className="text-sm">
-                    지금 <span className="font-bold">23명</span>이 정원을 거닐고 있어요
-                  </p>
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                    <p className="text-sm">
+                      오늘 <span className="font-bold">47명</span>이 새로운 Art Persona를 발견했어요
+                    </p>
+                  </div>
                 </motion.div>
                 
                 {/* 마지막 감동적인 메시지 */}
