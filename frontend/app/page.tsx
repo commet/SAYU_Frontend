@@ -824,45 +824,77 @@ export default function JourneyHomePage() {
               {/* 바닥의 부드러운 그라데이션 */}
               <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-green-50/80 via-transparent to-transparent" />
               
-              {/* 실질적 효과와 행동 유도 메시지 */}
+              {/* SAYU 커뮤니티 및 매칭 활동 소개 */}
               <motion.div
-                className="relative z-10 pb-16 text-center px-8"
+                className="relative z-10 pb-12 text-center px-8"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 2.5, duration: 1 }}
               >
-                {/* 실제 효과 강조 */}
-                <div className="max-w-4xl mx-auto mb-8">
-                  <div className="grid grid-cols-3 gap-4 mb-8">
+                {/* 커뮤니티 활동 소개 */}
+                <div className="max-w-5xl mx-auto mb-12">
+                  <motion.p 
+                    className="text-green-800 text-xl font-bold mb-8"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 2.8 }}
+                  >
+                    SAYU에서 만나는 특별한 경험들
+                  </motion.p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <motion.div 
-                      className="bg-white/20 backdrop-blur-sm rounded-lg p-4"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 2.8 }}
-                    >
-                      <p className="text-3xl mb-2">🎭</p>
-                      <p className="text-green-800 font-bold">월 평균 12개</p>
-                      <p className="text-green-700 text-sm">새로운 전시 발견</p>
-                    </motion.div>
-                    <motion.div 
-                      className="bg-white/20 backdrop-blur-sm rounded-lg p-4"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 2.9 }}
-                    >
-                      <p className="text-3xl mb-2">🤝</p>
-                      <p className="text-green-800 font-bold">87% 만족도</p>
-                      <p className="text-green-700 text-sm">동행 매칭 성공률</p>
-                    </motion.div>
-                    <motion.div 
-                      className="bg-white/20 backdrop-blur-sm rounded-lg p-4"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      className="text-left"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 3.0 }}
                     >
-                      <p className="text-3xl mb-2">💬</p>
-                      <p className="text-green-800 font-bold">3.2만 건</p>
-                      <p className="text-green-700 text-sm">감상 교류 대화</p>
+                      <div className="flex items-start gap-3 mb-3">
+                        <span className="text-2xl">🎨</span>
+                        <div>
+                          <h4 className="text-green-800 font-semibold mb-1">작품 감상 공유</h4>
+                          <p className="text-green-700/80 text-sm leading-relaxed">
+                            같은 작품을 보고 느낀 감정을 나누며<br/>
+                            새로운 시각을 발견해보세요
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                    
+                    <motion.div 
+                      className="text-left"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 3.1 }}
+                    >
+                      <div className="flex items-start gap-3 mb-3">
+                        <span className="text-2xl">👥</span>
+                        <div>
+                          <h4 className="text-green-800 font-semibold mb-1">APT 매칭 시스템</h4>
+                          <p className="text-green-700/80 text-sm leading-relaxed">
+                            나와 비슷한 감성을 가진 사람들과<br/>
+                            함께 전시를 둘러보세요
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                    
+                    <motion.div 
+                      className="text-left"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 3.2 }}
+                    >
+                      <div className="flex items-start gap-3 mb-3">
+                        <span className="text-2xl">🌱</span>
+                        <div>
+                          <h4 className="text-green-800 font-semibold mb-1">함께 성장하는 커뮤니티</h4>
+                          <p className="text-green-700/80 text-sm leading-relaxed">
+                            다양한 배경의 예술 애호가들과<br/>
+                            함께 성장하는 경험
+                          </p>
+                        </div>
+                      </div>
                     </motion.div>
                   </div>
                 </div>
@@ -942,21 +974,6 @@ export default function JourneyHomePage() {
                   </div>
                 </motion.div>
                 
-                {/* 마지막 감동적인 메시지 */}
-                <motion.div
-                  className="mt-12 max-w-2xl mx-auto"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2 }}
-                >
-                  <p className="text-green-700 text-center leading-relaxed">
-                    "예술은 당신이 누구인지 보여주는 거울이 아니라,<br/>
-                    당신이 될 수 있는 모든 가능성을 보여주는 창문입니다."
-                  </p>
-                  <p className="text-green-600 text-sm mt-4 text-center">
-                    - SAYU가 당신의 창문이 되어드릴게요
-                  </p>
-                </motion.div>
               </motion.div>
             </div>
           </div>
