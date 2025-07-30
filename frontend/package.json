@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "cross-env SKIP_ENV_VALIDATION=true next build",
     "build:railway": "cross-env NODE_ENV=production SKIP_ENV_VALIDATION=true next build",
-    "build:vercel": "cross-env SKIP_ENV_VALIDATION=true next build",
+    "build:vercel": "cross-env SKIP_ENV_VALIDATION=true NEXT_PUBLIC_SUPABASE_URL=https://dummy.supabase.co NEXT_PUBLIC_SUPABASE_ANON_KEY=dummy-key next build",
     "start": "next start",
     "start:standalone": "node .next/standalone/server.js",
     "lint": "next lint",
