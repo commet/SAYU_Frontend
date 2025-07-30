@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import Image from 'next/image';
 
-// Cloudinary 유명 작품들 - URL 수정
+// 로컬 유명 작품들
 const famousArtworks = [
   {
     id: 1,
-    url: 'https://res.cloudinary.com/dkjlt4m5x/image/upload/v1735699413/sayu/artvee/Vincent_van_Gogh_-_The_Starry_Night.jpg',
+    url: '/samples/preview-vangogh.png',
     title: '별이 빛나는 밤',
     artist: '반 고흐',
     perceptions: [
@@ -23,7 +23,7 @@ const famousArtworks = [
   },
   {
     id: 2,
-    url: 'https://res.cloudinary.com/dkjlt4m5x/image/upload/v1735699414/sayu/artvee/Claude_Monet_-_Water_Lilies.jpg',
+    url: '/samples/preview-monet.png',
     title: '수련',
     artist: '모네',
     perceptions: [
@@ -37,7 +37,7 @@ const famousArtworks = [
   },
   {
     id: 3,
-    url: 'https://res.cloudinary.com/dkjlt4m5x/image/upload/v1735699415/sayu/artvee/Gustav_Klimt_-_The_Kiss.jpg',
+    url: '/samples/preview-klimt.png',
     title: '키스',
     artist: '클림트',
     perceptions: [
@@ -51,7 +51,7 @@ const famousArtworks = [
   },
   {
     id: 4,
-    url: 'https://res.cloudinary.com/dkjlt4m5x/image/upload/v1735699416/sayu/artvee/Edvard_Munch_-_The_Scream.jpg',
+    url: '/samples/preview-picasso.png',
     title: '절규',
     artist: '뭉크',
     perceptions: [
@@ -65,30 +65,30 @@ const famousArtworks = [
   },
   {
     id: 5,
-    url: 'https://res.cloudinary.com/dkjlt4m5x/image/upload/v1735699417/sayu/artvee/Paul_Gauguin_-_Tahitian_Women.jpg',
-    title: '타히티의 여인들',
-    artist: '고갱',
+    url: '/samples/preview-warhol.png',
+    title: '마릴린',
+    artist: '워홀',
     perceptions: [
-      "원시의 순수",
-      "문명의 탈출",
-      "이국적 환상",
-      "색채의 해방",
-      "잃어버린 낙원",
-      "타자의 시선"
+      "팝의 아이콘",
+      "대중문화의 성찰",
+      "반복의 미학",
+      "명성의 허상",
+      "미디어의 힘",
+      "현대적 초상"
     ]
   },
   {
     id: 6,
-    url: 'https://res.cloudinary.com/dkjlt4m5x/image/upload/v1735699418/sayu/artvee/Johannes_Vermeer_-_Girl_with_a_Pearl_Earring.jpg',
-    title: '진주 귀걸이 소녀',
-    artist: '베르메르',
+    url: '/samples/preview-mondrian.jpg',
+    title: '빨강, 파랑, 노랑의 구성',
+    artist: '몬드리안',
     perceptions: [
-      "순간의 포착",
-      "빛의 마법",
-      "신비로운 미소",
-      "일상의 신성함",
-      "응시의 깊이",
-      "시간을 초월한 아름다움"
+      "순수한 추상",
+      "질서의 아름다움",
+      "기하학적 조화",
+      "색채의 균형",
+      "미니멀의 힘",
+      "현대 디자인의 원형"
     ]
   }
 ];
@@ -470,40 +470,48 @@ export default function JourneyHomePage() {
                   </div>
                 </motion.div>
                 
-                {/* 다른 사람들의 감상 - 6각형 배치 */}
-                <div className="absolute inset-0 pointer-events-none">
+                {/* 다른 사람들의 감상 - 가로로 넓은 6각형 배치 */}
+                <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
                   {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
-                    // 6각형 배치를 위한 각도 계산
-                    const angle = (i * 60) * Math.PI / 180; // 60도씩 회전
-                    const radius = 250; // 중심으로부터의 거리
-                    const centerX = 200; // 작품 중심 x
-                    const centerY = 250; // 작품 중심 y
-                    const x = centerX + Math.cos(angle) * radius;
-                    const y = centerY + Math.sin(angle) * radius;
+                    // 작품 중심 기준 가로로 찌부된 6각형 배치 (픽셀 단위)
+                    const positions = [
+                      { x: 0, y: -150 },      // 상단 (작품 바로 위)
+                      { x: 250, y: -75 },     // 우상단
+                      { x: 250, y: 75 },      // 우하단  
+                      { x: 0, y: 150 },       // 하단 (작품 바로 아래)
+                      { x: -250, y: 75 },     // 좌하단
+                      { x: -250, y: -75 }     // 좌상단
+                    ];
+                    
+                    const position = positions[i] || positions[0];
                     
                     return (
                       <motion.div
                         key={`${currentArtwork}-${i}`}
-                        className="absolute text-white/70 text-sm bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full"
+                        className="absolute text-white/80 text-sm bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/20"
                         style={{
-                          left: `${x}px`,
-                          top: `${y}px`,
+                          left: `${position.x}px`,
+                          top: `${position.y}px`,
                           transform: 'translate(-50%, -50%)',
-                          maxWidth: '150px'
+                          maxWidth: '180px',
+                          textAlign: 'center'
                         }}
                         initial={{ 
                           opacity: 0,
-                          scale: 0
+                          scale: 0,
+                          y: 20
                         }}
                         animate={{ 
-                          opacity: [0, 1, 1, 0],
-                          scale: [0.8, 1, 1, 0.8]
+                          opacity: [0, 0.9, 0.9, 0],
+                          scale: [0.8, 1, 1, 0.8],
+                          y: [20, 0, 0, -10]
                         }}
                         transition={{
-                          duration: 4,
-                          delay: i * 0.3,
+                          duration: 5,
+                          delay: i * 0.4,
                           repeat: Infinity,
-                          repeatDelay: 2
+                          repeatDelay: 3,
+                          ease: "easeInOut"
                         }}
                       >
                         "{perception}"
