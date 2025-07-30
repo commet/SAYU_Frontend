@@ -3,7 +3,7 @@
 
 import { Artwork, UnifiedMuseumClient } from './api-client';
 import { ArtworkEnrichmentService } from './artwork-enrichment';
-import { getSAYUType, isValidSAYUType, type SAYUType } from '@sayu/shared';
+import { getSAYUType, isValidSAYUType, type SAYUType } from '@/types/sayu-shared';
 
 export interface UserPreferences {
   personalityType: string;

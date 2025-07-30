@@ -9,7 +9,7 @@ import '@/styles/emotional-palette.css';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { getAnimalByType } from '@/data/personality-animals';
 import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
-import { getSAYUType, isValidSAYUType, type SAYUType } from '@sayu/shared';
+import { getSAYUType, isValidSAYUType, type SAYUType } from '@/types/sayu-shared';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAnimalCursor } from '@/contexts/AnimalCursorContext';
 import { useGamificationDashboard } from '@/hooks/useGamification';

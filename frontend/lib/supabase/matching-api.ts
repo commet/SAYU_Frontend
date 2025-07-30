@@ -1,5 +1,5 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { PersonalityType } from '@sayu/shared';
+import { PersonalityType } from '@/types/sayu-shared';
 import { ExhibitionMatch, InteractionPrompt, SharedCollection } from '@/types/art-persona-matching';
 
 const supabase = createClientComponentClient();

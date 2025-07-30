@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { EmotionDistribution, EmotionType, EMOTION_CONFIGS, EmotionBubble } from '@sayu/shared';
+import { EmotionDistribution, EmotionType, EMOTION_CONFIGS, EmotionBubble } from '@/types/sayu-shared';
 
 interface EmotionBubbleCanvasProps {
   emotions: EmotionDistribution[];

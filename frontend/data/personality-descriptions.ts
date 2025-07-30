@@ -1,6 +1,6 @@
 // 🎨 SAYU Personality Descriptions - Personal Art Journey Types
 
-import { SAYUTypeCode } from '@sayu/shared';
+import { SAYUTypeCode } from '@/types/sayu-shared';
 
 export interface PersonalityDescription {
   type: string;

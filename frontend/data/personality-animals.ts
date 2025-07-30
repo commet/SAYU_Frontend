@@ -1,7 +1,7 @@
 // 🎨 SAYU Personality Animal Characters
 // 16가지 예술 성격 유형별 동물 캐릭터
 // 중앙 정의 파일 import
-import { SAYU_TYPES, getSAYUType, validateSAYUType } from '@sayu/shared';
+import { SAYU_TYPES, getSAYUType, validateSAYUType } from '@/types/sayu-shared';
 
 export interface PersonalityAnimal {
   type: string;

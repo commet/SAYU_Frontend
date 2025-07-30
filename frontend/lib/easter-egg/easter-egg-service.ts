@@ -16,7 +16,7 @@ import {
   ACTION_EASTER_EGGS,
   TIME_EASTER_EGGS,
   COMMAND_EASTER_EGGS
-} from '@sayu/shared';
+} from '@/types/sayu-shared';
 import { easterEggAPI } from './easter-egg-api';
 
 export class EasterEggService {

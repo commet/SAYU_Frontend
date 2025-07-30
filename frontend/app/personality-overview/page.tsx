@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowLeft, X } from 'lucide-react'
-import { SAYU_TYPES } from '@sayu/shared'
+import { SAYU_TYPES } from '@/types/sayu-shared'
 import { personalityAnimals } from '@/data/personality-animals'
 
 // 타입별 배경 색상

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { personalityGradients } from '@/constants/personality-gradients';
-import { SAYUTypeCode, isValidSAYUType } from '@sayu/shared';
+import { SAYUTypeCode, isValidSAYUType } from '@/types/sayu-shared';
 
 export async function GET(request: NextRequest) {
   try {

@@ -1,4 +1,4 @@
-import { SAYUTypeCode, SAYU_TYPES } from '@sayu/shared';
+import { SAYUTypeCode, SAYU_TYPES } from '@/types/sayu-shared';
 
 /**
  * SAYU 16개 성격 유형별 시그니처 그라데이션
