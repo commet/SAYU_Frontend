@@ -8,8 +8,53 @@ import { SystemInitializer, PerformanceMonitor, SpatialPreloader } from '@/compo
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'SAYU - Your Aesthetic Journey',
-  description: 'Discover your unique aesthetic personality through art',
+  title: 'SAYU - 당신의 감정과 예술이 만나는 곳',
+  description: '인공지능이 당신의 감정을 이해하고 맞춤형 예술 작품을 추천합니다. 16가지 예술 성향 테스트를 통해 나만의 미술관을 만들어보세요.',
+  keywords: ['예술', '감정', 'AI', '성격테스트', '미술관', '전시', '큐레이션', 'SAYU', '아트테크'],
+  authors: [{ name: 'SAYU Team' }],
+  creator: 'SAYU',
+  publisher: 'SAYU',
+  openGraph: {
+    type: 'website',
+    locale: 'ko_KR',
+    alternateLocale: 'en_US',
+    url: 'https://sayu.art',
+    siteName: 'SAYU',
+    title: 'SAYU - 당신의 감정과 예술이 만나는 곳',
+    description: 'AI가 당신의 감정을 이해하고 맞춤형 예술 작품을 추천합니다',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'SAYU - Art & Emotion Platform',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SAYU - 당신의 감정과 예술이 만나는 곳',
+    description: 'AI가 당신의 감정을 이해하고 맞춤형 예술 작품을 추천합니다',
+    images: ['/twitter-image.png'],
+    creator: '@sayu_art',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'google-site-verification-code',
+    other: {
+      naver: 'naver-site-verification-code',
+    },
+  },
   // manifest removed due to Vercel 401 errors
 }
 

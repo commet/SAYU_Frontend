@@ -170,27 +170,41 @@ const Carousel = memo(
 
 const hiddenMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 30px, rgba(0,0,0,1) 30px, rgba(0,0,0,1) 30px)`
 const visibleMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 0px, rgba(0,0,0,1) 30px)`
-function ThreeDPhotoCarousel() {
+
+interface ThreeDPhotoCarouselProps {
+  images?: string[]
+  titles?: string[]
+  artists?: string[]
+}
+
+function ThreeDPhotoCarousel({ images, titles, artists }: ThreeDPhotoCarouselProps) {
   const [activeImg, setActiveImg] = useState<string | null>(null)
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const [isCarouselActive, setIsCarouselActive] = useState(true)
   const controls = useAnimation()
+  
+  // Use provided images or fallback to default
   const cards = useMemo(
-    () => keywords.map((keyword) => `https://picsum.photos/200/300?${keyword}`),
-    []
+    () => images && images.length > 0 
+      ? images 
+      : keywords.map((keyword) => `https://picsum.photos/200/300?${keyword}`),
+    [images]
   )
 
   useEffect(() => {
     console.log("Cards loaded:", cards)
   }, [cards])
 
-  const handleClick = (imgUrl: string) => {
+  const handleClick = (imgUrl: string, index: number) => {
     setActiveImg(imgUrl)
+    setActiveIndex(index)
     setIsCarouselActive(false)
     controls.stop()
   }
 
   const handleClose = () => {
     setActiveImg(null)
+    setActiveIndex(null)
     setIsCarouselActive(true)
   }
 
@@ -209,21 +223,43 @@ function ThreeDPhotoCarousel() {
             style={{ willChange: "opacity" }}
             transition={transitionOverlay}
           >
-            <motion.img
-              layoutId={`img-${activeImg}`}
-              src={activeImg}
-              className="max-w-full max-h-full rounded-lg shadow-lg"
-              initial={{ scale: 0.5 }} // Start with a smaller scale
-              animate={{ scale: 1 }} // Animate to full scale
-              transition={{
-                delay: 0.5,
-                duration: 0.5,
-                ease: [0.25, 0.1, 0.25, 1],
-              }} // Clean ease-out curve
-              style={{
-                willChange: "transform",
-              }}
-            />
+            <div className="relative">
+              <motion.img
+                layoutId={`img-${activeImg}`}
+                src={activeImg}
+                className="max-w-full max-h-full rounded-lg shadow-lg"
+                initial={{ scale: 0.5 }} // Start with a smaller scale
+                animate={{ scale: 1 }} // Animate to full scale
+                transition={{
+                  delay: 0.5,
+                  duration: 0.5,
+                  ease: [0.25, 0.1, 0.25, 1],
+                }} // Clean ease-out curve
+                style={{
+                  willChange: "transform",
+                }}
+              />
+              {/* Title and Artist Info */}
+              {activeIndex !== null && (titles || artists) && (
+                <motion.div
+                  className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 rounded-b-lg"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1, duration: 0.5 }}
+                >
+                  {titles && titles[activeIndex] && (
+                    <h3 className="text-white text-xl font-semibold mb-1">
+                      {titles[activeIndex]}
+                    </h3>
+                  )}
+                  {artists && artists[activeIndex] && (
+                    <p className="text-white/80 text-lg">
+                      {artists[activeIndex]}
+                    </p>
+                  )}
+                </motion.div>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
