@@ -193,53 +193,49 @@ export default function JourneyHomePage() {
               ))}
             </div>
             
-            {/* 감성적인 미로 경로들 - 구불구불한 선들 */}
-            <svg className="absolute inset-0 w-full h-full opacity-25">
-              <defs>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                  <feMerge> 
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
-              </defs>
-              
-              {/* 곡선으로 된 미로 경로들 */}
-              <path 
-                d="M50,50 Q100,80 150,50 T250,70 T350,40 T450,80"
-                stroke="rgba(150, 150, 170, 0.4)" 
-                fill="none" 
-                strokeWidth="2"
-                filter="url(#glow)"
-              />
-              <path 
-                d="M100,150 Q50,180 100,200 T200,170 T300,200 T400,150"
-                stroke="rgba(130, 140, 160, 0.3)" 
-                fill="none" 
-                strokeWidth="1.5"
-                filter="url(#glow)"
-              />
-              <path 
-                d="M80,300 Q130,250 180,300 T280,280 T380,320"
-                stroke="rgba(140, 150, 180, 0.4)" 
-                fill="none" 
-                strokeWidth="2"
-                filter="url(#glow)"
-              />
-              <path 
-                d="M200,100 Q180,140 220,180 T260,220 T320,180 T380,220"
-                stroke="rgba(160, 150, 190, 0.3)" 
-                fill="none" 
-                strokeWidth="1.5"
-                filter="url(#glow)"
-              />
-              
-              {/* 미로의 작은 구조물들 */}
-              <circle cx="120" cy="120" r="8" fill="rgba(120, 120, 140, 0.2)" filter="url(#glow)" />
-              <circle cx="280" cy="200" r="6" fill="rgba(140, 130, 160, 0.2)" filter="url(#glow)" />
-              <circle cx="350" cy="150" r="10" fill="rgba(130, 140, 170, 0.2)" filter="url(#glow)" />
-            </svg>
+            {/* 은은한 미로 패턴 - 중앙에서 퍼지는 미로 */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <svg className="w-full h-full max-w-6xl max-h-screen opacity-15" viewBox="0 0 1200 800">
+                <defs>
+                  <filter id="soft-glow">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feMerge> 
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                  <radialGradient id="fade-out">
+                    <stop offset="0%" stopColor="white" stopOpacity="0.6"/>
+                    <stop offset="70%" stopColor="white" stopOpacity="0.3"/>
+                    <stop offset="100%" stopColor="white" stopOpacity="0"/>
+                  </radialGradient>
+                </defs>
+                
+                <g mask="url(#fade-mask)">
+                  {/* 중앙에서 방사형으로 퍼지는 미로 경로들 */}
+                  <circle cx="600" cy="400" r="80" fill="none" stroke="rgba(150, 150, 200, 0.5)" strokeWidth="1" filter="url(#soft-glow)" />
+                  <circle cx="600" cy="400" r="160" fill="none" stroke="rgba(140, 140, 190, 0.4)" strokeWidth="1" strokeDasharray="20 10" filter="url(#soft-glow)" />
+                  <circle cx="600" cy="400" r="240" fill="none" stroke="rgba(130, 130, 180, 0.3)" strokeWidth="1" strokeDasharray="30 15" filter="url(#soft-glow)" />
+                  <circle cx="600" cy="400" r="320" fill="none" stroke="rgba(120, 120, 170, 0.2)" strokeWidth="1" strokeDasharray="40 20" filter="url(#soft-glow)" />
+                  
+                  {/* 연결 경로들 */}
+                  <path d="M600,320 Q680,360 600,400 T520,440" fill="none" stroke="rgba(140, 140, 190, 0.3)" strokeWidth="1" filter="url(#soft-glow)" />
+                  <path d="M520,400 Q560,320 600,400 T640,480" fill="none" stroke="rgba(130, 130, 180, 0.3)" strokeWidth="1" filter="url(#soft-glow)" />
+                  <path d="M680,400 Q640,480 600,400 T560,320" fill="none" stroke="rgba(150, 150, 200, 0.3)" strokeWidth="1" filter="url(#soft-glow)" />
+                  <path d="M600,480 Q520,440 600,400 T680,360" fill="none" stroke="rgba(140, 140, 190, 0.3)" strokeWidth="1" filter="url(#soft-glow)" />
+                  
+                  {/* 작은 노드들 */}
+                  <circle cx="600" cy="320" r="4" fill="rgba(160, 160, 210, 0.4)" filter="url(#soft-glow)" />
+                  <circle cx="680" cy="400" r="4" fill="rgba(150, 150, 200, 0.4)" filter="url(#soft-glow)" />
+                  <circle cx="600" cy="480" r="4" fill="rgba(140, 140, 190, 0.4)" filter="url(#soft-glow)" />
+                  <circle cx="520" cy="400" r="4" fill="rgba(130, 130, 180, 0.4)" filter="url(#soft-glow)" />
+                </g>
+                
+                <mask id="fade-mask">
+                  <rect width="1200" height="800" fill="url(#fade-out)" />
+                </mask>
+              </svg>
+            </div>
             
             {/* 부드러운 바닥 효과 */}
             <motion.div 
@@ -314,7 +310,7 @@ export default function JourneyHomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
               >
-                어둠 속에서<br/>길을 잃으셨나요?
+                길을 잃은 것 같나요?
               </motion.h1>
               <motion.p 
                 className="text-xl text-white/70 mb-4 text-center"
