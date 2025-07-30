@@ -143,11 +143,11 @@ export default function JourneyHomePage() {
           style={{ opacity: mazeOpacity }}
         >
           <div className="relative w-full h-full overflow-hidden">
-            {/* 미로 배경 - 깊은 어둠과 절망감 */}
-            <div className="absolute inset-0 bg-gradient-radial from-gray-900/40 via-gray-950 to-black" />
+            {/* 부드러운 미로 배경 - 감성적인 어둠 */}
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/60 via-purple-950/40 to-gray-900/60" />
             
-            {/* 어둠 오버레이 */}
-            <div className="absolute inset-0 bg-black/60" />
+            {/* 부드러운 오버레이 */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30" />
             
             {/* 손전등 효과 */}
             <motion.div
@@ -164,108 +164,141 @@ export default function JourneyHomePage() {
               }}
             />
             
-            {/* 실제 미로 벽 패턴 */}
-            <svg className="absolute inset-0 w-full h-full opacity-40">
-              <defs>
-                <pattern id="maze-walls" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-                  {/* 미로 벽들 - 더 복잡하고 실제 미로처럼 */}
-                  <rect x="0" y="0" width="10" height="60" fill="rgba(100, 100, 100, 0.8)" />
-                  <rect x="30" y="10" width="40" height="10" fill="rgba(100, 100, 100, 0.8)" />
-                  <rect x="80" y="0" width="10" height="40" fill="rgba(100, 100, 100, 0.8)" />
-                  <rect x="20" y="70" width="30" height="10" fill="rgba(100, 100, 100, 0.8)" />
-                  <rect x="60" y="40" width="10" height="60" fill="rgba(100, 100, 100, 0.8)" />
-                  <rect x="10" y="30" width="15" height="10" fill="rgba(100, 100, 100, 0.8)" />
-                  <rect x="75" y="60" width="25" height="10" fill="rgba(100, 100, 100, 0.8)" />
-                  
-                  {/* 막다른 길 표시 */}
-                  <circle cx="15" cy="85" r="3" fill="rgba(120, 120, 120, 0.5)" />
-                  <circle cx="85" cy="25" r="3" fill="rgba(120, 120, 120, 0.5)" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#maze-walls)" />
-            </svg>
-            
-            {/* 미로 경로들 - 어두운 통로들 */}
+            {/* 부드러운 미로 안개 효과 */}
             <div className="absolute inset-0">
-              {[...Array(12)].map((_, i) => (
-                <div
-                  key={`path-${i}`}
-                  className="absolute bg-gray-900/60 rounded-sm"
+              {[...Array(8)].map((_, i) => (
+                <motion.div
+                  key={`mist-${i}`}
+                  className="absolute rounded-full opacity-20"
                   style={{
-                    left: `${10 + (i % 4) * 25}%`,
-                    top: `${15 + Math.floor(i / 4) * 30}%`,
-                    width: `${15 + Math.random() * 10}%`,
-                    height: '8px',
-                    transform: `rotate(${Math.random() * 90 - 45}deg)`,
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    width: `${100 + Math.random() * 200}px`,
+                    height: `${100 + Math.random() * 200}px`,
+                    background: `radial-gradient(circle, rgba(100, 100, 120, 0.3) 0%, transparent 70%)`,
+                    filter: 'blur(60px)',
+                  }}
+                  animate={{
+                    x: [0, Math.random() * 100 - 50, 0],
+                    y: [0, Math.random() * 100 - 50, 0],
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{
+                    duration: 15 + Math.random() * 10,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 2,
                   }}
                 />
               ))}
             </div>
             
-            {/* 막다른 길들 */}
-            <div className="absolute inset-0">
-              {[...Array(6)].map((_, i) => (
-                <div
-                  key={`dead-end-${i}`}
-                  className="absolute text-red-400/30 text-xs"
-                  style={{
-                    left: `${20 + i * 15}%`,
-                    top: `${25 + (i % 2) * 50}%`,
-                  }}
-                >
-                  ✕
-                </div>
-              ))}
-            </div>
-            
-            {/* 미로 바닥 그리드 - retro grid 스타일 */}
-            <div className="absolute inset-0" style={{ perspective: '1000px' }}>
-              <motion.div 
-                className="absolute inset-0 maze-floor"
-                style={{
-                  scale: mazeScale,
-                }}
+            {/* 감성적인 미로 경로들 - 구불구불한 선들 */}
+            <svg className="absolute inset-0 w-full h-full opacity-25">
+              <defs>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                  <feMerge> 
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              
+              {/* 곡선으로 된 미로 경로들 */}
+              <path 
+                d="M50,50 Q100,80 150,50 T250,70 T350,40 T450,80"
+                stroke="rgba(150, 150, 170, 0.4)" 
+                fill="none" 
+                strokeWidth="2"
+                filter="url(#glow)"
               />
-            </div>
+              <path 
+                d="M100,150 Q50,180 100,200 T200,170 T300,200 T400,150"
+                stroke="rgba(130, 140, 160, 0.3)" 
+                fill="none" 
+                strokeWidth="1.5"
+                filter="url(#glow)"
+              />
+              <path 
+                d="M80,300 Q130,250 180,300 T280,280 T380,320"
+                stroke="rgba(140, 150, 180, 0.4)" 
+                fill="none" 
+                strokeWidth="2"
+                filter="url(#glow)"
+              />
+              <path 
+                d="M200,100 Q180,140 220,180 T260,220 T320,180 T380,220"
+                stroke="rgba(160, 150, 190, 0.3)" 
+                fill="none" 
+                strokeWidth="1.5"
+                filter="url(#glow)"
+              />
+              
+              {/* 미로의 작은 구조물들 */}
+              <circle cx="120" cy="120" r="8" fill="rgba(120, 120, 140, 0.2)" filter="url(#glow)" />
+              <circle cx="280" cy="200" r="6" fill="rgba(140, 130, 160, 0.2)" filter="url(#glow)" />
+              <circle cx="350" cy="150" r="10" fill="rgba(130, 140, 170, 0.2)" filter="url(#glow)" />
+            </svg>
             
-            {/* 흐릿한 작품들 */}
+            {/* 부드러운 바닥 효과 */}
+            <motion.div 
+              className="absolute bottom-0 left-0 right-0 h-32"
+              style={{
+                background: 'linear-gradient(to top, rgba(0,0,0,0.4), transparent)',
+                scale: mazeScale,
+              }}
+            />
+            
+            {/* 미로 속 숨겨진 작품들 - 더 부드럽게 */}
             <div className="absolute inset-0">
-              {famousArtworks.slice(0, 4).map((artwork, i) => {
+              {famousArtworks.slice(0, 3).map((artwork, i) => {
                 const positions = [
-                  { x: '15%', y: '25%' },
-                  { x: '75%', y: '20%' },
-                  { x: '20%', y: '70%' },
-                  { x: '80%', y: '65%' }
+                  { x: '20%', y: '30%' },
+                  { x: '70%', y: '25%' },
+                  { x: '25%', y: '70%' }
                 ];
                 return (
                   <motion.div
                     key={artwork.id}
-                    className="absolute w-32 h-40"
+                    className="absolute w-28 h-36"
                     style={{
                       left: positions[i].x,
                       top: positions[i].y,
                       transform: 'translate(-50%, -50%)',
                     }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.3 }}
-                    transition={{ delay: i * 0.3 + 1 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ 
+                      opacity: [0, 0.2, 0.15, 0.2],
+                      scale: [0.8, 1, 0.95, 1],
+                      y: [0, -10, 0, -5, 0]
+                    }}
+                    transition={{ 
+                      delay: i * 0.5 + 2,
+                      duration: 8,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
                   >
                     <div className="relative w-full h-full">
                       <img
                         src={artwork.url}
                         alt={artwork.title}
-                        className="w-full h-full object-cover rounded-lg"
+                        className="w-full h-full object-cover rounded-xl"
                         style={{
-                          filter: 'blur(8px) brightness(0.3)',
+                          filter: 'blur(4px) brightness(0.4) saturate(0.6)',
                         }}
                       />
+                      {/* 부드러운 글로우 효과 */}
+                      <div className="absolute inset-0 rounded-xl shadow-2xl bg-gradient-to-t from-black/30 to-transparent" />
+                      
                       <motion.div
                         className="absolute inset-0 flex items-center justify-center"
                         whileHover={{ opacity: 1 }}
                         initial={{ opacity: 0 }}
                       >
-                        <p className="text-white/60 text-sm text-center px-2">
-                          이 작품이<br/>끌리는 이유는?
+                        <p className="text-white/70 text-xs text-center px-2 font-light">
+                          {artwork.title}
                         </p>
                       </motion.div>
                     </div>
@@ -877,26 +910,7 @@ export default function JourneyHomePage() {
         />
       </div>
 
-      <style jsx>{`
-        .maze-floor {
-          background-image: 
-            linear-gradient(to right, rgba(34, 197, 94, 0.2) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(34, 197, 94, 0.2) 1px, transparent 1px);
-          background-size: 80px 80px;
-          width: 200%;
-          height: 200%;
-          position: absolute;
-          left: -50%;
-          top: -50%;
-          transform: rotateX(70deg) translateZ(-100px);
-          transform-origin: center center;
-          mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
-        }
-        
-        .preserve-3d {
-          transform-style: preserve-3d;
-        }
-        
+      <style jsx>{`        
         .bg-gradient-radial {
           background: radial-gradient(circle at center, var(--tw-gradient-from) 0%, var(--tw-gradient-via) 50%, var(--tw-gradient-to) 100%);
         }
