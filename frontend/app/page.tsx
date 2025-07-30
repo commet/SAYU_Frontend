@@ -9,7 +9,7 @@ import Image from 'next/image';
 const famousArtworks = [
   {
     id: 1,
-    url: 'https://images.unsplash.com/photo-1549887552-ce037445730c?w=800&h=1000&fit=crop',
+    url: 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&h=1000&fit=crop&q=80',
     title: '별이 빛나는 밤',
     artist: '반 고흐',
     perceptions: [
@@ -125,7 +125,7 @@ export default function JourneyHomePage() {
 
   // Transform values based on scroll - 더 명확한 구간 분리
   const mazeOpacity = useTransform(scrollYProgress, [0, 0.2, 0.25], [1, 1, 0]);
-  const artworksOpacity = useTransform(scrollYProgress, [0.2, 0.25, 0.45, 0.5], [0, 1, 1, 0]);
+  const artworksOpacity = useTransform(scrollYProgress, [0.15, 0.2, 0.45, 0.5], [0, 1, 1, 0]);
   const peopleOpacity = useTransform(scrollYProgress, [0.45, 0.5, 0.7, 0.75], [0, 1, 1, 0]);
   const gardenOpacity = useTransform(scrollYProgress, [0.7, 0.75, 1], [0, 1, 1]);
   
@@ -435,6 +435,12 @@ export default function JourneyHomePage() {
           style={{ opacity: artworksOpacity }}
         >
           <div className="relative w-full h-full">
+            {/* 디버깅 정보 */}
+            <div className="absolute top-4 left-4 bg-black/80 text-white p-2 rounded z-50 text-xs">
+              <p>Current Artwork: {currentArtwork}</p>
+              <p>URL: {famousArtworks[currentArtwork].url.substring(0, 50)}...</p>
+              <p>Title: {famousArtworks[currentArtwork].title}</p>
+            </div>
             {/* 배경 - 좀 더 밝아진 미로 */}
             <div className="absolute inset-0 bg-gradient-to-b from-green-900/60 to-green-950/80" />
             
@@ -451,15 +457,27 @@ export default function JourneyHomePage() {
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <img
-                      src={famousArtworks[currentArtwork].url}
-                      alt={famousArtworks[currentArtwork].title}
-                      className="w-full h-full object-cover rounded-lg shadow-2xl"
-                      onError={(e) => {
-                        console.error('Image failed to load:', famousArtworks[currentArtwork].url);
-                        e.currentTarget.src = '/placeholder-artwork.jpg';
-                      }}
-                    />
+                    <div className="w-full h-full rounded-lg overflow-hidden shadow-2xl bg-gray-200">
+                      <img
+                        src={famousArtworks[currentArtwork].url}
+                        alt={famousArtworks[currentArtwork].title}
+                        className="w-full h-full object-cover"
+                        loading="eager"
+                        crossOrigin="anonymous"
+                        onError={(e) => {
+                          console.error('Image failed to load:', famousArtworks[currentArtwork].url);
+                          // 기본 플레이스홀더 이미지
+                          e.currentTarget.src = `data:image/svg+xml;base64,${btoa(`
+                            <svg width="350" height="450" xmlns="http://www.w3.org/2000/svg">
+                              <rect width="350" height="450" fill="#e5e7eb"/>
+                              <text x="50%" y="50%" text-anchor="middle" font-family="Arial" font-size="20" fill="#6b7280" dy=".3em">
+                                ${famousArtworks[currentArtwork].title}
+                              </text>
+                            </svg>
+                          `)}`;
+                        }}
+                      />
+                    </div>
                     
                     {/* 작품 정보 */}
                     <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent rounded-b-lg">
@@ -477,14 +495,15 @@ export default function JourneyHomePage() {
                 <div className="absolute inset-0 pointer-events-none">
                   {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
                     // 육각형의 6개 꼭짓점 위치 (작품을 중심으로)
-                    const positions = [
-                      { x: 0, y: -200 },      // 상단 (12시)
-                      { x: 173, y: -100 },    // 우상단 (2시)
-                      { x: 173, y: 100 },     // 우하단 (4시)
-                      { x: 0, y: 200 },       // 하단 (6시)
-                      { x: -173, y: 100 },    // 좌하단 (8시)
-                      { x: -173, y: -100 }    // 좌상단 (10시)
-                    ];
+                    const radius = 320; // 반지름
+                    const angleStep = 60; // 60도씩
+                    const positions = Array.from({ length: 6 }, (_, i) => {
+                      const angle = (i * angleStep - 90) * Math.PI / 180; // -90도에서 시작 (12시 방향)
+                      return {
+                        x: Math.cos(angle) * radius,
+                        y: Math.sin(angle) * radius
+                      };
+                    });
                     
                     return (
                       <motion.div
@@ -553,17 +572,17 @@ export default function JourneyHomePage() {
             </div>
             
             {/* 하단 메시지 및 인디케이터 - 절대 위치 */}
-            <div className="absolute bottom-32 left-0 right-0 flex flex-col items-center gap-6 z-30">
+            <div className="absolute bottom-40 left-0 right-0 flex flex-col items-center gap-6 z-30">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1 }}
-                className="text-center bg-black/30 backdrop-blur-sm rounded-2xl px-8 py-4"
+                className="text-center"
               >
-                <p className="text-white text-3xl font-bold mb-2 drop-shadow-lg">
+                <p className="text-white text-4xl font-bold mb-3 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
                   같은 작품, 다른 시선
                 </p>
-                <p className="text-white/90 text-lg drop-shadow-md">
+                <p className="text-white/90 text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
                   16가지 Art Persona가 바라보는 각자의 예술 세계
                 </p>
               </motion.div>
