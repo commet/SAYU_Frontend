@@ -9,7 +9,7 @@ import Image from 'next/image';
 const famousArtworks = [
   {
     id: 1,
-    url: '/samples/preview-vangogh.png',
+    url: 'https://images.unsplash.com/photo-1549887552-ce037445730c?w=800&h=1000&fit=crop',
     title: '별이 빛나는 밤',
     artist: '반 고흐',
     perceptions: [
@@ -23,7 +23,7 @@ const famousArtworks = [
   },
   {
     id: 2,
-    url: '/samples/preview-monet.png',
+    url: 'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=800&h=1000&fit=crop',
     title: '수련',
     artist: '모네',
     perceptions: [
@@ -37,7 +37,7 @@ const famousArtworks = [
   },
   {
     id: 3,
-    url: '/samples/preview-klimt.png',
+    url: 'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?w=800&h=1000&fit=crop',
     title: '키스',
     artist: '클림트',
     perceptions: [
@@ -51,7 +51,7 @@ const famousArtworks = [
   },
   {
     id: 4,
-    url: '/samples/preview-picasso.png',
+    url: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&h=1000&fit=crop',
     title: '절규',
     artist: '뭉크',
     perceptions: [
@@ -65,7 +65,7 @@ const famousArtworks = [
   },
   {
     id: 5,
-    url: '/samples/preview-warhol.png',
+    url: 'https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=800&h=1000&fit=crop',
     title: '마릴린',
     artist: '워홀',
     perceptions: [
@@ -79,7 +79,7 @@ const famousArtworks = [
   },
   {
     id: 6,
-    url: '/samples/preview-mondrian.jpg',
+    url: 'https://images.unsplash.com/photo-1541367777708-7905fe3296c0?w=800&h=1000&fit=crop',
     title: '빨강, 파랑, 노랑의 구성',
     artist: '몬드리안',
     perceptions: [
@@ -439,80 +439,91 @@ export default function JourneyHomePage() {
             <div className="absolute inset-0 bg-gradient-to-b from-green-900/60 to-green-950/80" />
             
             {/* 작품 캐러셀 컨테이너 */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              {/* 메인 작품 영역 - 크기 축소 */}
-              <div className="relative w-full max-w-4xl h-[45%] flex items-center justify-center">
-                {/* 작품 이미지 */}
-                <motion.div 
-                  className="relative w-[400px] h-[500px]"
-                  key={currentArtwork}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <img
-                    src={famousArtworks[currentArtwork].url}
-                    alt={famousArtworks[currentArtwork].title}
-                    className="w-full h-full object-cover rounded-lg shadow-2xl"
-                  />
-                  
-                  {/* 작품 정보 */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
-                    <h3 className="text-white font-bold text-2xl mb-1">
-                      {famousArtworks[currentArtwork].title}
-                    </h3>
-                    <p className="text-white/80">
-                      {famousArtworks[currentArtwork].artist}
-                    </p>
-                  </div>
-                </motion.div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative w-full h-full max-w-7xl mx-auto px-8">
+                {/* 중앙 작품 영역 */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <motion.div 
+                    className="relative w-[350px] h-[450px]"
+                    key={currentArtwork}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <img
+                      src={famousArtworks[currentArtwork].url}
+                      alt={famousArtworks[currentArtwork].title}
+                      className="w-full h-full object-cover rounded-lg shadow-2xl"
+                      onError={(e) => {
+                        console.error('Image failed to load:', famousArtworks[currentArtwork].url);
+                        e.currentTarget.src = '/placeholder-artwork.jpg';
+                      }}
+                    />
+                    
+                    {/* 작품 정보 */}
+                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent rounded-b-lg">
+                      <h3 className="text-white font-bold text-xl mb-1">
+                        {famousArtworks[currentArtwork].title}
+                      </h3>
+                      <p className="text-white/80 text-sm">
+                        {famousArtworks[currentArtwork].artist}
+                      </p>
+                    </div>
+                  </motion.div>
+                </div>
                 
-                {/* 다른 사람들의 감상 - 작품 주변 6각형 배치 */}
+                {/* 다른 사람들의 감상 - 육각형 배치 */}
                 <div className="absolute inset-0 pointer-events-none">
                   {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
-                    // 작품을 중심으로 한 6각형 배치 (%)
+                    // 육각형의 6개 꼭짓점 위치 (작품을 중심으로)
                     const positions = [
-                      { x: '50%', y: '20%' },      // 상단
-                      { x: '75%', y: '35%' },      // 우상단
-                      { x: '75%', y: '65%' },      // 우하단  
-                      { x: '50%', y: '80%' },      // 하단
-                      { x: '25%', y: '65%' },      // 좌하단
-                      { x: '25%', y: '35%' }       // 좌상단
+                      { x: 0, y: -200 },      // 상단 (12시)
+                      { x: 173, y: -100 },    // 우상단 (2시)
+                      { x: 173, y: 100 },     // 우하단 (4시)
+                      { x: 0, y: 200 },       // 하단 (6시)
+                      { x: -173, y: 100 },    // 좌하단 (8시)
+                      { x: -173, y: -100 }    // 좌상단 (10시)
                     ];
-                    
-                    const position = positions[i] || positions[0];
                     
                     return (
                       <motion.div
                         key={`${currentArtwork}-${i}`}
-                        className="absolute text-white/90 text-sm bg-black/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/30 shadow-lg"
+                        className="absolute top-1/2 left-1/2 pointer-events-auto"
                         style={{
-                          left: position.x,
-                          top: position.y,
-                          transform: 'translate(-50%, -50%)',
-                          maxWidth: '160px',
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis'
+                          transform: `translate(calc(-50% + ${positions[i].x}px), calc(-50% + ${positions[i].y}px))`,
                         }}
                         initial={{ 
                           opacity: 0,
                           scale: 0,
                         }}
                         animate={{ 
-                          opacity: [0, 1, 1, 0],
-                          scale: [0.8, 1, 1, 0.8],
+                          opacity: 1,
+                          scale: 1,
                         }}
                         transition={{
-                          duration: 6,
-                          delay: i * 0.5,
-                          repeat: Infinity,
-                          repeatDelay: 2,
-                          ease: "easeInOut"
+                          duration: 0.5,
+                          delay: i * 0.1,
+                          ease: "backOut"
                         }}
                       >
-                        "{perception}"
+                        <motion.div
+                          className="bg-white/90 backdrop-blur-md px-5 py-3 rounded-xl shadow-xl border border-white/50 hover:bg-white/95 transition-all cursor-pointer"
+                          whileHover={{ scale: 1.05 }}
+                          animate={{
+                            y: [0, -10, 0],
+                          }}
+                          transition={{
+                            duration: 3,
+                            delay: i * 0.3,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                          }}
+                        >
+                          <p className="text-gray-800 text-sm font-medium whitespace-nowrap">
+                            "{perception}"
+                          </p>
+                        </motion.div>
                       </motion.div>
                     );
                   })}
@@ -539,24 +550,26 @@ export default function JourneyHomePage() {
                   </svg>
                 </button>
               </div>
-              
-              {/* 하단 메시지 - 위치 조정 */}
+            </div>
+            
+            {/* 하단 메시지 및 인디케이터 - 절대 위치 */}
+            <div className="absolute bottom-32 left-0 right-0 flex flex-col items-center gap-6 z-30">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1 }}
-                className="text-center mt-16 relative z-10"
+                className="text-center bg-black/30 backdrop-blur-sm rounded-2xl px-8 py-4"
               >
-                <p className="text-white/90 text-3xl font-light mb-3 drop-shadow-lg">
+                <p className="text-white text-3xl font-bold mb-2 drop-shadow-lg">
                   같은 작품, 다른 시선
                 </p>
-                <p className="text-white/70 text-xl drop-shadow-md">
-                  당신만의 해석을 더해보세요
+                <p className="text-white/90 text-lg drop-shadow-md">
+                  16가지 Art Persona가 바라보는 각자의 예술 세계
                 </p>
               </motion.div>
               
               {/* 작품 인디케이터 */}
-              <div className="flex gap-2 mt-6">
+              <div className="flex gap-2">
                 {famousArtworks.map((_, i) => (
                   <button
                     key={i}
