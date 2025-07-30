@@ -276,26 +276,31 @@ export default function JourneyHomePage() {
                       ease: "easeInOut"
                     }}
                   >
-                    <div className="relative w-full h-full">
+                    <div className="relative w-full h-full group">
                       <img
                         src={artwork.url}
                         alt={artwork.title}
                         className="w-full h-full object-cover rounded-xl"
                         style={{
-                          filter: 'blur(4px) brightness(0.4) saturate(0.6)',
+                          filter: 'blur(6px) brightness(0.3) saturate(0.5)',
                         }}
                       />
                       {/* 부드러운 글로우 효과 */}
-                      <div className="absolute inset-0 rounded-xl shadow-2xl bg-gradient-to-t from-black/30 to-transparent" />
+                      <div className="absolute inset-0 rounded-xl shadow-2xl bg-gradient-to-t from-black/50 to-transparent" />
                       
                       <motion.div
-                        className="absolute inset-0 flex items-center justify-center"
+                        className="absolute inset-0 flex items-center justify-center rounded-xl"
                         whileHover={{ opacity: 1 }}
                         initial={{ opacity: 0 }}
                       >
-                        <p className="text-white/70 text-xs text-center px-2 font-light">
-                          {artwork.title}
-                        </p>
+                        <div className="bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2">
+                          <p className="text-white/90 text-xs text-center font-light">
+                            {artwork.title}
+                          </p>
+                          <p className="text-white/70 text-xs text-center">
+                            {artwork.artist}
+                          </p>
+                        </div>
                       </motion.div>
                     </div>
                   </motion.div>
@@ -446,13 +451,10 @@ export default function JourneyHomePage() {
                   exit={{ opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <Image
+                  <img
                     src={famousArtworks[currentArtwork].url}
                     alt={famousArtworks[currentArtwork].title}
-                    width={400}
-                    height={500}
                     className="w-full h-full object-cover rounded-lg shadow-2xl"
-                    unoptimized
                   />
                   
                   {/* 작품 정보 */}
@@ -466,17 +468,17 @@ export default function JourneyHomePage() {
                   </div>
                 </motion.div>
                 
-                {/* 다른 사람들의 감상 - 가로로 넓은 6각형 배치 */}
-                <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+                {/* 다른 사람들의 감상 - 작품 주변 6각형 배치 */}
+                <div className="absolute inset-0 pointer-events-none">
                   {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
-                    // 작품 중심 기준 가로로 찌부된 6각형 배치 (픽셀 단위)
+                    // 작품을 중심으로 한 6각형 배치 (%)
                     const positions = [
-                      { x: 0, y: -150 },      // 상단 (작품 바로 위)
-                      { x: 250, y: -75 },     // 우상단
-                      { x: 250, y: 75 },      // 우하단  
-                      { x: 0, y: 150 },       // 하단 (작품 바로 아래)
-                      { x: -250, y: 75 },     // 좌하단
-                      { x: -250, y: -75 }     // 좌상단
+                      { x: '50%', y: '20%' },      // 상단
+                      { x: '75%', y: '35%' },      // 우상단
+                      { x: '75%', y: '65%' },      // 우하단  
+                      { x: '50%', y: '80%' },      // 하단
+                      { x: '25%', y: '65%' },      // 좌하단
+                      { x: '25%', y: '35%' }       // 좌상단
                     ];
                     
                     const position = positions[i] || positions[0];
@@ -484,29 +486,29 @@ export default function JourneyHomePage() {
                     return (
                       <motion.div
                         key={`${currentArtwork}-${i}`}
-                        className="absolute text-white/80 text-sm bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/20"
+                        className="absolute text-white/90 text-sm bg-black/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/30 shadow-lg"
                         style={{
-                          left: `${position.x}px`,
-                          top: `${position.y}px`,
+                          left: position.x,
+                          top: position.y,
                           transform: 'translate(-50%, -50%)',
-                          maxWidth: '180px',
-                          textAlign: 'center'
+                          maxWidth: '160px',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
                         }}
                         initial={{ 
                           opacity: 0,
                           scale: 0,
-                          y: 20
                         }}
                         animate={{ 
-                          opacity: [0, 0.9, 0.9, 0],
+                          opacity: [0, 1, 1, 0],
                           scale: [0.8, 1, 1, 0.8],
-                          y: [20, 0, 0, -10]
                         }}
                         transition={{
-                          duration: 5,
-                          delay: i * 0.4,
+                          duration: 6,
+                          delay: i * 0.5,
                           repeat: Infinity,
-                          repeatDelay: 3,
+                          repeatDelay: 2,
                           ease: "easeInOut"
                         }}
                       >
@@ -538,17 +540,17 @@ export default function JourneyHomePage() {
                 </button>
               </div>
               
-              {/* 하단 메시지 */}
+              {/* 하단 메시지 - 위치 조정 */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1 }}
-                className="text-center mt-8"
+                className="text-center mt-16 relative z-10"
               >
-                <p className="text-white/80 text-2xl font-light mb-2">
+                <p className="text-white/90 text-3xl font-light mb-3 drop-shadow-lg">
                   같은 작품, 다른 시선
                 </p>
-                <p className="text-white/60 text-lg">
+                <p className="text-white/70 text-xl drop-shadow-md">
                   당신만의 해석을 더해보세요
                 </p>
               </motion.div>
