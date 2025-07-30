@@ -1,0 +1,440 @@
+{
+  "timestamp": "2025-07-30T13:56:11.496Z",
+  "summary": {
+    "existing_count": 926,
+    "found_new": 69,
+    "processed": 69,
+    "uploaded": 68,
+    "skipped": 0,
+    "errors": 0,
+    "total_in_cloudinary": 994
+  },
+  "by_artist": {
+    "Vermeer": 13,
+    "Caravaggio": 6,
+    "Bosch": 10,
+    "Sargent": 20,
+    "Cassatt": 20
+  },
+  "by_importance": {
+    "high": 69,
+    "medium": 0,
+    "normal": 0
+  },
+  "artworks": [
+    {
+      "id": "the-love-letter-15",
+      "title": "The Love Letter (c. 1669 - c. 1670)",
+      "artist": "Vermeer",
+      "importance": "high"
+    },
+    {
+      "id": "the-geographer",
+      "title": "The Geographer (1669)",
+      "artist": "Vermeer",
+      "importance": "high"
+    },
+    {
+      "id": "a-lady-writing",
+      "title": "A Lady Writing (c. 1665)",
+      "artist": "Vermeer",
+      "importance": "high"
+    },
+    {
+      "id": "girl-with-a-flute",
+      "title": "Girl with a Flute (probably 1665-1675)",
+      "artist": "Vermeer",
+      "importance": "high"
+    },
+    {
+      "id": "lady-at-the-virginal-with-a-gentleman-the-music-lesson",
+      "title": "Lady At The Virginal With A Gentleman, ‘the Music Lesson’",
+      "artist": "Vermeer",
+      "importance": "high"
+    },
+    {
+      "id": "girl-reading-a-letter-by-an-open-window",
+      "title": "Girl Reading A Letter By An Open Window",
+      "artist": "Vermeer",
+      "importance": "high"
+    },
+    {
+      "id": "view-of-delft",
+      "title": "View of Delft (c. 1660 - 1661)",
+      "artist": "Vermeer",
+      "importance": "high"
+    },
+    {
+      "id": "diana-and-her-nymphs",
+      "title": "Diana and Her Nymphs (C. 1653 - 1654)",
+      "artist": "Vermeer",
+      "importance": "high"
+    },
+    {
+      "id": "young-woman-with-a-water-pitcher",
+      "title": "Young Woman with a Water Pitcher (ca. 1662)",
+      "artist": "Vermeer",
+      "importance": "high"
+    },
+    {
+      "id": "woman-holding-a-balance",
+      "title": "Woman Holding a Balance (c. 1664)",
+      "artist": "Vermeer",
+      "importance": "high"
+    },
+    {
+      "id": "girl-with-the-red-hat",
+      "title": "Girl with the Red Hat (c. 1665-1666)",
+      "artist": "Vermeer",
+      "importance": "high"
+    },
+    {
+      "id": "girl-with-a-pearl-earring",
+      "title": "Girl with a Pearl Earring (c. 1665)",
+      "artist": "Vermeer",
+      "importance": "high"
+    },
+    {
+      "id": "a-maid-asleep",
+      "title": "A Maid Asleep (ca. 1656–57)",
+      "artist": "Vermeer",
+      "importance": "high"
+    },
+    {
+      "id": "saint-john-the-baptist-16",
+      "title": "Saint John the Baptist (1603)",
+      "artist": "Caravaggio",
+      "importance": "high"
+    },
+    {
+      "id": "saint-matthew-and-the-angel-2",
+      "title": "Saint Matthew and the angel (circa 1602)",
+      "artist": "Caravaggio",
+      "importance": "high"
+    },
+    {
+      "id": "the-conversion-of-saint-paul-9",
+      "title": "The Conversion of Saint Paul (ca. 1600)",
+      "artist": "Caravaggio",
+      "importance": "high"
+    },
+    {
+      "id": "the-entombment-of-christ-3",
+      "title": "The Entombment of Christ  (1602-1604)",
+      "artist": "Caravaggio",
+      "importance": "high"
+    },
+    {
+      "id": "the-martyrdom-of-saint-matthew-2",
+      "title": "The Martyrdom of Saint Matthew (circa 1599–1600)",
+      "artist": "Caravaggio",
+      "importance": "high"
+    },
+    {
+      "id": "amor-vincit-omnia-3",
+      "title": "Amor Vincit Omnia (1602-1603)",
+      "artist": "Caravaggio",
+      "importance": "high"
+    },
+    {
+      "id": "an-allegory-of-intemperance",
+      "title": "An Allegory of Intemperance (ca. 1495–1500)",
+      "artist": "Bosch",
+      "importance": "high"
+    },
+    {
+      "id": "ecce-homo-15",
+      "title": "Ecce Homo (ca. 1490)",
+      "artist": "Bosch",
+      "importance": "high"
+    },
+    {
+      "id": "christ-driving-the-traders-from-the-temple",
+      "title": "Christ Driving the Traders from the Temple (1570 – 1670)",
+      "artist": "Bosch",
+      "importance": "high"
+    },
+    {
+      "id": "death-and-the-miser",
+      "title": "Death and the Miser (c. 1485-1490)",
+      "artist": "Bosch",
+      "importance": "high"
+    },
+    {
+      "id": "the-adoration-of-the-magi-49",
+      "title": "The Adoration of the Magi (ca. 1475)",
+      "artist": "Bosch",
+      "importance": "high"
+    },
+    {
+      "id": "saint-christopher-carrying-the-christ-child",
+      "title": "Saint Christopher Carrying the Christ Child (1490s - 1500s)",
+      "artist": "Bosch",
+      "importance": "high"
+    },
+    {
+      "id": "christ-carrying-the-cross-42",
+      "title": "Christ Carrying the Cross (circa 1515-1516)",
+      "artist": "Bosch",
+      "importance": "high"
+    },
+    {
+      "id": "saint-jerome-39",
+      "title": "Saint Jerome (circa 1500)",
+      "artist": "Bosch",
+      "importance": "high"
+    },
+    {
+      "id": "the-temptation-of-saint-anthony-the-great-2",
+      "title": "The Temptation of Saint Anthony the Great",
+      "artist": "Bosch",
+      "importance": "high"
+    },
+    {
+      "id": "the-owls-nest",
+      "title": "The Owl’s Nest (1505-1516)",
+      "artist": "Bosch",
+      "importance": "high"
+    },
+    {
+      "id": "mrs-hugh-smith",
+      "title": "Mrs. Hugh Smith (1904)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "madame-paul-poirson",
+      "title": "Madame Paul Poirson (1885)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "ena-and-betty-daughters-of-asher-and-mrs-wertheimer",
+      "title": "Ena and Betty, daughters of Asher and Mrs. Wertheimer (1901)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "ellen-terry-as-lady-macbeth",
+      "title": "Ellen Terry as Lady Macbeth (1889)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "a-street-in-venice",
+      "title": "A Street In Venice (c. 1880–82)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "an-artist-at-his-easel",
+      "title": "An Artist at His Easel (1914)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "dorothy",
+      "title": "Dorothy (1900)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "eleanora-odonnell-iselin-mrs-adrian-iselin",
+      "title": "Eleanora O’Donnell Iselin (Mrs. Adrian Iselin) (1888)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "fumee-dambre-gris-smoke-of-ambergris",
+      "title": "Fumée d’ambre Gris (Smoke of Ambergris) (1880)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "margaret-stuyvesant-rutherfurd-white-mrs-henry-white",
+      "title": "Margaret Stuyvesant Rutherfurd White (Mrs. Henry White) (1883)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "marie-buloz-pailleron-madame-edouard-pailleron",
+      "title": "Marie Buloz Pailleron (Madame Édouard Pailleron) (1879)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "mary-crowninshield-endicott-chamberlain-mrs-joseph-chamberlain",
+      "title": "Mary Crowninshield Endicott Chamberlain (Mrs. Joseph Chamberlain) (1902)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "miss-beatrice-townsend",
+      "title": "Miss Beatrice Townsend (1882)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "miss-mathilde-townsend",
+      "title": "Miss Mathilde Townsend (1907)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "nonchaloir-repose",
+      "title": "Nonchaloir (Repose) (1911)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "peter-a-b-widener",
+      "title": "Peter A. B. Widener (1902)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "portrait-of-charlotte-cram",
+      "title": "Portrait of Charlotte Cram (1900)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "ramon-subercaseaux",
+      "title": "Ramon Subercaseaux (c.1880)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "study-of-two-bedouins",
+      "title": "Study of Two Bedouins (1905)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "the-fountain-villa-torlonia-frascati-italy",
+      "title": "The Fountain, Villa Torlonia Frascati, Italy (1907)",
+      "artist": "Sargent",
+      "importance": "high"
+    },
+    {
+      "id": "mother-and-child-5",
+      "title": "Mother and Child (c. 1905)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "mothers-goodnight-kiss",
+      "title": "Mother’s Goodnight Kiss (1888)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "mothers-kiss",
+      "title": "Mother’s Kiss (1890-1891)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "offering-the-panal-to-the-bullfighter",
+      "title": "Offering the Panal to the Bullfighter (1873)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "portrait-of-an-elderly-lady",
+      "title": "Portrait of an Elderly Lady (c. 1887)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "the-banjo-lesson",
+      "title": "The Banjo Lesson (circa 1893)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "the-bath-5",
+      "title": "The Bath (1890-1891)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "the-boating-party",
+      "title": "The Boating Party (1893-1894)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "the-coiffure",
+      "title": "The Coiffure (1890-1891)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "the-fitting",
+      "title": "The Fitting (1890-1891)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "the-lamp",
+      "title": "The Lamp (1890-1891)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "the-letter-3",
+      "title": "The Letter (1890-1891)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "under-the-horse-chestnut-tree",
+      "title": "Under the Horse Chestnut Tree (1896-1897)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "woman-bathing",
+      "title": "Woman Bathing (1890-1891)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "woman-with-a-fan",
+      "title": "Woman with a Fan (c. 1878-1879)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "woman-with-a-red-zinnia",
+      "title": "Woman with a Red Zinnia (1891)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "young-girl-at-a-window",
+      "title": "Young Girl at a Window (c. 1883-1884)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "in-the-loge",
+      "title": "In The Loge (1878)",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "a-woman-and-a-girl-driving",
+      "title": "A Woman and a Girl Driving",
+      "artist": "Cassatt",
+      "importance": "high"
+    },
+    {
+      "id": "children-in-a-garden-the-nurse",
+      "title": "Children in a Garden (The Nurse)",
+      "artist": "Cassatt",
+      "importance": "high"
+    }
+  ]
+}

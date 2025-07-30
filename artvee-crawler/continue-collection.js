@@ -6,7 +6,7 @@ const FormData = require('form-data');
 const sharp = require('sharp');
 require('dotenv').config();
 
-class EnhancedArtveeCollectorV3 {
+class ContinuedArtveeCollector {
   constructor() {
     this.cloudinaryConfig = {
       cloud_name: 'dkdzgpj3n',
@@ -19,12 +19,12 @@ class EnhancedArtveeCollectorV3 {
     this.uploadedCount = 0;
     this.skippedCount = 0;
     this.errorCount = 0;
-    this.delay = 3000; // 3초 딜레이
+    this.delay = 2000; // 2초 딜레이
     this.maxFileSize = 10 * 1024 * 1024; // 10MB
   }
 
   async initialize() {
-    console.log('🎨 Enhanced Artvee Collector V3 (파일 크기 최적화 버전) 초기화...\n');
+    console.log('🎨 Continued Artvee Collection - 추가 수집 시작...\n');
     
     // 기존 수집된 작품 목록 로드
     try {
@@ -39,183 +39,53 @@ class EnhancedArtveeCollectorV3 {
     }
   }
 
-  async collectFromArtvee(targetCount = 100) {
+  async collectFromArtvee(targetCount = 50) {
     console.log(`🔍 Artvee에서 새로운 작품 ${targetCount}개 검색 중...\n`);
     
-    // 미술사적으로 중요한 작가들 (확장 목록)
-    const importantArtists = [
-      // 르네상스
-      { name: 'Leonardo da Vinci', slug: 'leonardo-da-vinci' },
-      { name: 'Michelangelo', slug: 'michelangelo' },
-      { name: 'Raphael', slug: 'raphael' },
-      { name: 'Titian', slug: 'titian' },
-      { name: 'Dürer', slug: 'albrecht-durer' },
-      
-      // 바로크
-      { name: 'Rubens', slug: 'peter-paul-rubens' },
-      { name: 'Velázquez', slug: 'diego-velazquez' },
-      { name: 'Poussin', slug: 'nicolas-poussin' },
-      
-      // 로코코/신고전주의
-      { name: 'Watteau', slug: 'antoine-watteau' },
-      { name: 'Fragonard', slug: 'jean-honore-fragonard' },
-      { name: 'David', slug: 'jacques-louis-david' },
-      
-      // 낭만주의
-      { name: 'Goya', slug: 'francisco-goya' },
-      { name: 'Delacroix', slug: 'eugene-delacroix' },
-      { name: 'Turner', slug: 'j-m-w-turner' },
-      { name: 'Constable', slug: 'john-constable' },
-      
-      // 인상주의
-      { name: 'Manet', slug: 'edouard-manet' },
-      { name: 'Monet', slug: 'claude-monet' },
-      { name: 'Renoir', slug: 'pierre-auguste-renoir' },
-      { name: 'Degas', slug: 'edgar-degas' },
-      { name: 'Cézanne', slug: 'paul-cezanne' },
-      { name: 'Pissarro', slug: 'camille-pissarro' },
-      { name: 'Sisley', slug: 'alfred-sisley' },
-      { name: 'Morisot', slug: 'berthe-morisot' },
-      
-      // 후기인상주의
-      { name: 'Van Gogh', slug: 'vincent-van-gogh' },
-      { name: 'Gauguin', slug: 'paul-gauguin' },
-      { name: 'Toulouse-Lautrec', slug: 'henri-de-toulouse-lautrec' },
-      { name: 'Seurat', slug: 'georges-seurat' },
-      
-      // 표현주의/상징주의
-      { name: 'Munch', slug: 'edvard-munch' },
-      { name: 'Klimt', slug: 'gustav-klimt' },
-      { name: 'Schiele', slug: 'egon-schiele' },
-      { name: 'Kokoschka', slug: 'oskar-kokoschka' },
-      
-      // 20세기 거장
-      { name: 'Picasso', slug: 'pablo-picasso' },
-      { name: 'Matisse', slug: 'henri-matisse' },
-      { name: 'Braque', slug: 'georges-braque' },
-      { name: 'Léger', slug: 'fernand-leger' },
-      { name: 'Miró', slug: 'joan-miro' },
-      { name: 'Dalí', slug: 'salvador-dali' },
-      { name: 'Magritte', slug: 'rene-magritte' },
-      { name: 'Chagall', slug: 'marc-chagall' },
-      { name: 'Modigliani', slug: 'amedeo-modigliani' },
-      
-      // 추상/현대
-      { name: 'Kandinsky', slug: 'wassily-kandinsky' },
-      { name: 'Mondrian', slug: 'piet-mondrian' },
-      { name: 'Klee', slug: 'paul-klee' },
-      { name: 'Rothko', slug: 'mark-rothko' },
-      { name: 'Pollock', slug: 'jackson-pollock' },
-      { name: "O'Keeffe", slug: 'georgia-okeeffe' },
-      { name: 'Hopper', slug: 'edward-hopper' },
-      
-      // 추가 현대 작가들
-      { name: 'Warhol', slug: 'andy-warhol' },
-      { name: 'Basquiat', slug: 'jean-michel-basquiat' },
-      { name: 'Hockney', slug: 'david-hockney' },
-      { name: 'Richter', slug: 'gerhard-richter' },
-      { name: 'Koons', slug: 'jeff-koons' },
-      { name: 'Hirst', slug: 'damien-hirst' },
-      { name: 'Banksy', slug: 'banksy' },
-      { name: 'Kusama', slug: 'yayoi-kusama' },
-      { name: 'Murakami', slug: 'takashi-murakami' },
-      
-      // 추상표현주의
-      { name: 'de Kooning', slug: 'willem-de-kooning' },
-      { name: 'Newman', slug: 'barnett-newman' },
-      { name: 'Still', slug: 'clyfford-still' },
-      { name: 'Motherwell', slug: 'robert-motherwell' },
-      { name: 'Frankenthaler', slug: 'helen-frankenthaler' },
-      
-      // 팝아트
-      { name: 'Lichtenstein', slug: 'roy-lichtenstein' },
-      { name: 'Johns', slug: 'jasper-johns' },
-      { name: 'Rauschenberg', slug: 'robert-rauschenberg' },
-      { name: 'Haring', slug: 'keith-haring' },
-      
-      // 초현실주의 추가
-      { name: 'Ernst', slug: 'max-ernst' },
-      { name: 'de Chirico', slug: 'giorgio-de-chirico' },
-      { name: 'Tanguy', slug: 'yves-tanguy' },
-      { name: 'Delvaux', slug: 'paul-delvaux' },
-      
-      // 독일 표현주의
-      { name: 'Kirchner', slug: 'ernst-ludwig-kirchner' },
-      { name: 'Nolde', slug: 'emil-nolde' },
-      { name: 'Marc', slug: 'franz-marc' },
-      { name: 'Macke', slug: 'august-macke' },
-      
-      // 나비파
-      { name: 'Bonnard', slug: 'pierre-bonnard' },
-      { name: 'Vuillard', slug: 'edouard-vuillard' },
-      { name: 'Denis', slug: 'maurice-denis' },
-      
-      // 미국 사실주의
-      { name: 'Wyeth', slug: 'andrew-wyeth' },
-      { name: 'Rockwell', slug: 'norman-rockwell' },
-      { name: 'Wood', slug: 'grant-wood' },
-      { name: 'Bellows', slug: 'george-bellows' },
-      
-      // 러시아 아방가르드
-      { name: 'Malevich', slug: 'kazimir-malevich' },
-      { name: 'Tatlin', slug: 'vladimir-tatlin' },
-      { name: 'Goncharova', slug: 'natalia-goncharova' },
-      
-      // 라틴 아메리카
-      { name: 'Rivera', slug: 'diego-rivera' },
-      { name: 'Kahlo', slug: 'frida-kahlo' },
-      { name: 'Orozco', slug: 'jose-clemente-orozco' },
-      { name: 'Siqueiros', slug: 'david-alfaro-siqueiros' },
-      { name: 'Botero', slug: 'fernando-botero' },
-      
-      // 아시아 현대
-      { name: 'Yoshitomo Nara', slug: 'yoshitomo-nara' },
-      { name: 'Lee Ufan', slug: 'lee-ufan' },
-      { name: 'Zao Wou-Ki', slug: 'zao-wou-ki' }
+    // 추가 수집할 작가들 (이전에 실패했거나 새로운 작가들)
+    const additionalArtists = [
+      // 성공 가능성 높은 작가들
+      { name: 'Rembrandt', slug: 'rembrandt' },
+      { name: 'Vermeer', slug: 'johannes-vermeer' },
+      { name: 'Caravaggio', slug: 'caravaggio' },
+      { name: 'Botticelli', slug: 'sandro-botticelli' },
+      { name: 'El Greco', slug: 'el-greco' },
+      { name: 'Bruegel', slug: 'pieter-bruegel' },
+      { name: 'Bosch', slug: 'hieronymus-bosch' },
+      { name: 'Whistler', slug: 'james-mcneill-whistler' },
+      { name: 'Sargent', slug: 'john-singer-sargent' },
+      { name: 'Cassatt', slug: 'mary-cassatt' },
+      { name: 'Caillebotte', slug: 'gustave-caillebotte' },
+      { name: 'Corot', slug: 'jean-baptiste-camille-corot' },
+      { name: 'Courbet', slug: 'gustave-courbet' },
+      { name: 'Daumier', slug: 'honore-daumier' },
+      { name: 'Ingres', slug: 'jean-auguste-dominique-ingres' },
+      { name: 'Géricault', slug: 'theodore-gericault' },
+      { name: 'Friedrich', slug: 'caspar-david-friedrich' },
+      { name: 'Moreau', slug: 'gustave-moreau' },
+      { name: 'Redon', slug: 'odilon-redon' },
+      { name: 'Signac', slug: 'paul-signac' },
+      { name: 'Vallotton', slug: 'felix-vallotton' },
+      { name: 'Alma-Tadema', slug: 'lawrence-alma-tadema' },
+      { name: 'Bouguereau', slug: 'william-adolphe-bouguereau' },
+      { name: 'Rossetti', slug: 'dante-gabriel-rossetti' },
+      { name: 'Burne-Jones', slug: 'edward-burne-jones' },
+      { name: 'Waterhouse', slug: 'john-william-waterhouse' },
+      { name: 'Millais', slug: 'john-everett-millais' },
+      { name: 'Leighton', slug: 'frederic-leighton' },
+      { name: 'Sorolla', slug: 'joaquin-sorolla' },
+      { name: 'Zorn', slug: 'anders-zorn' }
     ];
 
-    // 주제별 카테고리
-    const thematicCategories = [
-      { type: 'subject', value: 'portrait', name: '초상화' },
-      { type: 'subject', value: 'landscape', name: '풍경화' },
-      { type: 'subject', value: 'still-life', name: '정물화' },
-      { type: 'subject', value: 'biblical', name: '성경' },
-      { type: 'subject', value: 'mythological', name: '신화' },
-      { type: 'subject', value: 'historical', name: '역사화' },
-      { type: 'subject', value: 'genre', name: '풍속화' },
-      { type: 'subject', value: 'abstract', name: '추상화' },
-      { type: 'subject', value: 'modern', name: '현대미술' },
-      { type: 'subject', value: 'contemporary', name: '동시대미술' },
-      { type: 'subject', value: 'figurative', name: '구상화' },
-      { type: 'subject', value: 'urban', name: '도시풍경' },
-      { type: 'subject', value: 'nature', name: '자연' },
-      { type: 'movement', value: 'impressionism', name: '인상주의' },
-      { type: 'movement', value: 'post-impressionism', name: '후기인상주의' },
-      { type: 'movement', value: 'expressionism', name: '표현주의' },
-      { type: 'movement', value: 'surrealism', name: '초현실주의' },
-      { type: 'movement', value: 'cubism', name: '입체파' },
-      { type: 'movement', value: 'abstract-expressionism', name: '추상표현주의' },
-      { type: 'movement', value: 'pop-art', name: '팝아트' }
-    ];
-
-    // 무작위로 섞되, 중요 작가를 우선시
-    const shuffledArtists = [...importantArtists].sort(() => Math.random() - 0.5);
-    const shuffledCategories = [...thematicCategories].sort(() => Math.random() - 0.5);
-    
-    // 작가별로 먼저 수집
-    for (const artist of shuffledArtists) {
+    for (const artist of additionalArtists) {
       if (this.newArtworks.length >= targetCount) break;
       await this.collectFromArtist(artist);
       await this.sleep(this.delay);
     }
 
-    // 부족하면 주제별로 추가 수집
+    // 특정 페이지에서 직접 수집
     if (this.newArtworks.length < targetCount) {
-      for (const category of shuffledCategories) {
-        if (this.newArtworks.length >= targetCount) break;
-        await this.collectWithStrategy(category);
-        await this.sleep(this.delay);
-      }
+      await this.collectFromPopularPages();
     }
 
     console.log(`\n📊 수집 완료: ${this.newArtworks.length}개의 새로운 작품 발견\n`);
@@ -269,53 +139,64 @@ class EnhancedArtveeCollectorV3 {
     }
   }
 
-  async collectWithStrategy(strategy) {
-    try {
-      const url = `https://artvee.com/s/${strategy.value}/`;
-      console.log(`🎨 ${strategy.name} 주제 검색 중...`);
-      
-      const response = await axios.get(url, {
-        headers: { 
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-        },
-        timeout: 10000
-      });
-      
-      const $ = cheerio.load(response.data);
-      const artworks = [];
+  async collectFromPopularPages() {
+    const popularPages = [
+      { url: 'https://artvee.com/c/landscapes/', name: '풍경화' },
+      { url: 'https://artvee.com/c/portraits/', name: '초상화' },
+      { url: 'https://artvee.com/c/abstract/', name: '추상화' },
+      { url: 'https://artvee.com/c/figurative/', name: '인물화' },
+      { url: 'https://artvee.com/c/still-life/', name: '정물화' }
+    ];
 
-      $('.product, .artwork-item, article.product').each((i, elem) => {
-        const $elem = $(elem);
-        const link = $elem.find('a').first();
-        const artworkUrl = link.attr('href');
-        const title = $elem.find('.product-title, h2, h3').first().text().trim() ||
-                     link.attr('title') || '';
-        const artist = $elem.find('.product-artist, .artist-name').first().text().trim() || 'Unknown';
+    for (const page of popularPages) {
+      if (this.newArtworks.length >= 50) break;
+      
+      try {
+        console.log(`📄 ${page.name} 페이지 검색 중...`);
         
-        if (artworkUrl && title) {
-          const artworkId = this.extractArtworkId(artworkUrl);
-          
-          // 중복 체크
-          if (!this.existingArtworks.has(artworkId) && 
-              !this.newArtworks.find(a => a.id === artworkId)) {
-            artworks.push({
-              id: artworkId,
-              url: artworkUrl.startsWith('http') ? artworkUrl : `https://artvee.com${artworkUrl}`,
-              title: title,
-              artist: artist,
-              category: strategy.value,
-              source: strategy.type,
-              importance: 'medium'
-            });
-          }
-        }
-      });
+        const response = await axios.get(page.url, {
+          headers: { 
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+          },
+          timeout: 10000
+        });
+        
+        const $ = cheerio.load(response.data);
+        const artworks = [];
 
-      console.log(`  → ${artworks.length}개 새 작품 발견`);
-      this.newArtworks.push(...artworks);
+        $('.product, .artwork-item').each((i, elem) => {
+          const $elem = $(elem);
+          const link = $elem.find('a').first();
+          const artworkUrl = link.attr('href');
+          const title = $elem.find('.product-title, h2, h3').first().text().trim() ||
+                       link.attr('title') || '';
+          const artist = $elem.find('.product-artist, .artist-name').first().text().trim() || 'Unknown';
+          
+          if (artworkUrl && title) {
+            const artworkId = this.extractArtworkId(artworkUrl);
+            
+            if (!this.existingArtworks.has(artworkId) && 
+                !this.newArtworks.find(a => a.id === artworkId)) {
+              artworks.push({
+                id: artworkId,
+                url: artworkUrl.startsWith('http') ? artworkUrl : `https://artvee.com${artworkUrl}`,
+                title: title,
+                artist: artist,
+                category: page.name,
+                importance: 'medium'
+              });
+            }
+          }
+        });
+
+        console.log(`  → ${artworks.length}개 새 작품 발견`);
+        this.newArtworks.push(...artworks.slice(0, 10)); // 각 카테고리에서 최대 10개만
+        
+      } catch (error) {
+        console.error(`  ❌ ${page.name} 수집 실패:`, error.message);
+      }
       
-    } catch (error) {
-      console.error(`  ❌ ${strategy.name} 수집 실패:`, error.message);
+      await this.sleep(this.delay);
     }
   }
 
@@ -339,15 +220,11 @@ class EnhancedArtveeCollectorV3 {
       return 0;
     });
 
-    // 진행 상황 추적
-    const batchSize = Math.min(sortedArtworks.length, 100);
-    const selectedArtworks = sortedArtworks.slice(0, batchSize);
-
-    for (let i = 0; i < selectedArtworks.length; i++) {
-      const artwork = selectedArtworks[i];
-      const progress = ((i + 1) / selectedArtworks.length * 100).toFixed(1);
+    for (let i = 0; i < sortedArtworks.length; i++) {
+      const artwork = sortedArtworks[i];
+      const progress = ((i + 1) / sortedArtworks.length * 100).toFixed(1);
       
-      console.log(`\n[${i + 1}/${selectedArtworks.length}] (${progress}%) 처리 중...`);
+      console.log(`\n[${i + 1}/${sortedArtworks.length}] (${progress}%) 처리 중...`);
       console.log(`  제목: ${artwork.title}`);
       console.log(`  작가: ${artwork.artist}`);
       console.log(`  중요도: ${artwork.importance || 'normal'}`);
@@ -373,8 +250,8 @@ class EnhancedArtveeCollectorV3 {
                 this.uploadedCount++;
                 console.log(`  ✅ 업로드 완료`);
                 
-                // 중간 저장 (5개마다)
-                if (this.uploadedCount % 5 === 0) {
+                // 중간 저장 (3개마다)
+                if (this.uploadedCount % 3 === 0) {
                   await fs.writeFile(
                     './data/cloudinary-urls.json',
                     JSON.stringify(cloudinaryUrls, null, 2)
@@ -406,7 +283,7 @@ class EnhancedArtveeCollectorV3 {
     );
 
     // 수집 보고서 작성
-    await this.generateReport(selectedArtworks);
+    await this.generateReport(sortedArtworks);
   }
 
   async downloadImage(imageUrl) {
@@ -711,20 +588,18 @@ class EnhancedArtveeCollectorV3 {
 
 // 실행
 async function main() {
-  const collector = new EnhancedArtveeCollectorV3();
+  const collector = new ContinuedArtveeCollector();
   
   try {
     await collector.initialize();
     
-    // 명령줄 인자로 수집 개수 지정 가능
-    const targetCount = process.argv[2] ? parseInt(process.argv[2]) : 50;
-    
-    await collector.collectFromArtvee(targetCount);
+    // 50개씩 수집
+    await collector.collectFromArtvee(50);
     
     if (collector.newArtworks.length > 0) {
       await collector.downloadAndUploadArtworks();
     } else {
-      console.log('✨ 새로운 작품이 없습니다. 모든 작품이 이미 수집되었습니다.');
+      console.log('✨ 새로운 작품이 없습니다.');
     }
   } catch (error) {
     console.error('❌ 오류 발생:', error);

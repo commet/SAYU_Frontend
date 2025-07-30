@@ -1,0 +1,18 @@
+{
+  "timestamp": "2025-07-30T14:38:15.713Z",
+  "summary": {
+    "starting_count": 1028,
+    "found_new": 109,
+    "processed": 109,
+    "uploaded": 107,
+    "skipped": 1,
+    "errors": 0,
+    "total_in_cloudinary": 1135,
+    "remaining_to_1500": 365
+  },
+  "progress": {
+    "current": 1135,
+    "target": 1500,
+    "percentage": "75.7"
+  }
+}

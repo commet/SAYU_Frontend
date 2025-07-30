@@ -1,0 +1,354 @@
+{
+  "timestamp": "2025-07-30T14:18:36.566Z",
+  "summary": {
+    "existing_count": 995,
+    "found_new": 55,
+    "processed": 55,
+    "uploaded": 52,
+    "skipped": 3,
+    "errors": 0,
+    "total_in_cloudinary": 1047
+  },
+  "by_artist": {
+    "Rembrandt": 16,
+    "Monet": 19,
+    "Van Gogh": 20
+  },
+  "by_importance": {
+    "very-high": 55,
+    "high": 0,
+    "medium": 0
+  },
+  "artworks": [
+    {
+      "id": "an-old-man-in-military-costume",
+      "title": "An Old Man in Military Costume (1630–1631)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "herman-doomer",
+      "title": "Herman Doomer (1640)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "man-in-oriental-clothing",
+      "title": "Man in Oriental Clothing (1635)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "man-in-oriental-costume-the-noble-slav",
+      "title": "Man in Oriental Costume (The Noble Slav) (1632)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "man-with-a-sheet-of-music",
+      "title": "Man with a Sheet of Music (1633)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "old-man-with-a-gold-chain",
+      "title": "Old Man with a Gold Chain (1631)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "old-woman-reading-3",
+      "title": "Old Woman Reading (1631)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "portrait-of-a-gentleman-with-a-tall-hat-and-gloves",
+      "title": "Portrait of a Gentleman with a Tall Hat and Gloves (c. 1656-1658)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "portrait-of-a-lady-with-an-ostrich-feather-fan",
+      "title": "Portrait of a Lady with an Ostrich-Feather Fan (c. 1656-1658)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "portrait-of-a-man-in-a-tall-hat",
+      "title": "Portrait of a Man in a Tall Hat (c. 1663)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "portrait-of-a-man-13",
+      "title": "Portrait of a Man (1632)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "portrait-of-a-woman-22",
+      "title": "Portrait of a Woman (1632)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "portrait-of-a-young-woman-with-a-fan",
+      "title": "Portrait of a Young Woman with a Fan (1633)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "portrait-of-an-old-man-2",
+      "title": "Portrait of an Old Man (1655)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "portrait-of-gerard-de-lairesse",
+      "title": "Portrait of Gerard de Lairesse (1665–67)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "portrait-of-rembrandt-with-a-gorget",
+      "title": "Portrait of Rembrandt with a Gorget (after c. 1629)",
+      "artist": "Rembrandt",
+      "importance": "very-high"
+    },
+    {
+      "id": "argenteuil",
+      "title": "Argenteuil (c. 1872)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "arrival-of-the-normandy-train-gare-saint-lazare",
+      "title": "Arrival of the Normandy Train, Gare Saint-Lazare (1877)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "banks-of-the-seinevetheuil",
+      "title": "Banks of the Seine,Vétheuil (1880)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "bordighera",
+      "title": "Bordighera (1884)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "boulevard-heloise-argenteuil",
+      "title": "Boulevard Héloise, Argenteuil (1872)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "charing-cross-bridge",
+      "title": "Charing Cross Bridge (1903)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "cliff-walk-at-pourville",
+      "title": "Cliff Walk at Pourville (1882)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "cliffs-at-pourville",
+      "title": "Cliffs at Pourville (1882)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "etretat-the-beach-and-the-falaise-damont",
+      "title": "Étretat, The Beach and the Falaise d’Amont (1885)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "gardeners-house-at-antibes",
+      "title": "Gardener’s House at Antibes (1888)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "houses-of-parliament-london",
+      "title": "Houses of Parliament, London (1900)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "low-tide-at-pourville-near-dieppe-1882",
+      "title": "Low Tide at Pourville, near Dieppe, 1882 (1882)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "on-the-bank-of-the-seine-bennecourt",
+      "title": "On the Bank of the Seine, Bennecourt (1868)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "poppy-field-giverny",
+      "title": "Poppy Field (Giverny) (1890)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "port-domois-belle-isle",
+      "title": "Port-Domois, Belle-Isle (1887)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "rocks-at-belle-isle-port-domois",
+      "title": "Rocks at Belle-Isle, Port-Domois (1886)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "sainte-adresse",
+      "title": "Sainte-Adresse (1867)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "sandvika-norway",
+      "title": "Sandvika, Norway (1895)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "ships-riding-on-the-seine-at-rouen",
+      "title": "Ships Riding on the Seine at Rouen (1872-1873)",
+      "artist": "Monet",
+      "importance": "very-high"
+    },
+    {
+      "id": "factories-at-clichy",
+      "title": "Factories at Clichy (1887)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "farmhouse-in-provence",
+      "title": "Farmhouse in Provence (1888)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "fishing-in-spring-the-pont-de-clichy-asnieres",
+      "title": "Fishing in Spring, the Pont de Clichy (Asnières) (1887)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "flower-beds-in-holland",
+      "title": "Flower Beds in Holland (c. 1883)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "green-wheat-fields",
+      "title": "Green Wheat Fields, Auvers (1890)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "irises",
+      "title": "Irises (1889)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "orchard-bordered-by-cypresses",
+      "title": "Orchard Bordered by Cypresses (1888)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "river-bank-in-springtime",
+      "title": "River Bank in Springtime (1887)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "sheaves-of-wheat",
+      "title": "Sheaves of Wheat (July 1890)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "stairway-at-auvers",
+      "title": "Stairway at Auvers (1890)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "terrace-and-observation-deck-at-the-moulin-de-blute-fin-montmartre",
+      "title": "Terrace and Observation Deck at the Moulin de Blute-Fin, Montmartre (early 1887)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "tetards-pollards",
+      "title": "Tetards (Pollards) (1884)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "the-large-plane-trees-road-menders-at-saint-remy",
+      "title": "The Large Plane Trees (Road Menders at Saint-Rémy) (1889)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "vineyards-at-auvers",
+      "title": "Vineyards at Auvers (1890)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "wheat-field-with-cypresses",
+      "title": "Wheat Field with Cypresses (1889)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "grapes-lemons-pears-and-apples",
+      "title": "Grapes, Lemons, Pears, and Apples (1887)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "roses-5",
+      "title": "Roses (1890)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "shoes",
+      "title": "Shoes (1888)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "still-life-of-oranges-and-lemons-with-blue-gloves",
+      "title": "Still Life of Oranges and Lemons with Blue Gloves (1889)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    },
+    {
+      "id": "still-life-basket-of-apples",
+      "title": "Still Life, Basket of Apples (1887)",
+      "artist": "Van Gogh",
+      "importance": "very-high"
+    }
+  ]
+}
