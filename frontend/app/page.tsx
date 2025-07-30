@@ -5,11 +5,19 @@ import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import Image from 'next/image';
 
-// 로컬 유명 작품들 - public/samples 폴더의 실제 작품 이미지 사용
+// 작품 이미지 import
+import vangoghImg from '../public/samples/preview-vangogh.png';
+import monetImg from '../public/samples/preview-monet.png';
+import klimtImg from '../public/samples/preview-klimt.png';
+import picassoImg from '../public/samples/preview-picasso.png';
+import warholImg from '../public/samples/preview-warhol.png';
+import mondrianImg from '../public/samples/preview-mondrian.jpg';
+
+// 로컬 유명 작품들
 const famousArtworks = [
   {
     id: 1,
-    url: '/samples/preview-vangogh.png',
+    url: vangoghImg,
     title: '별이 빛나는 밤',
     artist: '빈센트 반 고흐',
     perceptions: [
@@ -23,7 +31,7 @@ const famousArtworks = [
   },
   {
     id: 2,
-    url: '/samples/preview-monet.png',
+    url: monetImg,
     title: '수련',
     artist: '클로드 모네',
     perceptions: [
@@ -37,7 +45,7 @@ const famousArtworks = [
   },
   {
     id: 3,
-    url: '/samples/preview-klimt.png',
+    url: klimtImg,
     title: '키스',
     artist: '구스타프 클림트',
     perceptions: [
@@ -51,7 +59,7 @@ const famousArtworks = [
   },
   {
     id: 4,
-    url: '/samples/preview-picasso.png',
+    url: picassoImg,
     title: '게르니카',
     artist: '파블로 피카소',
     perceptions: [
@@ -65,7 +73,7 @@ const famousArtworks = [
   },
   {
     id: 5,
-    url: '/samples/preview-warhol.png',
+    url: warholImg,
     title: '캠벨 수프 캔',
     artist: '앤디 워홀',
     perceptions: [
@@ -79,7 +87,7 @@ const famousArtworks = [
   },
   {
     id: 6,
-    url: '/samples/preview-mondrian.jpg',
+    url: mondrianImg,
     title: '빨강, 파랑, 노랑의 구성',
     artist: '피트 몬드리안',
     perceptions: [
@@ -278,7 +286,7 @@ export default function JourneyHomePage() {
                   >
                     <div className="relative w-full h-full group">
                       <img
-                        src={artwork.url}
+                        src={artwork.url.src || artwork.url}
                         alt={artwork.title}
                         className="w-full h-full object-cover rounded-xl"
                         style={{
@@ -454,7 +462,7 @@ export default function JourneyHomePage() {
                   >
                     <div className="w-full h-full rounded-lg overflow-hidden shadow-2xl relative bg-gray-200">
                       <img 
-                        src={famousArtworks[currentArtwork].url}
+                        src={famousArtworks[currentArtwork].url.src || famousArtworks[currentArtwork].url}
                         alt={famousArtworks[currentArtwork].title}
                         className="w-full h-full object-cover"
                         style={{ display: 'block' }}
@@ -477,12 +485,12 @@ export default function JourneyHomePage() {
                 {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
                   // 각 텍스트의 위치를 화면 전체에 분산
                   const positions = [
-                    { left: '10%', top: '20%' },     // 좌상단
-                    { left: '80%', top: '20%' },     // 우상단
-                    { left: '10%', top: '50%' },     // 좌중앙
-                    { left: '80%', top: '50%' },     // 우중앙
-                    { left: '10%', top: '75%' },     // 좌하단
-                    { left: '80%', top: '75%' }      // 우하단
+                    { left: '25%', top: '25%' },     // 좌상단
+                    { left: '65%', top: '25%' },     // 우상단
+                    { left: '20%', top: '50%' },     // 좌중앙
+                    { left: '70%', top: '50%' },     // 우중앙
+                    { left: '25%', top: '70%' },     // 좌하단
+                    { left: '65%', top: '70%' }      // 우하단
                   ];
                   
                   return (
@@ -510,7 +518,7 @@ export default function JourneyHomePage() {
                       }}
                     >
                       <motion.div
-                        className="bg-white/95 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg border border-gray-200 hover:bg-white transition-all cursor-pointer"
+                        className="bg-white/90 backdrop-blur-sm px-3 py-2 rounded-lg shadow-lg border border-gray-200 hover:bg-white transition-all cursor-pointer"
                         whileHover={{ scale: 1.05 }}
                         animate={{
                           y: [0, -5, 0],
@@ -553,8 +561,8 @@ export default function JourneyHomePage() {
               </div>
             </div>
             
-            {/* 상단 메시지 - 네비게이션 바 아래로 이동 */}
-            <div className="absolute top-24 left-0 right-0 text-center z-30">
+            {/* 상단 메시지 - 더 아래로 이동 */}
+            <div className="absolute top-40 left-0 right-0 text-center z-30">
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -591,51 +599,51 @@ export default function JourneyHomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
             >
-              <div className="max-w-5xl mx-auto grid grid-cols-3 gap-4">
+              <div className="max-w-5xl mx-auto grid grid-cols-3 gap-6">
                 {/* 시선 공유 */}
                 <motion.div 
-                  className="bg-white/15 backdrop-blur-md rounded-lg p-4 border border-white/30 cursor-pointer hover:bg-white/25 transition-all shadow-lg"
-                  whileHover={{ y: -4, scale: 1.02 }}
+                  className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 cursor-pointer hover:bg-white/30 transition-all shadow-xl"
+                  whileHover={{ y: -5, scale: 1.02 }}
                 >
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                      <span className="text-lg">👁️</span>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-white/25 flex items-center justify-center">
+                      <span className="text-2xl">👁️</span>
                     </div>
-                    <h4 className="text-white font-semibold text-base">시선 공유</h4>
+                    <h4 className="text-white font-bold text-lg">시선 공유</h4>
                   </div>
-                  <p className="text-white/70 text-xs leading-relaxed">
+                  <p className="text-white/80 text-sm leading-relaxed">
                     같은 작품에 대한 다양한 해석을 공유하고 대화하세요
                   </p>
                 </motion.div>
                 
                 {/* 전시 동행 */}
                 <motion.div 
-                  className="bg-white/15 backdrop-blur-md rounded-lg p-4 border border-white/30 cursor-pointer hover:bg-white/25 transition-all shadow-lg"
-                  whileHover={{ y: -4, scale: 1.02 }}
+                  className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 cursor-pointer hover:bg-white/30 transition-all shadow-xl"
+                  whileHover={{ y: -5, scale: 1.02 }}
                 >
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                      <span className="text-lg">🤝</span>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-white/25 flex items-center justify-center">
+                      <span className="text-2xl">🤝</span>
                     </div>
-                    <h4 className="text-white font-semibold text-base">전시 동행 매칭</h4>
+                    <h4 className="text-white font-bold text-lg">전시 동행 매칭</h4>
                   </div>
-                  <p className="text-white/70 text-xs leading-relaxed">
+                  <p className="text-white/80 text-sm leading-relaxed">
                     비슷한 취향의 사람과 안전하게 전시를 관람하세요
                   </p>
                 </motion.div>
                 
                 {/* AI 큐레이터 */}
                 <motion.div 
-                  className="bg-white/15 backdrop-blur-md rounded-lg p-4 border border-white/30 cursor-pointer hover:bg-white/25 transition-all shadow-lg"
-                  whileHover={{ y: -4, scale: 1.02 }}
+                  className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 cursor-pointer hover:bg-white/30 transition-all shadow-xl"
+                  whileHover={{ y: -5, scale: 1.02 }}
                 >
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                      <span className="text-lg">🤖</span>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-white/25 flex items-center justify-center">
+                      <span className="text-2xl">🤖</span>
                     </div>
-                    <h4 className="text-white font-semibold text-base">AI 아트 큐레이터</h4>
+                    <h4 className="text-white font-bold text-lg">AI 아트 큐레이터</h4>
                   </div>
-                  <p className="text-white/70 text-xs leading-relaxed">
+                  <p className="text-white/80 text-sm leading-relaxed">
                     당신의 감정과 상황에 맞는 작품을 AI가 추천해드려요
                   </p>
                 </motion.div>
@@ -726,9 +734,10 @@ export default function JourneyHomePage() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1 }}
               >
-                <h3 className="text-2xl font-bold text-white mb-4 text-center">
-                  🌟 첫 동행자가 되어주세요
-                </h3>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-3xl font-bold text-white">첫 동행자를 위한 특별 혜택</h3>
+                  <span className="text-6xl">🎁</span>
+                </div>
                 <p className="text-white/80 text-center mb-6">
                   SAYU의 첫 100명과 함께 특별한 여정을 시작하세요
                 </p>
