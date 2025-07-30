@@ -18,6 +18,7 @@ import {
   AnimeJSMorphingBackground,
   useAnimeJS 
 } from '@/components/animations/AnimeJSEnhanced';
+import ScrollExpandMedia from '@/components/ui/scroll-expansion-hero';
 
 // Emotion to personality type mapping
 const emotionToPersonality = {

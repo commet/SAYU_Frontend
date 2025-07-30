@@ -4,7 +4,7 @@
  */
 
 export const API_CONFIG = {
-  baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',
+  baseUrl: process.env.NEXT_PUBLIC_API_URL || 'https://sayubackend-production.up.railway.app',
   endpoints: {
     // Auth
     login: '/api/auth/login',

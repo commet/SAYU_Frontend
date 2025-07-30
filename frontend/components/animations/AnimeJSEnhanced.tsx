@@ -1,8 +1,15 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 // Dynamically import anime.js to avoid SSR issues
 let anime: any = null;
+
+// Dynamically load anime.js on client side
+if (typeof window !== 'undefined') {
+  import('animejs/lib/anime.es.js').then(module => {
+    anime = module.default;
+  });
+}
 
 interface AnimeJSTextRevealProps {
   text: string;
@@ -13,9 +20,26 @@ interface AnimeJSTextRevealProps {
 
 export function AnimeJSTextReveal({ text, className = '', delay = 0, duration = 2000 }: AnimeJSTextRevealProps) {
   const textRef = useRef<HTMLDivElement>(null);
+  const [animeLoaded, setAnimeLoaded] = useState(false);
 
   useEffect(() => {
-    if (!textRef.current) return;
+    // Check if anime is loaded
+    if (anime) {
+      setAnimeLoaded(true);
+    } else {
+      // Wait for anime to load
+      const checkInterval = setInterval(() => {
+        if (anime) {
+          setAnimeLoaded(true);
+          clearInterval(checkInterval);
+        }
+      }, 100);
+      return () => clearInterval(checkInterval);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!textRef.current || !animeLoaded || !anime) return;
 
     // Split text into individual characters
     const chars = text.split('').map((char, i) => 
@@ -33,9 +57,9 @@ export function AnimeJSTextReveal({ text, className = '', delay = 0, duration = 
       delay: anime.stagger(80, { start: delay }),
       easing: 'easeOutCubic'
     });
-  }, [text, delay, duration]);
+  }, [text, delay, duration, animeLoaded]);
 
-  return <div ref={textRef} className={className} />;
+  return <div ref={textRef} className={className}>{!animeLoaded ? text : ''}</div>;
 }
 
 interface AnimeJSGalleryProps {
@@ -47,7 +71,7 @@ export function AnimeJSGalleryReveal({ items, className = '' }: AnimeJSGalleryPr
   const galleryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!galleryRef.current || !items.length) return;
+    if (!galleryRef.current || !items.length || !anime) return;
 
     const galleryItems = galleryRef.current.querySelectorAll('.gallery-item');
     
@@ -91,7 +115,7 @@ export function AnimeJSFloatingElements({ count = 20, colors, className = '' }: 
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !anime) return;
 
     // Create floating elements
     const elements = Array.from({ length: count }, (_, i) => {
@@ -155,7 +179,7 @@ export function AnimeJSScrollReveal({
   const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!elementRef.current) return;
+    if (!elementRef.current || !anime) return;
 
     const element = elementRef.current;
     
@@ -214,7 +238,7 @@ export function AnimeJSMorphingBackground({ colors, className = '' }: AnimeJSMor
   const backgroundRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!backgroundRef.current) return;
+    if (!backgroundRef.current || !anime) return;
 
     const element = backgroundRef.current;
     
@@ -240,6 +264,26 @@ export function AnimeJSMorphingBackground({ colors, className = '' }: AnimeJSMor
 
 // Hook for custom anime.js animations
 export function useAnimeJS() {
+  const [animeLoaded, setAnimeLoaded] = useState(false);
+
+  useEffect(() => {
+    if (anime) {
+      setAnimeLoaded(true);
+    } else {
+      const checkInterval = setInterval(() => {
+        if (anime) {
+          setAnimeLoaded(true);
+          clearInterval(checkInterval);
+        }
+      }, 100);
+      return () => clearInterval(checkInterval);
+    }
+  }, []);
+
+  if (!animeLoaded || !anime) {
+    return null; // Return null when anime is not loaded
+  }
+
   return {
     // Stagger animation utility
     stagger: (targets: string | Element | Element[], options: any = {}) => {
