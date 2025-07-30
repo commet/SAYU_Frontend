@@ -3,12 +3,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import Image from 'next/image';
 
-// Cloudinary 유명 작품들
+// Cloudinary 유명 작품들 - URL 수정
 const famousArtworks = [
   {
     id: 1,
-    url: 'https://res.cloudinary.com/dsxhxqfz8/image/upload/v1706168043/artvee/Vincent_van_Gogh_-_The_Starry_Night_q6gvkq.jpg',
+    url: 'https://res.cloudinary.com/dkjlt4m5x/image/upload/v1735699413/sayu/artvee/Vincent_van_Gogh_-_The_Starry_Night.jpg',
     title: '별이 빛나는 밤',
     artist: '반 고흐',
     perceptions: [
@@ -22,7 +23,7 @@ const famousArtworks = [
   },
   {
     id: 2,
-    url: 'https://res.cloudinary.com/dsxhxqfz8/image/upload/v1706168037/artvee/Claude_Monet_-_Water_Lilies_yvkqjx.jpg',
+    url: 'https://res.cloudinary.com/dkjlt4m5x/image/upload/v1735699414/sayu/artvee/Claude_Monet_-_Water_Lilies.jpg',
     title: '수련',
     artist: '모네',
     perceptions: [
@@ -36,7 +37,7 @@ const famousArtworks = [
   },
   {
     id: 3,
-    url: 'https://res.cloudinary.com/dsxhxqfz8/image/upload/v1706168031/artvee/Gustav_Klimt_-_The_Kiss_xvlnpb.jpg',
+    url: 'https://res.cloudinary.com/dkjlt4m5x/image/upload/v1735699415/sayu/artvee/Gustav_Klimt_-_The_Kiss.jpg',
     title: '키스',
     artist: '클림트',
     perceptions: [
@@ -50,7 +51,7 @@ const famousArtworks = [
   },
   {
     id: 4,
-    url: 'https://res.cloudinary.com/dsxhxqfz8/image/upload/v1706168025/artvee/Edvard_Munch_-_The_Scream_qwerty.jpg',
+    url: 'https://res.cloudinary.com/dkjlt4m5x/image/upload/v1735699416/sayu/artvee/Edvard_Munch_-_The_Scream.jpg',
     title: '절규',
     artist: '뭉크',
     perceptions: [
@@ -64,7 +65,7 @@ const famousArtworks = [
   },
   {
     id: 5,
-    url: 'https://res.cloudinary.com/dsxhxqfz8/image/upload/v1706168019/artvee/Paul_Gauguin_-_Tahitian_Women_asdfgh.jpg',
+    url: 'https://res.cloudinary.com/dkjlt4m5x/image/upload/v1735699417/sayu/artvee/Paul_Gauguin_-_Tahitian_Women.jpg',
     title: '타히티의 여인들',
     artist: '고갱',
     perceptions: [
@@ -78,7 +79,7 @@ const famousArtworks = [
   },
   {
     id: 6,
-    url: 'https://res.cloudinary.com/dsxhxqfz8/image/upload/v1706168013/artvee/Johannes_Vermeer_-_Girl_with_a_Pearl_Earring_zxcvbn.jpg',
+    url: 'https://res.cloudinary.com/dkjlt4m5x/image/upload/v1735699418/sayu/artvee/Johannes_Vermeer_-_Girl_with_a_Pearl_Earring.jpg',
     title: '진주 귀걸이 소녀',
     artist: '베르메르',
     perceptions: [
@@ -122,14 +123,14 @@ export default function JourneyHomePage() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
-  // Transform values based on scroll
-  const mazeOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-  const artworksOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1]);
-  const peopleOpacity = useTransform(scrollYProgress, [0.4, 0.7], [0, 1]);
-  const gardenOpacity = useTransform(scrollYProgress, [0.6, 1], [0, 1]);
+  // Transform values based on scroll - 더 명확한 구간 분리
+  const mazeOpacity = useTransform(scrollYProgress, [0, 0.2, 0.25], [1, 1, 0]);
+  const artworksOpacity = useTransform(scrollYProgress, [0.2, 0.25, 0.45, 0.5], [0, 1, 1, 0]);
+  const peopleOpacity = useTransform(scrollYProgress, [0.45, 0.5, 0.7, 0.75], [0, 1, 1, 0]);
+  const gardenOpacity = useTransform(scrollYProgress, [0.7, 0.75, 1], [0, 1, 1]);
   
   const lightIntensity = useTransform(scrollYProgress, [0, 1], [0.2, 1]);
-  const mazeScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.2]);
+  const mazeScale = useTransform(scrollYProgress, [0, 0.25], [1, 1.2]);
 
   return (
     <div ref={containerRef} className="relative h-[400vh] bg-black">
@@ -276,11 +277,11 @@ export default function JourneyHomePage() {
                     ease: "easeInOut"
                   }}
                 >
-                  <div className="w-full h-full rounded-full bg-gradient-to-r from-purple-400/20 via-pink-400/20 to-purple-400/20 blur-xl" />
+                  <div className="w-full h-full rounded-full bg-gradient-to-r from-amber-400/20 via-yellow-300/20 to-amber-400/20 blur-xl" />
                 </motion.div>
                 
                 {/* 포털 본체 */}
-                <div className="relative w-48 h-48 rounded-full bg-gradient-to-br from-purple-500/30 to-pink-500/30 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+                <div className="relative w-48 h-48 rounded-full bg-gradient-to-br from-amber-500/30 to-yellow-400/30 backdrop-blur-sm border border-amber-300/20 flex items-center justify-center">
                   <div className="text-center">
                     <p className="text-white/80 font-medium text-lg mb-1">
                       나를 알아가는 여정
@@ -332,8 +333,8 @@ export default function JourneyHomePage() {
             
             {/* 작품 캐러셀 컨테이너 */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              {/* 메인 작품 영역 */}
-              <div className="relative w-full max-w-4xl h-[60%] flex items-center justify-center">
+              {/* 메인 작품 영역 - 크기 축소 */}
+              <div className="relative w-full max-w-4xl h-[45%] flex items-center justify-center">
                 {/* 작품 이미지 */}
                 <motion.div 
                   className="relative w-[400px] h-[500px]"
@@ -343,10 +344,13 @@ export default function JourneyHomePage() {
                   exit={{ opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <img
+                  <Image
                     src={famousArtworks[currentArtwork].url}
                     alt={famousArtworks[currentArtwork].title}
+                    width={400}
+                    height={500}
                     className="w-full h-full object-cover rounded-lg shadow-2xl"
+                    unoptimized
                   />
                   
                   {/* 작품 정보 */}
@@ -360,49 +364,66 @@ export default function JourneyHomePage() {
                   </div>
                 </motion.div>
                 
-                {/* 다른 사람들의 감상 - 흘러가는 텍스트 */}
+                {/* 다른 사람들의 감상 - 6각형 배치 */}
                 <div className="absolute inset-0 pointer-events-none">
-                  {famousArtworks[currentArtwork].perceptions.map((perception, i) => (
-                    <motion.div
-                      key={`${currentArtwork}-${i}`}
-                      className="absolute text-white/60 text-sm whitespace-nowrap"
-                      initial={{ 
-                        x: Math.random() > 0.5 ? '100%' : '-100%',
-                        y: `${20 + i * 12}%`,
-                        opacity: 0
-                      }}
-                      animate={{ 
-                        x: Math.random() > 0.5 ? '-100%' : '100%',
-                        opacity: [0, 0.8, 0.8, 0]
-                      }}
-                      transition={{
-                        duration: 8 + Math.random() * 4,
-                        delay: i * 0.8,
-                        repeat: Infinity,
-                        repeatDelay: 2
-                      }}
-                    >
-                      "{perception}"
-                    </motion.div>
-                  ))}
+                  {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
+                    // 6각형 배치를 위한 각도 계산
+                    const angle = (i * 60) * Math.PI / 180; // 60도씩 회전
+                    const radius = 250; // 중심으로부터의 거리
+                    const centerX = 200; // 작품 중심 x
+                    const centerY = 250; // 작품 중심 y
+                    const x = centerX + Math.cos(angle) * radius;
+                    const y = centerY + Math.sin(angle) * radius;
+                    
+                    return (
+                      <motion.div
+                        key={`${currentArtwork}-${i}`}
+                        className="absolute text-white/70 text-sm bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full"
+                        style={{
+                          left: `${x}px`,
+                          top: `${y}px`,
+                          transform: 'translate(-50%, -50%)',
+                          maxWidth: '150px'
+                        }}
+                        initial={{ 
+                          opacity: 0,
+                          scale: 0
+                        }}
+                        animate={{ 
+                          opacity: [0, 1, 1, 0],
+                          scale: [0.8, 1, 1, 0.8]
+                        }}
+                        transition={{
+                          duration: 4,
+                          delay: i * 0.3,
+                          repeat: Infinity,
+                          repeatDelay: 2
+                        }}
+                      >
+                        "{perception}"
+                      </motion.div>
+                    );
+                  })}
                 </div>
                 
                 {/* 네비게이션 버튼 */}
                 <button
-                  className="absolute left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors"
+                  className="absolute left-8 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all z-10 group"
                   onClick={() => setCurrentArtwork((prev) => (prev - 1 + famousArtworks.length) % famousArtworks.length)}
+                  type="button"
                 >
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  <svg className="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
                 
                 <button
-                  className="absolute right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors"
+                  className="absolute right-8 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all z-10 group"
                   onClick={() => setCurrentArtwork((prev) => (prev + 1) % famousArtworks.length)}
+                  type="button"
                 >
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg className="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
               </div>
@@ -440,41 +461,56 @@ export default function JourneyHomePage() {
             
             {/* 하단 기능 소개 카드들 */}
             <motion.div 
-              className="absolute bottom-8 left-0 right-0 px-8"
+              className="absolute bottom-0 left-0 right-0 px-8 pb-12"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.5 }}
+              transition={{ delay: 0.8 }}
             >
-              <div className="max-w-6xl mx-auto grid grid-cols-3 gap-4">
+              <div className="max-w-5xl mx-auto grid grid-cols-3 gap-6">
                 {/* 시선 공유 */}
                 <motion.div 
-                  className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 cursor-pointer hover:bg-white/20 transition-colors"
-                  whileHover={{ y: -4 }}
+                  className="bg-white/15 backdrop-blur-md rounded-xl p-6 border border-white/30 cursor-pointer hover:bg-white/25 transition-all shadow-lg"
+                  whileHover={{ y: -6, scale: 1.02 }}
                 >
-                  <h4 className="text-white font-medium mb-2">시선 공유</h4>
-                  <p className="text-white/60 text-sm">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                      <span className="text-xl">👁️</span>
+                    </div>
+                    <h4 className="text-white font-semibold text-lg">시선 공유</h4>
+                  </div>
+                  <p className="text-white/70 text-sm leading-relaxed">
                     같은 작품에 대한 다양한 해석을 공유하고 대화하세요
                   </p>
                 </motion.div>
                 
                 {/* 전시 동행 */}
                 <motion.div 
-                  className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 cursor-pointer hover:bg-white/20 transition-colors"
-                  whileHover={{ y: -4 }}
+                  className="bg-white/15 backdrop-blur-md rounded-xl p-6 border border-white/30 cursor-pointer hover:bg-white/25 transition-all shadow-lg"
+                  whileHover={{ y: -6, scale: 1.02 }}
                 >
-                  <h4 className="text-white font-medium mb-2">전시 동행 매칭</h4>
-                  <p className="text-white/60 text-sm">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                      <span className="text-xl">🤝</span>
+                    </div>
+                    <h4 className="text-white font-semibold text-lg">전시 동행 매칭</h4>
+                  </div>
+                  <p className="text-white/70 text-sm leading-relaxed">
                     비슷한 취향의 사람과 안전하게 전시를 관람하세요
                   </p>
                 </motion.div>
                 
                 {/* AI 큐레이터 */}
                 <motion.div 
-                  className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 cursor-pointer hover:bg-white/20 transition-colors"
-                  whileHover={{ y: -4 }}
+                  className="bg-white/15 backdrop-blur-md rounded-xl p-6 border border-white/30 cursor-pointer hover:bg-white/25 transition-all shadow-lg"
+                  whileHover={{ y: -6, scale: 1.02 }}
                 >
-                  <h4 className="text-white font-medium mb-2">AI 아트 큐레이터</h4>
-                  <p className="text-white/60 text-sm">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                      <span className="text-xl">🤖</span>
+                    </div>
+                    <h4 className="text-white font-semibold text-lg">AI 아트 큐레이터</h4>
+                  </div>
+                  <p className="text-white/70 text-sm leading-relaxed">
                     당신의 감정과 상황에 맞는 작품을 AI가 추천해드려요
                   </p>
                 </motion.div>
@@ -515,38 +551,44 @@ export default function JourneyHomePage() {
               <div className="grid grid-cols-3 gap-6 max-w-6xl w-full">
                 {[
                   {
-                    name: "민지 (INFP 호랑이)",
-                    quote: "매일 아침 감정에 맞는 작품을 보며 하루를 시작해요. 예전엔 몰랐던 제 감정의 깊이를 이해하게 되었어요.",
-                    duration: "6개월 사용"
+                    name: "민지",
+                    aptType: "LAEF",
+                    emoji: "🦊",
+                    quote: "매일 아침 감정에 맞는 작품을 보며 하루를 시작해요. 예전엔 몰랐던 제 감정의 깊이를 이해하게 되었어요."
                   },
                   {
-                    name: "준호 (ENTP 여우)",
-                    quote: "전시 동행 매칭으로 만난 친구와 매주 미술관을 가요. 혼자서는 발견하지 못했을 작품들을 함께 감상하니 더 풍부해져요.",
-                    duration: "3개월 사용"
+                    name: "준호",
+                    aptType: "SREC",
+                    emoji: "🦆",
+                    quote: "전시 동행 매칭으로 만난 친구와 매주 미술관을 가요. 혼자서는 발견하지 못했을 작품들을 함께 감상하니 더 풍부해져요."
                   },
                   {
-                    name: "서연 (ISFJ 코끼리)",
-                    quote: "AI 상담사와 대화하면서 제가 왜 특정 작품에 끌리는지 알게 되었어요. 예술이 제 마음의 거울이 되어주고 있어요.",
-                    duration: "1년 사용"
+                    name: "서연",
+                    aptType: "LAMF",
+                    emoji: "🦉",
+                    quote: "AI 상담사와 대화하면서 제가 왜 특정 작품에 끌리는지 알게 되었어요. 예술이 제 마음의 거울이 되어주고 있어요."
                   }
                 ].map((testimonial, i) => (
                   <motion.div
                     key={i}
-                    className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20"
+                    className="bg-white/15 backdrop-blur-md rounded-xl p-6 border border-white/30"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 + i * 0.1 }}
                   >
-                    <p className="text-white/90 text-sm mb-4 italic">
+                    <p className="text-white text-base mb-6 leading-relaxed">
                       "{testimonial.quote}"
                     </p>
-                    <div className="flex justify-between items-center">
-                      <p className="text-white/70 text-sm font-medium">
-                        {testimonial.name}
-                      </p>
-                      <p className="text-white/50 text-xs">
-                        {testimonial.duration}
-                      </p>
+                    <div className="flex items-center gap-3">
+                      <div className="text-3xl">{testimonial.emoji}</div>
+                      <div>
+                        <p className="text-white/90 font-medium">
+                          {testimonial.name}
+                        </p>
+                        <p className="text-white/60 text-sm">
+                          APT: {testimonial.aptType}
+                        </p>
+                      </div>
                     </div>
                   </motion.div>
                 ))}
@@ -567,19 +609,19 @@ export default function JourneyHomePage() {
                 </p>
                 <div className="grid grid-cols-3 gap-4">
                   <div className="text-center">
-                    <div className="text-3xl mb-2">👑</div>
-                    <p className="text-white/90 font-medium">평생 무료 이용</p>
-                    <p className="text-white/60 text-sm">모든 프리미엄 기능</p>
+                    <div className="text-3xl mb-2">🌱</div>
+                    <p className="text-white/90 font-medium">얼리버드 할인</p>
+                    <p className="text-white/60 text-sm">1년간 50% 할인</p>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl mb-2">🎨</div>
-                    <p className="text-white/90 font-medium">독점 아트 컬렉션</p>
-                    <p className="text-white/60 text-sm">파이오니어 전용 작품</p>
+                    <div className="text-3xl mb-2">🎖️</div>
+                    <p className="text-white/90 font-medium">파이오니어 뱃지</p>
+                    <p className="text-white/60 text-sm">프로필에 영구 표시</p>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl mb-2">💬</div>
-                    <p className="text-white/90 font-medium">우선 지원</p>
-                    <p className="text-white/60 text-sm">1:1 전담 케어</p>
+                    <div className="text-3xl mb-2">🗣️</div>
+                    <p className="text-white/90 font-medium">서비스 공동 개발</p>
+                    <p className="text-white/60 text-sm">의견이 직접 반영</p>
                   </div>
                 </div>
               </motion.div>
@@ -596,28 +638,28 @@ export default function JourneyHomePage() {
             {/* 밝은 배경 */}
             <div className="absolute inset-0 bg-gradient-to-b from-green-300 via-green-100 to-white" />
             
-            {/* 움직이는 정원 요소들 - 나비 */}
-            {[...Array(8)].map((_, i) => (
+            {/* 움직이는 정원 요소들 - 부드러운 빛 입자 */}
+            {[...Array(6)].map((_, i) => (
               <motion.div
-                key={`butterfly-${i}`}
-                className="absolute w-6 h-6"
+                key={`light-${i}`}
+                className="absolute w-32 h-32 rounded-full"
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
+                  background: `radial-gradient(circle, rgba(255,255,255,0.${i+2}) 0%, transparent 70%)`,
+                  filter: 'blur(40px)',
                 }}
                 animate={{
-                  x: [0, Math.random() * 200 - 100, 0],
-                  y: [0, Math.random() * 200 - 100, 0],
+                  scale: [1, 1.5, 1],
+                  opacity: [0.3, 0.6, 0.3],
                 }}
                 transition={{
-                  duration: 15 + Math.random() * 10,
+                  duration: 8 + i * 2,
                   repeat: Infinity,
                   ease: "easeInOut",
-                  delay: i * 0.5,
+                  delay: i * 1.5,
                 }}
-              >
-                <div className="text-2xl opacity-80">🦋</div>
-              </motion.div>
+              />
             ))}
             
             {/* 움직이는 정원 요소들 - 꽃잎 */}
@@ -706,12 +748,18 @@ export default function JourneyHomePage() {
                 </p>
                 
                 <motion.button
-                  className="px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-full text-lg font-semibold shadow-lg"
-                  whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.2)" }}
+                  className="px-10 py-5 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-full text-xl font-bold shadow-2xl relative overflow-hidden group"
+                  whileHover={{ scale: 1.05, boxShadow: "0 30px 60px rgba(0,0,0,0.3)" }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => router.push('/quiz')}
                 >
-                  정원으로 들어가기
+                  <span className="relative z-10">나의 Art Persona 발견하기</span>
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-green-400"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: 0 }}
+                    transition={{ duration: 0.3 }}
+                  />
                 </motion.button>
                 
                 {/* 현재 접속자 수 */}
@@ -723,6 +771,22 @@ export default function JourneyHomePage() {
                 >
                   <p className="text-sm">
                     지금 <span className="font-bold">23명</span>이 정원을 거닐고 있어요
+                  </p>
+                </motion.div>
+                
+                {/* 마지막 감동적인 메시지 */}
+                <motion.div
+                  className="mt-12 max-w-2xl mx-auto"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 2 }}
+                >
+                  <p className="text-green-700 text-center leading-relaxed">
+                    "예술은 당신이 누구인지 보여주는 거울이 아니라,<br/>
+                    당신이 될 수 있는 모든 가능성을 보여주는 창문입니다."
+                  </p>
+                  <p className="text-green-600 text-sm mt-4 text-center">
+                    - SAYU가 당신의 창문이 되어드릴게요
                   </p>
                 </motion.div>
               </motion.div>
