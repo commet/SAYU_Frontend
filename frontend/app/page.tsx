@@ -744,18 +744,18 @@ export default function JourneyHomePage() {
                 <div className="grid grid-cols-3 gap-4">
                   <div className="text-center">
                     <div className="text-3xl mb-2">🌱</div>
-                    <p className="text-white/90 font-medium">얼리버드 할인</p>
-                    <p className="text-white/60 text-sm">1년간 50% 할인</p>
+                    <p className="text-white/90 font-medium">베타 기능 우선 체험</p>
+                    <p className="text-white/60 text-sm">새로운 기능 먼저 사용</p>
                   </div>
                   <div className="text-center">
                     <div className="text-3xl mb-2">🎖️</div>
-                    <p className="text-white/90 font-medium">파이오니어 뱃지</p>
+                    <p className="text-white/90 font-medium">초기 멤버 인증</p>
                     <p className="text-white/60 text-sm">프로필에 영구 표시</p>
                   </div>
                   <div className="text-center">
                     <div className="text-3xl mb-2">🗣️</div>
-                    <p className="text-white/90 font-medium">서비스 공동 개발</p>
-                    <p className="text-white/60 text-sm">의견이 직접 반영</p>
+                    <p className="text-white/90 font-medium">피드백 우선 반영</p>
+                    <p className="text-white/60 text-sm">서비스 개선에 참여</p>
                   </div>
                 </div>
               </motion.div>
