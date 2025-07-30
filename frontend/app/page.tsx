@@ -5,19 +5,13 @@ import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import Image from 'next/image';
 
-// 작품 이미지 import
-import vangoghImg from '../public/samples/preview-vangogh.png';
-import monetImg from '../public/samples/preview-monet.png';
-import klimtImg from '../public/samples/preview-klimt.png';
-import picassoImg from '../public/samples/preview-picasso.png';
-import warholImg from '../public/samples/preview-warhol.png';
-import mondrianImg from '../public/samples/preview-mondrian.jpg';
+// 작품 이미지 - 저작권 free 작품들 사용
 
-// 로컬 유명 작품들
+// 저작권 free 유명 작품들 (Public Domain)
 const famousArtworks = [
   {
     id: 1,
-    url: vangoghImg,
+    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg',
     title: '별이 빛나는 밤',
     artist: '빈센트 반 고흐',
     perceptions: [
@@ -31,7 +25,7 @@ const famousArtworks = [
   },
   {
     id: 2,
-    url: monetImg,
+    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Monet_Water_Lilies_1916.jpg/1280px-Monet_Water_Lilies_1916.jpg',
     title: '수련',
     artist: '클로드 모네',
     perceptions: [
@@ -45,7 +39,7 @@ const famousArtworks = [
   },
   {
     id: 3,
-    url: klimtImg,
+    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Gustav_Klimt_016.jpg/800px-Gustav_Klimt_016.jpg',
     title: '키스',
     artist: '구스타프 클림트',
     perceptions: [
@@ -59,44 +53,44 @@ const famousArtworks = [
   },
   {
     id: 4,
-    url: picassoImg,
-    title: '게르니카',
-    artist: '파블로 피카소',
+    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg',
+    title: '모나리자',
+    artist: '레오나르도 다 빈치',
     perceptions: [
-      "전쟁의 참혹함",
-      "분열된 현실",
-      "고통의 울부짖음",
-      "파괴된 평화",
-      "저항의 예술",
-      "역사의 상처"
+      "신비로운 미소",
+      "시선의 추격",
+      "내면의 비밀",
+      "영원한 수수께끼",
+      "침묵의 대화",
+      "시간을 초월한 아름다움"
     ]
   },
   {
     id: 5,
-    url: warholImg,
-    title: '캠벨 수프 캔',
-    artist: '앤디 워홀',
+    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Katsushika_Hokusai_-_Thirty-six_Views_of_Mount_Fuji-_The_Great_Wave_off_Kanagawa_-_Google_Art_Project.jpg/1280px-Katsushika_Hokusai_-_Thirty-six_Views_of_Mount_Fuji-_The_Great_Wave_off_Kanagawa_-_Google_Art_Project.jpg',
+    title: '가나가와 해변의 큰 파도',
+    artist: '가쓰시카 호쿠사이',
     perceptions: [
-      "일상의 예술화",
-      "대량생산의 미학",
-      "소비문화 비판",
-      "팝아트의 정수",
-      "복제의 시대",
-      "현대의 아이콘"
+      "자연의 위대함",
+      "순간의 긴장감",
+      "삶과 죽음의 경계",
+      "역동적 평형",
+      "동양의 미학",
+      "파도 속 후지산"
     ]
   },
   {
     id: 6,
-    url: mondrianImg,
-    title: '빨강, 파랑, 노랑의 구성',
-    artist: '피트 몬드리안',
+    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Edvard_Munch_-_The_Scream_-_Google_Art_Project.jpg/800px-Edvard_Munch_-_The_Scream_-_Google_Art_Project.jpg',
+    title: '절규',
+    artist: '에드바르 뭉크',
     perceptions: [
-      "순수한 추상",
-      "질서의 아름다움",
-      "기하학적 조화",
-      "색채의 균형",
-      "미니멀의 힘",
-      "현대 디자인의 원형"
+      "실존적 공포",
+      "현대인의 불안",
+      "침묵의 비명",
+      "고립된 영혼",
+      "불타는 하늘",
+      "내면의 절규"
     ]
   }
 ];
@@ -286,7 +280,7 @@ export default function JourneyHomePage() {
                   >
                     <div className="relative w-full h-full group">
                       <img
-                        src={artwork.url.src || artwork.url}
+                        src={artwork.url}
                         alt={artwork.title}
                         className="w-full h-full object-cover rounded-xl"
                         style={{
@@ -450,8 +444,8 @@ export default function JourneyHomePage() {
             {/* 작품 캐러셀 컨테이너 */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative w-full h-full max-w-6xl mx-auto px-8">
-                {/* 중앙 작품 영역 - 위치 조정 */}
-                <div className="absolute top-[45%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                {/* 중앙 작품 영역 - 아래로 이동 */}
+                <div className="absolute top-[50%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <motion.div 
                     className="relative w-[300px] h-[380px]"
                     key={currentArtwork}
@@ -462,7 +456,7 @@ export default function JourneyHomePage() {
                   >
                     <div className="w-full h-full rounded-lg overflow-hidden shadow-2xl relative bg-gray-200">
                       <img 
-                        src={famousArtworks[currentArtwork].url.src || famousArtworks[currentArtwork].url}
+                        src={famousArtworks[currentArtwork].url}
                         alt={famousArtworks[currentArtwork].title}
                         className="w-full h-full object-cover"
                         style={{ display: 'block' }}
@@ -485,12 +479,12 @@ export default function JourneyHomePage() {
                 {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
                   // 각 텍스트의 위치를 화면 전체에 분산
                   const positions = [
-                    { left: '25%', top: '25%' },     // 좌상단
-                    { left: '65%', top: '25%' },     // 우상단
+                    { left: '25%', top: '30%' },     // 좌상단
+                    { left: '65%', top: '30%' },     // 우상단
                     { left: '20%', top: '50%' },     // 좌중앙
                     { left: '70%', top: '50%' },     // 우중앙
-                    { left: '25%', top: '70%' },     // 좌하단
-                    { left: '65%', top: '70%' }      // 우하단
+                    { left: '25%', top: '65%' },     // 좌하단
+                    { left: '65%', top: '65%' }      // 우하단
                   ];
                   
                   return (
@@ -518,7 +512,13 @@ export default function JourneyHomePage() {
                       }}
                     >
                       <motion.div
-                        className="bg-white/90 backdrop-blur-sm px-3 py-2 rounded-lg shadow-lg border border-gray-200 hover:bg-white transition-all cursor-pointer"
+                        className="backdrop-blur-sm px-3 py-2 rounded-lg shadow-lg hover:scale-105 transition-all cursor-pointer"
+                        style={{
+                          backgroundColor: `rgba(255, 255, 255, ${0.7 + (i * 0.05)})`,
+                          borderColor: `rgba(${100 + i * 20}, ${150 + i * 10}, ${200 - i * 15}, 0.5)`,
+                          borderWidth: '1px',
+                          borderStyle: 'solid'
+                        }}
                         whileHover={{ scale: 1.05 }}
                         animate={{
                           y: [0, -5, 0],
@@ -540,7 +540,7 @@ export default function JourneyHomePage() {
                 
                 {/* 네비게이션 버튼 - 작품 양옆에 배치 */}
                 <button
-                  className="absolute left-[calc(50%-250px)] top-[45%] -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all z-10 group"
+                  className="absolute left-[calc(50%-250px)] top-[50%] -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all z-10 group"
                   onClick={() => setCurrentArtwork((prev) => (prev - 1 + famousArtworks.length) % famousArtworks.length)}
                   type="button"
                 >
@@ -550,7 +550,7 @@ export default function JourneyHomePage() {
                 </button>
                 
                 <button
-                  className="absolute right-[calc(50%-250px)] top-[45%] -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all z-10 group"
+                  className="absolute right-[calc(50%-250px)] top-[50%] -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all z-10 group"
                   onClick={() => setCurrentArtwork((prev) => (prev + 1) % famousArtworks.length)}
                   type="button"
                 >
@@ -561,24 +561,24 @@ export default function JourneyHomePage() {
               </div>
             </div>
             
-            {/* 상단 메시지 - 더 아래로 이동 */}
-            <div className="absolute top-40 left-0 right-0 text-center z-30">
+            {/* 상단 메시지 - 중간 위치로 조정 */}
+            <div className="absolute top-28 left-0 right-0 text-center z-30">
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                <p className="text-white text-3xl font-bold mb-1 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
+                <p className="text-white text-2xl font-bold mb-1 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
                   같은 작품, 다른 시선
                 </p>
-                <p className="text-white/90 text-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
+                <p className="text-white/90 text-base drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
                   16가지 Art Persona가 바라보는 각자의 예술 세계
                 </p>
               </motion.div>
             </div>
             
             {/* 작품 인디케이터 */}
-            <div className="absolute bottom-[25%] left-1/2 transform -translate-x-1/2 flex gap-2 z-30">
+            <div className="absolute bottom-[22%] left-1/2 transform -translate-x-1/2 flex gap-2 z-30">
               {famousArtworks.map((_, i) => (
                 <button
                   key={i}
@@ -612,7 +612,7 @@ export default function JourneyHomePage() {
                     <h4 className="text-white font-bold text-lg">시선 공유</h4>
                   </div>
                   <p className="text-white/80 text-sm leading-relaxed">
-                    같은 작품에 대한 다양한 해석을 공유하고 대화하세요
+                    작품에 대한 나만의 해석을 공유하고, 다른 사람들의 시선도 발견해보세요
                   </p>
                 </motion.div>
                 
@@ -628,7 +628,7 @@ export default function JourneyHomePage() {
                     <h4 className="text-white font-bold text-lg">전시 동행 매칭</h4>
                   </div>
                   <p className="text-white/80 text-sm leading-relaxed">
-                    비슷한 취향의 사람과 안전하게 전시를 관람하세요
+                    나와 잘 맞는 Art Persona를 만나 함께 전시회를 즐겨보세요
                   </p>
                 </motion.div>
                 
@@ -644,7 +644,7 @@ export default function JourneyHomePage() {
                     <h4 className="text-white font-bold text-lg">AI 아트 큐레이터</h4>
                   </div>
                   <p className="text-white/80 text-sm leading-relaxed">
-                    당신의 감정과 상황에 맞는 작품을 AI가 추천해드려요
+                    오늘의 기분과 상황을 고려한 맞춤형 작품을 만나보세요
                   </p>
                 </motion.div>
               </div>
