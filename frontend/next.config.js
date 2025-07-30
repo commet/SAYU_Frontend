@@ -117,14 +117,17 @@ const nextConfig = {
       '@react-three/drei',
       'framer-motion'
     ],
-    // Next.js 15 새로운 기능들
-    serverComponentsExternalPackages: ['sharp'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
+  },
+  
+  // Next.js 15 설정
+  serverExternalPackages: ['sharp'],
+  
+  // Turbopack 설정 (experimental에서 이동)
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
     },
   },

@@ -6,7 +6,7 @@ let anime: any = null;
 
 // Dynamically load anime.js on client side
 if (typeof window !== 'undefined') {
-  import('animejs/lib/anime.es.js').then(module => {
+  import('animejs').then(module => {
     anime = module.default;
   });
 }
