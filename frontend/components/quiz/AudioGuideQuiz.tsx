@@ -199,17 +199,17 @@ export const AudioGuideQuiz: React.FC = () => {
             </div>
             <button
               onClick={() => setAudioPlaying(!audioPlaying)}
-              className="w-8 h-8 rounded-full bg-amber-500/20 hover:bg-amber-500/30 flex items-center justify-center transition-colors"
+              className="w-8 h-8 rounded-full bg-indigo-500/20 hover:bg-indigo-500/30 flex items-center justify-center transition-colors"
               aria-label={audioPlaying ? "Pause" : "Play"}
             >
-              {audioPlaying ? <Pause className="w-4 h-4 text-amber-500" /> : <Play className="w-4 h-4 text-amber-500" />}
+              {audioPlaying ? <Pause className="w-4 h-4 text-indigo-500" /> : <Play className="w-4 h-4 text-indigo-500" />}
             </button>
           </div>
           
           {/* Progress Bar */}
           <div className="h-1.5 bg-gray-700 relative rounded-full mb-3">
             <motion.div 
-              className="absolute inset-y-0 left-0 bg-gradient-to-r from-amber-500 to-amber-400 rounded-full"
+              className="absolute inset-y-0 left-0 bg-gradient-to-r from-indigo-500 to-indigo-400 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ ease: "easeOut", duration: 0.8 }}
@@ -224,7 +224,7 @@ export const AudioGuideQuiz: React.FC = () => {
               [...Array(6)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="w-1 bg-gradient-to-t from-amber-600 to-amber-400 rounded-full"
+                  className="w-1 bg-gradient-to-t from-indigo-600 to-indigo-400 rounded-full"
                   animate={{
                     height: [6, 20, 6],
                   }}
@@ -248,7 +248,7 @@ export const AudioGuideQuiz: React.FC = () => {
             <button
               onClick={handleGoBack}
               disabled={currentQuestion === 0}
-              className="text-sm text-gray-300 hover:text-amber-400 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 font-medium transition-colors px-2 py-1 rounded hover:bg-gray-800"
+              className="text-sm text-gray-300 hover:text-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 font-medium transition-colors px-2 py-1 rounded hover:bg-gray-800"
             >
               <ChevronLeft className="w-4 h-4" />
               {language === 'ko' ? '이전' : 'Back'}
@@ -256,7 +256,7 @@ export const AudioGuideQuiz: React.FC = () => {
             
             <button
               onClick={() => setShowGalleryMap(true)}
-              className="text-sm text-gray-300 hover:text-amber-400 flex items-center gap-1 font-medium transition-colors px-2 py-1 rounded hover:bg-gray-800"
+              className="text-sm text-gray-300 hover:text-indigo-400 flex items-center gap-1 font-medium transition-colors px-2 py-1 rounded hover:bg-gray-800"
             >
               <Map className="w-4 h-4" />
               {language === 'ko' ? '지도' : 'Map'}

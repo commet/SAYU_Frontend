@@ -108,13 +108,13 @@
   --input: 232 232 232;
   --ring: 59 130 206;
   
-  /* === 현재 활성 테마 (기본: 따뜻하고 부드러운 1번) === */
-  --primary: var(--warm-soft-1-primary);
+  /* === 현재 활성 테마 (중립적인 색상) === */
+  --primary: 99 102 241; /* Indigo */
   --primary-foreground: 255 255 255;
-  --secondary: var(--warm-soft-1-secondary);
+  --secondary: 107 114 128; /* Gray */
   --secondary-foreground: 255 255 255;
-  --accent: var(--warm-soft-1-secondary);
-  --accent-foreground: 49 36 62;
+  --accent: 139 92 246; /* Purple */
+  --accent-foreground: 255 255 255;
   
   /* === 카드 & 팝오버 === */
   --card: var(--background);
@@ -269,32 +269,32 @@
 
 /* 다크 모드 */
 .dark {
-  --background: 10 10 10;
-  --foreground: 250 250 250;
-  --muted: 31 31 31;
-  --muted-foreground: 179 179 179;
-  --border: 51 51 51;
-  --input: 51 51 51;
-  --ring: 96 165 250;
+  --background: 17 24 39; /* Gray-900 */
+  --foreground: 243 244 246; /* Gray-100 */
+  --muted: 31 41 55; /* Gray-800 */
+  --muted-foreground: 156 163 175; /* Gray-400 */
+  --border: 55 65 81; /* Gray-700 */
+  --input: 55 65 81; /* Gray-700 */
+  --ring: 99 102 241; /* Indigo */
   
-  /* 다크 모드에서는 대비가 강한 조합 사용 */
-  --primary: var(--vibrant-contrast-1-secondary); /* Double Bounce */
+  /* 다크 모드에서도 동일한 primary 색상 사용 */
+  --primary: 99 102 241; /* Indigo */
   --primary-foreground: 255 255 255;
-  --secondary: var(--vibrant-contrast-3-primary); /* UCLA Blue */
+  --secondary: 107 114 128; /* Gray */
   --secondary-foreground: 255 255 255;
-  --accent: var(--calm-elegant-3-secondary); /* Ivory Mist */
-  --accent-foreground: 10 10 10;
+  --accent: 139 92 246; /* Purple */
+  --accent-foreground: 255 255 255;
   
   /* === SPARKLES COMPONENT (DARK) === */
-  --gradient-color: #8350e8;
+  --gradient-color: #6366f1;
   --sparkles-color: #ffffff;
   
-  --card: 20 20 20;
-  --card-foreground: 250 250 250;
-  --popover: 20 20 20;
-  --popover-foreground: 250 250 250;
+  --card: 31 41 55; /* Gray-800 */
+  --card-foreground: 243 244 246; /* Gray-100 */
+  --popover: 31 41 55; /* Gray-800 */
+  --popover-foreground: 243 244 246; /* Gray-100 */
   
-  --destructive: 248 113 113;
+  --destructive: 239 68 68;
   --destructive-foreground: 255 255 255;
 }
 

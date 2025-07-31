@@ -953,7 +953,7 @@ export default function JourneyHomePage() {
                 >
                   <span className="relative z-10">나의 Art Persona 발견하기</span>
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-green-400"
+                    className="absolute inset-0 bg-gradient-to-r from-indigo-400 to-green-400"
                     initial={{ x: "-100%" }}
                     whileHover={{ x: 0 }}
                     transition={{ duration: 0.3 }}
