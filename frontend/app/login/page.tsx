@@ -49,8 +49,13 @@ function LoginContent() {
       await signIn(email, password);
       toast.success(language === 'ko' ? '로그인 성공!' : 'Login successful!');
       router.push('/');
-    } catch (error) {
-      toast.error(language === 'ko' ? '잘못된 인증 정보입니다' : 'Invalid credentials');
+    } catch (error: any) {
+      console.error('Login error:', error);
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error(language === 'ko' ? '잘못된 인증 정보입니다' : 'Invalid credentials');
+      }
     } finally {
       setLoading(false);
     }

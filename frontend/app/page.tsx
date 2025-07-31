@@ -168,31 +168,42 @@ export default function JourneyHomePage() {
             
             {/* 부드러운 미로 안개 효과 */}
             <div className="absolute inset-0">
-              {[...Array(8)].map((_, i) => (
-                <motion.div
-                  key={`mist-${i}`}
-                  className="absolute rounded-full opacity-20"
-                  style={{
-                    left: `${Math.random() * 100}%`,
-                    top: `${Math.random() * 100}%`,
-                    width: `${100 + Math.random() * 200}px`,
-                    height: `${100 + Math.random() * 200}px`,
-                    background: `radial-gradient(circle, rgba(100, 100, 120, 0.3) 0%, transparent 70%)`,
-                    filter: 'blur(60px)',
-                  }}
-                  animate={{
-                    x: [0, Math.random() * 100 - 50, 0],
-                    y: [0, Math.random() * 100 - 50, 0],
-                    scale: [1, 1.2, 1],
-                  }}
-                  transition={{
-                    duration: 15 + Math.random() * 10,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: i * 2,
-                  }}
-                />
-              ))}
+              {[...Array(8)].map((_, i) => {
+                // Use deterministic values based on index
+                const left = ((i * 12.5) + 6.25) % 100;
+                const top = ((i * 25) + 12.5) % 100;
+                const width = 100 + (i * 25);
+                const height = 100 + ((i * 30) % 200);
+                const xOffset = (i % 2 === 0 ? 30 : -30) + (i * 5);
+                const yOffset = (i % 2 === 0 ? -40 : 40) + (i * 3);
+                const duration = 15 + (i * 2.5);
+                
+                return (
+                  <motion.div
+                    key={`mist-${i}`}
+                    className="absolute rounded-full opacity-20"
+                    style={{
+                      left: `${left}%`,
+                      top: `${top}%`,
+                      width: `${width}px`,
+                      height: `${height}px`,
+                      background: `radial-gradient(circle, rgba(100, 100, 120, 0.3) 0%, transparent 70%)`,
+                      filter: 'blur(60px)',
+                    }}
+                    animate={{
+                      x: [0, xOffset, 0],
+                      y: [0, yOffset, 0],
+                      scale: [1, 1.2, 1],
+                    }}
+                    transition={{
+                      duration: duration,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: i * 2,
+                    }}
+                  />
+                );
+              })}
             </div>
             
             {/* 은은한 미로 패턴 - 중앙에서 퍼지는 미로 */}
@@ -479,12 +490,12 @@ export default function JourneyHomePage() {
                 {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
                   // 각 텍스트의 위치를 작품 주변에 배치 (화살표 버튼 피하기)
                   const positions = [
-                    { left: '20%', top: '25%' },     // 좌상단
-                    { left: '80%', top: '25%' },     // 우상단
+                    { left: '20%', top: '30%' },     // 좌상단
+                    { left: '70%', top: '30%' },     // 우상단
                     { left: '15%', top: '50%' },     // 좌중앙 - 화살표 버튼 왼쪽
-                    { left: '85%', top: '50%' },     // 우중앙 - 화살표 버튼 오른쪽
-                    { left: '20%', top: '75%' },     // 좌하단
-                    { left: '80%', top: '75%' }      // 우하단
+                    { left: '73%', top: '50%' },     // 우중앙 - 화살표 버튼 오른쪽
+                    { left: '20%', top: '70%' },     // 좌하단
+                    { left: '70%', top: '70%' }      // 우하단
                   ];
                   
                   return (
@@ -773,51 +784,62 @@ export default function JourneyHomePage() {
             <div className="absolute inset-0 bg-gradient-to-b from-green-300 via-green-100 to-white" />
             
             {/* 움직이는 정원 요소들 - 부드러운 빛 입자 */}
-            {[...Array(6)].map((_, i) => (
-              <motion.div
-                key={`light-${i}`}
-                className="absolute w-32 h-32 rounded-full"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  background: `radial-gradient(circle, rgba(255,255,255,0.${i+2}) 0%, transparent 70%)`,
-                  filter: 'blur(40px)',
-                }}
-                animate={{
-                  scale: [1, 1.5, 1],
-                  opacity: [0.3, 0.6, 0.3],
-                }}
-                transition={{
-                  duration: 8 + i * 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 1.5,
-                }}
-              />
-            ))}
+            {[...Array(6)].map((_, i) => {
+              const left = ((i * 16.67) + 8.33) % 100;
+              const top = ((i * 20) + 10) % 100;
+              
+              return (
+                <motion.div
+                  key={`light-${i}`}
+                  className="absolute w-32 h-32 rounded-full"
+                  style={{
+                    left: `${left}%`,
+                    top: `${top}%`,
+                    background: `radial-gradient(circle, rgba(255,255,255,0.${i+2}) 0%, transparent 70%)`,
+                    filter: 'blur(40px)',
+                  }}
+                  animate={{
+                    scale: [1, 1.5, 1],
+                    opacity: [0.3, 0.6, 0.3],
+                  }}
+                  transition={{
+                    duration: 8 + i * 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 1.5,
+                  }}
+                />
+              );
+            })}
             
             {/* 움직이는 정원 요소들 - 꽃잎 */}
-            {[...Array(12)].map((_, i) => (
-              <motion.div
-                key={`petal-${i}`}
-                className="absolute w-4 h-4 bg-pink-300/40 rounded-full blur-sm"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `-10%`,
-                }}
-                animate={{
-                  y: ['0vh', '110vh'],
-                  x: [0, Math.random() * 100 - 50],
-                  rotate: [0, 360],
-                }}
-                transition={{
-                  duration: 10 + Math.random() * 5,
-                  repeat: Infinity,
-                  ease: "linear",
-                  delay: i * 0.8,
-                }}
-              />
-            ))}
+            {[...Array(12)].map((_, i) => {
+              const left = ((i * 8.33) + 4.17) % 100;
+              const xOffset = (i % 3 === 0 ? -20 : i % 3 === 1 ? 0 : 20) + (i * 3);
+              const duration = 10 + ((i * 0.42) % 5);
+              
+              return (
+                <motion.div
+                  key={`petal-${i}`}
+                  className="absolute w-4 h-4 bg-pink-300/40 rounded-full blur-sm"
+                  style={{
+                    left: `${left}%`,
+                    top: `-10%`,
+                  }}
+                  animate={{
+                    y: ['0vh', '110vh'],
+                    x: [0, xOffset],
+                    rotate: [0, 360],
+                  }}
+                  transition={{
+                    duration: duration,
+                    repeat: Infinity,
+                    ease: "linear",
+                    delay: i * 0.8,
+                  }}
+                />
+              );
+            })}
             
             {/* 하단 서사의 완성 - 표현하고자 하는 내용 */}
             <div className="absolute bottom-0 left-0 right-0">

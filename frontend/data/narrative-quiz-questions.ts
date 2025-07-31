@@ -31,7 +31,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     act: 'curiosity',
     narrative: {
       setup: "You receive an invitation to a mysterious gallery opening. The envelope is sealed with burgundy wax, and inside, the card simply reads: 'Your presence is requested for a journey of discovery.'",
-      setup_ko: "신비로운 갤러리 오프닝 초대장이 도착했습니다. 짙은 와인빛 밀랍으로 봉인된 봉투 안, 카드에는 단지 이렇게 적혀 있습니다: '발견의 여정에 당신을 초대합니다.'",
+      setup_ko: "신비로운 갤러리 오프닝 초대장이 도착했습니다.\n짙은 와인빛 밀랍 봉인 안, '발견의 여정에 당신을 초대합니다.'",
       atmosphere: "anticipation"
     },
     question: "The heavy oak doors open before you.\nTwo paths diverge in the entrance hall...",

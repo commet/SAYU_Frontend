@@ -176,6 +176,10 @@ export const AudioGuideQuiz: React.FC = () => {
   const phase = getPhaseByQuestion(currentQuestion + 1);
   const backgroundData = getBackgroundForQuestion(currentQuestion + 1);
   
+  console.log('Current question:', currentQuestion + 1);
+  console.log('Phase:', phase);
+  console.log('Background data:', backgroundData);
+  
   return (
     <div className="audio-guide-quiz-container">
       {/* Language Toggle */}
@@ -183,31 +187,31 @@ export const AudioGuideQuiz: React.FC = () => {
         <LanguageToggle variant="glass" />
       </div>
       
-      {/* Audio Guide Device - Improved Compact Version */}
+      {/* Audio Guide Device - Bottom Right Position */}
       <motion.div 
-        className="fixed top-4 left-4 z-40 max-w-xs"
-        initial={{ x: -100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
+        className="audio-guide-device-improved"
+        initial={{ y: 100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
       >
-        <div className="audio-guide-device-improved">
+        <div>
           {/* Header with Guide Number and Play Control */}
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <Headphones className="w-6 h-6 text-green-400" />
-              <span className="text-2xl font-bold text-white">{audioGuideNumber}</span>
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <Headphones className="w-4 h-4 text-green-400" />
+              <span className="text-lg font-bold text-white">{audioGuideNumber}</span>
             </div>
             <button
               onClick={() => setAudioPlaying(!audioPlaying)}
-              className="w-8 h-8 rounded-full bg-indigo-500/20 hover:bg-indigo-500/30 flex items-center justify-center transition-colors"
+              className="w-7 h-7 rounded-full bg-indigo-500/20 hover:bg-indigo-500/30 flex items-center justify-center transition-colors"
               aria-label={audioPlaying ? "Pause" : "Play"}
             >
-              {audioPlaying ? <Pause className="w-4 h-4 text-indigo-500" /> : <Play className="w-4 h-4 text-indigo-500" />}
+              {audioPlaying ? <Pause className="w-3 h-3 text-indigo-500" /> : <Play className="w-3 h-3 text-indigo-500" />}
             </button>
           </div>
           
           {/* Progress Bar */}
-          <div className="h-1.5 bg-gray-700 relative rounded-full mb-3">
+          <div className="h-1 bg-gray-700 relative rounded-full mb-2">
             <motion.div 
               className="absolute inset-y-0 left-0 bg-gradient-to-r from-indigo-500 to-indigo-400 rounded-full"
               initial={{ width: 0 }}
@@ -216,17 +220,17 @@ export const AudioGuideQuiz: React.FC = () => {
             />
           </div>
           
-          <p className="text-sm font-medium text-gray-300 mb-3">{galleryRoom}</p>
+          <p className="text-xs font-medium text-gray-300 mb-1">{galleryRoom}</p>
           
-          {/* Audio Visualizer - Improved */}
-          <div className="h-8 flex items-center justify-center gap-1 mb-3">
+          {/* Audio Visualizer - Compact */}
+          <div className="h-6 flex items-center justify-center gap-1 mb-2">
             {audioPlaying ? (
-              [...Array(6)].map((_, i) => (
+              [...Array(5)].map((_, i) => (
                 <motion.div
                   key={i}
                   className="w-1 bg-gradient-to-t from-indigo-600 to-indigo-400 rounded-full"
                   animate={{
-                    height: [6, 20, 6],
+                    height: [4, 16, 4],
                   }}
                   transition={{
                     duration: 1.2,
@@ -237,7 +241,7 @@ export const AudioGuideQuiz: React.FC = () => {
                 />
               ))
             ) : (
-              <div className="text-gray-400 text-sm font-medium">
+              <div className="text-gray-400 text-xs font-medium">
                 {language === 'ko' ? '오디오 가이드' : 'Audio Guide'}
               </div>
             )}
@@ -274,18 +278,18 @@ export const AudioGuideQuiz: React.FC = () => {
       </motion.div>
 
       {/* Gallery Room Experience */}
-      <div className={cn(
-        "gallery-room-experience",
-        `phase-${phase}`
-      )}
-      style={{
-        backgroundImage: backgroundData.backgrounds && backgroundData.backgrounds.length > 0
-          ? `url(${backgroundData.backgrounds[currentQuestion % backgroundData.backgrounds.length]})`
-          : undefined,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}>
+      <div 
+        className="gallery-room-experience"
+        style={{
+          backgroundImage: backgroundData.backgrounds && backgroundData.backgrounds.length > 0
+            ? `url(${backgroundData.backgrounds[currentQuestion % backgroundData.backgrounds.length]})`
+            : 'linear-gradient(135deg, #4a5568 0%, #2d3748 50%, #1a202c 100%)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          minHeight: '100vh',
+          position: 'relative'
+        }}>
         {/* Gradient Overlay */}
         <div className={cn(
           "gallery-overlay",
@@ -304,29 +308,30 @@ export const AudioGuideQuiz: React.FC = () => {
                 transition={{ duration: 0.6 }}
                 className="question-artwork-frame"
               >
-                {/* Gallery Room Title - 우측 상단으로 이동 */}
-                <motion.div 
-                  className="room-plaque-new"
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <h3 className="text-lg font-medium text-white">{galleryRoom}</h3>
-                  <p className="text-sm opacity-70 text-white">Stop {currentQuestion + 1} of {narrativeQuestions.length}</p>
-                </motion.div>
-
-                {/* Main Question Card - Fixed Styling */}
-                <div className="question-card-fixed max-w-4xl mx-auto mb-8">
-                  {/* Narrative Setup */}
+                {/* Main Question Frame - 전체 액자 */}
+                <div className="question-artwork-frame max-w-4xl mx-auto mb-8">
+                  {/* Gallery Room Title - Inside Frame Top Right */}
+                  <motion.div 
+                    className="room-plaque-new"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <h3 className="text-sm font-medium text-white">{galleryRoom}</h3>
+                    <p className="text-xs opacity-70 text-white">Stop {currentQuestion + 1} of {narrativeQuestions.length}</p>
+                  </motion.div>
+                  {/* Narrative Setup - 액자 없는 상황 설명 */}
                   {(question.narrative.setup || question.narrative.transition) && (
-                    <motion.p
-                      className="text-lg text-gray-800 mb-6 leading-relaxed font-medium"
+                    <motion.div
+                      className="narrative-setup-box mb-6"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.4 }}
                     >
-                      {getTransitionText()}
-                    </motion.p>
+                      <p className="text-lg leading-relaxed font-medium">
+                        {getTransitionText()}
+                      </p>
+                    </motion.div>
                   )}
 
                   {/* Question */}
@@ -375,7 +380,7 @@ export const AudioGuideQuiz: React.FC = () => {
                           }} />
                         </div>
 
-                        <div className="relative z-10 flex flex-col justify-center min-h-[160px] py-6">
+                        <div className="relative z-10 flex flex-col justify-center py-4">
                           <div className="flex justify-between items-start mb-4">
                             <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-800 text-white font-bold text-lg">
                               {index === 0 ? 'A' : 'B'}

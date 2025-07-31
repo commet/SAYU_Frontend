@@ -35,7 +35,7 @@ function RegisterContent() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
-  const { signUp } = useAuth();
+  const { signUp, signIn } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const { language } = useLanguage();
@@ -77,7 +77,16 @@ function RegisterContent() {
     try {
       await signUp(email, password, { full_name: name });
       toast.success(language === 'ko' ? '회원가입 성공!' : 'Registration successful!');
-      router.push('/quiz');
+      
+      // Try to sign in immediately after signup
+      try {
+        await signIn(email, password);
+        router.push('/quiz');
+      } catch (signInError) {
+        // If auto sign-in fails, redirect to login
+        toast.info(language === 'ko' ? '로그인 페이지로 이동합니다' : 'Please login with your credentials');
+        router.push('/login');
+      }
     } catch (error) {
       toast.error(language === 'ko' ? '회원가입에 실패했습니다' : 'Registration failed');
     } finally {
