@@ -477,14 +477,14 @@ export default function JourneyHomePage() {
                 
                 {/* 6개의 감상 텍스트 - 작품 주변 분산 배치 */}
                 {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
-                  // 각 텍스트의 위치를 화면 전체에 분산
+                  // 각 텍스트의 위치를 작품 주변에 가깝게 배치
                   const positions = [
-                    { left: '10%', top: '30%' },     // 좌상단 - 더 왼쪽으로
-                    { left: '85%', top: '30%' },     // 우상단 - 더 오른쪽으로
-                    { left: '5%', top: '50%' },      // 좌중앙 - 더 왼쪽으로
-                    { left: '90%', top: '50%' },     // 우중앙 - 더 오른쪽으로
-                    { left: '12%', top: '70%' },     // 좌하단 - 더 왼쪽으로
-                    { left: '80%', top: '70%' }      // 우하단 - 더 오른쪽으로
+                    { left: '35%', top: '25%' },     // 좌상단
+                    { left: '65%', top: '25%' },     // 우상단
+                    { left: '30%', top: '50%' },     // 좌중앙
+                    { left: '70%', top: '50%' },     // 우중앙
+                    { left: '35%', top: '75%' },     // 좌하단
+                    { left: '65%', top: '75%' }      // 우하단
                   ];
                   
                   return (
@@ -834,10 +834,11 @@ export default function JourneyHomePage() {
                 {/* 커뮤니티 활동 소개 */}
                 <div className="max-w-5xl mx-auto mb-12">
                   <motion.p 
-                    className="text-green-800 text-xl font-bold mb-8"
+                    className="text-green-800 text-xl font-bold mb-6"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 2.8 }}
+                    style={{ marginTop: '80px' }}
                   >
                     SAYU에서 만나는 특별한 경험들
                   </motion.p>
@@ -919,8 +920,8 @@ export default function JourneyHomePage() {
               </motion.div>
             </div>
             
-            {/* 중앙 콘텐츠 */}
-            <div className="absolute inset-0 flex items-center justify-center">
+            {/* 중앙 콘텐츠 - 위치 조정 */}
+            <div className="absolute inset-0 flex items-center justify-center" style={{ marginTop: '-120px' }}>
               <motion.div 
                 className="text-center z-10"
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -961,7 +962,7 @@ export default function JourneyHomePage() {
                 
                 {/* 여정 진행 상황 */}
                 <motion.div
-                  className="mt-8 text-green-600"
+                  className="mt-6 text-green-600"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.5 }}
