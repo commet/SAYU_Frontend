@@ -15,10 +15,10 @@ interface GlassButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
 }
 
 const variants = {
-  default: 'glass text-foreground hover:text-primary',
-  primary: 'bg-primary/80 backdrop-blur-md text-primary-foreground hover:bg-primary/90',
-  secondary: 'bg-secondary/80 backdrop-blur-md text-secondary-foreground hover:bg-secondary/90',
-  ghost: 'hover:bg-white/10 backdrop-blur-sm',
+  default: 'glass text-gray-900 dark:text-gray-100 hover:bg-gray-100/20 dark:hover:bg-gray-800/20',
+  primary: 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-200',
+  secondary: 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600',
+  ghost: 'hover:bg-gray-100/10 dark:hover:bg-gray-800/10 text-gray-900 dark:text-gray-100',
   success: 'bg-gradient-to-r from-emerald-500/80 to-teal-500/80 backdrop-blur-md text-white hover:from-emerald-600/90 hover:to-teal-600/90 shadow-lg shadow-emerald-500/25',
   warning: 'bg-gradient-to-r from-amber-500/80 to-orange-500/80 backdrop-blur-md text-white hover:from-amber-600/90 hover:to-orange-600/90 shadow-lg shadow-amber-500/25',
   danger: 'bg-gradient-to-r from-rose-500/80 to-pink-500/80 backdrop-blur-md text-white hover:from-rose-600/90 hover:to-pink-600/90 shadow-lg shadow-rose-500/25',

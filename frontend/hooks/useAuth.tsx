@@ -44,9 +44,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const fetchProfile = async (userId: string) => {
     try {
       const { data, error } = await supabase
-        .from('users')
+        .from('profiles')
         .select('*')
-        .eq('auth_id', userId)
+        .eq('id', userId)
         .single();
 
       if (error && error.code !== 'PGRST116') {
@@ -65,10 +65,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const createProfile = async (user: User) => {
     try {
       const { data, error } = await supabase
-        .from('users')
+        .from('profiles')
         .insert({
-          auth_id: user.id,
+          id: user.id,
           email: user.email!,
+          username: user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
           created_at: new Date().toISOString()
         })
         .select()

@@ -88,25 +88,25 @@ export default function QuizIntroPage() {
               </svg>
             </div>
             
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight text-gray-900 dark:text-gray-900">
               {language === 'ko' 
                 ? '당신만의 예술 여정이 시작됩니다' 
                 : 'Your Personal Art Journey Awaits'
               }
             </h1>
             
-            <div className="text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto">
+            <div className="text-lg text-gray-700 dark:text-gray-700 leading-relaxed max-w-2xl mx-auto">
               {language === 'ko' ? (
                 <>
-                  <p className="mb-2">이것은 테스트가 아닙니다.</p>
-                  <p className="mb-3">당신이 아름다움을 경험하는 고유한 방식을 발견하는 여정입니다.</p>
-                  <p className="text-sm text-indigo-600 font-medium">미술관을 거닐며 당신만의 예술 취향을 찾아가는 이야기</p>
+                  <p className="mb-1">이것은 테스트가 아닙니다.</p>
+                  <p className="mb-2">당신이 아름다움을 경험하는 고유한 방식을 발견하는 여정입니다.</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-600 font-medium italic">미술관을 거닐며 당신만의 예술 취향을 찾아가는 이야기</p>
                 </>
               ) : (
                 <>
-                  <p className="mb-2">This isn't a test.</p>
-                  <p className="mb-3">It's a journey to discover your unique way of experiencing beauty.</p>
-                  <p className="text-sm text-indigo-600 font-medium">A story of finding your art taste while strolling through a museum</p>
+                  <p className="mb-1">This isn't a test.</p>
+                  <p className="mb-2">It's a journey to discover your unique way of experiencing beauty.</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-600 font-medium italic">A story of finding your art taste while strolling through a museum</p>
                 </>
               )}
             </div>
@@ -120,8 +120,8 @@ export default function QuizIntroPage() {
           >
             {/* What You'll Discover */}
             <div className="text-center">
-              <h2 className="text-2xl font-bold mb-6 flex items-center justify-center gap-3">
-                <Compass className="w-6 h-6 text-primary" />
+              <h2 className="text-2xl font-bold mb-6 flex items-center justify-center gap-3 text-gray-900 dark:text-gray-900">
+                <Compass className="w-6 h-6 text-gray-800 dark:text-gray-800" />
                 {language === 'ko' ? '무엇을 발견하게 될까요?' : 'What You\'ll Discover'}
               </h2>
               
@@ -133,7 +133,7 @@ export default function QuizIntroPage() {
                 >
                   <GlassCard variant="light" className="h-full p-5 text-center group">
                     <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">🌅</div>
-                    <h3 className="font-semibold text-lg mb-2">
+                    <h3 className="font-semibold text-lg mb-2 text-gray-900 dark:text-gray-900">
                       {language === 'ko' ? '당신의 관람 스타일' : 'Your Viewing Style'}
                     </h3>
                     <div className="text-sm text-gray-600 whitespace-pre-line">
@@ -152,7 +152,7 @@ export default function QuizIntroPage() {
                 >
                   <GlassCard variant="light" className="h-full p-5 text-center group">
                     <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">🎭</div>
-                    <h3 className="font-semibold text-lg mb-2">
+                    <h3 className="font-semibold text-lg mb-2 text-gray-900 dark:text-gray-900">
                       {language === 'ko' ? '당신의 감상 방식' : 'Your Perception Style'}
                     </h3>
                     <div className="text-sm text-gray-600 whitespace-pre-line">
@@ -171,7 +171,7 @@ export default function QuizIntroPage() {
                 >
                   <GlassCard variant="light" className="h-full p-5 text-center group">
                     <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">✨</div>
-                    <h3 className="font-semibold text-lg mb-2">
+                    <h3 className="font-semibold text-lg mb-2 text-gray-900 dark:text-gray-900">
                       {language === 'ko' ? '당신의 예술 언어' : 'Your Art Language'}
                     </h3>
                     <p className="text-sm text-gray-600">
@@ -216,17 +216,15 @@ export default function QuizIntroPage() {
             transition={{ delay: 0.7 }}
             className="text-center"
           >
-            <GlassButton
+            <button
               onClick={startQuiz}
-              size="lg"
-              variant="primary"
-              className="mx-auto flex items-center gap-2 px-10 py-6 text-lg"
+              className="mx-auto flex items-center gap-2 px-12 py-6 text-lg font-semibold bg-gray-900 dark:bg-gray-900 text-white hover:bg-gray-800 dark:hover:bg-gray-800 rounded-xl transition-all hover:scale-105 active:scale-95"
             >
-              <Sparkles className="w-6 h-6" />
+              <Sparkles className="w-6 h-6 text-white" />
               {language === 'ko' ? '나의 예술 페르소나 알아보기' : 'Discover My Art Persona'}
-            </GlassButton>
+            </button>
             
-            <p className="mt-6 text-sm text-gray-600">
+            <p className="mt-6 text-sm text-gray-600 dark:text-gray-600">
               {language === 'ko' 
                 ? '정답은 없습니다. 오직 당신의 진실한 마음만이 있을 뿐입니다.' 
                 : 'There are no right answers. Only your authentic self.'

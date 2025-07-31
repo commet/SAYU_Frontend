@@ -477,14 +477,14 @@ export default function JourneyHomePage() {
                 
                 {/* 6개의 감상 텍스트 - 작품 주변 분산 배치 */}
                 {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
-                  // 각 텍스트의 위치를 작품 주변에 가깝게 배치
+                  // 각 텍스트의 위치를 작품 주변에 배치 (화살표 버튼 피하기)
                   const positions = [
-                    { left: '35%', top: '25%' },     // 좌상단
-                    { left: '65%', top: '25%' },     // 우상단
-                    { left: '30%', top: '50%' },     // 좌중앙
-                    { left: '70%', top: '50%' },     // 우중앙
-                    { left: '35%', top: '75%' },     // 좌하단
-                    { left: '65%', top: '75%' }      // 우하단
+                    { left: '25%', top: '25%' },     // 좌상단
+                    { left: '75%', top: '25%' },     // 우상단
+                    { left: '20%', top: '50%' },     // 좌중앙
+                    { left: '80%', top: '50%' },     // 우중앙
+                    { left: '25%', top: '75%' },     // 좌하단
+                    { left: '75%', top: '75%' }      // 우하단
                   ];
                   
                   return (
@@ -838,7 +838,7 @@ export default function JourneyHomePage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 2.8 }}
-                    style={{ marginTop: '80px' }}
+                    style={{ marginTop: '120px' }}
                   >
                     SAYU에서 만나는 특별한 경험들
                   </motion.p>
@@ -921,7 +921,7 @@ export default function JourneyHomePage() {
             </div>
             
             {/* 중앙 콘텐츠 - 위치 조정 */}
-            <div className="absolute inset-0 flex items-center justify-center" style={{ marginTop: '-120px' }}>
+            <div className="absolute inset-0 flex items-center justify-center" style={{ marginTop: '-180px' }}>
               <motion.div 
                 className="text-center z-10"
                 initial={{ opacity: 0, scale: 0.8 }}
