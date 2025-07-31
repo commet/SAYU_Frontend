@@ -641,7 +641,6 @@ export const getPersonalizedTransition_ko = (
   const key = `${previousChoice}-${toQuestion}`;
   return transitions_ko[key] || "갤러리를 통한 여정을 계속합니다...";
 };
-};
 
 // Encouraging feedback messages
 export const encouragingFeedback = [
