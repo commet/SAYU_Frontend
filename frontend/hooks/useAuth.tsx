@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       profile: userProfile,
       nickname: userProfile?.username || null,
       agencyLevel: userProfile?.personality_type || 'novice',
-      journeyStage: userProfile?.onboarding_completed ? 'active' : 'onboarding',
+      journeyStage: userProfile ? 'active' : 'onboarding',
       hasProfile: !!userProfile,
       typeCode: userProfile?.personality_type || null,
       archetypeName: userProfile?.personality_type || null,

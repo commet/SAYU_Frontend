@@ -479,12 +479,12 @@ export default function JourneyHomePage() {
                 {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
                   // 각 텍스트의 위치를 작품 주변에 배치 (화살표 버튼 피하기)
                   const positions = [
-                    { left: '25%', top: '25%' },     // 좌상단
-                    { left: '75%', top: '25%' },     // 우상단
-                    { left: '20%', top: '50%' },     // 좌중앙
-                    { left: '80%', top: '50%' },     // 우중앙
-                    { left: '25%', top: '75%' },     // 좌하단
-                    { left: '75%', top: '75%' }      // 우하단
+                    { left: '20%', top: '25%' },     // 좌상단
+                    { left: '80%', top: '25%' },     // 우상단
+                    { left: '15%', top: '50%' },     // 좌중앙 - 화살표 버튼 왼쪽
+                    { left: '85%', top: '50%' },     // 우중앙 - 화살표 버튼 오른쪽
+                    { left: '20%', top: '75%' },     // 좌하단
+                    { left: '80%', top: '75%' }      // 우하단
                   ];
                   
                   return (

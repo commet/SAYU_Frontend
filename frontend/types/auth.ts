@@ -1,8 +1,8 @@
 import { User as SupabaseUser } from '@supabase/supabase-js';
 import { Database } from '@/lib/supabase/database.types';
 
-// Database의 users 테이블 타입
-export type UserProfile = Database['public']['Tables']['users']['Row'];
+// Database의 profiles 테이블 타입
+export type UserProfile = Database['public']['Tables']['profiles']['Row'];
 
 // SAYU 확장 User 타입 - Supabase User와 SAYU 요구사항 통합
 export interface SAYUUser extends SupabaseUser {
