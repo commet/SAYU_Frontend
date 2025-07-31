@@ -479,12 +479,12 @@ export default function JourneyHomePage() {
                 {famousArtworks[currentArtwork].perceptions.map((perception, i) => {
                   // 각 텍스트의 위치를 화면 전체에 분산
                   const positions = [
-                    { left: '20%', top: '30%' },     // 좌상단 - 더 왼쪽으로
-                    { left: '70%', top: '30%' },     // 우상단 - 더 오른쪽으로
-                    { left: '15%', top: '50%' },     // 좌중앙
-                    { left: '75%', top: '50%' },     // 우중앙
-                    { left: '25%', top: '65%' },     // 좌하단
-                    { left: '65%', top: '65%' }      // 우하단
+                    { left: '10%', top: '30%' },     // 좌상단 - 더 왼쪽으로
+                    { left: '85%', top: '30%' },     // 우상단 - 더 오른쪽으로
+                    { left: '5%', top: '50%' },      // 좌중앙 - 더 왼쪽으로
+                    { left: '90%', top: '50%' },     // 우중앙 - 더 오른쪽으로
+                    { left: '12%', top: '70%' },     // 좌하단 - 더 왼쪽으로
+                    { left: '80%', top: '70%' }      // 우하단 - 더 오른쪽으로
                   ];
                   
                   return (
@@ -744,18 +744,18 @@ export default function JourneyHomePage() {
                 <div className="grid grid-cols-3 gap-4">
                   <div className="text-center">
                     <div className="text-3xl mb-2">🌱</div>
-                    <p className="text-white/90 font-medium">베타 기능 우선 체험</p>
-                    <p className="text-white/60 text-sm">새로운 기능 먼저 사용</p>
+                    <p className="text-white/90 font-medium">신규 기능 우선 공개</p>
+                    <p className="text-white/60 text-sm">개발 중인 기능 미리 체험</p>
                   </div>
                   <div className="text-center">
                     <div className="text-3xl mb-2">🎖️</div>
-                    <p className="text-white/90 font-medium">초기 멤버 인증</p>
+                    <p className="text-white/90 font-medium">창립 멤버 배지</p>
                     <p className="text-white/60 text-sm">프로필에 영구 표시</p>
                   </div>
                   <div className="text-center">
                     <div className="text-3xl mb-2">🗣️</div>
-                    <p className="text-white/90 font-medium">피드백 우선 반영</p>
-                    <p className="text-white/60 text-sm">서비스 개선에 참여</p>
+                    <p className="text-white/90 font-medium">함께 만드는 서비스</p>
+                    <p className="text-white/60 text-sm">당신의 아이디어가 현실로</p>
                   </div>
                 </div>
               </motion.div>
@@ -901,7 +901,7 @@ export default function JourneyHomePage() {
                 
                 {/* 16가지 APT 타입 아이콘들 */}
                 <div className="flex justify-center gap-3 mb-4">
-                  {['🦊', '🐱', '🦉', '🦔', '🐶', '🦆', '🦝', '🐻'].map((emoji, i) => (
+                  {['🦊', '🐱', '🦉', '🦔', '🐶', '🦆', '🐘', '🦅'].map((emoji, i) => (
                     <motion.div
                       key={i}
                       className="text-3xl"

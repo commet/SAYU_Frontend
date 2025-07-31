@@ -566,8 +566,81 @@ export const getPersonalizedTransition = (
     'sanctuary-15': "In your personal sanctuary, the artistic journey finds its home..."
   };
 
+  const transitions_ko: Record<string, string> = {
+    'solitary-2': "선택한 고독 속에서, 발걸음 하나하나가 목적을 담아 울려 퍼집니다...",
+    'social-2': "군중의 열정에 힘입어, 앞으로 나아갑니다...",
+    'intuitive-3': "직감을 믿으며, 부르는 듯한 문을 향해 발길을 돌립니다...",
+    'structured-3': "큐레이터가 제안한 길을 따라, 첫 번째 전시실에 다가갑니다...",
+    'atmosphere-4': "아직 그 감정적 분위기에 휩싸인 채, 갤러리 깊숙이 스며듭니다...",
+    'details-4': "세심한 관찰력이 보상받듯, 더 많은 보물들을 발견합니다...",
+    'emotional-5': "그 만남의 여운이 가슴에 남은 채, 계속 걸어갑니다...",
+    'analytical-5': "통찰로 가득한 마음으로, 다음 퍼즐을 찾아 나섭니다...",
+    'flowing-6': "직관적인 여정이 예상치 못한 동반자를 데려옵니다...",
+    'methodical-6': "체계적인 탐험이 또 다른 신중한 관찰자의 눈에 띕니다...",
+    'preserve-7': "경험의 보호막 안에서, 새로운 것과 마주합니다...",
+    'share-7': "공유된 관점으로 풍요로워진 채, 도전적인 무언가를 발견합니다...",
+    'immerse-8': "그 감각적 경험의 전율이 남은 채, 마지막 공간에 도달합니다...",
+    'analyze-8': "기술적 감상이 이 절정을 위해 당신을 준비시켰습니다...",
+    'abstract-9': "반영된 감정적 진실을 보며, 당신의 여정을 이해합니다...",
+    'concrete-9': "체계적인 영혼이 인정받으며, 길이 명확해집니다...",
+    'connection-10': "감정이 형태와 이름을 얻은 지금, 한 가지 행동이 남았습니다...",
+    'understanding-10': "아름다움의 새로운 체계로 무장한 채, 끝을 향해 나아갑니다...",
+    'fluid-11': "자유로운 영혼이 뮤지엄샵의 보물들로 안내합니다...",
+    'structured-11': "체계적인 여정이 선물가게의 큐레이팅된 컬렉션으로 이끕니다...",
+    'life-story-12': "샵에서, 인간의 이야기를 담은 작품들을 찾습니다...",
+    'technique-12': "상품들 사이에서, 전시된 기법에 감탄합니다...",
+    'contemporary-13': "미술관을 나서며, 새로운 시각을 개인 공간으로 가져갑니다...",
+    'classical-13': "영원한 아름다움을 가져가며, 집에서의 모습을 그려봅니다...",
+    'emotional-abstract-14': "일상에서, 유동적인 예술혼이 어디서나 아름다움을 찾아냅니다...",
+    'meaningful-concrete-14': "당신의 일상 세계가 목적과 의미로 풍요로워집니다...",
+    'essential-15': "집에서, 예술이 삶과 분리될 수 없음을 깨닫습니다...",
+    'sanctuary-15': "개인적인 성소에서, 예술적 여정이 안식처를 찾습니다..."
+  };
+
   const key = `${previousChoice}-${toQuestion}`;
   return transitions[key] || "You continue your journey through the gallery...";
+};
+
+// Korean version of personalized transitions
+export const getPersonalizedTransition_ko = (
+  fromQuestion: number,
+  toQuestion: number,
+  previousChoice: string
+): string => {
+  const transitions_ko: Record<string, string> = {
+    'solitary-2': "선택한 고독 속에서, 발걸음 하나하나가 목적을 담아 울려 퍼집니다...",
+    'social-2': "군중의 열정에 힘입어, 앞으로 나아갑니다...",
+    'intuitive-3': "직감을 믿으며, 부르는 듯한 문을 향해 발길을 돌립니다...",
+    'structured-3': "큐레이터가 제안한 길을 따라, 첫 번째 전시실에 다가갑니다...",
+    'atmosphere-4': "아직 그 감정적 분위기에 휩싸인 채, 갤러리 깊숙이 스며듭니다...",
+    'details-4': "세심한 관찰력이 보상받듯, 더 많은 보물들을 발견합니다...",
+    'emotional-5': "그 만남의 여운이 가슴에 남은 채, 계속 걸어갑니다...",
+    'analytical-5': "통찰로 가득한 마음으로, 다음 퍼즐을 찾아 나섭니다...",
+    'flowing-6': "직관적인 여정이 예상치 못한 동반자를 데려옵니다...",
+    'methodical-6': "체계적인 탐험이 또 다른 신중한 관찰자의 눈에 띕니다...",
+    'preserve-7': "경험의 보호막 안에서, 새로운 것과 마주합니다...",
+    'share-7': "공유된 관점으로 풍요로워진 채, 도전적인 무언가를 발견합니다...",
+    'immerse-8': "그 감각적 경험의 전율이 남은 채, 마지막 공간에 도달합니다...",
+    'analyze-8': "기술적 감상이 이 절정을 위해 당신을 준비시켰습니다...",
+    'abstract-9': "반영된 감정적 진실을 보며, 당신의 여정을 이해합니다...",
+    'concrete-9': "체계적인 영혼이 인정받으며, 길이 명확해집니다...",
+    'connection-10': "감정이 형태와 이름을 얻은 지금, 한 가지 행동이 남았습니다...",
+    'understanding-10': "아름다움의 새로운 체계로 무장한 채, 끝을 향해 나아갑니다...",
+    'fluid-11': "자유로운 영혼이 뮤지엄샵의 보물들로 안내합니다...",
+    'structured-11': "체계적인 여정이 선물가게의 큐레이팅된 컬렉션으로 이끕니다...",
+    'life-story-12': "샵에서, 인간의 이야기를 담은 작품들을 찾습니다...",
+    'technique-12': "상품들 사이에서, 전시된 기법에 감탄합니다...",
+    'contemporary-13': "미술관을 나서며, 새로운 시각을 개인 공간으로 가져갑니다...",
+    'classical-13': "영원한 아름다움을 가져가며, 집에서의 모습을 그려봅니다...",
+    'emotional-abstract-14': "일상에서, 유동적인 예술혼이 어디서나 아름다움을 찾아냅니다...",
+    'meaningful-concrete-14': "당신의 일상 세계가 목적과 의미로 풍요로워집니다...",
+    'essential-15': "집에서, 예술이 삶과 분리될 수 없음을 깨닫습니다...",
+    'sanctuary-15': "개인적인 성소에서, 예술적 여정이 안식처를 찾습니다..."
+  };
+
+  const key = `${previousChoice}-${toQuestion}`;
+  return transitions_ko[key] || "갤러리를 통한 여정을 계속합니다...";
+};
 };
 
 // Encouraging feedback messages

@@ -21,10 +21,8 @@ interface NavItem {
 const desktopNavItems: NavItem[] = [
   { iconType: 'home', label: { en: 'Home', ko: '홈' }, path: '/' },
   { iconType: 'sparkles', label: { en: 'Discover', ko: '탐색' }, path: '/quiz' },
-  { iconType: 'zap', label: { en: 'Art Pulse', ko: 'Art Pulse' }, path: '/art-pulse', requiresAuth: true },
-  { iconType: 'calendar', label: { en: 'Daily Habit', ko: '일일 습관' }, path: '/daily-habit', requiresAuth: true },
   { iconType: 'users', label: { en: 'Community', ko: '커뮤니티' }, path: '/community', requiresAuth: true },
-  { iconType: 'dashboard', label: { en: 'Dashboard', ko: '대시보드' }, path: '/dashboard', requiresAuth: true },
+  { iconType: 'dashboard', label: { en: 'My Space', ko: '나의 공간' }, path: '/dashboard', requiresAuth: true },
   { iconType: 'user', label: { en: 'Profile', ko: '프로필' }, path: '/profile', requiresAuth: true },
 ];
 
@@ -32,8 +30,8 @@ const desktopNavItems: NavItem[] = [
 const mobileNavItems: NavItem[] = [
   { iconType: 'home', label: { en: 'Home', ko: '홈' }, path: '/' },
   { iconType: 'sparkles', label: { en: 'Quiz', ko: '퀴즈' }, path: '/quiz' },
-  { iconType: 'zap', label: { en: 'Pulse', ko: 'Pulse' }, path: '/art-pulse', requiresAuth: true },
-  { iconType: 'dashboard', label: { en: 'Hub', ko: '허브' }, path: '/dashboard', requiresAuth: true },
+  { iconType: 'users', label: { en: 'Community', ko: '커뮤니티' }, path: '/community', requiresAuth: true },
+  { iconType: 'dashboard', label: { en: 'Space', ko: '공간' }, path: '/dashboard', requiresAuth: true },
   { iconType: 'user', label: { en: 'My', ko: '마이' }, path: '/profile', requiresAuth: true },
 ];
 
@@ -101,9 +99,10 @@ export default function FloatingNav() {
         >
           <div className="flex items-center justify-between">
             <motion.div 
-              className="flex items-center gap-3"
+              className="flex items-center gap-3 cursor-pointer"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              onClick={() => router.push('/')}
             >
               <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                 SAYU
@@ -130,7 +129,7 @@ export default function FloatingNav() {
                   whileTap={!isDisabled ? { scale: 0.95 } : {}}
                 >
                   {getIcon(item.iconType)}
-                  <span className="font-medium">{item.label[language]}</span>
+                  <span className="font-medium whitespace-nowrap">{item.label[language]}</span>
                 </motion.button>
               );
             })}
@@ -216,7 +215,7 @@ export default function FloatingNav() {
                 key={item.path}
                 onClick={() => handleNavClick(item)}
                 disabled={isDisabled}
-                className={`sayu-nav-item flex flex-col items-center justify-center px-2 py-2 rounded-xl transition-all min-w-[60px] ${isActive ? 'active text-purple-600' : 'text-gray-600'} ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-50'}`}
+                className={`sayu-nav-item flex flex-col items-center justify-center px-3 py-2 rounded-xl transition-all min-w-[65px] ${isActive ? 'active text-purple-600' : 'text-gray-600'} ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-50'}`}
                 whileHover={!isDisabled ? { scale: 1.05 } : {}}
                 whileTap={!isDisabled ? { scale: 0.95 } : {}}
                 initial={{ opacity: 0, y: 20 }}
@@ -251,7 +250,7 @@ export default function FloatingNav() {
                   )}
                 </div>
                 
-                <span className="text-[10px] font-medium whitespace-nowrap mt-1 leading-tight">
+                <span className="text-[10px] font-medium whitespace-nowrap mt-1 leading-tight overflow-hidden text-ellipsis max-w-[60px]">
                   {item.label[language]}
                 </span>
               </motion.button>
@@ -312,7 +311,7 @@ export default function FloatingNav() {
                         whileTap={!isDisabled ? { scale: 0.98 } : {}}
                       >
                         {getIcon(item.iconType)}
-                        <span className="font-medium">{item.label[language]}</span>
+                        <span className="font-medium whitespace-nowrap">{item.label[language]}</span>
                         {item.requiresAuth && !user && (
                           <span className="ml-auto text-xs text-gray-500">
                             {language === 'ko' ? '로그인 필요' : 'Login required'}
