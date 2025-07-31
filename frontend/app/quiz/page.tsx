@@ -33,10 +33,10 @@ export default function QuizIntroPage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Animated Background */}
+      {/* Animated Background - More vibrant colors */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-hero animate-gradient-shift opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/50 to-white" />
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-100/30 via-transparent to-purple-100/30 animate-gradient-shift" />
       </div>
 
       {/* Floating Orbs */}
@@ -70,36 +70,43 @@ export default function QuizIntroPage() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.390, 0.575, 0.565, 1.000] }}
-        className="relative z-10 max-w-4xl mx-auto px-4 py-16"
+        className="relative z-10 max-w-4xl mx-auto px-4 py-8"
       >
-        <GlassCard variant="heavy" className="p-12">
+        <GlassCard variant="heavy" className="p-8">
           {/* Language Toggle removed - now in floating nav */}
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-center mb-12"
+            className="text-center mb-8"
           >
-            <Heart className="w-16 h-16 mx-auto mb-6 text-primary" />
+            {/* Small museum icon instead of heart */}
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-indigo-100 mb-4">
+              <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+            </div>
             
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight bg-gradient-primary bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
               {language === 'ko' 
                 ? '당신만의 예술 여정이 시작됩니다' 
                 : 'Your Personal Art Journey Awaits'
               }
             </h1>
             
-            <div className="text-xl text-gray-700 leading-relaxed max-w-xl mx-auto">
+            <div className="text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto">
               {language === 'ko' ? (
                 <>
-                  <p>이것은 테스트가 아닙니다.</p>
-                  <p>당신이 아름다움을 경험하는 고유한 방식을 발견하는 여정입니다.</p>
+                  <p className="mb-2">이것은 테스트가 아닙니다.</p>
+                  <p className="mb-3">당신이 아름다움을 경험하는 고유한 방식을 발견하는 여정입니다.</p>
+                  <p className="text-sm text-indigo-600 font-medium">미술관을 거닐며 당신만의 예술 취향을 찾아가는 이야기</p>
                 </>
               ) : (
                 <>
-                  <p>This isn't a test.</p>
-                  <p>It's a journey to discover your unique way of experiencing beauty.</p>
+                  <p className="mb-2">This isn't a test.</p>
+                  <p className="mb-3">It's a journey to discover your unique way of experiencing beauty.</p>
+                  <p className="text-sm text-indigo-600 font-medium">A story of finding your art taste while strolling through a museum</p>
                 </>
               )}
             </div>
@@ -109,7 +116,7 @@ export default function QuizIntroPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="space-y-8 mb-12"
+            className="space-y-6 mb-10"
           >
             {/* What You'll Discover */}
             <div className="text-center">
@@ -124,7 +131,7 @@ export default function QuizIntroPage() {
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <GlassCard variant="light" className="h-full p-6 text-center group">
+                  <GlassCard variant="light" className="h-full p-5 text-center group">
                     <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">🌅</div>
                     <h3 className="font-semibold text-lg mb-2">
                       {language === 'ko' ? '당신의 관람 스타일' : 'Your Viewing Style'}
@@ -143,7 +150,7 @@ export default function QuizIntroPage() {
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <GlassCard variant="light" className="h-full p-6 text-center group">
+                  <GlassCard variant="light" className="h-full p-5 text-center group">
                     <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">🎭</div>
                     <h3 className="font-semibold text-lg mb-2">
                       {language === 'ko' ? '당신의 감상 방식' : 'Your Perception Style'}
@@ -162,7 +169,7 @@ export default function QuizIntroPage() {
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <GlassCard variant="light" className="h-full p-6 text-center group">
+                  <GlassCard variant="light" className="h-full p-5 text-center group">
                     <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">✨</div>
                     <h3 className="font-semibold text-lg mb-2">
                       {language === 'ko' ? '당신의 예술 언어' : 'Your Art Language'}
@@ -179,8 +186,8 @@ export default function QuizIntroPage() {
             </div>
 
             {/* Journey Details */}
-            <GlassCard variant="default" className="mt-8">
-              <div className="flex items-center justify-center gap-8 py-4">
+            <GlassCard variant="default" className="mt-6">
+              <div className="flex items-center justify-center gap-8 py-3">
                 <div className="text-center group">
                   <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">🖼️</div>
                   <p className="text-sm font-medium text-gray-700">
@@ -213,10 +220,10 @@ export default function QuizIntroPage() {
               onClick={startQuiz}
               size="lg"
               variant="primary"
-              className="mx-auto flex items-center gap-2"
+              className="mx-auto flex items-center gap-2 px-10 py-6 text-lg"
             >
-              <Sparkles className="w-5 h-5" />
-              {language === 'ko' ? '나의 여정 시작하기' : 'Begin My Journey'}
+              <Sparkles className="w-6 h-6" />
+              {language === 'ko' ? '나의 예술 페르소나 알아보기' : 'Discover My Art Persona'}
             </GlassButton>
             
             <p className="mt-6 text-sm text-gray-600">
