@@ -190,33 +190,33 @@ export const AudioGuideQuiz: React.FC = () => {
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
       >
-        <GlassCard variant="heavy" className="p-4 backdrop-blur-md">
+        <div className="audio-guide-device-improved">
           {/* Header with Guide Number and Play Control */}
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <Headphones className="w-5 h-5 text-primary" />
-              <span className="text-xl font-bold text-gray-800">{audioGuideNumber}</span>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <Headphones className="w-6 h-6 text-green-400" />
+              <span className="text-2xl font-bold text-white">{audioGuideNumber}</span>
             </div>
             <button
               onClick={() => setAudioPlaying(!audioPlaying)}
-              className="w-8 h-8 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors"
+              className="w-8 h-8 rounded-full bg-amber-500/20 hover:bg-amber-500/30 flex items-center justify-center transition-colors"
               aria-label={audioPlaying ? "Pause" : "Play"}
             >
-              {audioPlaying ? <Pause className="w-4 h-4 text-primary" /> : <Play className="w-4 h-4 text-primary" />}
+              {audioPlaying ? <Pause className="w-4 h-4 text-amber-500" /> : <Play className="w-4 h-4 text-amber-500" />}
             </button>
           </div>
           
           {/* Progress Bar */}
-          <div className="h-1.5 bg-gray-200 relative rounded-full mb-3">
+          <div className="h-1.5 bg-gray-700 relative rounded-full mb-3">
             <motion.div 
-              className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-primary/80 rounded-full"
+              className="absolute inset-y-0 left-0 bg-gradient-to-r from-amber-500 to-amber-400 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ ease: "easeOut", duration: 0.8 }}
             />
           </div>
           
-          <p className="text-sm font-medium text-gray-700 mb-3">{galleryRoom}</p>
+          <p className="text-sm font-medium text-gray-300 mb-3">{galleryRoom}</p>
           
           {/* Audio Visualizer - Improved */}
           <div className="h-8 flex items-center justify-center gap-1 mb-3">
@@ -224,7 +224,7 @@ export const AudioGuideQuiz: React.FC = () => {
               [...Array(6)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="w-1 bg-gradient-to-t from-primary/60 to-primary rounded-full"
+                  className="w-1 bg-gradient-to-t from-amber-600 to-amber-400 rounded-full"
                   animate={{
                     height: [6, 20, 6],
                   }}
@@ -237,18 +237,18 @@ export const AudioGuideQuiz: React.FC = () => {
                 />
               ))
             ) : (
-              <div className="text-gray-500 dark:text-gray-400 text-sm font-medium">
+              <div className="text-gray-400 text-sm font-medium">
                 {language === 'ko' ? '오디오 가이드' : 'Audio Guide'}
               </div>
             )}
           </div>
           
           {/* Navigation Controls */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2">
             <button
               onClick={handleGoBack}
               disabled={currentQuestion === 0}
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 font-medium transition-colors"
+              className="text-sm text-gray-300 hover:text-amber-400 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 font-medium transition-colors px-2 py-1 rounded hover:bg-gray-800"
             >
               <ChevronLeft className="w-4 h-4" />
               {language === 'ko' ? '이전' : 'Back'}
@@ -256,7 +256,7 @@ export const AudioGuideQuiz: React.FC = () => {
             
             <button
               onClick={() => setShowGalleryMap(true)}
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary flex items-center gap-1 font-medium transition-colors"
+              className="text-sm text-gray-300 hover:text-amber-400 flex items-center gap-1 font-medium transition-colors px-2 py-1 rounded hover:bg-gray-800"
             >
               <Map className="w-4 h-4" />
               {language === 'ko' ? '지도' : 'Map'}
@@ -264,13 +264,13 @@ export const AudioGuideQuiz: React.FC = () => {
             
             <button
               onClick={handleExitQuiz}
-              className="text-sm text-gray-600 hover:text-red-500 flex items-center gap-1 font-medium transition-colors"
+              className="text-sm text-gray-300 hover:text-red-400 flex items-center gap-1 font-medium transition-colors px-2 py-1 rounded hover:bg-gray-800"
             >
               <Home className="w-4 h-4" />
               {language === 'ko' ? '나가기' : 'Exit'}
             </button>
           </div>
-        </GlassCard>
+        </div>
       </motion.div>
 
       {/* Gallery Room Experience */}
@@ -315,12 +315,12 @@ export const AudioGuideQuiz: React.FC = () => {
                   <p className="text-sm opacity-70 text-white">Stop {currentQuestion + 1} of {narrativeQuestions.length}</p>
                 </motion.div>
 
-                {/* Main Question Card */}
-                <GlassCard className="max-w-3xl mx-auto mb-8">
+                {/* Main Question Card - Fixed Styling */}
+                <div className="question-card-fixed max-w-4xl mx-auto mb-8">
                   {/* Narrative Setup */}
                   {(question.narrative.setup || question.narrative.transition) && (
                     <motion.p
-                      className="text-lg text-gray-700 mb-6 leading-relaxed font-medium"
+                      className="text-lg text-gray-800 mb-6 leading-relaxed font-medium"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.4 }}
@@ -345,7 +345,7 @@ export const AudioGuideQuiz: React.FC = () => {
                         </React.Fragment>
                       ))}
                   </motion.h2>
-                </GlassCard>
+                </div>
 
                 {/* Choice Cards */}
                 <motion.div 
@@ -363,37 +363,37 @@ export const AudioGuideQuiz: React.FC = () => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <GlassCard
-                        className="cursor-pointer group h-full relative overflow-hidden"
+                      <div
+                        className="choice-card-fixed cursor-pointer group h-full relative overflow-hidden"
                         onClick={() => handleChoice(option.id)}
                       >
                         {/* Background Pattern */}
                         <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity">
                           <div className="absolute inset-0" style={{
-                            backgroundImage: `radial-gradient(circle at 2px 2px, currentColor 1px, transparent 1px)`,
+                            backgroundImage: `radial-gradient(circle at 2px 2px, #8b7355 1px, transparent 1px)`,
                             backgroundSize: '20px 20px'
                           }} />
                         </div>
 
-                        <div className="relative z-10 flex flex-col justify-center min-h-[140px] py-4">
+                        <div className="relative z-10 flex flex-col justify-center min-h-[160px] py-6">
                           <div className="flex justify-between items-start mb-4">
-                            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary font-bold">
+                            <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-800 text-white font-bold text-lg">
                               {index === 0 ? 'A' : 'B'}
                             </span>
-                            <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                            <ChevronRight className="w-6 h-6 text-gray-600 group-hover:text-gray-800 group-hover:translate-x-1 transition-all" />
                           </div>
                           
-                          <h4 className="text-xl font-semibold mb-2 text-gray-800">
+                          <h4 className="text-xl font-semibold mb-3 text-gray-900 leading-tight">
                             {language === 'ko' && option.text_ko ? option.text_ko : option.text}
                           </h4>
                           
                           {option.subtext && (
-                            <p className="text-gray-600 text-sm leading-relaxed">
+                            <p className="text-gray-700 text-sm leading-relaxed italic">
                               {language === 'ko' && option.subtext_ko ? option.subtext_ko : option.subtext}
                             </p>
                           )}
                         </div>
-                      </GlassCard>
+                      </div>
                     </motion.div>
                   ))}
                 </motion.div>

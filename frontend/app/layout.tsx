@@ -88,7 +88,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} min-h-screen transition-colors`}>
+      <body className={`${inter.className} min-h-screen transition-colors bg-black`}>
         <Providers>
           <SystemInitializer />
           {/* Temporarily disabled for debugging

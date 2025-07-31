@@ -135,7 +135,7 @@ export default function JourneyHomePage() {
   const mazeScale = useTransform(scrollYProgress, [0, 0.25], [1, 1.2]);
 
   return (
-    <div ref={containerRef} className="relative h-[400vh] bg-black">
+    <div ref={containerRef} className="relative h-[400vh]">
       {/* Fixed viewport container */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         

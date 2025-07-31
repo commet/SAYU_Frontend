@@ -22,7 +22,7 @@ const desktopNavItems: NavItem[] = [
   { iconType: 'home', label: { en: 'Home', ko: '홈' }, path: '/' },
   { iconType: 'sparkles', label: { en: 'Discover', ko: '탐색' }, path: '/quiz' },
   { iconType: 'users', label: { en: 'Community', ko: '커뮤니티' }, path: '/community', requiresAuth: true },
-  { iconType: 'dashboard', label: { en: 'My Space', ko: '나의 공간' }, path: '/dashboard', requiresAuth: true },
+  { iconType: 'dashboard', label: { en: 'Records', ko: '기록' }, path: '/dashboard', requiresAuth: true },
   { iconType: 'user', label: { en: 'Profile', ko: '프로필' }, path: '/profile', requiresAuth: true },
 ];
 
@@ -31,8 +31,8 @@ const mobileNavItems: NavItem[] = [
   { iconType: 'home', label: { en: 'Home', ko: '홈' }, path: '/' },
   { iconType: 'sparkles', label: { en: 'Quiz', ko: '퀴즈' }, path: '/quiz' },
   { iconType: 'users', label: { en: 'Community', ko: '커뮤니티' }, path: '/community', requiresAuth: true },
-  { iconType: 'dashboard', label: { en: 'Space', ko: '공간' }, path: '/dashboard', requiresAuth: true },
-  { iconType: 'user', label: { en: 'My', ko: '마이' }, path: '/profile', requiresAuth: true },
+  { iconType: 'dashboard', label: { en: 'Records', ko: '기록' }, path: '/dashboard', requiresAuth: true },
+  { iconType: 'user', label: { en: 'Profile', ko: '프로필' }, path: '/profile', requiresAuth: true },
 ];
 
 const navItems = desktopNavItems; // 모바일 메뉴 오버레이에서 사용
@@ -45,6 +45,7 @@ export default function FloatingNav() {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   
   const getIcon = (iconType: string) => {
     switch (iconType) {
@@ -116,21 +117,39 @@ export default function FloatingNav() {
               const isDisabled = item.requiresAuth && !user;
               
               return (
-                <motion.button
-                  key={item.path}
-                  onClick={() => handleNavClick(item)}
-                  disabled={isDisabled}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
-                    isActive 
-                      ? 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400' 
-                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
-                  } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  whileHover={!isDisabled ? { scale: 1.05 } : {}}
-                  whileTap={!isDisabled ? { scale: 0.95 } : {}}
-                >
-                  {getIcon(item.iconType)}
-                  <span className="font-medium whitespace-nowrap">{item.label[language]}</span>
-                </motion.button>
+                <div key={item.path} className="relative">
+                  <motion.button
+                    onClick={() => handleNavClick(item)}
+                    disabled={isDisabled}
+                    onMouseEnter={() => isDisabled && setHoveredItem(item.path)}
+                    onMouseLeave={() => setHoveredItem(null)}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
+                      isActive 
+                        ? 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400' 
+                        : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
+                    } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    whileHover={!isDisabled ? { scale: 1.05 } : {}}
+                    whileTap={!isDisabled ? { scale: 0.95 } : {}}
+                  >
+                    {getIcon(item.iconType)}
+                    <span className="font-medium whitespace-nowrap">{item.label[language]}</span>
+                  </motion.button>
+                  
+                  {/* Tooltip */}
+                  <AnimatePresence>
+                    {isDisabled && hoveredItem === item.path && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap z-50"
+                      >
+                        {language === 'ko' ? '로그인이 필요합니다' : 'Login required'}
+                        <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               );
             })}
             <div className="flex items-center gap-2">
@@ -211,13 +230,9 @@ export default function FloatingNav() {
             const isDisabled = item.requiresAuth && !user;
             
             return (
-              <motion.button
+              <motion.div
                 key={item.path}
-                onClick={() => handleNavClick(item)}
-                disabled={isDisabled}
-                className={`sayu-nav-item flex flex-col items-center justify-center px-3 py-2 rounded-xl transition-all min-w-[65px] ${isActive ? 'active text-purple-600' : 'text-gray-600'} ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-50'}`}
-                whileHover={!isDisabled ? { scale: 1.05 } : {}}
-                whileTap={!isDisabled ? { scale: 0.95 } : {}}
+                className="relative"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ 
                   opacity: 1, 
@@ -225,6 +240,15 @@ export default function FloatingNav() {
                   transition: { delay: index * 0.1 }
                 }}
               >
+                <motion.button
+                  onClick={() => handleNavClick(item)}
+                  disabled={isDisabled}
+                  onTouchStart={() => isDisabled && setHoveredItem(item.path)}
+                  onTouchEnd={() => setTimeout(() => setHoveredItem(null), 2000)}
+                  className={`sayu-nav-item flex flex-col items-center justify-center px-3 py-2 rounded-xl transition-all min-w-[65px] ${isActive ? 'active text-purple-600' : 'text-gray-600'} ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-50'}`}
+                  whileHover={!isDisabled ? { scale: 1.05 } : {}}
+                  whileTap={!isDisabled ? { scale: 0.95 } : {}}
+                >
                 {/* Active Indicator */}
                 <AnimatePresence>
                   {isActive && (
@@ -253,7 +277,23 @@ export default function FloatingNav() {
                 <span className="text-[10px] font-medium whitespace-nowrap mt-1 leading-tight overflow-hidden text-ellipsis max-w-[60px]">
                   {item.label[language]}
                 </span>
-              </motion.button>
+                </motion.button>
+                
+                {/* Mobile Tooltip */}
+                <AnimatePresence>
+                  {isDisabled && hoveredItem === item.path && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 5 }}
+                      className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg whitespace-nowrap z-50"
+                    >
+                      {language === 'ko' ? '로그인이 필요합니다' : 'Login required'}
+                      <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             );
           })}
         </div>

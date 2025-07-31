@@ -234,10 +234,11 @@
 }
 
 .gallery-content {
-  max-width: 900px;
+  max-width: 1400px;
   width: 100%;
   position: relative;
   z-index: 10;
+  padding: 0 2rem;
 }
 
 /* Question Artwork Frame */
@@ -252,6 +253,9 @@
   position: relative;
   text-align: center;
   backdrop-filter: blur(5px);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* Dark mode artwork frame */
@@ -265,8 +269,9 @@
 
 @media (max-width: 768px) {
   .question-artwork-frame {
-    padding: 2rem;
+    padding: 1.5rem;
     border-width: 8px;
+    margin: 0 1rem;
   }
 }
 
@@ -623,10 +628,159 @@
   background: #e0e0e0;
 }
 
+/* === FIXED STYLING FOR QUIZ (NO DARK MODE) === */
+/* Question card with consistent styling */
+.question-card-fixed {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 3rem;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Choice cards with consistent styling */
+.choice-card-fixed {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.choice-card-fixed:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+@media (max-width: 768px) {
+  .question-card-fixed {
+    padding: 2rem;
+    margin: 0 1rem;
+  }
+  
+  .choice-card-fixed {
+    padding: 1.5rem;
+  }
+}
+
+/* Improved Audio Guide Device - Fixed Dark Theme */
+.audio-guide-device-improved {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 320px;
+  background: #1a1a1a;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .audio-guide-device-improved {
+    bottom: 1rem;
+    right: 50%;
+    transform: translateX(50%);
+    width: 90%;
+    max-width: 340px;
+    padding: 1.25rem;
+  }
+}
+
+/* Fixed Question Card Styling */
+.question-card-fixed {
+  background: rgba(255, 255, 255, 0.98);
+  border: 12px solid #d4a574;
+  border-radius: 8px;
+  padding: 3rem;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    inset 0 0 0 2px rgba(212, 165, 116, 0.2);
+  backdrop-filter: blur(5px);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .question-card-fixed {
+    padding: 2rem;
+    border-width: 8px;
+    margin: 0 1rem;
+  }
+}
+
+/* Fixed Choice Card Styling */
+.choice-card-fixed {
+  background: rgba(255, 255, 255, 0.96);
+  border: 2px solid rgba(212, 165, 116, 0.3);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.choice-card-fixed:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 16px 48px rgba(0, 0, 0, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(212, 165, 116, 0.5);
+}
+
+/* Enhanced Gallery Content Width */
+.gallery-content {
+  max-width: 1400px;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  padding: 0 2rem;
+}
+
+@media (min-width: 1024px) {
+  .gallery-content {
+    padding-right: 380px; /* Make room for improved audio guide */
+  }
+}
+
 /* === DARK MODE STYLES === */
 /* Gallery background adjustments */
 .dark .gallery-room-experience {
   background-blend-mode: overlay;
+}
+
+/* Override dark mode for quiz cards - keep light theme */
+.dark .question-card-fixed,
+.dark .choice-card-fixed {
+  background: rgba(255, 255, 255, 0.98) !important;
+  color: #1a1a1a !important;
+}
+
+.dark .question-card-fixed h2,
+.dark .question-card-fixed p,
+.dark .choice-card-fixed h4,
+.dark .choice-card-fixed p {
+  color: #1a1a1a !important;
+}
+
+.dark .choice-card-fixed span {
+  background: #333 !important;
+  color: white !important;
 }
 
 .dark .gallery-overlay {
@@ -639,10 +793,45 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
 }
 
-/* Dark mode glass cards */
-.dark .audio-guide-device {
-  background: #2a2a2a;
+/* Dark mode audio guide - keep consistent dark theme */
+.dark .audio-guide-device-improved {
+  background: #1a1a1a;
   box-shadow: 
-    0 10px 40px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 10px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+/* Dark mode question card - force consistent styling */
+.dark .question-card-fixed {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: #d4a574;
+  color: #1f2937;
+}
+
+.dark .question-card-fixed h2 {
+  color: #1f2937 !important;
+}
+
+.dark .question-card-fixed p {
+  color: #374151 !important;
+}
+
+/* Dark mode choice cards - force consistent styling */
+.dark .choice-card-fixed {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(212, 165, 116, 0.3);
+}
+
+.dark .choice-card-fixed:hover {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(212, 165, 116, 0.5);
+}
+
+.dark .choice-card-fixed h4 {
+  color: #1f2937 !important;
+}
+
+.dark .choice-card-fixed p {
+  color: #374151 !important;
 }
