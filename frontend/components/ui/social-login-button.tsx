@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { toast } from 'react-hot-toast';
 import { signInWithProvider, signInWithInstagram } from '@/lib/supabase';
+import { signInWithKakaoCustom } from '@/lib/kakao-auth';
 
 interface SocialLoginButtonProps {
   provider: 'google' | 'github' | 'apple' | 'discord' | 'instagram' | 'kakao';
@@ -79,9 +80,14 @@ export function SocialLoginButton({ provider, mode = 'login' }: SocialLoginButto
       if (provider === 'instagram') {
         // Instagram uses Facebook OAuth
         await signInWithInstagram();
-      } else if (provider === 'google' || provider === 'kakao' || provider === 'discord') {
+      } else if (provider === 'google' || provider === 'discord') {
         // Supported providers
         await signInWithProvider(provider);
+      } else if (provider === 'kakao') {
+        // Custom Kakao login without email requirement
+        toast.loading('카카오 로그인 페이지로 이동 중...');
+        await signInWithKakaoCustom();
+        return;
       } else {
         // Unsupported providers
         toast.error(`${config.name} login is not available yet`);

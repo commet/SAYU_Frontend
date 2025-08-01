@@ -257,7 +257,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       'Caring educator'
     ],
     characteristics_ko: [
-      '따뜻한 안내자',
+      '감정의 치유사',
       '보살피는 존재',
       '든든한 동반자',
       '배려하는 교육자'

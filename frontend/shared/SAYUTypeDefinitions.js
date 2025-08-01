@@ -122,7 +122,7 @@ const SAYU_TYPES = Object.freeze({
   },
   SAEF: {
     code: 'SAEF',
-    name: '감성 나눔이',
+    name: '감정의 물결',
     nameEn: 'Emotional Sharer',
     animal: '나비',
     animalEn: 'Butterfly',
@@ -136,7 +136,7 @@ const SAYU_TYPES = Object.freeze({
   },
   SAEC: {
     code: 'SAEC',
-    name: '예술 네트워커',
+    name: '감정의 건축가',
     nameEn: 'Art Networker',
     animal: '펭귄',
     animalEn: 'Penguin',
@@ -150,7 +150,7 @@ const SAYU_TYPES = Object.freeze({
   },
   SAMF: {
     code: 'SAMF',
-    name: '영감 전도사',
+    name: '의미의 직조자',
     nameEn: 'Inspiration Evangelist',
     animal: '앵무새',
     animalEn: 'Parrot',
@@ -164,7 +164,7 @@ const SAYU_TYPES = Object.freeze({
   },
   SAMC: {
     code: 'SAMC',
-    name: '문화 기획자',
+    name: '지혜의 건축가',
     nameEn: 'Cultural Planner',
     animal: '사슴',
     animalEn: 'Deer',
@@ -178,7 +178,7 @@ const SAYU_TYPES = Object.freeze({
   },
   SREF: {
     code: 'SREF',
-    name: '열정적 관람자',
+    name: '마음의 여행자',
     nameEn: 'Passionate Viewer',
     animal: '강아지',
     animalEn: 'Dog',
@@ -192,7 +192,7 @@ const SAYU_TYPES = Object.freeze({
   },
   SREC: {
     code: 'SREC',
-    name: '따뜻한 안내자',
+    name: '감정의 치유사',
     nameEn: 'Warm Guide',
     animal: '오리',
     animalEn: 'Duck',
@@ -206,7 +206,7 @@ const SAYU_TYPES = Object.freeze({
   },
   SRMF: {
     code: 'SRMF',
-    name: '지식 멘토',
+    name: '문화의 시간여행자',
     nameEn: 'Knowledge Mentor',
     animal: '코끼리',
     animalEn: 'Elephant',
@@ -220,7 +220,7 @@ const SAYU_TYPES = Object.freeze({
   },
   SRMC: {
     code: 'SRMC',
-    name: '체계적 교육자',
+    name: '마스터 도슨트',
     nameEn: 'Systematic Educator',
     animal: '독수리',
     animalEn: 'Eagle',

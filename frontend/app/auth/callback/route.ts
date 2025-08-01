@@ -34,11 +34,19 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = createRouteHandlerClient({ cookies });
-    const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+    const { error: exchangeError, data } = await supabase.auth.exchangeCodeForSession(code);
     
     if (exchangeError) {
       console.error('Auth callback exchange error:', exchangeError);
       return NextResponse.redirect(new URL('/login?error=auth_failed', requestUrl.origin));
+    }
+    
+    // Check if user has email - Kakao users might not have email
+    if (data?.session?.user) {
+      const user = data.session.user;
+      console.log('Auth successful for user:', user.id);
+      console.log('User email:', user.email || 'No email provided');
+      console.log('User provider:', user.app_metadata?.provider);
     }
     
     console.log('Auth successful, redirecting to:', next);

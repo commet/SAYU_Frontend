@@ -8,15 +8,28 @@ export const supabase = createClient(
 
 // Auth helper functions
 export const signInWithProvider = async (provider: 'google' | 'apple' | 'kakao' | 'discord') => {
+  // Set specific options for Kakao
+  const options: any = {
+    redirectTo: `${window.location.origin}/auth/callback`,
+    queryParams: {
+      access_type: 'offline',
+      prompt: 'consent',
+    },
+  };
+
+  // For Kakao, explicitly set scopes without email and use queryParams
+  if (provider === 'kakao') {
+    options.queryParams = {
+      ...options.queryParams,
+      scope: 'profile_nickname profile_image',
+    };
+    // Remove scopes property as it might not work with Kakao
+    delete options.scopes;
+  }
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provider,
-    options: {
-      redirectTo: `${window.location.origin}/auth/callback`,
-      queryParams: {
-        access_type: 'offline',
-        prompt: 'consent',
-      },
-    }
+    options: options
   });
   
   if (error) throw error;

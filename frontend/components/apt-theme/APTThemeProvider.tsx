@@ -312,7 +312,7 @@ export const APT_THEMES: Record<string, APTTheme> = {
     }
   },
   
-  SAEF: { // Butterfly - 감성 나눔이
+  SAEF: { // Butterfly - 감정의 물결
     colors: {
       primary: '#FF6348',
       secondary: '#FFA502',
@@ -341,12 +341,12 @@ export const APT_THEMES: Record<string, APTTheme> = {
     personality: {
       type: 'SAEF',
       animal: 'butterfly',
-      title: '감성 나눔이',
+      title: '감정의 물결',
       emoji: '🦋'
     }
   },
   
-  SAEC: { // Penguin - 예술 네트워커
+  SAEC: { // Penguin - 감정의 건축가
     colors: {
       primary: '#3742FA',
       secondary: '#5F6FE8',
@@ -375,12 +375,12 @@ export const APT_THEMES: Record<string, APTTheme> = {
     personality: {
       type: 'SAEC',
       animal: 'penguin',
-      title: '예술 네트워커',
+      title: '감정의 건축가',
       emoji: '🐧'
     }
   },
   
-  SAMF: { // Parrot - 영감 전도사
+  SAMF: { // Parrot - 의미의 직조자
     colors: {
       primary: '#05C46B',
       secondary: '#0BE881',
@@ -409,12 +409,12 @@ export const APT_THEMES: Record<string, APTTheme> = {
     personality: {
       type: 'SAMF',
       animal: 'parrot',
-      title: '영감 전도사',
+      title: '의미의 직조자',
       emoji: '🦜'
     }
   },
   
-  SAMC: { // Deer - 문화 기획자
+  SAMC: { // Deer - 지혜의 건축가
     colors: {
       primary: '#833471',
       secondary: '#B53471',
@@ -443,12 +443,12 @@ export const APT_THEMES: Record<string, APTTheme> = {
     personality: {
       type: 'SAMC',
       animal: 'deer',
-      title: '문화 기획자',
+      title: '지혜의 건축가',
       emoji: '🦌'
     }
   },
   
-  SREF: { // Dog - 열정적 관람자
+  SREF: { // Dog - 마음의 여행자
     colors: {
       primary: '#FF7675',
       secondary: '#FDCB6E',
@@ -477,12 +477,12 @@ export const APT_THEMES: Record<string, APTTheme> = {
     personality: {
       type: 'SREF',
       animal: 'dog',
-      title: '열정적 관람자',
+      title: '마음의 여행자',
       emoji: '🐕'
     }
   },
   
-  SREC: { // Duck - 따뜻한 안내자
+  SREC: { // Duck - 감정의 치유사
     colors: {
       primary: '#F0B27A',
       secondary: '#F8C471',
@@ -511,12 +511,12 @@ export const APT_THEMES: Record<string, APTTheme> = {
     personality: {
       type: 'SREC',
       animal: 'duck',
-      title: '따뜻한 안내자',
+      title: '감정의 치유사',
       emoji: '🦆'
     }
   },
   
-  SRMF: { // Elephant - 지식 멘토
+  SRMF: { // Elephant - 문화의 시간여행자
     colors: {
       primary: '#596275',
       secondary: '#8B95A7',
@@ -545,12 +545,12 @@ export const APT_THEMES: Record<string, APTTheme> = {
     personality: {
       type: 'SRMF',
       animal: 'elephant',
-      title: '지식 멘토',
+      title: '문화의 시간여행자',
       emoji: '🐘'
     }
   },
   
-  SRMC: { // Eagle - 체계적 교육자
+  SRMC: { // Eagle - 마스터 도슨트
     colors: {
       primary: '#2C2C54',
       secondary: '#40407A',
@@ -579,7 +579,7 @@ export const APT_THEMES: Record<string, APTTheme> = {
     personality: {
       type: 'SRMC',
       animal: 'eagle',
-      title: '체계적 교육자',
+      title: '마스터 도슨트',
       emoji: '🦅'
     }
   }

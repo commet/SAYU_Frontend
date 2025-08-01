@@ -53,12 +53,41 @@ function ResultsContent() {
   const artworksArray = [artworks1?.[0], artworks2?.[0], artworks3?.[0]];
 
   useEffect(() => {
+    const urlType = searchParams?.get('type');
     const storedResults = localStorage.getItem('quizResults');
-    if (storedResults) {
+    
+    // URL에 type이 있으면 URL을 우선, 없으면 localStorage 사용
+    if (urlType) {
+      // URL에서 직접 type을 가져온 경우
+      const personalityData = personalityDescriptions[urlType];
+      const animalData = getAnimalByType(urlType);
+      
+      if (personalityData) {
+        // Mock results with URL type
+        const mockResults = {
+          personalityType: urlType,
+          scores: {},
+          responses: [],
+          completedAt: new Date().toISOString()
+        };
+        setResults(mockResults);
+        setPersonality(personalityData);
+        setAnimalCharacter(animalData);
+        
+        if (isValidSAYUType(urlType)) {
+          setSayuType(getSAYUType(urlType));
+        }
+        
+        setPersonalityType(urlType);
+      } else {
+        router.push('/quiz');
+      }
+    } else if (storedResults) {
+      // localStorage에서 가져온 경우
       const parsed = JSON.parse(storedResults);
       setResults(parsed);
       
-      const type = searchParams?.get('type') || parsed.personalityType;
+      const type = parsed.personalityType;
       const personalityData = personalityDescriptions[type];
       const animalData = getAnimalByType(type);
       

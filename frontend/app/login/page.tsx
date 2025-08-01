@@ -343,7 +343,7 @@ function LoginContent() {
             </h2>
             <p className="text-xl text-sayu-charcoal/70 max-w-md mx-auto mb-12 whitespace-pre-line">
               {language === 'ko'
-                ? 'SAYU와 함께 당신만의 예술 취향을 발견하고,\n마음에 드는 작품들을 만나보세요.'
+                ? 'SAYU와 함께 당신만의 예술 취향을\n발견하고, 마음에 드는 작품들을 만나보세요.'
                 : 'Explore your unique art preferences and discover masterpieces that resonate with your soul.'}
             </p>
 

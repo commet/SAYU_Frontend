@@ -32,10 +32,10 @@ export const APT_TO_ART_MOVEMENT: Record<PersonalityType, ArtMovement> = {
   'SAEF': 'POP_ART',            // 나비 - 감성적이고 대중적
   'SAEC': 'KOREAN_ART',         // 펭귄 - 커뮤니티 중심
   'SAMF': 'EXPRESSIONISM',      // 앵무새 - 영감 전달자
-  'SAMC': 'BAROQUE',            // 사슴 - 문화 기획자
+  'SAMC': 'BAROQUE',            // 사슴 - 지혜의 건축가
   'SREF': 'POP_ART',            // 강아지 - 열정적이고 친근한
-  'SREC': 'IMPRESSIONISM',      // 오리 - 따뜻한 안내자
-  'SRMF': 'MODERNISM',          // 코끼리 - 지식 멘토
+  'SREC': 'IMPRESSIONISM',      // 오리 - 감정의 치유사
+  'SRMF': 'MODERNISM',          // 코끼리 - 문화의 시간여행자
   'SRMC': 'CUBISM'              // 독수리 - 체계적이고 분석적
 };
 

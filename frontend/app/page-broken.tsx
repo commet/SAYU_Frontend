@@ -30,11 +30,11 @@ import { FeatureSteps } from '@/components/ui/feature-section';
 
 // Emotion to personality type mapping
 const emotionToPersonality = {
-  'Passion': ['SAEF', 'SAMF'], // 감정 지휘자, 영감 전도사
+  'Passion': ['SAEF', 'SAMF'], // 감정 지휘자, 의미의 직조자
   'Serenity': ['LRMC', 'LAMC'], // 침묵의 정원사, 패턴 건축가
   'Mystery': ['SREC', 'SREF'], // 마음의 큐레이터, 이야기 직조가
   'Contemplation': ['LREC', 'LRMF'], // 질감의 예언자, 내면의 탐구자
-  'Joy': ['SAEC', 'SAMF'], // 감성 큐레이터, 영감 전도사
+  'Joy': ['SAEC', 'SAMF'], // 감성 큐레이터, 의미의 직조자
   'Imagination': ['LAEF', 'SREF'] // 몽환적 방랑자, 이야기 직조가
 };
 
