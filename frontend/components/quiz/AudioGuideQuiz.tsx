@@ -290,11 +290,11 @@ export const AudioGuideQuiz: React.FC = () => {
           minHeight: '100vh',
           position: 'relative'
         }}>
-        {/* Gradient Overlay */}
+        {/* Gradient Overlay - Reduced opacity in dark mode */}
         <div className={cn(
-          "gallery-overlay",
+          "gallery-overlay bg-gradient-to-br",
           backgroundData.overlay.color
-        )} style={{ opacity: backgroundData.overlay.opacity }} />
+        )} style={{ opacity: 0.2 }} />
 
         {/* Main Content */}
         <div className="gallery-content">
@@ -328,7 +328,7 @@ export const AudioGuideQuiz: React.FC = () => {
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.4 }}
                     >
-                      <p className="text-lg leading-relaxed font-medium">
+                      <p className="text-lg leading-relaxed font-medium text-gray-900">
                         {getTransitionText()}
                       </p>
                     </motion.div>
