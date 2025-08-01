@@ -235,10 +235,10 @@ function LoginContent() {
             transition={{ delay: 0.3 }}
             className="space-y-3"
           >
-            <SocialLoginButton provider="google" />
-            <SocialLoginButton provider="apple" />
             <SocialLoginButton provider="instagram" />
+            <SocialLoginButton provider="google" />
             <SocialLoginButton provider="kakao" />
+            <SocialLoginButton provider="discord" />
           </motion.div>
 
           {/* Sign Up Link */}

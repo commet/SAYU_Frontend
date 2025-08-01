@@ -306,10 +306,10 @@ export const AudioGuideQuiz: React.FC = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.05 }}
                 transition={{ duration: 0.6 }}
-                className="question-artwork-frame"
+                className="quiz-content-wrapper"
               >
                 {/* Main Question Frame - 전체 액자 */}
-                <div className="question-artwork-frame max-w-4xl mx-auto mb-8">
+                <div className="question-artwork-frame max-w-4xl mx-auto mb-4">
                   {/* Gallery Room Title - Inside Frame Top Right */}
                   <motion.div 
                     className="room-plaque-new"
@@ -336,7 +336,7 @@ export const AudioGuideQuiz: React.FC = () => {
 
                   {/* Question */}
                   <motion.h2
-                    className="text-3xl md:text-4xl font-bold text-center mb-8 leading-tight text-gray-900"
+                    className="question-title text-2xl md:text-3xl font-bold text-center mb-4 leading-tight text-gray-900"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
@@ -354,7 +354,7 @@ export const AudioGuideQuiz: React.FC = () => {
 
                 {/* Choice Cards */}
                 <motion.div 
-                  className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto"
+                  className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.6 }}

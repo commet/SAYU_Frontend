@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { toast } from 'react-hot-toast';
+import { signInWithProvider, signInWithInstagram } from '@/lib/supabase';
 
 interface SocialLoginButtonProps {
   provider: 'google' | 'github' | 'apple' | 'discord' | 'instagram' | 'kakao';
@@ -71,18 +72,30 @@ const providerConfig = {
 export function SocialLoginButton({ provider, mode = 'login' }: SocialLoginButtonProps) {
   const config = providerConfig[provider];
   
-  const handleClick = () => {
+  const handleClick = async () => {
     try {
-      if (mode === 'login') {
-        // Direct OAuth login
-        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/${provider}`;
+      toast.loading(`Redirecting to ${config.name}...`);
+      
+      if (provider === 'instagram') {
+        // Instagram uses Facebook OAuth
+        await signInWithInstagram();
+      } else if (provider === 'google' || provider === 'kakao' || provider === 'discord') {
+        // Supported providers
+        await signInWithProvider(provider);
       } else {
-        // Link existing account
-        toast.loading('Redirecting to ' + config.name + '...');
-        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/${provider}?link=true`;
+        // Unsupported providers
+        toast.error(`${config.name} login is not available yet`);
+        return;
       }
-    } catch (error) {
-      toast.error(`Failed to connect with ${config.name}`);
+    } catch (error: any) {
+      console.error('Login error:', error);
+      
+      // Better error messages
+      if (error.message?.includes('not enabled')) {
+        toast.error(`${config.name} login is not enabled. Please contact support.`);
+      } else {
+        toast.error(`Failed to connect with ${config.name}`);
+      }
     }
   };
 

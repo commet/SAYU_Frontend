@@ -1,6 +1,5 @@
 'use client';
 
-import { SessionProvider } from 'next-auth/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '@/hooks/useAuth';
 import { ThemeProvider } from '@/hooks/usePersonalizedTheme';
@@ -25,30 +24,28 @@ export function Providers({ children }: { children: React.ReactNode }) {
   }));
 
   return (
-    <SessionProvider>
-      <QueryClientProvider client={queryClient}>
-        <PWAProvider>
-          <AuthProvider>
-            <LanguageProvider>
-              <DarkModeProvider>
-                <ThemeProvider>
-                  <OnboardingProvider>
-                    <AnimalCursorProvider>
-                      <EasterEggProvider>
-                        <ClientLayout>
-                          {children}
-                        </ClientLayout>
-                        <PersonalizedToaster />
-                      </EasterEggProvider>
-                    </AnimalCursorProvider>
-                  </OnboardingProvider>
-                </ThemeProvider>
-              </DarkModeProvider>
-            </LanguageProvider>
-          </AuthProvider>
-        </PWAProvider>
-      </QueryClientProvider>
-    </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <PWAProvider>
+        <AuthProvider>
+          <LanguageProvider>
+            <DarkModeProvider>
+              <ThemeProvider>
+                <OnboardingProvider>
+                  <AnimalCursorProvider>
+                    <EasterEggProvider>
+                      <ClientLayout>
+                        {children}
+                      </ClientLayout>
+                      <PersonalizedToaster />
+                    </EasterEggProvider>
+                  </AnimalCursorProvider>
+                </OnboardingProvider>
+              </ThemeProvider>
+            </DarkModeProvider>
+          </LanguageProvider>
+        </AuthProvider>
+      </PWAProvider>
+    </QueryClientProvider>
   );
 }
 

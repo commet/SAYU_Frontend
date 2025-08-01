@@ -257,36 +257,39 @@
   padding: 0 2rem;
 }
 
-/* Question Artwork Frame - 전체 액자 박스 */
+/* Question Artwork Frame - 투명한 내부 컨테이너 */
 .question-artwork-frame {
-  background: rgba(255, 255, 255, 0.96);
-  border: 12px solid #d4a574;
-  border-radius: 0;
-  padding: 3rem;
-  box-shadow: 
-    0 20px 60px rgba(0, 0, 0, 0.2),
-    inset 0 0 0 2px rgba(212, 165, 116, 0.3);
+  background: transparent;
+  border: none;
+  padding: 0;
   position: relative;
   text-align: center;
-  backdrop-filter: blur(5px);
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 auto 1rem;
 }
 
-/* Dark mode artwork frame */
+/* Dark mode artwork frame - 투명 유지 */
 .dark .question-artwork-frame {
-  background: rgba(20, 20, 20, 0.96);
-  border-color: #8b6934;
+  background: transparent;
+  border: none;
+}
+
+/* Dark mode quiz wrapper - 라이트 모드와 동일한 스타일 유지 */
+.dark .quiz-content-wrapper {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 6px solid #d4a574 !important;
   box-shadow: 
-    0 20px 60px rgba(0, 0, 0, 0.5),
-    inset 0 0 0 2px rgba(139, 105, 52, 0.3);
+    0 4px 8px rgba(0, 0, 0, 0.08),
+    0 12px 24px rgba(0, 0, 0, 0.12),
+    0 24px 48px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 0 0 2px rgba(212, 165, 116, 0.2);
 }
 
 @media (max-width: 768px) {
   .question-artwork-frame {
     padding: 1.5rem;
-    border-width: 8px;
     margin: 0 1rem;
   }
 }
@@ -381,21 +384,34 @@
   font-size: 1.1rem;
 }
 
-/* Question Title */
+/* Question Title - 강화된 가독성 */
 .question-title {
   font-size: 2rem;
   font-weight: 600;
   text-align: center;
   margin-bottom: 3rem;
-  color: #333;
+  color: #1a1a1a;
   line-height: 1.4;
   font-family: 'Playfair Display', serif;
+  text-shadow: 
+    0 2px 8px rgba(255, 255, 255, 0.9),
+    0 0 0 1px rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  padding: 1rem 2rem;
+  border-radius: 12px;
 }
 
 @media (max-width: 768px) {
   .question-title {
     font-size: 1.5rem;
     margin-bottom: 2rem;
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .question-artwork-frame {
+    padding: 2rem 1.5rem;
+    border-width: 4px;
   }
 }
 
@@ -739,14 +755,14 @@
   background: rgba(255, 255, 255, 0.96);
   border: 2px solid rgba(212, 165, 116, 0.3);
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 1.25rem;
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.1),
     inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(8px);
   transition: all 0.3s ease;
   text-align: left;
-  min-height: 120px;
+  min-height: 90px;
 }
 
 .choice-card-fixed:hover {
@@ -760,16 +776,42 @@
 
 /* Gallery Content - Centered Layout */
 .gallery-content {
-  max-width: 1200px;
+  max-width: 1400px;
   width: 100%;
   position: relative;
   z-index: 10;
-  padding: 2rem;
+  padding: 1rem;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+}
+
+/* Quiz Content Wrapper - 우아한 갤러리 프레임 (높이 최적화) */
+.quiz-content-wrapper {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 6px solid #d4a574;
+  border-radius: 0;
+  padding: 2rem 2.5rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.08),
+    0 12px 24px rgba(0, 0, 0, 0.12),
+    0 24px 48px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 0 0 2px rgba(212, 165, 116, 0.2);
+}
+
+@media (max-width: 768px) {
+  .quiz-content-wrapper {
+    padding: 1.5rem;
+    max-width: 95%;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -839,22 +881,31 @@
   border-color: rgba(212, 165, 116, 0.3);
 }
 
-/* Narrative Setup Box - 액자 없는 상황 설명 */
+/* Narrative Setup Box - 개선된 가독성 (갈색 테두리 제거) */
 .narrative-setup-box {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 12px;
-  padding: 1.5rem;
-  border: 2px solid rgba(229, 231, 235, 0.8);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 1.25rem 1.75rem;
+  border: 1px solid rgba(229, 231, 235, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   color: #1f2937;
+  margin-bottom: 1rem;
 }
 
-/* Consistent styling in dark mode */
+.narrative-setup-box p {
+  margin: 0;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+/* Dark mode narrative box - 라이트 모드와 동일한 스타일 유지 */
 .dark .narrative-setup-box {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.75) !important;
   color: #1f2937 !important;
-  border: 2px solid rgba(229, 231, 235, 0.8);
+  border: 1px solid rgba(229, 231, 235, 0.3) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .dark .narrative-setup-box p {

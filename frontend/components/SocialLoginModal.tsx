@@ -1,9 +1,9 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { signInWithProvider, signInWithInstagram } from '@/lib/supabase';
 
 interface SocialLoginModalProps {
   isOpen: boolean;
@@ -20,61 +20,39 @@ export default function SocialLoginModal({
 }: SocialLoginModalProps) {
   const [isLoading, setIsLoading] = useState<string | null>(null);
 
-  const handleSocialLogin = async (provider: 'google' | 'kakao' | 'instagram') => {
+  const handleSocialLogin = async (provider: 'google' | 'kakao' | 'instagram' | 'apple') => {
     setIsLoading(provider);
     
     try {
-      // Instagram은 현재 NextAuth에서 직접 지원하지 않으므로 커스텀 처리 필요
       if (provider === 'instagram') {
-        // Instagram OAuth URL 생성
-        const clientId = process.env.NEXT_PUBLIC_INSTAGRAM_CLIENT_ID;
-        const redirectUri = `${window.location.origin}/api/auth/instagram/callback`;
-        const scope = 'user_profile,user_media';
-        
-        if (!clientId) {
-          toast.error('Instagram 로그인 설정이 필요합니다.');
-          setIsLoading(null);
-          return;
-        }
-        
-        const authUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
-        
-        // 현재 상태 저장 (로그인 후 복원용)
-        sessionStorage.setItem('authRedirect', window.location.pathname);
-        sessionStorage.setItem('authAction', 'share-id-card');
-        
-        // Instagram 로그인 페이지로 리다이렉트
-        window.location.href = authUrl;
+        // Instagram은 Facebook OAuth를 통해 처리
+        await signInWithInstagram();
       } else {
-        // Google, Kakao는 NextAuth 사용
-        const result = await signIn(provider, { 
-          redirect: false,
-          callbackUrl: window.location.pathname 
-        });
-        
-        if (result?.error) {
-          toast.error(language === 'ko' 
-            ? '로그인에 실패했습니다.' 
-            : 'Login failed.'
-          );
-        } else if (result?.ok) {
-          toast.success(language === 'ko' 
-            ? '로그인되었습니다!' 
-            : 'Logged in successfully!'
-          );
-          if (onSuccess) onSuccess();
-          onClose();
-        }
+        // Google, Kakao는 Supabase OAuth 사용
+        await signInWithProvider(provider);
       }
-    } catch (error) {
-      console.error('Login error:', error);
-      toast.error(language === 'ko' 
-        ? '로그인 중 오류가 발생했습니다.' 
-        : 'An error occurred during login.'
+      
+      // Supabase OAuth는 리다이렉트 방식이므로 성공 메시지는 표시하지 않음
+      // 사용자는 OAuth 제공자 페이지로 리다이렉트됨
+      toast.success(language === 'ko' 
+        ? '로그인 페이지로 이동합니다...' 
+        : 'Redirecting to login page...'
       );
-    } finally {
-      if (provider !== 'instagram') {
-        setIsLoading(null);
+    } catch (error: any) {
+      console.error('Login error:', error);
+      setIsLoading(null);
+      
+      // 에러 메시지 처리
+      if (error.message?.includes('not enabled')) {
+        toast.error(language === 'ko' 
+          ? `${provider} 로그인이 아직 설정되지 않았습니다. Supabase 대시보드에서 활성화해주세요.` 
+          : `${provider} login is not enabled yet. Please enable it in Supabase dashboard.`
+        );
+      } else {
+        toast.error(language === 'ko' 
+          ? '로그인 중 오류가 발생했습니다.' 
+          : 'An error occurred during login.'
+        );
       }
     }
   };
@@ -198,6 +176,29 @@ export default function SocialLoginModal({
                   {language === 'ko' ? '카카오로 계속하기' : 'Continue with Kakao'}
                 </span>
               </button>
+
+              {/* Apple - 임시 숨김 (Apple Developer 계정 필요)
+              <button
+                onClick={() => handleSocialLogin('apple')}
+                disabled={isLoading !== null}
+                className="w-full flex items-center justify-center gap-3 bg-black text-white rounded-full py-3 px-6 font-medium hover:bg-gray-900 transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading === 'apple' ? (
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                  />
+                ) : (
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 16.97 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
+                  </svg>
+                )}
+                <span>
+                  {language === 'ko' ? 'Apple로 계속하기' : 'Continue with Apple'}
+                </span>
+              </button>
+              */}
             </div>
 
             {/* Skip Button */}
