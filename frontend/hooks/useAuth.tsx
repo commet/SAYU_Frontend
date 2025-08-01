@@ -28,10 +28,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Helper function to create AuthUser from Supabase User and UserProfile
   const createAuthUser = (supabaseUser: User, userProfile: UserProfile | null): AuthUser => {
+    // Get display name from various sources in priority order:
+    // 1. Profile username (if user set a custom nickname)
+    // 2. OAuth provider name (Instagram, Facebook, etc.)
+    // 3. Email username part
+    let displayName = userProfile?.username || null;
+    
+    // If no custom username, check OAuth provider data
+    if (!displayName && supabaseUser.user_metadata?.full_name) {
+      displayName = supabaseUser.user_metadata.full_name;
+    } else if (!displayName && supabaseUser.user_metadata?.name) {
+      displayName = supabaseUser.user_metadata.name;
+    } else if (!displayName && supabaseUser.user_metadata?.username) {
+      displayName = supabaseUser.user_metadata.username;
+    } else if (!displayName && supabaseUser.email) {
+      // Fallback to email username part
+      displayName = supabaseUser.email.split('@')[0];
+    }
+    
     return {
+      id: supabaseUser.id,
       auth: supabaseUser,
       profile: userProfile,
-      nickname: userProfile?.username || null,
+      nickname: displayName,
       agencyLevel: userProfile?.personality_type || 'novice',
       journeyStage: userProfile ? 'active' : 'onboarding',
       hasProfile: !!userProfile,
@@ -64,12 +83,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Create user profile if it doesn't exist
   const createProfile = async (user: User) => {
     try {
+      // Get the best available username from OAuth provider data
+      let initialUsername = user.user_metadata?.full_name || 
+                          user.user_metadata?.name || 
+                          user.user_metadata?.username || 
+                          user.email?.split('@')[0] || 
+                          'User';
+      
       const { data, error } = await supabase
         .from('profiles')
         .insert({
           id: user.id,
           email: user.email!,
-          username: user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
+          username: initialUsername,
           created_at: new Date().toISOString()
         })
         .select()
@@ -134,11 +160,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
 
       // Handle auth events
-      if (event === 'SIGNED_IN') {
-        router.push('/dashboard');
-      } else if (event === 'SIGNED_OUT') {
+      console.log('Auth event:', event, 'Session:', !!session);
+      
+      // Only redirect on explicit sign out, not on session refresh or token refresh
+      if (event === 'SIGNED_OUT') {
+        console.log('User signed out, redirecting to home');
         router.push('/');
       }
+      // Remove automatic redirect on SIGNED_IN to prevent conflicts with callback redirect
     });
 
     return () => subscription.unsubscribe();

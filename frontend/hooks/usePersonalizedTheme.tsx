@@ -26,7 +26,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Fetch user profile and generate theme
   useEffect(() => {
     if (user) {
-      fetchUserProfileAndTheme();
+      fetchUserProfileAndTheme().catch(err => {
+        console.error('Failed to fetch user profile and theme:', err);
+        // Use default theme on error
+        const defaultTheme = generatePersonalizedTheme('', 'Guest User');
+        applyTheme(defaultTheme);
+      });
     } else {
       // Apply default theme for non-authenticated users
       const defaultTheme = generatePersonalizedTheme('', 'Guest User');
@@ -52,6 +57,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const fetchUserProfileAndTheme = async () => {
     try {
       setIsLoading(true);
+      
+      // For now, always use default theme to avoid API errors
+      const defaultTheme = generatePersonalizedTheme('', 'Guest User');
+      applyTheme(defaultTheme);
+      setIsLoading(false);
+      
+      // TODO: Re-enable profile fetching when API is configured
+      /*
       const token = localStorage.getItem('token');
       
       if (!token) {
@@ -70,7 +83,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           setIsLoading(false);
           
           // Still fetch fresh profile in background
-          fetchFreshProfile(token);
+          fetchFreshProfile(token).catch(err => {
+            console.error('Background profile fetch failed:', err);
+          });
           return;
         } catch (error) {
           console.error('Error parsing cached theme:', error);
@@ -79,16 +94,27 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
       // Fetch fresh profile
       await fetchFreshProfile(token);
+      */
     } catch (error) {
-      console.error('Error fetching user profile for theming:', error);
+      console.error('Error in theme setup:', error);
       // Fallback to default theme
       const defaultTheme = generatePersonalizedTheme('', 'Guest User');
       applyTheme(defaultTheme);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const fetchFreshProfile = async (token: string) => {
     try {
+      // Skip API call if URL is not configured
+      if (!process.env.NEXT_PUBLIC_API_URL) {
+        console.log('API URL not configured, using default theme');
+        const defaultTheme = getDefaultTheme();
+        applyTheme(defaultTheme);
+        return;
+      }
+      
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -122,12 +148,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const applyTheme = (newTheme: PersonalizedTheme) => {
     setTheme(newTheme);
-    applyThemeToDOM(newTheme);
+    // Temporarily disable theme application to fix color issues
+    // applyThemeToDOM(newTheme);
     setIsLoading(false);
 
-    // Add theme class to body for additional styling
+    // Remove all theme classes to prevent color conflicts
     document.body.className = document.body.className.replace(/theme-\w+/g, '');
-    document.body.classList.add(`theme-${newTheme.id}`);
+    // Don't add theme class for now
+    // document.body.classList.add(`theme-${newTheme.id}`);
 
     // Dispatch custom event for components that need to react to theme changes
     window.dispatchEvent(new CustomEvent('themeChanged', { 

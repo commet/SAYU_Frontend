@@ -153,6 +153,9 @@ const sentryWebpackPluginOptions = {
   // Suppresses source map uploading logs during build
   silent: true,
   
+  // Disable in development
+  disableInDevelopment: true,
+  
   // Only upload source maps in production
   dryRun: process.env.NODE_ENV !== 'production',
   
@@ -169,10 +172,10 @@ const sentryWebpackPluginOptions = {
   tunnelRoute: '/monitoring',
 };
 
-// Apply Sentry configuration if DSN is available
+// Apply Sentry configuration if DSN is available and not in development
 const baseConfig = withPWA(nextConfig);
 
-if (process.env.NEXT_PUBLIC_SENTRY_DSN || process.env.SENTRY_DSN) {
+if ((process.env.NEXT_PUBLIC_SENTRY_DSN || process.env.SENTRY_DSN) && process.env.NODE_ENV !== 'development') {
   module.exports = withSentryConfig(baseConfig, sentryWebpackPluginOptions);
 } else {
   module.exports = baseConfig;

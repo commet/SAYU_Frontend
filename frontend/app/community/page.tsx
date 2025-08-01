@@ -110,7 +110,7 @@ export default function CommunityPage() {
           className="bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-xl p-6 mb-8"
         >
           <h2 className="text-xl font-semibold text-white mb-2">
-            Welcome to the SAYU Community, {user.nickname || user.auth.email}!
+            Welcome to the SAYU Community, {user.nickname || 'Explorer'}!
           </h2>
           <p className="text-gray-400">
             Share your aesthetic journey, discover new perspectives, and connect with like-minded explorers. 

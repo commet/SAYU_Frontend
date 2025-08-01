@@ -3,12 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter, usePathname } from 'next/navigation';
-import { Home, Sparkles, Users, User, Menu, X, Sun, Moon, Zap, LayoutDashboard, Calendar } from 'lucide-react';
+import { Home, Sparkles, Users, User, Menu, X, Sun, Moon, Zap, LayoutDashboard, Calendar, LogIn, LogOut } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useDarkMode } from '@/contexts/DarkModeContext';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import { useAuth } from '@/hooks/useAuth';
 import toast from 'react-hot-toast';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 interface NavItem {
   iconType: 'home' | 'sparkles' | 'users' | 'user' | 'zap' | 'dashboard' | 'calendar';
@@ -46,6 +47,8 @@ export default function FloatingNav() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [userInfo, setUserInfo] = useState<any>(null);
+  const supabase = createClientComponentClient();
   
   const getIcon = (iconType: string) => {
     switch (iconType) {
@@ -65,12 +68,28 @@ export default function FloatingNav() {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    // Get detailed user info
+    const getUserInfo = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUserInfo(user);
+    };
+    
+    getUserInfo();
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+      getUserInfo();
+    });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      subscription.unsubscribe();
+    };
   }, []);
 
   const handleNavClick = (item: NavItem) => {
     if (item.requiresAuth && !user) {
-      toast.error('Please login to access this feature');
+      toast.error(language === 'ko' ? '로그인이 필요한 기능입니다' : 'Please login to access this feature');
       setTimeout(() => {
         router.push('/login');
       }, 1000);
@@ -79,6 +98,32 @@ export default function FloatingNav() {
     }
     router.push(item.path);
     setIsOpen(false);
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    router.push('/');
+    toast.success(language === 'ko' ? '로그아웃되었습니다' : 'Signed out successfully');
+  };
+
+  const getProviderIcon = (provider: string) => {
+    switch (provider) {
+      case 'facebook':
+        return '📷'; // Instagram
+      case 'google':
+        return '🔍';
+      case 'kakao':
+        return '💬';
+      case 'discord':
+        return '🎮';
+      default:
+        return '✉️';
+    }
+  };
+
+  const getProviderName = (provider: string) => {
+    if (provider === 'facebook') return 'Instagram';
+    return provider?.charAt(0).toUpperCase() + provider?.slice(1) || 'Email';
   };
 
   return (
@@ -90,11 +135,12 @@ export default function FloatingNav() {
           animate={{ y: 0 }}
           className={`mx-auto max-w-7xl ${scrolled ? 'backdrop-blur-xl' : ''} transition-all duration-300`}
           style={{ 
-            background: isDarkMode ? 'rgba(31, 41, 55, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+            background: isDarkMode ? 'rgba(31, 41, 55, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+            backgroundColor: isDarkMode ? 'rgba(31, 41, 55, 0.95) !important' : 'rgba(255, 255, 255, 0.95) !important',
             backdropFilter: 'blur(20px) saturate(180%)',
             borderRadius: '20px',
             padding: '12px 24px',
-            border: isDarkMode ? '1px solid rgba(75, 85, 99, 0.4)' : '1px solid rgba(255, 255, 255, 0.4)',
+            border: isDarkMode ? '1px solid rgba(75, 85, 99, 0.4)' : '1px solid rgba(229, 229, 229, 0.8)',
             boxShadow: isDarkMode ? '0 8px 32px rgba(0, 0, 0, 0.3)' : '0 8px 32px rgba(0, 0, 0, 0.08)'
           }}
         >
@@ -153,6 +199,40 @@ export default function FloatingNav() {
               );
             })}
             <div className="flex items-center gap-2">
+              {/* User info or Login button */}
+              {user && userInfo ? (
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 px-3 py-1.5 bg-purple-100/50 dark:bg-purple-900/30 rounded-xl">
+                    <span className="text-sm">{getProviderIcon(userInfo.app_metadata?.provider || '')}</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {userInfo.user_metadata?.full_name || userInfo.email?.split('@')[0] || '사용자'}
+                    </span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                      ({getProviderName(userInfo.app_metadata?.provider || '')})
+                    </span>
+                  </div>
+                  <motion.button
+                    onClick={handleSignOut}
+                    className="p-2 rounded-xl text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900/30 transition-all"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    aria-label={language === 'ko' ? "로그아웃" : "Sign out"}
+                  >
+                    <LogOut className="w-5 h-5" />
+                  </motion.button>
+                </div>
+              ) : (
+                <motion.button
+                  onClick={() => router.push('/login')}
+                  className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <LogIn className="w-5 h-5" />
+                  <span className="font-medium">{language === 'ko' ? '로그인' : 'Login'}</span>
+                </motion.button>
+              )}
+              
               <motion.button
                 onClick={toggleDarkMode}
                 className="p-2 rounded-xl text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-all"
@@ -327,6 +407,33 @@ export default function FloatingNav() {
                   <LanguageToggle variant="glass" />
                 </div>
                 
+                {/* User info in mobile menu */}
+                {user && userInfo && (
+                  <div className="p-4 bg-white/10 rounded-xl">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-2xl">
+                        {getProviderIcon(userInfo.app_metadata?.provider || '')}
+                      </div>
+                      <div>
+                        <p className="text-white font-medium">
+                          {userInfo.user_metadata?.full_name || userInfo.email?.split('@')[0] || '사용자'}
+                        </p>
+                        <p className="text-white/60 text-sm">
+                          {getProviderName(userInfo.app_metadata?.provider || '')}
+                        </p>
+                      </div>
+                    </div>
+                    <motion.button
+                      onClick={handleSignOut}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-500/20 text-red-300 rounded-lg hover:bg-red-500/30 transition-all"
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <LogOut className="w-4 h-4" />
+                      <span className="text-sm">{language === 'ko' ? '로그아웃' : 'Sign out'}</span>
+                    </motion.button>
+                  </div>
+                )}
+                
                 <nav className="flex flex-col gap-2">
                   {desktopNavItems.map((item) => {
                     const isActive = pathname === item.path;
@@ -361,6 +468,21 @@ export default function FloatingNav() {
                     );
                   })}
                 </nav>
+                
+                {/* Login button for mobile menu */}
+                {!user && (
+                  <motion.button
+                    onClick={() => {
+                      router.push('/login');
+                      setIsOpen(false);
+                    }}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all"
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <LogIn className="w-5 h-5" />
+                    <span className="font-medium">{language === 'ko' ? '로그인' : 'Login'}</span>
+                  </motion.button>
+                )}
               </div>
             </motion.div>
           </motion.div>

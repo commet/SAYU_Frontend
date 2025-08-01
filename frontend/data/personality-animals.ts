@@ -1,7 +1,7 @@
 // 🎨 SAYU Personality Animal Characters
 // 16가지 예술 성격 유형별 동물 캐릭터
 // 중앙 정의 파일 import
-import { SAYU_TYPES, getSAYUType, validateSAYUType } from '@/types/sayu-shared';
+import { SAYU_TYPES, getSAYUType, isValidSAYUType } from '@/types/sayu-shared';
 
 export interface PersonalityAnimal {
   type: string;
@@ -305,7 +305,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
 // Helper function to get animal by personality type
 export const getAnimalByType = (type: string): PersonalityAnimal | null => {
   // Validate type using central definition
-  if (!validateSAYUType(type)) {
+  if (!isValidSAYUType(type)) {
     console.warn(`Invalid SAYU type: ${type}`);
     return null;
   }

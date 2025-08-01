@@ -456,7 +456,7 @@ function createBaseDesignTokens(colorScheme: ColorScheme = 'neutral'): DesignTok
       brand: {
         primary: 'hsl(211, 65%, 45%)',   // 청 - Trust & Depth
         secondary: 'hsl(355, 75%, 55%)', // 적 - Passion & Energy
-        tertiary: 'hsl(45, 95%, 51%)',   // 황 - Creativity
+        tertiary: 'hsl(0, 0%, 60%)',     // Neutral gray instead of yellow
         accent: 'hsl(280, 70%, 60%)',    // Dynamic purple
         muted: 'hsl(211, 20%, 65%)'
       },

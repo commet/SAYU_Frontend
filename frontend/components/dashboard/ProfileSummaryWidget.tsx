@@ -61,7 +61,7 @@ export function ProfileSummaryWidget({
               {/* User Details */}
               <div>
                 <h1 className="text-3xl font-bold">
-                  안녕하세요! 👋
+                  안녕하세요, {user?.nickname || user?.auth?.user_metadata?.full_name || user?.auth?.user_metadata?.name || '예술 탐험가'}님! 👋
                 </h1>
                 <p className="text-muted-foreground mt-1">
                   오늘도 예술과 함께하는 하루 되세요

@@ -1,4 +1,28 @@
-import { api } from './client';
+// Base fetch with auth
+async function fetchWithAuth(url: string, options: RequestInit = {}) {
+  const { createClient } = await import('../supabase/client');
+  const supabase = createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = session?.access_token || null;
+  
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+    ...options.headers,
+  };
+
+  const response = await fetch(url, {
+    ...options,
+    headers,
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: 'Request failed' }));
+    throw new Error(error.error || error.message || 'Request failed');
+  }
+
+  return response.json();
+}
 
 export interface JourneyDay {
   day_number: number;
@@ -32,8 +56,8 @@ export interface TodaysNudge {
 // 사용자 여정 상태 조회
 export async function getJourneyStatus(): Promise<JourneyStatus | null> {
   try {
-    const response = await api.get('/journey/status');
-    return response.data;
+    const response = await fetchWithAuth('/api/journey/status');
+    return response;
   } catch (error) {
     console.error('Failed to fetch journey status:', error);
     return null;
@@ -43,8 +67,8 @@ export async function getJourneyStatus(): Promise<JourneyStatus | null> {
 // 오늘의 안내 메시지 조회
 export async function getTodaysNudge(): Promise<TodaysNudge | null> {
   try {
-    const response = await api.get('/journey/todays-nudge');
-    return response.data.nudge;
+    const response = await fetchWithAuth('/api/journey/todays-nudge');
+    return response.nudge;
   } catch (error) {
     console.error('Failed to fetch todays nudge:', error);
     return null;
@@ -54,7 +78,9 @@ export async function getTodaysNudge(): Promise<TodaysNudge | null> {
 // nudge 확인 처리
 export async function markNudgeAsViewed(dayNumber: number): Promise<boolean> {
   try {
-    await api.post(`/journey/nudge/${dayNumber}/view`);
+    await fetchWithAuth(`/api/journey/nudge/${dayNumber}/view`, {
+      method: 'POST'
+    });
     return true;
   } catch (error) {
     console.error('Failed to mark nudge as viewed:', error);
@@ -65,7 +91,9 @@ export async function markNudgeAsViewed(dayNumber: number): Promise<boolean> {
 // nudge 클릭 처리
 export async function markNudgeAsClicked(dayNumber: number): Promise<boolean> {
   try {
-    await api.post(`/journey/nudge/${dayNumber}/click`);
+    await fetchWithAuth(`/api/journey/nudge/${dayNumber}/click`, {
+      method: 'POST'
+    });
     return true;
   } catch (error) {
     console.error('Failed to mark nudge as clicked:', error);

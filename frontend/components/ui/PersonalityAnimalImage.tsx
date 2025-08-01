@@ -38,7 +38,8 @@ export function PersonalityAnimalImage({
     variant,
     imagePath,
     imageError,
-    hasImagePath: !!imagePath
+    hasImagePath: !!imagePath,
+    animal: animal
   });
 
   // 이미지가 없거나 로드 에러가 있으면 이모지 폴백 표시

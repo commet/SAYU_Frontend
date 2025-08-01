@@ -1,0 +1,130 @@
+/* EMERGENCY COLOR FIX - Override all theme colors */
+
+/* Light mode - Force white backgrounds and dark text */
+:root {
+  --background: 255 255 255 !important;
+  --foreground: 0 0 0 !important;
+  --card: 255 255 255 !important;
+  --card-foreground: 0 0 0 !important;
+  --popover: 255 255 255 !important;
+  --popover-foreground: 0 0 0 !important;
+  --primary: 99 102 241 !important;
+  --primary-foreground: 255 255 255 !important;
+  --secondary: 243 244 246 !important;
+  --secondary-foreground: 0 0 0 !important;
+  --muted: 243 244 246 !important;
+  --muted-foreground: 107 114 128 !important;
+  --accent: 243 244 246 !important;
+  --accent-foreground: 0 0 0 !important;
+  --destructive: 239 68 68 !important;
+  --destructive-foreground: 255 255 255 !important;
+  --border: 229 231 235 !important;
+  --input: 229 231 235 !important;
+  --ring: 99 102 241 !important;
+}
+
+/* Dark mode - Force dark backgrounds and light text */
+.dark {
+  --background: 17 24 39 !important;
+  --foreground: 243 244 246 !important;
+  --card: 31 41 55 !important;
+  --card-foreground: 243 244 246 !important;
+  --popover: 31 41 55 !important;
+  --popover-foreground: 243 244 246 !important;
+  --primary: 99 102 241 !important;
+  --primary-foreground: 255 255 255 !important;
+  --secondary: 55 65 81 !important;
+  --secondary-foreground: 243 244 246 !important;
+  --muted: 55 65 81 !important;
+  --muted-foreground: 156 163 175 !important;
+  --accent: 55 65 81 !important;
+  --accent-foreground: 243 244 246 !important;
+  --destructive: 239 68 68 !important;
+  --destructive-foreground: 255 255 255 !important;
+  --border: 55 65 81 !important;
+  --input: 55 65 81 !important;
+  --ring: 99 102 241 !important;
+}
+
+/* Force body colors */
+body {
+  background-color: rgb(255 255 255) !important;
+  color: rgb(0 0 0) !important;
+}
+
+.dark body {
+  background-color: rgb(17 24 39) !important;
+  color: rgb(243 244 246) !important;
+}
+
+/* Force all backgrounds to be correct - except home page */
+*[class*="bg-background"]:not(.home-page-preserve) {
+  background-color: rgb(255 255 255) !important;
+}
+
+.dark *[class*="bg-background"]:not(.home-page-preserve) {
+  background-color: rgb(17 24 39) !important;
+}
+
+/* Force card colors */
+*[class*="bg-card"] {
+  background-color: rgb(255 255 255) !important;
+}
+
+.dark *[class*="bg-card"] {
+  background-color: rgb(31 41 55) !important;
+}
+
+/* Force text colors - except home page */
+*[class*="text-foreground"]:not(.home-page-preserve *) {
+  color: rgb(0 0 0) !important;
+}
+
+.dark *[class*="text-foreground"]:not(.home-page-preserve *) {
+  color: rgb(243 244 246) !important;
+}
+
+/* Override any inline styles - except home page */
+[style*="background"]:not(.home-page-preserve) {
+  background-color: rgb(255 255 255) !important;
+}
+
+.dark [style*="background"]:not(.home-page-preserve) {
+  background-color: rgb(31 41 55) !important;
+}
+
+/* Preserve home page specific styles */
+.home-page-preserve,
+.home-page-preserve * {
+  /* Allow original styles to take precedence */
+  background-color: unset !important;
+  color: unset !important;
+}
+
+/* Fix navigation bar specifically */
+nav, header, [role="navigation"] {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.dark nav, .dark header, .dark [role="navigation"] {
+  background-color: rgba(31, 41, 55, 0.95) !important;
+}
+
+/* Fix any remaining yellow/brown colors */
+* {
+  --color-background-primary: 255 255 255 !important;
+  --color-background-secondary: 249 250 251 !important;
+  --color-background-tertiary: 243 244 246 !important;
+  --color-foreground-primary: 0 0 0 !important;
+  --color-foreground-secondary: 75 85 99 !important;
+  --color-foreground-tertiary: 107 114 128 !important;
+}
+
+.dark * {
+  --color-background-primary: 17 24 39 !important;
+  --color-background-secondary: 31 41 55 !important;
+  --color-background-tertiary: 55 65 81 !important;
+  --color-foreground-primary: 243 244 246 !important;
+  --color-foreground-secondary: 209 213 219 !important;
+  --color-foreground-tertiary: 156 163 175 !important;
+}

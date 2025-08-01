@@ -17,6 +17,13 @@ export interface PersonalityDescription {
     description: string;
     description_ko?: string;
   }>;
+  growth?: Array<{
+    icon: string;
+    title: string;
+    title_ko?: string;
+    description: string;
+    description_ko?: string;
+  }>;
   recognition: string[];
   recognition_ko?: string[];
   lifeExtension: string;
@@ -35,6 +42,8 @@ export interface PersonalityDescription {
     whyYouConnect_ko?: string;
     emotionalTag: string;
     emotionalTag_ko?: string;
+    alternativeArtist?: string; // Artvee에서 대체할 작가
+    searchKeywords?: string[]; // 검색용 키워드
   }>;
 }
 
@@ -50,29 +59,45 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '감성 탐험가',
     subtitle: 'Dancing with abstract emotions in solitude',
     subtitle_ko: '감정의 나침반을 따라 예술을 탐험하는',
-    essence: 'You don\'t just see art, you feel it breathing. In the quiet moments between you and a canvas, entire universes unfold. Your journey through galleries is deeply personal - a meditation where each piece either resonates in your bones or passes by like a gentle breeze.',
-    essence_ko: '당신은 미술관을 감정의 지도로 탐험합니다. 작품 앞에서 느끼는 감정이 다음 작품으로 이끄는 나침반이 되죠.\n\n혼자만의 시간 속에서 예술과 깊이 교감하며, 각 작품이 전하는 감정의 파장을 온전히 받아들입니다. 때로는 한 작품 앞에서 오래 머물며 그 안에 담긴 감정의 여정을 따라가기도 합니다.',
+    essence: 'You experience art like others experience music - not through analysis or structure, but through pure emotional resonance. In the sanctuary of solitude, abstract forms become mirrors to your inner landscape, each color and gesture speaking a language only your heart understands. You don\'t follow museum maps; you follow the invisible threads of feeling that pull you from one piece to another, creating your own constellation of meaning.',
+    essence_ko: '당신에게 예술은 분석의 대상이 아닌 느낌의 대화입니다. 고요한 전시실에서 추상화와 마주할 때, 색과 형태는 당신만이 알아듣는 언어로 말을 걸어옵니다. 미술관 지도를 따르기보다는 마음이 끌리는 작품에서 작품으로 자연스레 흘러가며, 그 과정에서 자신만의 의미의 별자리를 그려나갑니다.\n\n혼자만의 시간은 당신에게 필수적입니다. 그 속에서만 작품이 전하는 미묘한 감정의 결을 온전히 느낄 수 있으니까요. 한 점의 그림 앞에서 시간을 잊고 서 있을 때, 당신은 가장 충만한 예술적 경험을 합니다.',
     strengths: [
       {
-        icon: '🌙',
-        title: 'Emotional Depth',
-        title_ko: '감정의 깊이',
-        description: 'You feel art in layers others might miss',
-        description_ko: '다른 사람들이 놓칠 수 있는 층들에서 예술을 느낍니다'
+        icon: '🌊',
+        title: 'Emotional Resonance',
+        title_ko: '감정적 공명',
+        description: 'You possess a rare ability to attune to the emotional frequencies in abstract art, sensing subtle shifts in mood and energy that create profound personal connections',
+        description_ko: '추상 예술이 품은 감정의 파장을 느끼는 특별한 감각을 지녔습니다. 남들이 지나치는 미묘한 정서의 떨림까지 포착하며, 작품과 깊은 내적 대화를 나눕니다'
       },
       {
-        icon: '🍃',
-        title: 'Intuitive Navigation',
-        title_ko: '직관적 탐색',
-        description: 'You trust your instincts to guide you to meaningful encounters',
-        description_ko: '의미 있는 만남으로 인도하는 본능을 신뢰합니다'
+        icon: '🌌',
+        title: 'Unstructured Discovery',
+        title_ko: '자유로운 발견',
+        description: 'Your spontaneous approach to art viewing allows for serendipitous discoveries and unexpected emotional revelations that planned routes might miss',
+        description_ko: '정해진 순서 없이 마음 가는 대로 둘러보는 당신의 방식은 뜻밖의 감동을 선사합니다. 계획된 관람이 놓칠 수 있는 특별한 순간들을 발견하죠'
       },
       {
-        icon: '💫',
-        title: 'Present Moment Awareness',
-        title_ko: '현재 순간의 인식',
-        description: 'You can lose yourself completely in a single brushstroke',
-        description_ko: '한 번의 붓터치에 완전히 빠져들 수 있습니다'
+        icon: '🕊️',
+        title: 'Contemplative Presence',
+        title_ko: '명상적 현존',
+        description: 'In solitude, you achieve a meditative state where art becomes a dialogue between your inner world and the artist\'s expression',
+        description_ko: '홀로 작품과 마주할 때 당신은 일종의 명상 상태에 들어갑니다. 내면의 목소리와 작가의 표현이 만나 깊은 교감을 이루는 순간입니다'
+      }
+    ],
+    growth: [
+      {
+        icon: '🌱',
+        title: 'Expanding Your Artistic Vocabulary',
+        title_ko: '예술적 어휘 확장하기',
+        description: 'While your emotional intelligence is exceptional, learning some art historical context can add new dimensions to your intuitive understanding',
+        description_ko: '타고난 감성에 작품의 배경 지식을 더한다면, 더욱 풍성한 감상의 세계가 열릴 거예요. 아는 만큼 보이고, 느끼는 만큼 깊어지니까요'
+      },
+      {
+        icon: '🤝',
+        title: 'Sharing Your Inner Journey',
+        title_ko: '내면의 여정 나누기',
+        description: 'Consider joining small, intimate art discussion groups where you can share your unique emotional insights in a comfortable setting',
+        description_ko: '소수의 사람들과 함께하는 아늑한 예술 모임을 찾아보세요. 편안한 분위기에서라면 당신의 깊은 감상을 나누는 것도 즐거운 경험이 될 거예요'
       }
     ],
     recognition: [
@@ -147,29 +172,45 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '감성 큐레이터',
     subtitle: 'Creating personal collections of emotional art experiences',
     subtitle_ko: '감정적 예술 경험의 개인 커렉션을 만드는',
-    essence: 'You approach abstract art like a poet approaches words - with reverence, patience, and deep attention to color, form, and emotional resonance. Your solitary gallery visits are research expeditions of the soul, where you systematically uncover layers of meaning in symbolic works while allowing yourself to be emotionally moved by their atmospheric qualities.',
-    essence_ko: '당신은 추상 예술을 마치 큐레이터처럼 자신만의 감성적 기준으로 선별하고 수집합니다. 색채와 형태가 만들어내는 감정의 뉘앙스를 체계적으로 분류하며, 추상 작품의 상징적 의미를 깊이 탐구합니다. 미술관에서의 시간은 감정의 아카이브를 만들어가는 과정이며, 작품마다 담긴 추상적 정서를 자신만의 방식으로 해석하고 보관합니다.',
+    essence: 'You are an emotional archaeologist of abstract art, carefully excavating layers of feeling with methodical precision. Each gallery visit becomes a curatorial project where you map the emotional territories of color fields and gestural marks. Your unique gift lies in creating systematic pathways through the chaos of emotion, building personal taxonomies of feeling that help you understand not just what moves you, but why and how.',
+    essence_ko: '당신은 추상 예술의 감정적 고고학자입니다. 세심한 방법론으로 감정의 층들을 발굴하고 분류합니다. 각 미술관 방문은 하나의 큐레이팅 프로젝트가 되어, 색면과 제스처의 감정적 영토를 매핑합니다.\n\n당신의 특별한 재능은 감정의 혼돈 속에서 체계적인 길을 만들어내는 것입니다. 감정의 개인적 분류 체계를 구축하여, 무엇이 당신을 움직이는지뿐만 아니라 왜, 그리고 어떻게 그런지를 이해합니다.',
     strengths: [
       {
-        icon: '📖',
-        title: 'Deep Analysis',
-        title_ko: '깊이 있는 분석',
-        description: 'You read between the brushstrokes and find hidden narratives in artistic techniques',
-        description_ko: '붓터치 사이를 읽으며 예술적 기법에 숨겨진 서사를 발견합니다'
+        icon: '🎨',
+        title: 'Emotional Cartography',
+        title_ko: '감정의 지도 제작',
+        description: 'You create mental maps of emotional territories within abstract works, cataloging nuances of feeling with remarkable precision',
+        description_ko: '추상 작품 안에서 감정의 영토를 정신적으로 매핑하고, 놀라운 정밀도로 감정의 뉘앙스를 목록화합니다'
       },
       {
-        icon: '🏛️',
-        title: 'Methodical Appreciation',
-        title_ko: '체계적 감상',
-        description: 'Your structured approach reveals layers of meaning that others miss',
-        description_ko: '체계적인 접근을 통해 다른 사람들이 놓치는 의미의 층위를 드러냅니다'
+        icon: '📚',
+        title: 'Systematic Sensitivity',
+        title_ko: '체계적 감수성',
+        description: 'Your organized approach to emotional experience allows you to build comprehensive understanding of abstract art\'s affective dimensions',
+        description_ko: '감정적 경험에 대한 체계적 접근을 통해 추상 예술의 정서적 차원을 포괄적으로 이해합니다'
       },
       {
-        icon: '💭',
-        title: 'Emotional Intelligence',
-        title_ko: '감정적 지능',
-        description: 'You bridge the gap between feeling and understanding in art',
-        description_ko: '예술에서 감정과 이해 사이의 간극을 메워줍니다'
+        icon: '🔍',
+        title: 'Pattern Recognition',
+        title_ko: '패턴 인식 능력',
+        description: 'You identify recurring emotional themes across different abstract works, building a personal encyclopedia of artistic feelings',
+        description_ko: '다양한 추상 작품들에서 반복되는 감정적 주제를 발견하고, 예술적 감정의 개인 백과사전을 구축합니다'
+      }
+    ],
+    growth: [
+      {
+        icon: '✨',
+        title: 'Embracing the Unclassifiable',
+        title_ko: '분류할 수 없는 것 포용하기',
+        description: 'Allow some artworks to remain mysterious and undefined in your emotional catalog - the ineffable has its own profound value',
+        description_ko: '일부 작품들은 감정적 카탈로그에서 신비롭고 정의되지 않은 채로 남겨두세요. 형언할 수 없는 것에도 그 자체로 깊은 가치가 있습니다'
+      },
+      {
+        icon: '🎲',
+        title: 'Spontaneous Encounters',
+        title_ko: '자발적 만남',
+        description: 'Occasionally let chance guide your gallery visits - unexpected discoveries can enrich your carefully curated emotional archive',
+        description_ko: '가끔은 우연이 갤러리 방문을 이끌도록 하세요. 예상치 못한 발견들이 신중하게 큐레이팅된 감정 아카이브를 풍성하게 만들 수 있습니다'
       }
     ],
     recognition: [

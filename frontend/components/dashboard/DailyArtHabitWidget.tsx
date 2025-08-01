@@ -33,8 +33,17 @@ export function DailyArtHabitWidget({ className }: DailyArtHabitWidgetProps) {
 
   const loadTodayData = async () => {
     try {
-      const data = await dailyHabitApi.getTodayEntry();
-      setTodayEntry(data.entry);
+      // Temporarily disabled until API is implemented
+      // const data = await dailyHabitApi.getTodayEntry();
+      // setTodayEntry(data.entry);
+      
+      // Mock data for now
+      setTodayEntry({
+        daily_completion_rate: 0,
+        morning_completed_at: null,
+        lunch_completed_at: null,
+        night_completed_at: null
+      });
     } catch (error) {
       console.error('Failed to load today data:', error);
     } finally {

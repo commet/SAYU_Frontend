@@ -309,8 +309,14 @@ export const collectionInteractionsApi = {
 // 사용자 활동 추적
 export const userActivityApi = {
   // 내 활동 현황 조회
-  async getMyActivity(): Promise<UserArtActivity | null> {
-    const { data: { user } } = await supabase.auth.getUser();
+  async getMyActivity(session?: any): Promise<UserArtActivity | null> {
+    let user = session?.user;
+    
+    if (!user) {
+      const { data: authData } = await supabase.auth.getUser();
+      user = authData.user;
+    }
+    
     if (!user) return null;
 
     const { data, error } = await supabase
@@ -324,8 +330,14 @@ export const userActivityApi = {
   },
 
   // 대시보드용 활동 통계 조회
-  async getActivityStats() {
-    const { data: { user } } = await supabase.auth.getUser();
+  async getActivityStats(session?: any) {
+    let user = session?.user;
+    
+    if (!user) {
+      const { data: authData } = await supabase.auth.getUser();
+      user = authData.user;
+    }
+    
     if (!user) throw new Error('Not authenticated');
 
     // Get collection stats
@@ -393,7 +405,7 @@ export const userActivityApi = {
   },
 
   // 커뮤니티 오픈 가능 여부 확인
-  async checkCommunityUnlock(): Promise<{
+  async checkCommunityUnlock(session?: any): Promise<{
     isUnlocked: boolean;
     progress: {
       artworks_viewed: { current: number; required: number };
@@ -402,7 +414,7 @@ export const userActivityApi = {
       notes_written: { current: number; required: number };
     };
   }> {
-    const activity = await this.getMyActivity();
+    const activity = await this.getMyActivity(session);
     
     if (!activity) {
       return {

@@ -190,6 +190,25 @@ class ArtveeAPI {
     const data = await response.json();
     return data;
   }
+
+  /**
+   * 작가별 작품 조회
+   */
+  async getArtworksByArtist(artistName: string, limit: number = 10): Promise<ArtveeArtwork[]> {
+    const response = await fetch(
+      `${this.baseUrl}/artist/${encodeURIComponent(artistName)}?limit=${limit}`,
+      {
+        credentials: 'include'
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch artworks by artist');
+    }
+
+    const data = await response.json();
+    return data.data || [];
+  }
 }
 
 // 싱글톤 인스턴스
@@ -256,5 +275,17 @@ export function useArtveeStats() {
     queryKey: ['artvee', 'stats'],
     queryFn: () => artveeAPI.getStats(),
     staleTime: 30 * 60 * 1000 // 30분
+  });
+}
+
+/**
+ * 작가별 작품 조회 훅
+ */
+export function useArtworksByArtist(artistName: string, limit?: number) {
+  return useQuery({
+    queryKey: ['artvee', 'artist', artistName, limit],
+    queryFn: () => artveeAPI.getArtworksByArtist(artistName, limit),
+    staleTime: 10 * 60 * 1000, // 10분
+    enabled: !!artistName
   });
 }

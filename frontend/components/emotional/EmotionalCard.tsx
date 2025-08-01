@@ -289,11 +289,13 @@ export const EmotionalToast: React.FC<EmotionalToastProps> = ({
         ease: [0.390, 0.575, 0.565, 1.000]
       }}
       className={cn(
-        "fixed bottom-8 left-1/2 -translate-x-1/2",
+        "fixed bottom-8 left-[38%] -translate-x-1/2",
         "px-6 py-3 rounded-full",
-        "bg-[hsl(var(--personality-accent))] text-white",
+        "bg-white/80 dark:bg-amber-900/50 text-gray-800 dark:text-white",
         "shadow-embrace backdrop-blur-sm",
-        "flex items-center gap-3"
+        "flex items-center gap-3",
+        "z-50",
+        "max-w-[90vw] sm:max-w-none"
       )}
       data-personality={personality}
     >

@@ -27,14 +27,24 @@ function LoginContent() {
 
   useEffect(() => {
     const error = searchParams?.get('error');
-    if (error) {
+    const info = searchParams?.get('info');
+    
+    if (info === 'instagram_no_email') {
+      toast(
+        language === 'ko' 
+          ? 'Instagram은 이메일을 제공하지 않습니다. 프로필에서 이메일을 추가해주세요.' 
+          : 'Instagram does not provide email. Please add your email in profile settings.',
+        { icon: 'ℹ️', duration: 6000 }
+      );
+    } else if (error) {
       const errorMessages: Record<string, Record<string, string>> = {
         auth_failed: { en: 'Authentication failed. Please try again.', ko: '인증에 실패했습니다. 다시 시도해주세요.' },
         auth_error: { en: 'An error occurred during authentication.', ko: '인증 중 오류가 발생했습니다.' },
         missing_tokens: { en: 'Authentication tokens missing.', ko: '인증 토큰이 없습니다.' },
         google_auth_failed: { en: 'Google authentication failed.', ko: '구글 인증에 실패했습니다.' },
         github_auth_failed: { en: 'GitHub authentication failed.', ko: '깃허브 인증에 실패했습니다.' },
-        apple_auth_failed: { en: 'Apple authentication failed.', ko: '애플 인증에 실패했습니다.' }
+        apple_auth_failed: { en: 'Apple authentication failed.', ko: '애플 인증에 실패했습니다.' },
+        server_error: { en: 'Instagram login failed. This is a known limitation.', ko: 'Instagram 로그인에 실패했습니다. 알려진 제한사항입니다.' }
       };
       const message = errorMessages[error]?.[language] || (language === 'ko' ? '인증 오류' : 'Authentication error');
       toast.error(message);
@@ -48,7 +58,7 @@ function LoginContent() {
     try {
       await signIn(email, password);
       toast.success(language === 'ko' ? '로그인 성공!' : 'Login successful!');
-      router.push('/');
+      router.push('/dashboard');
     } catch (error: any) {
       console.error('Login error:', error);
       if (error.message) {
@@ -127,7 +137,7 @@ function LoginContent() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
             onSubmit={handleSubmit}
-            className="space-y-6"
+            className="space-y-4"
           >
             {/* Email Field */}
             <div>
@@ -140,7 +150,7 @@ function LoginContent() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 pl-12 bg-white border-2 border-sayu-warm-gray/30 rounded-xl focus:border-sayu-mocha focus:outline-none focus:ring-4 focus:ring-sayu-mocha/10 transition-all duration-300 hover:border-sayu-warm-gray/50"
+                  className="w-full px-4 py-3 pl-12 bg-white dark:bg-gray-800 border-2 border-gray-900 dark:border-gray-300 rounded-xl focus:border-gray-900 dark:focus:border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-900/10 dark:focus:ring-gray-300/10 transition-all duration-300 hover:border-gray-700 dark:hover:border-gray-400 text-gray-900 dark:text-gray-100"
                   placeholder={language === 'ko' ? 'your@email.com' : 'your@email.com'}
                   required
                   autoComplete="email"
@@ -160,7 +170,7 @@ function LoginContent() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 pl-12 pr-12 bg-white border-2 border-sayu-warm-gray/30 rounded-xl focus:border-sayu-mocha focus:outline-none focus:ring-4 focus:ring-sayu-mocha/10 transition-all duration-300 hover:border-sayu-warm-gray/50"
+                  className="w-full px-4 py-3 pl-12 pr-12 bg-white dark:bg-gray-800 border-2 border-gray-900 dark:border-gray-300 rounded-xl focus:border-gray-900 dark:focus:border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-900/10 dark:focus:ring-gray-300/10 transition-all duration-300 hover:border-gray-700 dark:hover:border-gray-400 text-gray-900 dark:text-gray-100"
                   placeholder="••••••••"
                   required
                   autoComplete="current-password"
@@ -217,12 +227,12 @@ function LoginContent() {
           </motion.form>
 
           {/* Divider */}
-          <div className="relative my-8">
+          <div className="relative my-3">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-sayu-warm-gray/30"></div>
+              <div className="w-full border-t border-gray-900 dark:border-gray-100"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-sayu-bg-primary text-sayu-text-muted">
+              <span className="px-4 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300">
                 {language === 'ko' ? '또는' : 'Or continue with'}
               </span>
             </div>
@@ -233,7 +243,7 @@ function LoginContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="space-y-3"
+            className="space-y-3 -mt-1"
           >
             <SocialLoginButton provider="instagram" />
             <SocialLoginButton provider="google" />
@@ -246,7 +256,7 @@ function LoginContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="mt-8 text-center text-sm text-sayu-text-secondary"
+            className="mt-6 text-center text-sm text-sayu-text-secondary"
           >
             {language === 'ko' ? '아직 계정이 없으신가요? ' : "Don't have an account? "}
             <Link
@@ -260,7 +270,17 @@ function LoginContent() {
       </div>
 
       {/* Right Panel - Visual */}
-      <div className="hidden lg:flex flex-1 relative overflow-hidden bg-gradient-to-br from-sayu-lavender via-sayu-sage to-sayu-powder-blue">
+      <div className="hidden lg:flex flex-1 relative overflow-hidden">
+        {/* Background Image with Overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ 
+            backgroundImage: 'url("/images/backgrounds/baroque-gallery-ornate-arches-historical.jpg")',
+          }}
+        >
+          {/* Overlay for transparency */}
+          <div className="absolute inset-0 bg-white/30 dark:bg-black/30" />
+        </div>
         {/* Animated Background Pattern */}
         <div className="absolute inset-0">
           {/* Gradient Orbs */}
@@ -321,9 +341,9 @@ function LoginContent() {
                 ? '예술로 만나는\n나의 진짜 모습' 
                 : 'Discover Your\nTrue Artistic Self'}
             </h2>
-            <p className="text-xl text-sayu-charcoal/70 max-w-md mx-auto mb-12">
+            <p className="text-xl text-sayu-charcoal/70 max-w-md mx-auto mb-12 whitespace-pre-line">
               {language === 'ko'
-                ? 'SAYU와 함께 당신만의 예술 취향을 발견하고, 마음에 드는 작품들을 만나보세요.'
+                ? 'SAYU와 함께 당신만의 예술 취향을 발견하고,\n마음에 드는 작품들을 만나보세요.'
                 : 'Explore your unique art preferences and discover masterpieces that resonate with your soul.'}
             </p>
 

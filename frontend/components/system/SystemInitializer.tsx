@@ -8,9 +8,9 @@ import useAnimationStore from '@/lib/animation-system';
 
 export function SystemInitializer() {
   useEffect(() => {
-    // Initialize theme system
-    initializeThemeSystem();
-    console.log('🎨 Theme system initialized');
+    // Temporarily disable theme system to fix color issues
+    // initializeThemeSystem();
+    // console.log('🎨 Theme system initialized');
     
     // Initialize animation system
     initializeAnimationSystem();

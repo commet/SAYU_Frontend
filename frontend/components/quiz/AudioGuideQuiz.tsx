@@ -48,6 +48,7 @@ export const AudioGuideQuiz: React.FC = () => {
   const [showExitConfirm, setShowExitConfirm] = useState(false);
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [showGalleryMap, setShowGalleryMap] = useState(false);
+  const [showAPTTransition, setShowAPTTransition] = useState(false);
 
   const question = narrativeQuestions[currentQuestion];
   const progress = ((currentQuestion + 1) / narrativeQuestions.length) * 100;
@@ -142,8 +143,13 @@ export const AudioGuideQuiz: React.FC = () => {
       completedAt: new Date().toISOString()
     }));
 
-    // Navigate to results
-    router.push(`/results?type=${type}`);
+    // Show APT transition screen briefly
+    setShowAPTTransition(true);
+    
+    // Navigate to results after showing transition
+    setTimeout(() => {
+      router.push(`/results?type=${type}`);
+    }, 2500);
   };
 
   const getTransitionText = () => {
@@ -540,6 +546,79 @@ export const AudioGuideQuiz: React.FC = () => {
                 </div>
               </div>
             </GlassCard>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* APT Transition Screen */}
+      <AnimatePresence>
+        {showAPTTransition && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center"
+          >
+            {/* Museum Cafe Background */}
+            <div 
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{
+                backgroundImage: 'url("/images/backgrounds/museum-cafe-empty-shadows-monochrome.jpg")',
+              }}
+            >
+              <div className="absolute inset-0 bg-black/30" />
+            </div>
+
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="text-center px-4 relative z-10"
+            >
+              {/* Analyzing message at top */}
+              <motion.div
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="mb-12"
+              >
+                <p className="text-2xl md:text-3xl font-semibold text-white mb-2">
+                  {language === 'ko' 
+                    ? '당신의 Art Persona Type을 분석중...' 
+                    : 'Analyzing your Art Persona Type...'}
+                </p>
+                <div className="flex items-center justify-center gap-2 mt-4">
+                  <div className="w-2 h-2 bg-white/60 rounded-full animate-pulse" />
+                  <div className="w-2 h-2 bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
+                  <div className="w-2 h-2 bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
+                </div>
+              </motion.div>
+
+              {/* 16 Types Grid */}
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.8 }}
+                className="max-w-2xl mx-auto"
+              >
+                <div className="grid grid-cols-4 gap-3 md:gap-4">
+                  {['LAEF', 'LAEC', 'LAMF', 'LAMC', 'LREF', 'LREC', 'LRMF', 'LRMC', 
+                    'SAEF', 'SAEC', 'SAMF', 'SAMC', 'SREF', 'SREC', 'SRMF', 'SRMC'].map((type, index) => (
+                    <motion.div
+                      key={type}
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 1 + index * 0.05 }}
+                      className="bg-white/5 backdrop-blur-sm rounded-lg p-3 md:p-4 border border-white/10"
+                    >
+                      <span className="text-base md:text-lg font-mono font-bold text-white">
+                        {type}
+                      </span>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

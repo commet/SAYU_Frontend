@@ -1,112 +1,113 @@
-import axios from 'axios';
+// Base fetch with auth
+async function fetchWithAuth(url: string, options: RequestInit = {}) {
+  const { createClient } = await import('../supabase/client');
+  const supabase = createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = session?.access_token || null;
+  
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+    ...options.headers,
+  };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+  const response = await fetch(url, {
+    ...options,
+    headers,
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: 'Request failed' }));
+    throw new Error(error.error || error.message || 'Request failed');
+  }
+
+  return response.json();
+}
 
 // Daily Habit API client
 export const dailyHabitApi = {
   // 습관 설정
   async getSettings() {
-    const response = await axios.get(`${API_URL}/api/daily-habit/settings`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-    return response.data;
+    return fetchWithAuth('/api/daily-habit/settings');
   },
 
   async updateSettings(settings: HabitSettings) {
-    const response = await axios.put(`${API_URL}/api/daily-habit/settings`, settings, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    return fetchWithAuth('/api/daily-habit/settings', {
+      method: 'PUT',
+      body: JSON.stringify(settings)
     });
-    return response.data;
   },
 
   // 일일 기록
   async getTodayEntry() {
-    const response = await axios.get(`${API_URL}/api/daily-habit/today`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-    return response.data;
+    return fetchWithAuth('/api/daily-habit/today');
   },
 
   async getDateEntry(date: string) {
-    const response = await axios.get(`${API_URL}/api/daily-habit/entry/${date}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-    return response.data;
+    return fetchWithAuth(`/api/daily-habit/entry/${date}`);
   },
 
   // 시간대별 활동
   async recordMorning(data: MorningActivity) {
-    const response = await axios.post(`${API_URL}/api/daily-habit/morning`, data, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    return fetchWithAuth('/api/daily-habit/morning', {
+      method: 'POST',
+      body: JSON.stringify(data)
     });
-    return response.data;
   },
 
   async recordLunch(data: LunchActivity) {
-    const response = await axios.post(`${API_URL}/api/daily-habit/lunch`, data, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    return fetchWithAuth('/api/daily-habit/lunch', {
+      method: 'POST',
+      body: JSON.stringify(data)
     });
-    return response.data;
   },
 
   async recordNight(data: NightActivity) {
-    const response = await axios.post(`${API_URL}/api/daily-habit/night`, data, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    return fetchWithAuth('/api/daily-habit/night', {
+      method: 'POST',
+      body: JSON.stringify(data)
     });
-    return response.data;
   },
 
   // 추천 작품
   async getRecommendation(timeSlot: 'morning' | 'lunch' | 'night') {
-    const response = await axios.get(`${API_URL}/api/daily-habit/recommendation/${timeSlot}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-    return response.data;
+    return fetchWithAuth(`/api/daily-habit/recommendation/${timeSlot}`);
   },
 
   // 감정 체크인
   async checkInEmotion(data: EmotionCheckIn) {
-    const response = await axios.post(`${API_URL}/api/daily-habit/emotion/checkin`, data, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    return fetchWithAuth('/api/daily-habit/emotion/checkin', {
+      method: 'POST',
+      body: JSON.stringify(data)
     });
-    return response.data;
   },
 
   // 푸시 알림
   async subscribePush(subscription: PushSubscription) {
-    const response = await axios.post(`${API_URL}/api/daily-habit/push/subscribe`, subscription, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    return fetchWithAuth('/api/daily-habit/push/subscribe', {
+      method: 'POST',
+      body: JSON.stringify(subscription)
     });
-    return response.data;
   },
 
   async testPush() {
-    const response = await axios.post(`${API_URL}/api/daily-habit/push/test`, {}, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    return fetchWithAuth('/api/daily-habit/push/test', {
+      method: 'POST',
+      body: JSON.stringify({})
     });
-    return response.data;
   },
 
   // 통계
   async getStreak() {
-    const response = await axios.get(`${API_URL}/api/daily-habit/streak`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-    return response.data;
+    return fetchWithAuth('/api/daily-habit/streak');
   },
 
   async getActivityPatterns() {
-    const response = await axios.get(`${API_URL}/api/daily-habit/patterns`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-    return response.data;
+    return fetchWithAuth('/api/daily-habit/patterns');
   },
 
   async getMonthlyStats(year: number, month: number) {
-    const response = await axios.get(`${API_URL}/api/daily-habit/stats/${year}/${month}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-    return response.data;
+    return fetchWithAuth(`/api/daily-habit/stats/${year}/${month}`);
   }
 };
 
