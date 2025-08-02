@@ -159,7 +159,7 @@ export function MainNav() {
               isActive 
                 ? 'bg-primary text-primary-foreground' 
                 : 'text-muted-foreground hover:text-foreground hover:bg-muted',
-              isLocked && 'opacity-50 cursor-not-allowed'
+              isLocked && 'opacity-70 hover:opacity-100'
             )}
             onClick={(e) => {
               if (isLocked) {

@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
-import { MainNav } from '@/components/layout/MainNav'
+import FloatingNav from '@/components/navigation/FloatingNav'
 import { SystemInitializer, PerformanceMonitor, SpatialPreloader } from '@/components/system/SystemInitializer'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -88,14 +88,17 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} min-h-screen transition-colors bg-background`}>
+      <body className={`${inter.className} min-h-screen transition-colors`}>
         <Providers>
           <SystemInitializer />
           {/* Temporarily disabled for debugging
           <PerformanceMonitor />
           <SpatialPreloader />
           */}
-          {children}
+          <FloatingNav />
+          <main className="pt-4 bg-gray-900">
+            {children}
+          </main>
         </Providers>
       </body>
     </html>

@@ -309,7 +309,7 @@ function ResultsContent() {
           {/* Nature 설명 */}
           <div className="p-8 border-b border-gray-200">
             <h3 className="text-2xl font-serif font-bold text-gray-900 mb-4">
-              {language === 'ko' ? '당신의 예술적 본질' : 'Your Artistic Nature'}
+              {language === 'ko' ? '당신의 예술적 자아' : 'Your Artistic Nature'}
             </h3>
             <p className="text-gray-700 leading-relaxed">
               {language === 'ko' && personality.essence_ko ? personality.essence_ko : personality.essence}

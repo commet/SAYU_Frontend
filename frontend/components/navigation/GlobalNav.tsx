@@ -110,9 +110,8 @@ export default function GlobalNav() {
                   "text-xs md:text-sm font-medium",
                   isActive && "text-purple-600 bg-purple-50 dark:bg-purple-900/30 dark:text-purple-400",
                   !isActive && !isLocked && "text-gray-600 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800",
-                  isLocked && "text-gray-400 dark:text-gray-600 cursor-not-allowed"
+                  isLocked && "text-gray-400 dark:text-gray-600 hover:text-purple-600 dark:hover:text-purple-400"
                 )}
-                disabled={isLocked}
               >
                 <item.icon className="w-5 h-5 md:mr-2 mb-1 md:mb-0" />
                 <span className="hidden md:inline">{item.label[language]}</span>

@@ -146,7 +146,7 @@ export default function JourneyHomePage() {
         >
           <div className="relative w-full h-full overflow-hidden">
             {/* 부드러운 미로 배경 - 감성적인 어둠 */}
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/60 via-purple-950/40 to-gray-900/60" />
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-950 to-gray-900" />
             
             {/* 부드러운 오버레이 */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30" />
@@ -449,7 +449,7 @@ export default function JourneyHomePage() {
         >
           <div className="relative w-full h-full">
             {/* 배경 - 좀 더 밝아진 미로 */}
-            <div className="absolute inset-0 bg-gradient-to-b from-green-900/60 to-green-950/80" />
+            <div className="absolute inset-0 bg-gradient-to-b from-green-900 to-green-950" />
             
             
             {/* 작품 캐러셀 컨테이너 */}
@@ -670,7 +670,7 @@ export default function JourneyHomePage() {
         >
           <div className="relative w-full h-full">
             {/* 배경 - 더 밝아진 공간 */}
-            <div className="absolute inset-0 bg-gradient-to-b from-green-800/40 to-green-900/60" />
+            <div className="absolute inset-0 bg-gradient-to-b from-green-800 to-green-900" />
             
             {/* 베타 유저 testimonial */}
             <div className="absolute inset-0 flex flex-col items-center justify-center px-8">

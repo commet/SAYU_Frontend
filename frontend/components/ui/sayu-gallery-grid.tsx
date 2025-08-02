@@ -43,7 +43,7 @@ interface SayuGalleryGridProps {
 
 // Masonry 레이아웃을 위한 높이 계산
 const getRandomHeight = () => {
-  const heights = [250, 300, 350, 400];
+  const heights = [320, 380, 420, 480];
   return heights[Math.floor(Math.random() * heights.length)];
 };
 
@@ -139,8 +139,9 @@ export function SayuGalleryGrid({
         {/* Image container */}
         <div className={cn(
           "relative overflow-hidden",
-          layout === "list" ? "w-48 h-48" : "aspect-auto",
-          layout === "grid" && "aspect-square"
+          layout === "list" ? "w-48 h-48" : "w-full",
+          layout === "grid" && "aspect-[4/5]", // 더 세로로 긴 비율
+          layout === "masonry" && "h-full"
         )}>
           {/* Skeleton loader */}
           {!isLoaded && (
@@ -171,15 +172,16 @@ export function SayuGalleryGrid({
             "opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           )} />
 
-          {/* Quick actions */}
-          <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+          {/* Quick actions - 이미지 내부 상단에 위치 */}
+          <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-y-2 group-hover:translate-y-0 z-10">
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               className={cn(
-                "p-2 rounded-full backdrop-blur-md",
-                "bg-white/20 hover:bg-white/30",
-                "transition-colors duration-200"
+                "p-2.5 rounded-full backdrop-blur-md",
+                "bg-black/40 hover:bg-black/60",
+                "transition-all duration-200",
+                "shadow-lg"
               )}
               onClick={(e) => {
                 e.stopPropagation();
@@ -197,7 +199,7 @@ export function SayuGalleryGrid({
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-full backdrop-blur-md bg-white/20 hover:bg-white/30 transition-colors duration-200"
+              className="p-2.5 rounded-full backdrop-blur-md bg-black/40 hover:bg-black/60 transition-all duration-200 shadow-lg"
               onClick={(e) => {
                 e.stopPropagation();
                 onArchive?.(artwork.id);

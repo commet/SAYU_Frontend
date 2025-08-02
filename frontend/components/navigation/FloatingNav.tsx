@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter, usePathname } from 'next/navigation';
-import { Home, Sparkles, Users, User, Menu, X, Sun, Moon, Zap, LayoutDashboard, Calendar, LogIn, LogOut } from 'lucide-react';
+import { Home, Sparkles, Users, User, Menu, X, Sun, Moon, Zap, LayoutDashboard, Calendar, LogIn, LogOut, GalleryVerticalEnd, ChevronDown, History } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useDarkMode } from '@/contexts/DarkModeContext';
 import LanguageToggle from '@/components/ui/LanguageToggle';
@@ -12,10 +12,11 @@ import toast from 'react-hot-toast';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 interface NavItem {
-  iconType: 'home' | 'sparkles' | 'users' | 'user' | 'zap' | 'dashboard' | 'calendar';
+  iconType: 'home' | 'sparkles' | 'users' | 'user' | 'zap' | 'dashboard' | 'calendar' | 'collection';
   label: { en: string; ko: string };
   path: string;
   requiresAuth?: boolean;
+  children?: NavItem[];
 }
 
 // 데스크탑 메뉴 (상단) - 모든 항목
@@ -23,7 +24,17 @@ const desktopNavItems: NavItem[] = [
   { iconType: 'home', label: { en: 'Home', ko: '홈' }, path: '/' },
   { iconType: 'sparkles', label: { en: 'Discover', ko: '탐색' }, path: '/quiz' },
   { iconType: 'users', label: { en: 'Community', ko: '커뮤니티' }, path: '/community', requiresAuth: true },
-  { iconType: 'dashboard', label: { en: 'Dashboard', ko: '대시보드' }, path: '/dashboard', requiresAuth: true },
+  { 
+    iconType: 'collection', 
+    label: { en: 'Art Collection', ko: '아트 컬렉션' }, 
+    path: '#',
+    requiresAuth: true,
+    children: [
+      { iconType: 'dashboard', label: { en: 'Dashboard', ko: '대시보드' }, path: '/dashboard' },
+      { iconType: 'collection', label: { en: 'My Collection', ko: '내 컬렉션' }, path: '/gallery' },
+      { iconType: 'calendar', label: { en: 'Exhibition History', ko: '전시 히스토리' }, path: '/exhibitions/history' }
+    ]
+  },
   { iconType: 'user', label: { en: 'Profile', ko: '프로필' }, path: '/profile', requiresAuth: true },
 ];
 
@@ -47,8 +58,13 @@ export default function FloatingNav() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const [userInfo, setUserInfo] = useState<any>(null);
   const supabase = createClientComponentClient();
+  
+  console.log('=== FLOATING NAV RENDER ===');
+  console.log('Pathname:', pathname);
+  console.log('User:', user);
   
   const getIcon = (iconType: string) => {
     switch (iconType) {
@@ -59,6 +75,7 @@ export default function FloatingNav() {
       case 'zap': return <Zap className="w-5 h-5" />;
       case 'dashboard': return <LayoutDashboard className="w-5 h-5" />;
       case 'calendar': return <Calendar className="w-5 h-5" />;
+      case 'collection': return <GalleryVerticalEnd className="w-5 h-5" />;
       default: return null;
     }
   };
@@ -129,19 +146,19 @@ export default function FloatingNav() {
   return (
     <div style={{ position: 'relative' }}>
       {/* Top Floating Bar */}
-      <div className="fixed top-0 left-0 right-0 z-[1000] px-4 pt-4">
+      <div className="fixed top-0 left-0 right-0 z-[1000] px-4 pt-4 bg-gray-900">
         <motion.div
           initial={{ y: -100 }}
           animate={{ y: 0 }}
           className={`mx-auto max-w-7xl ${scrolled ? 'backdrop-blur-xl' : ''} transition-all duration-300`}
           style={{ 
-            background: isDarkMode ? 'rgba(31, 41, 55, 0.95)' : 'rgba(255, 255, 255, 0.95)',
-            backgroundColor: isDarkMode ? 'rgba(31, 41, 55, 0.95) !important' : 'rgba(255, 255, 255, 0.95) !important',
+            background: 'rgba(31, 41, 55, 0.95)',
+            backgroundColor: 'rgba(31, 41, 55, 0.95) !important',
             backdropFilter: 'blur(20px) saturate(180%)',
             borderRadius: '20px',
             padding: '12px 24px',
-            border: isDarkMode ? '1px solid rgba(75, 85, 99, 0.4)' : '1px solid rgba(229, 229, 229, 0.8)',
-            boxShadow: isDarkMode ? '0 8px 32px rgba(0, 0, 0, 0.3)' : '0 8px 32px rgba(0, 0, 0, 0.08)'
+            border: '1px solid rgba(75, 85, 99, 0.4)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
           }}
         >
           <div className="flex items-center justify-between">
@@ -151,7 +168,7 @@ export default function FloatingNav() {
               whileTap={{ scale: 0.98 }}
               onClick={() => router.push('/')}
             >
-              <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 SAYU
               </div>
             </motion.div>
@@ -159,27 +176,74 @@ export default function FloatingNav() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
             {desktopNavItems.map((item) => {
-              const isActive = pathname === item.path;
+              const isActive = item.children 
+                ? item.children.some(child => pathname === child.path)
+                : pathname === item.path;
               const isDisabled = item.requiresAuth && !user;
+              const hasDropdown = item.children && item.children.length > 0;
               
               return (
                 <div key={item.path} className="relative">
                   <motion.button
-                    onClick={() => handleNavClick(item)}
-                    disabled={isDisabled}
-                    onMouseEnter={() => isDisabled && setHoveredItem(item.path)}
-                    onMouseLeave={() => setHoveredItem(null)}
+                    onClick={() => {
+                      if (hasDropdown) {
+                        setDropdownOpen(dropdownOpen === item.path ? null : item.path);
+                      } else {
+                        handleNavClick(item);
+                      }
+                    }}
+                    onMouseEnter={() => {
+                      if (isDisabled) setHoveredItem(item.path);
+                      if (hasDropdown && !isDisabled) setDropdownOpen(item.path);
+                    }}
+                    onMouseLeave={() => {
+                      setHoveredItem(null);
+                    }}
                     className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
                       isActive 
-                        ? 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400' 
-                        : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
-                    } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        ? 'bg-gray-700 text-white' 
+                        : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                    } ${isDisabled ? 'opacity-50 hover:opacity-70' : ''}`}
                     whileHover={!isDisabled ? { scale: 1.05 } : {}}
                     whileTap={!isDisabled ? { scale: 0.95 } : {}}
                   >
                     {getIcon(item.iconType)}
                     <span className="font-medium whitespace-nowrap">{item.label[language]}</span>
+                    {hasDropdown && <ChevronDown className="w-4 h-4 ml-1" />}
                   </motion.button>
+                  
+                  {/* Dropdown Menu */}
+                  <AnimatePresence>
+                    {hasDropdown && dropdownOpen === item.path && !isDisabled && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute top-full mt-2 left-0 bg-gray-800 rounded-xl shadow-xl overflow-hidden min-w-[200px] z-50"
+                        onMouseEnter={() => setDropdownOpen(item.path)}
+                        onMouseLeave={() => setDropdownOpen(null)}
+                      >
+                        {item.children?.map((child) => (
+                          <motion.button
+                            key={child.path}
+                            onClick={() => {
+                              router.push(child.path);
+                              setDropdownOpen(null);
+                            }}
+                            className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
+                              pathname === child.path
+                                ? 'bg-gray-700 text-white'
+                                : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                            }`}
+                            whileHover={{ x: 4 }}
+                          >
+                            {getIcon(child.iconType)}
+                            <span className="text-sm">{child.label[language]}</span>
+                          </motion.button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                   
                   {/* Tooltip */}
                   <AnimatePresence>
@@ -224,7 +288,7 @@ export default function FloatingNav() {
               ) : (
                 <motion.button
                   onClick={() => router.push('/login')}
-                  className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all"
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-xl hover:bg-gray-600 transition-all"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -235,7 +299,7 @@ export default function FloatingNav() {
               
               <motion.button
                 onClick={toggleDarkMode}
-                className="p-2 rounded-xl text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-all"
+                className="p-2 rounded-xl text-gray-300 hover:bg-gray-700 hover:text-white transition-all"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
@@ -322,10 +386,9 @@ export default function FloatingNav() {
               >
                 <motion.button
                   onClick={() => handleNavClick(item)}
-                  disabled={isDisabled}
                   onTouchStart={() => isDisabled && setHoveredItem(item.path)}
                   onTouchEnd={() => setTimeout(() => setHoveredItem(null), 2000)}
-                  className={`sayu-nav-item flex flex-col items-center justify-center px-3 py-2 rounded-xl transition-all min-w-[65px] ${isActive ? 'active text-purple-600' : 'text-gray-600'} ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-50'}`}
+                  className={`sayu-nav-item flex flex-col items-center justify-center px-3 py-2 rounded-xl transition-all min-w-[65px] ${isActive ? 'active text-purple-600' : 'text-gray-600'} ${isDisabled ? 'opacity-70 hover:opacity-100' : 'hover:bg-purple-50'}`}
                   whileHover={!isDisabled ? { scale: 1.05 } : {}}
                   whileTap={!isDisabled ? { scale: 0.95 } : {}}
                 >
@@ -443,14 +506,13 @@ export default function FloatingNav() {
                       <motion.button
                         key={item.path}
                         onClick={() => handleNavClick(item)}
-                        disabled={isDisabled}
-                        className={`
+                            className={`
                           flex items-center gap-3 px-4 py-3 rounded-xl
                           transition-all duration-300 text-left
                           ${isActive 
                             ? 'bg-white/20 text-white' 
                             : isDisabled
-                              ? 'text-gray-500 opacity-50 cursor-not-allowed'
+                              ? 'text-gray-500 opacity-70 hover:opacity-100'
                               : 'text-white/80 hover:bg-white/10'
                           }
                         `}

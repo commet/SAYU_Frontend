@@ -2,8 +2,9 @@
 /* Single source of truth for all styling - replaces all scattered CSS files */
 /* Solves all dark mode conflicts and provides complete theming system */
 
-/* EMERGENCY COLOR FIX */
-@import url('./fix-colors.css');
+/* EMERGENCY COLOR FIX - PERMANENTLY DISABLED FOR HOME PAGE */
+/* DO NOT ENABLE - BREAKS HOME PAGE STYLING */
+/* @import url('./fix-colors.css'); */
 
 /* Variable Font imports - 2024-2025 Trend */
 @font-face {
@@ -307,39 +308,8 @@
     @apply border-border;
   }
   
-  /* Force correct colors */
-  :root {
-    --background: 255 255 255 !important;
-    --foreground: 0 0 0 !important;
-  }
-  
-  .dark {
-    --background: 17 24 39 !important;
-    --foreground: 243 244 246 !important;
-  }
-  
   body {
     font-feature-settings: "rlig" 1, "calt" 1;
-    /* Force white background in light mode */
-    background-color: rgb(255 255 255) !important;
-    color: rgb(0 0 0) !important;
-  }
-  
-  .dark body {
-    /* Force dark background in dark mode */
-    background-color: rgb(17 24 39) !important;
-    color: rgb(243 244 246) !important;
-  }
-  
-  /* Override any theme system colors */
-  * {
-    --color-background-primary: 255 255 255 !important;
-    --color-foreground-primary: 0 0 0 !important;
-  }
-  
-  .dark * {
-    --color-background-primary: 17 24 39 !important;
-    --color-foreground-primary: 243 244 246 !important;
   }
   
   ::selection {
@@ -378,8 +348,8 @@
   
   /* Card system */
   .card {
-    background-color: rgb(255 255 255) !important;
-    border: 1px solid rgb(229 229 229) !important;
+    background-color: rgb(255 255 255);
+    border: 1px solid rgb(229 229 229);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
     padding: var(--spacing-lg);
@@ -387,8 +357,8 @@
   }
   
   .dark .card {
-    background-color: rgb(31 41 55) !important;
-    border: 1px solid rgb(55 65 81) !important;
+    background-color: rgb(31 41 55);
+    border: 1px solid rgb(55 65 81);
   }
   
   .card:hover {

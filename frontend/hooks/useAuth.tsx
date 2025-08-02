@@ -90,11 +90,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                           user.email?.split('@')[0] || 
                           'User';
       
+      console.log('Creating profile for user:', user.id, 'with username:', initialUsername);
+      
       const { data, error } = await supabase
         .from('profiles')
         .insert({
           id: user.id,
-          email: user.email!,
+          email: user.email || `${user.id}@sayu.local`,
           username: initialUsername,
           created_at: new Date().toISOString()
         })
@@ -103,9 +105,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (error) {
         console.error('Error creating profile:', error);
+        // If profile already exists, try to fetch it
+        if (error.code === '23505') {
+          return await fetchProfile(user.id);
+        }
         return null;
       }
 
+      console.log('Profile created successfully:', data);
       return data;
     } catch (error) {
       console.error('Profile creation error:', error);
@@ -114,28 +121,71 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      
-      if (session?.user) {
-        fetchProfile(session.user.id).then(profile => {
-          if (!profile && session.user) {
-            createProfile(session.user).then(newProfile => {
-              setProfile(newProfile);
-              setUser(createAuthUser(session.user, newProfile));
-            });
-          } else {
-            setProfile(profile);
-            setUser(createAuthUser(session.user, profile));
+    let mounted = true;
+    
+    const initializeAuth = async () => {
+      try {
+        // Get initial session
+        console.log('useAuth - Getting initial session...');
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error('useAuth - Session error:', error);
+          if (mounted) {
+            setLoading(false);
           }
-        });
-      } else {
-        setUser(null);
+          return;
+        }
+        
+        console.log('useAuth - Initial session:', session);
+        
+        if (!mounted) return;
+        
+        setSession(session);
+        
+        if (session?.user) {
+          console.log('useAuth - Session user found:', session.user.id);
+          try {
+            const profile = await fetchProfile(session.user.id);
+            
+            if (!mounted) return;
+            
+            if (!profile && session.user) {
+              console.log('useAuth - No profile found, creating new profile');
+              const newProfile = await createProfile(session.user);
+              if (mounted) {
+                setProfile(newProfile);
+                setUser(createAuthUser(session.user, newProfile));
+              }
+            } else {
+              console.log('useAuth - Profile found:', profile);
+              if (mounted) {
+                setProfile(profile);
+                setUser(createAuthUser(session.user, profile));
+              }
+            }
+          } catch (error) {
+            console.error('useAuth - Profile error:', error);
+          }
+        } else {
+          console.log('useAuth - No session found');
+          if (mounted) {
+            setUser(null);
+          }
+        }
+        
+        if (mounted) {
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('useAuth - Initialization error:', error);
+        if (mounted) {
+          setLoading(false);
+        }
       }
-      
-      setLoading(false);
-    });
+    };
+    
+    initializeAuth();
 
     // Listen for auth changes
     const {
@@ -170,8 +220,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Remove automatic redirect on SIGNED_IN to prevent conflicts with callback redirect
     });
 
-    return () => subscription.unsubscribe();
-  }, []);
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, [router]);
 
   const signIn = async (email: string, password: string) => {
     console.log('Attempting to sign in with email:', email);
@@ -217,7 +270,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     const { data, error } = await supabase
-      .from('users')
+      .from('profiles')
       .update(updates)
       .eq('id', profile.id)
       .select()

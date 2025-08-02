@@ -184,16 +184,16 @@ function ResultsContent() {
         <LanguageToggle variant="glass" />
       </div>
 
-      <div className="container mx-auto px-4 py-12 pt-20">
+      <div className="container mx-auto px-4 py-8 pt-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto"
         >
-          {/* Personality Type Badge */}
-          <div className="text-center mb-12">
-            <div className="flex justify-center mb-6">
+          {/* Personality Type Badge - Compressed and moved up */}
+          <div className="text-center mb-4">
+            <div className="flex justify-center mb-3">
               <PersonalityIcon type={result.personalityType} size="large" animated={true} />
             </div>
             
@@ -204,7 +204,7 @@ function ResultsContent() {
               className="inline-block"
             >
               <div 
-                className="rounded-full px-8 py-4 mb-6 shadow-2xl relative overflow-hidden"
+                className="rounded-full px-6 py-3 mb-3 shadow-2xl relative overflow-hidden"
                 style={{ 
                   background: result.personalityType && personalityGradients[result.personalityType as keyof typeof personalityGradients]
                     ? getGradientStyle(result.personalityType as keyof typeof personalityGradients, 90)
@@ -213,13 +213,13 @@ function ResultsContent() {
               >
                 {/* Shimmer effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] animate-[shimmer_3s_infinite]" />
-                <h1 className="text-4xl md:text-5xl font-bold relative">
+                <h1 className="text-3xl md:text-4xl font-bold relative">
                   {result.personalityType}
                 </h1>
               </div>
             </motion.div>
 
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold mb-2">
               {displayData?.name?.[language] || 
                (personalityGradients[result.personalityType as keyof typeof personalityGradients]
                  ? personalityGradients[result.personalityType as keyof typeof personalityGradients][language === 'ko' ? 'name' : 'nameEn']
@@ -229,8 +229,8 @@ function ResultsContent() {
               }
             </h2>
 
-            <p className="text-xl text-white/80 max-w-2xl mx-auto">
-              {displayData?.description?.[language] || (result.isScenarioQuiz
+            <p className="text-lg text-white/80 max-w-2xl mx-auto leading-relaxed text-center whitespace-normal break-words overflow-wrap-anywhere">
+              {displayData?.subtitle?.[language] || displayData?.description?.[language] || (result.isScenarioQuiz
                 ? (language === 'ko' 
                   ? '시나리오를 통해 발견한 당신만의 예술적 취향과 성향입니다.' 
                   : 'Your unique artistic taste discovered through scenarios.')
@@ -239,10 +239,10 @@ function ResultsContent() {
             </p>
 
             {result.confidence && (
-              <div className="mt-6">
-                <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-6 py-3">
-                  <span className="text-white/60">신뢰도:</span>
-                  <span className="font-bold">{Math.round(result.confidence)}%</span>
+              <div className="mt-3">
+                <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-5 py-2">
+                  <span className="text-white/60 text-sm">신뢰도:</span>
+                  <span className="font-bold text-sm">{Math.round(result.confidence)}%</span>
                 </div>
               </div>
             )}
@@ -253,7 +253,7 @@ function ResultsContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="mb-12"
+            className="mb-4"
           >
             <PersonalityTypeGrid currentType={result.personalityType} />
           </motion.div>
@@ -264,7 +264,7 @@ function ResultsContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="bg-white/10 backdrop-blur-sm rounded-2xl p-10 mb-12"
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-6"
             >
               <h3 className="text-xl md:text-2xl font-bold mb-8 flex items-center gap-2">
                 <span className="text-3xl">🖼️</span>
@@ -332,7 +332,7 @@ function ResultsContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="bg-white/10 backdrop-blur-sm rounded-2xl p-10 mb-12"
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-6"
             >
               <h3 className="text-xl md:text-2xl font-bold mb-8 flex items-center gap-2">
                 <span className="text-3xl">📅</span>
@@ -393,7 +393,7 @@ function ResultsContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1 }}
-            className="flex flex-col md:flex-row gap-4 justify-center mb-20"
+            className="flex flex-col md:flex-row gap-4 justify-center mb-12"
           >
             <button
               onClick={shareResult}

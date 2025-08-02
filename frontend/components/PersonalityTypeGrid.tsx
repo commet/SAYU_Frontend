@@ -80,32 +80,32 @@ export default function PersonalityTypeGrid({
   const allTypes = Object.keys(personalityGradients);
   
   return (
-    <div className="space-y-8">
-      {/* Dimensions Breakdown */}
-      <div className="liquid-glass rounded-2xl p-6 md:p-8">
-        <h3 className="text-2xl font-bold text-white mb-6">
+    <div className="space-y-2">
+      {/* Dimensions Breakdown - Compressed */}
+      <div className="liquid-glass rounded-xl p-2 md:p-3">
+        <h3 className="text-sm font-bold text-white mb-1.5">
           {language === 'ko' ? '당신의 성향 분석' : 'Your Personality Analysis'}
         </h3>
         
-        <div className="space-y-6">
+        <div className="space-y-1.5">
           {dimensions.map((dimension, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="space-y-2"
+              className="space-y-0.5"
             >
-              <div className="flex justify-between items-center mb-2">
-                <h4 className="text-lg font-semibold text-white/90">
+              <div className="flex justify-between items-center">
+                <h4 className="text-xs font-medium text-white/90">
                   {dimension.name[language]}
                 </h4>
-                <span className="text-2xl font-bold text-white">
+                <span className="text-sm font-bold text-white">
                   {typePositions[index] === 'left' ? dimension.left.code : dimension.right.code}
                 </span>
               </div>
               
-              <div className="relative h-8 bg-white/10 rounded-full overflow-hidden">
+              <div className="relative h-3 bg-white/10 rounded-full overflow-hidden">
                 <motion.div
                   className="absolute h-full bg-gradient-to-r from-purple-500 to-pink-500"
                   initial={{ width: '0%' }}
@@ -116,31 +116,29 @@ export default function PersonalityTypeGrid({
                   transition={{ duration: 0.8, delay: 0.5 + index * 0.1 }}
                 />
                 
-                <div className="absolute inset-0 flex justify-between items-center px-4 text-sm">
-                  <span className={`font-medium ${typePositions[index] === 'left' ? 'text-white' : 'text-white/60'}`}>
+                <div className="absolute inset-0 flex justify-between items-center px-1.5 text-[9px]">
+                  <span className={`font-medium whitespace-nowrap overflow-hidden text-ellipsis ${typePositions[index] === 'left' ? 'text-white' : 'text-white/60'}`}>
                     {dimension.left.label[language]}
                   </span>
-                  <span className={`font-medium ${typePositions[index] === 'right' ? 'text-white' : 'text-white/60'}`}>
+                  <span className={`font-medium whitespace-nowrap overflow-hidden text-ellipsis ${typePositions[index] === 'right' ? 'text-white' : 'text-white/60'}`}>
                     {dimension.right.label[language]}
                   </span>
                 </div>
               </div>
               
-              <p className="text-sm text-white/70">
-                {dimension.description[language]}
-              </p>
+              {/* Removed description for compact view */}
             </motion.div>
           ))}
         </div>
       </div>
       
-      {/* All 16 Types Grid */}
-      <div className="liquid-glass rounded-2xl p-6 md:p-8">
-        <h3 className="text-2xl font-bold text-white mb-6">
+      {/* All 16 Types Grid - Compressed */}
+      <div className="liquid-glass rounded-xl p-2 md:p-3">
+        <h3 className="text-sm font-bold text-white mb-2">
           {language === 'ko' ? '16가지 성격 유형' : 'All 16 Personality Types'}
         </h3>
         
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-4 gap-2">
           {allTypes.map((type) => {
             if (!validateSAYUType(type)) {
               console.warn(`Invalid SAYU type encountered: ${type}`);
@@ -154,9 +152,9 @@ export default function PersonalityTypeGrid({
                 key={type}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`relative rounded-lg p-3 text-center cursor-pointer transition-all glass ${
+                className={`relative rounded-lg p-2 text-center cursor-pointer transition-all glass ${
                   isCurrentType 
-                    ? 'ring-4 ring-white/50 shadow-lg scale-105' 
+                    ? 'ring-3 ring-white/50 shadow-lg scale-105' 
                     : 'hover:ring-2 hover:ring-white/30'
                 }`}
                 style={{
@@ -166,15 +164,15 @@ export default function PersonalityTypeGrid({
                 }}
               >
                 <div className="text-white">
-                  <div className="font-bold text-lg">{type}</div>
-                  <div className="text-xs opacity-80 mt-1">
+                  <div className="font-bold text-xs">{type}</div>
+                  <div className="text-[9px] opacity-80 break-words text-center leading-tight">
                     {language === 'ko' ? gradient.name : gradient.nameEn}
                   </div>
                 </div>
                 
                 {isCurrentType && (
                   <motion.div
-                    className="absolute -top-2 -right-2 bg-white text-purple-600 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold"
+                    className="absolute -top-1 -right-1 bg-white text-purple-600 rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.5, type: "spring" }}
@@ -187,7 +185,7 @@ export default function PersonalityTypeGrid({
           })}
         </div>
         
-        <p className="text-sm text-white/70 mt-4 text-center">
+        <p className="text-xs text-white/70 mt-2 text-center">
           {language === 'ko' 
             ? '각 유형은 4가지 차원의 조합으로 만들어집니다' 
             : 'Each type is created by combining 4 dimensions'

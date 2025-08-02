@@ -32,17 +32,17 @@ export default function QuizIntroPage() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden bg-white">
       {/* Gallery Background */}
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 z-0">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: 'url("/images/backgrounds/traditional-gallery-skylight-paintings-mint.jpg")',
-            opacity: 0.7
+            opacity: 0.8
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/20 to-white/30 dark:from-gray-900/30 dark:via-gray-900/20 dark:to-gray-900/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/20 to-white/40" />
       </div>
 
       <motion.div

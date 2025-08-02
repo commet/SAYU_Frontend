@@ -1,225 +1,297 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
+import { Sparkles, Palette, MapPin, Heart, TrendingUp, Calendar, ArrowRight, Zap, Eye, Clock, GalleryVerticalEnd } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { 
-  Sparkles, 
-  FolderOpen, 
-  MessageSquare, 
-  Users,
-  Calendar,
-  Heart,
-  Activity,
-  User
-} from 'lucide-react';
-import Link from 'next/link';
-import { createClient } from '@/lib/supabase/client';
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const { user, loading } = useAuth();
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  console.log('Dashboard - Loading:', loading, 'User:', user);
 
   useEffect(() => {
-    checkAuth();
-  }, []);
-
-  const checkAuth = async () => {
-    try {
-      const supabase = createClient();
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (session?.user) {
-        setUser(session.user);
-      }
-    } catch (error) {
-      console.error('Auth error:', error);
-    } finally {
-      setLoading(false);
+    // 로딩이 완료되고 사용자가 없을 때만 리디렉션
+    if (loading) return;
+    
+    if (!user) {
+      console.log('Dashboard - No user found, redirecting to login');
+      router.push('/login');
     }
-  };
+  }, [loading, user, router]);
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 60000);
+    return () => clearInterval(timer);
+  }, []);
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-200 border-t-gray-400 mx-auto mb-4"></div>
+          <p className="text-gray-400 text-sm">로딩 중...</p>
+        </div>
       </div>
     );
   }
 
   if (!user) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-4 p-8">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-2">로그인이 필요합니다</h1>
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
-            대시보드를 이용하시려면 로그인해주세요.
-          </p>
-          <div className="flex gap-2">
-            <Button asChild>
-              <Link href="/login">로그인하기</Link>
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => window.location.reload()}
-            >
-              새로고침
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
+    return null;
   }
 
+  const greeting = currentTime.getHours() < 12 ? '좋은 아침이에요' : 
+                  currentTime.getHours() < 18 ? '좋은 오후에요' : '좋은 저녁이에요';
+
+  // Mock data - 실제로는 API에서 가져올 데이터
+  const hasCompletedQuiz = false; // user.profile?.personality_type
+  const personalityType = null; // user.profile?.personality_type
+  
+  const todayRecommendations = [
+    {
+      type: 'artwork',
+      title: '별이 빛나는 밤',
+      artist: '빈센트 반 고흐',
+      reason: '당신의 감성적 성향과 잘 맞아요',
+      image: '/api/placeholder/300/200'
+    },
+    {
+      type: 'exhibition',
+      title: '모네와 인상주의',
+      venue: '국립현대미술관',
+      date: '2024.03.01 - 05.31',
+      distance: '2.5km',
+      image: '/api/placeholder/300/200'
+    }
+  ];
+
+  const journeyStats = {
+    artworksViewed: 0,
+    artistsDiscovered: 0,
+    exhibitionsVisited: 0,
+    daysActive: 0
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Welcome Section */}
-        <motion.div
+    <div className="min-h-screen bg-white">
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        {/* Header */}
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm"
+          className="mb-12"
         >
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center">
-              <User className="w-8 h-8 text-purple-600" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                환영합니다, {user.user_metadata?.full_name || user.email?.split('@')[0] || '사용자'}님!
-              </h1>
-              <p className="text-gray-600 dark:text-gray-300">
-                SAYU에서 당신만의 예술 여정을 시작해보세요.
-              </p>
-            </div>
+          <h1 className="text-3xl font-light text-gray-900 mb-2">
+            {greeting}, {user.email?.split('@')[0]}님
+          </h1>
+          <p className="text-gray-500">
+            {hasCompletedQuiz ? '오늘도 새로운 예술을 발견해보세요' : '예술 여정을 시작해보세요'}
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Profile & Stats */}
+          <div className="space-y-6">
+            {/* Art Profile Card */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-gray-50 rounded-2xl p-6"
+            >
+              {hasCompletedQuiz ? (
+                <div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                      <Palette className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-gray-900">나의 예술 성향</h3>
+                      <p className="text-sm text-gray-500">{personalityType || 'INFP - 몽상가'}</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-4">
+                    감성적이고 직관적인 당신은 추상적이고 상징적인 작품에 끌립니다.
+                  </p>
+                  <button className="text-sm text-gray-500 hover:text-gray-700">
+                    자세히 보기 →
+                  </button>
+                </div>
+              ) : (
+                <div className="text-center py-4">
+                  <Sparkles className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                  <h3 className="font-medium text-gray-900 mb-2">예술 성향을 발견하세요</h3>
+                  <p className="text-sm text-gray-500 mb-4">
+                    AI가 당신만의 예술 취향을 분석해드려요
+                  </p>
+                  <button
+                    onClick={() => router.push('/quiz')}
+                    className="w-full px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
+                  >
+                    퀴즈 시작하기
+                  </button>
+                </div>
+              )}
+            </motion.div>
+
+            {/* My Gallery Quick Access */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.15 }}
+              className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 cursor-pointer hover:shadow-lg transition-shadow"
+              onClick={() => router.push('/gallery')}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                    <GalleryVerticalEnd className="w-5 h-5 text-purple-600" />
+                  </div>
+                  <h3 className="font-medium text-gray-900">내 갤러리</h3>
+                </div>
+                <ArrowRight className="w-4 h-4 text-gray-400" />
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">저장한 작품</span>
+                  <span className="font-medium text-purple-600">24</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">좋아요한 작품</span>
+                  <span className="font-medium text-purple-600">87</span>
+                </div>
+              </div>
+              <p className="text-xs text-purple-600 mt-3">갤러리 보기 →</p>
+            </motion.div>
+
+            {/* Journey Stats */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+              className="bg-gray-50 rounded-2xl p-6"
+            >
+              <h3 className="font-medium text-gray-900 mb-4 flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-gray-400" />
+                나의 예술 여정
+              </h3>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">탐험한 작품</span>
+                  <span className="font-medium">{journeyStats.artworksViewed}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">발견한 아티스트</span>
+                  <span className="font-medium">{journeyStats.artistsDiscovered}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">방문한 전시</span>
+                  <span className="font-medium">{journeyStats.exhibitionsVisited}</span>
+                </div>
+                <div className="pt-3 border-t border-gray-200">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">활동일</span>
+                    <span className="font-medium text-purple-600">{journeyStats.daysActive}일째</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">총 컬렉션</CardTitle>
-                <FolderOpen className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">0</div>
-                <p className="text-xs text-muted-foreground">공개: 0</p>
-              </CardContent>
-            </Card>
-          </motion.div>
+          {/* Middle Column - Today's Recommendations */}
+          <div className="lg:col-span-2 space-y-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <h2 className="text-lg font-medium text-gray-900 mb-6 flex items-center gap-2">
+                <Zap className="w-5 h-5 text-yellow-500" />
+                오늘의 추천
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {todayRecommendations.map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.4 + index * 0.1 }}
+                    className="bg-gray-50 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                    onClick={() => router.push(item.type === 'artwork' ? '/gallery' : '/exhibitions')}
+                  >
+                    <div className="h-48 bg-gray-200" />
+                    <div className="p-6">
+                      {item.type === 'artwork' ? (
+                        <>
+                          <h3 className="font-medium text-gray-900 mb-1">{item.title}</h3>
+                          <p className="text-sm text-gray-600 mb-3">{item.artist}</p>
+                          <p className="text-xs text-gray-500 bg-gray-100 inline-block px-3 py-1 rounded-full">
+                            {item.reason}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <h3 className="font-medium text-gray-900 mb-1">{item.title}</h3>
+                          <p className="text-sm text-gray-600 mb-2">{item.venue}</p>
+                          <div className="flex items-center gap-4 text-xs text-gray-500">
+                            <span className="flex items-center gap-1">
+                              <Calendar className="w-3 h-3" />
+                              {item.date}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <MapPin className="w-3 h-3" />
+                              {item.distance}
+                            </span>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">수집한 작품</CardTitle>
-                <Heart className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">0</div>
-                <p className="text-xs text-muted-foreground">이번 주: 0</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">활동 일수</CardTitle>
-                <Calendar className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">0일</div>
-                <p className="text-xs text-muted-foreground">연속: 0일</p>
-              </CardContent>
-            </Card>
-          </motion.div>
+            {/* Quick Actions */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="mt-8"
+            >
+              <h2 className="text-lg font-medium text-gray-900 mb-4">빠른 시작</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button
+                  onClick={() => router.push('/gallery')}
+                  className="p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors text-left"
+                >
+                  <Eye className="w-5 h-5 text-gray-400 mb-2" />
+                  <h4 className="font-medium text-gray-900 text-sm">내 갤러리</h4>
+                  <p className="text-xs text-gray-500 mt-1">저장한 작품 관리</p>
+                </button>
+                <button
+                  onClick={() => router.push('/exhibitions')}
+                  className="p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors text-left"
+                >
+                  <MapPin className="w-5 h-5 text-gray-400 mb-2" />
+                  <h4 className="font-medium text-gray-900 text-sm">주변 전시</h4>
+                  <p className="text-xs text-gray-500 mt-1">가까운 전시 찾기</p>
+                </button>
+                <button
+                  onClick={() => router.push('/community')}
+                  className="p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors text-left"
+                >
+                  <Heart className="w-5 h-5 text-gray-400 mb-2" />
+                  <h4 className="font-medium text-gray-900 text-sm">커뮤니티</h4>
+                  <p className="text-xs text-gray-500 mt-1">다른 아트러버들과 교류</p>
+                </button>
+              </div>
+            </motion.div>
+          </div>
         </div>
-
-        {/* Quick Actions */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Sparkles className="h-5 w-5" />
-                빠른 시작
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <Button asChild variant="outline" className="h-auto p-4">
-                  <Link href="/quiz" className="flex flex-col items-center gap-2">
-                    <Activity className="h-6 w-6" />
-                    <span className="font-medium">성격 퀴즈 시작</span>
-                    <span className="text-xs text-muted-foreground text-center">
-                      당신의 예술 성향을 발견해보세요
-                    </span>
-                  </Link>
-                </Button>
-
-                <Button asChild variant="outline" className="h-auto p-4">
-                  <Link href="/gallery" className="flex flex-col items-center gap-2">
-                    <FolderOpen className="h-6 w-6" />
-                    <span className="font-medium">갤러리 탐색</span>
-                    <span className="text-xs text-muted-foreground text-center">
-                      다양한 예술 작품을 둘러보세요
-                    </span>
-                  </Link>
-                </Button>
-
-                <Button asChild variant="outline" className="h-auto p-4">
-                  <Link href="/community" className="flex flex-col items-center gap-2">
-                    <Users className="h-6 w-6" />
-                    <span className="font-medium">커뮤니티 참여</span>
-                    <span className="text-xs text-muted-foreground text-center">
-                      다른 사용자들과 소통해보세요
-                    </span>
-                  </Link>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Recent Activity */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <Card>
-            <CardHeader>
-              <CardTitle>최근 활동</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8">
-                <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">아직 활동이 없습니다.</p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  퀴즈를 시작하거나 작품을 탐색해보세요!
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
       </div>
     </div>
   );

@@ -58,7 +58,10 @@ function LoginContent() {
     try {
       await signIn(email, password);
       toast.success(language === 'ko' ? '로그인 성공!' : 'Login successful!');
-      router.push('/dashboard');
+      // Wait a bit for session to be established
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 500);
     } catch (error: any) {
       console.error('Login error:', error);
       if (error.message) {
@@ -74,7 +77,7 @@ function LoginContent() {
   return (
     <div className="min-h-screen flex">
       {/* Left Panel - Form */}
-      <div className="flex-1 flex items-center justify-center px-8 py-12 bg-sayu-bg-primary">
+      <div className="flex-1 flex items-center justify-center px-8 py-12 bg-gray-900 dark:bg-gray-950">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -85,7 +88,7 @@ function LoginContent() {
           <div className="flex items-center justify-between mb-12">
             <Link 
               href="/" 
-              className="flex items-center gap-2 text-sayu-text-muted hover:text-sayu-text-primary transition-colors"
+              className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
             >
               <Home className="w-5 h-5" />
               <span className="text-sm font-medium">{language === 'ko' ? '홈으로' : 'Back to Home'}</span>
@@ -121,10 +124,10 @@ function LoginContent() {
             transition={{ delay: 0.1 }}
             className="mb-8"
           >
-            <h1 className="sayu-display text-4xl font-bold text-sayu-text-primary mb-2">
+            <h1 className="sayu-display text-4xl font-bold text-white mb-2">
               {language === 'ko' ? '다시 만나요' : 'Welcome back'}
             </h1>
-            <p className="text-sayu-text-secondary">
+            <p className="text-gray-300">
               {language === 'ko' 
                 ? '예술 여정을 계속 이어가세요' 
                 : 'Continue your artistic journey'}
@@ -141,7 +144,7 @@ function LoginContent() {
           >
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-sayu-text-secondary mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
                 {language === 'ko' ? '이메일' : 'Email'}
               </label>
               <div className="relative group">
@@ -150,7 +153,7 @@ function LoginContent() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 pl-12 bg-white dark:bg-gray-800 border-2 border-gray-900 dark:border-gray-300 rounded-xl focus:border-gray-900 dark:focus:border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-900/10 dark:focus:ring-gray-300/10 transition-all duration-300 hover:border-gray-700 dark:hover:border-gray-400 text-gray-900 dark:text-gray-100"
+                  className="w-full px-4 py-3 pl-12 bg-gray-100 border-2 border-gray-200 rounded-xl focus:border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-300/20 transition-all duration-300 hover:border-gray-300 text-gray-900"
                   placeholder={language === 'ko' ? 'your@email.com' : 'your@email.com'}
                   required
                   autoComplete="email"
@@ -161,7 +164,7 @@ function LoginContent() {
 
             {/* Password Field */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-sayu-text-secondary mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
                 {language === 'ko' ? '비밀번호' : 'Password'}
               </label>
               <div className="relative group">
@@ -170,7 +173,7 @@ function LoginContent() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 pl-12 pr-12 bg-white dark:bg-gray-800 border-2 border-gray-900 dark:border-gray-300 rounded-xl focus:border-gray-900 dark:focus:border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-900/10 dark:focus:ring-gray-300/10 transition-all duration-300 hover:border-gray-700 dark:hover:border-gray-400 text-gray-900 dark:text-gray-100"
+                  className="w-full px-4 py-3 pl-12 pr-12 bg-gray-100 border-2 border-gray-200 rounded-xl focus:border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-300/20 transition-all duration-300 hover:border-gray-300 text-gray-900"
                   placeholder="••••••••"
                   required
                   autoComplete="current-password"
@@ -197,13 +200,13 @@ function LoginContent() {
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="w-4 h-4 text-sayu-mocha border-sayu-warm-gray rounded focus:ring-sayu-mocha"
                 />
-                <span className="text-sm text-sayu-text-secondary">
+                <span className="text-sm text-gray-300">
                   {language === 'ko' ? '로그인 상태 유지' : 'Remember me'}
                 </span>
               </label>
               <Link
                 href="/forgot-password"
-                className="text-sm text-sayu-mocha hover:text-sayu-mocha/80 transition-colors"
+                className="text-sm text-gray-300 hover:text-white transition-colors"
               >
                 {language === 'ko' ? '비밀번호 찾기' : 'Forgot password?'}
               </Link>
@@ -217,7 +220,7 @@ function LoginContent() {
               <ModernButton
                 type="submit"
                 size="lg"
-                className="w-full bg-gradient-to-r from-sayu-mocha to-sayu-mocha/90 hover:from-sayu-mocha/90 hover:to-sayu-mocha shadow-lg hover:shadow-xl"
+                className="w-full bg-white hover:bg-gray-100 text-gray-900 shadow-lg hover:shadow-xl"
                 loading={loading}
                 iconLeft={!loading && <LogIn className="w-5 h-5" />}
               >
@@ -229,10 +232,10 @@ function LoginContent() {
           {/* Divider */}
           <div className="relative my-3">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-900 dark:border-gray-100"></div>
+              <div className="w-full border-t border-gray-700"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300">
+              <span className="px-4 bg-gray-900 dark:bg-gray-950 text-gray-300">
                 {language === 'ko' ? '또는' : 'Or continue with'}
               </span>
             </div>
@@ -243,7 +246,7 @@ function LoginContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="space-y-3 -mt-1"
+            className="space-y-3"
           >
             <SocialLoginButton provider="instagram" />
             <SocialLoginButton provider="google" />
@@ -256,12 +259,12 @@ function LoginContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="mt-6 text-center text-sm text-sayu-text-secondary"
+            className="mt-6 text-center text-sm text-gray-300"
           >
             {language === 'ko' ? '아직 계정이 없으신가요? ' : "Don't have an account? "}
             <Link
               href="/register"
-              className="font-medium text-sayu-mocha hover:text-sayu-mocha/80 transition-colors"
+              className="font-medium text-white hover:text-gray-200 transition-colors"
             >
               {language === 'ko' ? '회원가입' : 'Sign up'}
             </Link>
@@ -278,8 +281,7 @@ function LoginContent() {
             backgroundImage: 'url("/images/backgrounds/baroque-gallery-ornate-arches-historical.jpg")',
           }}
         >
-          {/* Overlay for transparency */}
-          <div className="absolute inset-0 bg-white/30 dark:bg-black/30" />
+          {/* No overlay - full opacity background */}
         </div>
         {/* Animated Background Pattern */}
         <div className="absolute inset-0">
@@ -336,12 +338,12 @@ function LoginContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="sayu-display text-5xl font-bold text-sayu-charcoal mb-6">
+            <h2 className="sayu-display text-5xl font-bold text-white mb-6 drop-shadow-lg">
               {language === 'ko' 
                 ? '예술로 만나는\n나의 진짜 모습' 
                 : 'Discover Your\nTrue Artistic Self'}
             </h2>
-            <p className="text-xl text-sayu-charcoal/70 max-w-md mx-auto mb-12 whitespace-pre-line">
+            <p className="text-xl text-white/90 max-w-md mx-auto mb-12 whitespace-pre-line drop-shadow-md">
               {language === 'ko'
                 ? 'SAYU와 함께 당신만의 예술 취향을\n발견하고, 마음에 드는 작품들을 만나보세요.'
                 : 'Explore your unique art preferences and discover masterpieces that resonate with your soul.'}
