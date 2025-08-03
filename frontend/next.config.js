@@ -97,6 +97,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'ui-avatars.com' },
       { protocol: 'https', hostname: 'artvee.com' },
       { protocol: 'https', hostname: 'upload.wikimedia.org' },
+      { protocol: 'https', hostname: 'picsum.photos' },
     ],
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60 * 60 * 24 * 7, // 7일로 증가

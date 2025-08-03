@@ -59,6 +59,7 @@ export default function FloatingNav() {
   const [scrolled, setScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(null);
   const [userInfo, setUserInfo] = useState<any>(null);
   const supabase = createClientComponentClient();
   
@@ -84,7 +85,17 @@ export default function FloatingNav() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
+    
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      const dropdownContainer = target.closest('[data-dropdown-container]');
+      if (!dropdownContainer && dropdownOpen) {
+        setDropdownOpen(null);
+      }
+    };
+    
     window.addEventListener('scroll', handleScroll);
+    document.addEventListener('click', handleClickOutside);
     
     // Get detailed user info
     const getUserInfo = async () => {
@@ -100,9 +111,10 @@ export default function FloatingNav() {
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('click', handleClickOutside);
       subscription.unsubscribe();
     };
-  }, []);
+  }, [dropdownOpen]);
 
   const handleNavClick = (item: NavItem) => {
     if (item.requiresAuth && !user) {
@@ -113,6 +125,15 @@ export default function FloatingNav() {
       setIsOpen(false);
       return;
     }
+    
+    // Handle mobile dropdown for items with children
+    if (item.children && item.children.length > 0) {
+      setMobileDropdownOpen(mobileDropdownOpen === item.path ? null : item.path);
+      return;
+    }
+    
+    if (item.path === '#') return; // Skip items with no path
+    
     router.push(item.path);
     setIsOpen(false);
   };
@@ -183,7 +204,7 @@ export default function FloatingNav() {
               const hasDropdown = item.children && item.children.length > 0;
               
               return (
-                <div key={item.path} className="relative">
+                <div key={item.path} className="relative" data-dropdown-container>
                   <motion.button
                     onClick={() => {
                       if (hasDropdown) {
@@ -499,34 +520,76 @@ export default function FloatingNav() {
                 
                 <nav className="flex flex-col gap-2">
                   {desktopNavItems.map((item) => {
-                    const isActive = pathname === item.path;
+                    const isActive = item.children 
+                      ? item.children.some(child => pathname === child.path)
+                      : pathname === item.path;
                     const isDisabled = item.requiresAuth && !user;
+                    const hasChildren = item.children && item.children.length > 0;
+                    const isDropdownOpen = mobileDropdownOpen === item.path;
                     
                     return (
-                      <motion.button
-                        key={item.path}
-                        onClick={() => handleNavClick(item)}
-                            className={`
-                          flex items-center gap-3 px-4 py-3 rounded-xl
-                          transition-all duration-300 text-left
-                          ${isActive 
-                            ? 'bg-white/20 text-white' 
-                            : isDisabled
-                              ? 'text-gray-500 opacity-70 hover:opacity-100'
-                              : 'text-white/80 hover:bg-white/10'
-                          }
-                        `}
-                        whileHover={!isDisabled ? { x: 4 } : {}}
-                        whileTap={!isDisabled ? { scale: 0.98 } : {}}
-                      >
-                        {getIcon(item.iconType)}
-                        <span className="font-medium whitespace-nowrap">{item.label[language]}</span>
-                        {item.requiresAuth && !user && (
-                          <span className="ml-auto text-xs text-gray-500">
-                            {language === 'ko' ? '로그인 필요' : 'Login required'}
-                          </span>
-                        )}
-                      </motion.button>
+                      <div key={item.path}>
+                        <motion.button
+                          onClick={() => handleNavClick(item)}
+                          className={`
+                            w-full flex items-center gap-3 px-4 py-3 rounded-xl
+                            transition-all duration-300 text-left
+                            ${isActive 
+                              ? 'bg-white/20 text-white' 
+                              : isDisabled
+                                ? 'text-gray-500 opacity-70 hover:opacity-100'
+                                : 'text-white/80 hover:bg-white/10'
+                            }
+                          `}
+                          whileHover={!isDisabled ? { x: 4 } : {}}
+                          whileTap={!isDisabled ? { scale: 0.98 } : {}}
+                        >
+                          {getIcon(item.iconType)}
+                          <span className="font-medium whitespace-nowrap">{item.label[language]}</span>
+                          {hasChildren && <ChevronDown className={`w-4 h-4 ml-auto transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />}
+                          {item.requiresAuth && !user && !hasChildren && (
+                            <span className="ml-auto text-xs text-gray-500">
+                              {language === 'ko' ? '로그인 필요' : 'Login required'}
+                            </span>
+                          )}
+                        </motion.button>
+                        
+                        {/* Mobile dropdown children */}
+                        <AnimatePresence>
+                          {hasChildren && isDropdownOpen && !isDisabled && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              className="ml-8 mt-1 space-y-1"
+                            >
+                              {item.children?.map((child) => (
+                                <motion.button
+                                  key={child.path}
+                                  onClick={() => {
+                                    router.push(child.path);
+                                    setIsOpen(false);
+                                    setMobileDropdownOpen(null);
+                                  }}
+                                  className={`
+                                    w-full flex items-center gap-3 px-3 py-2 rounded-lg
+                                    transition-all duration-300 text-left text-sm
+                                    ${pathname === child.path
+                                      ? 'bg-white/10 text-white'
+                                      : 'text-white/70 hover:bg-white/5 hover:text-white'
+                                    }
+                                  `}
+                                  whileHover={{ x: 2 }}
+                                  whileTap={{ scale: 0.98 }}
+                                >
+                                  {getIcon(child.iconType)}
+                                  <span className="font-medium">{child.label[language]}</span>
+                                </motion.button>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
                     );
                   })}
                 </nav>
