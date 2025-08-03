@@ -2,25 +2,44 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
 
 export default function AuthCallbackPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // The auth callback is handled by the route handler (route.ts)
-    // This page just shows a loading state while the redirect happens
-    const timer = setTimeout(() => {
-      router.push('/dashboard');
-    }, 2000);
+    const handleCallback = async () => {
+      const supabase = createClient();
+      
+      // Check if we have hash parameters (for implicit flow)
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const accessToken = hashParams.get('access_token');
+      
+      if (accessToken) {
+        // Handle the OAuth callback
+        const { error } = await supabase.auth.getSession();
+        
+        if (!error) {
+          // Successfully authenticated, redirect to dashboard
+          router.push('/dashboard');
+        } else {
+          console.error('Auth callback error:', error);
+          router.push('/login?error=auth_failed');
+        }
+      } else {
+        // No access token, redirect to login
+        router.push('/login');
+      }
+    };
 
-    return () => clearTimeout(timer);
+    handleCallback();
   }, [router]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="min-h-screen bg-white flex items-center justify-center">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-        <p className="text-gray-600">인증 처리 중...</p>
+        <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-200 border-t-gray-400 mx-auto mb-4"></div>
+        <p className="text-gray-400 text-sm">인증 처리 중...</p>
       </div>
     </div>
   );

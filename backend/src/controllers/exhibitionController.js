@@ -1,9 +1,9 @@
 const { pool } = require('../config/database');
 const { body, validationResult } = require('express-validator');
 const { log } = require('../config/logger');
-const ExhibitionModel = require('../models/exhibitionModel');
+const UnifiedExhibitionModel = require('../models/unifiedExhibitionModel');
+const UnifiedVenueModel = require('../models/unifiedVenueModel');
 const ExhibitionSubmissionModel = require('../models/exhibitionSubmissionModel');
-const VenueModel = require('../models/venueModel');
 
 // 메모리 캐시 설정
 const cache = new Map();
@@ -64,107 +64,35 @@ const exhibitionController = {
       // 페이지네이션 설정
       const offset = (page - 1) * limit;
 
-      // Build base query
-      let query = `
-        SELECT e.*, v.id as venue_id, v.name as venue_name, v.name_en as venue_name_en,
-               v.city as venue_city, v.country as venue_country, v.venue_type as venue_type,
-               v.website as venue_website, v.social_media->>'instagram' as venue_instagram
-        FROM exhibitions e
-        INNER JOIN global_venues v ON e.venue_id = v.id
-        WHERE 1=1
-      `;
-      const queryParams = [];
-      let paramIndex = 1;
+      // Use unified model for filtering and pagination
+      const filters = {};
+      if (status) filters.status = status;
+      if (city) filters.city = city;
+      if (venue_id) filters.venueId = venue_id;
+      if (search) filters.search = search;
 
-      // Apply filters
-      if (status) {
-        query += ` AND e.status = $${paramIndex}`;
-        queryParams.push(status);
-        paramIndex++;
-      }
+      const options = {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        orderBy: sort === 'views' ? 'view_count' : sort,
+        order: order.toUpperCase()
+      };
 
-      if (city) {
-        query += ` AND e.venue_city = $${paramIndex}`;
-        queryParams.push(city);
-        paramIndex++;
-      }
-
-      if (venue_id) {
-        query += ` AND e.venue_id = $${paramIndex}`;
-        queryParams.push(venue_id);
-        paramIndex++;
-      }
-
-      if (search) {
-        query += ` AND (e.title ILIKE $${paramIndex} OR e.description ILIKE $${paramIndex} OR v.name ILIKE $${paramIndex})`;
-        queryParams.push(`%${search}%`);
-        paramIndex++;
-      }
-
-      // Add sorting
-      const validSorts = ['created_at', 'start_date', 'end_date', 'title', 'views'];
-      const sortColumn = validSorts.includes(sort) ? sort : 'created_at';
-      const sortOrder = order === 'asc' ? 'ASC' : 'DESC';
-      query += ` ORDER BY e.${sortColumn} ${sortOrder}`;
-
-      // Add pagination
-      query += ` LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
-      queryParams.push(parseInt(limit), offset);
-
-      const result = await pool.query(query, queryParams);
-      const exhibitions = result.rows;
-
-      // Get total count
-      let countQuery = `
-        SELECT COUNT(*) as total
-        FROM exhibitions e
-        INNER JOIN venues v ON e.venue_id = v.id
-        WHERE 1=1
-      `;
-      const countParams = [];
-      let countParamIndex = 1;
-
-      if (status) {
-        countQuery += ` AND e.status = $${countParamIndex}`;
-        countParams.push(status);
-        countParamIndex++;
-      }
-      if (city) {
-        countQuery += ` AND e.venue_city = $${countParamIndex}`;
-        countParams.push(city);
-        countParamIndex++;
-      }
-      if (venue_id) {
-        countQuery += ` AND e.venue_id = $${countParamIndex}`;
-        countParams.push(venue_id);
-        countParamIndex++;
-      }
-      if (search) {
-        countQuery += ` AND (e.title ILIKE $${countParamIndex} OR e.description ILIKE $${countParamIndex} OR v.name ILIKE $${countParamIndex})`;
-        countParams.push(`%${search}%`);
-        countParamIndex++;
-      }
-
-      const countResult = await pool.query(countQuery, countParams);
-      const count = parseInt(countResult.rows[0].total);
-
+      const result = await UnifiedExhibitionModel.find(filters, options);
+      
       // Get status statistics
-      const statsResult = await pool.query('SELECT status, COUNT(*) as count FROM exhibitions GROUP BY status');
-      const stats = statsResult.rows.reduce((acc, row) => {
-        acc[row.status] = parseInt(row.count);
-        return acc;
-      }, {});
+      const stats = await UnifiedExhibitionModel.getStatistics();
 
       const response = {
         success: true,
-        data: exhibitions,
-        pagination: {
-          page: parseInt(page),
-          limit: parseInt(limit),
-          total: count,
-          pages: Math.ceil(count / limit)
-        },
-        stats
+        data: result.exhibitions,
+        pagination: result.pagination,
+        stats: {
+          ongoing: stats.ongoing_count || 0,
+          upcoming: stats.upcoming_count || 0,
+          ended: stats.ended_count || 0,
+          total: stats.total_count || 0
+        }
       };
 
       // 캐시에 저장
@@ -186,31 +114,17 @@ const exhibitionController = {
     try {
       const { id } = req.params;
 
-      const query = `
-        SELECT e.*, v.id as venue_id, v.name as venue_name, v.name_en as venue_name_en,
-               v.city as venue_city, v.country as venue_country, v.type as venue_type,
-               v.website as venue_website, v.instagram as venue_instagram, v.address as venue_address
-        FROM exhibitions e
-        INNER JOIN venues v ON e.venue_id = v.id
-        WHERE e.id = $1
-      `;
+      const exhibition = await UnifiedExhibitionModel.findById(id);
 
-      const result = await pool.query(query, [id]);
-
-      if (result.rows.length === 0) {
+      if (!exhibition) {
         return res.status(404).json({
           success: false,
           message: 'Exhibition not found'
         });
       }
 
-      const exhibition = result.rows[0];
-
       // 조회수 증가
-      await pool.query(
-        'UPDATE exhibitions SET views = COALESCE(views, 0) + 1 WHERE id = $1',
-        [id]
-      );
+      await UnifiedExhibitionModel.incrementViewCount(id);
 
       res.json({
         success: true,
@@ -353,10 +267,10 @@ const exhibitionController = {
 
       if (status === 'approved') {
         // Find or create venue
-        let venue = await VenueModel.findByName(submission.venue_name);
+        let venue = await UnifiedVenueModel.findByName(submission.venue_name);
 
         if (!venue) {
-          venue = await VenueModel.create({
+          venue = await UnifiedVenueModel.create({
             name: submission.venue_name,
             address: submission.venue_address || 'Unknown',
             city: 'Seoul', // Default, should be extracted from address
@@ -371,7 +285,7 @@ const exhibitionController = {
           : [];
 
         // Create exhibition
-        const exhibition = await ExhibitionModel.create({
+        const exhibition = await UnifiedExhibitionModel.create({
           title: submission.exhibition_title,
           description: submission.description,
           venueId: venue.id,
@@ -405,7 +319,7 @@ const exhibitionController = {
         }
 
         // Increment venue exhibition count
-        await VenueModel.incrementExhibitionCount(venue.id);
+        await UnifiedVenueModel.incrementExhibitionCount(venue.id);
       }
 
       res.json({
@@ -442,11 +356,17 @@ const exhibitionController = {
   // Get trending exhibitions
   async getTrendingExhibitions(req, res) {
     try {
-      const exhibitions = await ExhibitionModel.getTrending(10);
-      res.json(exhibitions);
+      const exhibitions = await UnifiedExhibitionModel.getTrending(10);
+      res.json({
+        success: true,
+        data: exhibitions
+      });
     } catch (error) {
       console.error('Get trending exhibitions error:', error);
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ 
+        success: false,
+        error: error.message 
+      });
     }
   },
 
@@ -454,61 +374,45 @@ const exhibitionController = {
   async getUpcomingExhibitions(req, res) {
     try {
       const { days = 7 } = req.query;
-      const exhibitions = await ExhibitionModel.getUpcoming(parseInt(days));
-      res.json(exhibitions);
+      const exhibitions = await UnifiedExhibitionModel.getUpcoming(parseInt(days));
+      res.json({
+        success: true,
+        data: exhibitions
+      });
     } catch (error) {
       console.error('Get upcoming exhibitions error:', error);
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ 
+        success: false,
+        error: error.message 
+      });
     }
   },
 
   // Get venues
   async getVenues(req, res) {
     try {
-      const { city, country = 'KR', type, tier, search, limit = 50 } = req.query;
+      const { city, country = 'KR', type, category, tier, search, limit = 50 } = req.query;
 
-      let query = 'SELECT * FROM venues WHERE is_active = true';
-      const queryParams = [];
-      let paramIndex = 1;
+      const filters = {};
+      if (city) filters.city = city;
+      if (country) filters.country = country;
+      if (type) filters.type = type;
+      if (category) filters.category = category;
+      if (tier) filters.tier = parseInt(tier);
+      if (search) filters.search = search;
 
-      if (city) {
-        query += ` AND city = $${paramIndex}`;
-        queryParams.push(city);
-        paramIndex++;
-      }
+      const options = {
+        limit: parseInt(limit),
+        orderBy: 'name',
+        order: 'ASC'
+      };
 
-      if (country) {
-        query += ` AND country = $${paramIndex}`;
-        queryParams.push(country);
-        paramIndex++;
-      }
-
-      if (type) {
-        query += ` AND type = $${paramIndex}`;
-        queryParams.push(type);
-        paramIndex++;
-      }
-
-      if (tier) {
-        query += ` AND tier = $${paramIndex}`;
-        queryParams.push(tier);
-        paramIndex++;
-      }
-
-      if (search) {
-        query += ` AND (name ILIKE $${paramIndex} OR name_en ILIKE $${paramIndex})`;
-        queryParams.push(`%${search}%`);
-        paramIndex++;
-      }
-
-      query += ` ORDER BY name LIMIT $${paramIndex}`;
-      queryParams.push(parseInt(limit));
-
-      const result = await pool.query(query, queryParams);
+      const result = await UnifiedVenueModel.find(filters, options);
 
       res.json({
         success: true,
-        data: result.rows
+        data: result.venues,
+        pagination: result.pagination
       });
 
     } catch (error) {
@@ -651,7 +555,7 @@ const exhibitionController = {
   // 도시별 전시 통계
   async getCityStats(req, res) {
     try {
-      const result = await pool.query('SELECT venue_city, status FROM exhibitions');
+      const result = await pool.query('SELECT venue_city, status FROM exhibitions_unified WHERE visibility = \'public\'');
 
       const cityStats = result.rows.reduce((acc, ex) => {
         if (!acc[ex.venue_city]) {
@@ -686,25 +590,66 @@ const exhibitionController = {
     try {
       const { limit = 10 } = req.query;
 
-      const query = `
-        SELECT e.*, v.id as venue_id, v.name as venue_name, v.name_en as venue_name_en,
-               v.city as venue_city, v.country as venue_country, v.type as venue_type
-        FROM exhibitions e
-        INNER JOIN venues v ON e.venue_id = v.id
-        WHERE e.status = 'ongoing'
-        ORDER BY e.views DESC
-        LIMIT $1
-      `;
-
-      const result = await pool.query(query, [parseInt(limit)]);
+      const exhibitions = await UnifiedExhibitionModel.getTrending(parseInt(limit));
 
       res.json({
         success: true,
-        data: result.rows
+        data: exhibitions
       });
 
     } catch (error) {
       console.error('Error in getPopularExhibitions:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
+      });
+    }
+  },
+
+  // 진행중인 전시 조회 (새로운 API)
+  async getOngoingExhibitions(req, res) {
+    try {
+      const { limit = 20 } = req.query;
+      const exhibitions = await UnifiedExhibitionModel.getOngoing(parseInt(limit));
+      
+      res.json({
+        success: true,
+        data: exhibitions
+      });
+    } catch (error) {
+      console.error('Error in getOngoingExhibitions:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
+      });
+    }
+  },
+
+  // 개성별 추천 전시 (SAYU 전용)
+  async getPersonalityRecommendations(req, res) {
+    try {
+      const { personality_types, limit = 10 } = req.query;
+      
+      if (!personality_types) {
+        return res.status(400).json({
+          success: false,
+          message: 'personality_types parameter is required'
+        });
+      }
+
+      const personalityArray = Array.isArray(personality_types) 
+        ? personality_types 
+        : personality_types.split(',');
+
+      const exhibitions = await UnifiedExhibitionModel.findByPersonality(personalityArray, parseInt(limit));
+      
+      res.json({
+        success: true,
+        data: exhibitions,
+        personality_types: personalityArray
+      });
+    } catch (error) {
+      console.error('Error in getPersonalityRecommendations:', error);
       res.status(500).json({
         success: false,
         message: 'Internal server error'

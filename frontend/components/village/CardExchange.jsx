@@ -33,7 +33,7 @@ const CardExchange = ({ currentUser, onExchangeComplete }) => {
         status: 'online',
         village: 'Dreamweaver Haven',
         lastSeen: 'Just now',
-        badges: ['Quiet Observer', 'Gallery Walker']
+        badges: ['Quiet Observer', 'Intuitive Explorer']
       },
       {
         id: 2,

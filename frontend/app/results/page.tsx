@@ -17,7 +17,7 @@ import ShareModal from '@/components/share/ShareModal';
 import ProfileIDCard from '@/components/profile/ProfileIDCard';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
 import { useArtworksByArtist } from '@/lib/artvee-api';
-import { getRecommendedArtistsForPersonality } from '@/data/available-artists';
+import { getArtistsForPersonality, ARTIST_DETAILS } from '@/data/personality-artist-matching-2024';
 
 interface QuizResults {
   personalityType: string;
@@ -41,16 +41,58 @@ function ResultsContent() {
   const [showProfileCard, setShowProfileCard] = useState(false);
   const [activeTab, setActiveTab] = useState<'strengths' | 'challenges' | 'growth'>('strengths');
   
-  // 항상 동일한 수의 Hook을 호출 (조건부 X)
-  const prioritizedArtists = results ? getRecommendedArtistsForPersonality(results.personalityType) : [];
-  const artistsToShow = prioritizedArtists.slice(0, 3);
+  // 새로운 매칭 시스템 사용
+  const [artistArtworks, setArtistArtworks] = useState<any[]>([]);
+  const artistMatching = results ? getArtistsForPersonality(results.personalityType) : { artists: [], reasoning: '' };
+  const artistsToShow = artistMatching.artists;
   
-  // 항상 3개의 Hook 호출 (빈 문자열이라도)
-  const { data: artworks1 } = useArtworksByArtist(artistsToShow[0] || '', 1);
-  const { data: artworks2 } = useArtworksByArtist(artistsToShow[1] || '', 1);
-  const { data: artworks3 } = useArtworksByArtist(artistsToShow[2] || '', 1);
-  
-  const artworksArray = [artworks1?.[0], artworks2?.[0], artworks3?.[0]];
+  // Cloudinary 데이터에서 작품 로드
+  useEffect(() => {
+    const loadArtworkImages = async () => {
+      try {
+        const response = await fetch('/data/artworks.json');
+        const data = await response.json();
+        
+        const foundArtworks = artistsToShow.map(artistName => {
+          // 작가 이름으로 작품 찾기
+          const artwork = data.artworks.find((work: any) => {
+            const workArtist = work.artist ? work.artist.split('\n')[0].toLowerCase() : '';
+            return workArtist.includes(artistName.toLowerCase()) || 
+                   artistName.toLowerCase().includes(workArtist);
+          });
+          
+          return artwork ? {
+            ...artwork,
+            artistName: artistName,
+            imageUrl: artwork.cloudinaryUrl,
+            title: artwork.title,
+            artist: artistName
+          } : {
+            artistName: artistName,
+            imageUrl: `https://via.placeholder.com/400x500.png?text=${encodeURIComponent(artistName)}`,
+            title: artistName,
+            artist: artistName
+          };
+        });
+        
+        setArtistArtworks(foundArtworks);
+      } catch (error) {
+        console.error('Failed to load artwork images:', error);
+        // 에러 시 placeholder 이미지 사용
+        const placeholderArtworks = artistsToShow.map(artistName => ({
+          artistName: artistName,
+          imageUrl: `https://via.placeholder.com/400x500.png?text=${encodeURIComponent(artistName)}`,
+          title: artistName,
+          artist: artistName
+        }));
+        setArtistArtworks(placeholderArtworks);
+      }
+    };
+    
+    if (results && artistsToShow.length > 0) {
+      loadArtworkImages();
+    }
+  }, [results, artistsToShow]);
 
   useEffect(() => {
     const urlType = searchParams?.get('type');
@@ -106,7 +148,7 @@ function ResultsContent() {
 
   if (!results || !personality) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-slate-900 flex items-center justify-center">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
@@ -125,11 +167,11 @@ function ResultsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-slate-900">
       {/* Navigation Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <header className="bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
-          <h1 className="font-serif text-lg font-medium text-gray-900">
+          <h1 className="font-serif text-lg font-medium text-gray-900 dark:text-white">
             {language === 'ko' ? '나의 예술 성격' : 'My Art Personality'}
           </h1>
           <LanguageToggle />
@@ -166,7 +208,7 @@ function ResultsContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-4"
+            className="text-4xl md:text-5xl font-serif font-bold text-gray-900 dark:text-white mb-4"
           >
             {language === 'ko' && personality.title_ko ? personality.title_ko : personality.title}
           </motion.h1>
@@ -176,7 +218,7 @@ function ResultsContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-xl text-gray-600 max-w-2xl mx-auto"
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
           >
             {language === 'ko' && personality.subtitle_ko ? personality.subtitle_ko : personality.subtitle}
           </motion.p>
@@ -189,13 +231,13 @@ function ResultsContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="bg-gray-100 rounded-2xl p-8"
+          className="bg-gray-100 dark:bg-slate-800 rounded-2xl p-8"
         >
           <div className="text-center mb-6">
-            <h2 className="text-sm font-medium text-gray-500 mb-2">
+            <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
               {language === 'ko' ? 'APT 코드' : 'APT Code'}
             </h2>
-            <p className="text-3xl font-mono font-bold text-gray-900">
+            <p className="text-3xl font-mono font-bold text-gray-900 dark:text-white">
               {results.personalityType}
             </p>
           </div>
@@ -203,13 +245,13 @@ function ResultsContent() {
           <div className="grid grid-cols-4 gap-4">
             {/* L/S */}
             <div className="text-center">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-2 shadow-sm">
+              <div className="w-12 h-12 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-2 shadow-sm">
                 <span className="font-mono font-bold text-xl text-purple-600">{results.personalityType[0]}</span>
               </div>
-              <p className="text-sm font-medium text-gray-900 mb-1">
+              <p className="text-sm font-medium text-gray-900 dark:text-white mb-1">
                 {results.personalityType[0] === 'L' ? 'Lone' : 'Social'}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 {results.personalityType[0] === 'L' 
                   ? (language === 'ko' ? '혼자 조용히' : 'Quiet & Solo') 
                   : (language === 'ko' ? '함께 나누며' : 'Share & Connect')}
@@ -218,13 +260,13 @@ function ResultsContent() {
             
             {/* A/R */}
             <div className="text-center">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-2 shadow-sm">
+              <div className="w-12 h-12 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-2 shadow-sm">
                 <span className="font-mono font-bold text-xl text-blue-600">{results.personalityType[1]}</span>
               </div>
-              <p className="text-sm font-medium text-gray-900 mb-1">
+              <p className="text-sm font-medium text-gray-900 dark:text-white mb-1">
                 {results.personalityType[1] === 'A' ? 'Abstract' : 'Representational'}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 {results.personalityType[1] === 'A' 
                   ? (language === 'ko' ? '추상과 감정' : 'Form & Feeling') 
                   : (language === 'ko' ? '현실과 기법' : 'Real & Technique')}
@@ -233,13 +275,13 @@ function ResultsContent() {
             
             {/* E/M */}
             <div className="text-center">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-2 shadow-sm">
+              <div className="w-12 h-12 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-2 shadow-sm">
                 <span className="font-mono font-bold text-xl text-pink-600">{results.personalityType[2]}</span>
               </div>
-              <p className="text-sm font-medium text-gray-900 mb-1">
+              <p className="text-sm font-medium text-gray-900 dark:text-white mb-1">
                 {results.personalityType[2] === 'E' ? 'Emotional' : 'Meaning-driven'}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 {results.personalityType[2] === 'E' 
                   ? (language === 'ko' ? '즉각적 감동' : 'Instant Impact') 
                   : (language === 'ko' ? '의미와 맥락' : 'Context & Meaning')}
@@ -248,13 +290,13 @@ function ResultsContent() {
             
             {/* F/C */}
             <div className="text-center">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-2 shadow-sm">
+              <div className="w-12 h-12 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-2 shadow-sm">
                 <span className="font-mono font-bold text-xl text-green-600">{results.personalityType[3]}</span>
               </div>
-              <p className="text-sm font-medium text-gray-900 mb-1">
+              <p className="text-sm font-medium text-gray-900 dark:text-white mb-1">
                 {results.personalityType[3] === 'F' ? 'Flow' : 'Constructive'}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 {results.personalityType[3] === 'F' 
                   ? (language === 'ko' ? '자유로운 탐험' : 'Free Explore') 
                   : (language === 'ko' ? '체계적 접근' : 'Systematic Way')}
@@ -290,7 +332,7 @@ function ResultsContent() {
           
           <button
             onClick={() => router.push('/personality-overview')}
-            className="flex items-center justify-center gap-2 px-4 sm:px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 rounded-lg hover:border-gray-400 transition-colors font-medium text-sm sm:text-base"
+            className="flex items-center justify-center gap-2 px-4 sm:px-6 py-3 bg-white dark:bg-slate-700 border-2 border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-200 rounded-lg hover:border-gray-400 dark:hover:border-slate-500 transition-colors font-medium text-sm sm:text-base"
           >
             <Palette size={18} />
             {language === 'ko' ? '모든 유형 보기' : 'All Types'}
@@ -304,14 +346,14 @@ function ResultsContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2 }}
-          className="bg-white rounded-2xl border border-gray-200 overflow-hidden"
+          className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 overflow-hidden"
         >
           {/* Nature 설명 */}
           <div className="p-8 border-b border-gray-200">
             <h3 className="text-2xl font-serif font-bold text-gray-900 mb-4">
               {language === 'ko' ? '당신의 예술적 자아' : 'Your Artistic Nature'}
             </h3>
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
               {language === 'ko' && personality.essence_ko ? personality.essence_ko : personality.essence}
             </p>
           </div>
@@ -322,8 +364,8 @@ function ResultsContent() {
               onClick={() => setActiveTab('strengths')}
               className={`flex-1 py-4 px-6 font-medium transition-all duration-200 relative group ${
                 activeTab === 'strengths' 
-                  ? 'text-purple-600 bg-gradient-to-t from-purple-50 to-transparent' 
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                  ? 'text-purple-600 bg-gradient-to-t from-purple-50 dark:from-purple-900/30 to-transparent' 
+                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-slate-700'
               }`}
             >
               <div className="flex items-center justify-center gap-2">
@@ -342,8 +384,8 @@ function ResultsContent() {
               onClick={() => setActiveTab('challenges')}
               className={`flex-1 py-4 px-6 font-medium transition-all duration-200 relative group ${
                 activeTab === 'challenges' 
-                  ? 'text-purple-600 bg-gradient-to-t from-purple-50 to-transparent' 
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                  ? 'text-purple-600 bg-gradient-to-t from-purple-50 dark:from-purple-900/30 to-transparent' 
+                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-slate-700'
               }`}
             >
               <div className="flex items-center justify-center gap-2">
@@ -362,8 +404,8 @@ function ResultsContent() {
               onClick={() => setActiveTab('growth')}
               className={`flex-1 py-4 px-6 font-medium transition-all duration-200 relative group ${
                 activeTab === 'growth' 
-                  ? 'text-purple-600 bg-gradient-to-t from-purple-50 to-transparent' 
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                  ? 'text-purple-600 bg-gradient-to-t from-purple-50 dark:from-purple-900/30 to-transparent' 
+                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-slate-700'
               }`}
             >
               <div className="flex items-center justify-center gap-2">
@@ -396,14 +438,14 @@ function ResultsContent() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="flex gap-4 p-3 rounded-lg hover:bg-purple-50 transition-colors"
+                    className="flex gap-4 p-3 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors"
                   >
                     <div className="text-2xl flex-shrink-0">{strength.icon}</div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-1">
+                      <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
                         {language === 'ko' && strength.title_ko ? strength.title_ko : strength.title}
                       </h4>
-                      <p className="text-gray-600 text-sm leading-relaxed">
+                      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                         {language === 'ko' && strength.description_ko ? strength.description_ko : strength.description}
                       </p>
                     </div>
@@ -426,7 +468,7 @@ function ResultsContent() {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="flex items-start gap-3 p-3 rounded-lg hover:bg-orange-50 transition-colors"
+                    className="flex items-start gap-3 p-3 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-colors"
                   >
                     <span className="text-orange-500 mt-0.5 text-lg">⚡</span>
                     <span className="text-gray-700 leading-relaxed">{challenge}</span>
@@ -451,7 +493,7 @@ function ResultsContent() {
                     transition={{ delay: index * 0.1 }}
                     className="p-5 bg-gradient-to-br from-green-50 to-teal-50 rounded-xl border border-green-200"
                   >
-                    <h5 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                    <h5 className="font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
                       <span className="text-xl">{growthItem.icon}</span>
                       {language === 'ko' && growthItem.title_ko ? growthItem.title_ko : growthItem.title}
                     </h5>
@@ -474,9 +516,9 @@ function ResultsContent() {
           transition={{ delay: 1.4 }}
           className="text-center"
         >
-          <p className="text-lg text-gray-700 italic">
+          <p className="text-lg text-gray-700 dark:text-gray-300 italic">
             {language === 'ko' ? '💫 예술이 당신의 일상에 스며드는 방식: ' : '💫 How art flows into your daily life: '}
-            <span className="font-medium">
+            <span className="font-medium text-gray-800 dark:text-gray-200">
               {language === 'ko' && personality.lifeExtension_ko 
                 ? personality.lifeExtension_ko 
                 : personality.lifeExtension}
@@ -492,20 +534,18 @@ function ResultsContent() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.6 }}
         >
-          <h2 className="text-3xl font-serif font-bold text-center text-gray-900 mb-8">
+          <h2 className="text-3xl font-serif font-bold text-center text-gray-900 dark:text-white mb-8">
             {language === 'ko' ? '당신과 연결된 아티스트' : 'Artists Connected to You'}
           </h2>
           
           {/* 아티스트 3명 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 items-stretch">
             {artistsToShow.map((artistName: string, index: number) => {
-              const artwork = artworksArray[index];
+              const artwork = artistArtworks[index];
               
-              // personality-descriptions에서 작가 정보 찾기
-              const artistInfo = personality.recommendedArtists?.find(
-                (a: any) => a.name.toLowerCase().includes(artistName.toLowerCase()) ||
-                            artistName.toLowerCase().includes(a.name.toLowerCase())
-              );
+              // 새로운 작가 정보 시스템에서 정보 가져오기
+              const artistInfo = ARTIST_DETAILS[artistName as keyof typeof ARTIST_DETAILS];
+              const artistMatching = getArtistsForPersonality(results.personalityType);
               
               return (
                 <motion.div
@@ -513,25 +553,25 @@ function ResultsContent() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.7 + index * 0.1 }}
-                  className="overflow-hidden"
+                  className="overflow-hidden h-full flex flex-col"
                 >
-                  <ArtworkCard
-                    image={artwork?.cdn_url || artwork?.imageUrl || artwork?.thumbnailUrl || `https://via.placeholder.com/400x500.png?text=${encodeURIComponent(artistName)}`}
-                    title={artwork?.title || artistName}
-                    artist={artistName}
-                    description={
-                      artistInfo 
-                        ? (language === 'ko' && artistInfo.whyYouConnect_ko ? artistInfo.whyYouConnect_ko : artistInfo.whyYouConnect)
-                        : (language === 'ko' ? '당신의 예술적 성향과 잘 맞는 작가입니다' : 'An artist that matches your artistic personality')
-                    }
-                    emotionalTag={
-                      artistInfo
-                        ? (language === 'ko' && artistInfo.emotionalTag_ko ? artistInfo.emotionalTag_ko : artistInfo.emotionalTag)
-                        : (language === 'ko' ? '특별한 연결' : 'Special connection')
-                    }
-                    personality={results.personalityType}
-                    delay={index * 0.1}
-                  />
+                  <div className="h-full flex flex-col">
+                    <ArtworkCard
+                      image={artwork?.imageUrl || artwork?.cloudinaryUrl || `https://via.placeholder.com/400x500.png?text=${encodeURIComponent(artistName)}`}
+                      title={artwork?.title || `${artistName}의 작품`}
+                      artist={artistName}
+                      description={
+                        language === 'ko' 
+                          ? `${artistInfo?.description || '당신의 성격과 잘 맞는 작가입니다.'} (${artistMatching.reasoning})`
+                          : `${artistInfo?.description || 'An artist that matches your artistic personality.'} (${artistMatching.reasoning})`
+                      }
+                      emotionalTag={
+                        artistInfo?.style || (language === 'ko' ? '특별한 연결' : 'Special connection')
+                      }
+                      personality={results.personalityType}
+                      delay={index * 0.1}
+                    />
+                  </div>
                 </motion.div>
               );
             })}
@@ -567,7 +607,7 @@ function ResultsContent() {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto px-4 text-center"
           >
-            <h2 className="text-3xl font-serif font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-serif font-bold text-gray-900 dark:text-white mb-4">
               {language === 'ko' 
                 ? '더 많은 예술 경험을 원하시나요?' 
                 : 'Want More Art Experiences?'}
@@ -587,7 +627,7 @@ function ResultsContent() {
               </button>
               <button
                 onClick={() => router.push('/login')}
-                className="px-8 py-4 bg-white text-gray-700 border-2 border-gray-300 rounded-lg hover:border-gray-400 transition-colors font-medium text-lg"
+                className="px-8 py-4 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-200 border-2 border-gray-300 dark:border-slate-600 rounded-lg hover:border-gray-400 dark:hover:border-slate-500 transition-colors font-medium text-lg"
               >
                 {language === 'ko' ? '로그인' : 'Login'}
               </button>
@@ -639,7 +679,7 @@ function ResultsContent() {
 export default function ResultsPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-slate-900 flex items-center justify-center">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}

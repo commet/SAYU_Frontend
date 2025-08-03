@@ -73,36 +73,8 @@ export function FloatingDock({
       className="fixed bottom-8 right-8 z-50 hidden md:block"
     >
       <div className="flex items-center gap-2 p-2 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-full shadow-lg border border-gray-200 dark:border-gray-700">
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-          <Button
-            size="icon"
-            variant="ghost"
-            className="rounded-full"
-            onClick={onShuffle}
-            title="작품 순서 섞기"
-          >
-            <Shuffle className="w-4 h-4" />
-          </Button>
-        </motion.div>
-        
-        <div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
-        
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-          <Button
-            size="icon"
-            variant="ghost"
-            className="rounded-full"
-            onClick={onFilter}
-            title="고급 필터"
-          >
-            <Filter className="w-4 h-4" />
-          </Button>
-        </motion.div>
-        
-        <div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
-        
         <div className="flex gap-1">
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
               size="icon"
               variant={currentLayout === 'masonry' ? 'default' : 'ghost'}
@@ -113,7 +85,7 @@ export function FloatingDock({
               <LayoutGrid className="w-3 h-3" />
             </Button>
           </motion.div>
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
               size="icon"
               variant={currentLayout === 'grid' ? 'default' : 'ghost'}
@@ -124,7 +96,7 @@ export function FloatingDock({
               <Palette className="w-3 h-3" />
             </Button>
           </motion.div>
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
               size="icon"
               variant={currentLayout === 'list' ? 'default' : 'ghost'}
@@ -136,6 +108,32 @@ export function FloatingDock({
             </Button>
           </motion.div>
         </div>
+        
+        <div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
+        
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="rounded-full"
+            onClick={onFilter}
+            title="고급 필터"
+          >
+            <Filter className="w-4 h-4" />
+          </Button>
+        </motion.div>
+        
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="rounded-full"
+            onClick={onShuffle}
+            title="작품 순서 섞기"
+          >
+            <Shuffle className="w-4 h-4" />
+          </Button>
+        </motion.div>
       </div>
     </motion.div>
   );
@@ -220,18 +218,18 @@ export function GalleryStats({
     <div className={cn("flex items-center gap-4 text-sm", className)}>
       <div className="flex items-center gap-1.5">
         <Sparkles className="w-4 h-4 text-purple-500" />
-        <span className="font-medium">{totalArtworks}</span>
-        <span className="text-gray-500">작품</span>
+        <span className="font-medium text-gray-700 dark:text-gray-200">{totalArtworks}</span>
+        <span className="text-gray-500 dark:text-gray-400">작품</span>
       </div>
       <div className="w-px h-4 bg-gray-300 dark:bg-gray-600" />
       <div className="flex items-center gap-1.5">
         <span className="text-red-500">♥</span>
-        <span className="font-medium">{likedCount}</span>
+        <span className="font-medium text-gray-700 dark:text-gray-200">{likedCount}</span>
       </div>
       <div className="w-px h-4 bg-gray-300 dark:bg-gray-600" />
       <div className="flex items-center gap-1.5">
         <span className="text-blue-500">👁</span>
-        <span className="font-medium">{viewedCount}</span>
+        <span className="font-medium text-gray-700 dark:text-gray-200">{viewedCount}</span>
       </div>
     </div>
   );

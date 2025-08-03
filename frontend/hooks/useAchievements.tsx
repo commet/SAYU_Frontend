@@ -62,7 +62,7 @@ export function useAchievements() {
 
   // Fetch all achievements
   const fetchAchievements = useCallback(async () => {
-    if (!user) return;
+    if (!user || !process.env.NEXT_PUBLIC_API_URL) return;
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/achievements`, {
@@ -80,7 +80,7 @@ export function useAchievements() {
 
   // Fetch achievement stats
   const fetchStats = useCallback(async () => {
-    if (!user) return;
+    if (!user || !process.env.NEXT_PUBLIC_API_URL) return;
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/achievements/stats`, {
@@ -99,7 +99,7 @@ export function useAchievements() {
 
   // Update user progress
   const updateProgress = useCallback(async (action: string, metadata: Record<string, any> = {}) => {
-    if (!user) return;
+    if (!user || !process.env.NEXT_PUBLIC_API_URL) return;
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/achievements/progress`, {
@@ -124,7 +124,7 @@ export function useAchievements() {
 
   // Get recent achievements
   const fetchRecentAchievements = useCallback(async (limit = 5) => {
-    if (!user) return [];
+    if (!user || !process.env.NEXT_PUBLIC_API_URL) return [];
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/achievements/recent?limit=${limit}`, {

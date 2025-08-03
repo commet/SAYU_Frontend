@@ -315,6 +315,38 @@
   ::selection {
     background-color: hsl(var(--primary) / 0.2);
   }
+  
+  /* Custom scrollbar for gallery */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(147, 51, 234, 0.3) transparent;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(147, 51, 234, 0.3);
+    border-radius: 3px;
+    transition: background 0.2s;
+  }
+  
+  .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+    background: rgba(147, 51, 234, 0.5);
+  }
+  
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(168, 85, 247, 0.3);
+  }
+  
+  .dark .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+    background: rgba(168, 85, 247, 0.5);
+  }
 }
 
 /* 🎨 COMPONENT LAYER - REUSABLE UI PATTERNS */
@@ -344,6 +376,17 @@
   .glass:hover {
     box-shadow: var(--glass-shadow-hover);
     transform: translateY(-2px);
+  }
+  
+  /* Masonry Grid */
+  .masonry-grid {
+    column-fill: balance;
+    column-gap: 1rem;
+  }
+  
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1rem;
   }
   
   /* Card system */

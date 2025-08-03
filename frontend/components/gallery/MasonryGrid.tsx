@@ -28,25 +28,26 @@ export function MasonryGrid({
     lg: 'gap-6 md:gap-8'
   };
 
+  // Generate column classes based on breakpoints
+  const columnClasses = cn(
+    // Default
+    `columns-${columns.default}`,
+    // Small screens
+    columns.sm && `sm:columns-${columns.sm}`,
+    // Medium screens
+    columns.md && `md:columns-${columns.md}`,
+    // Large screens
+    columns.lg && `lg:columns-${columns.lg}`
+  );
+
   return (
     <div 
       className={cn(
         "masonry-grid",
+        columnClasses,
         gapClasses[gap],
         className
       )}
-      style={{
-        columnCount: columns.default,
-        [`@media (min-width: 640px)`]: {
-          columnCount: columns.sm || columns.default
-        },
-        [`@media (min-width: 768px)`]: {
-          columnCount: columns.md || columns.sm || columns.default
-        },
-        [`@media (min-width: 1024px)`]: {
-          columnCount: columns.lg || columns.md || columns.sm || columns.default
-        }
-      } as React.CSSProperties}
     >
       <AnimatePresence>
         {children}

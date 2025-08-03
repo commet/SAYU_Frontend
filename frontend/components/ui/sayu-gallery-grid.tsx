@@ -38,6 +38,7 @@ interface SayuGalleryGridProps {
   };
   showPerceptionPreview?: boolean;
   enableGlareEffect?: boolean;
+  hideActions?: boolean;
   className?: string;
 }
 
@@ -65,6 +66,7 @@ export function SayuGalleryGrid({
   columns = { mobile: 2, tablet: 3, desktop: 4 },
   showPerceptionPreview = true,
   enableGlareEffect = true,
+  hideActions = false,
   className
 }: SayuGalleryGridProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -123,7 +125,7 @@ export function SayuGalleryGrid({
         style={{
           height: layout === "masonry" ? cardHeight : "auto",
           boxShadow: isHovered ? boxShadow.artCardHover : boxShadow.artCard,
-          transform: isHovered ? "translateY(-4px)" : "translateY(0)"
+          transform: isHovered ? "translateY(-2px)" : "translateY(0)"
         }}
         onMouseEnter={() => setHoveredId(artwork.id)}
         onMouseLeave={() => setHoveredId(null)}
@@ -158,7 +160,7 @@ export function SayuGalleryGrid({
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
             className={cn(
               "object-cover transition-all duration-700",
-              isHovered ? "scale-110" : "scale-100",
+              isHovered ? "scale-105" : "scale-100",
               !isLoaded && "opacity-0"
             )}
             onLoad={() => handleImageLoad(artwork.id)}
@@ -173,6 +175,7 @@ export function SayuGalleryGrid({
           )} />
 
           {/* Quick actions - 이미지 내부 상단에 위치 */}
+          {!hideActions && (
           <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-y-2 group-hover:translate-y-0 z-10">
             <motion.button
               whileHover={{ scale: 1.1 }}
@@ -227,6 +230,7 @@ export function SayuGalleryGrid({
               </motion.button>
             )}
           </div>
+          )}
 
           {/* View count badge */}
           {artwork.viewCount && artwork.viewCount > 0 && (

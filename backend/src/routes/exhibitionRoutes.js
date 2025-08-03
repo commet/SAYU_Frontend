@@ -91,6 +91,38 @@ router.get('/exhibitions/popular',
   exhibitionController.getPopularExhibitions
 );
 
+// 진행중인 전시 조회
+router.get('/exhibitions/ongoing',
+  exhibitionLimiter,
+  exhibitionQueryValidation,
+  handleExhibitionValidationResult,
+  exhibitionController.getOngoingExhibitions
+);
+
+// 다가오는 전시 조회
+router.get('/exhibitions/upcoming',
+  exhibitionLimiter,
+  exhibitionQueryValidation,
+  handleExhibitionValidationResult,
+  exhibitionController.getUpcomingExhibitions
+);
+
+// 트렌딩 전시 조회
+router.get('/exhibitions/trending',
+  exhibitionLimiter,
+  exhibitionQueryValidation,
+  handleExhibitionValidationResult,
+  exhibitionController.getTrendingExhibitions
+);
+
+// SAYU 개성별 추천 전시
+router.get('/exhibitions/personality-recommendations',
+  exhibitionLimiter,
+  exhibitionQueryValidation,
+  handleExhibitionValidationResult,
+  exhibitionController.getPersonalityRecommendations
+);
+
 // 장소(venue) 목록 조회
 router.get('/venues',
   exhibitionLimiter,
