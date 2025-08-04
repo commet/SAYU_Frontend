@@ -1,12 +1,12 @@
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 
-let supabaseInstance: ReturnType<typeof createSupabaseClient> | null = null;
+let supabaseClient: ReturnType<typeof createSupabaseClient> | null = null;
 
 export function createClient() {
-  if (typeof window !== 'undefined' && supabaseInstance) {
-    return supabaseInstance;
+  if (supabaseClient) {
+    return supabaseClient;
   }
-  
+
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   
@@ -14,30 +14,16 @@ export function createClient() {
     throw new Error('Missing Supabase environment variables');
   }
   
-  supabaseInstance = createSupabaseClient(supabaseUrl, supabaseAnonKey, {
+  supabaseClient = createSupabaseClient(supabaseUrl, supabaseAnonKey, {
     auth: {
       persistSession: true,
       autoRefreshToken: true,
-      storage: {
-        getItem: (key) => {
-          if (typeof window !== 'undefined') {
-            return window.localStorage.getItem(key);
-          }
-          return null;
-        },
-        setItem: (key, value) => {
-          if (typeof window !== 'undefined') {
-            window.localStorage.setItem(key, value);
-          }
-        },
-        removeItem: (key) => {
-          if (typeof window !== 'undefined') {
-            window.localStorage.removeItem(key);
-          }
-        },
-      },
+      detectSessionInUrl: true,
+      flowType: 'pkce',
+      storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+      storageKey: 'sayu-auth',
     }
   });
-  
-  return supabaseInstance;
+
+  return supabaseClient;
 }

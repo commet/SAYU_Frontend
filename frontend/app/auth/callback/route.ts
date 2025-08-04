@@ -9,17 +9,31 @@ export async function GET(request: Request) {
   const error = requestUrl.searchParams.get('error');
   const errorDescription = requestUrl.searchParams.get('error_description');
   const next = requestUrl.searchParams.get('next') ?? '/dashboard';
+  const errorCode = requestUrl.searchParams.get('error_code');
   
   console.log('Auth callback params:', { 
     code: code ? 'present' : 'missing', 
     error, 
     errorDescription: errorDescription ? decodeURIComponent(errorDescription) : null,
-    next 
+    errorCode,
+    next,
+    fullUrl: request.url
   });
 
   // Handle OAuth errors
   if (error) {
-    console.error('OAuth error:', error, errorDescription);
+    console.error('OAuth error:', error, errorDescription, errorCode);
+    
+    // Handle specific OAuth errors
+    if (error === 'access_denied') {
+      console.log('User denied access');
+      return NextResponse.redirect(new URL('/login?error=access_denied', requestUrl.origin));
+    }
+    
+    if (error === 'server_error' || errorDescription?.includes('Internal Server Error')) {
+      console.log('Server error - likely OAuth configuration issue');
+      return NextResponse.redirect(new URL('/login?error=server_error', requestUrl.origin));
+    }
     
     // Special handling for Instagram email error
     if (errorDescription?.includes('Error getting user email from external provider')) {

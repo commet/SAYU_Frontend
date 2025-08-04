@@ -9,25 +9,47 @@ export default function AuthCallbackPage() {
 
   useEffect(() => {
     const handleCallback = async () => {
+      console.log('Auth callback - Starting...');
+      console.log('URL:', window.location.href);
+      
       const supabase = createClient();
       
-      // Check if we have hash parameters (for implicit flow)
-      const hashParams = new URLSearchParams(window.location.hash.substring(1));
-      const accessToken = hashParams.get('access_token');
-      
-      if (accessToken) {
-        // Handle the OAuth callback
-        const { error } = await supabase.auth.getSession();
+      // Supabase redirects with hash fragment
+      if (window.location.hash) {
+        console.log('Auth callback - Found hash fragment:', window.location.hash);
         
-        if (!error) {
-          // Successfully authenticated, redirect to dashboard
+        // Wait for Supabase to process the hash
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Get session
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error('Auth callback - Error getting session:', error);
+          router.push('/login?error=' + encodeURIComponent(error.message));
+          return;
+        }
+        
+        if (data.session) {
+          console.log('Auth callback - Session found:', data.session.user.email);
+          
+          // Migrate quiz results after successful login
+          try {
+            const { migrateLocalQuizResults } = await import('@/lib/quiz-api');
+            await migrateLocalQuizResults();
+            console.log('Quiz results migrated successfully');
+          } catch (error) {
+            console.error('Failed to migrate quiz results:', error);
+          }
+          
+          // Redirect to dashboard
           router.push('/dashboard');
         } else {
-          console.error('Auth callback error:', error);
-          router.push('/login?error=auth_failed');
+          console.log('Auth callback - No session found after waiting');
+          router.push('/login');
         }
       } else {
-        // No access token, redirect to login
+        console.log('Auth callback - No hash fragment found');
         router.push('/login');
       }
     };

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Save Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        button { margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
+        .log { background: #f0f0f0; padding: 10px; margin: 10px 0; font-family: monospace; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Quiz Results 저장 테스트 (Console 버전)</h1>
+    
+    <h2>브라우저 콘솔(F12)을 열고 아래 버튼들을 클릭하세요:</h2>
+    
+    <button onclick="checkLocalStorage()">1. localStorage 확인</button>
+    <button onclick="checkMigration()">2. 마이그레이션 확인</button>
+    <button onclick="clearLocalStorage()">3. localStorage 초기화</button>
+    
+    <div id="log" class="log"></div>
+
+    <script>
+        function log(message, isError = false) {
+            const logDiv = document.getElementById('log');
+            const time = new Date().toLocaleTimeString();
+            const className = isError ? 'error' : 'success';
+            logDiv.innerHTML += `<div class="${className}">${time}: ${message}</div>`;
+            console.log(message);
+        }
+
+        function checkLocalStorage() {
+            const data = localStorage.getItem('quizResults');
+            if (data) {
+                const parsed = JSON.parse(data);
+                log('✅ localStorage에 퀴즈 결과 있음:');
+                log('Type: ' + parsed.personalityType);
+                log('Completed: ' + parsed.completedAt);
+                console.log('Full data:', parsed);
+            } else {
+                log('❌ localStorage에 퀴즈 결과 없음', true);
+            }
+        }
+
+        function checkMigration() {
+            log('콘솔에서 다음 명령어를 실행하세요:');
+            log('1. 로그인 전: localStorage.getItem("quizResults")');
+            log('2. 로그인 후: Network 탭에서 /api/quiz/results POST 요청 확인');
+            log('3. Console에서 "Quiz results migrated successfully" 메시지 확인');
+        }
+
+        function clearLocalStorage() {
+            if (confirm('정말로 localStorage의 퀴즈 결과를 삭제하시겠습니까?')) {
+                localStorage.removeItem('quizResults');
+                log('✅ localStorage 초기화 완료');
+            }
+        }
+
+        // 페이지 로드 시 자동 체크
+        window.onload = () => {
+            log('페이지 로드 완료');
+            checkLocalStorage();
+        };
+    </script>
+</body>
+</html>

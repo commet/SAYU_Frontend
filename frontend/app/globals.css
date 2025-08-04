@@ -791,3 +791,14 @@
     padding: var(--spacing-sm);
   }
 }
+
+/* Results page subtitle text - prevent awkward line breaks */
+.subtitle-text {
+  white-space: normal;
+}
+
+@media (min-width: 1280px) {
+  .subtitle-text {
+    white-space: nowrap;
+  }
+}

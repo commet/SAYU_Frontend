@@ -4,6 +4,7 @@ import './globals.css'
 import { Providers } from './providers'
 import FloatingNav from '@/components/navigation/FloatingNav'
 import { SystemInitializer, PerformanceMonitor, SpatialPreloader } from '@/components/system/SystemInitializer'
+import { ProgressivePrompt } from '@/components/onboarding/ProgressivePrompt'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -99,6 +100,7 @@ export default function RootLayout({
           <main className="pt-4 bg-gray-900">
             {children}
           </main>
+          <ProgressivePrompt />
         </Providers>
       </body>
     </html>

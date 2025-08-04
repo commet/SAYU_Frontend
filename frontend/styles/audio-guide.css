@@ -400,6 +400,7 @@
   backdrop-filter: blur(4px);
   padding: 1rem 2rem;
   border-radius: 12px;
+  word-break: keep-all; /* Korean text line break control */
 }
 
 @media (max-width: 768px) {
@@ -707,7 +708,7 @@
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  width: 240px;
+  width: 260px;
   background: rgba(20, 20, 20, 0.95);
   border-radius: 16px;
   padding: 0.75rem;
@@ -755,7 +756,7 @@
   background: rgba(255, 255, 255, 0.96);
   border: 2px solid rgba(212, 165, 116, 0.3);
   border-radius: 12px;
-  padding: 1.25rem;
+  padding: 1.25rem 1.5rem;
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.1),
     inset 0 0 0 1px rgba(255, 255, 255, 0.2);
@@ -763,6 +764,12 @@
   transition: all 0.3s ease;
   text-align: left;
   min-height: 90px;
+}
+
+/* Korean text line break control */
+.choice-card-fixed h4 {
+  word-break: keep-all;
+  line-height: 1.6;
 }
 
 .choice-card-fixed:hover {

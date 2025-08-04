@@ -26,7 +26,7 @@ export default function ProfileSettingsModal({
   onUpdate 
 }: ProfileSettingsModalProps) {
   const { language } = useLanguage();
-  const { logout } = useAuth();
+  const { signOut } = useAuth();
   const [nickname, setNickname] = useState(userInfo.nickname || '');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -46,9 +46,14 @@ export default function ProfileSettingsModal({
     }
   };
 
-  const handleLogout = () => {
-    logout();
-    onClose();
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      toast.success(language === 'ko' ? '로그아웃되었습니다' : 'Logged out successfully');
+      window.location.href = '/';
+    } catch (error) {
+      toast.error(language === 'ko' ? '로그아웃 실패' : 'Logout failed');
+    }
   };
 
   return (

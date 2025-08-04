@@ -1,4 +1,4 @@
-import { useEffect, useState, createContext, useContext } from 'react';
+import { useEffect, useState, createContext, useContext, useMemo } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { User, Session } from '@supabase/supabase-js';
 import { Database } from '@/lib/supabase/database.types';
@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   // Helper function to create AuthUser from Supabase User and UserProfile
   const createAuthUser = (supabaseUser: User, userProfile: UserProfile | null): AuthUser => {
@@ -127,7 +127,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         // Get initial session
         console.log('useAuth - Getting initial session...');
+        console.log('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
+        
+        // Get session
         const { data: { session }, error } = await supabase.auth.getSession();
+        console.log('useAuth - getSession completed:', { session: session?.user?.email, error });
         
         if (error) {
           console.error('useAuth - Session error:', error);
@@ -210,7 +214,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
 
       // Handle auth events
-      console.log('Auth event:', event, 'Session:', !!session);
+      console.log('Auth event:', event, 'Session:', !!session, 'User:', session?.user?.email);
       
       // Only redirect on explicit sign out, not on session refresh or token refresh
       if (event === 'SIGNED_OUT') {
@@ -240,6 +244,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     
     console.log('Sign in successful:', data);
+    
+    // Migrate localStorage quiz results to backend after successful login
+    try {
+      const { migrateLocalQuizResults } = await import('@/lib/quiz-api');
+      await migrateLocalQuizResults();
+      console.log('Quiz results migrated successfully');
+    } catch (error) {
+      console.error('Failed to migrate quiz results:', error);
+      // Don't throw - login was successful
+    }
   };
 
   const signUp = async (email: string, password: string, metadata?: any) => {

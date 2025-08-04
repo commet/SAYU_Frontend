@@ -44,7 +44,8 @@ function LoginContent() {
         google_auth_failed: { en: 'Google authentication failed.', ko: '구글 인증에 실패했습니다.' },
         github_auth_failed: { en: 'GitHub authentication failed.', ko: '깃허브 인증에 실패했습니다.' },
         apple_auth_failed: { en: 'Apple authentication failed.', ko: '애플 인증에 실패했습니다.' },
-        server_error: { en: 'Instagram login failed. This is a known limitation.', ko: 'Instagram 로그인에 실패했습니다. 알려진 제한사항입니다.' }
+        server_error: { en: 'Instagram login failed. Please check if Instagram/Facebook app is configured correctly in Supabase.', ko: 'Instagram 로그인에 실패했습니다. Supabase에서 Instagram/Facebook 앱이 올바르게 설정되었는지 확인해주세요.' },
+        access_denied: { en: 'Access denied. You cancelled the login.', ko: '접근이 거부되었습니다. 로그인을 취소하셨습니다.' }
       };
       const message = errorMessages[error]?.[language] || (language === 'ko' ? '인증 오류' : 'Authentication error');
       toast.error(message);

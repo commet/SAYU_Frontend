@@ -10,47 +10,27 @@ export default function DashboardPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [isProcessingAuth, setIsProcessingAuth] = useState(true);
 
   console.log('Dashboard - Loading:', loading, 'User:', user);
 
   useEffect(() => {
-    // Check if we have auth params in URL hash
-    const checkAuthHash = async () => {
-      if (window.location.hash) {
-        const hashParams = new URLSearchParams(window.location.hash.substring(1));
-        const accessToken = hashParams.get('access_token');
-        
-        if (accessToken) {
-          console.log('Dashboard - Found access token in URL, processing...');
-          // Wait a bit for Supabase to process the token
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          // Clean up the URL
-          window.history.replaceState({}, document.title, window.location.pathname);
-        }
-      }
-      setIsProcessingAuth(false);
-    };
-    
-    checkAuthHash();
-  }, []);
-
-  useEffect(() => {
     // 로딩이 완료되고 사용자가 없을 때만 리디렉션
-    if (loading || isProcessingAuth) return;
+    console.log('Dashboard redirect check - loading:', loading, 'user:', user);
+    
+    if (loading) return;
     
     if (!user) {
       console.log('Dashboard - No user found, redirecting to login');
       router.push('/login');
     }
-  }, [loading, user, router, isProcessingAuth]);
+  }, [loading, user, router]);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 60000);
     return () => clearInterval(timer);
   }, []);
 
-  if (loading || isProcessingAuth) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">

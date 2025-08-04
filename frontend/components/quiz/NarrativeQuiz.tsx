@@ -115,12 +115,26 @@ export const NarrativeQuiz: React.FC = () => {
     const type = calculateEnhancedScore(finalScores, allResponses);
 
     // Store results
-    localStorage.setItem('quizResults', JSON.stringify({
+    const quizData = {
       personalityType: type,
       scores: finalScores,
       responses: allResponses,
       completedAt: new Date().toISOString()
-    }));
+    };
+    
+    localStorage.setItem('quizResults', JSON.stringify(quizData));
+    
+    // Also save to guest storage for progressive onboarding
+    if (typeof window !== 'undefined') {
+      import('@/lib/guest-storage').then(({ GuestStorage }) => {
+        GuestStorage.saveQuizResults(quizData);
+        
+        // Dispatch milestone event for progressive prompt
+        window.dispatchEvent(new CustomEvent('guest-milestone', { 
+          detail: { milestone: 'quiz_completed' }
+        }));
+      });
+    }
 
     // Navigate to results
     router.push(`/results?type=${type}`);

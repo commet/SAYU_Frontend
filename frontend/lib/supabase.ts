@@ -1,10 +1,7 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from './supabase/client';
 
-// Create a single supabase client for interacting with your database
-export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+// Use the singleton client from supabase/client.ts
+export const supabase = createClient();
 
 // Auth helper functions
 export const signInWithProvider = async (provider: 'google' | 'apple' | 'kakao' | 'discord') => {
@@ -38,18 +35,32 @@ export const signInWithProvider = async (provider: 'google' | 'apple' | 'kakao' 
 
 // Instagram 로그인 - Facebook 앱에서 email 권한 활성화됨
 export const signInWithInstagram = async () => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'facebook',
-    options: {
-      redirectTo: `${window.location.origin}/auth/callback`,
-      queryParams: {
-        scope: 'email,public_profile', // Facebook 앱에서 email 권한 활성화함
-      },
-    }
-  });
+  console.log('Starting Instagram/Facebook login...');
+  console.log('Redirect URL:', `${window.location.origin}/auth/callback`);
   
-  if (error) throw error;
-  return data;
+  try {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'facebook',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+        queryParams: {
+          scope: 'email,public_profile', // Facebook 앱에서 email 권한 활성화함
+        },
+      }
+    });
+    
+    console.log('OAuth response:', { data, error });
+    
+    if (error) {
+      console.error('Instagram login error:', error);
+      throw error;
+    }
+    
+    return data;
+  } catch (err) {
+    console.error('Instagram login catch:', err);
+    throw err;
+  }
 };
 
 export const signOut = async () => {

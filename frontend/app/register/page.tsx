@@ -76,12 +76,45 @@ function RegisterContent() {
     
     try {
       await signUp(email, password, { full_name: name });
+      
+      // Migrate guest data if exists
+      if (typeof window !== 'undefined') {
+        const { GuestStorage } = await import('@/lib/guest-storage');
+        const guestData = GuestStorage.getData();
+        
+        if (guestData.quizResults || guestData.savedArtworks.length > 0) {
+          // Save guest data to user's profile after successful login
+          const metadata = {
+            personalityType: guestData.quizResults?.personalityType,
+            guestDataMigrated: true,
+            migratedAt: new Date().toISOString()
+          };
+          
+          // Store for migration after login
+          sessionStorage.setItem('pendingGuestMigration', JSON.stringify({
+            ...GuestStorage.exportForUser(),
+            metadata
+          }));
+        }
+      }
+      
       toast.success(language === 'ko' ? '회원가입 성공!' : 'Registration successful!');
       
       // Try to sign in immediately after signup
       try {
         await signIn(email, password);
-        router.push('/quiz');
+        
+        // Check if coming from specific context
+        const from = searchParams.get('from');
+        const apt = searchParams.get('apt');
+        
+        if (from === 'results' && apt) {
+          router.push(`/results?type=${apt}`);
+        } else if (from === 'quiz_completed') {
+          router.push('/results');
+        } else {
+          router.push('/profile');
+        }
       } catch (signInError) {
         // If auto sign-in fails, redirect to login
         toast.info(language === 'ko' ? '로그인 페이지로 이동합니다' : 'Please login with your credentials');

@@ -62,6 +62,7 @@ const ART_CATEGORIES = [
 
 function GalleryContent() {
   const { user, loading } = useAuth();
+  const { language } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
   const isGuestMode = searchParams?.get('guest') === 'true';
@@ -121,11 +122,23 @@ function GalleryContent() {
     }
   };
 
-  const loadUserPreferences = () => {
-    const liked = localStorage.getItem('likedArtworks');
-    const viewed = localStorage.getItem('viewedArtworks');
-    if (liked) setLikedArtworks(new Set(JSON.parse(liked)));
-    if (viewed) setViewedArtworks(new Set(JSON.parse(viewed)));
+  const loadUserPreferences = async () => {
+    // Check if in guest mode
+    const guestMode = !user || isGuestMode;
+    
+    if (guestMode) {
+      // For guest mode, load from guest storage
+      const { GuestStorage } = await import('@/lib/guest-storage');
+      const guestData = GuestStorage.getData();
+      setLikedArtworks(new Set(guestData.savedArtworks));
+      setViewedArtworks(new Set(guestData.viewedArtworks));
+    } else {
+      // For logged-in users, load from localStorage
+      const liked = localStorage.getItem('likedArtworks');
+      const viewed = localStorage.getItem('viewedArtworks');
+      if (liked) setLikedArtworks(new Set(JSON.parse(liked)));
+      if (viewed) setViewedArtworks(new Set(JSON.parse(viewed)));
+    }
   };
 
   const saveUserPreferences = () => {
@@ -196,12 +209,18 @@ function GalleryContent() {
       // 카테고리별 실제 작품 데이터
       const categoryArtworks: Record<string, any[]> = {
         'all': [
-          { title: '별이 빛나는 밤', artist: '빈센트 반 고흐', year: '1889', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/800px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg' },
-          { title: '모나리자', artist: '레오나르도 다 빈치', year: '1503', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg' },
-          { title: '다비드', artist: '미켈란젤로', year: '1504', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Michelangelo%27s_David_-_63_grijswaarden.jpg/600px-Michelangelo%27s_David_-_63_grijswaarden.jpg' },
-          { title: '진주 귀걸이를 한 소녀', artist: '요하네스 베르메르', year: '1665', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Meisje_met_de_parel.jpg/800px-Meisje_met_de_parel.jpg' },
+          { title: '별이 빛나는 밤', artist: '빈센트 반 고흐', year: '1889', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg' },
+          { title: '모나리자', artist: '레오나르도 다 빈치', year: '1503', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/1280px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg' },
+          { title: '다비드', artist: '미켈란젤로', year: '1504', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Michelangelo%27s_David_-_right_view_2.jpg/600px-Michelangelo%27s_David_-_right_view_2.jpg' },
+          { title: '수련', artist: '클로드 모네', year: '1916', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Claude_Monet_-_Nymph%C3%A9as_-_W1852_-_Mus%C3%A9e_Marmottan-Monet.jpg/1280px-Claude_Monet_-_Nymph%C3%A9as_-_W1852_-_Mus%C3%A9e_Marmottan-Monet.jpg' },
+          { title: '생각하는 사람', artist: '오귀스트 로댕', year: '1902', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Paris_2010_-_Le_Penseur.jpg/600px-Paris_2010_-_Le_Penseur.jpg' },
+          { title: '후지산 36경', artist: '가츠시카 호쿠사이', year: '1831', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/1280px-The_Great_Wave_off_Kanagawa.jpg' },
+          { title: '아를의 침실', artist: '빈센트 반 고흐', year: '1888', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Vincent_van_Gogh_-_The_Bedroom_-_Google_Art_Project.jpg/1280px-Vincent_van_Gogh_-_The_Bedroom_-_Google_Art_Project.jpg' },
+          { title: '인상, 해돋이', artist: '클로드 모네', year: '1872', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/1280px-Monet_-_Impression%2C_Sunrise.jpg' },
+          { title: '아프간 소녀', artist: '스티브 맥커리', year: '1984', imageUrl: 'https://upload.wikimedia.org/wikipedia/en/b/b4/Sharbat_Gula.jpg' },
           { title: '게르니카', artist: '파블로 피카소', year: '1937', imageUrl: 'https://upload.wikimedia.org/wikipedia/en/7/74/PicassoGuernica.jpg' },
-          { title: '수련', artist: '클로드 모네', year: '1916', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Claude_Monet_-_Water_Lilies_-_1906.jpg/1280px-Claude_Monet_-_Water_Lilies_-_1906.jpg' }
+          { title: '진주 귀걸이를 한 소녀', artist: '요하네스 베르메르', year: '1665', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Meisje_met_de_parel.jpg/800px-Meisje_met_de_parel.jpg' },
+          { title: '기억의 지속', artist: '살바도르 달리', year: '1931', imageUrl: 'https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg' }
         ],
         'paintings': [
           { title: '별이 빛나는 밤', artist: '빈센트 반 고흐', year: '1889', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/800px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg' },
@@ -212,9 +231,9 @@ function GalleryContent() {
           { title: '게르니카', artist: '파블로 피카소', year: '1937', imageUrl: 'https://upload.wikimedia.org/wikipedia/en/7/74/PicassoGuernica.jpg' }
         ],
         'sculpture': [
-          { title: '다비드', artist: '미켈란젤로', year: '1504', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Michelangelo%27s_David_-_63_grijswaarden.jpg/600px-Michelangelo%27s_David_-_63_grijswaarden.jpg' },
+          { title: '다비드', artist: '미켈란젤로', year: '1504', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Michelangelo%27s_David_-_right_view_2.jpg/600px-Michelangelo%27s_David_-_right_view_2.jpg' },
           { title: '피에타', artist: '미켈란젤로', year: '1499', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Michelangelo%27s_Pieta_5450_cropncleaned_edit.jpg/800px-Michelangelo%27s_Pieta_5450_cropncleaned_edit.jpg' },
-          { title: '생각하는 사람', artist: '오귀스트 로댕', year: '1902', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/The_Thinker%2C_Auguste_Rodin.jpg/800px-The_Thinker%2C_Auguste_Rodin.jpg' },
+          { title: '생각하는 사람', artist: '오귀스트 로댕', year: '1902', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Paris_2010_-_Le_Penseur.jpg/600px-Paris_2010_-_Le_Penseur.jpg' },
           { title: '자유의 여신상', artist: '프레데릭 오귀스트 바르톨디', year: '1886', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Statue_of_Liberty_7.jpg/800px-Statue_of_Liberty_7.jpg' }
         ],
         'photography': [
@@ -267,11 +286,6 @@ function GalleryContent() {
   };
 
   const handleLike = async (artworkId: string) => {
-    if (effectiveGuestMode) {
-      toast.success('Sign up to save favorites!');
-      return;
-    }
-
     const newLiked = new Set(likedArtworks);
     const isLiking = !newLiked.has(artworkId);
     
@@ -284,7 +298,27 @@ function GalleryContent() {
     }
     
     setLikedArtworks(newLiked);
-    saveUserPreferences();
+    
+    // Save to guest storage if in guest mode
+    if (effectiveGuestMode) {
+      const { GuestStorage } = await import('@/lib/guest-storage');
+      if (isLiking) {
+        GuestStorage.addSavedArtwork(artworkId);
+      } else {
+        GuestStorage.removeSavedArtwork(artworkId);
+      }
+      
+      // Show prompt after first save
+      if (isLiking && GuestStorage.getData().savedArtworks.length === 1) {
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('guest-milestone', { 
+            detail: { milestone: 'first_save' }
+          }));
+        }, 1000);
+      }
+    } else {
+      saveUserPreferences();
+    }
   };
 
   const handleView = async (artworkId: string) => {
@@ -522,26 +556,20 @@ function GalleryContent() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h2 className="text-xl font-semibold mb-1 text-white">
-                내 아트 아카이빙
+                {language === 'ko' ? '내 아트 아카이빙' : 'My Art Collection'}
               </h2>
               <p className="text-sm text-slate-400">
-                지금까지 수집한 작품들을 한눈에 볼 수 있습니다 
-                (작품 수: {galleryArtworks.length}, 로딩: {loading_artworks ? 'Yes' : 'No'})
+                {language === 'ko' 
+                  ? '지금까지 수집한 작품들을 한눈에 볼 수 있습니다'
+                  : 'View all the artworks you\'ve collected'}
               </p>
             </div>
             <Button variant="ghost" size="sm" className="rounded-full text-slate-400 hover:text-white hover:bg-slate-800">
-              모두 보기 <ChevronRight className="w-4 h-4 ml-1" />
+              {language === 'ko' ? '모두 보기' : 'View All'} <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
         </div>
 
-        {/* 디버깅 정보 */}
-        <div className="mb-4 p-4 bg-slate-800 rounded-lg text-white text-sm">
-          <p>🔍 Debug Info:</p>
-          <p>• loading_artworks: {loading_artworks ? 'true' : 'false'}</p>
-          <p>• galleryArtworks.length: {galleryArtworks.length}</p>
-          <p>• selectedCategory: {selectedCategory}</p>
-        </div>
 
         {/* Gallery Grid */}
         {loading_artworks ? (
@@ -617,17 +645,19 @@ function GalleryContent() {
           <div className="mt-8 p-6 bg-slate-800 rounded-xl border border-slate-700">
             <div className="text-center">
               <h3 className="text-lg font-bold text-white mb-2">
-                🎨 Unlock Your Personal Art Journey
+                🎨 {language === 'ko' ? '나만의 예술 여정을 시작하세요' : 'Unlock Your Personal Art Journey'}
               </h3>
               <p className="text-slate-400 mb-4">
-                Take our personality quiz to get curated recommendations, save favorites, and discover art that truly resonates with you.
+                {language === 'ko' 
+                  ? '성격 테스트를 통해 맞춤 추천을 받고, 좋아하는 작품을 저장하고, 당신과 공명하는 예술을 발견하세요.'
+                  : 'Take our personality quiz to get curated recommendations, save favorites, and discover art that truly resonates with you.'}
               </p>
               <div className="flex justify-center gap-3">
                 <Button onClick={() => router.push('/quiz')} className="bg-purple-600 hover:bg-purple-700">
-                  Take Personality Quiz
+                  {language === 'ko' ? '성격 테스트 하기' : 'Take Personality Quiz'}
                 </Button>
                 <Button onClick={() => router.push('/register')} variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700">
-                  Create Free Account
+                  {language === 'ko' ? '무료 계정 만들기' : 'Create Free Account'}
                 </Button>
               </div>
             </div>
@@ -638,12 +668,12 @@ function GalleryContent() {
         <div className="mt-8 p-4 bg-slate-800/50 rounded-lg text-sm border border-slate-700">
           <p className="flex items-center gap-2 mb-2 text-slate-300">
             <ExternalLink className="w-4 h-4" />
-            <strong>Artwork Collection</strong>
+            <strong>{language === 'ko' ? '작품 컬렉션' : 'Artwork Collection'}</strong>
           </p>
           <p className="text-slate-400">
-            This gallery features artworks from The Metropolitan Museum of Art&apos;s Open Access collection, 
-            available under the Creative Commons Zero (CC0) license. All displayed artworks are in the 
-            public domain and free to use.
+            {language === 'ko' 
+              ? '이 갤러리는 메트로폴리탄 미술관의 오픈 액세스 컬렉션 작품들을 선보입니다. 모든 작품은 크리에이티브 커먼즈 제로(CC0) 라이선스 하에 제공되며, 퍼블릭 도메인으로 자유롭게 사용 가능합니다.'
+              : 'This gallery features artworks from The Metropolitan Museum of Art\'s Open Access collection, available under the Creative Commons Zero (CC0) license. All displayed artworks are in the public domain and free to use.'}
           </p>
           <p className="mt-2">
             <a 
@@ -652,7 +682,7 @@ function GalleryContent() {
               rel="noopener noreferrer"
               className="text-purple-400 hover:underline"
             >
-              Learn more about The Met&apos;s Open Access initiative →
+              {language === 'ko' ? 'Met 오픈 액세스 이니셔티브 자세히 보기 →' : 'Learn more about The Met\'s Open Access initiative →'}
             </a>
           </p>
         </div>

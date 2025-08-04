@@ -9,7 +9,7 @@ import { useDarkMode } from '@/contexts/DarkModeContext';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import { useAuth } from '@/hooks/useAuth';
 import toast from 'react-hot-toast';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase/client';
 
 interface NavItem {
   iconType: 'home' | 'sparkles' | 'users' | 'user' | 'zap' | 'dashboard' | 'calendar' | 'collection';
@@ -61,7 +61,7 @@ export default function FloatingNav() {
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(null);
   const [userInfo, setUserInfo] = useState<any>(null);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   
   console.log('=== FLOATING NAV RENDER ===');
   console.log('Pathname:', pathname);

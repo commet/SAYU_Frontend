@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Auth</title>
+</head>
+<body>
+    <h1>Auth 정리 도구</h1>
+    <button onclick="clearAuth()">localStorage 정리하기</button>
+    <div id="result"></div>
+    
+    <script>
+        function clearAuth() {
+            // Supabase auth 관련 모든 항목 제거
+            const keys = Object.keys(localStorage);
+            let removed = 0;
+            
+            keys.forEach(key => {
+                if (key.includes('supabase') || key.includes('auth')) {
+                    localStorage.removeItem(key);
+                    removed++;
+                }
+            });
+            
+            document.getElementById('result').innerHTML = `
+                <p style="color: green;">✅ ${removed}개의 auth 관련 항목이 제거되었습니다.</p>
+                <p>이제 <a href="/login">로그인 페이지</a>로 이동하세요.</p>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -95,12 +95,23 @@ export function SocialLoginButton({ provider, mode = 'login' }: SocialLoginButto
       }
     } catch (error: any) {
       console.error('Login error:', error);
+      console.error('Error details:', {
+        message: error.message,
+        code: error.code,
+        status: error.status,
+        provider: provider,
+        fullError: error
+      });
       
       // Better error messages
       if (error.message?.includes('not enabled')) {
         toast.error(`${config.name} login is not enabled. Please contact support.`);
+      } else if (error.message?.includes('OAuth')) {
+        toast.error(`OAuth configuration error for ${config.name}. Please check Supabase settings.`);
+      } else if (error.message?.includes('redirect')) {
+        toast.error(`Redirect URL error for ${config.name}. Please check configuration.`);
       } else {
-        toast.error(`Failed to connect with ${config.name}`);
+        toast.error(`Failed to connect with ${config.name}: ${error.message || 'Unknown error'}`);
       }
     }
   };

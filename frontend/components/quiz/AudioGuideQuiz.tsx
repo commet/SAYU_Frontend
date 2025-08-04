@@ -135,13 +135,18 @@ export const AudioGuideQuiz: React.FC = () => {
       finalScores.F > finalScores.C ? 'F' : 'C'
     ].join('');
 
-    // Store results
-    localStorage.setItem('quizResults', JSON.stringify({
+    // Prepare results
+    const quizResults = {
       personalityType: type,
       scores: finalScores,
       responses: allResponses,
       completedAt: new Date().toISOString()
-    }));
+    };
+    
+    // Store results with backend sync
+    import('@/lib/quiz-api').then(({ saveQuizResultsWithSync }) => {
+      saveQuizResultsWithSync(quizResults);
+    });
 
     // Show APT transition screen briefly
     setShowAPTTransition(true);
@@ -258,7 +263,7 @@ export const AudioGuideQuiz: React.FC = () => {
             <button
               onClick={handleGoBack}
               disabled={currentQuestion === 0}
-              className="text-sm text-gray-300 hover:text-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 font-medium transition-colors px-2 py-1 rounded hover:bg-gray-800"
+              className="text-sm text-gray-300 hover:text-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 font-medium transition-colors px-2 py-1 rounded hover:bg-gray-800 whitespace-nowrap"
             >
               <ChevronLeft className="w-4 h-4" />
               {language === 'ko' ? '이전' : 'Back'}
@@ -266,7 +271,7 @@ export const AudioGuideQuiz: React.FC = () => {
             
             <button
               onClick={() => setShowGalleryMap(true)}
-              className="text-sm text-gray-300 hover:text-indigo-400 flex items-center gap-1 font-medium transition-colors px-2 py-1 rounded hover:bg-gray-800"
+              className="text-sm text-gray-300 hover:text-indigo-400 flex items-center gap-1 font-medium transition-colors px-2 py-1 rounded hover:bg-gray-800 whitespace-nowrap"
             >
               <Map className="w-4 h-4" />
               {language === 'ko' ? '지도' : 'Map'}
@@ -274,7 +279,7 @@ export const AudioGuideQuiz: React.FC = () => {
             
             <button
               onClick={handleExitQuiz}
-              className="text-sm text-gray-300 hover:text-red-400 flex items-center gap-1 font-medium transition-colors px-2 py-1 rounded hover:bg-gray-800"
+              className="text-sm text-gray-300 hover:text-red-400 flex items-center gap-1 font-medium transition-colors px-2 py-1 rounded hover:bg-gray-800 whitespace-nowrap"
             >
               <Home className="w-4 h-4" />
               {language === 'ko' ? '나가기' : 'Exit'}

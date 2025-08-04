@@ -35,6 +35,7 @@ export default function StyleSelector({
   const [recommendedStyles, setRecommendedStyles] = useState<ArtStyle[]>([]);
   const [activeTab, setActiveTab] = useState<'recommended' | 'all'>('recommended');
   const [personalityType, setPersonalityType] = useState<string | null>(null);
+  const [hoveredStyle, setHoveredStyle] = useState<string | null>(null);
 
   useEffect(() => {
     loadRecommendedStyles();
@@ -54,25 +55,85 @@ export default function StyleSelector({
   };
 
   const loadRecommendedStyles = async () => {
-    if (!user) return;
+    // 1. 먼저 localStorage에서 성격 유형 확인
+    const quizResults = localStorage.getItem('quizResults');
+    let aptType = personalityType;
     
-    try {
-      // API 추천 시도
-      const recommendations = await artProfileAPI.getRecommendedStyles(user.auth.id);
-      setRecommendedStyles(recommendations);
-    } catch (error) {
-      // 실패 시 성격 유형 기반 추천
-      if (personalityType && personalityStyleMapping[personalityType]) {
-        const mapping = personalityStyleMapping[personalityType];
-        const recommended = predefinedStyles.filter(style => 
-          mapping.recommendedStyles.includes(style.id)
-        );
-        setRecommendedStyles(recommended);
-      } else {
-        // 기본 추천
-        setRecommendedStyles(predefinedStyles.slice(0, 3));
-      }
+    if (quizResults && !aptType) {
+      const results = JSON.parse(quizResults);
+      aptType = results.personalityType;
+      setPersonalityType(aptType);
     }
+    
+    // 2. 사용자 프로필에서도 확인
+    if (!aptType && user?.personalityType) {
+      aptType = user.personalityType;
+      setPersonalityType(aptType);
+    }
+    
+    // 3. 성격 유형에 따른 추천
+    if (aptType && personalityStyleMapping[aptType]) {
+      const mapping = personalityStyleMapping[aptType];
+      const recommended = predefinedStyles.filter(style => 
+        mapping.recommendedStyles.includes(style.id)
+      );
+      
+      // 추천 이유 추가
+      const enhancedRecommended = recommended.map(style => ({
+        ...style,
+        recommendationReason: mapping.reason,
+        matchScore: calculateMatchScore(aptType, style.id)
+      }));
+      
+      // 매치 점수로 정렬
+      enhancedRecommended.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+      
+      setRecommendedStyles(enhancedRecommended);
+    } else {
+      // 기본 추천 (인기 스타일)
+      const popularStyles = ['monet-impressionism', 'vangogh-postimpressionism', 'warhol-popart'];
+      const defaultRecommended = predefinedStyles.filter(style => 
+        popularStyles.includes(style.id)
+      );
+      setRecommendedStyles(defaultRecommended);
+    }
+  };
+
+  // APT 성격과 스타일의 매치 점수 계산
+  const calculateMatchScore = (aptType: string, styleId: string): number => {
+    const mapping = personalityStyleMapping[aptType];
+    if (!mapping) return 50;
+    
+    const recommendedIndex = mapping.recommendedStyles.indexOf(styleId);
+    if (recommendedIndex === -1) return 40;
+    
+    // 첫 번째 추천: 100점, 두 번째: 85점, 세 번째: 70점
+    return 100 - (recommendedIndex * 15);
+  };
+
+  // 스타일 선택 시 사용자 취향 저장
+  const handleStyleSelect = (style: ArtStyle) => {
+    onStyleSelect(style);
+    
+    // 로컬 스토리지에 사용자 취향 저장
+    const preferences = JSON.parse(localStorage.getItem('artStylePreferences') || '{}');
+    const styleHistory = preferences.selectedStyles || [];
+    
+    // 선택 기록 추가 (최대 10개)
+    styleHistory.unshift({
+      styleId: style.id,
+      timestamp: new Date().toISOString(),
+      aptType: personalityType
+    });
+    
+    if (styleHistory.length > 10) {
+      styleHistory.pop();
+    }
+    
+    preferences.selectedStyles = styleHistory;
+    preferences.lastUpdated = new Date().toISOString();
+    
+    localStorage.setItem('artStylePreferences', JSON.stringify(preferences));
   };
 
   return (
@@ -172,29 +233,124 @@ export default function StyleSelector({
         {/* Recommended Styles */}
         {activeTab === 'recommended' && recommendedStyles.length > 0 && (
           <div className="space-y-4">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <Sparkles className="w-4 h-4 text-purple-500" />
-                <span>
-                  {language === 'ko' 
-                    ? '당신에게 맞는 스타일 추천' 
-                    : 'Styles recommended for you'
-                  }
-                </span>
+            {/* AI 추천 헤더 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-4 border border-purple-100"
+            >
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-white rounded-full shadow-sm">
+                  <Sparkles className="w-5 h-5 text-purple-500" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-medium text-gray-900 mb-1">
+                    {personalityType ? (
+                      <>
+                        {language === 'ko' 
+                          ? `${personalityType} 유형을 위한 맞춤 추천` 
+                          : `Personalized for ${personalityType} type`
+                        }
+                      </>
+                    ) : (
+                      language === 'ko' ? 'AI 맞춤 추천' : 'AI Recommendations'
+                    )}
+                  </h4>
+                  {personalityType && personalityStyleMapping[personalityType] && (
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {personalityStyleMapping[personalityType].reason[language]}
+                    </p>
+                  )}
+                </div>
               </div>
-              
-              {personalityType && personalityStyleMapping[personalityType] && (
-                <p className="text-xs text-gray-500 pl-6">
-                  {personalityStyleMapping[personalityType].reason[language]}
-                </p>
-              )}
+            </motion.div>
+            
+            {/* 스타일 그리드 with 매치 점수 */}
+            <div className="space-y-3">
+              {recommendedStyles.map((style, index) => (
+                <motion.div
+                  key={style.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  onClick={() => handleStyleSelect(style)}
+                  onMouseEnter={() => setHoveredStyle(style.id)}
+                  onMouseLeave={() => setHoveredStyle(null)}
+                  className={`relative cursor-pointer rounded-lg overflow-hidden transition-all ${
+                    selectedStyle?.id === style.id 
+                      ? 'ring-2 ring-purple-500 shadow-lg' 
+                      : 'hover:shadow-md'
+                  }`}
+                >
+                  <div className="bg-white p-4 flex items-center gap-4">
+                    {/* 스타일 프리뷰 */}
+                    <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                      <img 
+                        src={imagePreview} 
+                        alt={style.name}
+                        className="w-full h-full object-cover transition-all duration-300"
+                        style={{
+                          filter: hoveredStyle === style.id || selectedStyle?.id === style.id 
+                            ? getStyleFilter(style.id) 
+                            : 'none'
+                        }}
+                      />
+                    </div>
+                    
+                    {/* 스타일 정보 */}
+                    <div className="flex-1">
+                      <h5 className="font-medium text-gray-900">
+                        {language === 'ko' ? style.nameKo : style.name}
+                      </h5>
+                      <p className="text-sm text-gray-600 mt-1">
+                        {language === 'ko' ? style.descriptionKo : style.description}
+                      </p>
+                    </div>
+                    
+                    {/* 매치 점수 */}
+                    {style.matchScore && (
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-purple-600">
+                          {style.matchScore}%
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {language === 'ko' ? '적합도' : 'Match'}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* 선택 인디케이터 */}
+                  {selectedStyle?.id === style.id && (
+                    <div className="absolute top-2 right-2">
+                      <div className="bg-purple-500 text-white text-xs px-2 py-1 rounded-full">
+                        {language === 'ko' ? '선택됨' : 'Selected'}
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              ))}
             </div>
             
-            <StylePreviewGrid
-              selectedStyle={selectedStyle}
-              onStyleSelect={onStyleSelect}
-              styles={recommendedStyles}
-            />
+            {/* 피드백 섹션 */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mt-4 p-3 bg-gray-50 rounded-lg text-center"
+            >
+              <p className="text-xs text-gray-600">
+                {language === 'ko' 
+                  ? '추천이 마음에 들지 않으신가요?' 
+                  : "Not quite what you're looking for?"}
+              </p>
+              <button 
+                onClick={() => setActiveTab('all')}
+                className="text-xs text-purple-600 hover:text-purple-700 underline mt-1"
+              >
+                {language === 'ko' ? '모든 스타일 보기' : 'Browse all styles'}
+              </button>
+            </motion.div>
           </div>
         )}
 
@@ -213,7 +369,7 @@ export default function StyleSelector({
             
             <StylePreviewGrid
               selectedStyle={selectedStyle}
-              onStyleSelect={onStyleSelect}
+              onStyleSelect={handleStyleSelect}
               styles={predefinedStyles}
             />
           </div>

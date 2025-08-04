@@ -68,6 +68,71 @@ app.get('/api/personality-types', (req, res) => {
 });
 
 // ===========================================
+// QUIZ RESULTS API ENDPOINTS
+// ===========================================
+
+// In-memory storage for quiz results (for living mode)
+const quizResultsStore = new Map();
+
+// Save quiz results
+app.post('/api/quiz/results', (req, res) => {
+  try {
+    const { personalityType, scores, responses, completedAt } = req.body;
+    
+    // Get user ID from auth token or generate guest ID
+    const token = req.headers.authorization?.replace('Bearer ', '') || '';
+    const userId = token ? `user-${token.slice(-8)}` : `guest-${Date.now()}`;
+    
+    const result = {
+      id: Date.now().toString(),
+      userId,
+      personalityType,
+      scores,
+      responses,
+      completedAt: completedAt || new Date().toISOString(),
+      createdAt: new Date().toISOString()
+    };
+    
+    // Store result (in real app, this would go to database)
+    if (!quizResultsStore.has(userId)) {
+      quizResultsStore.set(userId, []);
+    }
+    quizResultsStore.get(userId).push(result);
+    
+    res.json({ success: true, data: result });
+  } catch (error) {
+    console.error('Error saving quiz results:', error);
+    res.status(500).json({ error: 'Failed to save quiz results' });
+  }
+});
+
+// Get user's quiz results
+app.get('/api/quiz/results', (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '') || '';
+    const userId = token ? `user-${token.slice(-8)}` : null;
+    
+    if (!userId) {
+      return res.status(401).json({ error: 'Authentication required' });
+    }
+    
+    const results = quizResultsStore.get(userId) || [];
+    const latestResult = results[results.length - 1] || null;
+    
+    res.json({ 
+      success: true, 
+      data: {
+        latest: latestResult,
+        history: results
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching quiz results:', error);
+    res.status(500).json({ error: 'Failed to fetch quiz results' });
+  }
+});
+
+// ===========================================
 // DAILY HABIT API ENDPOINTS - Living Mode Implementation
 // ===========================================
 

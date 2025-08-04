@@ -270,7 +270,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       atmosphere: "anticipation"
     },
     question: "In the last room, a mirror-like installation reflects not your face, but your artistic soul...",
-    question_ko: "마지막 방의 거울 같은 설치 작품은 얼굴이 아닌 당신의 예술적 영혼을 비춥니다...",
+    question_ko: "마지막 방의 거울 같은 설치 작품은\n얼굴이 아닌 당신의 예술적 영혼을 비춥니다...",
     options: [
       {
         id: 'abstract',
@@ -557,7 +557,7 @@ export const getPersonalizedTransition = (
     'fluid-11': "Your free spirit guides you toward the museum shop's treasures...",
     'structured-11': "Your systematic journey leads you to the gift shop's curated collection...",
     'life-story-12': "In the shop, you seek pieces that tell human stories...",
-    'technique-12': "Among the merchandise, you appreciate the craft on display...",
+    'technique-12': "Browsing exhibition catalogs, you're drawn to fresh voices and masters reimagined...",
     'contemporary-13': "Leaving the museum, you carry fresh perspectives into your personal space...",
     'classical-13': "Taking timeless beauty with you, you envision it in your home...",
     'emotional-abstract-14': "In daily life, your fluid artistic soul finds beauty everywhere...",
@@ -588,7 +588,7 @@ export const getPersonalizedTransition = (
     'fluid-11': "자유로운 영혼이 뮤지엄샵의 보물들로 안내합니다...",
     'structured-11': "체계적인 여정이 선물가게의 큐레이팅된 컬렉션으로 이끕니다...",
     'life-story-12': "샵에서, 인간의 이야기를 담은 작품들을 찾습니다...",
-    'technique-12': "상품들 사이에서, 전시된 기법에 감탄합니다...",
+    'technique-12': "전시 도록들을 살펴보며, 신진 작가의 참신함과 거장의 재해석에 끌립니다...",
     'contemporary-13': "미술관을 나서며, 새로운 시각을 개인 공간으로 가져갑니다...",
     'classical-13': "영원한 아름다움을 가져가며, 집에서의 모습을 그려봅니다...",
     'emotional-abstract-14': "일상에서, 유동적인 예술혼이 어디서나 아름다움을 찾아냅니다...",
@@ -629,7 +629,7 @@ export const getPersonalizedTransition_ko = (
     'fluid-11': "자유로운 영혼이 뮤지엄샵의 보물들로 안내합니다...",
     'structured-11': "체계적인 여정이 선물가게의 큐레이팅된 컬렉션으로 이끕니다...",
     'life-story-12': "샵에서, 인간의 이야기를 담은 작품들을 찾습니다...",
-    'technique-12': "상품들 사이에서, 전시된 기법에 감탄합니다...",
+    'technique-12': "전시 도록들을 살펴보며, 신진 작가의 참신함과 거장의 재해석에 끌립니다...",
     'contemporary-13': "미술관을 나서며, 새로운 시각을 개인 공간으로 가져갑니다...",
     'classical-13': "영원한 아름다움을 가져가며, 집에서의 모습을 그려봅니다...",
     'emotional-abstract-14': "일상에서, 유동적인 예술혼이 어디서나 아름다움을 찾아냅니다...",
