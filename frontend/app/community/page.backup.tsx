@@ -959,6 +959,17 @@ export default function CommunityPage() {
     }
   ];
 
+  const getChemistryInfo = (type1: string, type2: string) => {
+    // 먼저 기존 chemistry data에서 찾기
+    const existing = chemistryData.find(
+      (c) => (c.type1 === type1 && c.type2 === type2) || (c.type1 === type2 && c.type2 === type1)
+    );
+    if (existing) return existing;
+    
+    // 없으면 커스텀 케미스트리 생성
+    return getCustomChemistryData(type1, type2);
+  };
+  
   const getCustomChemistryData = (type1: string, type2: string): ChemistryData | null => {
     // LAEF(여우)의 케미스트리
     if ((type1 === 'LAEF' && type2 === 'LAMF') || (type1 === 'LAMF' && type2 === 'LAEF')) {
@@ -2245,22 +2256,11 @@ export default function CommunityPage() {
     return null;
   };
 
-  const getChemistryInfo = (type1: string, type2: string) => {
-    // 먼저 기존 chemistry data에서 찾기
-    const existing = chemistryData.find(
-      (c) => (c.type1 === type1 && c.type2 === type2) || (c.type1 === type2 && c.type2 === type1)
-    );
-    if (existing) return existing;
-    
-    // 없으면 커스텀 케미스트리 생성
-    return getCustomChemistryData(type1, type2);
-  };
-
   // Main component render
   return (
     <div className="min-h-screen relative">
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/images/backgrounds/classical-gallery-floor-sitting-contemplation.jpg')" }}
       />
       <div className="absolute inset-0 bg-black/30" />
@@ -2274,7 +2274,7 @@ export default function CommunityPage() {
           <h1 className="text-4xl font-bold text-white mb-4">
             {language === 'ko' ? '예술 동행자 찾기' : 'Find Art Companions'}
           </h1>
-          <p className="text-[1.125rem] text-gray-200 max-w-6xl mx-auto">
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
             {language === 'ko' 
               ? '당신과 잘 맞는 예술 동행자를 만나고, 함께 전시를 즐겨보세요.'
               : 'Meet art companions who match your aesthetic preferences and enjoy exhibitions together.'}
@@ -2286,7 +2286,7 @@ export default function CommunityPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white/15 backdrop-blur-lg rounded-2xl p-6 mb-8 border border-white/20 shadow-xl"
+          className="bg-stone-800/50 backdrop-blur-lg rounded-xl p-6 mb-8 border border-stone-400/30"
         >
           <div className="flex items-center gap-4">
             {userAnimal && (
@@ -2298,12 +2298,12 @@ export default function CommunityPage() {
               <h2 className="text-xl font-semibold text-white mb-1">
                 {user.nickname || 'Explorer'}
               </h2>
-              <p className="text-gray-100">
+              <p className="text-gray-300">
                 {language === 'ko' 
                   ? `${userAnimal?.animal_ko} (${userPersonalityType}) - ${personalityDescriptions[userPersonalityType]?.title_ko}`
                   : `${userAnimal?.animal} (${userPersonalityType}) - ${personalityDescriptions[userPersonalityType]?.title}`}
               </p>
-              <div className="flex gap-4 mt-2 text-sm text-gray-300">
+              <div className="flex gap-4 mt-2 text-sm text-gray-400">
                 <span className="flex items-center gap-1">
                   <Eye className="w-4 h-4" />
                   {language === 'ko' ? '관람 23회' : '23 visits'}
@@ -2422,7 +2422,7 @@ export default function CommunityPage() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="bg-white/15 backdrop-blur-md rounded-xl p-4 mb-4 border border-white/20"
+                    className="bg-stone-800/50 rounded-lg p-4 mb-4 border border-stone-700"
                   >
                     <div className="space-y-4">
                       {/* Age Filter */}
@@ -2439,7 +2439,7 @@ export default function CommunityPage() {
                             onChange={(e) => setAgeFilter({ ...ageFilter, min: parseInt(e.target.value) })}
                             className="flex-1 accent-purple-600"
                           />
-                          <span className="text-sm text-gray-300 w-10">{ageFilter.min}</span>
+                          <span className="text-sm text-gray-400 w-10">{ageFilter.min}</span>
                           <input
                             type="range"
                             min="20"
@@ -2448,7 +2448,7 @@ export default function CommunityPage() {
                             onChange={(e) => setAgeFilter({ ...ageFilter, max: parseInt(e.target.value) })}
                             className="flex-1 accent-purple-600"
                           />
-                          <span className="text-sm text-gray-300 w-10">{ageFilter.max}</span>
+                          <span className="text-sm text-gray-400 w-10">{ageFilter.max}</span>
                         </div>
                       </div>
                       
@@ -2466,12 +2466,12 @@ export default function CommunityPage() {
                             onChange={(e) => setDistanceFilter(parseInt(e.target.value))}
                             className="flex-1 accent-purple-600"
                           />
-                          <span className="text-sm text-gray-300 w-16">{distanceFilter}km</span>
+                          <span className="text-sm text-gray-400 w-16">{distanceFilter}km</span>
                         </div>
                       </div>
                       
                       <div className="flex justify-between items-center pt-2">
-                        <span className="text-xs text-gray-300">
+                        <span className="text-xs text-gray-400">
                           {compatibleUsers.length}{language === 'ko' ? '명 표시중' : ' shown'}
                         </span>
                         <button
@@ -2502,11 +2502,11 @@ export default function CommunityPage() {
                       <motion.div
                         key={match.id}
                         whileHover={{ scale: 1.02 }}
-                        className="bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/25 hover:from-white/25 hover:to-white/15 hover:border-white/40 transition-all duration-300 shadow-lg hover:shadow-xl"
+                        className="bg-stone-800/50 backdrop-blur-lg rounded-xl p-4 border border-stone-400/30 hover:bg-stone-700/60 transition-all"
                       >
-                      <div className="flex items-center gap-3 cursor-pointer" onClick={() => setSelectedMatch(match)}>
+                      <div className="flex items-center gap-4 cursor-pointer" onClick={() => setSelectedMatch(match)}>
                         <div className="relative">
-                          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-xl overflow-hidden">
+                          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-2xl overflow-hidden">
                             {match.avatar && match.avatar.startsWith('/') ? (
                               <img src={match.avatar} alt={match.nickname} className="w-full h-full object-cover" />
                             ) : (
@@ -2530,20 +2530,20 @@ export default function CommunityPage() {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <span className="text-xs text-purple-400">@</span>
-                            <h4 className="font-semibold text-white text-lg">{match.nickname}</h4>
+                            <h4 className="font-semibold text-white">{match.nickname}</h4>
                             {isMutualLike && (
                               <span className="text-xs bg-pink-600 text-white px-1.5 py-0.5 rounded-full">
                                 {language === 'ko' ? '서로 좋아요' : 'Matched'} 💕
                               </span>
                             )}
                             {!isMutualLike && match.hasLikedMe && (
-                              <span className="text-xs bg-pink-500/20 text-pink-300 px-2 py-1 rounded-full border border-pink-400/30 backdrop-blur-sm">
+                              <span className="text-xs bg-stone-700 text-pink-400 px-1.5 py-0.5 rounded-full">
                                 {language === 'ko' ? '나를 좋아해요' : 'Likes you'} 💖
                               </span>
                             )}
-                            <span className="text-xs text-gray-300">· {match.lastActive}</span>
+                            <span className="text-xs text-gray-400">· {match.lastActive}</span>
                           </div>
-                          <p className="text-sm text-gray-100 mb-2 leading-relaxed">
+                          <p className="text-sm text-gray-300 mb-2">
                             {matchAnimal?.animal_ko}({match.personalityType})
                             {chemistry ? ` - ${language === 'ko' ? chemistry.title_ko : chemistry.title}` : 
                              match.compatibility === 'perfect' ? ` - ${language === 'ko' ? '환상의 케미스트리' : 'Perfect Chemistry'}` :
@@ -2551,7 +2551,7 @@ export default function CommunityPage() {
                              match.compatibility === 'challenging' ? ` - ${language === 'ko' ? '흥미로운 대조' : 'Interesting Contrast'}` :
                              ` - ${language === 'ko' ? '새로운 관점' : 'New Perspectives'}`}
                           </p>
-                          <div className="flex gap-3 text-xs text-gray-200">
+                          <div className="flex gap-3 text-xs text-gray-400">
                             {match.age && <span>{match.age}{language === 'ko' ? '세' : ' years'}</span>}
                             {match.distance && <span>{match.distance}km</span>}
                             <span>{language === 'ko' ? `전시 ${match.exhibitions}회` : `${match.exhibitions} exhibitions`}</span>
@@ -2566,14 +2566,14 @@ export default function CommunityPage() {
                             e.stopPropagation();
                             handleLikeToggle(match.id);
                           }}
-                          className={`p-1.5 rounded-full transition-all ${
+                          className={`p-2 rounded-full transition-all ${
                             isLiked
-                              ? 'bg-pink-600/80 text-white hover:bg-pink-700'
-                              : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-pink-400'
+                              ? 'bg-pink-600 text-white hover:bg-pink-700'
+                              : 'bg-stone-700/50 text-gray-400 hover:bg-stone-600/50 hover:text-pink-400'
                           }`}
                         >
                           <svg
-                            className="w-4 h-4"
+                            className="w-5 h-5"
                             fill={isLiked ? 'currentColor' : 'none'}
                             stroke="currentColor"
                             strokeWidth="2"
@@ -2589,39 +2589,40 @@ export default function CommunityPage() {
                               e.stopPropagation();
                               setShowMenu(showMenu === match.id ? null : match.id);
                             }}
-                            className="p-1.5 rounded-full hover:bg-white/5 transition-colors opacity-50 hover:opacity-100"
+                            className="p-2 rounded-full hover:bg-stone-700/50 transition-colors"
                           >
-                            <MoreVertical className="w-3 h-3 text-gray-500" />
+                            <MoreVertical className="w-4 h-4 text-gray-400" />
                           </button>
                           
                           {showMenu === match.id && (
-                            <div className="absolute left-full top-0 ml-2 bg-white/20 backdrop-blur-lg border border-white/30 rounded-lg shadow-xl py-1 px-2 z-[100] flex items-center gap-1 whitespace-nowrap">
+                            <div className="absolute right-0 top-10 bg-stone-800 border border-stone-700 rounded-lg shadow-lg py-1 z-10">
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleBlock(match.id);
                                   setShowMenu(null);
                                 }}
-                                className="text-xs text-gray-200 hover:text-white px-2 py-1 hover:bg-white/10 rounded transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 hover:bg-stone-700 w-full text-left text-sm"
                               >
-                                {language === 'ko' ? '차단' : 'Block'}
+                                <Ban className="w-4 h-4" />
+                                {language === 'ko' ? '차단하기' : 'Block'}
                               </button>
-                              <span className="text-gray-200">|</span>
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setShowReportModal(match.id);
                                   setShowMenu(null);
                                 }}
-                                className="text-xs text-gray-200 hover:text-white px-2 py-1 hover:bg-white/10 rounded transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 hover:bg-stone-700 w-full text-left text-sm"
                               >
-                                {language === 'ko' ? '신고' : 'Report'}
+                                <Flag className="w-4 h-4" />
+                                {language === 'ko' ? '신고하기' : 'Report'}
                               </button>
                             </div>
                           )}
                         </div>
                         
-                        <ChevronRight className="w-5 h-5 text-gray-300" />
+                        <ChevronRight className="w-5 h-5 text-gray-400" />
                       </div>
                     </motion.div>
                   );
@@ -2635,7 +2636,7 @@ export default function CommunityPage() {
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-md rounded-2xl p-6 border border-white/25 sticky top-4 shadow-2xl"
+                    className="bg-stone-800/50 backdrop-blur-lg rounded-xl p-6 border border-stone-400/30 sticky top-4"
                   >
                     <h3 className="text-lg font-semibold text-white mb-4">
                       {language === 'ko' ? '케미스트리 분석' : 'Chemistry Analysis'}
@@ -2654,7 +2655,7 @@ export default function CommunityPage() {
                                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl mb-1">
                                   {userAnimal?.emoji}
                                 </div>
-                                <p className="text-xs text-gray-300">{language === 'ko' ? '나' : 'You'}</p>
+                                <p className="text-xs text-gray-400">{language === 'ko' ? '나' : 'You'}</p>
                               </div>
                               <div className="text-3xl">💫</div>
                               <div className="text-center">
@@ -2665,7 +2666,7 @@ export default function CommunityPage() {
                                     selectedMatch.avatar || matchAnimal?.emoji || '🎨'
                                   )}
                                 </div>
-                                <p className="text-xs text-gray-300">{selectedMatch.nickname}</p>
+                                <p className="text-xs text-gray-400">{selectedMatch.nickname}</p>
                               </div>
                             </div>
                             
@@ -2755,7 +2756,7 @@ export default function CommunityPage() {
                                             <p className="text-sm text-gray-200 font-medium mb-1">
                                               {exhibition}
                                             </p>
-                                            <p className="text-xs text-gray-300 italic">
+                                            <p className="text-xs text-gray-400 italic">
                                               {language === 'ko' ? exhibitionReasons[idx].ko : exhibitionReasons[idx].en}
                                             </p>
                                           </div>
@@ -2774,10 +2775,10 @@ export default function CommunityPage() {
                                       {language === 'ko' ? '함께 관람할 때 팁' : 'Tips for Viewing Together'}
                                     </p>
                                     <div className="space-y-2">
-                                      <p className="text-gray-100">
+                                      <p className="text-gray-300">
                                         {language === 'ko' ? chemistry.tips.for_type1_ko : chemistry.tips.for_type1}
                                       </p>
-                                      <ul className="text-xs text-gray-300 space-y-1 list-disc list-inside">
+                                      <ul className="text-xs text-gray-400 space-y-1 list-disc list-inside">
                                         <li>{language === 'ko' ? '첫 만남은 전시장 입구 카페에서 가볍게 인사를 나눠보세요' : 'Start with a casual greeting at the entrance cafe'}</li>
                                         <li>{language === 'ko' ? '각자 좋아하는 작품 3개씩 골라서 서로에게 소개해보세요' : 'Each pick 3 favorite pieces to share with each other'}</li>
                                         <li>{language === 'ko' ? '작품 앞에서 너무 오래 머물지 말고 리듬있게 관람하세요' : 'Keep a comfortable viewing rhythm, not lingering too long'}</li>
@@ -2788,7 +2789,7 @@ export default function CommunityPage() {
                                 </div>
                               </div>
                             </>
-                          ) : null}
+                          )}
 
                           <button 
                             onClick={() => alert(language === 'ko' ? '메시지 기능은 곧 오픈 예정입니다! 🚀' : 'Messaging feature coming soon! 🚀')}
@@ -2801,9 +2802,9 @@ export default function CommunityPage() {
                     })()}
                   </motion.div>
                 ) : (
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 text-center">
-                    <Users className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-300">
+                  <div className="bg-stone-800/50 backdrop-blur-lg rounded-xl p-6 border border-stone-400/30 text-center">
+                    <Users className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-400">
                       {language === 'ko' 
                         ? '동행자를 선택하여 자세한 호환성을 확인하세요'
                         : 'Select a companion to see detailed compatibility'}
@@ -2831,7 +2832,7 @@ export default function CommunityPage() {
                   <motion.div
                     key={exhibition.id}
                     whileHover={{ scale: 1.02 }}
-                    className="bg-white/15 backdrop-blur-md rounded-2xl overflow-hidden border border-white/20 hover:bg-white/20 hover:border-white/30 transition-all duration-300 shadow-lg hover:shadow-xl"
+                    className="bg-stone-800/50 backdrop-blur-lg rounded-xl overflow-hidden border border-stone-400/30"
                   >
                     <div className="relative h-48">
                       <OptimizedImage
@@ -2898,7 +2899,7 @@ export default function CommunityPage() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-black/90 backdrop-blur-xl rounded-2xl p-6 max-w-md w-full border border-white/30 shadow-2xl"
+              className="bg-stone-800 rounded-xl p-6 max-w-md w-full border border-stone-700"
             >
               <h3 className="text-xl font-semibold text-white mb-4">
                 {language === 'ko' ? '신고하기' : 'Report User'}
@@ -2923,7 +2924,7 @@ export default function CommunityPage() {
                     onClick={() => {
                       handleReport(showReportModal, reason.id);
                     }}
-                    className="w-full text-left px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all border border-transparent hover:border-white/20 text-gray-200"
+                    className="w-full text-left px-4 py-3 rounded-lg bg-stone-700/50 hover:bg-stone-600/50 transition-colors text-gray-200"
                   >
                     {reason.label}
                   </button>
@@ -2932,7 +2933,7 @@ export default function CommunityPage() {
               
               <button
                 onClick={() => setShowReportModal(null)}
-                className="w-full py-2 bg-white/5 hover:bg-white/10 rounded-lg transition-all border border-white/20 text-gray-300"
+                className="w-full py-2 bg-stone-700 hover:bg-stone-600 rounded-lg transition-colors text-gray-300"
               >
                 {language === 'ko' ? '취소' : 'Cancel'}
               </button>

@@ -11,6 +11,7 @@ import { artProfileAPI } from '@/lib/art-profile-api';
 import { useAuth } from '@/hooks/useAuth';
 import { personalityStyleMapping, stylePersonalityTraits } from '@/data/personality-style-mapping';
 import StylePreviewGrid from './StylePreviewGrid';
+import { styleFilters } from '@/data/style-filters';
 
 interface StyleSelectorProps {
   imagePreview: string;
@@ -39,6 +40,10 @@ export default function StyleSelector({
     loadRecommendedStyles();
     loadPersonalityType();
   }, [user]);
+
+  const getStyleFilter = (styleId: string): string => {
+    return styleFilters[styleId as keyof typeof styleFilters]?.filter || 'none';
+  };
 
   const loadPersonalityType = () => {
     const quizResults = localStorage.getItem('quizResults');
@@ -92,7 +97,10 @@ export default function StyleSelector({
           <img 
             src={imagePreview} 
             alt="Your photo"
-            className="w-full h-auto max-h-[400px] object-cover"
+            className="w-full h-auto max-h-[400px] object-cover transition-all duration-300"
+            style={{
+              filter: selectedStyle ? getStyleFilter(selectedStyle.id) : 'none'
+            }}
           />
           
           {selectedStyle && (

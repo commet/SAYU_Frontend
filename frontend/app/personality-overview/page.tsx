@@ -238,7 +238,7 @@ export default function PersonalityOverviewPage() {
 
               {/* 설명 */}
               <p className="text-gray-700 mb-6">
-                {SAYU_TYPES[selectedType].description}
+                {SAYU_TYPES[selectedType].detailedDescription}
               </p>
 
               {/* 특성 */}
@@ -246,19 +246,19 @@ export default function PersonalityOverviewPage() {
                 <div>
                   <h4 className="font-semibold mb-2">주요 특성</h4>
                   <div className="flex flex-wrap gap-2 justify-center">
-                    {SAYU_TYPES[selectedType].characteristics.map((char, i) => (
+                    {SAYU_TYPES[selectedType].strengths.slice(0, 4).map((strength, i) => (
                       <span key={i} className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
-                        {char}
+                        {strength}
                       </span>
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <h4 className="font-semibold mb-2">동물 특징</h4>
+                  <h4 className="font-semibold mb-2">예술을 즐기는 이유</h4>
                   <div className="text-sm text-gray-600 space-y-1">
-                    {personalityAnimals[selectedType].characteristics_ko.map((char, i) => (
-                      <p key={i}>• {char}</p>
+                    {SAYU_TYPES[selectedType].artPreferences.motivations.slice(0, 4).map((motivation, i) => (
+                      <p key={i}>• {motivation}</p>
                     ))}
                   </div>
                 </div>

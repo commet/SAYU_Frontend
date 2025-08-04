@@ -138,18 +138,27 @@ export default function ArtProfileGenerator() {
   };
 
   return (
-    <div className="min-h-screen sayu-gradient-bg p-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-3xl font-bold mb-2">
+    <div className="min-h-screen relative">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/images/backgrounds/street-artist-painting-european-city-outdoor.jpg')" }}
+      />
+      <div className="absolute inset-0 bg-black/40" />
+      
+      {/* Content */}
+      <div className="relative z-10 min-h-screen p-4 pt-20">
+        <div className="max-w-2xl mx-auto">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-8"
+          >
+          <h1 className="text-3xl font-bold mb-2 text-white">
             {language === 'ko' ? '나만의 아트 프로필' : 'My Art Profile'}
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-200">
             {language === 'ko' 
               ? 'AI가 당신의 사진을 예술 작품으로 변환해드려요' 
               : 'AI transforms your photo into an artwork'
@@ -157,9 +166,9 @@ export default function ArtProfileGenerator() {
           </p>
           
           {/* Credits Display */}
-          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-white/80 rounded-full">
-            <Sparkles className="w-4 h-4 text-purple-500" />
-            <span className="text-sm">
+          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-black/60 backdrop-blur-sm rounded-full border border-white/20">
+            <Sparkles className="w-4 h-4 text-purple-400" />
+            <span className="text-sm text-white">
               {language === 'ko' 
                 ? `이번 달 남은 횟수: ${userCredits}/3` 
                 : `Remaining this month: ${userCredits}/3`
@@ -176,42 +185,89 @@ export default function ArtProfileGenerator() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="sayu-liquid-glass rounded-2xl p-8 text-center"
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
             >
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleImageSelect}
-                className="hidden"
-              />
-              
-              <motion.div
+              {/* Style Examples */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-white text-center mb-3">
+                  {language === 'ko' ? '다양한 예술 스타일로 변신!' : 'Transform into Various Art Styles!'}
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                  {[
+                    { src: '/samples/base-portrait.png', label: language === 'ko' ? '원본' : 'Original' },
+                    { src: '/samples/preview-picasso.png', label: 'Picasso' },
+                    { src: '/samples/preview-monet.png', label: 'Monet' },
+                    { src: '/samples/preview-vangogh.png', label: 'Van Gogh' },
+                    { src: '/samples/preview-warhol.png', label: 'Warhol' },
+                    { src: '/samples/preview-pixel.png', label: 'Pixel Art' }
+                  ].map((style, index) => (
+                    <motion.div
+                      key={style.label}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.2 + 0.1 * index }}
+                      className="relative group"
+                    >
+                      <div className="aspect-square rounded-lg overflow-hidden bg-white/5 border border-white/10">
+                        <img 
+                          src={style.src} 
+                          alt={style.label}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <p className="text-xs text-center mt-2 text-gray-300">{style.label}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-t border-white/10 pt-6 text-center">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageSelect}
+                  className="hidden"
+                />
+                
+                <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => fileInputRef.current?.click()}
-                className="cursor-pointer inline-flex flex-col items-center gap-4 p-8 border-2 border-dashed border-gray-300 rounded-xl hover:border-purple-500 transition-colors"
+                className="cursor-pointer inline-flex flex-col items-center gap-3 p-6 border-2 border-dashed border-gray-400 rounded-xl hover:border-purple-400 transition-colors"
               >
-                <div className="w-24 h-24 bg-purple-100 rounded-full flex items-center justify-center">
-                  <Camera className="w-12 h-12 text-purple-600" />
+                <div className="w-24 h-24 bg-purple-500/20 rounded-full flex items-center justify-center">
+                  <Camera className="w-12 h-12 text-purple-400" />
                 </div>
                 <div>
-                  <p className="font-semibold text-lg mb-1">
+                  <p className="font-semibold text-lg mb-1 text-white">
                     {language === 'ko' ? '사진 선택하기' : 'Choose a photo'}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-300">
                     {language === 'ko' ? '클릭하거나 드래그하여 업로드' : 'Click or drag to upload'}
                   </p>
                 </div>
               </motion.div>
               
-              <div className="mt-6 text-sm text-gray-500">
-                <p>{language === 'ko' ? '권장 사항:' : 'Recommendations:'}</p>
-                <ul className="mt-2 space-y-1">
-                  <li>{language === 'ko' ? '• 정면 얼굴 사진' : '• Front-facing photo'}</li>
-                  <li>{language === 'ko' ? '• 밝은 조명' : '• Good lighting'}</li>
-                  <li>{language === 'ko' ? '• 10MB 이하' : '• Under 10MB'}</li>
-                </ul>
+              <div className="mt-4 text-sm text-gray-300">
+                <p className="mb-2">{language === 'ko' ? '권장 사항:' : 'Recommendations:'}</p>
+                <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs">
+                  <span className="flex items-center gap-1">
+                    <span className="text-purple-400">•</span>
+                    {language === 'ko' ? '인물, 반려동물, 풍경 등 모두 가능' : 'People, pets, landscapes - all welcome'}
+                  </span>
+                  <span className="text-gray-500">|</span>
+                  <span className="flex items-center gap-1">
+                    <span className="text-purple-400">•</span>
+                    {language === 'ko' ? '선명한 이미지 권장' : 'Clear images recommended'}
+                  </span>
+                  <span className="text-gray-500">|</span>
+                  <span className="flex items-center gap-1">
+                    <span className="text-purple-400">•</span>
+                    {language === 'ko' ? '10MB 이하' : 'Under 10MB'}
+                  </span>
+                </div>
+              </div>
               </div>
             </motion.div>
           )}
@@ -241,21 +297,21 @@ export default function ArtProfileGenerator() {
               key="generating"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="sayu-liquid-glass rounded-2xl p-12 text-center"
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-12 text-center border border-white/10"
             >
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                 className="w-24 h-24 mx-auto mb-6"
               >
-                <Sparkles className="w-full h-full text-purple-500" />
+                <Sparkles className="w-full h-full text-purple-400" />
               </motion.div>
               
-              <h3 className="text-xl font-semibold mb-2">
+              <h3 className="text-xl font-semibold mb-2 text-white">
                 {language === 'ko' ? '예술 작품 만드는 중...' : 'Creating your artwork...'}
               </h3>
               
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-200 mb-6">
                 {language === 'ko' 
                   ? `${selectedStyle?.nameKo} 스타일로 변환하고 있어요` 
                   : `Transforming with ${selectedStyle?.name} style`
@@ -272,7 +328,7 @@ export default function ArtProfileGenerator() {
                     transition={{ duration: 0.5 }}
                   />
                 </div>
-                <p className="mt-2 text-sm text-gray-500">{generationProgress}%</p>
+                <p className="mt-2 text-sm text-gray-300">{generationProgress}%</p>
               </div>
             </motion.div>
           )}
@@ -286,6 +342,7 @@ export default function ArtProfileGenerator() {
             />
           )}
         </AnimatePresence>
+        </div>
       </div>
     </div>
   );

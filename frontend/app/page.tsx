@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import Image from 'next/image';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // 작품 이미지 - 저작권 free 작품들 사용
 
@@ -13,7 +14,9 @@ const famousArtworks = [
     id: 1,
     url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg',
     title: '별이 빛나는 밤',
+    title_en: 'Starry Night',
     artist: '빈센트 반 고흐',
+    artist_en: 'Vincent van Gogh',
     perceptions: [
       "소용돌이치는 불안감",
       "우주와의 교감",
@@ -21,13 +24,23 @@ const famousArtworks = [
       "생명력 넘치는 밤하늘",
       "후기인상주의 기법",
       "희망의 별빛"
+    ],
+    perceptions_en: [
+      "Swirling anxiety",
+      "Cosmic connection",
+      "Dynamic brush rhythm",
+      "Vibrant night sky",
+      "Post-impressionist technique",
+      "Hopeful starlight"
     ]
   },
   {
     id: 2,
     url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Monet_Water_Lilies_1916.jpg/1280px-Monet_Water_Lilies_1916.jpg',
     title: '수련',
+    title_en: 'Water Lilies',
     artist: '클로드 모네',
+    artist_en: 'Claude Monet',
     perceptions: [
       "시간이 멈춘 연못",
       "빛의 순간적 포착",
@@ -35,13 +48,23 @@ const famousArtworks = [
       "인상주의 색채론",
       "흐릿한 경계",
       "평온한 무의식"
+    ],
+    perceptions_en: [
+      "Timeless pond",
+      "Captured light",
+      "Meditative moment",
+      "Impressionist color theory",
+      "Blurred boundaries",
+      "Peaceful unconscious"
     ]
   },
   {
     id: 3,
     url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Gustav_Klimt_016.jpg/800px-Gustav_Klimt_016.jpg',
     title: '키스',
+    title_en: 'The Kiss',
     artist: '구스타프 클림트',
+    artist_en: 'Gustav Klimt',
     perceptions: [
       "황금빛 영원",
       "비잔틴 양식의 현대화",
@@ -49,13 +72,23 @@ const famousArtworks = [
       "보호하는 포옹",
       "장식미술의 정수",
       "벼랑 끝의 열정"
+    ],
+    perceptions_en: [
+      "Golden eternity",
+      "Modernized Byzantine style",
+      "Sensual divinity",
+      "Protective embrace",
+      "Essence of decorative art",
+      "Passion on the edge"
     ]
   },
   {
     id: 4,
     url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg',
     title: '모나리자',
+    title_en: 'Mona Lisa',
     artist: '레오나르도 다 빈치',
+    artist_en: 'Leonardo da Vinci',
     perceptions: [
       "신비로운 미소",
       "스푸마토 기법의 극치",
@@ -63,13 +96,23 @@ const famousArtworks = [
       "르네상스 초상화의 혁신",
       "침묵의 대화",
       "시간을 초월한 아름다움"
+    ],
+    perceptions_en: [
+      "Enigmatic smile",
+      "Sfumato technique perfected",
+      "Inner secrets",
+      "Renaissance portrait revolution",
+      "Silent conversation",
+      "Timeless beauty"
     ]
   },
   {
     id: 5,
     url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/1280px-The_Great_Wave_off_Kanagawa.jpg',
     title: '가나가와 해변의 큰 파도',
+    title_en: 'The Great Wave off Kanagawa',
     artist: '가쓰시카 호쿠사이',
+    artist_en: 'Katsushika Hokusai',
     perceptions: [
       "자연의 위대함",
       "순간의 긴장감",
@@ -77,13 +120,23 @@ const famousArtworks = [
       "역동적 평형",
       "우키요에 판화의 정점",
       "파도 속 후지산"
+    ],
+    perceptions_en: [
+      "Nature's majesty",
+      "Moment of tension",
+      "Edge of life and death",
+      "Dynamic equilibrium",
+      "Ukiyo-e masterpiece",
+      "Mount Fuji in waves"
     ]
   },
   {
     id: 6,
     url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/800px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg',
     title: '절규',
+    title_en: 'The Scream',
     artist: '에드바르 뭉크',
+    artist_en: 'Edvard Munch',
     perceptions: [
       "실존적 공포",
       "표현주의의 선구",
@@ -91,12 +144,21 @@ const famousArtworks = [
       "고립된 영혼",
       "불타는 하늘",
       "내면의 절규"
+    ],
+    perceptions_en: [
+      "Existential terror",
+      "Expressionist pioneer",
+      "Silent scream",
+      "Isolated soul",
+      "Burning sky",
+      "Inner anguish"
     ]
   }
 ];
 
 export default function JourneyHomePage() {
   const router = useRouter();
+  const { language } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [currentArtwork, setCurrentArtwork] = useState(0);
@@ -323,12 +385,16 @@ export default function JourneyHomePage() {
             
             <div className="relative z-10 flex flex-col items-center justify-center h-full">
               <motion.h1 
-                className="text-6xl font-bold text-white/90 mb-4 text-center"
+                className={`font-bold text-white/90 mb-4 text-center ${
+                  language === 'ko' ? 'text-5xl' : 'text-[3.25rem]'
+                }`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
               >
-                길을 잃은 것 같나요?
+                {language === 'ko' 
+                  ? '하루에도 몇 번씩 바뀌는 마음,'
+                  : 'A heart that changes by the hour,'}
               </motion.h1>
               <motion.p 
                 className="text-xl text-white/70 mb-4 text-center"
@@ -336,7 +402,9 @@ export default function JourneyHomePage() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.5 }}
               >
-                복잡한 감정의 미로에서 방황하고 계신가요?
+                {language === 'ko'
+                  ? '어떤 게 진짜 나인지 헷갈리시나요?'
+                  : 'Wondering which one is the real you?'}
               </motion.p>
               <motion.p 
                 className="text-lg text-white/60 mb-16 text-center"
@@ -344,10 +412,12 @@ export default function JourneyHomePage() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.8 }}
               >
-                예술이 당신만의 출구를 안내해드릴게요
+                {language === 'ko'
+                  ? '괜찮아요. 여기서는 모든 당신이 진짜예요'
+                  : "It's okay. Here, every version of you is real"}
               </motion.p>
               
-              {/* 미로의 출구 - 희망의 빛 */}
+              {/* 시작점으로의 초대 */}
               <motion.div
                 className="relative cursor-pointer group"
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -398,15 +468,17 @@ export default function JourneyHomePage() {
                         ease: "easeInOut"
                       }}
                     >
-                      <p className="text-white/90 font-bold text-xl mb-2">
-                        미로의 출구
+                      <p className="text-white/90 font-bold text-2xl mb-2 whitespace-nowrap">
+                        {language === 'ko' ? '당신의 시작점' : 'Begin Here'}
                       </p>
-                      <p className="text-white/70 text-sm mb-3">
-                        나를 알아가는 여정
+                      <p className="text-white/80 text-base mb-3 whitespace-nowrap">
+                        {language === 'ko' ? '모든 나를 만나는 여정' : 'Discover Your Many Selves'}
                       </p>
-                      <p className="text-white/60 text-xs">
-                        Art Persona Type 테스트
-                      </p>
+                      <div className="bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 border border-white/20">
+                        <p className="text-white/90 text-sm font-medium whitespace-nowrap">
+                          {language === 'ko' ? '16가지 예술 성향 테스트' : '16 Art Personality Test'}
+                        </p>
+                      </div>
                     </motion.div>
                   </div>
                   
@@ -430,11 +502,11 @@ export default function JourneyHomePage() {
               </motion.div>
               
               <motion.div
-                className="mt-12 text-white/40"
+                className="mt-12 text-white/60"
                 animate={{ y: [0, 10, 0] }}
                 transition={{ repeat: Infinity, duration: 2 }}
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
               </motion.div>
@@ -477,10 +549,14 @@ export default function JourneyHomePage() {
                     {/* 작품 정보 */}
                     <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent rounded-b-lg">
                       <h3 className="text-white font-bold text-xl mb-1">
-                        {famousArtworks[currentArtwork].title}
+                        {language === 'ko' 
+                          ? famousArtworks[currentArtwork].title
+                          : famousArtworks[currentArtwork].title_en || famousArtworks[currentArtwork].title}
                       </h3>
                       <p className="text-white/80 text-sm">
-                        {famousArtworks[currentArtwork].artist}
+                        {language === 'ko'
+                          ? famousArtworks[currentArtwork].artist
+                          : famousArtworks[currentArtwork].artist_en || famousArtworks[currentArtwork].artist}
                       </p>
                     </div>
                   </motion.div>
@@ -542,7 +618,7 @@ export default function JourneyHomePage() {
                         }}
                       >
                         <p className="text-gray-800 text-sm font-medium whitespace-nowrap">
-                          "{perception}"
+                          "{language === 'ko' ? perception : (famousArtworks[currentArtwork].perceptions_en?.[i] || perception)}"
                         </p>
                       </motion.div>
                     </motion.div>
@@ -580,10 +656,12 @@ export default function JourneyHomePage() {
                 transition={{ delay: 0.5 }}
               >
                 <p className="text-white text-2xl font-bold mb-1 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
-                  같은 작품, 다른 시선
+                  {language === 'ko' ? '같은 작품, 다른 시선' : 'Same Art, Different Eyes'}
                 </p>
                 <p className="text-white/90 text-base drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
-                  16가지 Art Persona가 바라보는 각자의 예술 세계
+                  {language === 'ko' 
+                    ? '16가지 Art Persona가 바라보는 각자의 예술 세계'
+                    : '16 unique perspectives, each with their own art world'}
                 </p>
               </motion.div>
             </div>
@@ -620,10 +698,12 @@ export default function JourneyHomePage() {
                     <div className="w-10 h-10 rounded-full bg-white/25 flex items-center justify-center">
                       <span className="text-2xl">👁️</span>
                     </div>
-                    <h4 className="text-white font-bold text-lg">시선 공유</h4>
+                    <h4 className="text-white font-bold text-lg">{language === 'ko' ? '시선 공유' : 'Share Perspectives'}</h4>
                   </div>
                   <p className="text-white/80 text-sm leading-relaxed">
-                    작품에 대한 나만의 해석을 공유하고, 다른 사람들의 시선도 발견해보세요
+                    {language === 'ko'
+                      ? '작품에 대한 나만의 해석을 공유하고, 다른 사람들의 시선도 발견해보세요'
+                      : 'Share your unique interpretation and discover others\' perspectives'}
                   </p>
                 </motion.div>
                 
@@ -636,10 +716,12 @@ export default function JourneyHomePage() {
                     <div className="w-10 h-10 rounded-full bg-white/25 flex items-center justify-center">
                       <span className="text-2xl">🤝</span>
                     </div>
-                    <h4 className="text-white font-bold text-lg">전시 동행 매칭</h4>
+                    <h4 className="text-white font-bold text-lg">{language === 'ko' ? '전시 동행 매칭' : 'Exhibition Companions'}</h4>
                   </div>
                   <p className="text-white/80 text-sm leading-relaxed">
-                    나와 잘 맞는 Art Persona를 만나 함께 전시회를 즐겨보세요
+                    {language === 'ko' 
+                      ? '나와 잘 맞는, 또는 나와 다른 Art Persona를 만나 함께 전시회를 즐겨보세요'
+                      : 'Meet Art Personas similar or different from you, and enjoy exhibitions together'}
                   </p>
                 </motion.div>
                 
@@ -652,10 +734,12 @@ export default function JourneyHomePage() {
                     <div className="w-10 h-10 rounded-full bg-white/25 flex items-center justify-center">
                       <span className="text-2xl">🤖</span>
                     </div>
-                    <h4 className="text-white font-bold text-lg">AI 아트 큐레이터</h4>
+                    <h4 className="text-white font-bold text-lg">{language === 'ko' ? 'AI 아트 큐레이터' : 'AI Art Curator'}</h4>
                   </div>
                   <p className="text-white/80 text-sm leading-relaxed">
-                    오늘의 기분과 상황을 고려한 맞춤형 작품을 만나보세요
+                    {language === 'ko'
+                      ? '시시각각 변하는 당신을 위한, 매일 새로운 큐레이션'
+                      : 'Daily curation for the ever-changing you'}
                   </p>
                 </motion.div>
               </div>
@@ -673,14 +757,14 @@ export default function JourneyHomePage() {
             <div className="absolute inset-0 bg-gradient-to-b from-green-800 to-green-900" />
             
             {/* 베타 유저 testimonial */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center px-8">
+            <div className="absolute inset-0 flex flex-col items-center justify-center px-8" style={{ paddingTop: '80px' }}>
               <motion.h2 
-                className="text-4xl font-bold text-white mb-2"
+                className="text-5xl font-bold text-white mb-3"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                혼자가 아닙니다
+                {language === 'ko' ? '혼자가 아닙니다' : 'You Are Not Alone'}
               </motion.h2>
               <motion.p 
                 className="text-white/80 text-xl mb-12"
@@ -688,7 +772,9 @@ export default function JourneyHomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                이미 많은 사람들이 SAYU와 함께하고 있어요
+                {language === 'ko' 
+                  ? '이미 많은 사람들이 SAYU와 함께하고 있어요'
+                  : 'Many people are already joining the SAYU journey'}
               </motion.p>
               
               {/* 실제 사용자 후기들 */}
@@ -696,21 +782,27 @@ export default function JourneyHomePage() {
                 {[
                   {
                     name: "민지",
+                    name_en: "Emily",
                     aptType: "LAEF",
                     emoji: "🦊",
-                    quote: "매일 아침 감정에 맞는 작품을 보며 하루를 시작해요. 예전엔 몰랐던 제 감정의 깊이를 이해하게 되었어요."
+                    quote: "매일 아침 감정에 맞는 작품을 보며 하루를 시작해요. 예전엔 몰랐던 제 감정의 깊이를 이해하게 되었어요.",
+                    quote_en: "I start each day by viewing artworks that match my emotions. I've come to understand the depth of my feelings that I never knew before."
                   },
                   {
                     name: "준호",
+                    name_en: "James",
                     aptType: "SREC",
                     emoji: "🦆",
-                    quote: "전시 동행 매칭으로 만난 친구와 매주 미술관을 가요. 혼자서는 발견하지 못했을 작품들을 함께 감상하니 더 풍부해져요."
+                    quote: "전시 동행 매칭으로 만난 친구와 매주 미술관을 가요. 혼자서는 발견하지 못했을 작품들을 함께 감상하니 더 풍부해져요.",
+                    quote_en: "Weekly museum visits with my exhibition companion opened my eyes to artworks I'd never have discovered alone."
                   },
                   {
                     name: "서연",
+                    name_en: "Sarah",
                     aptType: "LAMF",
                     emoji: "🦉",
-                    quote: "AI 상담사와 대화하면서 제가 왜 특정 작품에 끌리는지 알게 되었어요. 예술이 제 마음의 거울이 되어주고 있어요."
+                    quote: "AI 상담사와 대화하면서 제가 왜 특정 작품에 끌리는지 알게 되었어요. 예술이 제 마음의 거울이 되어주고 있어요.",
+                    quote_en: "Through conversations with the AI counselor, I learned why I'm drawn to certain artworks. Art has become a mirror to my heart."
                   }
                 ].map((testimonial, i) => (
                   <motion.div
@@ -721,13 +813,13 @@ export default function JourneyHomePage() {
                     transition={{ delay: 0.6 + i * 0.1 }}
                   >
                     <p className="text-white text-base mb-6 leading-relaxed">
-                      "{testimonial.quote}"
+                      "{language === 'ko' ? testimonial.quote : testimonial.quote_en}"
                     </p>
                     <div className="flex items-center gap-3">
                       <div className="text-3xl">{testimonial.emoji}</div>
                       <div>
                         <p className="text-white/90 font-medium">
-                          {testimonial.name}
+                          {language === 'ko' ? testimonial.name : testimonial.name_en}
                         </p>
                         <p className="text-white/60 text-sm">
                           APT: {testimonial.aptType}
@@ -740,33 +832,49 @@ export default function JourneyHomePage() {
               
               {/* 첫 동행자 혜택 */}
               <motion.div 
-                className="mt-12 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-lg p-8 border border-white/20 max-w-4xl w-full"
+                className="mt-8 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-lg p-6 border border-white/20 max-w-4xl w-full"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1 }}
               >
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-3xl font-bold text-white">첫 동행자를 위한 특별 혜택</h3>
-                  <span className="text-6xl">🎁</span>
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-2xl font-bold text-white">
+                    {language === 'ko' ? '첫 동행자를 위한 특별 혜택' : 'Special Benefits for Early Companions'}
+                  </h3>
+                  <span className="text-4xl">🎁</span>
                 </div>
-                <p className="text-white/80 text-center mb-6">
-                  SAYU의 첫 100명과 함께 특별한 여정을 시작하세요
+                <p className="text-white/80 text-center mb-4 text-sm">
+                  {language === 'ko' 
+                    ? 'SAYU의 첫 100명과 함께 특별한 여정을 시작하세요'
+                    : 'Start a special journey with the first 100 members of SAYU'}
                 </p>
                 <div className="grid grid-cols-3 gap-4">
                   <div className="text-center">
                     <div className="text-3xl mb-2">🌱</div>
-                    <p className="text-white/90 font-medium">신규 기능 우선 공개</p>
-                    <p className="text-white/60 text-sm">개발 중인 기능 미리 체험</p>
+                    <p className="text-white/90 font-medium">
+                      {language === 'ko' ? '신규 기능 우선 공개' : 'Early Access to New Features'}
+                    </p>
+                    <p className="text-white/60 text-sm">
+                      {language === 'ko' ? '개발 중인 기능 미리 체험' : 'Preview features in development'}
+                    </p>
                   </div>
                   <div className="text-center">
                     <div className="text-3xl mb-2">🎖️</div>
-                    <p className="text-white/90 font-medium">창립 멤버 배지</p>
-                    <p className="text-white/60 text-sm">프로필에 영구 표시</p>
+                    <p className="text-white/90 font-medium">
+                      {language === 'ko' ? '창립 멤버 배지' : 'Founding Member Badge'}
+                    </p>
+                    <p className="text-white/60 text-sm">
+                      {language === 'ko' ? '프로필에 영구 표시' : 'Permanent display on profile'}
+                    </p>
                   </div>
                   <div className="text-center">
                     <div className="text-3xl mb-2">🗣️</div>
-                    <p className="text-white/90 font-medium">함께 만드는 서비스</p>
-                    <p className="text-white/60 text-sm">당신의 아이디어가 현실로</p>
+                    <p className="text-white/90 font-medium">
+                      {language === 'ko' ? '함께 만드는 서비스' : 'Co-create the Service'}
+                    </p>
+                    <p className="text-white/60 text-sm">
+                      {language === 'ko' ? '당신의 아이디어가 현실로' : 'Your ideas become reality'}
+                    </p>
                   </div>
                 </div>
               </motion.div>
@@ -862,7 +970,7 @@ export default function JourneyHomePage() {
                     transition={{ delay: 2.8 }}
                     style={{ marginTop: '120px' }}
                   >
-                    SAYU에서 만나는 특별한 경험들
+                    {language === 'ko' ? 'SAYU에서 만나는 특별한 경험들' : 'Special Experiences at SAYU'}
                   </motion.p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -875,10 +983,15 @@ export default function JourneyHomePage() {
                       <div className="flex items-start gap-3 mb-3">
                         <span className="text-2xl">🎨</span>
                         <div>
-                          <h4 className="text-green-800 font-semibold mb-1">작품 감상 공유</h4>
+                          <h4 className="text-green-800 font-semibold mb-1">
+                            {language === 'ko' ? '작품 감상 공유' : 'Share Art Impressions'}
+                          </h4>
                           <p className="text-green-700/80 text-sm leading-relaxed">
-                            같은 작품을 보고 느낀 감정을 나누며<br/>
-                            새로운 시각을 발견해보세요
+                            {language === 'ko' ? (
+                              <>같은 작품을 보고 느낀 감정을 나누며<br/>새로운 시각을 발견해보세요</>
+                            ) : (
+                              <>Share emotions from viewing artworks<br/>and discover new perspectives</>
+                            )}
                           </p>
                         </div>
                       </div>
@@ -893,10 +1006,15 @@ export default function JourneyHomePage() {
                       <div className="flex items-start gap-3 mb-3">
                         <span className="text-2xl">👥</span>
                         <div>
-                          <h4 className="text-green-800 font-semibold mb-1">APT 매칭 시스템</h4>
+                          <h4 className="text-green-800 font-semibold mb-1">
+                            {language === 'ko' ? 'APT 매칭 시스템' : 'APT Matching System'}
+                          </h4>
                           <p className="text-green-700/80 text-sm leading-relaxed">
-                            나와 비슷한 감성을 가진 사람들과<br/>
-                            함께 전시를 둘러보세요
+                            {language === 'ko' ? (
+                              <>나와 비슷한 감성을 가진 사람들과<br/>함께 전시를 둘러보세요</>
+                            ) : (
+                              <>Explore exhibitions with people<br/>who share your aesthetic sensibility</>
+                            )}
                           </p>
                         </div>
                       </div>
@@ -911,10 +1029,15 @@ export default function JourneyHomePage() {
                       <div className="flex items-start gap-3 mb-3">
                         <span className="text-2xl">🌱</span>
                         <div>
-                          <h4 className="text-green-800 font-semibold mb-1">함께 성장하는 커뮤니티</h4>
+                          <h4 className="text-green-800 font-semibold mb-1">
+                            {language === 'ko' ? '함께 성장하는 커뮤니티' : 'Growing Together Community'}
+                          </h4>
                           <p className="text-green-700/80 text-sm leading-relaxed">
-                            다양한 배경의 예술 애호가들과<br/>
-                            함께 성장하는 경험
+                            {language === 'ko' ? (
+                              <>다양한 배경의 예술 애호가들과<br/>함께 성장하는 경험</>
+                            ) : (
+                              <>Grow together with art lovers<br/>from diverse backgrounds</>
+                            )}
                           </p>
                         </div>
                       </div>
@@ -937,7 +1060,10 @@ export default function JourneyHomePage() {
                   ))}
                 </div>
                 <p className="text-green-600/70 text-sm">
-                  16가지 Art Persona가 당신을 기다리고 있습니다
+                  {language === 'ko' 
+                    ? '16가지 Art Persona가 당신을 기다리고 있습니다'
+                    : '16 Art Personas are waiting for you'
+                  }
                 </p>
               </motion.div>
             </div>
@@ -964,7 +1090,7 @@ export default function JourneyHomePage() {
                   SAYU
                 </motion.h2>
                 <p className="text-2xl text-green-700 mb-8">
-                  함께 만들어가는 예술의 정원
+                  {language === 'ko' ? '함께 만들어가는 예술의 정원' : 'A Garden of Art We Create Together'}
                 </p>
                 
                 <motion.button
@@ -973,7 +1099,9 @@ export default function JourneyHomePage() {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => router.push('/quiz')}
                 >
-                  <span className="relative z-10">나의 Art Persona 발견하기</span>
+                  <span className="relative z-10">
+                    {language === 'ko' ? '나의 Art Persona 발견하기' : 'Discover My Art Persona'}
+                  </span>
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-indigo-400 to-green-400"
                     initial={{ x: "-100%" }}
@@ -992,7 +1120,10 @@ export default function JourneyHomePage() {
                   <div className="flex items-center justify-center gap-2">
                     <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                     <p className="text-sm">
-                      오늘 <span className="font-bold">47명</span>이 새로운 Art Persona를 발견했어요
+                      {language === 'ko' 
+                        ? <>오늘 <span className="font-bold">47명</span>이 새로운 Art Persona를 발견했어요</>
+                        : <>Today <span className="font-bold">47 people</span> discovered their new Art Persona</>
+                      }
                     </p>
                   </div>
                 </motion.div>

@@ -16,12 +16,11 @@ import { Button } from '@/components/ui/button';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { personalityGradients, getGradientStyle } from '@/constants/personality-gradients';
 import ProfileSettingsModal from '@/components/profile/ProfileSettingsModal';
-import ProfileStats from '@/components/profile/ProfileStats';
+import CompactStats from '@/components/profile/CompactStats';
 import ProfileShareCard from '@/components/profile/ProfileShareCard';
 import ProfileIDCard from '@/components/profile/ProfileIDCard';
 import SocialLoginModal from '@/components/SocialLoginModal';
-import { useGamificationDashboard } from '@/hooks/useGamification';
-import AIArtIdentitySection from '@/components/profile/AIArtIdentitySection';
+// import { useGamificationDashboard } from '@/hooks/useGamification';
 
 // Mock data - in real app, would fetch from API
 const mockMuseums = [
@@ -148,7 +147,9 @@ export default function ProfilePage() {
   const { language } = useLanguage();
   const { user } = useAuth();
   const router = useRouter();
-  const { dashboard } = useGamificationDashboard();
+  // Temporarily disabled due to API issues
+  // const { dashboard } = useGamificationDashboard();
+  const dashboard = null;
   const userPoints = dashboard?.currentPoints || 0;
   const userStats = dashboard;
   const [activeTab, setActiveTab] = useState<'map' | 'records' | 'badges' | 'share'>('map');
@@ -159,6 +160,8 @@ export default function ProfilePage() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showIDCard, setShowIDCard] = useState(false);
   const [followStats, setFollowStats] = useState({ followerCount: 0, followingCount: 0 });
+  const [artProfile, setArtProfile] = useState<any>(null);
+  const [loadingArtProfile, setLoadingArtProfile] = useState(true);
   
   // Load quiz results from localStorage
   useEffect(() => {
@@ -174,14 +177,38 @@ export default function ProfilePage() {
     const loadPioneerProfile = async () => {
       if (user?.auth?.id) {
         try {
-          const profile = await getPioneerProfile(user.auth.id);
-          setPioneerProfile(profile);
+          // Temporarily disabled due to API issues
+          // const profile = await getPioneerProfile(user.auth.id);
+          // setPioneerProfile(profile);
         } catch (error) {
           console.error('Failed to load pioneer profile:', error);
         }
       }
     };
     loadPioneerProfile();
+  }, [user]);
+
+  // Load AI art profile
+  useEffect(() => {
+    const loadArtProfile = async () => {
+      if (user?.auth?.id) {
+        try {
+          setLoadingArtProfile(true);
+          // For now, just set a placeholder since getUserProfiles doesn't exist
+          // In real implementation, you would call the actual API method
+          // Sample AI art profile for testing
+          setArtProfile({
+            imageUrl: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=400&h=400&fit=crop',
+            style: 'Digital Art Portrait'
+          });
+        } catch (error) {
+          console.error('Failed to load art profile:', error);
+        } finally {
+          setLoadingArtProfile(false);
+        }
+      }
+    };
+    loadArtProfile();
   }, [user]);
 
   useEffect(() => {
@@ -199,11 +226,16 @@ export default function ProfilePage() {
 
   const loadFollowStats = async () => {
     try {
-      const stats = await followAPI.getFollowStats(user!.auth.id);
+      // Temporarily use mock data due to API issues
       setFollowStats({
-        followerCount: stats.followersCount,
-        followingCount: stats.followingCount
+        followerCount: 12,
+        followingCount: 8
       });
+      // const stats = await followAPI.getFollowStats(user!.auth.id);
+      // setFollowStats({
+      //   followerCount: stats.followersCount,
+      //   followingCount: stats.followingCount
+      // });
     } catch (error) {
       console.error('Failed to load follow stats:', error);
     }
@@ -266,10 +298,32 @@ export default function ProfilePage() {
           className="sayu-liquid-glass rounded-2xl p-6 mb-6"
         >
           <div className="flex items-start justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl font-bold">
-                {user.nickname?.[0] || user.auth.email?.[0] || 'U'}
+            <div className="flex items-center gap-4 flex-1">
+              {/* Profile image with AI art overlay */}
+              <div className="relative">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl font-bold overflow-hidden">
+                  {artProfile?.imageUrl ? (
+                    <img 
+                      src={artProfile.imageUrl} 
+                      alt="AI Art Profile" 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    user.nickname?.[0] || user.auth.email?.[0] || 'U'
+                  )}
+                </div>
+                {artProfile && (
+                  <motion.div 
+                    className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.5, type: "spring" }}
+                  >
+                    <Sparkles className="w-3 h-3 text-white" />
+                  </motion.div>
+                )}
               </div>
+              
               <div>
                 <div className="flex items-center gap-3">
                   <h1 className="text-2xl font-bold">{user.nickname || user.auth.email}</h1>
@@ -282,42 +336,38 @@ export default function ProfilePage() {
                     />
                   )}
                 </div>
-                <p className="text-sm opacity-70">
-                  {language === 'ko' ? '레벨' : 'Level'} {mockUserStats.level} • {mockUserStats.totalPoints.toLocaleString()} {language === 'ko' ? '포인트' : 'points'}
-                </p>
                 
                 {/* Personality Type Display */}
                 {userPersonalityType && personalityDescriptions[userPersonalityType] && (
-                  <motion.div 
-                    className="mt-3 inline-flex items-center gap-2"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                  >
+                  <div className="flex items-center gap-3 mt-2">
                     <div 
-                      className="px-3 py-1 rounded-full text-sm font-medium"
+                      className="px-3 py-1 rounded-full text-sm font-medium inline-flex items-center gap-1"
                       style={{ 
                         background: getGradientStyle(userPersonalityType as keyof typeof personalityGradients),
                         color: 'white',
                         textShadow: '0 1px 2px rgba(0,0,0,0.1)'
                       }}
                     >
-                      <span className="flex items-center gap-1">
-                        <Palette className="w-4 h-4" />
-                        {userPersonalityType}
-                      </span>
+                      <Palette className="w-4 h-4" />
+                      {userPersonalityType}
                     </div>
                     <span className="text-sm opacity-80">
                       {personalityGradients[userPersonalityType as keyof typeof personalityGradients]?.name || personalityDescriptions[userPersonalityType].title}
                     </span>
-                  </motion.div>
+                    {artProfile?.style && (
+                      <>
+                        <span className="text-sm opacity-40">•</span>
+                        <span className="text-sm opacity-70">{artProfile.style}</span>
+                      </>
+                    )}
+                  </div>
                 )}
               </div>
             </div>
             
             <div className="flex gap-2">
               <motion.button
-                className="sayu-button p-2"
+                className="p-2 rounded-lg bg-purple-500 hover:bg-purple-600 text-white transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => router.push('/profile/art-profile')}
@@ -326,7 +376,7 @@ export default function ProfilePage() {
                 <Sparkles className="w-5 h-5" />
               </motion.button>
               <motion.button
-                className="sayu-button p-2"
+                className="p-2 rounded-lg bg-white/10 hover:bg-white/20 dark:bg-white/10 dark:hover:bg-white/20 backdrop-blur-sm text-gray-700 dark:text-gray-200 transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setShowIDCard(true)}
@@ -335,7 +385,7 @@ export default function ProfilePage() {
                 <Trophy className="w-5 h-5" />
               </motion.button>
               <motion.button
-                className="sayu-button p-2"
+                className="p-2 rounded-lg bg-white/10 hover:bg-white/20 dark:bg-white/10 dark:hover:bg-white/20 backdrop-blur-sm text-gray-700 dark:text-gray-200 transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setShowSettings(true)}
@@ -347,28 +397,16 @@ export default function ProfilePage() {
           </div>
         </motion.div>
 
-        {/* AI Art Identity Section */}
-        <AIArtIdentitySection 
-          userId={user.auth.id} 
-          personalityType={userPersonalityType} 
-        />
-
-        {/* Quick Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="mb-6"
-        >
-          <ProfileStats 
+        {/* Compact Stats */}
+        <div className="mb-6">
+          <CompactStats 
             stats={{
               ...mockUserStats,
               followerCount: followStats.followerCount,
               followingCount: followStats.followingCount
             }} 
-            userId={user?.auth?.id}
           />
-        </motion.div>
+        </div>
 
         {/* Tab Navigation */}
         <div className="flex gap-2 mb-6 flex-wrap">
@@ -384,7 +422,7 @@ export default function ProfilePage() {
               className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all ${
                 activeTab === tab.id
                   ? 'bg-purple-500 text-white'
-                  : 'sayu-liquid-glass hover:bg-white/20'
+                  : 'sayu-liquid-glass hover:bg-white/20 text-gray-700 dark:text-gray-200'
               }`}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}

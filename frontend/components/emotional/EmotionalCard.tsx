@@ -103,11 +103,11 @@ export const ArtworkCard: React.FC<ArtworkCardProps> = ({
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative overflow-hidden rounded-2xl shadow-gentle hover:shadow-dream transition-all duration-700 h-full flex flex-col min-h-[480px]"
+      className="group relative overflow-hidden rounded-2xl shadow-gentle hover:shadow-dream transition-all duration-700 h-full flex flex-col"
       data-personality={personality}
     >
       {/* Image Container */}
-      <div className="relative overflow-hidden aspect-[4/5]">
+      <div className="relative overflow-hidden h-64 md:h-72">
         <motion.img
           src={image}
           alt={title}
@@ -150,7 +150,7 @@ export const ArtworkCard: React.FC<ArtworkCardProps> = ({
       </div>
       
       {/* Info Section */}
-      <div className="p-4 bg-white dark:bg-slate-800 flex-grow flex flex-col justify-end">
+      <div className="p-4 bg-white dark:bg-slate-800">
         <h3 className="font-semibold text-lg mb-1 text-gray-900 dark:text-white line-clamp-2">
           {title}
         </h3>

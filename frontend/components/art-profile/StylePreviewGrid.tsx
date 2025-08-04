@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ArtStyle } from '@/types/art-profile';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
+import { styleFilters } from '@/data/style-filters';
 
 interface StylePreviewGridProps {
   selectedStyle: ArtStyle | null;
@@ -43,6 +44,11 @@ const PLACEHOLDER_PREVIEWS: Record<string, string> = {
 
 export default function StylePreviewGrid({ selectedStyle, onStyleSelect, styles }: StylePreviewGridProps) {
   const { language } = useLanguage();
+  const [hoveredStyle, setHoveredStyle] = React.useState<string | null>(null);
+
+  const getStyleFilter = (styleId: string): string => {
+    return styleFilters[styleId as keyof typeof styleFilters]?.filter || 'none';
+  };
 
   return (
     <div className="space-y-6">
@@ -55,7 +61,10 @@ export default function StylePreviewGrid({ selectedStyle, onStyleSelect, styles 
           <img 
             src={BASE_IMAGE_URL} 
             alt="Base portrait"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-all duration-300"
+            style={{
+              filter: hoveredStyle ? getStyleFilter(hoveredStyle) : 'none'
+            }}
             onError={(e) => {
               (e.target as HTMLImageElement).src = PLACEHOLDER_BASE;
             }}
@@ -75,6 +84,8 @@ export default function StylePreviewGrid({ selectedStyle, onStyleSelect, styles 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => onStyleSelect(style)}
+              onMouseEnter={() => setHoveredStyle(style.id)}
+              onMouseLeave={() => setHoveredStyle(null)}
               className={`
                 cursor-pointer rounded-lg overflow-hidden border-2 transition-all
                 ${selectedStyle?.id === style.id 

@@ -218,7 +218,8 @@ function ResultsContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto break-words"
+            style={{ whiteSpace: 'pre-wrap' }}
           >
             {language === 'ko' && personality.subtitle_ko ? personality.subtitle_ko : personality.subtitle}
           </motion.p>
@@ -350,7 +351,7 @@ function ResultsContent() {
         >
           {/* Nature 설명 */}
           <div className="p-8 border-b border-gray-200">
-            <h3 className="text-2xl font-serif font-bold text-gray-900 mb-4">
+            <h3 className="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-4">
               {language === 'ko' ? '당신의 예술적 자아' : 'Your Artistic Nature'}
             </h3>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
@@ -471,7 +472,7 @@ function ResultsContent() {
                     className="flex items-start gap-3 p-3 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-colors"
                   >
                     <span className="text-orange-500 mt-0.5 text-lg">⚡</span>
-                    <span className="text-gray-700 leading-relaxed">{challenge}</span>
+                    <span className="text-gray-700 dark:text-gray-300 leading-relaxed">{challenge}</span>
                   </motion.li>
                 ))}
               </motion.ul>
@@ -491,13 +492,13 @@ function ResultsContent() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="p-5 bg-gradient-to-br from-green-50 to-teal-50 rounded-xl border border-green-200"
+                    className="p-5 bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 rounded-xl border border-green-200 dark:border-green-800"
                   >
                     <h5 className="font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
                       <span className="text-xl">{growthItem.icon}</span>
                       {language === 'ko' && growthItem.title_ko ? growthItem.title_ko : growthItem.title}
                     </h5>
-                    <p className="text-sm text-gray-700 leading-relaxed">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
                       {language === 'ko' && growthItem.description_ko ? growthItem.description_ko : growthItem.description}
                     </p>
                   </motion.div>
@@ -539,7 +540,7 @@ function ResultsContent() {
           </h2>
           
           {/* 아티스트 3명 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 items-stretch">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
             {artistsToShow.map((artistName: string, index: number) => {
               const artwork = artistArtworks[index];
               
@@ -553,25 +554,22 @@ function ResultsContent() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.7 + index * 0.1 }}
-                  className="overflow-hidden h-full flex flex-col"
                 >
-                  <div className="h-full flex flex-col">
-                    <ArtworkCard
-                      image={artwork?.imageUrl || artwork?.cloudinaryUrl || `https://via.placeholder.com/400x500.png?text=${encodeURIComponent(artistName)}`}
-                      title={artwork?.title || `${artistName}의 작품`}
-                      artist={artistName}
-                      description={
-                        language === 'ko' 
-                          ? `${artistInfo?.description || '당신의 성격과 잘 맞는 작가입니다.'} (${artistMatching.reasoning})`
-                          : `${artistInfo?.description || 'An artist that matches your artistic personality.'} (${artistMatching.reasoning})`
-                      }
-                      emotionalTag={
-                        artistInfo?.style || (language === 'ko' ? '특별한 연결' : 'Special connection')
-                      }
-                      personality={results.personalityType}
-                      delay={index * 0.1}
-                    />
-                  </div>
+                  <ArtworkCard
+                    image={artwork?.imageUrl || artwork?.cloudinaryUrl || `https://via.placeholder.com/400x500.png?text=${encodeURIComponent(artistName)}`}
+                    title={artwork?.title || `${artistName}의 작품`}
+                    artist={artistName}
+                    description={
+                      language === 'ko' 
+                        ? `${artistInfo?.description || '당신의 성격과 잘 맞는 작가입니다.'} (${artistMatching.reasoning})`
+                        : `${artistInfo?.description || 'An artist that matches your artistic personality.'} (${artistMatching.reasoning})`
+                    }
+                    emotionalTag={
+                      artistInfo?.style || (language === 'ko' ? '특별한 연결' : 'Special connection')
+                    }
+                    personality={results.personalityType}
+                    delay={index * 0.1}
+                  />
                 </motion.div>
               );
             })}
