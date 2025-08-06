@@ -286,24 +286,19 @@ export default function FloatingNav() {
             <div className="flex items-center gap-2">
               {/* User info or Login button */}
               {user && userInfo ? (
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2 px-3 py-1.5 bg-purple-100/50 dark:bg-purple-900/30 rounded-xl">
-                    <span className="text-sm">{getProviderIcon(userInfo.app_metadata?.provider || '')}</span>
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      {userInfo.user_metadata?.full_name || userInfo.email?.split('@')[0] || '사용자'}
-                    </span>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
-                      ({getProviderName(userInfo.app_metadata?.provider || '')})
-                    </span>
-                  </div>
+                <div className="flex items-center gap-2">
                   <motion.button
                     onClick={handleSignOut}
-                    className="p-2 rounded-xl text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900/30 transition-all"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    aria-label={language === 'ko' ? "로그아웃" : "Sign out"}
+                    className="group flex items-center gap-2 px-3 py-1.5 bg-purple-100/50 dark:bg-purple-900/30 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-xl transition-all"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    title={`${userInfo.user_metadata?.full_name || userInfo.email} (${getProviderName(userInfo.app_metadata?.provider || '')})`}
                   >
-                    <LogOut className="w-5 h-5" />
+                    <span className="text-sm">{getProviderIcon(userInfo.app_metadata?.provider || '')}</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 max-w-[100px] truncate">
+                      {userInfo.user_metadata?.full_name?.split(' ')[0] || userInfo.email?.split('@')[0] || '사용자'}
+                    </span>
+                    <LogOut className="w-4 h-4 text-gray-500 group-hover:text-red-600 dark:text-gray-400 dark:group-hover:text-red-400 transition-colors" />
                   </motion.button>
                 </div>
               ) : (

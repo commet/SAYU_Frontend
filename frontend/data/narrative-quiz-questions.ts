@@ -302,7 +302,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       transition_ko: "여정이 끝나가지만, 내면에서 무언가 근본적인 변화가 일어났습니다.",
       atmosphere: "transformation"
     },
-    question: "As you prepare to leave, you realize what you've been seeking all along...",
+    question: "As you prepare to leave,\nyou realize what you've been seeking all along...",
     question_ko: "떠날 준비를 하며, 처음부터 찾고 있던 것이 무엇인지 깨닫습니다...",
     options: [
       {

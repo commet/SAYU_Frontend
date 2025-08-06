@@ -23,6 +23,7 @@ import { CategoryFilter, FloatingDock, MobileBottomNav, GalleryStats } from './g
 import { Gallery4 } from '@/components/ui/gallery4';
 import { SayuGalleryGrid } from '@/components/ui/sayu-gallery-grid';
 import { ChevronRight, LayoutGrid, List } from 'lucide-react';
+import { aptRecommendations } from './sayu-recommendations';
 
 interface UserProfile {
   id: string;
@@ -48,6 +49,9 @@ interface GalleryArtwork {
   museumUrl?: string;
   isPublicDomain?: boolean;
   license?: string;
+  matchPercent?: number;
+  curatorNote?: string;
+  description?: string;
 }
 
 const ART_CATEGORIES = [
@@ -206,21 +210,44 @@ function GalleryContent() {
     try {
       console.log('Fetching artworks for category:', category);
       
-      // 카테고리별 실제 작품 데이터
+      // 유저의 APT 유형에 따른 맞춤 추천 작품 가져오기
+      const getPersonalizedArtworks = () => {
+        const userType = user?.aptType;
+        if (userType && aptRecommendations[userType]) {
+          return aptRecommendations[userType].map((artwork, i) => ({
+            id: `apt-${userType}-${i}`,
+            title: artwork.title,
+            artist: artwork.artist,
+            year: artwork.year,
+            imageUrl: artwork.image || 'https://via.placeholder.com/400x300',
+            museum: 'SAYU Curated Collection',
+            medium: 'Oil on canvas',
+            department: category,
+            isPublicDomain: true,
+            license: 'CC0',
+            matchPercent: artwork.matchPercent,
+            curatorNote: artwork.curatorNote,
+            description: artwork.description
+          }));
+        }
+        return [];
+      };
+      
+      // 카테고리별 실제 작품 데이터 - Cloudinary의 실제 작품들
       const categoryArtworks: Record<string, any[]> = {
-        'all': [
-          { title: '별이 빛나는 밤', artist: '빈센트 반 고흐', year: '1889', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg' },
-          { title: '모나리자', artist: '레오나르도 다 빈치', year: '1503', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/1280px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg' },
-          { title: '다비드', artist: '미켈란젤로', year: '1504', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Michelangelo%27s_David_-_right_view_2.jpg/600px-Michelangelo%27s_David_-_right_view_2.jpg' },
-          { title: '수련', artist: '클로드 모네', year: '1916', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Claude_Monet_-_Nymph%C3%A9as_-_W1852_-_Mus%C3%A9e_Marmottan-Monet.jpg/1280px-Claude_Monet_-_Nymph%C3%A9as_-_W1852_-_Mus%C3%A9e_Marmottan-Monet.jpg' },
-          { title: '생각하는 사람', artist: '오귀스트 로댕', year: '1902', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Paris_2010_-_Le_Penseur.jpg/600px-Paris_2010_-_Le_Penseur.jpg' },
-          { title: '후지산 36경', artist: '가츠시카 호쿠사이', year: '1831', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/1280px-The_Great_Wave_off_Kanagawa.jpg' },
-          { title: '아를의 침실', artist: '빈센트 반 고흐', year: '1888', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Vincent_van_Gogh_-_The_Bedroom_-_Google_Art_Project.jpg/1280px-Vincent_van_Gogh_-_The_Bedroom_-_Google_Art_Project.jpg' },
-          { title: '인상, 해돋이', artist: '클로드 모네', year: '1872', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/1280px-Monet_-_Impression%2C_Sunrise.jpg' },
-          { title: '아프간 소녀', artist: '스티브 맥커리', year: '1984', imageUrl: 'https://upload.wikimedia.org/wikipedia/en/b/b4/Sharbat_Gula.jpg' },
-          { title: '게르니카', artist: '파블로 피카소', year: '1937', imageUrl: 'https://upload.wikimedia.org/wikipedia/en/7/74/PicassoGuernica.jpg' },
-          { title: '진주 귀걸이를 한 소녀', artist: '요하네스 베르메르', year: '1665', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Meisje_met_de_parel.jpg/800px-Meisje_met_de_parel.jpg' },
-          { title: '기억의 지속', artist: '살바도르 달리', year: '1931', imageUrl: 'https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg' }
+        'all': getPersonalizedArtworks().length > 0 ? getPersonalizedArtworks() : [
+          { title: '꽃이 있는 정물', artist: '오딜롱 르동', year: '1905', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754459/sayu/met-artworks/met-chicago-110982.jpg' },
+          { title: '테이블 모서리의 정물', artist: '앙리 팡탱-라투르', year: '1873', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754461/sayu/met-artworks/met-chicago-75507.jpg' },
+          { title: '그릇 속의 장미', artist: '앙리 팡탱-라투르', year: '1881', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754469/sayu/met-artworks/met-chicago-20534.jpg' },
+          { title: '원숭이와 과일, 꽃이 있는 정물', artist: '장 바티스트 우드리', year: '1724', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754474/sayu/met-artworks/met-chicago-94126.jpg' },
+          { title: '목련과 파란 벨벳', artist: '마틴 존슨 히드', year: '1885-95', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754449/sayu/met-artworks/met-chicago-100829.jpg' },
+          { title: '과일 정물', artist: '한나 브라운 스킬', year: '1860', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754451/sayu/met-artworks/met-chicago-156596.jpg' },
+          { title: '수태고지', artist: '장 에이', year: '1490-95', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752838554/sayu/met-artworks/met-chicago-16327.jpg' },
+          { title: '과일과 아스파라거스 바구니', artist: '루이즈 모용', year: '1630', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754472/sayu/met-artworks/met-chicago-62450.jpg' },
+          { title: '정물 3번', artist: '마스던 하틀리', year: '1923', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754465/sayu/met-artworks/met-chicago-65940.jpg' },
+          { title: '꽃이 있는 정물', artist: '앙리 팡탱-라투르', year: '1881', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754467/sayu/met-artworks/met-chicago-72180.jpg' },
+          { title: '과일과 와인 주전자', artist: '아돌프 몽티셀리', year: '1874', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752835716/sayu/met-artworks/met-chicago-72183.jpg' },
+          { title: '정물', artist: '외젠 카리에르', year: '1875', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752835718/sayu/met-artworks/met-chicago-27170.jpg' }
         ],
         'paintings': [
           { title: '별이 빛나는 밤', artist: '빈센트 반 고흐', year: '1889', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/800px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg' },
@@ -260,16 +287,19 @@ function GalleryContent() {
 
       const selectedArtworks = categoryArtworks[category] || categoryArtworks['all'];
       const mockArtworks: GalleryArtwork[] = selectedArtworks.map((artwork, i) => ({
-        id: `${category}-${i}`,
+        id: artwork.id || `${category}-${i}`,
         title: artwork.title,
         artist: artwork.artist,
         year: artwork.year,
         imageUrl: artwork.imageUrl,
-        museum: 'The Metropolitan Museum of Art',
-        medium: category === 'sculpture' ? 'Marble/Bronze' : category === 'photography' ? 'Photography' : 'Oil on canvas',
-        department: category,
-        isPublicDomain: true,
-        license: 'CC0'
+        museum: artwork.museum || 'The Metropolitan Museum of Art',
+        medium: artwork.medium || (category === 'sculpture' ? 'Marble/Bronze' : category === 'photography' ? 'Photography' : 'Oil on canvas'),
+        department: artwork.department || category,
+        isPublicDomain: artwork.isPublicDomain !== undefined ? artwork.isPublicDomain : true,
+        license: artwork.license || 'CC0',
+        matchPercent: artwork.matchPercent,
+        curatorNote: artwork.curatorNote,
+        description: artwork.description
       }));
       
       console.log('✅ Mock artworks created:', mockArtworks.length);
@@ -469,7 +499,7 @@ function GalleryContent() {
                 <h2 className="text-xl font-semibold mb-1 text-white">
                   {userAptType} 유형을 위한 추천 작품
                 </h2>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-gray-300">
                   AI Curator가 당신의 APT 분석을 기반으로 큐레이션한 작품들입니다
                 </p>
               </div>
@@ -521,17 +551,13 @@ function GalleryContent() {
                       
                       <Sparkles className="absolute bottom-4 left-4 w-6 h-6 text-purple-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:rotate-12" />
                       
-                      {/* 실제 이미지 표시 */}
-                      {item.image && (
-                        <img 
-                          src={item.image} 
-                          alt={item.title}
-                          className="absolute inset-0 w-full h-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                          }}
-                        />
-                      )}
+                      {/* 실제 이미지 표시 - Cloudinary에서 직접 로드 */}
+                      <img 
+                        src={item.image || `https://picsum.photos/600/450?random=${item.id}`} 
+                        alt={item.title}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        loading="lazy"
+                      />
                     </div>
                     <div className="p-4">
                       <h3 className="font-semibold text-sm line-clamp-1 text-white">{item.title}</h3>
@@ -558,7 +584,7 @@ function GalleryContent() {
               <h2 className="text-xl font-semibold mb-1 text-white">
                 {language === 'ko' ? '내 아트 아카이빙' : 'My Art Collection'}
               </h2>
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-gray-300">
                 {language === 'ko' 
                   ? '지금까지 수집한 작품들을 한눈에 볼 수 있습니다'
                   : 'View all the artworks you\'ve collected'}
@@ -570,6 +596,33 @@ function GalleryContent() {
           </div>
         </div>
 
+
+        {/* APT 유형별 맞춤 추천 배너 */}
+        {user?.aptType && selectedCategory === 'all' && galleryArtworks.some(a => a.matchPercent) && (
+          <div className="mb-6 p-4 bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-xl border border-purple-500/30">
+            <div className="flex items-start gap-3">
+              <div className="p-2 bg-purple-600/20 rounded-lg">
+                <Sparkles className="w-5 h-5 text-yellow-400" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-white mb-1">
+                  {user.aptType} 유형 맞춤 추천 🎨
+                </h3>
+                <p className="text-sm text-slate-300 mb-2">
+                  당신의 성격 유형에 특별히 선별된 작품들입니다. 각 작품은 당신의 감상 성향과 얼마나 잘 맞는지 매치 퍼센트로 표시됩니다.
+                </p>
+                <div className="flex items-center gap-2 text-xs">
+                  <span className="px-2 py-1 bg-yellow-400/20 text-yellow-400 rounded-full">
+                    개인화된 추천
+                  </span>
+                  <span className="text-slate-400">
+                    {galleryArtworks.filter(a => a.matchPercent).length}개 작품
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Gallery Grid */}
         {loading_artworks ? (
@@ -591,12 +644,10 @@ function GalleryContent() {
                 <div className="relative overflow-hidden rounded-xl bg-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-700 hover:border-purple-500">
                   <div className="aspect-square bg-slate-700 flex items-center justify-center relative overflow-hidden">
                     <img 
-                      src={artwork.imageUrl} 
+                      src={artwork.imageUrl || `https://picsum.photos/400/400?random=${artwork.id}`} 
                       alt={artwork.title}
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                      }}
+                      loading="lazy"
                     />
                     
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -623,6 +674,22 @@ function GalleryContent() {
                     </h3>
                     <p className="text-slate-400 text-xs mt-1">{artwork.artist}</p>
                     <p className="text-slate-500 text-xs">{artwork.year}</p>
+                    
+                    {/* APT 유형 맞춤 추천 정보 */}
+                    {artwork.matchPercent && (
+                      <div className="mt-2 flex items-center gap-2">
+                        <div className="flex items-center gap-1">
+                          <Sparkles className="w-3 h-3 text-yellow-400" />
+                          <span className="text-xs text-yellow-400 font-medium">{artwork.matchPercent}% 매치</span>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {artwork.curatorNote && (
+                      <p className="text-xs text-slate-400 mt-1 line-clamp-2 italic">
+                        "{artwork.curatorNote}"
+                      </p>
+                    )}
                   </div>
                 </div>
               </motion.div>

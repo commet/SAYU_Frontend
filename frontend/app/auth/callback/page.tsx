@@ -1,56 +1,86 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 
 export default function AuthCallbackPage() {
   const router = useRouter();
+  const [status, setStatus] = useState('Processing authentication...');
 
   useEffect(() => {
     const handleCallback = async () => {
       console.log('Auth callback - Starting...');
-      console.log('URL:', window.location.href);
+      console.log('Full URL:', window.location.href);
       
       const supabase = createClient();
       
-      // Supabase redirects with hash fragment
-      if (window.location.hash) {
-        console.log('Auth callback - Found hash fragment:', window.location.hash);
+      // Handle Facebook's #_=_ artifact
+      if (window.location.hash === '#_=_') {
+        console.log('Removing Facebook artifact');
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+      
+      // Check if we have access_token in hash (implicit flow)
+      if (window.location.hash && window.location.hash.includes('access_token')) {
+        console.log('Found access token in hash - implicit flow successful!');
+        setStatus('Authentication successful! Redirecting...');
         
-        // Wait for Supabase to process the hash
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // Supabase will automatically detect and process the hash
+        // Wait for it to process
+        await new Promise(resolve => setTimeout(resolve, 1000));
         
-        // Get session
-        const { data, error } = await supabase.auth.getSession();
+        // Check for session
+        const { data: { session }, error } = await supabase.auth.getSession();
         
-        if (error) {
-          console.error('Auth callback - Error getting session:', error);
-          router.push('/login?error=' + encodeURIComponent(error.message));
-          return;
-        }
-        
-        if (data.session) {
-          console.log('Auth callback - Session found:', data.session.user.email);
+        if (session) {
+          console.log('Session created from implicit flow!');
+          console.log('User:', session.user.email);
           
-          // Migrate quiz results after successful login
+          // Migrate quiz results
           try {
             const { migrateLocalQuizResults } = await import('@/lib/quiz-api');
             await migrateLocalQuizResults();
-            console.log('Quiz results migrated successfully');
+            console.log('Quiz results migrated');
           } catch (error) {
             console.error('Failed to migrate quiz results:', error);
           }
           
-          // Redirect to dashboard
           router.push('/dashboard');
-        } else {
-          console.log('Auth callback - No session found after waiting');
-          router.push('/login');
+          return;
+        } else if (error) {
+          console.error('Error getting session:', error);
         }
+      }
+      
+      // Check for OAuth code (authorization code flow)
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      const error = urlParams.get('error');
+      
+      if (error) {
+        console.error('OAuth error:', error);
+        router.push(`/login?error=${error}`);
+        return;
+      }
+      
+      if (code) {
+        console.log('Found OAuth code, but using implicit flow instead');
+        // For implicit flow, we don't need to exchange code
+      }
+      
+      // Final check for session
+      setStatus('Verifying authentication...');
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      
+      if (session) {
+        console.log('Session found!');
+        router.push('/dashboard');
       } else {
-        console.log('Auth callback - No hash fragment found');
-        router.push('/login');
+        console.log('No session found');
+        router.push('/login?error=no_session');
       }
     };
 
@@ -58,10 +88,10 @@ export default function AuthCallbackPage() {
   }, [router]);
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center">
+    <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-200 border-t-gray-400 mx-auto mb-4"></div>
-        <p className="text-gray-400 text-sm">인증 처리 중...</p>
+        <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-200 dark:border-gray-700 border-t-purple-600 mx-auto mb-4"></div>
+        <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">{status}</p>
       </div>
     </div>
   );

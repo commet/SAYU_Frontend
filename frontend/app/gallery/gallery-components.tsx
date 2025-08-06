@@ -218,18 +218,18 @@ export function GalleryStats({
     <div className={cn("flex items-center gap-4 text-sm", className)}>
       <div className="flex items-center gap-1.5">
         <Sparkles className="w-4 h-4 text-purple-500" />
-        <span className="font-medium text-gray-700 dark:text-gray-200">{totalArtworks}</span>
-        <span className="text-gray-500 dark:text-gray-400">작품</span>
+        <span className="font-medium text-white">{totalArtworks}</span>
+        <span className="text-white">작품</span>
       </div>
       <div className="w-px h-4 bg-gray-300 dark:bg-gray-600" />
       <div className="flex items-center gap-1.5">
         <span className="text-red-500">♥</span>
-        <span className="font-medium text-gray-700 dark:text-gray-200">{likedCount}</span>
+        <span className="font-medium text-white">{likedCount}</span>
       </div>
       <div className="w-px h-4 bg-gray-300 dark:bg-gray-600" />
       <div className="flex items-center gap-1.5">
         <span className="text-blue-500">👁</span>
-        <span className="font-medium text-gray-700 dark:text-gray-200">{viewedCount}</span>
+        <span className="font-medium text-white">{viewedCount}</span>
       </div>
     </div>
   );

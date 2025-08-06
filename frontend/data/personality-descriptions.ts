@@ -1417,6 +1417,22 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Disturbing perfection',
         emotionalTag_ko: '불편한 완벽함'
       }
+    ],
+    growth: [
+      {
+        icon: '🌊',
+        title: 'Embracing Spontaneity',
+        title_ko: '자발성 포용하기',
+        description: 'While your systematic approach is invaluable, allowing moments of unplanned discovery can reveal insights your methodical analysis might miss',
+        description_ko: '체계적 접근법이 매우 귀중하지만, 계획되지 않은 발견의 순간을 허용한다면 방법론적 분석이 놓칠 수 있는 통찰을 발견할 수 있을 거예요'
+      },
+      {
+        icon: '🤝',
+        title: 'Sharing Your Discoveries',
+        title_ko: '발견 공유하기',
+        description: 'Consider sharing your deep technical insights with others - your expertise could illuminate aspects of art that many never notice',
+        description_ko: '깊은 기술적 통찰을 다른 사람들과 공유해보세요. 당신의 전문성이 많은 사람들이 눈치채지 못하는 예술의 측면을 밝혀줄 수 있습니다'
+      }
     ]
   },
 

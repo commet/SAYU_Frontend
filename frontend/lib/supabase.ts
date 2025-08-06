@@ -36,13 +36,14 @@ export const signInWithProvider = async (provider: 'google' | 'apple' | 'kakao' 
 // Instagram 로그인 - Facebook 앱에서 email 권한 활성화됨
 export const signInWithInstagram = async () => {
   console.log('Starting Instagram/Facebook login...');
-  console.log('Redirect URL:', `${window.location.origin}/auth/callback`);
+  console.log('Redirect URL:', `${window.location.origin}/api/auth/callback`);
   
   try {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'facebook',
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
+        skipBrowserRedirect: false,
         queryParams: {
           scope: 'email,public_profile', // Facebook 앱에서 email 권한 활성화함
         },

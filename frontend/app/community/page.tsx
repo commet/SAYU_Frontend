@@ -14,6 +14,7 @@ import { chemistryData, ChemistryData } from '@/data/personality-chemistry';
 import { getArtworkRecommendations } from '@/lib/artworkRecommendations';
 import { getExhibitionRecommendation } from '@/lib/exhibitionRecommendations';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
+import { synergyTable, getSynergyKey } from '@/data/personality-synergy-table';
 
 interface UserMatch {
   id: string;
@@ -2286,7 +2287,7 @@ export default function CommunityPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white/15 backdrop-blur-lg rounded-2xl p-6 mb-8 border border-white/20 shadow-xl"
+          className="bg-black/30 backdrop-blur-lg rounded-2xl p-6 mb-8 border border-white/30 shadow-xl"
         >
           <div className="flex items-center gap-4">
             {userAnimal && (
@@ -2422,7 +2423,7 @@ export default function CommunityPage() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="bg-white/15 backdrop-blur-md rounded-xl p-4 mb-4 border border-white/20"
+                    className="bg-black/35 backdrop-blur-md rounded-xl p-4 mb-4 border border-white/30"
                   >
                     <div className="space-y-4">
                       {/* Age Filter */}
@@ -2502,7 +2503,7 @@ export default function CommunityPage() {
                       <motion.div
                         key={match.id}
                         whileHover={{ scale: 1.02 }}
-                        className="bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/25 hover:from-white/25 hover:to-white/15 hover:border-white/40 transition-all duration-300 shadow-lg hover:shadow-xl"
+                        className="bg-gradient-to-br from-black/40 to-black/25 backdrop-blur-md rounded-2xl p-3 border border-white/40 hover:from-black/50 hover:to-black/35 hover:border-white/60 transition-all duration-300 shadow-lg hover:shadow-xl"
                       >
                       <div className="flex items-center gap-3 cursor-pointer" onClick={() => setSelectedMatch(match)}>
                         <div className="relative">
@@ -2530,20 +2531,20 @@ export default function CommunityPage() {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <span className="text-xs text-purple-400">@</span>
-                            <h4 className="font-semibold text-white text-lg">{match.nickname}</h4>
+                            <h4 className="font-semibold text-white text-lg drop-shadow-lg">{match.nickname}</h4>
                             {isMutualLike && (
                               <span className="text-xs bg-pink-600 text-white px-1.5 py-0.5 rounded-full">
                                 {language === 'ko' ? '서로 좋아요' : 'Matched'} 💕
                               </span>
                             )}
                             {!isMutualLike && match.hasLikedMe && (
-                              <span className="text-xs bg-pink-500/20 text-pink-300 px-2 py-1 rounded-full border border-pink-400/30 backdrop-blur-sm">
+                              <span className="text-xs bg-pink-600/80 text-white px-2 py-1 rounded-full border border-pink-400/50 backdrop-blur-sm drop-shadow-lg">
                                 {language === 'ko' ? '나를 좋아해요' : 'Likes you'} 💖
                               </span>
                             )}
-                            <span className="text-xs text-gray-300">· {match.lastActive}</span>
+                            <span className="text-xs text-gray-300 drop-shadow-sm">· {match.lastActive}</span>
                           </div>
-                          <p className="text-sm text-gray-100 mb-2 leading-relaxed">
+                          <p className="text-sm text-gray-100 mb-2 leading-relaxed drop-shadow-md">
                             {matchAnimal?.animal_ko}({match.personalityType})
                             {chemistry ? ` - ${language === 'ko' ? chemistry.title_ko : chemistry.title}` : 
                              match.compatibility === 'perfect' ? ` - ${language === 'ko' ? '환상의 케미스트리' : 'Perfect Chemistry'}` :
@@ -2551,7 +2552,7 @@ export default function CommunityPage() {
                              match.compatibility === 'challenging' ? ` - ${language === 'ko' ? '흥미로운 대조' : 'Interesting Contrast'}` :
                              ` - ${language === 'ko' ? '새로운 관점' : 'New Perspectives'}`}
                           </p>
-                          <div className="flex gap-3 text-xs text-gray-200">
+                          <div className="flex gap-3 text-xs text-gray-200 drop-shadow-sm">
                             {match.age && <span>{match.age}{language === 'ko' ? '세' : ' years'}</span>}
                             {match.distance && <span>{match.distance}km</span>}
                             <span>{language === 'ko' ? `전시 ${match.exhibitions}회` : `${match.exhibitions} exhibitions`}</span>
@@ -2635,9 +2636,9 @@ export default function CommunityPage() {
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-md rounded-2xl p-6 border border-white/25 sticky top-4 shadow-2xl"
+                    className="bg-gradient-to-br from-emerald-900/60 to-teal-900/50 backdrop-blur-lg rounded-2xl p-6 border border-emerald-200/40 sticky top-4 shadow-2xl"
                   >
-                    <h3 className="text-lg font-semibold text-white mb-4">
+                    <h3 className="text-xl font-bold text-white mb-4 drop-shadow-2xl">
                       {language === 'ko' ? '케미스트리 분석' : 'Chemistry Analysis'}
                     </h3>
                     
@@ -2648,13 +2649,13 @@ export default function CommunityPage() {
                       
                       return (
                         <>
-                          <div className="text-center mb-6">
+                          <div className="text-center mb-4">
                             <div className="flex justify-center items-center gap-4 mb-4">
                               <div className="text-center">
                                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl mb-1">
                                   {userAnimal?.emoji}
                                 </div>
-                                <p className="text-xs text-gray-300">{language === 'ko' ? '나' : 'You'}</p>
+                                <p className="text-sm text-white font-medium drop-shadow-lg">{language === 'ko' ? '나' : 'You'}</p>
                               </div>
                               <div className="text-3xl">💫</div>
                               <div className="text-center">
@@ -2665,11 +2666,11 @@ export default function CommunityPage() {
                                     selectedMatch.avatar || matchAnimal?.emoji || '🎨'
                                   )}
                                 </div>
-                                <p className="text-xs text-gray-300">{selectedMatch.nickname}</p>
+                                <p className="text-sm text-white font-medium drop-shadow-lg">{selectedMatch.nickname}</p>
                               </div>
                             </div>
                             
-                            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold ${
+                            <div className={`inline-flex items-center gap-2 px-5 py-3 rounded-full text-base font-bold drop-shadow-xl ${
                               matchIndex < 2 ? 'bg-green-500/20 text-green-300' :
                               matchIndex === 2 ? 'bg-yellow-500/20 text-yellow-300' :
                               'bg-red-500/20 text-red-300'
@@ -2681,56 +2682,88 @@ export default function CommunityPage() {
 
                           {chemistry ? (
                             <>
-                              <div className="mb-6">
-                                <h4 className="text-sm font-semibold text-white mb-2">
+                              <div className="mb-4 border-l-4 border-emerald-400 bg-black/25 backdrop-blur-sm rounded-r-lg pl-4 py-3">
+                                <h4 className="text-lg font-bold text-emerald-100 mb-2 drop-shadow-lg flex items-center gap-2">
+                                  <span className="text-emerald-300">🌿</span>
                                   {language === 'ko' ? '시너지' : 'Synergy'}
                                 </h4>
-                                <p className="text-sm text-gray-300 mb-3">
+                                <p className="text-base text-gray-100 mb-3 drop-shadow-lg leading-relaxed">
                                   {language === 'ko' ? chemistry.synergy.description_ko : chemistry.synergy.description}
                                 </p>
                                 
                                 {/* 추가 분석 내용 */}
-                                <div className="space-y-3 mt-4">
-                                  <div className="bg-white/5 rounded-lg p-3">
-                                    <h5 className="text-xs font-semibold text-purple-300 mb-1">
+                                <div className="space-y-1 mt-2">
+                                  <div className="bg-white/8 rounded-lg p-3">
+                                    <h5 className="text-base font-bold text-purple-200 mb-1 drop-shadow-lg">
                                       {language === 'ko' ? '👁️ 작품 감상 스타일' : '👁️ Art Viewing Style'}
                                     </h5>
-                                    <p className="text-xs text-gray-300">
-                                      {language === 'ko' 
-                                        ? `${userAnimal?.animal_ko}(${userPersonalityType})는 작품의 세부사항에 집중하는 편이고, ${matchAnimal?.animal_ko}(${selectedMatch.personalityType})는 전체적인 분위기를 즐기는 타입이에요. 서로의 시각을 공유하면 더 풍부한 감상이 가능해요!`
-                                        : `${userAnimal?.animal}(${userPersonalityType}) focuses on details while ${matchAnimal?.animal}(${selectedMatch.personalityType}) enjoys the overall atmosphere. Sharing perspectives enriches the experience!`}
+                                    <p className="text-sm text-gray-100 leading-relaxed drop-shadow-md">
+                                      {(() => {
+                                        const synergyKey = getSynergyKey(userPersonalityType, selectedMatch.personalityType);
+                                        const synergy = synergyTable[synergyKey];
+                                        
+                                        if (synergy) {
+                                          return language === 'ko' ? synergy.viewingStyle.ko : synergy.viewingStyle.en;
+                                        }
+                                        
+                                        // 폴백: 테이블에 없는 경우 기본 메시지
+                                        return language === 'ko' 
+                                          ? `${userAnimal?.animal_ko}와 ${matchAnimal?.animal_ko}의 독특한 관람 스타일이 서로를 보완해요!`
+                                          : `${userAnimal?.animal} and ${matchAnimal?.animal} have unique viewing styles that complement each other!`;
+                                      })()}
                                     </p>
                                   </div>
                                   
-                                  <div className="bg-white/5 rounded-lg p-3">
-                                    <h5 className="text-xs font-semibold text-blue-300 mb-1">
+                                  <div className="bg-white/8 rounded-lg p-3">
+                                    <h5 className="text-base font-bold text-blue-200 mb-1 drop-shadow-lg">
                                       {language === 'ko' ? '💬 대화 케미스트리' : '💬 Conversation Chemistry'}
                                     </h5>
-                                    <p className="text-xs text-gray-300">
-                                      {language === 'ko' 
-                                        ? `두 분의 대화는 감성과 논리가 균형있게 어우러져요. 예술에 대한 서로 다른 해석이 흥미로운 토론으로 이어질 거예요.`
-                                        : `Your conversations balance emotion and logic beautifully. Different interpretations lead to fascinating discussions.`}
+                                    <p className="text-sm text-gray-100 leading-relaxed drop-shadow-md">
+                                      {(() => {
+                                        const synergyKey = getSynergyKey(userPersonalityType, selectedMatch.personalityType);
+                                        const synergy = synergyTable[synergyKey];
+                                        
+                                        if (synergy) {
+                                          return language === 'ko' ? synergy.conversationChemistry.ko : synergy.conversationChemistry.en;
+                                        }
+                                        
+                                        // 폴백: 테이블에 없는 경우 기본 메시지
+                                        return language === 'ko' 
+                                          ? `${userAnimal?.animal_ko}와 ${matchAnimal?.animal_ko}의 대화는 서로를 풍요롭게 만들어요!`
+                                          : `${userAnimal?.animal} and ${matchAnimal?.animal} have enriching conversations!`;
+                                      })()}
                                     </p>
                                   </div>
                                   
-                                  <div className="bg-white/5 rounded-lg p-3">
-                                    <h5 className="text-xs font-semibold text-green-300 mb-1">
+                                  <div className="bg-white/8 rounded-lg p-3">
+                                    <h5 className="text-base font-bold text-green-200 mb-1 drop-shadow-lg">
                                       {language === 'ko' ? '🎯 추천 활동' : '🎯 Recommended Activities'}
                                     </h5>
-                                    <p className="text-xs text-gray-300">
-                                      {language === 'ko' 
-                                        ? `전시 관람 후 카페에서 서로의 인상 깊었던 작품에 대해 이야기 나누기, 함께 전시 리뷰 작성하기, 다음 전시 계획 세우기`
-                                        : `Post-exhibition cafe discussions, writing reviews together, planning future gallery visits`}
+                                    <p className="text-sm text-gray-100 leading-relaxed drop-shadow-md">
+                                      {(() => {
+                                        const synergyKey = getSynergyKey(userPersonalityType, selectedMatch.personalityType);
+                                        const synergy = synergyTable[synergyKey];
+                                        
+                                        if (synergy) {
+                                          return language === 'ko' ? synergy.recommendedActivities.ko : synergy.recommendedActivities.en;
+                                        }
+                                        
+                                        // 폴백: 테이블에 없는 경우 기본 메시지
+                                        return language === 'ko' 
+                                          ? `전시 후 카페에서 감상 나누기, 함께 전시 리뷰 작성하기, 다음 전시 계획 세우기`
+                                          : `Share impressions at cafe, write exhibition reviews together, plan next visits`;
+                                      })()}
                                     </p>
                                   </div>
                                 </div>
                               </div>
 
-                              <div className="mb-6">
-                                <h4 className="text-sm font-semibold text-white mb-2">
+                              <div className="mb-4 border-l-4 border-cyan-400 bg-black/25 backdrop-blur-sm rounded-r-lg pl-4 py-3">
+                                <h4 className="text-lg font-bold text-cyan-100 mb-2 drop-shadow-lg flex items-center gap-2">
+                                  <span className="text-cyan-300">🎨</span>
                                   {language === 'ko' ? '추천 전시' : 'Recommended Exhibitions'}
                                 </h4>
-                                <div className="space-y-3">
+                                <div className="space-y-1">
                                   {(language === 'ko' ? chemistry.recommendedExhibitions_ko : chemistry.recommendedExhibitions).slice(0, 3).map((exhibition, idx) => {
                                     const exhibitionReasons = [
                                       {
@@ -2748,14 +2781,14 @@ export default function CommunityPage() {
                                     ];
                                     
                                     return (
-                                      <div key={idx} className="bg-white/5 rounded-lg p-3">
-                                        <div className="flex items-start gap-2 mb-1">
+                                      <div key={idx} className="bg-white/8 rounded-lg p-2">
+                                        <div className="flex items-start gap-2">
                                           <Palette className="w-4 h-4 text-purple-400 mt-0.5" />
                                           <div className="flex-1">
-                                            <p className="text-sm text-gray-200 font-medium mb-1">
+                                            <p className="text-base text-gray-100 font-semibold drop-shadow-lg">
                                               {exhibition}
                                             </p>
-                                            <p className="text-xs text-gray-300 italic">
+                                            <p className="text-sm text-gray-100 italic drop-shadow-md leading-tight">
                                               {language === 'ko' ? exhibitionReasons[idx].ko : exhibitionReasons[idx].en}
                                             </p>
                                           </div>
@@ -2764,20 +2797,58 @@ export default function CommunityPage() {
                                     );
                                   })}
                                 </div>
+
+                                {/* 실제 전시 하이라이트 */}
+                                <div className="mt-3 pr-2">
+                                  <div className="bg-gradient-to-r from-cyan-900/20 to-teal-900/20 backdrop-blur-sm rounded-lg p-3 border border-cyan-400/30">
+                                    <div className="flex gap-3">
+                                      <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                                        <OptimizedImage
+                                          src="https://images.unsplash.com/photo-1578662996442-48f60103fc31?w=200"
+                                          alt="Exhibition"
+                                          width={80}
+                                          height={80}
+                                          className="w-full h-full object-cover"
+                                        />
+                                      </div>
+                                      <div className="flex-1">
+                                        <h5 className="text-sm font-bold text-cyan-100 mb-1 drop-shadow-lg">
+                                          {language === 'ko' ? '데이비드 호크니: 빛의 풍경' : 'David Hockney: Landscapes of Light'}
+                                        </h5>
+                                        <p className="text-xs text-gray-300 mb-1">
+                                          {language === 'ko' ? '서울시립미술관' : 'Seoul Museum of Art'} · {language === 'ko' ? '~2월 28일' : '~Feb 28'}
+                                        </p>
+                                        <p className="text-xs text-cyan-200 italic drop-shadow-sm">
+                                          💫 {language === 'ko' 
+                                            ? `${userAnimal?.animal_ko}과 ${matchAnimal?.animal_ko}의 관점이 만나면 색채의 새로운 차원을 발견해요`
+                                            : `When ${userAnimal?.animal} meets ${matchAnimal?.animal}, discover new dimensions of color`}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                                  <button 
+                                    onClick={() => router.push('/gallery')}
+                                    className="w-full mt-2 bg-gradient-to-r from-cyan-600/80 to-teal-600/80 hover:from-cyan-600 hover:to-teal-600 text-white rounded-lg py-2 text-xs font-semibold transition-all drop-shadow-lg flex items-center justify-center gap-1"
+                                  >
+                                    <Sparkles className="w-3 h-3" />
+                                    {language === 'ko' ? '맞춤 전시 더보기' : 'More Exhibitions'}
+                                  </button>
+                                </div>
                               </div>
 
-                              <div className="bg-purple-600/30 rounded-lg p-4">
+                              <div className="bg-teal-600/30 backdrop-blur-sm rounded-lg p-4 mt-3">
                                 <div className="flex items-start gap-2">
-                                  <Info className="w-4 h-4 text-purple-300 mt-0.5" />
+                                  <Info className="w-4 h-4 text-teal-300 mt-0.5" />
                                   <div className="text-sm">
-                                    <p className="text-purple-300 font-medium mb-2">
+                                    <p className="text-teal-200 font-bold mb-2 text-base drop-shadow-lg">
                                       {language === 'ko' ? '함께 관람할 때 팁' : 'Tips for Viewing Together'}
                                     </p>
                                     <div className="space-y-2">
-                                      <p className="text-gray-100">
+                                      <p className="text-gray-100 text-sm drop-shadow-md leading-relaxed">
                                         {language === 'ko' ? chemistry.tips.for_type1_ko : chemistry.tips.for_type1}
                                       </p>
-                                      <ul className="text-xs text-gray-300 space-y-1 list-disc list-inside">
+                                      <ul className="text-sm text-gray-100 space-y-1 list-disc list-inside drop-shadow-md">
                                         <li>{language === 'ko' ? '첫 만남은 전시장 입구 카페에서 가볍게 인사를 나눠보세요' : 'Start with a casual greeting at the entrance cafe'}</li>
                                         <li>{language === 'ko' ? '각자 좋아하는 작품 3개씩 골라서 서로에게 소개해보세요' : 'Each pick 3 favorite pieces to share with each other'}</li>
                                         <li>{language === 'ko' ? '작품 앞에서 너무 오래 머물지 말고 리듬있게 관람하세요' : 'Keep a comfortable viewing rhythm, not lingering too long'}</li>
@@ -2801,7 +2872,7 @@ export default function CommunityPage() {
                     })()}
                   </motion.div>
                 ) : (
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 text-center">
+                  <div className="bg-black/25 backdrop-blur-sm rounded-2xl p-6 border border-white/30 text-center">
                     <Users className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                     <p className="text-gray-300">
                       {language === 'ko' 
@@ -2831,7 +2902,7 @@ export default function CommunityPage() {
                   <motion.div
                     key={exhibition.id}
                     whileHover={{ scale: 1.02 }}
-                    className="bg-white/15 backdrop-blur-md rounded-2xl overflow-hidden border border-white/20 hover:bg-white/20 hover:border-white/30 transition-all duration-300 shadow-lg hover:shadow-xl"
+                    className="bg-black/30 backdrop-blur-md rounded-2xl overflow-hidden border border-white/30 hover:bg-black/40 hover:border-white/50 transition-all duration-300 shadow-lg hover:shadow-xl"
                   >
                     <div className="relative h-48">
                       <OptimizedImage

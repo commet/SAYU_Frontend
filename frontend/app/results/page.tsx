@@ -618,7 +618,7 @@ function ResultsContent() {
               {language === 'ko' ? '게스트로 보는 중' : 'Viewing as Guest'}
             </div>
             
-            <h2 className="text-3xl font-serif font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-3xl font-serif font-bold text-gray-900 mb-4">
               {language === 'ko' 
                 ? '이 결과를 저장하고 싶으신가요?' 
                 : 'Want to Save Your Results?'}

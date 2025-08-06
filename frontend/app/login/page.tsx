@@ -86,7 +86,7 @@ function LoginContent() {
           className="w-full max-w-md"
         >
           {/* Logo and Back Button */}
-          <div className="flex items-center justify-between mb-12">
+          <div className="flex items-center justify-between mb-8">
             <Link 
               href="/" 
               className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
@@ -123,7 +123,7 @@ function LoginContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mb-8"
+            className="mb-6"
           >
             <h1 className="sayu-display text-4xl font-bold text-white mb-2">
               {language === 'ko' ? '다시 만나요' : 'Welcome back'}
@@ -141,11 +141,11 @@ function LoginContent() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
             onSubmit={handleSubmit}
-            className="space-y-4"
+            className="space-y-3"
           >
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
                 {language === 'ko' ? '이메일' : 'Email'}
               </label>
               <div className="relative group">
@@ -154,7 +154,7 @@ function LoginContent() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 pl-12 bg-gray-100 border-2 border-gray-200 rounded-xl focus:border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-300/20 transition-all duration-300 hover:border-gray-300 text-gray-900"
+                  className="w-full px-4 py-2 pl-12 bg-gray-100 border-2 border-gray-200 rounded-xl focus:border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-300/20 transition-all duration-300 hover:border-gray-300 text-gray-900"
                   placeholder={language === 'ko' ? 'your@email.com' : 'your@email.com'}
                   required
                   autoComplete="email"
@@ -165,7 +165,7 @@ function LoginContent() {
 
             {/* Password Field */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
                 {language === 'ko' ? '비밀번호' : 'Password'}
               </label>
               <div className="relative group">
@@ -174,7 +174,7 @@ function LoginContent() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 pl-12 pr-12 bg-gray-100 border-2 border-gray-200 rounded-xl focus:border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-300/20 transition-all duration-300 hover:border-gray-300 text-gray-900"
+                  className="w-full px-4 py-2 pl-12 pr-12 bg-gray-100 border-2 border-gray-200 rounded-xl focus:border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-300/20 transition-all duration-300 hover:border-gray-300 text-gray-900"
                   placeholder="••••••••"
                   required
                   autoComplete="current-password"
@@ -220,7 +220,6 @@ function LoginContent() {
             >
               <ModernButton
                 type="submit"
-                size="lg"
                 className="w-full bg-white hover:bg-gray-100 text-gray-900 shadow-lg hover:shadow-xl"
                 loading={loading}
                 iconLeft={!loading && <LogIn className="w-5 h-5" />}
