@@ -1,0 +1,19 @@
+{
+  "crawl_timestamp": "2025-08-06T17:09:22.673Z",
+  "total_found": 0,
+  "exhibitions": [],
+  "errors": [
+    {
+      "url": "https://www.mmca.go.kr/exhibitions/progressList.do",
+      "error": "page.waitForTimeout is not a function"
+    },
+    {
+      "url": "https://www.mmca.go.kr/exhibitions/futureProgressList.do",
+      "error": "page.waitForTimeout is not a function"
+    },
+    {
+      "url": "https://www.mmca.go.kr/exhibitions/pastProgressList.do",
+      "error": "page.waitForTimeout is not a function"
+    }
+  ]
+}

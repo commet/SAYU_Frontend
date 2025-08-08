@@ -2688,7 +2688,37 @@ export default function CommunityPage() {
                                   {language === 'ko' ? '시너지' : 'Synergy'}
                                 </h4>
                                 <p className="text-base text-gray-100 mb-3 drop-shadow-lg leading-relaxed">
-                                  {language === 'ko' ? chemistry.synergy.description_ko : chemistry.synergy.description}
+                                  {(() => {
+                                    const synergyDesc = language === 'ko' ? chemistry.synergy.description_ko : chemistry.synergy.description;
+                                    // Replace animal names with actual usernames
+                                    const userDisplayName = user?.nickname || user?.name || 'You';
+                                    const matchDisplayName = selectedMatch.nickname || 'Partner';
+                                    
+                                    // Get animal names for both users
+                                    const userAnimalName = language === 'ko' ? userAnimal?.animal_ko : userAnimal?.animal;
+                                    const matchAnimalName = language === 'ko' ? matchAnimal?.animal_ko : matchAnimal?.animal;
+                                    
+                                    // Replace animal names with "Username(Animal)" format
+                                    let updatedDesc = synergyDesc;
+                                    if (userAnimalName && matchAnimalName) {
+                                      // Handle Korean
+                                      if (language === 'ko') {
+                                        updatedDesc = updatedDesc
+                                          .replace(new RegExp(`${userAnimalName}의`, 'g'), `${userDisplayName}(${userAnimalName})의`)
+                                          .replace(new RegExp(`${matchAnimalName}의`, 'g'), `${matchDisplayName}(${matchAnimalName})의`)
+                                          .replace(new RegExp(`${userAnimalName}가`, 'g'), `${userDisplayName}(${userAnimalName})가`)
+                                          .replace(new RegExp(`${matchAnimalName}가`, 'g'), `${matchDisplayName}(${matchAnimalName})가`);
+                                      } else {
+                                        // Handle English
+                                        updatedDesc = updatedDesc
+                                          .replace(new RegExp(`${userAnimalName}'s`, 'g'), `${userDisplayName}(${userAnimalName})'s`)
+                                          .replace(new RegExp(`${matchAnimalName}'s`, 'g'), `${matchDisplayName}(${matchAnimalName})'s`)
+                                          .replace(new RegExp(`\\b${userAnimalName}\\b`, 'g'), `${userDisplayName}(${userAnimalName})`)
+                                          .replace(new RegExp(`\\b${matchAnimalName}\\b`, 'g'), `${matchDisplayName}(${matchAnimalName})`);
+                                      }
+                                    }
+                                    return updatedDesc;
+                                  })()}
                                 </p>
                                 
                                 {/* 추가 분석 내용 */}
@@ -2703,13 +2733,36 @@ export default function CommunityPage() {
                                         const synergy = synergyTable[synergyKey];
                                         
                                         if (synergy) {
-                                          return language === 'ko' ? synergy.viewingStyle.ko : synergy.viewingStyle.en;
+                                          const viewingStyleText = language === 'ko' ? synergy.viewingStyle.ko : synergy.viewingStyle.en;
+                                          const userDisplayName = user?.nickname || user?.name || 'You';
+                                          const matchDisplayName = selectedMatch.nickname || 'Partner';
+                                          const userAnimalName = language === 'ko' ? userAnimal?.animal_ko : userAnimal?.animal;
+                                          const matchAnimalName = language === 'ko' ? matchAnimal?.animal_ko : matchAnimal?.animal;
+                                          
+                                          // Replace animal names with "Username(Animal)" format in synergy text
+                                          let updatedText = viewingStyleText;
+                                          if (userAnimalName && matchAnimalName) {
+                                            if (language === 'ko') {
+                                              // Replace various Korean patterns
+                                              updatedText = updatedText
+                                                .replace(new RegExp(`${userAnimalName}(\uc758|\uc740|\ub294|\uac00|\uc640|\uc774)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
+                                                .replace(new RegExp(`${matchAnimalName}(\uc758|\uc740|\ub294|\uac00|\uc640|\uc774)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
+                                            } else {
+                                              // Replace English patterns
+                                              updatedText = updatedText
+                                                .replace(new RegExp(`${userAnimalName}('s|\\s)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
+                                                .replace(new RegExp(`${matchAnimalName}('s|\\s)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
+                                            }
+                                          }
+                                          return updatedText;
                                         }
                                         
                                         // 폴백: 테이블에 없는 경우 기본 메시지
+                                        const userDisplayName = user?.nickname || user?.name || 'You';
+                                        const matchDisplayName = selectedMatch.nickname || 'Partner';
                                         return language === 'ko' 
-                                          ? `${userAnimal?.animal_ko}와 ${matchAnimal?.animal_ko}의 독특한 관람 스타일이 서로를 보완해요!`
-                                          : `${userAnimal?.animal} and ${matchAnimal?.animal} have unique viewing styles that complement each other!`;
+                                          ? `${userDisplayName}(${userAnimal?.animal_ko})와 ${matchDisplayName}(${matchAnimal?.animal_ko})의 독특한 관람 스타일이 서로를 보완해요!`
+                                          : `${userDisplayName}(${userAnimal?.animal}) and ${matchDisplayName}(${matchAnimal?.animal}) have unique viewing styles that complement each other!`;
                                       })()}
                                     </p>
                                   </div>
@@ -2724,13 +2777,36 @@ export default function CommunityPage() {
                                         const synergy = synergyTable[synergyKey];
                                         
                                         if (synergy) {
-                                          return language === 'ko' ? synergy.conversationChemistry.ko : synergy.conversationChemistry.en;
+                                          const conversationText = language === 'ko' ? synergy.conversationChemistry.ko : synergy.conversationChemistry.en;
+                                          const userDisplayName = user?.nickname || user?.name || 'You';
+                                          const matchDisplayName = selectedMatch.nickname || 'Partner';
+                                          const userAnimalName = language === 'ko' ? userAnimal?.animal_ko : userAnimal?.animal;
+                                          const matchAnimalName = language === 'ko' ? matchAnimal?.animal_ko : matchAnimal?.animal;
+                                          
+                                          // Replace animal names with "Username(Animal)" format in synergy text
+                                          let updatedText = conversationText;
+                                          if (userAnimalName && matchAnimalName) {
+                                            if (language === 'ko') {
+                                              // Replace various Korean patterns
+                                              updatedText = updatedText
+                                                .replace(new RegExp(`${userAnimalName}(\uc758|\uc740|\ub294|\uac00|\uc640|\uc774)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
+                                                .replace(new RegExp(`${matchAnimalName}(\uc758|\uc740|\ub294|\uac00|\uc640|\uc774)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
+                                            } else {
+                                              // Replace English patterns
+                                              updatedText = updatedText
+                                                .replace(new RegExp(`${userAnimalName}('s|\\s)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
+                                                .replace(new RegExp(`${matchAnimalName}('s|\\s)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
+                                            }
+                                          }
+                                          return updatedText;
                                         }
                                         
                                         // 폴백: 테이블에 없는 경우 기본 메시지
+                                        const userDisplayName = user?.nickname || user?.name || 'You';
+                                        const matchDisplayName = selectedMatch.nickname || 'Partner';
                                         return language === 'ko' 
-                                          ? `${userAnimal?.animal_ko}와 ${matchAnimal?.animal_ko}의 대화는 서로를 풍요롭게 만들어요!`
-                                          : `${userAnimal?.animal} and ${matchAnimal?.animal} have enriching conversations!`;
+                                          ? `${userDisplayName}(${userAnimal?.animal_ko})와 ${matchDisplayName}(${matchAnimal?.animal_ko})의 대화는 서로를 풍요롭게 만들어요!`
+                                          : `${userDisplayName}(${userAnimal?.animal}) and ${matchDisplayName}(${matchAnimal?.animal}) have enriching conversations!`;
                                       })()}
                                     </p>
                                   </div>
@@ -2745,7 +2821,28 @@ export default function CommunityPage() {
                                         const synergy = synergyTable[synergyKey];
                                         
                                         if (synergy) {
-                                          return language === 'ko' ? synergy.recommendedActivities.ko : synergy.recommendedActivities.en;
+                                          const activitiesText = language === 'ko' ? synergy.recommendedActivities.ko : synergy.recommendedActivities.en;
+                                          const userDisplayName = user?.nickname || user?.name || 'You';
+                                          const matchDisplayName = selectedMatch.nickname || 'Partner';
+                                          const userAnimalName = language === 'ko' ? userAnimal?.animal_ko : userAnimal?.animal;
+                                          const matchAnimalName = language === 'ko' ? matchAnimal?.animal_ko : matchAnimal?.animal;
+                                          
+                                          // Replace animal names with "Username(Animal)" format in synergy text
+                                          let updatedText = activitiesText;
+                                          if (userAnimalName && matchAnimalName) {
+                                            if (language === 'ko') {
+                                              // Replace various Korean patterns
+                                              updatedText = updatedText
+                                                .replace(new RegExp(`${userAnimalName}(\uc758|\uc740|\ub294|\uac00|\uc640|\uc774)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
+                                                .replace(new RegExp(`${matchAnimalName}(\uc758|\uc740|\ub294|\uac00|\uc640|\uc774)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
+                                            } else {
+                                              // Replace English patterns
+                                              updatedText = updatedText
+                                                .replace(new RegExp(`${userAnimalName}('s|\\s)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
+                                                .replace(new RegExp(`${matchAnimalName}('s|\\s)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
+                                            }
+                                          }
+                                          return updatedText;
                                         }
                                         
                                         // 폴백: 테이블에 없는 경우 기본 메시지
@@ -2820,8 +2917,8 @@ export default function CommunityPage() {
                                         </p>
                                         <p className="text-xs text-cyan-200 italic drop-shadow-sm">
                                           💫 {language === 'ko' 
-                                            ? `${userAnimal?.animal_ko}과 ${matchAnimal?.animal_ko}의 관점이 만나면 색채의 새로운 차원을 발견해요`
-                                            : `When ${userAnimal?.animal} meets ${matchAnimal?.animal}, discover new dimensions of color`}
+                                            ? `${user?.nickname || user?.name || 'You'}(${userAnimal?.animal_ko})과 ${selectedMatch.nickname}(${matchAnimal?.animal_ko})의 관점이 만나면 색채의 새로운 차원을 발견해요`
+                                            : `When ${user?.nickname || user?.name || 'You'}(${userAnimal?.animal}) meets ${selectedMatch.nickname}(${matchAnimal?.animal}), discover new dimensions of color`}
                                         </p>
                                       </div>
                                     </div>
@@ -2846,7 +2943,36 @@ export default function CommunityPage() {
                                     </p>
                                     <div className="space-y-2">
                                       <p className="text-gray-100 text-sm drop-shadow-md leading-relaxed">
-                                        {language === 'ko' ? chemistry.tips.for_type1_ko : chemistry.tips.for_type1}
+                                        {(() => {
+                                          const tipText = language === 'ko' ? chemistry.tips.for_type1_ko : chemistry.tips.for_type1;
+                                          const userDisplayName = user?.nickname || user?.name || 'You';
+                                          const matchDisplayName = selectedMatch.nickname || 'Partner';
+                                          
+                                          // Get animal names for both users
+                                          const userAnimalName = language === 'ko' ? userAnimal?.animal_ko : userAnimal?.animal;
+                                          const matchAnimalName = language === 'ko' ? matchAnimal?.animal_ko : matchAnimal?.animal;
+                                          
+                                          // Replace animal names with "Username(Animal)" format
+                                          let updatedTip = tipText;
+                                          if (userAnimalName && matchAnimalName) {
+                                            // Handle Korean
+                                            if (language === 'ko') {
+                                              updatedTip = updatedTip
+                                                .replace(new RegExp(`${userAnimalName}가`, 'g'), `${userDisplayName}(${userAnimalName})가`)
+                                                .replace(new RegExp(`${matchAnimalName}가`, 'g'), `${matchDisplayName}(${matchAnimalName})가`)
+                                                .replace(new RegExp(`${userAnimalName}에게`, 'g'), `${userDisplayName}(${userAnimalName})에게`)
+                                                .replace(new RegExp(`${matchAnimalName}에게`, 'g'), `${matchDisplayName}(${matchAnimalName})에게`)
+                                                .replace(new RegExp(`\\b${userAnimalName}\\b`, 'g'), `${userDisplayName}(${userAnimalName})`)
+                                                .replace(new RegExp(`\\b${matchAnimalName}\\b`, 'g'), `${matchDisplayName}(${matchAnimalName})`);
+                                            } else {
+                                              // Handle English
+                                              updatedTip = updatedTip
+                                                .replace(new RegExp(`\\b${userAnimalName}\\b`, 'g'), `${userDisplayName}(${userAnimalName})`)
+                                                .replace(new RegExp(`\\b${matchAnimalName}\\b`, 'g'), `${matchDisplayName}(${matchAnimalName})`);
+                                            }
+                                          }
+                                          return updatedTip;
+                                        })()}
                                       </p>
                                       <ul className="text-sm text-gray-100 space-y-1 list-disc list-inside drop-shadow-md">
                                         <li>{language === 'ko' ? '첫 만남은 전시장 입구 카페에서 가볍게 인사를 나눠보세요' : 'Start with a casual greeting at the entrance cafe'}</li>
