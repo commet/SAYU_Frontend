@@ -75,6 +75,11 @@ function GalleryContent() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [likedArtworks, setLikedArtworks] = useState<Set<string>>(new Set());
   const [viewedArtworks, setViewedArtworks] = useState<Set<string>>(new Set());
+  const [savedArtworks, setSavedArtworks] = useState<Set<string>>(new Set());
+  
+  // 새로운 통계 상태
+  const [monthlyCollected, setMonthlyCollected] = useState(0);
+  const [todayDiscovered, setTodayDiscovered] = useState(0);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [recommendedArtworks, setRecommendedArtworks] = useState<any[]>([]);
   const [layout, setLayout] = useState<'masonry' | 'grid' | 'list'>('masonry');
@@ -152,53 +157,29 @@ function GalleryContent() {
 
   const loadRecommendedArtworks = async () => {
     try {
-      const recommendations = [];
+      // Import the new recommendation system
+      const { getPersonalizedRecommendations } = await import('./artwork-recommendations');
       
-      const categoryMapping: Record<string, string[]> = {
-        'all': [],
-        'paintings': ['회화', 'painting'],
-        'sculpture': ['조각', 'sculpture'],
-        'photography': ['사진', 'photography'],
-        'asian-art': ['동양미술', 'asian art'],
-        'modern': ['현대미술', 'modern art'],
-        'contemporary': ['컨템포러리', 'contemporary']
-      };
+      const userType = userProfile?.typeCode || userProfile?.personalityType || user?.aptType || 'SREF';
+      const recommendations = getPersonalizedRecommendations(userType, selectedCategory);
       
-      // Import SAYU recommendations from external file
-      const { aptRecommendations } = await import('./sayu-recommendations');
+      // Transform to match existing interface
+      const formattedRecommendations = recommendations.slice(0, 5).map((rec, i) => ({
+        id: rec.id || `rec-${i}`,
+        title: rec.title,
+        artist: rec.artist,
+        year: rec.year,
+        description: rec.description || rec.curatorNote,
+        href: '#',
+        image: rec.cloudinaryUrl || rec.imageUrl || `https://picsum.photos/600/400?random=rec${i}`,
+        matchPercent: rec.matchPercent,
+        curatorNote: rec.curatorNote
+      }));
       
-      const userType = userProfile?.typeCode || userProfile?.personalityType || 'SREF';
-      let typeRecommendations = aptRecommendations[userType] || aptRecommendations['SREF'];
-      
-      // 카테고리에 따른 필터링
-      if (selectedCategory && selectedCategory !== 'all') {
-        typeRecommendations = typeRecommendations.filter(rec => 
-          rec.category && rec.category.includes(selectedCategory)
-        );
-      }
-      
-      // 만약 필터링 후 결과가 없다면 모든 추천 보여주기
-      if (typeRecommendations.length === 0) {
-        typeRecommendations = aptRecommendations[userType] || aptRecommendations['SREF'];
-      }
-      
-      typeRecommendations.slice(0, 5).forEach((rec, i) => {
-        recommendations.push({
-          id: `rec-${i}`,
-          title: rec.title,
-          artist: rec.artist,
-          year: rec.year,
-          description: rec.description,
-          href: '#',
-          image: rec.image || `https://picsum.photos/600/400?random=rec${i}`,
-          matchPercent: rec.matchPercent,
-          curatorNote: rec.curatorNote
-        });
-      });
-      
-      setRecommendedArtworks(recommendations);
+      setRecommendedArtworks(formattedRecommendations);
     } catch (error) {
       console.error('Failed to load recommendations:', error);
+      setRecommendedArtworks([]);
     }
   };
 
@@ -211,81 +192,67 @@ function GalleryContent() {
       console.log('Fetching artworks for category:', category);
       
       // 유저의 APT 유형에 따른 맞춤 추천 작품 가져오기
-      const getPersonalizedArtworks = () => {
-        const userType = user?.aptType;
-        if (userType && aptRecommendations[userType]) {
-          return aptRecommendations[userType].map((artwork, i) => ({
-            id: `apt-${userType}-${i}`,
+      const getPersonalizedArtworks = async () => {
+        try {
+          const { getPersonalizedRecommendations } = await import('./artwork-recommendations');
+          const userType = user?.aptType || userProfile?.typeCode || 'SREF';
+          const recommendations = getPersonalizedRecommendations(userType, category);
+          
+          return recommendations.map((artwork, i) => ({
+            id: artwork.id || `apt-${userType}-${i}`,
             title: artwork.title,
             artist: artwork.artist,
             year: artwork.year,
-            imageUrl: artwork.image || 'https://via.placeholder.com/400x300',
-            museum: 'SAYU Curated Collection',
-            medium: 'Oil on canvas',
-            department: category,
-            isPublicDomain: true,
+            imageUrl: artwork.cloudinaryUrl || artwork.imageUrl || 'https://via.placeholder.com/400x300',
+            museum: artwork.museum || 'SAYU Curated Collection',
+            medium: artwork.medium || 'Mixed Media',
+            department: artwork.department || category,
+            isPublicDomain: artwork.isPublicDomain !== undefined ? artwork.isPublicDomain : true,
             license: 'CC0',
             matchPercent: artwork.matchPercent,
             curatorNote: artwork.curatorNote,
             description: artwork.description
           }));
+        } catch (error) {
+          console.error('Error getting personalized artworks:', error);
+          return [];
         }
-        return [];
       };
       
-      // 카테고리별 실제 작품 데이터 - Cloudinary의 실제 작품들
-      const categoryArtworks: Record<string, any[]> = {
-        'all': getPersonalizedArtworks().length > 0 ? getPersonalizedArtworks() : [
-          { title: '꽃이 있는 정물', artist: '오딜롱 르동', year: '1905', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754459/sayu/met-artworks/met-chicago-110982.jpg' },
-          { title: '테이블 모서리의 정물', artist: '앙리 팡탱-라투르', year: '1873', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754461/sayu/met-artworks/met-chicago-75507.jpg' },
-          { title: '그릇 속의 장미', artist: '앙리 팡탱-라투르', year: '1881', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754469/sayu/met-artworks/met-chicago-20534.jpg' },
-          { title: '원숭이와 과일, 꽃이 있는 정물', artist: '장 바티스트 우드리', year: '1724', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754474/sayu/met-artworks/met-chicago-94126.jpg' },
-          { title: '목련과 파란 벨벳', artist: '마틴 존슨 히드', year: '1885-95', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754449/sayu/met-artworks/met-chicago-100829.jpg' },
-          { title: '과일 정물', artist: '한나 브라운 스킬', year: '1860', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754451/sayu/met-artworks/met-chicago-156596.jpg' },
-          { title: '수태고지', artist: '장 에이', year: '1490-95', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752838554/sayu/met-artworks/met-chicago-16327.jpg' },
-          { title: '과일과 아스파라거스 바구니', artist: '루이즈 모용', year: '1630', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754472/sayu/met-artworks/met-chicago-62450.jpg' },
-          { title: '정물 3번', artist: '마스던 하틀리', year: '1923', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754465/sayu/met-artworks/met-chicago-65940.jpg' },
-          { title: '꽃이 있는 정물', artist: '앙리 팡탱-라투르', year: '1881', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754467/sayu/met-artworks/met-chicago-72180.jpg' },
-          { title: '과일과 와인 주전자', artist: '아돌프 몽티셀리', year: '1874', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752835716/sayu/met-artworks/met-chicago-72183.jpg' },
-          { title: '정물', artist: '외젠 카리에르', year: '1875', imageUrl: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752835718/sayu/met-artworks/met-chicago-27170.jpg' }
-        ],
-        'paintings': [
-          { title: '별이 빛나는 밤', artist: '빈센트 반 고흐', year: '1889', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/800px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg' },
-          { title: '모나리자', artist: '레오나르도 다 빈치', year: '1503', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg' },
-          { title: '진주 귀걸이를 한 소녀', artist: '요하네스 베르메르', year: '1665', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Meisje_met_de_parel.jpg/800px-Meisje_met_de_parel.jpg' },
-          { title: '수련', artist: '클로드 모네', year: '1916', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Claude_Monet_-_Water_Lilies_-_1906.jpg/1280px-Claude_Monet_-_Water_Lilies_-_1906.jpg' },
-          { title: '인상, 해돋이', artist: '클로드 모네', year: '1872', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/1280px-Monet_-_Impression%2C_Sunrise.jpg' },
-          { title: '게르니카', artist: '파블로 피카소', year: '1937', imageUrl: 'https://upload.wikimedia.org/wikipedia/en/7/74/PicassoGuernica.jpg' }
-        ],
-        'sculpture': [
-          { title: '다비드', artist: '미켈란젤로', year: '1504', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Michelangelo%27s_David_-_right_view_2.jpg/600px-Michelangelo%27s_David_-_right_view_2.jpg' },
-          { title: '피에타', artist: '미켈란젤로', year: '1499', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Michelangelo%27s_Pieta_5450_cropncleaned_edit.jpg/800px-Michelangelo%27s_Pieta_5450_cropncleaned_edit.jpg' },
-          { title: '생각하는 사람', artist: '오귀스트 로댕', year: '1902', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Paris_2010_-_Le_Penseur.jpg/600px-Paris_2010_-_Le_Penseur.jpg' },
-          { title: '자유의 여신상', artist: '프레데릭 오귀스트 바르톨디', year: '1886', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Statue_of_Liberty_7.jpg/800px-Statue_of_Liberty_7.jpg' }
-        ],
-        'photography': [
-          { title: '아프간 소녀', artist: '스티브 맥커리', year: '1984', imageUrl: 'https://upload.wikimedia.org/wikipedia/en/b/b4/Sharbat_Gula.jpg' },
-          { title: '달 위의 인간', artist: 'NASA', year: '1969', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Aldrin_Apollo_11_original.jpg/800px-Aldrin_Apollo_11_original.jpg' },
-          { title: '점심시간', artist: '찰스 이베츠', year: '1932', imageUrl: 'https://upload.wikimedia.org/wikipedia/en/thumb/e/e8/Lunch-atop-a-skyscraper-c1932.jpg/800px-Lunch-atop-a-skyscraper-c1932.jpg' }
-        ],
-        'asian-art': [
-          { title: '후지산 36경', artist: '가츠시카 호쿠사이', year: '1831', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/1280px-The_Great_Wave_off_Kanagawa.jpg' },
-          { title: '기린도', artist: '전기', year: '조선시대', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Giraffe_from_bengal.jpg/800px-Giraffe_from_bengal.jpg' },
-          { title: '묵죽도', artist: '정선', year: '18세기', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Bamboo_in_the_Wind.jpg/600px-Bamboo_in_the_Wind.jpg' }
-        ],
-        'modern': [
-          { title: '게르니카', artist: '파블로 피카소', year: '1937', imageUrl: 'https://upload.wikimedia.org/wikipedia/en/7/74/PicassoGuernica.jpg' },
-          { title: '아를의 침실', artist: '빈센트 반 고흐', year: '1888', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Vincent_van_Gogh_-_The_Bedroom_-_Google_Art_Project.jpg/1280px-Vincent_van_Gogh_-_The_Bedroom_-_Google_Art_Project.jpg' },
-          { title: '기억의 지속', artist: '살바도르 달리', year: '1931', imageUrl: 'https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg' }
-        ],
-        'contemporary': [
-          { title: '캠벨 수프 캔', artist: '앤디 워홀', year: '1962', imageUrl: 'https://upload.wikimedia.org/wikipedia/en/1/1f/Campbell%27s_Soup_Cans_by_Andy_Warhol.jpg' },
-          { title: 'Infinity Room', artist: '쿠사마 야요이', year: '2013', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Yayoi_Kusama%27s_Infinity_Room.jpg/1024px-Yayoi_Kusama%27s_Infinity_Room.jpg' },
-          { title: 'Balloon Dog', artist: '제프 쿤스', year: '1994', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Jeff_Koons_Balloon_Dog.jpg/800px-Jeff_Koons_Balloon_Dog.jpg' }
-        ]
-      };
-
-      const selectedArtworks = categoryArtworks[category] || categoryArtworks['all'];
+      // Get personalized artworks based on user type and category
+      const personalizedArtworks = await getPersonalizedArtworks();
+      
+      // If we have personalized artworks, use them
+      // Otherwise, get from recommendation system
+      let selectedArtworks = [];
+      
+      if (personalizedArtworks.length > 0) {
+        selectedArtworks = personalizedArtworks;
+      } else {
+        // Fallback: get recommendations from the system
+        try {
+          const { getRandomRecommendations } = await import('./artwork-recommendations');
+          const fallbackArtworks = getRandomRecommendations(category);
+          selectedArtworks = fallbackArtworks.map(artwork => ({
+            id: artwork.id,
+            title: artwork.title,
+            artist: artwork.artist,
+            year: artwork.year,
+            imageUrl: artwork.cloudinaryUrl || artwork.imageUrl,
+            museum: artwork.museum,
+            medium: artwork.medium,
+            department: artwork.department,
+            isPublicDomain: artwork.isPublicDomain,
+            license: 'CC0',
+            matchPercent: artwork.matchPercent,
+            curatorNote: artwork.curatorNote,
+            description: artwork.description
+          }));
+        } catch (error) {
+          console.error('Error loading fallback artworks:', error);
+          selectedArtworks = [];
+        }
+      }
       const mockArtworks: GalleryArtwork[] = selectedArtworks.map((artwork, i) => ({
         id: artwork.id || `${category}-${i}`,
         title: artwork.title,
@@ -316,18 +283,26 @@ function GalleryContent() {
   };
 
   const handleLike = async (artworkId: string) => {
+    console.log('🚀 handleLike called with artworkId:', artworkId);
+    
     const newLiked = new Set(likedArtworks);
     const isLiking = !newLiked.has(artworkId);
     
+    console.log('Current liked artworks:', [...likedArtworks]);
+    console.log('Is liking:', isLiking);
+    
     if (isLiking) {
       newLiked.add(artworkId);
-      toast.success('Added to favorites');
+      toast.success('❤️ Added to favorites!');
+      console.log('✅ Added to favorites');
     } else {
       newLiked.delete(artworkId);
-      toast.success('Removed from favorites');
+      toast.success('💔 Removed from favorites');
+      console.log('❌ Removed from favorites');
     }
     
     setLikedArtworks(newLiked);
+    console.log('New liked artworks:', [...newLiked]);
     
     // Save to guest storage if in guest mode
     if (effectiveGuestMode) {
@@ -345,6 +320,79 @@ function GalleryContent() {
             detail: { milestone: 'first_save' }
           }));
         }, 1000);
+      }
+    } else {
+      saveUserPreferences();
+    }
+  };
+  
+  const handleSave = async (artworkId: string) => {
+    const newSaved = new Set(savedArtworks);
+    const isSaving = !newSaved.has(artworkId);
+    
+    console.log('handleSave called:', { artworkId, isSaving });
+    console.log('recommendedArtworks:', recommendedArtworks);
+    
+    if (isSaving) {
+      newSaved.add(artworkId);
+      toast.success('📌 내 아트 컬렉션에 추가되었습니다!');
+      
+      // 오늘 발견한 작품 카운트 증가
+      setTodayDiscovered(prev => prev + 1);
+      
+      // 추천 작품에서 보관한 작품을 galleryArtworks 맨 앞에 추가 (최신 순)
+      const savedArtwork = recommendedArtworks.find(artwork => artwork.id === artworkId);
+      console.log('Found savedArtwork:', savedArtwork);
+      
+      if (savedArtwork) {
+        setGalleryArtworks(prev => {
+          console.log('Current galleryArtworks length:', prev.length);
+          const exists = prev.some(artwork => artwork.id === artworkId);
+          console.log('Artwork exists in gallery:', exists);
+          
+          if (!exists) {
+            // 새로운 작품을 배열의 맨 앞에 추가 (unshift 효과)
+            const newArtwork = {
+              id: savedArtwork.id,
+              title: savedArtwork.title,
+              artist: savedArtwork.artist,
+              year: savedArtwork.year,
+              imageUrl: savedArtwork.image || savedArtwork.imageUrl || savedArtwork.cloudinaryUrl,
+              museum: savedArtwork.museum || 'SAYU Curated',
+              medium: savedArtwork.medium || 'Mixed Media',
+              department: savedArtwork.department || 'Contemporary Art',
+              isPublicDomain: savedArtwork.isPublicDomain || true,
+              license: savedArtwork.license || 'CC0',
+              matchPercent: savedArtwork.matchPercent,
+              curatorNote: savedArtwork.description || savedArtwork.curatorNote,
+              description: savedArtwork.description
+            };
+            console.log('Adding newArtwork to gallery:', newArtwork);
+            
+            // 맨 앞에 새 작품 추가 + 저장 상태 표시
+            const updatedArtworks = [{ ...newArtwork, isNewlyAdded: true }, ...prev];
+            console.log('Updated galleryArtworks length:', updatedArtworks.length);
+            return updatedArtworks;
+          }
+          return prev;
+        });
+      } else {
+        console.log('savedArtwork not found in recommendedArtworks');
+      }
+    } else {
+      newSaved.delete(artworkId);
+      toast.success('📌 컬렉션에서 제거되었습니다');
+    }
+    
+    setSavedArtworks(newSaved);
+    
+    // Save to storage
+    if (effectiveGuestMode) {
+      const { GuestStorage } = await import('@/lib/guest-storage');
+      if (isSaving) {
+        GuestStorage.addSavedArtwork(artworkId);
+      } else {
+        GuestStorage.removeSavedArtwork(artworkId);
       }
     } else {
       saveUserPreferences();
@@ -454,9 +502,9 @@ function GalleryContent() {
                     Shuffle
                   </Button>
                   <GalleryStats 
-                    totalArtworks={galleryArtworks.length}
-                    likedCount={likedArtworks.size}
-                    viewedCount={viewedArtworks.size}
+                    monthlyCollected={savedArtworks.size}  // 컬렉션한 작품 수
+                    totalLiked={likedArtworks.size}        // 좋아요한 작품 수
+                    todayDiscovered={todayDiscovered}      // 오늘 새로 발견한 작품 수
                   />
                 </>
               )}
@@ -499,9 +547,17 @@ function GalleryContent() {
                 <h2 className="text-xl font-semibold mb-1 text-white">
                   {userAptType} 유형을 위한 추천 작품
                 </h2>
-                <p className="text-sm text-gray-300">
+                <p className="text-sm text-gray-300 mb-2">
                   AI Curator가 당신의 APT 분석을 기반으로 큐레이션한 작품들입니다
                 </p>
+                <div className="flex gap-4 text-xs text-white">
+                  <span className="flex items-center gap-1">
+                    ❤️ <strong>좋아요</strong>: AI가 비슷한 작품을 더 추천해줍니다
+                  </span>
+                  <span className="flex items-center gap-1">
+                    📌 <strong>보관하기</strong>: 내 아트 컬렉션에 추가됩니다
+                  </span>
+                </div>
               </div>
               <Button variant="ghost" size="sm" className="rounded-full text-slate-400 hover:text-white hover:bg-slate-800">
                 더보기 <ChevronRight className="w-4 h-4 ml-1" />
@@ -527,25 +583,29 @@ function GalleryContent() {
                         <motion.button
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
-                          className="p-2 rounded-full backdrop-blur-md bg-slate-800/80 hover:bg-slate-700/90 shadow-lg border border-slate-600"
+                          className="p-2 rounded-full backdrop-blur-md bg-slate-800/80 hover:bg-slate-700/90 shadow-lg border border-slate-600 group/like"
                           onClick={(e) => {
                             e.stopPropagation();
-                            toast.success('좋아요가 추가되었습니다');
+                            console.log('❤️ 추천 작품 좋아요:', item.id);
+                            handleLike(item.id);
                           }}
+                          title="좋아요 - AI가 비슷한 작품을 더 추천해줍니다"
                         >
-                          <Heart className="w-4 h-4 text-purple-400" />
+                          <Heart className={`w-4 h-4 transition-colors ${likedArtworks.has(item.id) ? 'text-red-500 fill-red-500' : 'text-purple-400 group-hover/like:text-red-400'}`} />
                         </motion.button>
                         
                         <motion.button
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
-                          className="p-2 rounded-full backdrop-blur-md bg-slate-800/80 hover:bg-slate-700/90 shadow-lg border border-slate-600"
+                          className="p-2 rounded-full backdrop-blur-md bg-slate-800/80 hover:bg-slate-700/90 shadow-lg border border-slate-600 group/save"
                           onClick={(e) => {
                             e.stopPropagation();
-                            toast.success('보관함에 추가되었습니다');
+                            console.log('📌 추천 작품 보관:', item.id);
+                            handleSave(item.id);
                           }}
+                          title="보관하기 - 내 아트 컬렉션에 추가됩니다"
                         >
-                          <Bookmark className="w-4 h-4 text-purple-400" />
+                          <Bookmark className={`w-4 h-4 transition-colors ${savedArtworks.has(item.id) ? 'text-green-500 fill-green-500' : 'text-purple-400 group-hover/save:text-green-400'}`} />
                         </motion.button>
                       </div>
                       
@@ -650,22 +710,6 @@ function GalleryContent() {
                       loading="lazy"
                     />
                     
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => handleLike(artwork.id)}
-                          className="p-2 rounded-full bg-slate-800/80 hover:bg-slate-700/90 transition-colors border border-slate-600"
-                        >
-                          <Heart className={`w-4 h-4 ${likedArtworks.has(artwork.id) ? 'text-red-400 fill-current' : 'text-slate-300'}`} />
-                        </button>
-                        <button
-                          onClick={() => handleView(artwork.id)}
-                          className="p-2 rounded-full bg-slate-800/80 hover:bg-slate-700/90 transition-colors border border-slate-600"
-                        >
-                          <Eye className="w-4 h-4 text-slate-300" />
-                        </button>
-                      </div>
-                    </div>
                   </div>
                   
                   <div className="p-3">
@@ -684,6 +728,48 @@ function GalleryContent() {
                         </div>
                       </div>
                     )}
+                    
+                    {/* Action Buttons */}
+                    <div className="mt-3 flex items-center justify-between">
+                      <div className="flex gap-2">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('❤️ Heart button clicked for:', artwork.id);
+                            handleLike(artwork.id);
+                          }}
+                          className="p-2 rounded-full bg-slate-700/50 hover:bg-slate-600 transition-all hover:scale-110"
+                          title="좋아요"
+                        >
+                          <Heart className={`w-4 h-4 transition-colors ${likedArtworks.has(artwork.id) ? 'text-red-500 fill-red-500' : 'text-slate-300 hover:text-red-400'}`} />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('👁️ View button clicked for:', artwork.id);
+                            handleView(artwork.id);
+                          }}
+                          className="p-2 rounded-full bg-slate-700/50 hover:bg-slate-600 transition-all hover:scale-110"
+                          title="보기"
+                        >
+                          <Eye className={`w-4 h-4 transition-colors ${viewedArtworks.has(artwork.id) ? 'text-blue-400' : 'text-slate-300 hover:text-blue-400'}`} />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('📌 Save button clicked for:', artwork.id);
+                            handleSave(artwork.id);
+                          }}
+                          className="p-2 rounded-full bg-slate-700/50 hover:bg-slate-600 transition-all hover:scale-110"
+                          title="저장"
+                        >
+                          <Bookmark className={`w-4 h-4 transition-colors ${savedArtworks.has(artwork.id) ? 'text-green-500 fill-green-500' : 'text-slate-300 hover:text-green-400'}`} />
+                        </button>
+                      </div>
+                    </div>
                     
                     {artwork.curatorNote && (
                       <p className="text-xs text-slate-400 mt-1 line-clamp-2 italic">

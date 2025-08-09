@@ -3,13 +3,15 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
-import { Sparkles, Palette, MapPin, Heart, TrendingUp, Calendar, ArrowRight, Zap, Eye, Clock, GalleryVerticalEnd } from 'lucide-react';
+import { Sparkles, Palette, MapPin, Heart, TrendingUp, Calendar, ArrowRight, Zap, Eye, Clock, GalleryVerticalEnd, Home, Users, User, LogOut, Menu, Star, BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 export default function DashboardPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [artworks, setArtworks] = useState<any[]>([]);
 
   console.log('Dashboard - Loading:', loading, 'User:', user);
 
@@ -28,6 +30,20 @@ export default function DashboardPage() {
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 60000);
     return () => clearInterval(timer);
+  }, []);
+
+  // Fetch artworks data
+  useEffect(() => {
+    const fetchArtworks = async () => {
+      try {
+        const response = await fetch('/data/artworks.json');
+        const data = await response.json();
+        setArtworks(data.artworks || []);
+      } catch (error) {
+        console.error('Failed to fetch artworks:', error);
+      }
+    };
+    fetchArtworks();
   }, []);
 
   if (loading) {
@@ -52,206 +68,395 @@ export default function DashboardPage() {
   const hasCompletedQuiz = false; // user.profile?.personality_type
   const personalityType = null; // user.profile?.personality_type
   
-  const todayRecommendations = [
-    {
-      type: 'artwork',
-      title: '별이 빛나는 밤',
-      artist: '빈센트 반 고흐',
-      reason: '당신의 감성적 성향과 잘 맞아요',
-      image: '/api/placeholder/300/200'
-    },
-    {
+  // Get random artworks for recommendations
+  const randomArtworks = artworks.length > 0 
+    ? artworks.sort(() => 0.5 - Math.random()).slice(0, 3)
+    : [];
+  
+  const todayRecommendations = randomArtworks.map((artwork, index) => ({
+    type: 'artwork',
+    title: artwork.title || 'Untitled',
+    artist: artwork.artist || 'Unknown Artist',
+    reason: index === 0 ? '당신의 감성적 성향과 잘 맞아요' : '오늘의 추천 작품',
+    image: artwork.cloudinaryUrl || artwork.primaryImage || '/api/placeholder/300/200',
+    objectID: artwork.objectID
+  }));
+
+  // Add exhibition recommendation
+  if (todayRecommendations.length < 3) {
+    todayRecommendations.push({
       type: 'exhibition',
       title: '모네와 인상주의',
       venue: '국립현대미술관',
       date: '2024.03.01 - 05.31',
       distance: '2.5km',
       image: '/api/placeholder/300/200'
-    }
-  ];
+    });
+  }
 
   const journeyStats = {
-    artworksViewed: 0,
-    artistsDiscovered: 0,
-    exhibitionsVisited: 0,
-    daysActive: 0
+    artworksViewed: 127,
+    artistsDiscovered: 43,
+    exhibitionsVisited: 8,
+    daysActive: 15,
+    savedArtworks: 24,
+    likedArtworks: 87
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-gray-900 dark:via-slate-900 dark:to-indigo-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div 
+      className="min-h-screen bg-cover bg-center bg-fixed relative"
+      style={{ backgroundImage: 'url(/images/backgrounds/stone-gallery-entrance-solitary-figure.jpg)' }}
+    >
+      {/* Dark overlay for better readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />
+      
+      {/* Simple Navigation Bar */}
+      <nav className="relative z-20 border-b border-white/10 backdrop-blur-md bg-black/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-8">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-300 to-orange-300 bg-clip-text text-transparent">SAYU</h1>
+              <div className="hidden md:flex space-x-6">
+                <button 
+                  onClick={() => router.push('/')}
+                  className="text-gray-300 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <Home className="w-4 h-4" />
+                  홈
+                </button>
+                <button 
+                  onClick={() => router.push('/gallery')}
+                  className="text-gray-300 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <GalleryVerticalEnd className="w-4 h-4" />
+                  갤러리
+                </button>
+                <button 
+                  onClick={() => router.push('/exhibitions')}
+                  className="text-gray-300 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <MapPin className="w-4 h-4" />
+                  전시
+                </button>
+                <button 
+                  onClick={() => router.push('/community')}
+                  className="text-gray-300 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <Users className="w-4 h-4" />
+                  커뮤니티
+                </button>
+                <button 
+                  onClick={() => router.push('/artist-portal')}
+                  className="text-gray-300 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <Palette className="w-4 h-4" />
+                  아티스트 포털
+                </button>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <button 
+                onClick={() => router.push('/profile')}
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                <User className="w-5 h-5" />
+              </button>
+              <button className="text-gray-300 hover:text-white transition-colors">
+                <LogOut className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <div className="bg-white/80 backdrop-blur-sm dark:bg-gray-800/90 rounded-3xl shadow-lg p-8 border border-white/20 dark:border-gray-700/50 ring-1 ring-black/5">
+          <div className="bg-black/40 backdrop-blur-md rounded-3xl shadow-2xl p-8 border border-white/10 ring-1 ring-white/20">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
-                  {greeting}, {user.email?.split('@')[0]}님
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-300 via-yellow-300 to-orange-300 bg-clip-text text-transparent mb-2 drop-shadow-lg">
+                  {greeting}, {user.username || user.displayName || user.email?.split('@')[0] || '예술 애호가'}님
                 </h1>
-                <p className="text-slate-600 dark:text-gray-300 text-lg">
+                <p className="text-gray-200 text-lg">
                   {hasCompletedQuiz ? '오늘도 새로운 예술을 발견해보세요' : '예술 여정을 시작해보세요'}
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-sm text-slate-500 dark:text-gray-400">{currentTime.toLocaleDateString('ko-KR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                <p className="text-2xl font-bold text-slate-800 dark:text-gray-100">{currentTime.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}</p>
+                <p className="text-sm text-gray-300">{currentTime.toLocaleDateString('ko-KR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                <p className="text-2xl font-bold text-white">{currentTime.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}</p>
               </div>
             </div>
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Profile & Stats */}
-          <div className="space-y-6">
-            {/* Art Profile Card */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 }}
-              className="bg-white/70 backdrop-blur-sm dark:bg-gray-800/80 rounded-2xl shadow-lg border border-white/30 dark:border-gray-700/50 p-6 hover:shadow-xl transition-all duration-300 ring-1 ring-black/5"
-            >
-              {hasCompletedQuiz ? (
+        {/* Quiz CTA for new users - Prominent position */}
+        {!hasCompletedQuiz && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-gradient-to-r from-purple-900/50 to-indigo-900/50 backdrop-blur-md rounded-xl p-5 mb-6 border border-purple-500/30"
+          >
+            <div className="flex items-center justify-center gap-6">
+              <Sparkles className="w-10 h-10 text-amber-400 flex-shrink-0" />
+              <div className="text-left flex-1">
+                <h2 className="text-lg font-bold text-white mb-1">당신만의 예술 성향을 발견하세요</h2>
+                <p className="text-sm text-gray-200">
+                  간단한 퀴즈를 통해 맞춤형 작품을 추천받아보세요.
+                </p>
+              </div>
+              <button
+                onClick={() => router.push('/quiz')}
+                className="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-medium hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex-shrink-0"
+              >
+                테스트 시작 →
+              </button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Main Stats Overview - For users who completed quiz */}
+        {hasCompletedQuiz && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+          >
+            <div className="bg-black/40 backdrop-blur-md rounded-xl p-4 border border-white/10">
+              <div className="flex items-center justify-between">
                 <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
-                      <Palette className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-slate-900 dark:text-gray-100">나의 예술 성향</h3>
-                      <p className="text-sm text-gray-500">{personalityType || 'INFP - 몽상가'}</p>
-                    </div>
-                  </div>
-                  <p className="text-sm text-slate-600 dark:text-gray-300 mb-4">
-                    감성적이고 직관적인 당신은 추상적이고 상징적인 작품에 끌립니다.
-                  </p>
-                  <button className="text-sm text-gray-500 hover:text-gray-700">
-                    자세히 보기 →
-                  </button>
+                  <p className="text-3xl font-bold text-white">{journeyStats.artworksViewed}</p>
+                  <p className="text-sm text-gray-400 mt-1">탐험한 작품</p>
                 </div>
-              ) : (
-                <div className="text-center py-4">
-                  <Sparkles className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                  <h3 className="font-semibold text-slate-900 dark:text-gray-100 mb-2">예술 성향을 발견하세요</h3>
-                  <p className="text-sm text-gray-500 mb-4">
-                    AI가 당신만의 예술 취향을 분석해드려요
-                  </p>
-                  <button
-                    onClick={() => router.push('/quiz')}
-                    className="w-full px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-medium hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                <Eye className="w-8 h-8 text-purple-300 opacity-50" />
+              </div>
+            </div>
+            <div className="bg-black/40 backdrop-blur-md rounded-xl p-4 border border-white/10">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-3xl font-bold text-white">{journeyStats.savedArtworks}</p>
+                  <p className="text-sm text-gray-400 mt-1">저장한 작품</p>
+                </div>
+                <Heart className="w-8 h-8 text-pink-300 opacity-50" />
+              </div>
+            </div>
+            <div className="bg-black/40 backdrop-blur-md rounded-xl p-4 border border-white/10">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-3xl font-bold text-white">{journeyStats.artistsDiscovered}</p>
+                  <p className="text-sm text-gray-400 mt-1">발견한 아티스트</p>
+                </div>
+                <Palette className="w-8 h-8 text-amber-300 opacity-50" />
+              </div>
+            </div>
+            <div className="bg-black/40 backdrop-blur-md rounded-xl p-4 border border-white/10">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-3xl font-bold text-white">{journeyStats.exhibitionsVisited}</p>
+                  <p className="text-sm text-gray-400 mt-1">방문한 전시</p>
+                </div>
+                <MapPin className="w-8 h-8 text-blue-300 opacity-50" />
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Profile & Activity */}
+          <div className="space-y-6">
+            {/* Art Profile Card - Only for users who completed quiz */}
+            {hasCompletedQuiz && (
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+                className="bg-gradient-to-br from-purple-900/30 to-indigo-900/30 backdrop-blur-md rounded-2xl shadow-xl border border-purple-500/20 p-6"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center shadow-lg">
+                    <Star className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white">나의 예술 성향</h3>
+                    <p className="text-sm text-amber-400">{personalityType || 'INFP - 몽상가'}</p>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-200 mb-4">
+                  감성적이고 직관적인 당신은 추상적이고 상징적인 작품에 끌립니다.
+                </p>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => router.push('/profile')}
+                    className="flex-1 px-4 py-2 bg-purple-600/30 hover:bg-purple-600/40 text-white rounded-lg text-sm font-medium transition-colors"
                   >
-                    퀴즈 시작하기
+                    프로필 보기
+                  </button>
+                  <button 
+                    onClick={() => router.push('/quiz')}
+                    className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm transition-colors"
+                  >
+                    재검사
                   </button>
                 </div>
-              )}
-            </motion.div>
+              </motion.div>
+            )}
 
-            {/* My Gallery Quick Access */}
+            {/* Recent Activity */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.15 }}
-              className="bg-gradient-to-br from-indigo-50/80 to-purple-50/80 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-2xl p-6 cursor-pointer hover:shadow-lg transition-all duration-300 border border-indigo-100/50 dark:border-purple-800/50 hover:scale-[1.02] backdrop-blur-sm"
-              onClick={() => router.push('/gallery')}
+              transition={{ delay: 0.35 }}
+              className="bg-black/40 backdrop-blur-md rounded-2xl shadow-lg border border-white/10 p-6"
             >
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white/90 rounded-lg flex items-center justify-center shadow-md backdrop-blur-sm">
-                    <GalleryVerticalEnd className="w-5 h-5 text-indigo-600" />
-                  </div>
-                  <h3 className="font-semibold text-slate-900 dark:text-gray-100">내 갤러리</h3>
-                </div>
-                <ArrowRight className="w-4 h-4 text-gray-400" />
-              </div>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-600 dark:text-gray-300">저장한 작품</span>
-                  <span className="font-medium text-indigo-600 dark:text-indigo-400">24</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-600 dark:text-gray-300">좋아요한 작품</span>
-                  <span className="font-medium text-indigo-600 dark:text-indigo-400">87</span>
-                </div>
-              </div>
-              <p className="text-xs text-indigo-600 dark:text-indigo-400 mt-3">갤러리 보기 →</p>
-            </motion.div>
-
-            {/* Journey Stats */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 }}
-              className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 hover:shadow-md transition-all duration-300"
-            >
-              <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-gray-400" />
-                나의 예술 여정
+              <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-blue-300" />
+                최근 활동
               </h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">탐험한 작품</span>
-                  <span className="font-semibold text-gray-900 dark:text-gray-100">{journeyStats.artworksViewed}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">발견한 아티스트</span>
-                  <span className="font-semibold text-gray-900 dark:text-gray-100">{journeyStats.artistsDiscovered}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">방문한 전시</span>
-                  <span className="font-semibold text-gray-900 dark:text-gray-100">{journeyStats.exhibitionsVisited}</span>
-                </div>
-                <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">활동일</span>
-                    <span className="font-semibold text-purple-600 dark:text-purple-400">{journeyStats.daysActive}일째</span>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-purple-900/40 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Eye className="w-4 h-4 text-purple-300" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-white font-medium">모네의 수련</p>
+                    <p className="text-xs text-gray-400">2시간 전</p>
                   </div>
                 </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-blue-900/40 rounded-full flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-4 h-4 text-blue-300" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-white font-medium">국립현대미술관 방문</p>
+                    <p className="text-xs text-gray-400">어제</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-pink-900/40 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Heart className="w-4 h-4 text-pink-300" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-white font-medium">칸딘스키 작품 저장</p>
+                    <p className="text-xs text-gray-400">3일 전</p>
+                  </div>
+                </div>
+              </div>
+              <button 
+                onClick={() => router.push('/activity')}
+                className="w-full mt-4 text-sm text-blue-300 hover:text-blue-200 transition-colors"
+              >
+                전체 활동 보기 →
+              </button>
+            </motion.div>
+
+            {/* Quick Links */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+              className="bg-black/40 backdrop-blur-md rounded-2xl shadow-lg border border-white/10 p-6"
+            >
+              <h3 className="font-semibold text-white mb-4">빠른 메뉴</h3>
+              <div className="space-y-2">
+                <button 
+                  onClick={() => router.push('/gallery')}
+                  className="w-full p-3 bg-white/5 hover:bg-white/10 rounded-lg flex items-center justify-between text-white transition-colors"
+                >
+                  <span className="flex items-center gap-2">
+                    <GalleryVerticalEnd className="w-4 h-4 text-purple-300" />
+                    <span className="text-sm">내 갤러리</span>
+                  </span>
+                  <span className="text-xs bg-purple-600/30 px-2 py-1 rounded">{journeyStats.savedArtworks}</span>
+                </button>
+                <button 
+                  onClick={() => router.push('/exhibitions')}
+                  className="w-full p-3 bg-white/5 hover:bg-white/10 rounded-lg flex items-center justify-between text-white transition-colors"
+                >
+                  <span className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-blue-300" />
+                    <span className="text-sm">주변 전시</span>
+                  </span>
+                  <ArrowRight className="w-4 h-4 text-gray-400" />
+                </button>
+                <button 
+                  onClick={() => router.push('/community')}
+                  className="w-full p-3 bg-white/5 hover:bg-white/10 rounded-lg flex items-center justify-between text-white transition-colors"
+                >
+                  <span className="flex items-center gap-2">
+                    <Users className="w-4 h-4 text-pink-300" />
+                    <span className="text-sm">커뮤니티</span>
+                  </span>
+                  <ArrowRight className="w-4 h-4 text-gray-400" />
+                </button>
               </div>
             </motion.div>
           </div>
 
-          {/* Middle Column - Today's Recommendations */}
+          {/* Middle & Right Columns - Recommendations */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Today's Recommendations */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center gap-2">
-                <Zap className="w-5 h-5 text-yellow-500" />
+              <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <Zap className="w-5 h-5 text-yellow-400" />
                 오늘의 추천
               </h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {todayRecommendations.map((item, index) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {todayRecommendations.slice(0, 3).map((item, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.4 + index * 0.1 }}
-                    className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-100 dark:border-gray-700 group hover:scale-[1.02]"
+                    className="bg-black/40 backdrop-blur-md rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer border border-white/10 group hover:scale-[1.02]"
                     onClick={() => router.push(item.type === 'artwork' ? '/gallery' : '/exhibitions')}
                   >
-                    <div className="h-48 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="aspect-[4/3] bg-gradient-to-br from-purple-900/40 to-pink-900/40 relative overflow-hidden">
+                      {item.image && item.image !== '/api/placeholder/300/200' ? (
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-110"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Palette className="w-12 h-12 text-white/30" />
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     </div>
-                    <div className="p-6">
+                    <div className="p-4">
                       {item.type === 'artwork' ? (
                         <>
-                          <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">{item.title}</h3>
-                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{item.artist}</p>
-                          <p className="text-xs text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30 inline-block px-3 py-1.5 rounded-full font-medium">
+                          <h3 className="font-semibold text-white mb-1 line-clamp-1 group-hover:text-amber-300 transition-colors">
+                            {item.title}
+                          </h3>
+                          <p className="text-sm text-gray-300 mb-2 line-clamp-1">{item.artist}</p>
+                          <p className="text-xs text-purple-300 bg-purple-900/40 inline-block px-2 py-1 rounded-full">
                             {item.reason}
                           </p>
                         </>
                       ) : (
                         <>
-                          <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">{item.title}</h3>
-                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{item.venue}</p>
-                          <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                          <h3 className="font-semibold text-white mb-1 group-hover:text-amber-300 transition-colors">
+                            {item.title}
+                          </h3>
+                          <p className="text-sm text-gray-300 mb-2">{item.venue}</p>
+                          <div className="flex items-center gap-3 text-xs text-gray-400">
                             <span className="flex items-center gap-1">
                               <Calendar className="w-3 h-3" />
                               {item.date}
@@ -269,44 +474,88 @@ export default function DashboardPage() {
               </div>
             </motion.div>
 
-            {/* Quick Actions */}
+            {/* Trending & Community */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Trending Artists */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="bg-black/40 backdrop-blur-md rounded-2xl shadow-lg border border-white/10 p-6"
+              >
+                <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5 text-green-400" />
+                  인기 아티스트
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-white">클로드 모네</span>
+                    <span className="text-xs text-green-400">↑ 12%</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-white">빈센트 반 고흐</span>
+                    <span className="text-xs text-green-400">↑ 8%</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-white">칸딘스키</span>
+                    <span className="text-xs text-gray-400">—</span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Community Highlights */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.55 }}
+                className="bg-black/40 backdrop-blur-md rounded-2xl shadow-lg border border-white/10 p-6"
+              >
+                <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
+                  <Users className="w-5 h-5 text-pink-300" />
+                  커뮤니티 하이라이트
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <div className="w-6 h-6 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex-shrink-0" />
+                    <div className="flex-1">
+                      <p className="text-sm text-white line-clamp-1">새로운 전시 리뷰</p>
+                      <p className="text-xs text-gray-400">12명이 참여 중</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex-shrink-0" />
+                    <div className="flex-1">
+                      <p className="text-sm text-white line-clamp-1">이달의 아트 챌린지</p>
+                      <p className="text-xs text-gray-400">참여하기</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Learning Resources */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="mt-8"
+              className="bg-gradient-to-r from-amber-900/30 to-orange-900/30 backdrop-blur-md rounded-2xl p-6 border border-amber-500/20"
             >
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6">빠른 시작</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <button
-                  onClick={() => router.push('/gallery')}
-                  className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 text-left border border-gray-100 dark:border-gray-700 group hover:scale-[1.02]"
-                >
-                  <div className="w-10 h-10 bg-purple-50 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-3 group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors">
-                    <Eye className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                  </div>
-                  <h4 className="font-semibold text-gray-900 dark:text-gray-100 text-base">내 갤러리</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">저장한 작품 관리</p>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold text-white flex items-center gap-2">
+                  <BookOpen className="w-5 h-5 text-amber-300" />
+                  오늘의 예술 지식
+                </h3>
+                <button className="text-sm text-amber-300 hover:text-amber-200 transition-colors">
+                  더보기 →
                 </button>
-                <button
-                  onClick={() => router.push('/exhibitions')}
-                  className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 text-left border border-gray-100 dark:border-gray-700 group hover:scale-[1.02]"
-                >
-                  <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-3 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
-                    <MapPin className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                  </div>
-                  <h4 className="font-semibold text-gray-900 dark:text-gray-100 text-base">주변 전시</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">가까운 전시 찾기</p>
-                </button>
-                <button
-                  onClick={() => router.push('/community')}
-                  className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 text-left border border-gray-100 dark:border-gray-700 group hover:scale-[1.02]"
-                >
-                  <div className="w-10 h-10 bg-pink-50 dark:bg-pink-900/30 rounded-lg flex items-center justify-center mb-3 group-hover:bg-pink-100 dark:group-hover:bg-pink-900/50 transition-colors">
-                    <Heart className="w-5 h-5 text-pink-600 dark:text-pink-400" />
-                  </div>
-                  <h4 className="font-semibold text-gray-900 dark:text-gray-100 text-base">커뮤니티</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">다른 아트러버들과 교류</p>
+              </div>
+              <div className="bg-black/20 rounded-lg p-4">
+                <h4 className="text-white font-medium mb-2">인상주의란?</h4>
+                <p className="text-sm text-gray-200 mb-3">
+                  19세기 후반 프랑스에서 시작된 예술 운동으로, 빛과 색채의 순간적인 인상을 포착하려 했습니다.
+                </p>
+                <button className="text-xs text-amber-300 hover:text-amber-200">
+                  자세히 알아보기 →
                 </button>
               </div>
             </motion.div>

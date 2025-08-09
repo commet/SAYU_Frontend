@@ -2,106 +2,198 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
-import { Calendar, Grid, List, MapPin } from 'lucide-react';
-import ExhibitionCalendar from '@/components/calendar/ExhibitionCalendar';
-import { AddToCalendarButton } from '@/components/calendar/AddToCalendarButton';
-import FeedbackButton from '@/components/feedback/FeedbackButton';
-import VenueInfoCard from '@/components/venue/VenueInfoCard';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { Calendar, MapPin, Clock, Filter, Search, ChevronRight, Eye, Heart, TrendingUp, Sparkles, Map, Grid3x3, List, Star, Users, Ticket } from 'lucide-react';
 
 interface Exhibition {
   id: string;
   title: string;
-  venue_name: string;
-  venue_city: string;
-  start_date: string;
-  end_date: string;
-  description: string;
-  tags: string[];
+  venue: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  description?: string;
+  image?: string;
+  category?: string;
+  price?: string;
   status: 'ongoing' | 'upcoming' | 'ended';
-  like_count: number;
-  view_count: number;
-  venues: {
-    name: string;
-    city: string;
-    website?: string;
-  };
+  viewCount?: number;
+  likeCount?: number;
+  distance?: string;
+  featured?: boolean;
 }
 
-// API configuration
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-
-const personalityDescriptions: Record<string, string> = {
-  'LAEF': '감성적이고 자유로운 예술 애호가',
-  'LAEC': '감성적이고 체계적인 예술 애호가',
-  'LSEF': '사교적이고 자유로운 예술 애호가',
-  'LSEC': '사교적이고 체계적인 예술 애호가',
-  'LREF': '이성적이고 자유로운 예술 애호가',
-  'LREC': '이성적이고 체계적인 예술 애호가',
-  'LMEF': '신비로운 자유로운 예술 애호가',
-  'LMEC': '신비롭고 체계적인 예술 애호가',
-  'SAEF': '감성적이고 자유로운 예술 탐험가',
-  'SAEC': '감성적이고 체계적인 예술 탐험가',
-  'SSEF': '사교적이고 자유로운 예술 탐험가',
-  'SSEC': '사교적이고 체계적인 예술 탐험가',
-  'SREF': '이성적이고 자유로운 예술 탐험가',
-  'SREC': '이성적이고 체계적인 예술 탐험가',
-  'SMEF': '신비롭고 자유로운 예술 탐험가',
-  'SMEC': '신비롭고 체계적인 예술 탐험가'
-};
+// Mock data - 실제로는 API에서 가져올 데이터
+const mockExhibitions: Exhibition[] = [
+  {
+    id: '1',
+    title: '모네와 인상주의: 빛의 순간들',
+    venue: '국립현대미술관 서울',
+    location: '서울 종로구',
+    startDate: '2024-12-01',
+    endDate: '2025-03-31',
+    description: '인상파의 거장 클로드 모네의 대표작품을 만나보는 특별전',
+    image: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754449/sayu/met-artworks/met-chicago-100829.jpg',
+    category: '회화',
+    price: '20,000원',
+    status: 'ongoing',
+    viewCount: 15234,
+    likeCount: 892,
+    distance: '2.5km',
+    featured: true
+  },
+  {
+    id: '2',
+    title: '한국 현대미술의 거장들',
+    venue: '리움미술관',
+    location: '서울 용산구',
+    startDate: '2024-11-15',
+    endDate: '2025-02-28',
+    description: '이우환, 박서보 등 한국 현대미술을 이끈 거장들의 작품전',
+    image: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754451/sayu/met-artworks/met-chicago-156596.jpg',
+    category: '현대미술',
+    price: '18,000원',
+    status: 'ongoing',
+    viewCount: 8921,
+    likeCount: 567,
+    distance: '5.2km'
+  },
+  {
+    id: '3',
+    title: '미디어 아트: 디지털 캔버스',
+    venue: '아모레퍼시픽미술관',
+    location: '서울 용산구',
+    startDate: '2025-01-15',
+    endDate: '2025-04-30',
+    description: '최첨단 기술과 예술이 만나는 미디어 아트 특별전',
+    image: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754453/sayu/met-artworks/met-chicago-120154.jpg',
+    category: '미디어아트',
+    price: '15,000원',
+    status: 'upcoming',
+    viewCount: 3421,
+    likeCount: 234,
+    distance: '5.5km'
+  },
+  {
+    id: '4',
+    title: '피카소와 20세기 예술',
+    venue: '예술의전당 한가람미술관',
+    location: '서울 서초구',
+    startDate: '2024-10-01',
+    endDate: '2024-12-31',
+    description: '20세기 최고의 예술가 피카소의 생애와 작품을 조명하는 대규모 회고전',
+    image: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754455/sayu/met-artworks/met-chicago-154496.jpg',
+    category: '회화',
+    price: '25,000원',
+    status: 'ended',
+    viewCount: 42156,
+    likeCount: 2341,
+    distance: '8.1km'
+  },
+  {
+    id: '5',
+    title: '조선의 미: 간송 컬렉션',
+    venue: '간송미술관',
+    location: '서울 성북구',
+    startDate: '2025-02-01',
+    endDate: '2025-05-31',
+    description: '간송 전형필이 수집한 조선시대 명품을 만나는 특별전',
+    category: '전통미술',
+    price: '무료',
+    status: 'upcoming',
+    viewCount: 1892,
+    likeCount: 156,
+    distance: '7.3km'
+  }
+];
 
 export default function ExhibitionsPage() {
+  const router = useRouter();
   const [exhibitions, setExhibitions] = useState<Exhibition[]>([]);
   const [filteredExhibitions, setFilteredExhibitions] = useState<Exhibition[]>([]);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [userPersonality, setUserPersonality] = useState<string | null>(null);
-  const [showOnlyRecommended, setShowOnlyRecommended] = useState(false);
-  const [viewMode, setViewMode] = useState<'grid' | 'calendar'>('grid');
+  const [selectedStatus, setSelectedStatus] = useState<'all' | 'ongoing' | 'upcoming' | 'ended'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [popularExhibitions, setPopularExhibitions] = useState<Exhibition[]>([]);
 
   useEffect(() => {
-    // Get user personality from localStorage
-    const storedResult = localStorage.getItem('quizResult');
-    if (storedResult) {
-      const result = JSON.parse(storedResult);
-      setUserPersonality(result.personalityType);
-    }
-    
-    // Fetch exhibitions from API
+    const fetchExhibitions = async () => {
+      try {
+        setLoading(true);
+        // Fetch from actual API
+        const response = await fetch('http://localhost:3002/api/exhibitions?limit=50');
+        
+        if (!response.ok) {
+          // Fallback to mock data if API fails
+          console.error('API failed, using mock data');
+          setExhibitions(mockExhibitions);
+          setFilteredExhibitions(mockExhibitions);
+        } else {
+          const data = await response.json();
+          
+          // Transform API data to match our interface
+          const transformedData = (data.data || data.exhibitions || []).map((ex: any) => ({
+            id: ex.id || ex._id,
+            title: ex.title || ex.name,
+            venue: ex.venue_name || ex.venue || '',
+            location: ex.venue_city || ex.location || '',
+            startDate: ex.start_date || ex.startDate || '',
+            endDate: ex.end_date || ex.endDate || '',
+            description: ex.description || '',
+            image: ex.image_url || ex.image || null,
+            category: ex.category || ex.tags?.[0] || '미술',
+            price: ex.price || ex.admission_fee || '정보 없음',
+            status: ex.status || 'ongoing',
+            viewCount: ex.view_count || 0,
+            likeCount: ex.like_count || 0,
+            distance: ex.distance || null,
+            featured: ex.featured || false
+          }));
+          
+          // If no data from API, use mock data
+          if (transformedData.length === 0) {
+            setExhibitions(mockExhibitions);
+            setFilteredExhibitions(mockExhibitions);
+          } else {
+            setExhibitions(transformedData);
+            setFilteredExhibitions(transformedData);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching exhibitions:', error);
+        // Fallback to mock data
+        setExhibitions(mockExhibitions);
+        setFilteredExhibitions(mockExhibitions);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchExhibitions();
   }, []);
 
-  const fetchExhibitions = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/api/exhibitions?limit=50`);
-      if (!response.ok) throw new Error('Failed to fetch exhibitions');
-      
-      const data = await response.json();
-      setExhibitions(data.data || []);
-      setFilteredExhibitions(data.data || []);
-    } catch (err) {
-      setError('전시 정보를 불러오는데 실패했습니다');
-      console.error('Error fetching exhibitions:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    // Filter exhibitions
     let filtered = [...exhibitions];
 
-    // Filter by status (show ongoing and upcoming first)
-    if (showOnlyRecommended) {
-      filtered = filtered.filter(ex => ex.status === 'ongoing' || ex.status === 'upcoming');
+    // Filter by status
+    if (selectedStatus !== 'all') {
+      filtered = filtered.filter(ex => ex.status === selectedStatus);
     }
 
-    // Filter by tags
-    if (selectedTags.length > 0) {
+    // Filter by category
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(ex => ex.category === selectedCategory);
+    }
+
+    // Filter by search query
+    if (searchQuery) {
       filtered = filtered.filter(ex => 
-        ex.tags.some(tag => selectedTags.includes(tag))
+        ex.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        ex.venue.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        ex.description?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -112,306 +204,558 @@ export default function ExhibitionsPage() {
     });
 
     setFilteredExhibitions(filtered);
-  }, [exhibitions, selectedTags, showOnlyRecommended]);
+  }, [exhibitions, selectedStatus, selectedCategory, searchQuery]);
 
-  const allTags = Array.from(new Set(exhibitions.flatMap(ex => ex.tags)));
-
-  const toggleTag = (tag: string) => {
-    setSelectedTags(prev =>
-      prev.includes(tag)
-        ? prev.filter(t => t !== tag)
-        : [...prev, tag]
-    );
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'ongoing':
+        return <span className="px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">진행중</span>;
+      case 'upcoming':
+        return <span className="px-2 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-full">예정</span>;
+      case 'ended':
+        return <span className="px-2 py-1 bg-gray-500/20 text-gray-400 text-xs rounded-full">종료</span>;
+      default:
+        return null;
+    }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+  const categories = ['all', '회화', '현대미술', '미디어아트', '전통미술', '조각', '사진'];
+
+  // Handle like/unlike exhibition
+  const handleLike = async (exhibitionId: string, event: React.MouseEvent) => {
+    event.stopPropagation(); // Prevent navigation when clicking like button
+    
+    try {
+      const response = await fetch(`http://localhost:3002/api/exhibitions/${exhibitionId}/like`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (response.ok) {
+        // Update local state
+        setExhibitions(prev => prev.map(ex => 
+          ex.id === exhibitionId 
+            ? { ...ex, likeCount: (ex.likeCount || 0) + 1 }
+            : ex
+        ));
+        setFilteredExhibitions(prev => prev.map(ex => 
+          ex.id === exhibitionId 
+            ? { ...ex, likeCount: (ex.likeCount || 0) + 1 }
+            : ex
+        ));
+      }
+    } catch (error) {
+      console.error('Failed to like exhibition:', error);
+    }
+  };
+
+  // Get featured exhibition
+  const featuredExhibition = exhibitions.find(ex => ex.featured && ex.status === 'ongoing');
+
+  // Get stats with additional API calls
+  const [stats, setStats] = useState({
+    ongoing: 0,
+    upcoming: 0,
+    thisWeek: 0,
+    nearby: 0
+  });
+
+  useEffect(() => {
+    // Calculate stats when exhibitions data changes
+    const ongoingCount = exhibitions.filter(ex => ex.status === 'ongoing').length;
+    const upcomingCount = exhibitions.filter(ex => ex.status === 'upcoming').length;
+    const thisWeekCount = exhibitions.filter(ex => ex.status === 'ongoing').length; // Simplified
+    const nearbyCount = exhibitions.filter(ex => ex.distance && parseFloat(ex.distance) < 5).length;
+    
+    setStats({
+      ongoing: ongoingCount,
+      upcoming: upcomingCount,
+      thisWeek: thisWeekCount,
+      nearby: nearbyCount
     });
-  };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'ongoing':
-        return 'bg-green-500 text-white';
-      case 'upcoming':
-        return 'bg-blue-500 text-white';
-      case 'ended':
-        return 'bg-gray-500 text-white';
-      default:
-        return 'bg-gray-500 text-white';
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'ongoing':
-        return '진행중';
-      case 'upcoming':
-        return '예정';
-      case 'ended':
-        return '종료';
-      default:
-        return status;
-    }
-  };
+    // Fetch popular exhibitions
+    fetch('http://localhost:3002/api/exhibitions/popular?limit=5')
+      .then(res => res.json())
+      .then(data => {
+        if (data.data) {
+          setPopularExhibitions(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch popular exhibitions:', err));
+  }, [exhibitions]);
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white text-lg">전시 정보를 불러오는 중...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-6xl mb-4">⚠️</div>
-          <h2 className="text-2xl font-bold text-white mb-4">오류가 발생했습니다</h2>
-          <p className="text-white/80 mb-8">{error}</p>
-          <button
-            onClick={fetchExhibitions}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg"
-          >
-            다시 시도
-          </button>
+      <div 
+        className="min-h-screen bg-cover bg-center bg-fixed flex items-center justify-center relative"
+        style={{ backgroundImage: 'url(/images/backgrounds/family-viewing-corner-gallery-intimate.jpg)' }}
+      >
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="relative z-10 text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-200 border-t-gray-400 mx-auto mb-4"></div>
+          <p className="text-white text-sm">전시 정보를 불러오는 중...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
+    <div 
+      className="min-h-screen bg-cover bg-center bg-fixed relative"
+      style={{ backgroundImage: 'url(/images/backgrounds/family-viewing-corner-gallery-intimate.jpg)' }}
+    >
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
+      {/* Header */}
+      <div className="relative z-10 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center"
+          >
+            <h1 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">
+              전시 탐험
+            </h1>
+            <p className="text-white text-lg max-w-2xl mx-auto drop-shadow-md">
+              당신의 취향에 맞는 전시를 발견하고, 새로운 예술 경험을 시작하세요
+            </p>
+          </motion.div>
+        </div>
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Stats Overview */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
+          transition={{ delay: 0.1 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            전시 둘러보기 🎨
-          </h1>
-          <p className="text-xl text-white/80">
-            전국 주요 미술관의 전시를 확인하세요
-          </p>
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-gray-700">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-2xl font-bold text-white">{stats.ongoing}</p>
+                <p className="text-sm text-gray-400">진행중인 전시</p>
+              </div>
+              <Eye className="w-8 h-8 text-purple-400 opacity-50" />
+            </div>
+          </div>
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-gray-700">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-2xl font-bold text-white">{stats.upcoming}</p>
+                <p className="text-sm text-gray-400">예정된 전시</p>
+              </div>
+              <Calendar className="w-8 h-8 text-blue-400 opacity-50" />
+            </div>
+          </div>
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-gray-700">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-2xl font-bold text-white">{stats.thisWeek}</p>
+                <p className="text-sm text-gray-400">이번 주 추천</p>
+              </div>
+              <Star className="w-8 h-8 text-amber-400 opacity-50" />
+            </div>
+          </div>
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-gray-700">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-2xl font-bold text-white">{stats.nearby}</p>
+                <p className="text-sm text-gray-400">5km 이내</p>
+              </div>
+              <MapPin className="w-8 h-8 text-green-400 opacity-50" />
+            </div>
+          </div>
         </motion.div>
 
-        {/* Filter Section */}
-        <div className="mb-8">
-          <div className="flex flex-wrap gap-4 items-center justify-center">
-            {/* View Mode Toggle */}
-            <div className="flex bg-white/20 rounded-full p-1">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`px-4 py-2 rounded-full transition-all flex items-center gap-2 ${
-                  viewMode === 'grid'
-                    ? 'bg-white text-gray-800'
-                    : 'text-white hover:bg-white/20'
-                }`}
-              >
-                <Grid className="w-4 h-4" />
-                그리드
-              </button>
-              <button
-                onClick={() => setViewMode('calendar')}
-                className={`px-4 py-2 rounded-full transition-all flex items-center gap-2 ${
-                  viewMode === 'calendar'
-                    ? 'bg-white text-gray-800'
-                    : 'text-white hover:bg-white/20'
-                }`}
-              >
-                <Calendar className="w-4 h-4" />
-                캘린더
-              </button>
-            </div>
-            
-            <button
-              onClick={() => setShowOnlyRecommended(!showOnlyRecommended)}
-              className={`px-6 py-2 rounded-full transition-all ${
-                showOnlyRecommended
-                  ? 'bg-green-600 text-white'
-                  : 'bg-white/20 text-white hover:bg-white/30'
-              }`}
-            >
-              {showOnlyRecommended ? '✅ 진행중/예정 전시만' : '📅 진행중/예정 전시만'}
-            </button>
-            <Link
-              href="/exhibitions/submit"
-              className="px-6 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 transition-all"
-            >
-              ➕ 전시 정보 제보
-            </Link>
-          </div>
-        </div>
-
-        {/* Tag Filters */}
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-white mb-4">태그로 필터링</h3>
-          <div className="flex flex-wrap gap-3">
-            {allTags.map(tag => (
-              <button
-                key={tag}
-                onClick={() => toggleTag(tag)}
-                className={`px-4 py-2 rounded-full transition-all ${
-                  selectedTags.includes(tag)
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-white/20 text-white hover:bg-white/30'
-                }`}
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Calendar View */}
-        {viewMode === 'calendar' && (
-          <ExhibitionCalendar 
-            initialDate={new Date()}
-            viewMode="month"
-            showFilters={true}
-            userId={userPersonality || undefined}
-          />
-        )}
-
-        {/* Exhibition Grid - only show when viewMode is 'grid' */}
-        {viewMode === 'grid' && (
-          <AnimatePresence>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredExhibitions.map((exhibition, index) => (
-              <motion.div
-                key={exhibition.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.03 }}
-                className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer group"
-              >
-                {/* Exhibition Image */}
-                <div className="relative h-48 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-pink-400" />
-                  <div className="absolute top-4 right-4">
-                    <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(exhibition.status)}`}>
-                      {getStatusText(exhibition.status)}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Exhibition Info */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {exhibition.title}
-                  </h3>
-                  
-                  <div className="flex items-center gap-2 mb-2">
-                    <MapPin className="w-4 h-4 text-white/60" />
-                    <span className="text-white/80">{exhibition.venues.name}</span>
-                  </div>
-                  
-                  <p className="text-white/60 text-sm mb-4">
-                    {formatDate(exhibition.start_date)} - {formatDate(exhibition.end_date)}
-                  </p>
-                  
-                  <p className="text-white/80 text-sm mb-4 line-clamp-3">
-                    {exhibition.description}
-                  </p>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {exhibition.tags.map(tag => (
-                      <span
-                        key={tag}
-                        className="bg-white/20 px-2 py-1 rounded-full text-xs text-white"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Stats */}
-                  <div className="flex justify-between items-center mb-4 text-sm text-white/60">
-                    <span>👀 {exhibition.view_count}</span>
-                    <span>❤️ {exhibition.like_count}</span>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="space-y-2">
-                    <Link
-                      href={`/exhibitions/${exhibition.id}`}
-                      className="block w-full text-center bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition-colors"
-                    >
-                      자세히 보기 →
-                    </Link>
-                    
-                    {/* Add to Calendar Button */}
-                    <AddToCalendarButton
-                      exhibition={{
-                        id: exhibition.id,
-                        title: exhibition.title,
-                        institution_name: exhibition.venue_name,
-                        address: exhibition.venues?.name || exhibition.venue_name,
-                        city: exhibition.venue_city,
-                        start_date: exhibition.start_date,
-                        end_date: exhibition.end_date,
-                        description: exhibition.description,
-                        website_url: exhibition.venues?.website || `${window.location.origin}/exhibitions/${exhibition.id}`
-                      }}
-                      variant="minimal"
-                      size="sm"
-                    />
-                  </div>
-                </div>
-              </motion.div>
-              ))}
-            </div>
-          </AnimatePresence>
-        )}
-
-        {/* Empty State - only show for grid view */}
-        {viewMode === 'grid' && filteredExhibitions.length === 0 && (
+        {/* Featured Exhibition */}
+        {featuredExhibition && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-20"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mb-8"
           >
-            <div className="text-6xl mb-4">🎭</div>
-            <h2 className="text-2xl font-bold text-white mb-4">
-              조건에 맞는 전시가 없습니다
+            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-yellow-400" />
+              주목할 전시
             </h2>
-            <p className="text-white/80 mb-8">
-              다른 필터를 선택해보세요
-            </p>
-            <button
-              onClick={() => {
-                setSelectedTags([]);
-                setShowOnlyRecommended(false);
-              }}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full transition-colors"
-            >
-              필터 초기화
-            </button>
+            <div className="bg-gradient-to-r from-purple-900/30 to-indigo-900/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-purple-500/20">
+              <div className="md:flex">
+                <div className="md:w-2/5 h-64 md:h-auto relative bg-gradient-to-br from-purple-900/40 to-pink-900/40">
+                  {featuredExhibition.image ? (
+                    <Image
+                      src={featuredExhibition.image}
+                      alt={featuredExhibition.title}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <TrendingUp className="w-16 h-16 text-white/30" />
+                    </div>
+                  )}
+                </div>
+                <div className="md:w-3/5 p-6">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-2">{featuredExhibition.title}</h3>
+                      <p className="text-gray-300 mb-4">{featuredExhibition.description}</p>
+                    </div>
+                    {getStatusBadge(featuredExhibition.status)}
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                    <div>
+                      <p className="text-xs text-gray-400">장소</p>
+                      <p className="text-sm text-white font-medium">{featuredExhibition.venue}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-400">기간</p>
+                      <p className="text-sm text-white font-medium">
+                        {new Date(featuredExhibition.endDate).toLocaleDateString('ko-KR')}까지
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-400">관람료</p>
+                      <p className="text-sm text-white font-medium">{featuredExhibition.price}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-400">거리</p>
+                      <p className="text-sm text-white font-medium">{featuredExhibition.distance}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <button className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors">
+                      상세 정보
+                    </button>
+                    <button 
+                      onClick={(e) => handleLike(featuredExhibition.id, e)}
+                      className="p-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+                    >
+                      <Heart className="w-5 h-5 text-white" />
+                    </button>
+                    <div className="flex items-center gap-4 ml-auto text-sm text-gray-400">
+                      <span className="flex items-center gap-1">
+                        <Eye className="w-4 h-4" />
+                        {featuredExhibition.viewCount?.toLocaleString()}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Heart className="w-4 h-4" />
+                        {featuredExhibition.likeCount?.toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         )}
 
-        {/* Fixed Feedback Button */}
-        <FeedbackButton
-          position="fixed"
-          variant="primary"
-          contextData={{
-            page: 'exhibitions',
-            personalityType: userPersonality || undefined,
-            feature: 'exhibition-browsing'
-          }}
-        />
+        {/* Filters and Search */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mb-8 space-y-4"
+        >
+          {/* Search Bar */}
+          <div className="flex gap-4">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="전시명, 미술관, 작가로 검색..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-gray-700 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
+              />
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`p-3 rounded-lg transition-colors ${
+                  viewMode === 'grid' 
+                    ? 'bg-purple-600 text-white' 
+                    : 'bg-gray-800/50 text-gray-400 hover:text-white'
+                }`}
+              >
+                <Grid3x3 className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`p-3 rounded-lg transition-colors ${
+                  viewMode === 'list' 
+                    ? 'bg-purple-600 text-white' 
+                    : 'bg-gray-800/50 text-gray-400 hover:text-white'
+                }`}
+              >
+                <List className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => setViewMode('map')}
+                className={`p-3 rounded-lg transition-colors ${
+                  viewMode === 'map' 
+                    ? 'bg-purple-600 text-white' 
+                    : 'bg-gray-800/50 text-gray-400 hover:text-white'
+                }`}
+              >
+                <Map className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Filter Buttons - Horizontal Layout */}
+          <div className="flex flex-wrap items-center gap-6">
+            {/* Status Filter - Pills Style */}
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-medium text-gray-400 flex items-center gap-1">
+                <Clock className="w-4 h-4" />
+                상태:
+              </span>
+              <div className="flex gap-2">
+                {(['all', 'ongoing', 'upcoming', 'ended'] as const).map((status) => (
+                  <button
+                    key={status}
+                    onClick={() => setSelectedStatus(status)}
+                    className={`px-4 py-2 rounded-full font-medium transition-all duration-200 text-sm ${
+                      selectedStatus === status
+                        ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-600/30'
+                        : 'bg-gray-800/60 text-gray-300 hover:text-white hover:bg-gray-700/70 border border-gray-600/50 hover:border-purple-400/50'
+                    }`}
+                  >
+                    {status === 'all' && '전체'}
+                    {status === 'ongoing' && '진행중'}
+                    {status === 'upcoming' && '예정'}
+                    {status === 'ended' && '종료'}
+                  </button>
+                ))}
+              </div>
+            </div>
+            
+            {/* Divider */}
+            <div className="w-px h-6 bg-gray-600"></div>
+            
+            {/* Category Filter - Tag Style */}
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+              <span className="text-sm font-medium text-gray-400 flex items-center gap-1 flex-shrink-0">
+                <Filter className="w-4 h-4" />
+                분야:
+              </span>
+              <div className="flex gap-2 overflow-x-auto">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-3 py-1.5 rounded-2xl font-medium transition-all duration-200 whitespace-nowrap text-sm border ${
+                      selectedCategory === category
+                        ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white border-amber-400 shadow-md'
+                        : 'bg-gray-800/40 text-gray-300 hover:text-white hover:bg-gray-700/60 border-gray-600/40 hover:border-amber-400/60'
+                    }`}
+                  >
+                    {category === 'all' ? '전체' : category}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Exhibition List */}
+        <AnimatePresence mode="wait">
+          {viewMode === 'grid' && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+              {filteredExhibitions.map((exhibition, index) => (
+                <motion.div
+                  key={exhibition.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className="bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700 hover:border-purple-500 transition-all duration-300 cursor-pointer group"
+                  onClick={() => router.push(`/exhibitions/${exhibition.id}`)}
+                >
+                  <div className="h-48 bg-gradient-to-br from-purple-900/40 to-pink-900/40 relative overflow-hidden">
+                    {exhibition.image ? (
+                      <Image
+                        src={exhibition.image}
+                        alt={exhibition.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <TrendingUp className="w-12 h-12 text-white/30" />
+                      </div>
+                    )}
+                    <div className="absolute top-3 right-3">
+                      {getStatusBadge(exhibition.status)}
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-semibold text-white mb-2 group-hover:text-purple-300 transition-colors line-clamp-1">
+                      {exhibition.title}
+                    </h3>
+                    <p className="text-sm text-gray-400 mb-3 line-clamp-2">
+                      {exhibition.description || exhibition.venue}
+                    </p>
+                    <div className="space-y-2 text-xs">
+                      <div className="flex items-center gap-2 text-gray-400">
+                        <MapPin className="w-3 h-3" />
+                        <span>{exhibition.venue}</span>
+                        {exhibition.distance && (
+                          <span className="text-purple-300">· {exhibition.distance}</span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-400">
+                        <Calendar className="w-3 h-3" />
+                        <span>
+                          {new Date(exhibition.startDate).toLocaleDateString('ko-KR')} - 
+                          {new Date(exhibition.endDate).toLocaleDateString('ko-KR')}
+                        </span>
+                      </div>
+                      {exhibition.price && (
+                        <div className="flex items-center gap-2 text-gray-400">
+                          <Ticket className="w-3 h-3" />
+                          <span>{exhibition.price}</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-700">
+                      <div className="flex items-center gap-3 text-xs text-gray-400">
+                        <span className="flex items-center gap-1">
+                          <Eye className="w-3 h-3" />
+                          {exhibition.viewCount?.toLocaleString() || 0}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Heart className="w-3 h-3" />
+                          {exhibition.likeCount?.toLocaleString() || 0}
+                        </span>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-purple-300 transition-colors" />
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+
+          {viewMode === 'list' && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-4"
+            >
+              {filteredExhibitions.map((exhibition, index) => (
+                <motion.div
+                  key={exhibition.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-purple-500 transition-all duration-300 cursor-pointer group"
+                  onClick={() => router.push(`/exhibitions/${exhibition.id}`)}
+                >
+                  <div className="flex items-start gap-6">
+                    <div className="w-32 h-24 bg-gradient-to-br from-purple-900/40 to-pink-900/40 rounded-lg overflow-hidden flex-shrink-0 relative">
+                      {exhibition.image ? (
+                        <Image
+                          src={exhibition.image}
+                          alt={exhibition.title}
+                          fill
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <TrendingUp className="w-8 h-8 text-white/30" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between mb-2">
+                        <h3 className="text-lg font-semibold text-white group-hover:text-purple-300 transition-colors">
+                          {exhibition.title}
+                        </h3>
+                        {getStatusBadge(exhibition.status)}
+                      </div>
+                      <p className="text-sm text-gray-400 mb-3">
+                        {exhibition.description || exhibition.venue}
+                      </p>
+                      <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
+                        <span className="flex items-center gap-1">
+                          <MapPin className="w-4 h-4" />
+                          {exhibition.venue}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-4 h-4" />
+                          {new Date(exhibition.endDate).toLocaleDateString('ko-KR')}까지
+                        </span>
+                        {exhibition.price && (
+                          <span className="flex items-center gap-1">
+                            <Ticket className="w-4 h-4" />
+                            {exhibition.price}
+                          </span>
+                        )}
+                        {exhibition.distance && (
+                          <span className="text-purple-300">{exhibition.distance}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-end gap-2">
+                      <div className="flex items-center gap-3 text-sm text-gray-400">
+                        <span className="flex items-center gap-1">
+                          <Eye className="w-4 h-4" />
+                          {exhibition.viewCount?.toLocaleString() || 0}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Heart className="w-4 h-4" />
+                          {exhibition.likeCount?.toLocaleString() || 0}
+                        </span>
+                      </div>
+                      <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-purple-300 transition-colors" />
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+
+          {viewMode === 'map' && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 p-8 h-[600px] flex items-center justify-center"
+            >
+              <div className="text-center">
+                <Map className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                <p className="text-gray-400 text-lg mb-2">지도 뷰는 준비 중입니다</p>
+                <p className="text-gray-500 text-sm">곧 주변 전시를 지도에서 확인할 수 있어요</p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* No Results */}
+        {filteredExhibitions.length === 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-16"
+          >
+            <Search className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+            <p className="text-gray-400 text-lg mb-2">검색 결과가 없습니다</p>
+            <p className="text-gray-500 text-sm">다른 검색어나 필터를 시도해보세요</p>
+          </motion.div>
+        )}
       </div>
     </div>
   );

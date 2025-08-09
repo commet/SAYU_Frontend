@@ -108,16 +108,26 @@ export const ArtworkCard: React.FC<ArtworkCardProps> = ({
     >
       {/* Image Container */}
       <div className="relative overflow-hidden h-64 md:h-72">
-        <motion.img
-          src={image}
-          alt={title}
-          className="w-full h-full object-cover"
+        <motion.div
+          className="w-full h-full"
           animate={{
             scale: isHovered ? 1.05 : 1,
             filter: isHovered ? 'brightness(1.1)' : 'brightness(1)'
           }}
           transition={{ duration: 0.7, ease: [0.445, 0.050, 0.550, 0.950] }}
-        />
+        >
+          <img
+            src={image || '/images/placeholder-artwork.svg'}
+            alt={title}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              if (target.src !== '/images/placeholder-artwork.svg') {
+                target.src = '/images/placeholder-artwork.svg';
+              }
+            }}
+          />
+        </motion.div>
         
         {/* Emotional overlay on hover */}
         <motion.div

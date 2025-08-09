@@ -38,73 +38,209 @@ export const PERSONALITY_ARTIST_MATCHING = {
   // LAEF: Lone + Abstract + Emotional + Flow
   // 특성: 고독한 내면세계, 추상적 감정표현, 자유로운 흐름
   LAEF: {
-    primary: 'Odilon Redon',        // 상징주의, 꿈과 환상의 세계
-    secondary: 'Edvard Munch',      // 심리적 고독과 불안의 표현
-    tertiary: 'Marsden Hartley',    // 미국식 신비주의적 추상
-    reasoning: '내면의 꿈과 환상을 자유롭게 표현하는 작가들'
+    artists: [
+      {
+        name: 'Vincent van Gogh',
+        artwork: 'The Starry Night (1889)',
+        type: 'famous',
+        reasoning: '소용돌이치는 밤하늘 - 고독한 내면의 감정이 추상적 붓터치로 자유롭게 흐름'
+      },
+      {
+        name: 'Wassily Kandinsky',
+        artwork: 'Composition VII (1913)',
+        type: 'famous',
+        reasoning: '순수 추상으로 폭발하는 감정 - 내면의 음악을 색채로 자유롭게 해방'
+      },
+      {
+        name: 'Odilon Redon',
+        artwork: 'The Cyclops (1914)',
+        type: 'perfect-match',
+        reasoning: '꿈과 환상의 세계 - 고독한 상상력이 만든 신비로운 감정의 흐름'
+      }
+    ],
+    overall_reasoning: '내면의 감정적 폭풍을 추상적이고 자유롭게 표현하는 작가들'
   },
 
   // LAEC: Lone + Abstract + Emotional + Constructive  
   // 특성: 고독하지만 구조적인 감정표현
   LAEC: {
-    primary: 'Alfred Stieglitz',    // 모던 사진의 구조적 감정표현
-    secondary: 'Paul Cézanne',      // 감정을 기하학으로 구조화
-    tertiary: 'Piet Mondrian',      // 순수 추상의 감정적 구조
-    reasoning: '감정을 체계적이고 구조적으로 표현하는 작가들'
+    artists: [
+      {
+        name: 'Piet Mondrian',
+        artwork: 'Composition with Red Blue and Yellow (1930)',
+        type: 'famous',
+        reasoning: '감정을 기하학적 균형으로 승화 - 절제된 구조 속 깊은 정서'
+      },
+      {
+        name: 'Paul Klee',
+        artwork: 'Senecio (1922)',
+        type: 'famous',
+        reasoning: '기하학적 얼굴에 담긴 감정 - 체계적 구성 속 따뜻한 정서'
+      },
+      {
+        name: 'Alfred Stieglitz',
+        artwork: 'Equivalent (1925)',
+        type: 'perfect-match',
+        reasoning: '구름 사진의 추상적 감정 - 자연을 통한 구조적 감정 표현'
+      }
+    ],
+    overall_reasoning: '감정을 체계적인 추상 구조로 정제하여 표현하는 작가들'
   },
 
   // LAMF: Lone + Abstract + Meaning-driven + Flow
   // 특성: 고독한 철학적 탐구, 의미 추구의 자유로운 흐름  
   LAMF: {
-    primary: 'Odilon Redon',        // 상징주의적 의미 탐구
-    secondary: 'John Ruskin',       // 자연에서 찾는 철학적 의미
-    tertiary: 'El Greco',           // 신비주의적 종교 철학
-    reasoning: '깊은 철학적 의미를 추상적으로 탐구하는 작가들'
+    artists: [
+      {
+        name: 'William Blake',
+        artwork: 'The Ancient of Days (1794)',
+        type: 'famous',
+        reasoning: '우주적 창조의 의미 - 신비주의 철학을 환상적 이미지로 자유롭게 표현'
+      },
+      {
+        name: 'Salvador Dalí',
+        artwork: 'The Persistence of Memory (1931)',
+        type: 'famous',
+        reasoning: '시간의 본질 탐구 - 철학적 개념을 초현실적으로 자유롭게 시각화'
+      },
+      {
+        name: 'El Greco',
+        artwork: 'View of Toledo (1596)',
+        type: 'perfect-match',
+        reasoning: '영적 도시의 비전 - 종교적 의미를 왜곡된 추상으로 표현'
+      }
+    ],
+    overall_reasoning: '존재의 깊은 의미를 추상적이고 자유로운 상상력으로 탐구하는 작가들'
   },
 
   // LAMC: Lone + Abstract + Meaning-driven + Constructive
   // 특성: 체계적인 철학적 추상화
   LAMC: {
-    primary: 'Piet Mondrian',       // 순수 추상의 철학적 체계
-    secondary: 'Paul Cézanne',      // 자연의 기하학적 본질 탐구
-    tertiary: 'Alfred Stieglitz',  // 모던 사진의 철학적 접근
-    reasoning: '철학적 개념을 체계적으로 추상화하는 작가들'
+    artists: [
+      {
+        name: 'Kazimir Malevich',
+        artwork: 'Black Square (1915)',
+        type: 'famous',
+        reasoning: '절대주의의 제로 포인트 - 순수 의미를 극도로 체계화된 추상으로'
+      },
+      {
+        name: 'Paul Cézanne',
+        artwork: 'Mont Sainte-Victoire (1904)',
+        type: 'famous',
+        reasoning: '자연의 기하학적 본질 - 산을 통한 구조적 진리 탐구'
+      },
+      {
+        name: 'Agnes Martin',
+        artwork: 'The Tree (1964)',
+        type: 'perfect-match',
+        reasoning: '격자 속 명상 - 극도로 절제된 체계로 정신적 의미 추구'
+      }
+    ],
+    overall_reasoning: '철학적 본질을 엄격한 추상 체계로 구축하는 작가들'
   },
 
   // LREF: Lone + Representational + Emotional + Flow
   // 특성: 고독한 현실 묘사, 감정적 자유로움
   LREF: {
-    primary: 'Winslow Homer',       // 자연 속 고독한 인간의 감정
-    secondary: 'Edvard Munch',      // 현실적 형태 속 감정 표출
-    tertiary: 'Berthe Morisot',     // 일상 속 섬세한 감정 표현
-    reasoning: '현실을 바탕으로 고독한 감정을 자유롭게 표현'
+    artists: [
+      {
+        name: 'Edward Hopper',
+        artwork: 'Nighthawks (1942)',
+        type: 'famous',
+        reasoning: '도시의 고독한 영혼들 - 현실적 장면 속 깊은 정서적 고립'
+      },
+      {
+        name: 'Caspar David Friedrich',
+        artwork: 'Wanderer above the Sea of Fog (1818)',
+        type: 'famous',
+        reasoning: '자연 앞의 고독한 인간 - 숭고한 감정의 자유로운 표출'
+      },
+      {
+        name: 'Winslow Homer',
+        artwork: 'The Gulf Stream (1899)',
+        type: 'perfect-match',
+        reasoning: '바다 위 표류하는 인간 - 자연 속 고독과 생존의 감정'
+      }
+    ],
+    overall_reasoning: '현실 속 고독한 순간의 깊은 감정을 자유롭게 포착하는 작가들'
   },
 
   // LREC: Lone + Representational + Emotional + Constructive
   // 특성: 구조적인 현실 묘사 속 감정 절제
   LREC: {
-    primary: 'Paul Cézanne',        // 현실의 구조적 감정 표현
-    secondary: 'Henri Fantin-Latour', // 정물 속 절제된 감정
-    tertiary: 'Winslow Homer',      // 현실적 구도 속 감정 절제
-    reasoning: '현실을 구조적으로 묘사하며 감정을 절제해서 표현'
+    artists: [
+      {
+        name: 'Johannes Vermeer',
+        artwork: 'Girl with a Pearl Earring (1665)',
+        type: 'famous',
+        reasoning: '절제된 감정의 완벽한 구성 - 고요한 순간 속 깊은 정서'
+      },
+      {
+        name: 'Jean-Baptiste-Siméon Chardin',
+        artwork: 'Still Life with Glass Flask (1750)',
+        type: 'famous',
+        reasoning: '정물의 조용한 존재감 - 일상 사물에 담긴 절제된 감성'
+      },
+      {
+        name: 'Henri Fantin-Latour',
+        artwork: 'Still Life with Flowers (1866)',
+        type: 'perfect-match',
+        reasoning: '꽃의 고요한 아름다움 - 섬세하고 절제된 감정의 구조적 배치'
+      }
+    ],
+    overall_reasoning: '현실을 정제된 구조로 담아내며 감정을 절제하여 표현하는 작가들'
   },
 
   // LRMF: Lone + Representational + Meaning-driven + Flow
   // 특성: 현실 속 철학적 의미의 자유로운 탐구
   LRMF: {
-    primary: 'Francisco Goya',      // 현실 비판과 사회적 의미
-    secondary: 'Gustave Courbet',   // 현실주의적 사회 메시지
-    tertiary: 'El Greco',           // 현실적 형태 속 종교적 의미
-    reasoning: '현실을 통해 깊은 철학적 메시지를 자유롭게 전달'
+    artists: [
+      {
+        name: 'Francisco Goya',
+        artwork: 'The Third of May 1808 (1814)',
+        type: 'famous',
+        reasoning: '역사적 비극의 의미 - 전쟁의 참상을 통한 인간성 고발'
+      },
+      {
+        name: 'Hieronymus Bosch',
+        artwork: 'The Garden of Earthly Delights (1490-1510)',
+        type: 'famous',
+        reasoning: '도덕적 알레고리 - 현실과 환상을 넘나들며 인간 본성 탐구'
+      },
+      {
+        name: 'Gustave Courbet',
+        artwork: 'The Stone Breakers (1849)',
+        type: 'perfect-match',
+        reasoning: '노동의 진실 - 사회적 현실을 통한 계급 의식 각성'
+      }
+    ],
+    overall_reasoning: '현실 속 숨겨진 의미와 진실을 자유로운 시선으로 탐구하는 작가들'
   },
 
   // LRMC: Lone + Representational + Meaning-driven + Constructive
   // 특성: 체계적인 현실 묘사를 통한 의미 전달
   LRMC: {
-    primary: 'Giovanni di Paolo',   // 종교적 의미의 체계적 표현
-    secondary: 'John Ruskin',       // 자연 관찰의 체계적 기록
-    tertiary: 'Paul Cézanne',       // 현실의 본질적 구조 탐구
-    reasoning: '현실을 체계적으로 분석하여 깊은 의미를 전달'
+    artists: [
+      {
+        name: 'Jan van Eyck',
+        artwork: 'The Arnolfini Portrait (1434)',
+        type: 'famous',
+        reasoning: '숨겨진 상징의 체계 - 모든 디테일이 의미를 담은 완벽한 구성'
+      },
+      {
+        name: 'Diego Velázquez',
+        artwork: 'Las Meninas (1656)',
+        type: 'famous',
+        reasoning: '현실과 환영의 구조 - 복잡한 시점으로 진실 탐구'
+      },
+      {
+        name: 'Giovanni di Paolo',
+        artwork: 'The Creation and the Expulsion from Paradise (1445)',
+        type: 'perfect-match',
+        reasoning: '종교적 서사의 체계화 - 신학적 의미를 시각적 구조로 전달'
+      }
+    ],
+    overall_reasoning: '현실을 치밀한 체계로 구성하여 깊은 의미를 전달하는 작가들'
   },
 
   // ===== S (SOCIAL) 계열 =====
@@ -112,73 +248,209 @@ export const PERSONALITY_ARTIST_MATCHING = {
   // SAEF: Social + Abstract + Emotional + Flow  
   // 특성: 사회적 관계 속 추상적 감정의 자유로운 표현
   SAEF: {
-    primary: 'Auguste Rodin',       // 인간관계의 역동적 감정 표현
-    secondary: 'Amedeo Modigliani', // 사회적 초상의 감정적 왜곡
-    tertiary: 'Edouard Vuillard',   // 사회적 공간 속 추상적 감정
-    reasoning: '사회적 관계에서 느끼는 감정을 추상적으로 자유롭게 표현'
+    artists: [
+      {
+        name: 'Marc Chagall',
+        artwork: 'I and the Village (1911)',
+        type: 'famous',
+        reasoning: '공동체의 기억과 감정 - 고향 사람들과의 따뜻한 추억을 환상적으로'
+      },
+      {
+        name: 'Henri Matisse',
+        artwork: 'Dance (1909)',
+        type: 'famous',
+        reasoning: '함께 추는 춤의 환희 - 사회적 연결의 기쁨을 원초적 형태로'
+      },
+      {
+        name: 'Raoul Dufy',
+        artwork: 'The Regatta at Cowes (1934)',
+        type: 'perfect-match',
+        reasoning: '축제의 활기 - 사람들과 함께하는 즐거움을 경쾌한 색채로'
+      }
+    ],
+    overall_reasoning: '사회적 교감의 감정을 추상적이고 자유롭게 표현하는 작가들'
   },
 
   // SAEC: Social + Abstract + Emotional + Constructive
   // 특성: 사회적 감정의 구조적 추상화
   SAEC: {
-    primary: 'Alfred Stieglitz',    // 사회적 모더니즘의 구조적 접근
-    secondary: 'Piet Mondrian',     // 사회 조화의 기하학적 표현
-    tertiary: 'Marsden Hartley',    // 사회적 경험의 구조적 추상
-    reasoning: '사회적 감정과 경험을 체계적으로 추상화'
+    artists: [
+      {
+        name: 'Pablo Picasso',
+        artwork: 'Les Demoiselles d\'Avignon (1907)',
+        type: 'famous',
+        reasoning: '사회적 금기의 혁명 - 여성성을 구조적 추상으로 해체하고 재구성'
+      },
+      {
+        name: 'Fernand Léger',
+        artwork: 'The City (1919)',
+        type: 'famous',
+        reasoning: '도시 삶의 리듬 - 현대 사회의 역동성을 기하학적으로 구조화'
+      },
+      {
+        name: 'Stuart Davis',
+        artwork: 'Swing Landscape (1938)',
+        type: 'perfect-match',
+        reasoning: '재즈의 시각화 - 사회적 에너지를 체계적 추상으로'
+      }
+    ],
+    overall_reasoning: '사회적 감정과 에너지를 체계적인 추상 구조로 변환하는 작가들'
   },
 
   // SAMF: Social + Abstract + Meaning-driven + Flow
   // 특성: 사회적 의미의 추상적 자유 표현
   SAMF: {
-    primary: 'Francisco Goya',      // 사회 비판의 추상적 메시지
-    secondary: 'Odilon Redon',      // 사회적 상징의 자유로운 표현
-    tertiary: 'Auguste Rodin',      // 인간 관계의 철학적 탐구
-    reasoning: '사회적 이슈와 의미를 추상적으로 자유롭게 탐구'
+    artists: [
+      {
+        name: 'Pablo Picasso',
+        artwork: 'Guernica (1937)',
+        type: 'famous',
+        reasoning: '전쟁의 비극을 추상으로 - 사회적 메시지를 자유로운 형태로 고발'
+      },
+      {
+        name: 'Joan Miró',
+        artwork: 'Harlequin\'s Carnival (1924)',
+        type: 'famous',
+        reasoning: '사회적 축제의 의미 - 집단 무의식을 자유로운 기호로'
+      },
+      {
+        name: 'Jean-Michel Basquiat',
+        artwork: 'Untitled (Skull) (1981)',
+        type: 'perfect-match',
+        reasoning: '거리 예술의 외침 - 사회적 불평등을 자유로운 추상으로'
+      }
+    ],
+    overall_reasoning: '사회적 의미와 메시지를 추상적이고 자유롭게 탐구하는 작가들'
   },
 
   // SAMC: Social + Abstract + Meaning-driven + Constructive
   // 특성: 사회적 의미의 체계적 추상화
   SAMC: {
-    primary: 'Piet Mondrian',       // 사회 조화의 체계적 추상
-    secondary: 'Alfred Stieglitz',  // 사회 변화의 구조적 기록
-    tertiary: 'Paul Cézanne',       // 사회적 관찰의 기하학적 분석
-    reasoning: '사회적 의미와 가치를 체계적으로 추상화'
+    artists: [
+      {
+        name: 'Wassily Kandinsky',
+        artwork: 'Several Circles (1926)',
+        type: 'famous',
+        reasoning: '우주적 조화의 체계 - 사회적 질서를 기하학적 법칙으로'
+      },
+      {
+        name: 'Theo van Doesburg',
+        artwork: 'Counter-Composition V (1924)',
+        type: 'famous',
+        reasoning: '사회적 이상의 구조 - 신조형주의로 새로운 사회 질서 추구'
+      },
+      {
+        name: 'László Moholy-Nagy',
+        artwork: 'A 19 (1927)',
+        type: 'perfect-match',
+        reasoning: '기술 사회의 비전 - 산업화 시대의 의미를 체계적 추상으로'
+      }
+    ],
+    overall_reasoning: '사회적 이상과 질서를 엄격한 추상 체계로 구축하는 작가들'
   },
 
   // SREF: Social + Representational + Emotional + Flow
   // 특성: 사회적 현실의 감정적 자유 표현
   SREF: {
-    primary: 'Berthe Morisot',      // 사회적 일상의 감정적 표현
-    secondary: 'Auguste Rodin',     // 인간관계의 감정적 조각
-    tertiary: 'Edouard Vuillard',   // 사회적 공간의 친밀한 감정
-    reasoning: '사회적 현실 속에서 감정을 자유롭게 표현'
+    artists: [
+      {
+        name: 'Pierre-Auguste Renoir',
+        artwork: 'Bal du moulin de la Galette (1876)',
+        type: 'famous',
+        reasoning: '사회적 기쁨의 순간 - 파리 사람들의 행복한 모임을 따뜻하게'
+      },
+      {
+        name: 'Mary Cassatt',
+        artwork: 'The Child\'s Bath (1893)',
+        type: 'famous',
+        reasoning: '모성애의 친밀함 - 가족 간의 사랑을 부드럽게 포착'
+      },
+      {
+        name: 'Berthe Morisot',
+        artwork: 'The Cradle (1872)',
+        type: 'perfect-match',
+        reasoning: '일상의 정서 - 가정 속 자유로운 감정의 흐름'
+      }
+    ],
+    overall_reasoning: '사회적 관계와 일상의 감정을 자유롭게 표현하는 작가들'
   },
 
   // SREC: Social + Representational + Emotional + Constructive
   // 특성: 사회적 현실의 절제된 감정 표현
   SREC: {
-    primary: 'Henri Fantin-Latour', // 사회적 초상의 절제된 감정
-    secondary: 'Berthe Morisot',    // 사회적 역할의 구조적 표현
-    tertiary: 'Winslow Homer',      // 사회적 상황의 절제된 묘사
-    reasoning: '사회적 현실을 구조적으로 묘사하며 감정을 절제'
+    artists: [
+      {
+        name: 'Georges Seurat',
+        artwork: 'A Sunday on La Grande Jatte (1884)',
+        type: 'famous',
+        reasoning: '사회적 질서의 구조 - 주말의 여유를 과학적 점묘법으로 체계화'
+      },
+      {
+        name: 'Grant Wood',
+        artwork: 'American Gothic (1930)',
+        type: 'famous',
+        reasoning: '미국적 가치의 초상 - 사회적 역할을 엄격한 구성으로'
+      },
+      {
+        name: 'Henri Fantin-Latour',
+        artwork: 'A Studio at Les Batignolles (1870)',
+        type: 'perfect-match',
+        reasoning: '예술가 모임의 질서 - 사회적 관계를 절제된 구성으로'
+      }
+    ],
+    overall_reasoning: '사회적 현실을 체계적으로 구성하며 감정을 절제하여 표현하는 작가들'
   },
 
   // SRMF: Social + Representational + Meaning-driven + Flow
   // 특성: 사회적 현실을 통한 의미의 자유로운 탐구
   SRMF: {
-    primary: 'Giovanni Battista Tiepolo', // 사회적 장면의 화려한 의미
-    secondary: 'Eugène Delacroix',  // 사회적 사건의 열정적 의미
-    tertiary: 'Frederic Remington', // 사회적 역동성의 의미 탐구
-    reasoning: '사회적 현실을 통해 자유롭게 의미를 탐구'
+    artists: [
+      {
+        name: 'Eugène Delacroix',
+        artwork: 'Liberty Leading the People (1830)',
+        type: 'famous',
+        reasoning: '혁명의 열정 - 사회적 자유의 의미를 역동적으로'
+      },
+      {
+        name: 'Théodore Géricault',
+        artwork: 'The Raft of the Medusa (1819)',
+        type: 'famous',
+        reasoning: '인간 연대의 비극 - 생존을 위한 사회적 협력의 의미'
+      },
+      {
+        name: 'Giovanni Battista Tiepolo',
+        artwork: 'The Banquet of Cleopatra (1743)',
+        type: 'perfect-match',
+        reasoning: '권력과 사치의 상징 - 사회적 계층의 의미를 화려하게'
+      }
+    ],
+    overall_reasoning: '사회적 사건과 현실에서 깊은 의미를 자유롭게 탐구하는 작가들'
   },
 
   // SRMC: Social + Representational + Meaning-driven + Constructive  
   // 특성: 사회적 현실의 체계적 의미 전달
   SRMC: {
-    primary: 'Giovanni di Paolo',   // 사회적 종교화의 체계적 의미
-    secondary: 'Gustave Courbet',   // 사회 현실의 체계적 기록
-    tertiary: 'John Ruskin',        // 사회적 자연 관찰의 체계적 분석
-    reasoning: '사회적 현실을 체계적으로 분석하여 명확한 의미 전달'
+    artists: [
+      {
+        name: 'Jacques-Louis David',
+        artwork: 'The Death of Socrates (1787)',
+        type: 'famous',
+        reasoning: '철학자의 희생 - 사회적 정의와 진리를 엄격한 구성으로'
+      },
+      {
+        name: 'Raphael',
+        artwork: 'The School of Athens (1509)',
+        type: 'famous',
+        reasoning: '지식의 전당 - 사회적 학문 체계를 완벽한 원근법으로'
+      },
+      {
+        name: 'Norman Rockwell',
+        artwork: 'Freedom from Want (1943)',
+        type: 'perfect-match',
+        reasoning: '미국적 이상 - 사회적 가치를 명확한 서사 구조로'
+      }
+    ],
+    overall_reasoning: '사회적 가치와 의미를 체계적이고 명확하게 전달하는 작가들'
   }
 };
 
@@ -197,8 +469,8 @@ export function getArtistsForPersonality(personalityType: string) {
   }
   
   return {
-    artists: [matching.primary, matching.secondary, matching.tertiary],
-    reasoning: matching.reasoning
+    artists: matching.artists.map(artist => artist.name),
+    reasoning: matching.overall_reasoning
   };
 }
 

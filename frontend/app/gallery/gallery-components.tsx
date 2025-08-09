@@ -202,34 +202,36 @@ export function MobileBottomNav({
   );
 }
 
-// 갤러리 통계 표시
+// 갤러리 통계 표시 - 개선안 1: 성취감 중심
 export function GalleryStats({
-  totalArtworks,
-  likedCount,
-  viewedCount,
+  monthlyCollected,
+  totalLiked, 
+  todayDiscovered,
   className
 }: {
-  totalArtworks: number;
-  likedCount: number;
-  viewedCount: number;
+  monthlyCollected: number;  // 이번 달 새로 컬렉션한 작품 수
+  totalLiked: number;        // 전체 좋아요 수
+  todayDiscovered: number;   // 오늘 새로 발견한 작품 수
   className?: string;
 }) {
   return (
-    <div className={cn("flex items-center gap-4 text-sm", className)}>
-      <div className="flex items-center gap-1.5">
-        <Sparkles className="w-4 h-4 text-purple-500" />
-        <span className="font-medium text-white">{totalArtworks}</span>
-        <span className="text-white">작품</span>
+    <div className={cn("flex items-center gap-3 text-sm", className)}>
+      <div className="flex items-center gap-1.5" title="이번 달 새로 컬렉션한 작품">
+        <span className="text-blue-500">📚</span>
+        <span className="font-medium text-white">{monthlyCollected}</span>
+        <span className="text-gray-300 text-xs">개</span>
       </div>
-      <div className="w-px h-4 bg-gray-300 dark:bg-gray-600" />
-      <div className="flex items-center gap-1.5">
-        <span className="text-red-500">♥</span>
-        <span className="font-medium text-white">{likedCount}</span>
+      <div className="w-px h-4 bg-gray-600" />
+      <div className="flex items-center gap-1.5" title="전체 좋아요한 작품">
+        <span className="text-red-500">❤️</span>
+        <span className="font-medium text-white">{totalLiked}</span>
+        <span className="text-gray-300 text-xs">개</span>
       </div>
-      <div className="w-px h-4 bg-gray-300 dark:bg-gray-600" />
-      <div className="flex items-center gap-1.5">
-        <span className="text-blue-500">👁</span>
-        <span className="font-medium text-white">{viewedCount}</span>
+      <div className="w-px h-4 bg-gray-600" />
+      <div className="flex items-center gap-1.5" title="오늘 새로 발견한 작품">
+        <span className="text-yellow-500">🆕</span>
+        <span className="font-medium text-white">{todayDiscovered}</span>
+        <span className="text-gray-300 text-xs">개</span>
       </div>
     </div>
   );

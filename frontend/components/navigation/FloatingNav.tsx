@@ -32,7 +32,7 @@ const desktopNavItems: NavItem[] = [
     children: [
       { iconType: 'dashboard', label: { en: 'Dashboard', ko: '대시보드' }, path: '/dashboard' },
       { iconType: 'collection', label: { en: 'My Collection', ko: '내 컬렉션' }, path: '/gallery' },
-      { iconType: 'calendar', label: { en: 'Exhibition History', ko: '전시 히스토리' }, path: '/exhibitions/history' }
+      { iconType: 'calendar', label: { en: 'Exhibitions', ko: '전시회' }, path: '/exhibitions' }
     ]
   },
   { iconType: 'user', label: { en: 'Profile', ko: '프로필' }, path: '/profile', requiresAuth: true },

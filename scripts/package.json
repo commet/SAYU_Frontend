@@ -10,12 +10,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@supabase/supabase-js": "^2.53.0",
+    "@supabase/supabase-js": "^2.54.0",
     "axios": "^1.11.0",
     "cheerio": "^1.1.2",
     "dotenv": "^17.2.1",
     "node-fetch": "^3.3.2",
     "pg": "^8.16.3",
-    "puppeteer": "^24.16.0"
+    "puppeteer": "^24.16.0",
+    "uuid": "^11.1.0"
   }
 }

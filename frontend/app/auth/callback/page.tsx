@@ -28,28 +28,52 @@ export default function AuthCallbackPage() {
         
         // Supabase will automatically detect and process the hash
         // Wait for it to process
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
         
-        // Check for session
-        const { data: { session }, error } = await supabase.auth.getSession();
+        // Check for session multiple times
+        let retries = 3;
+        let session = null;
         
-        if (session) {
-          console.log('Session created from implicit flow!');
-          console.log('User:', session.user.email);
+        while (retries > 0 && !session) {
+          const { data, error } = await supabase.auth.getSession();
+          session = data.session;
           
-          // Migrate quiz results
-          try {
-            const { migrateLocalQuizResults } = await import('@/lib/quiz-api');
-            await migrateLocalQuizResults();
-            console.log('Quiz results migrated');
-          } catch (error) {
-            console.error('Failed to migrate quiz results:', error);
+          if (session) {
+            console.log('Session created from implicit flow!');
+            console.log('User:', session.user.email);
+            
+            // Migrate quiz results
+            try {
+              const { migrateLocalQuizResults } = await import('@/lib/quiz-api');
+              await migrateLocalQuizResults();
+              console.log('Quiz results migrated');
+            } catch (error) {
+              console.error('Failed to migrate quiz results:', error);
+            }
+            
+            router.push('/dashboard');
+            return;
+          } else if (error) {
+            console.error('Error getting session:', error);
           }
           
+          retries--;
+          if (retries > 0) {
+            console.log(`Retrying... ${retries} attempts left`);
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          }
+        }
+        
+        // If still no session, try refreshing the session
+        console.log('Attempting to refresh session...');
+        const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession();
+        
+        if (refreshData?.session) {
+          console.log('Session refreshed successfully!');
           router.push('/dashboard');
           return;
-        } else if (error) {
-          console.error('Error getting session:', error);
+        } else {
+          console.error('Failed to refresh session:', refreshError);
         }
       }
       
@@ -79,7 +103,10 @@ export default function AuthCallbackPage() {
         console.log('Session found!');
         router.push('/dashboard');
       } else {
-        console.log('No session found');
+        console.log('No session found after all attempts');
+        console.log('Full URL for debugging:', window.location.href);
+        setStatus('Authentication failed. Redirecting to login...');
+        await new Promise(resolve => setTimeout(resolve, 2000));
         router.push('/login?error=no_session');
       }
     };

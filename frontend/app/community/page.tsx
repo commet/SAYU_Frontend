@@ -94,7 +94,7 @@ export default function CommunityPage() {
       LAEF: [
         {
           id: '1',
-          nickname: '예술탐험가',
+          nickname: 'sohee.moment',
           personalityType: 'SAEF',
           compatibility: 'perfect',
           compatibilityScore: 95,
@@ -109,7 +109,7 @@ export default function CommunityPage() {
         },
         {
           id: '2',
-          nickname: 'jenny_kim',
+          nickname: 'wooj1n',
           personalityType: 'LREF',
           compatibility: 'perfect',
           compatibilityScore: 88,
@@ -124,7 +124,7 @@ export default function CommunityPage() {
         },
         {
           id: '3',
-          nickname: '직관탐구자',
+          nickname: 'ur.fav.muse',
           personalityType: 'LAMF',
           compatibility: 'good',
           compatibilityScore: 72,
@@ -137,7 +137,7 @@ export default function CommunityPage() {
         },
         {
           id: '4',
-          nickname: '마스터도슨트',
+          nickname: 'dahyun_00',
           personalityType: 'SRMC',
           compatibility: 'challenging',
           compatibilityScore: 35,
@@ -154,7 +154,7 @@ export default function CommunityPage() {
       SAEF: [
         {
           id: '1',
-          nickname: '몽환의여우',
+          nickname: 'yuna___98',
           personalityType: 'LAEF',
           compatibility: 'perfect',
           compatibilityScore: 95,
@@ -168,7 +168,7 @@ export default function CommunityPage() {
         },
         {
           id: '2',
-          nickname: '아카이브거북',
+          nickname: 'oldschool.k',
           personalityType: 'LAMC',
           compatibility: 'good',
           compatibilityScore: 87,
@@ -181,7 +181,7 @@ export default function CommunityPage() {
         },
         {
           id: '3',
-          nickname: '네트워크펭귄',
+          nickname: 'ssul.collector',
           personalityType: 'SAEC',
           compatibility: 'good',
           compatibilityScore: 71,
@@ -194,7 +194,7 @@ export default function CommunityPage() {
         },
         {
           id: '4',
-          nickname: '전시해설가',
+          nickname: 'junho.archive',
           personalityType: 'SRMC',
           compatibility: 'challenging',
           compatibilityScore: 38,
@@ -211,7 +211,7 @@ export default function CommunityPage() {
       LAMF: [
         {
           id: '1',
-          nickname: '사색의거북',
+          nickname: 'void.min',
           personalityType: 'LAMC',
           compatibility: 'perfect',
           compatibilityScore: 95,
@@ -222,7 +222,7 @@ export default function CommunityPage() {
         },
         {
           id: '2',
-          nickname: '은우',
+          nickname: 'eunwoo_',
           personalityType: 'SAMF',
           compatibility: 'good',
           compatibilityScore: 86,
@@ -233,7 +233,7 @@ export default function CommunityPage() {
         },
         {
           id: '3',
-          nickname: '감성탐험가',
+          nickname: 'chaewon.art',
           personalityType: 'LAEF',
           compatibility: 'good',
           compatibilityScore: 70,
@@ -244,7 +244,7 @@ export default function CommunityPage() {
         },
         {
           id: '4',
-          nickname: '스피드러너',
+          nickname: 'hyein____',
           personalityType: 'SREF',
           compatibility: 'challenging',
           compatibilityScore: 32,
@@ -258,7 +258,7 @@ export default function CommunityPage() {
       LAMC: [
         {
           id: '1',
-          nickname: '지식나눔이',
+          nickname: 'doc.kim',
           personalityType: 'SRMF',
           compatibility: 'perfect',
           compatibilityScore: 95,
@@ -269,7 +269,7 @@ export default function CommunityPage() {
         },
         {
           id: '2',
-          nickname: '사색가',
+          nickname: 'after2am',
           personalityType: 'LAMF',
           compatibility: 'perfect',
           compatibilityScore: 95,
@@ -280,7 +280,7 @@ export default function CommunityPage() {
         },
         {
           id: '3',
-          nickname: '연구빌더',
+          nickname: 'lowkey.jin',
           personalityType: 'LRMC',
           compatibility: 'good',
           compatibilityScore: 85,
@@ -306,7 +306,7 @@ export default function CommunityPage() {
       LAEC: [
         {
           id: '1',
-          nickname: '몽환의여우',
+          nickname: 'yuna___98',
           personalityType: 'LAEF',
           compatibility: 'perfect',
           compatibilityScore: 92,
@@ -566,7 +566,7 @@ export default function CommunityPage() {
         },
         {
           id: '3',
-          nickname: '큐레이터',
+          nickname: 'theory.k',
           personalityType: 'LAEC',
           compatibility: 'good',
           compatibilityScore: 75,
@@ -592,7 +592,7 @@ export default function CommunityPage() {
       SAMF: [
         {
           id: '1',
-          nickname: '직관탐구자',
+          nickname: 'ur.fav.muse',
           personalityType: 'LAMF',
           compatibility: 'good',
           compatibilityScore: 75,
@@ -639,7 +639,7 @@ export default function CommunityPage() {
       SAMC: [
         {
           id: '1',
-          nickname: '마스터도슨트',
+          nickname: 'dahyun_00',
           personalityType: 'SRMC',
           compatibility: 'good',
           compatibilityScore: 85,
@@ -2701,20 +2701,27 @@ export default function CommunityPage() {
                                     // Replace animal names with "Username(Animal)" format
                                     let updatedDesc = synergyDesc;
                                     if (userAnimalName && matchAnimalName) {
-                                      // Handle Korean
+                                      // Handle Korean - expanded to cover more particles
                                       if (language === 'ko') {
                                         updatedDesc = updatedDesc
                                           .replace(new RegExp(`${userAnimalName}의`, 'g'), `${userDisplayName}(${userAnimalName})의`)
                                           .replace(new RegExp(`${matchAnimalName}의`, 'g'), `${matchDisplayName}(${matchAnimalName})의`)
                                           .replace(new RegExp(`${userAnimalName}가`, 'g'), `${userDisplayName}(${userAnimalName})가`)
-                                          .replace(new RegExp(`${matchAnimalName}가`, 'g'), `${matchDisplayName}(${matchAnimalName})가`);
+                                          .replace(new RegExp(`${matchAnimalName}가`, 'g'), `${matchDisplayName}(${matchAnimalName})가`)
+                                          .replace(new RegExp(`${userAnimalName}는`, 'g'), `${userDisplayName}(${userAnimalName})는`)
+                                          .replace(new RegExp(`${matchAnimalName}는`, 'g'), `${matchDisplayName}(${matchAnimalName})는`)
+                                          .replace(new RegExp(`${userAnimalName}은`, 'g'), `${userDisplayName}(${userAnimalName})은`)
+                                          .replace(new RegExp(`${matchAnimalName}은`, 'g'), `${matchDisplayName}(${matchAnimalName})은`)
+                                          .replace(new RegExp(`${userAnimalName}를`, 'g'), `${userDisplayName}(${userAnimalName})를`)
+                                          .replace(new RegExp(`${matchAnimalName}를`, 'g'), `${matchDisplayName}(${matchAnimalName})를`);
                                       } else {
-                                        // Handle English
-                                        updatedDesc = updatedDesc
-                                          .replace(new RegExp(`${userAnimalName}'s`, 'g'), `${userDisplayName}(${userAnimalName})'s`)
-                                          .replace(new RegExp(`${matchAnimalName}'s`, 'g'), `${matchDisplayName}(${matchAnimalName})'s`)
-                                          .replace(new RegExp(`\\b${userAnimalName}\\b`, 'g'), `${userDisplayName}(${userAnimalName})`)
-                                          .replace(new RegExp(`\\b${matchAnimalName}\\b`, 'g'), `${matchDisplayName}(${matchAnimalName})`);
+                                        // Handle English - simplified for better matching
+                                        if (userAnimalName) {
+                                          updatedDesc = updatedDesc.replace(new RegExp(`\\b${userAnimalName}\\b`, 'gi'), userDisplayName);
+                                        }
+                                        if (matchAnimalName) {
+                                          updatedDesc = updatedDesc.replace(new RegExp(`\\b${matchAnimalName}\\b`, 'gi'), matchDisplayName);
+                                        }
                                       }
                                     }
                                     return updatedDesc;
@@ -2743,15 +2750,18 @@ export default function CommunityPage() {
                                           let updatedText = viewingStyleText;
                                           if (userAnimalName && matchAnimalName) {
                                             if (language === 'ko') {
-                                              // Replace various Korean patterns
+                                              // Replace various Korean patterns - expanded with more particles
                                               updatedText = updatedText
-                                                .replace(new RegExp(`${userAnimalName}(\uc758|\uc740|\ub294|\uac00|\uc640|\uc774)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
-                                                .replace(new RegExp(`${matchAnimalName}(\uc758|\uc740|\ub294|\uac00|\uc640|\uc774)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
+                                                .replace(new RegExp(`${userAnimalName}(의|은|는|가|와|이|를|에게|도|만)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
+                                                .replace(new RegExp(`${matchAnimalName}(의|은|는|가|와|이|를|에게|도|만)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
                                             } else {
-                                              // Replace English patterns
-                                              updatedText = updatedText
-                                                .replace(new RegExp(`${userAnimalName}('s|\\s)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
-                                                .replace(new RegExp(`${matchAnimalName}('s|\\s)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
+                                              // Replace English patterns - simplified
+                                              if (userAnimalName) {
+                                                updatedText = updatedText.replace(new RegExp(`\\b${userAnimalName}\\b`, 'gi'), userDisplayName);
+                                              }
+                                              if (matchAnimalName) {
+                                                updatedText = updatedText.replace(new RegExp(`\\b${matchAnimalName}\\b`, 'gi'), matchDisplayName);
+                                              }
                                             }
                                           }
                                           return updatedText;
@@ -2787,15 +2797,18 @@ export default function CommunityPage() {
                                           let updatedText = conversationText;
                                           if (userAnimalName && matchAnimalName) {
                                             if (language === 'ko') {
-                                              // Replace various Korean patterns
+                                              // Replace various Korean patterns - expanded with more particles
                                               updatedText = updatedText
-                                                .replace(new RegExp(`${userAnimalName}(\uc758|\uc740|\ub294|\uac00|\uc640|\uc774)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
-                                                .replace(new RegExp(`${matchAnimalName}(\uc758|\uc740|\ub294|\uac00|\uc640|\uc774)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
+                                                .replace(new RegExp(`${userAnimalName}(의|은|는|가|와|이|를|에게|도|만)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
+                                                .replace(new RegExp(`${matchAnimalName}(의|은|는|가|와|이|를|에게|도|만)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
                                             } else {
-                                              // Replace English patterns
-                                              updatedText = updatedText
-                                                .replace(new RegExp(`${userAnimalName}('s|\\s)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
-                                                .replace(new RegExp(`${matchAnimalName}('s|\\s)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
+                                              // Replace English patterns - simplified
+                                              if (userAnimalName) {
+                                                updatedText = updatedText.replace(new RegExp(`\\b${userAnimalName}\\b`, 'gi'), userDisplayName);
+                                              }
+                                              if (matchAnimalName) {
+                                                updatedText = updatedText.replace(new RegExp(`\\b${matchAnimalName}\\b`, 'gi'), matchDisplayName);
+                                              }
                                             }
                                           }
                                           return updatedText;
@@ -2831,15 +2844,18 @@ export default function CommunityPage() {
                                           let updatedText = activitiesText;
                                           if (userAnimalName && matchAnimalName) {
                                             if (language === 'ko') {
-                                              // Replace various Korean patterns
+                                              // Replace various Korean patterns - expanded with more particles
                                               updatedText = updatedText
-                                                .replace(new RegExp(`${userAnimalName}(\uc758|\uc740|\ub294|\uac00|\uc640|\uc774)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
-                                                .replace(new RegExp(`${matchAnimalName}(\uc758|\uc740|\ub294|\uac00|\uc640|\uc774)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
+                                                .replace(new RegExp(`${userAnimalName}(의|은|는|가|와|이|를|에게|도|만)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
+                                                .replace(new RegExp(`${matchAnimalName}(의|은|는|가|와|이|를|에게|도|만)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
                                             } else {
-                                              // Replace English patterns
-                                              updatedText = updatedText
-                                                .replace(new RegExp(`${userAnimalName}('s|\\s)`, 'g'), `${userDisplayName}(${userAnimalName})$1`)
-                                                .replace(new RegExp(`${matchAnimalName}('s|\\s)`, 'g'), `${matchDisplayName}(${matchAnimalName})$1`);
+                                              // Replace English patterns - simplified
+                                              if (userAnimalName) {
+                                                updatedText = updatedText.replace(new RegExp(`\\b${userAnimalName}\\b`, 'gi'), userDisplayName);
+                                              }
+                                              if (matchAnimalName) {
+                                                updatedText = updatedText.replace(new RegExp(`\\b${matchAnimalName}\\b`, 'gi'), matchDisplayName);
+                                              }
                                             }
                                           }
                                           return updatedText;
@@ -2965,10 +2981,13 @@ export default function CommunityPage() {
                                                 .replace(new RegExp(`\\b${userAnimalName}\\b`, 'g'), `${userDisplayName}(${userAnimalName})`)
                                                 .replace(new RegExp(`\\b${matchAnimalName}\\b`, 'g'), `${matchDisplayName}(${matchAnimalName})`);
                                             } else {
-                                              // Handle English
-                                              updatedTip = updatedTip
-                                                .replace(new RegExp(`\\b${userAnimalName}\\b`, 'g'), `${userDisplayName}(${userAnimalName})`)
-                                                .replace(new RegExp(`\\b${matchAnimalName}\\b`, 'g'), `${matchDisplayName}(${matchAnimalName})`);
+                                              // Handle English - simplified for better matching
+                                              if (userAnimalName) {
+                                                updatedTip = updatedTip.replace(new RegExp(`\\b${userAnimalName}\\b`, 'gi'), userDisplayName);
+                                              }
+                                              if (matchAnimalName) {
+                                                updatedTip = updatedTip.replace(new RegExp(`\\b${matchAnimalName}\\b`, 'gi'), matchDisplayName);
+                                              }
                                             }
                                           }
                                           return updatedTip;

@@ -16,7 +16,7 @@ import ShareModal from '@/components/share/ShareModal';
 import ProfileIDCard from '@/components/profile/ProfileIDCard';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
 import { useArtworksByArtist } from '@/lib/artvee-api';
-import { getArtistsForPersonality, ARTIST_DETAILS } from '@/data/personality-artist-matching-2024';
+import { getBestAvailableArtists, PERSONALITY_ART_STYLES, type AvailableArtist } from '@/data/available-artists-2025';
 
 interface QuizResults {
   personalityType: string;
@@ -40,62 +40,90 @@ function ResultsContent() {
   const [showProfileCard, setShowProfileCard] = useState(false);
   const [activeTab, setActiveTab] = useState<'strengths' | 'challenges' | 'growth'>('strengths');
   
-  // 새로운 매칭 시스템 사용
+  // 2025 매칭 시스템 - 실제 사용 가능한 작가들과 작품
   const [artistArtworks, setArtistArtworks] = useState<any[]>([]);
-  const artistMatching = results ? getArtistsForPersonality(results.personalityType) : { artists: [], reasoning: '' };
-  const artistsToShow = artistMatching.artists;
+  const availableArtists = results ? getBestAvailableArtists(results.personalityType) : [];
+  const personalityStyle = results ? PERSONALITY_ART_STYLES[results.personalityType as keyof typeof PERSONALITY_ART_STYLES] : null;
   
-  // Cloudinary 데이터에서 작품 로드
+  // 작가의 최고 작품 찾기
+  const findBestArtworkForArtist = (artworks: any[], artist: AvailableArtist) => {
+    const artistWorks = artworks.filter((work: any) => {
+      if (!work.artist) return false;
+      const workArtist = work.artist.split('\n')[0].toLowerCase();
+      const targetArtist = artist.name.toLowerCase();
+      const artistLastName = artist.name.split(' ').pop()?.toLowerCase() || '';
+      
+      return workArtist.includes(targetArtist) || 
+             targetArtist.includes(workArtist) ||
+             (artistLastName && workArtist.includes(artistLastName));
+    });
+    
+    if (artistWorks.length === 0) return null;
+    
+    // 유명 작품 중에서 먼저 찾기
+    for (const notableWork of artist.notableWorks) {
+      const found = artistWorks.find((work: any) => 
+        work.title?.toLowerCase().includes(notableWork.toLowerCase()) ||
+        notableWork.toLowerCase().includes(work.title?.toLowerCase() || '')
+      );
+      if (found) {
+        return {
+          title: found.title,
+          imageUrl: found.cloudinaryUrl || found.primaryImage || found.primaryImageSmall,
+          date: found.date,
+          medium: found.medium
+        };
+      }
+    }
+    
+    // 첫 번째 작품 사용
+    const firstWork = artistWorks[0];
+    return {
+      title: firstWork.title,
+      imageUrl: firstWork.cloudinaryUrl || firstWork.primaryImage || firstWork.primaryImageSmall,
+      date: firstWork.date,
+      medium: firstWork.medium
+    };
+  };
+  
+  // 실제 사용 가능한 작가들의 작품 로드
   useEffect(() => {
-    const loadArtworkImages = async () => {
+    const loadAvailableArtworks = async () => {
+      if (availableArtists.length === 0) return;
+      
       try {
         const response = await fetch('/data/artworks.json');
         const data = await response.json();
         
-        const foundArtworks = artistsToShow.map(artistName => {
-          // 작가 이름으로 작품 찾기
-          const artwork = data.artworks.find((work: any) => {
-            const workArtist = work.artist ? work.artist.split('\n')[0].toLowerCase() : '';
-            const artistLastName = artistName.split(' ').pop()?.toLowerCase() || '';
-            
-            // Check for exact match, partial match, or last name match
-            return workArtist.includes(artistName.toLowerCase()) || 
-                   artistName.toLowerCase().includes(workArtist) ||
-                   (artistLastName && workArtist.includes(artistLastName));
-          });
+        const matchedArtworks = availableArtists.map((artist, index) => {
+          const matchType = index === 0 ? 'primary' : index === 1 ? 'secondary' : 'tertiary';
+          const bestWork = findBestArtworkForArtist(data.artworks, artist);
           
-          return artwork ? {
-            ...artwork,
-            artistName: artistName,
-            imageUrl: artwork.cloudinaryUrl,
-            title: artwork.title,
-            artist: artistName
-          } : {
-            artistName: artistName,
-            imageUrl: `https://via.placeholder.com/400x500.png?text=${encodeURIComponent(artistName)}`,
-            title: artistName,
-            artist: artistName
+          return {
+            ...artist,
+            matchType,
+            bestWork,
+            imageUrl: bestWork?.imageUrl || '/images/placeholder-artwork.svg',
+            artworkTitle: bestWork?.title || artist.notableWorks[0] || 'Notable Work'
           };
         });
         
-        setArtistArtworks(foundArtworks);
+        setArtistArtworks(matchedArtworks);
       } catch (error) {
-        console.error('Failed to load artwork images:', error);
-        // 에러 시 placeholder 이미지 사용
-        const placeholderArtworks = artistsToShow.map(artistName => ({
-          artistName: artistName,
-          imageUrl: `https://via.placeholder.com/400x500.png?text=${encodeURIComponent(artistName)}`,
-          title: artistName,
-          artist: artistName
+        console.error('Failed to load available artworks:', error);
+        // 에러 시에도 작가 정보는 표시
+        const fallbackArtworks = availableArtists.map((artist, index) => ({
+          ...artist,
+          matchType: index === 0 ? 'primary' : index === 1 ? 'secondary' : 'tertiary',
+          imageUrl: '/images/placeholder-artwork.svg',
+          artworkTitle: artist.notableWorks[0] || 'Notable Work'
         }));
-        setArtistArtworks(placeholderArtworks);
+        setArtistArtworks(fallbackArtworks);
       }
     };
     
-    if (results && artistsToShow.length > 0) {
-      loadArtworkImages();
-    }
-  }, [results, artistsToShow]);
+    loadAvailableArtworks();
+  }, [availableArtists]);
 
   useEffect(() => {
     const urlType = searchParams?.get('type');
@@ -547,14 +575,19 @@ function ResultsContent() {
             {language === 'ko' ? '당신과 연결된 아티스트' : 'Artists Connected to You'}
           </h2>
           
-          {/* 아티스트 3명 */}
+          {/* 당신의 스타일과 맞는 작가들 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
-            {artistsToShow.map((artistName: string, index: number) => {
-              const artwork = artistArtworks[index];
+            {artistArtworks.map((artistMatch: any, index: number) => {
+              const isMainMatch = artistMatch.matchType === 'primary';
+              const matchLabels = {
+                primary: language === 'ko' ? '최고 매칭' : 'Perfect Match',
+                secondary: language === 'ko' ? '조화로운 매칭' : 'Harmonious Match', 
+                tertiary: language === 'ko' ? '흥미로운 발견' : 'Interesting Discovery'
+              };
               
-              // 새로운 작가 정보 시스템에서 정보 가져오기
-              const artistInfo = ARTIST_DETAILS[artistName as keyof typeof ARTIST_DETAILS];
-              const artistMatching = getArtistsForPersonality(results.personalityType);
+              const description = language === 'ko' 
+                ? `${artistMatch.style} 작가로 ${artistMatch.workCount}점의 작품이 컬렉션에 있습니다. ${artistMatch.notableWorks.slice(0,2).join(', ')} 등으로 유명합니다.`
+                : `${artistMatch.style} artist with ${artistMatch.workCount} works in our collection. Known for ${artistMatch.notableWorks.slice(0,2).join(', ')} and more.`;
               
               return (
                 <motion.div
@@ -562,19 +595,14 @@ function ResultsContent() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.7 + index * 0.1 }}
+                  className={isMainMatch ? 'lg:col-span-1 lg:row-span-1 ring-2 ring-purple-200 dark:ring-purple-800' : ''}
                 >
                   <ArtworkCard
-                    image={artwork?.imageUrl || artwork?.cloudinaryUrl || `https://via.placeholder.com/400x500.png?text=${encodeURIComponent(artistName)}`}
-                    title={artwork?.title || `${artistName}의 작품`}
-                    artist={artistName}
-                    description={
-                      language === 'ko' 
-                        ? `${artistInfo?.description || '당신의 성격과 잘 맞는 작가입니다.'} (${artistMatching.reasoning})`
-                        : `${artistInfo?.description || 'An artist that matches your artistic personality.'} (${artistMatching.reasoning})`
-                    }
-                    emotionalTag={
-                      artistInfo?.style || (language === 'ko' ? '특별한 연결' : 'Special connection')
-                    }
+                    image={artistMatch.imageUrl}
+                    title={artistMatch.artworkTitle}
+                    artist={`${artistMatch.name} (${artistMatch.period})`}
+                    description={description}
+                    emotionalTag={matchLabels[artistMatch.matchType as keyof typeof matchLabels]}
                     personality={results.personalityType}
                     delay={index * 0.1}
                   />
@@ -583,13 +611,43 @@ function ResultsContent() {
             })}
           </div>
           
+          {/* 당신의 예술 성향 설명 */}
+          {personalityStyle && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 2.0 }}
+              className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 mb-8 max-w-3xl mx-auto"
+            >
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                {language === 'ko' ? '당신의 예술 감상 스타일' : 'Your Art Appreciation Style'}
+              </h3>
+              <p className="text-gray-700 dark:text-gray-300 mb-4">
+                <span className="font-medium">{personalityStyle.focus}</span>
+                {language === 'ko' 
+                  ? '에 중점을 두고 작품을 감상하시는 분입니다.' 
+                  : ' is your primary focus when appreciating art.'}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {personalityStyle.keywords.map((keyword, i) => (
+                  <span 
+                    key={i}
+                    className="px-3 py-1 bg-white dark:bg-slate-700 rounded-full text-sm text-purple-600 dark:text-purple-300 border border-purple-200 dark:border-purple-600"
+                  >
+                    {keyword}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          )}
+          
           {/* 더보기 & 전시회 추천 버튼 */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={scrollToSignup}
               className="flex items-center justify-center gap-2 px-6 py-3 text-purple-600 hover:text-purple-700 font-medium transition-colors"
             >
-              {language === 'ko' ? '더 많은 아티스트 보기' : 'See More Artists'}
+              {language === 'ko' ? '더 많은 작품 탐색하기' : 'Explore More Artworks'
               <ArrowRight size={18} />
             </button>
             
