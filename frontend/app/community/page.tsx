@@ -15,6 +15,7 @@ import { getArtworkRecommendations } from '@/lib/artworkRecommendations';
 import { getExhibitionRecommendation } from '@/lib/exhibitionRecommendations';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { synergyTable, getSynergyKey } from '@/data/personality-synergy-table';
+import FeedbackButton from '@/components/feedback/FeedbackButton';
 
 interface UserMatch {
   id: string;
@@ -3156,6 +3157,17 @@ export default function CommunityPage() {
           </div>
         )}
       </div>
+
+      {/* Fixed Feedback Button */}
+      <FeedbackButton
+        position="fixed"
+        variant="primary"
+        contextData={{
+          page: 'community',
+          activeTab: activeTab,
+          personalityType: userPersonalityType
+        }}
+      />
     </div>
   );
 }

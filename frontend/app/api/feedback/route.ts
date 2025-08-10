@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
 
 interface FeedbackData {
   type: 'rating' | 'suggestion' | 'bug' | 'general';
@@ -48,9 +49,39 @@ export async function POST(request: NextRequest) {
       status: 'new'
     };
 
-    // In a real application, you would save this to your database
-    // For now, we'll log it and potentially send to external services
-    console.log('New feedback received:', feedbackRecord);
+    // Save to Supabase database
+    const supabase = await createClient();
+    
+    // Get current user if authenticated
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    // Insert feedback into database
+    const { data: feedback, error: insertError } = await supabase
+      .from('feedback')
+      .insert({
+        user_id: user?.id || null,
+        type: feedbackData.type,
+        rating: feedbackData.rating,
+        message: feedbackData.message.trim(),
+        email: feedbackData.email,
+        context: feedbackData.context || {},
+        user_agent: feedbackData.userAgent,
+        url: feedbackData.url,
+        client_ip: clientIp,
+        status: 'new'
+      })
+      .select()
+      .single();
+
+    if (insertError) {
+      console.error('Failed to save feedback to database:', insertError);
+      return NextResponse.json(
+        { error: 'Failed to save feedback' },
+        { status: 500 }
+      );
+    }
+
+    console.log('New feedback saved to database:', feedback);
 
     // Optional: Send to external services like Slack, Discord, or email
     if (process.env.FEEDBACK_WEBHOOK_URL) {
@@ -61,7 +92,7 @@ export async function POST(request: NextRequest) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            text: formatFeedbackForWebhook(feedbackRecord),
+            text: formatFeedbackForWebhook({ ...feedbackRecord, id: feedback.id }),
             channel: '#feedback',
             username: 'SAYU Feedback Bot',
             icon_emoji: ':speech_balloon:'
@@ -75,7 +106,7 @@ export async function POST(request: NextRequest) {
     // Optional: Send email notification
     if (process.env.FEEDBACK_EMAIL_ENABLED === 'true') {
       try {
-        await sendFeedbackEmail(feedbackRecord);
+        await sendFeedbackEmail({ ...feedbackRecord, id: feedback.id });
       } catch (emailError) {
         console.error('Failed to send email:', emailError);
       }
@@ -83,7 +114,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ 
       success: true, 
-      id: feedbackRecord.id 
+      id: feedback.id 
     });
 
   } catch (error) {

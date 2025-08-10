@@ -271,9 +271,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    
-    if (error) {
+    try {
+      console.log('Starting sign out process...');
+      
+      // Clear local state immediately for immediate UI update
+      setUser(null);
+      setProfile(null);
+      setSession(null);
+      
+      // Clear user-related localStorage items
+      const userDataKeys = [
+        'token',
+        'mockUser', 
+        'activeSession',
+        'sayu_visited_pages',
+        'quizResults',
+        'scenarioResponses',
+        'lastQuizType',
+        'artStylePreferences'
+      ];
+      
+      userDataKeys.forEach(key => {
+        if (localStorage.getItem(key)) {
+          localStorage.removeItem(key);
+          console.log(`Cleared localStorage key: ${key}`);
+        }
+      });
+      
+      // Then sign out from Supabase
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        console.error('Sign out error:', error);
+        throw error;
+      }
+      
+      console.log('Sign out successful - all user data cleared');
+    } catch (error) {
+      console.error('Sign out failed:', error);
       throw error;
     }
   };

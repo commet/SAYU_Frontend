@@ -90,11 +90,11 @@ Discover your art personality too!`;
       // Dynamic import to reduce initial bundle size
       const { default: html2canvas } = await import('html2canvas');
       const canvas = await html2canvas(shareCardRef.current, {
-        scale: 2,
+        scale: 4,
         backgroundColor: null,
         useCORS: true,
-        width: shareFormat === 'story' ? 540 : 1080,
-        height: shareFormat === 'story' ? 960 : 1080
+        width: shareFormat === 'story' ? 1080 : shareFormat === 'feed' ? 1080 : 1080,
+        height: shareFormat === 'story' ? 1920 : shareFormat === 'feed' ? 1080 : 1350
       });
       
       const blob = await new Promise<Blob>((resolve) => {
@@ -207,13 +207,16 @@ Discover your art personality too!`;
                 <div
                   ref={shareCardRef}
                   className={`rounded-2xl overflow-hidden shadow-xl ${
-                    shareFormat === 'story' ? 'w-36 h-60' :
-                    shareFormat === 'feed' ? 'w-48 h-48' :
-                    'w-44 h-52'
+                    shareFormat === 'story' ? 'w-[180px] h-[320px]' :
+                    shareFormat === 'feed' ? 'w-[180px] h-[180px]' :
+                    'w-[180px] h-[225px]'
                   }`}
                   style={{ background: gradientStyle }}
                 >
-                  <div className="h-full p-4 text-white flex flex-col justify-between">
+                  <div className={`h-full text-white flex flex-col justify-between ${
+                    shareFormat === 'story' ? 'p-4' : 
+                    shareFormat === 'feed' ? 'p-3' : 'p-3'
+                  }`}>
                     {/* Top Section */}
                     <div className="text-center">
                       <div className="mb-1 flex justify-center">
@@ -223,15 +226,23 @@ Discover your art personality too!`;
                             variant="illustration"
                             size="sm"
                             showFallback={true}
-                            className="w-16 h-16 object-contain drop-shadow-md"
+                            className={`object-contain drop-shadow-lg ${
+                              shareFormat === 'feed' ? 'w-8 h-8' : 'w-12 h-12'
+                            }`}
                           />
                         ) : (
-                          <div className="text-3xl">{animal?.emoji}</div>
+                          <div className={`drop-shadow-lg ${
+                            shareFormat === 'feed' ? 'text-xl' : 'text-2xl'
+                          }`}>{animal?.emoji}</div>
                         )}
                       </div>
-                      <div className="bg-white/10 backdrop-blur-sm rounded-md px-2 py-1 inline-block mx-auto">
-                        <div className="font-mono text-base font-bold leading-tight">{personalityType}</div>
-                        <div className="text-xs font-medium leading-tight">
+                      <div className="inline-block bg-white/15 backdrop-blur-sm px-3 py-2 border border-white/20">
+                        <div className={`font-mono font-bold leading-tight ${
+                          shareFormat === 'feed' ? 'text-sm' : shareFormat === 'story' ? 'text-lg' : 'text-base'
+                        }`} style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>{personalityType}</div>
+                        <div className={`font-medium leading-tight ${
+                          shareFormat === 'feed' ? 'text-[10px]' : shareFormat === 'story' ? 'text-sm' : 'text-xs'
+                        }`} style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
                           {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
                         </div>
                       </div>
@@ -240,7 +251,7 @@ Discover your art personality too!`;
                     {/* Middle Section */}
                     <div className="text-center flex-1 flex flex-col justify-center mt-2">
                       {shareFormat === 'story' && (
-                        <div className="text-[10px] opacity-90 leading-tight px-0.5">
+                        <div className="text-xs leading-tight px-2" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
                           {language === 'ko' 
                             ? `"예술 속 감정을 ${personality?.strengths?.[0]?.title_ko === '감정적 건축' ? '건축물처럼 설계하는' : 
                                personality?.strengths?.[0]?.title_ko === '미세한 감수성' ? '섬세하게 포착하는' :
@@ -248,17 +259,17 @@ Discover your art personality too!`;
                                personality?.strengths?.[0]?.title_ko === '기술적 숙달' ? '해부하듯 분석하는' :
                                personality?.strengths?.[0]?.title_ko === '패턴 인식' ? '패턴으로 읽어내는' :
                                '깊이 있게 탐구하는'} 예술 애호가"` 
-                            : `"An art lover who ${personality?.strengths?.[0]?.title === 'Emotional Architecture' ? 'architects emotions in art' :
-                               personality?.strengths?.[0]?.title === 'Micro Sensitivity' ? 'captures subtle feelings' :
-                               personality?.strengths?.[0]?.title === 'Intuitive Connection' ? 'connects through intuition' :
-                               personality?.strengths?.[0]?.title === 'Technical Mastery' ? 'dissects techniques' :
-                               personality?.strengths?.[0]?.title === 'Pattern Recognition' ? 'reads through patterns' :
-                               'deeply explores artworks'}"`
+                            : `"An art lover who ${personality?.strengths?.[0]?.title === 'Emotional Architecture' ? 'architects emotions' :
+                               personality?.strengths?.[0]?.title === 'Micro Sensitivity' ? 'feels every detail' :
+                               personality?.strengths?.[0]?.title === 'Intuitive Connection' ? 'connects intuitively' :
+                               personality?.strengths?.[0]?.title === 'Technical Mastery' ? 'analyzes deeply' :
+                               personality?.strengths?.[0]?.title === 'Pattern Recognition' ? 'reads patterns' :
+                               'explores deeply'}"`
                           }
                         </div>
                       )}
                       {shareFormat === 'feed' && (
-                        <div className="text-[10px] opacity-90 leading-tight px-0.5">
+                        <div className="text-[10px] leading-tight px-1" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
                           {language === 'ko' 
                             ? `"예술 속 감정을 ${personality?.strengths?.[0]?.title_ko === '감정적 건축' ? '건축물처럼 설계하는' : 
                                personality?.strengths?.[0]?.title_ko === '미세한 감수성' ? '섬세하게 포착하는' :
@@ -266,12 +277,12 @@ Discover your art personality too!`;
                                personality?.strengths?.[0]?.title_ko === '기술적 숙달' ? '해부하듯 분석하는' :
                                personality?.strengths?.[0]?.title_ko === '패턴 인식' ? '패턴으로 읽어내는' :
                                '깊이 있게 탐구하는'} 예술 애호가"` 
-                            : `"An art lover who ${personality?.strengths?.[0]?.title === 'Emotional Architecture' ? 'architects emotions in art' :
-                               personality?.strengths?.[0]?.title === 'Micro Sensitivity' ? 'captures subtle feelings' :
-                               personality?.strengths?.[0]?.title === 'Intuitive Connection' ? 'connects through intuition' :
-                               personality?.strengths?.[0]?.title === 'Technical Mastery' ? 'dissects techniques' :
-                               personality?.strengths?.[0]?.title === 'Pattern Recognition' ? 'reads through patterns' :
-                               'deeply explores artworks'}"`
+                            : `"An art lover who ${personality?.strengths?.[0]?.title === 'Emotional Architecture' ? 'architects emotions' :
+                               personality?.strengths?.[0]?.title === 'Micro Sensitivity' ? 'feels every detail' :
+                               personality?.strengths?.[0]?.title === 'Intuitive Connection' ? 'connects intuitively' :
+                               personality?.strengths?.[0]?.title === 'Technical Mastery' ? 'analyzes deeply' :
+                               personality?.strengths?.[0]?.title === 'Pattern Recognition' ? 'reads patterns' :
+                               'explores deeply'}"`
                           }
                         </div>
                       )}
@@ -279,16 +290,20 @@ Discover your art personality too!`;
                     
                     {/* Bottom Section */}
                     <div className="text-center">
-                      <div className="border-t border-white/20 pt-2 mt-2">
-                        <div className="text-xs opacity-70 tracking-tighter">
+                      <div className="pt-3 mt-2" style={{ borderTop: '1px solid rgba(255,255,255,0.3)' }}>
+                        <div className={`font-medium px-1 ${
+                          shareFormat === 'feed' ? 'text-[10px]' : 'text-xs'
+                        }`} style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
                           {language === 'ko' ? (
-                            shareFormat === 'feed' ? '당신의 예술 페르소나를 발견하세요' : <>당신의 예술 페르소나를<br />발견하세요</>
+                            shareFormat === 'feed' ? '예술 페르소나 발견하기' : '예술 페르소나 발견하기'
                           ) : (
-                            'Discover your art persona'
+                            'Find your art persona'
                           )}
                         </div>
-                        <div className="text-xs font-medium mt-1">
-                          SAYU
+                        <div className={`font-medium mt-1 ${
+                          shareFormat === 'feed' ? 'text-[10px]' : 'text-xs'
+                        }`} style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
+                          SAYU.MY
                         </div>
                       </div>
                     </div>

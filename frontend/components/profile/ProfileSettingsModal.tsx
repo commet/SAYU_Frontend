@@ -48,10 +48,12 @@ export default function ProfileSettingsModal({
 
   const handleLogout = async () => {
     try {
+      onClose(); // Close modal first
       await signOut();
       toast.success(language === 'ko' ? '로그아웃되었습니다' : 'Logged out successfully');
-      window.location.href = '/';
+      // The useAuth hook will handle the redirect to '/' via onAuthStateChange
     } catch (error) {
+      console.error('Logout error:', error);
       toast.error(language === 'ko' ? '로그아웃 실패' : 'Logout failed');
     }
   };

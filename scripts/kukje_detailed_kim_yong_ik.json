@@ -1,0 +1,137 @@
+{
+  "exhibition": {
+    "id": "kukje-kim-yong-ik-distant-utopia-2024",
+    "seq": 267,
+    "title_en": "Distant and Faraway Utopia",
+    "title_ko": "아련하고 희미한 유토피아",
+    "subtitle": null,
+    "description": "김용익 개인전 '아련하고 희미한 유토피아'는 작가의 최근 '소진 프로젝트' 시리즈를 통해 모더니즘 유토피아의 퇴색하는 꿈을 탐구합니다. 작가는 '유토피아는 모더니스트의 꿈이었고, 과학과 기술적 진보가 인류를 유토피아로 이끌 것이라는 꿈이었다'고 말하며, 46점의 근작을 통해 모더니즘 이상의 한계와 실패를 성찰합니다.",
+    "description_en": "Kim Yong-Ik's solo exhibition 'Distant and Faraway Utopia' explores the fading dream of Modernist utopia through his recent 'Exhausting Project' series. The artist reflects on the limitations and failures of Modernist ideals through 46 recent works, stating 'Utopia was the Modernist dream... the dream that science and technological progress would lead humanity to utopia.'",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "부산/서울",
+    "venue_country": "KR",
+    "gallery_location": "Kukje Gallery Busan and Seoul Hanok spaces",
+    
+    "start_date": "2024-03-15",
+    "end_date": "2024-04-21",
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "painting",
+    "artworks_count": 46,
+    
+    "artists": [
+      {
+        "name": "Kim Yong-Ik",
+        "name_ko": "김용익",
+        "role": "artist",
+        "birth_year": 1947,
+        "birth_place": "Seoul, Korea",
+        "nationality": "Korean",
+        "education": [
+          "BFA, Hongik University",
+          "MFA, Hongik University"
+        ],
+        "key_roles": [
+          "Alternative Space Pool co-founder",
+          "University Professor"
+        ],
+        "artistic_evolution": "From 'Polka-dot painter' to philosophical minimalist",
+        "current_focus": "'Exhausting Project' using remaining art supplies"
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Exploring the fading dream of Modernist utopia and challenging paradigms through art's sustainability and transformation",
+    
+    "exhibition_distribution": {
+      "busan": {
+        "artworks": 19,
+        "focus": "Recent geometric compositions"
+      },
+      "seoul_hanok": {
+        "artworks": 27,
+        "focus": "Philosophical exploration pieces"
+      }
+    },
+    
+    "exhausting_project": {
+      "concept": "Using remaining art supplies as form of artistic and philosophical practice",
+      "methodology": "Minimal paint application, geometric compositions",
+      "philosophical_basis": "Self-renewal through modest, introspective art practice",
+      "sustainability_focus": "Art-becoming-life principle"
+    },
+    
+    "artistic_philosophy": {
+      "central_theme": "Critique of Modernist project's dream of utopia",
+      "modernism_critique": [
+        "Progress ideology",
+        "Technological development faith",
+        "Uneven societal advancement",
+        "Science as salvation myth"
+      ],
+      "eastern_influence": "Book of Changes (易經) philosophical framework",
+      "balance_concept": "Bitter despair balanced with small glimmers of hope"
+    },
+    
+    "technical_approach": {
+      "painting_technique": "Thin paint application",
+      "geometric_elements": {
+        "circles": "Representing sky/heaven",
+        "squares": "Representing earth/ground"
+      },
+      "color_strategy": "Minimal, restrained palette",
+      "composition_principle": "Search for balance and renewal",
+      "material_consciousness": "Deliberate conservation of art supplies"
+    },
+    
+    "conceptual_framework": {
+      "utopia_concept": "Modernist dream of scientific/technological salvation",
+      "disillusionment": "Recognition of progress ideology failures",
+      "renewal_search": "Finding new approaches through limitation",
+      "art_sustainability": "Questioning endless production and consumption",
+      "philosophical_depth": "Eastern wisdom applied to contemporary art practice"
+    },
+    
+    "thematic_exploration": [
+      "Modernist utopia critique",
+      "Progress ideology deconstruction",
+      "Art practice sustainability",
+      "Eastern philosophy application",
+      "Balance between hope and despair",
+      "Technological progress limitations",
+      "Self-renewal through constraint",
+      "Geometric symbolism and meaning"
+    ],
+    
+    "artist_statement": "Utopia was the Modernist dream... the dream that science and technological progress would lead humanity to utopia.",
+    
+    "themes": ["contemporary art", "Korean art", "modernism critique", "philosophy", "minimalism", "geometric abstraction"],
+    "tags": ["contemporary art", "Korean art", "painting", "philosophy", "modernism", "utopia", "minimalism"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=267",
+    
+    "exhibition_significance": {
+      "philosophical_depth": "Serious engagement with Modernist legacy",
+      "sustainable_practice": "Model of conscious artistic production",
+      "dual_venue": "Expanded presentation across Busan and Seoul",
+      "mature_perspective": "Senior artist's reflection on art history and progress",
+      "cultural_critique": "Korean perspective on Western Modernist ideology"
+    },
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 95,
+    "collected_at": "2025-08-06T15:55:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=267",
+    
+    "personality_matches": ["LAMF", "LAMC", "LREF", "LREC", "LRMF", "LRMC"],
+    "recommendation_score": 90,
+    
+    "created_at": "2025-08-06T15:55:00.000Z",
+    "updated_at": "2025-08-06T15:55:00.000Z"
+  }
+}

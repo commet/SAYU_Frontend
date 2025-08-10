@@ -1,0 +1,135 @@
+{
+  "exhibition": {
+    "id": "kukje-michael-joo-soft-skills-2024",
+    "seq": 273,
+    "title_en": "Soft Skills and Underground Whispers",
+    "title_ko": "마음의 기술과 저변의 속삭임",
+    "subtitle": null,
+    "description": "마이클 주 개인전 '마음의 기술과 저변의 속삭임'은 지각, 정체성, 경계성을 탐구하며 예술, 과학, 신념을 결합합니다. 전시는 표면적 상호작용 아래에서 작동하는 숨겨진 네트워크와 미묘한 연결들을 조명하며, 지각의 잠재의식적 레벨에서 일어나는 교환, 연결, 그리고 설명하기 어려운 상호영향 관계들을 탐구합니다.",
+    "description_en": "Michael Joo's solo exhibition 'Soft Skills and Underground Whispers' explores perception, identity, and liminality through art, science, and belief, focusing on hidden networks and subtle connections that operate beneath surface-level interactions. The exhibition investigates exchanges, connections, and ineffable relations of mutual influences that occur at the subliminal level of perception.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "서울",
+    "venue_country": "KR",
+    "gallery_location": "K2",
+    
+    "start_date": "2024-08-30",
+    "end_date": "2024-11-03",
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "mixed_media",
+    "artworks_count": null,
+    
+    "artists": [
+      {
+        "name": "Michael Joo",
+        "name_ko": "마이클 주",
+        "role": "artist",
+        "birth_year": 1966,
+        "birth_place": "Ithaca, New York",
+        "nationality": "American",
+        "education": "MFA, Yale University School of Art (1991)",
+        "base": "Brooklyn, works between Americas and Asia",
+        "artistic_approach": "Interdisciplinary, merging science with art",
+        "specialization": "Material transformation, invisible interconnectedness"
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Investigates exchanges, connections, and ineffable relations of mutual influences that occur at the subliminal level of perception",
+    
+    "featured_artworks": [
+      {
+        "series": "Revider Series",
+        "materials": ["Dichroic glass", "Acrylic"],
+        "technique": "Transparent panels creating dynamic spatial interactions",
+        "effect": "Light refraction and color transformation"
+      },
+      {
+        "title": "Revider for Ganoderms",
+        "materials": ["Carbonized reishi mushrooms"],
+        "symbolism": "Underground fungal networks",
+        "concept": "Hidden biological communication systems"
+      },
+      {
+        "title": "EP Cascade", 
+        "medium": "AI-modified genetic imagery",
+        "personal_significance": "Tribute to artist's mother, a plant physiologist",
+        "technique": "Digital manipulation of genetic data visualization"
+      },
+      {
+        "medium": "Carved carbon/graphite/charcoal sculptures",
+        "concept": "Material transformation and elemental states"
+      },
+      {
+        "medium": "Silvered epoxy paintings",
+        "technique": "Reflective surface manipulation"
+      }
+    ],
+    
+    "art_mediums_detailed": {
+      "dichroic_glass": {
+        "purpose": "Dynamic spatial light interactions",
+        "effect": "Color shifting based on viewing angle"
+      },
+      "carbonized_mushrooms": {
+        "significance": "Representing mycelial underground networks",
+        "symbolism": "Hidden biological communication"
+      },
+      "carbon_materials": {
+        "types": ["Graphite", "Charcoal", "Carbon"],
+        "concept": "Elemental transformation states"
+      },
+      "ai_genetic_imagery": {
+        "process": "Digital modification of genetic data",
+        "personal_connection": "Honoring mother's plant physiology work"
+      }
+    },
+    
+    "thematic_exploration": [
+      "Perception and identity",
+      "Liminality and boundary states",
+      "Hidden networks and connections",
+      "Science and belief intersections", 
+      "Subliminal communication",
+      "Underground systems",
+      "Material transformation",
+      "Invisible interconnectedness"
+    ],
+    
+    "artistic_methodology": {
+      "approach": "Interdisciplinary",
+      "science_integration": "Plant physiology, genetics, material science",
+      "material_focus": "Transformation and transmutation",
+      "network_concept": "Invisible connections and communications",
+      "technology_use": "AI modification of scientific imagery"
+    },
+    
+    "themes": ["contemporary art", "interdisciplinary art", "science art", "material transformation", "perception", "hidden networks"],
+    "tags": ["contemporary art", "American art", "mixed media", "science", "perception", "transformation", "networks"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=273",
+    
+    "exhibition_significance": {
+      "interdisciplinary_approach": "Merging scientific processes with artistic expression",
+      "material_innovation": "Unique use of carbonized biological materials",
+      "conceptual_depth": "Exploring subliminal perception and hidden connections",
+      "personal_dimension": "Tribute to artist's family scientific background"
+    },
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 95,
+    "collected_at": "2025-08-06T15:25:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=273",
+    
+    "personality_matches": ["LAEF", "LAEC", "LAMF", "LAMC", "SAEF", "SAEC"],
+    "recommendation_score": 90,
+    
+    "created_at": "2025-08-06T15:25:00.000Z",
+    "updated_at": "2025-08-06T15:25:00.000Z"
+  }
+}

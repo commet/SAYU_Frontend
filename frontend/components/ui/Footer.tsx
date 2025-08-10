@@ -13,7 +13,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           {/* Brand */}
           <div className="flex items-center space-x-2">
-            <span className="text-xl font-bold text-sayu-text-primary">SAYU</span>
+            <span className="text-xl font-bold text-sayu-text-primary">SAYU.MY</span>
             <Heart className="w-5 h-5 text-sayu-double-bounce" />
           </div>
 
@@ -54,7 +54,7 @@ export function Footer() {
 
           {/* Copyright */}
           <div className="text-xs text-sayu-text-muted">
-            © 2024 SAYU. {language === 'ko' ? '모든 권리 보유.' : 'All rights reserved.'}
+            © 2024 SAYU.MY. {language === 'ko' ? '모든 권리 보유.' : 'All rights reserved.'}
           </div>
         </div>
 
@@ -62,8 +62,8 @@ export function Footer() {
         <div className="mt-6 pt-4 border-t border-sayu-powder-blue/30 text-xs text-sayu-text-muted text-center">
           <p>
             {language === 'ko' 
-              ? 'SAYU는 모든 예술 작품의 저작권을 존중하며, 공정한 사용과 교육적 목적으로만 콘텐츠를 공유합니다.'
-              : 'SAYU respects all artwork copyrights and shares content only for fair use and educational purposes.'
+              ? 'SAYU.MY는 모든 예술 작품의 저작권을 존중하며, 공정한 사용과 교육적 목적으로만 콘텐츠를 공유합니다.'
+              : 'SAYU.MY respects all artwork copyrights and shares content only for fair use and educational purposes.'
             }
           </p>
         </div>

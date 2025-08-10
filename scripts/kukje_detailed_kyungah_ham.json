@@ -1,0 +1,118 @@
+{
+  "exhibition": {
+    "id": "kukje-kyungah-ham-phantom-map-2024",
+    "seq": 274,
+    "title_en": "Phantom and A Map",
+    "title_ko": "유령 그리고 지도",
+    "subtitle": null,
+    "description": "함경아 개인전 '유령 그리고 지도'는 북한 자수 장인들과의 비밀스러운 협업을 통해 제작된 작품들을 선보입니다. 2008년부터 시작된 이 독특한 프로젝트는 중개인을 통해 북한에 디자인을 전달하고, 작품 하나당 약 1,400시간의 노동이 투입되는 예측 불가능한 협업 과정을 거칩니다. 전시는 가시적인 것과 비가시적인 것, 물리적 현실과 가상 현실의 관계를 탐구합니다.",
+    "description_en": "Kyungah Ham's solo exhibition 'Phantom and A Map' features works created through secret collaborations with North Korean embroidery artisans. This unique project, started in 2008, involves sending designs through intermediaries to North Korea, with each artwork requiring approximately 1,400 labor hours in an unpredictable collaborative process. The exhibition explores the dynamics between visible and invisible elements, and the relationship between physical and virtual realities.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "서울",
+    "venue_country": "KR",
+    "gallery_location": "K1, K3, and Hanok spaces",
+    
+    "start_date": "2024-08-30",
+    "end_date": "2024-11-03",
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "textile_art",
+    "artworks_count": null,
+    
+    "artists": [
+      {
+        "name": "Kyungah Ham",
+        "name_ko": "함경아",
+        "role": "artist",
+        "birth_year": 1966,
+        "nationality": "Korean",
+        "artistic_specialization": "Collaborative embroidery projects",
+        "project_start_year": 2008,
+        "collaboration_partners": "North Korean artisans (anonymous)",
+        "artistic_themes": ["political boundaries", "communication", "labor", "invisible connections"]
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Exhibition exploring the invisible cues and connections that power society through complex textile collaborations across political boundaries",
+    
+    "collaborative_process": {
+      "method": "Secret intermediary system",
+      "timeline": "Project started in 2008",
+      "labor_intensity": "Approximately 1,400 hours per artwork",
+      "process_stages": [
+        "Design creation by Ham in Seoul",
+        "Pattern transmission via secret middleman",
+        "Embroidery work by North Korean artisans",
+        "Return of potentially fragmented pieces",
+        "Final composition by artist"
+      ],
+      "unpredictability": "No guarantee of completion due to political and logistical challenges"
+    },
+    
+    "featured_artworks": [
+      {
+        "series": "SMS Series",
+        "inspiration": "Trump-Kim diplomatic statements",
+        "medium": "Embroidery"
+      },
+      {
+        "inspiration": "Matisse-inspired embroidery pieces",
+        "medium": "Embroidery"
+      },
+      {
+        "type": "Tapestry works",
+        "collaboration": "With Magnolia Editions",
+        "medium": "Tapestry"
+      },
+      {
+        "inspiration": "Baudelaire's poetry collection",
+        "medium": "Textile art"
+      }
+    ],
+    
+    "thematic_exploration": [
+      "Relationship between physical and virtual realities",
+      "Social and political dynamics",
+      "Communication across forbidden boundaries", 
+      "Personal emotions in digital age",
+      "Labor and craftsmanship",
+      "Invisible social connections"
+    ],
+    
+    "political_context": {
+      "geographic_tension": "North-South Korea collaboration",
+      "diplomatic_references": "Trump-Kim summit communications",
+      "boundary_crossing": "Art transcending political divisions",
+      "secrecy": "Underground network of cultural exchange"
+    },
+    
+    "themes": ["contemporary art", "political art", "collaborative art", "textile art", "Korean division", "communication"],
+    "tags": ["contemporary art", "Korean art", "embroidery", "collaboration", "political boundaries", "North Korea", "textile"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=274",
+    
+    "exhibition_significance": {
+      "artistic_innovation": "Unique cross-border artistic collaboration",
+      "political_dimension": "Art as bridge across divided Korea",
+      "labor_intensive": "1,400+ hours per piece",
+      "process_based": "Unpredictable collaborative methodology"
+    },
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 95,
+    "collected_at": "2025-08-06T15:20:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=274",
+    
+    "personality_matches": ["SAEF", "SAEC", "SREF", "SREC", "LAEF", "LAEC"],
+    "recommendation_score": 92,
+    
+    "created_at": "2025-08-06T15:20:00.000Z",
+    "updated_at": "2025-08-06T15:20:00.000Z"
+  }
+}

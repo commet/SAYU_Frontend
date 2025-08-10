@@ -1,0 +1,122 @@
+{
+  "exhibition": {
+    "id": "kukje-bill-viola-moving-stillness-2024",
+    "seq": 275,
+    "title_en": "Moving Stillness",
+    "title_ko": "Moving Stillness",
+    "subtitle": null,
+    "description": "빌 비올라의 개인전 '무빙 스틸니스'는 작가의 타계 후 한국에서 열리는 첫 전시로, 지각, 의식, 영적 체험을 탐구하는 비디오 설치작품들을 선보입니다. 시간, 자연, 탄생과 죽음, 의식의 주제를 다루며 선불교, 이슬람 수피즘, 기독교 신비주의의 영향을 받은 작품들로 구성됩니다.",
+    "description_en": "Moving Stillness celebrates Bill Viola's life and art practice through video installations that explore perception, consciousness, and universal human experiences. The exhibition includes works examining themes of time, nature, birth, death, and consciousness, influenced by Zen Buddhism, Islamic Sufism, and Christian mysticism.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "서울",
+    "venue_country": "KR",
+    "gallery_location": "K1 and K3 spaces",
+    
+    "start_date": "2024-12-03",
+    "end_date": "2025-01-26",
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "video_art",
+    "artworks_count": 7,
+    
+    "artists": [
+      {
+        "name": "Bill Viola",
+        "name_ko": "빌 비올라",
+        "role": "artist",
+        "birth_year": 1951,
+        "death_year": 2024,
+        "birth_place": "New York",
+        "nationality": "American",
+        "specialization": "Video Art Pioneer",
+        "artistic_themes": ["perception", "consciousness", "spirituality", "time", "nature", "life and death"],
+        "spiritual_influences": ["Zen Buddhism", "Islamic Sufism", "Christian mysticism"]
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "First exhibition in Korea since the artist's passing, celebrating his pioneering role in video art and fourth solo exhibition at Kukje Gallery",
+    
+    "featured_artworks": [
+      {
+        "title": "Moving Stillness: Mount Rainier 1979",
+        "year": 1979,
+        "location": "K3 space",
+        "description": "Metaphorically examines the instability of images and time through mountain reflection in water"
+      },
+      {
+        "title": "Information",
+        "year": 1973,
+        "location": "K1 Ground Floor",
+        "type": "Early videotape"
+      },
+      {
+        "title": "Four Songs", 
+        "year": 1976,
+        "location": "K1 Ground Floor",
+        "type": "Early videotape"
+      },
+      {
+        "title": "Ancient of Days",
+        "year": "1979-81",
+        "location": "K1 Ground Floor"
+      },
+      {
+        "title": "Poem B (The Guest House)",
+        "year": 2006,
+        "location": "K1 Ground Floor"
+      },
+      {
+        "title": "Interval",
+        "year": 1995,
+        "location": "K1 Ground Floor"
+      },
+      {
+        "title": "The Reflecting Pool",
+        "year": "1977-9/1997",
+        "location": "K1 Second Floor",
+        "description": "Investigates themes of time, consciousness, and spiritual rebirth"
+      }
+    ],
+    
+    "technical_details": {
+      "medium": "Video installations",
+      "equipment": ["rear projection", "CRT monitors"],
+      "approach": "Uses video technology as metaphorical medium",
+      "focus": "Explores optical and technical properties of video"
+    },
+    
+    "exhibition_spaces": {
+      "K3": "Moving Stillness: Mount Rainier 1979",
+      "K1_ground": "Early video works (Information, Four Songs, Ancient of Days, Poem B, Interval)",
+      "K1_second": "The Reflecting Pool"
+    },
+    
+    "themes": ["video art", "spirituality", "consciousness", "time", "nature", "life and death", "mysticism"],
+    "tags": ["video art", "contemporary art", "American art", "installation art", "spiritual art", "meditation"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=275",
+    
+    "exhibition_significance": {
+      "memorial_status": "First exhibition in Korea since artist's passing in 2024",
+      "gallery_relationship": "Fourth solo exhibition at Kukje Gallery",
+      "historical_importance": "Celebrates pioneering role in video art medium"
+    },
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 95,
+    "collected_at": "2025-08-06T15:10:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=275",
+    
+    "personality_matches": ["LAEF", "LAEC", "LAMF", "LAMC", "SAEF", "SAEC"],
+    "recommendation_score": 98,
+    
+    "created_at": "2025-08-06T15:10:00.000Z",
+    "updated_at": "2025-08-06T15:10:00.000Z"
+  }
+}

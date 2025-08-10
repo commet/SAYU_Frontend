@@ -7,107 +7,95 @@ import { Footer } from '@/components/ui/Footer';
 
 const privacyPolicy = {
   version: "1.0",
-  lastUpdated: new Date('2024-01-01'),
-  effective: new Date('2024-01-01'),
+  lastUpdated: new Date('2025-08-31'),
+  effective: new Date('2025-08-31'),
   introduction: {
-    en: "SAYU respects your privacy and is committed to protecting your personal information. This privacy policy explains how we collect, use, and safeguard your data.",
-    ko: "SAYU는 귀하의 개인정보를 존중하고 보호하기 위해 노력합니다. 이 개인정보 처리방침은 당사가 귀하의 데이터를 수집, 사용, 보호하는 방법을 설명합니다."
+    en: "SAYU helps you discover art that speaks to you. We only collect what's needed to make your experience better, and we keep your information safe.",
+    ko: "SAYU는 당신에게 맞는 예술을 찾는 데 도움을 줍니다. 서비스 개선을 위해 필요한 정보만 수집하며, 안전하게 보호합니다."
   },
   dataCollection: {
     en: [
-      "Personal information (name, email address, profile picture)",
-      "Art preferences and personality assessment results",
-      "Usage patterns and interaction data",
-      "Device information and IP addresses",
-      "Cookies and similar tracking technologies",
-      "Exhibition attendance and feedback data",
-      "AI interaction data and generated content preferences",
-      "Search queries and recommendation history"
+      "Basic info: name, email, and profile picture",
+      "Your art preferences and personality quiz results",
+      "Which artworks you like and view"
     ],
     ko: [
-      "개인정보 (이름, 이메일 주소, 프로필 사진)",
-      "예술 선호도 및 성격 평가 결과",
-      "사용 패턴 및 상호작용 데이터",
-      "기기 정보 및 IP 주소",
-      "쿠키 및 유사한 추적 기술",
-      "전시회 관람 및 피드백 데이터",
-      "AI 상호작용 데이터 및 생성된 콘텐츠 선호도",
-      "검색 쿼리 및 추천 이력"
+      "기본 정보: 이름, 이메일, 프로필 사진",
+      "예술 선호도 및 성격 퀴즈 결과",
+      "좋아하고 관람한 작품 정보"
     ]
   },
   dataUse: {
     en: [
-      "Provide personalized art recommendations",
-      "Improve our services and user experience",
-      "Send relevant notifications and updates",
-      "Conduct research and analytics",
-      "Ensure platform security and prevent fraud",
-      "Comply with legal obligations"
+      "Show you art recommendations that match your taste",
+      "Make the app work better for everyone",
+      "Keep your account secure"
     ],
     ko: [
-      "개인화된 예술 추천 제공",
-      "서비스 및 사용자 경험 개선",
-      "관련 알림 및 업데이트 전송",
-      "연구 및 분석 수행",
-      "플랫폼 보안 확보 및 사기 방지",
-      "법적 의무 준수"
+      "취향에 맞는 예술 작품 추천",
+      "모든 사용자를 위한 서비스 개선",
+      "계정 보안 유지"
     ]
   },
   dataSharing: {
     en: [
-      "We do not sell your personal information to third parties",
-      "Data may be shared with trusted service providers including:",
-      "• OpenAI and Google AI for personalized recommendations",
-      "• Replicate for AI art profile generation",
-      "• Museum APIs (Met, Cleveland, Rijksmuseum) for artwork data",
-      "• Cloudinary for image hosting and optimization",
-      "Anonymous, aggregated data may be used for research",
-      "Legal disclosure may be required by law enforcement",
-      "Data transfer occurs only with your explicit consent"
+      "We never sell your information",
+      "We work with trusted services to show you art from museums",
+      "We may share anonymous, general statistics for research"
     ],
     ko: [
-      "제3자에게 개인정보를 판매하지 않습니다",
-      "신뢰할 수 있는 서비스 제공업체와 데이터를 공유할 수 있습니다:",
-      "• 개인화된 추천을 위한 OpenAI 및 Google AI",
-      "• AI 아트 프로필 생성을 위한 Replicate",
-      "• 작품 데이터를 위한 박물관 API (Met, Cleveland, Rijksmuseum)",
-      "• 이미지 호스팅 및 최적화를 위한 Cloudinary",
-      "익명화된 집계 데이터는 연구에 사용될 수 있습니다",
-      "법 집행 기관에 의해 법적 공개가 요구될 수 있습니다",
-      "데이터 전송은 귀하의 명시적 동의 하에만 이루어집니다"
+      "개인정보를 절대 판매하지 않습니다",
+      "박물관 작품을 보여주기 위해 신뢰할 수 있는 서비스와 협력합니다",
+      "연구를 위해 익명화된 일반 통계를 공유할 수 있습니다"
     ]
   },
   dataRetention: {
-    en: "We retain your data only as long as necessary to provide our services or as required by law. You may request deletion of your data at any time.",
-    ko: "당사는 서비스 제공에 필요한 기간 또는 법률에서 요구하는 기간 동안만 귀하의 데이터를 보관합니다. 언제든지 데이터 삭제를 요청할 수 있습니다."
+    en: "We keep your information only as long as you use SAYU. You can delete your account and all your data anytime.",
+    ko: "SAYU를 사용하는 동안만 정보를 보관합니다. 언제든지 계정과 모든 데이터를 삭제할 수 있습니다."
   },
   userRights: {
     en: [
-      "Access your personal information",
-      "Correct inaccurate data",
-      "Delete your account and data",
-      "Opt out of marketing communications",
-      "Data portability upon request",
-      "Withdraw consent at any time"
+      "See what information we have about you",
+      "Fix any wrong information",
+      "Delete your account completely",
+      "Download your data"
     ],
     ko: [
-      "개인정보 접근",
-      "부정확한 데이터 수정",
-      "계정 및 데이터 삭제",
-      "마케팅 커뮤니케이션 거부",
-      "요청 시 데이터 이동성",
-      "언제든지 동의 철회"
+      "보유한 개인정보 확인",
+      "잘못된 정보 수정",
+      "계정 완전 삭제",
+      "데이터 다운로드"
     ]
   },
   security: {
-    en: "We implement industry-standard security measures including encryption, secure servers, and regular security audits to protect your data. Third-party AI services process data according to their own security standards.",
-    ko: "당사는 귀하의 데이터를 보호하기 위해 암호화, 보안 서버, 정기적인 보안 감사를 포함한 업계 표준 보안 조치를 시행합니다. 제3자 AI 서비스는 자체 보안 기준에 따라 데이터를 처리합니다."
+    en: "We use strong security measures to protect your information, including encryption and secure servers.",
+    ko: "암호화 및 보안 서버를 포함한 강력한 보안 조치로 정보를 보호합니다."
   },
   cookies: {
-    en: "We use cookies to enhance your experience, analyze usage patterns, and provide personalized content. You can manage cookie preferences in your browser settings. Some features may not work properly without cookies.",
-    ko: "당사는 사용자 경험을 향상시키고, 사용 패턴을 분석하며, 개인화된 콘텐츠를 제공하기 위해 쿠키를 사용합니다. 브라우저 설정에서 쿠키 기본 설정을 관리할 수 있습니다. 쿠키 없이는 일부 기능이 제대로 작동하지 않을 수 있습니다."
+    en: "We use cookies to remember your preferences and make the site work better. You can turn them off in your browser if you want.",
+    ko: "선호도를 기억하고 사이트를 개선하기 위해 쿠키를 사용합니다. 원하시면 브라우저에서 끌 수 있습니다."
   },
-  contact: "privacy@sayu.app"
+  minorProtection: {
+    en: "SAYU is for users 13 and older. We don't knowingly collect information from children under 13.",
+    ko: "SAYU는 13세 이상 사용자를 위한 서비스입니다. 13세 미만 아동의 정보를 의도적으로 수집하지 않습니다."
+  },
+  legalBasis: {
+    en: "We process your data based on your consent and to provide the services you requested.",
+    ko: "귀하의 동의와 요청하신 서비스 제공을 위해 데이터를 처리합니다."
+  },
+  dataTransfer: {
+    en: "Your data may be processed in South Korea and the United States where our servers are located.",
+    ko: "데이터는 서버가 위치한 대한민국과 미국에서 처리될 수 있습니다."
+  },
+  policyChanges: {
+    en: "If we change this policy, we'll notify you by email and in the app.",
+    ko: "정책 변경 시 이메일과 앱을 통해 알려드립니다."
+  },
+  thirdPartyLinks: {
+    en: "We're not responsible for the privacy practices of external websites we link to.",
+    ko: "링크된 외부 웹사이트의 개인정보 처리방침에 대해서는 책임지지 않습니다."
+  },
+  contact: "sayucurator@gmail.com"
 };
 
 export default function PrivacyPolicyPage() {
@@ -121,260 +109,89 @@ export default function PrivacyPolicyPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto"
+          className="max-w-3xl mx-auto"
         >
-          {/* Header */}
-          <div className="text-center mb-12">
-            <motion.div
-              {...fadeInUp}
-              className="inline-flex items-center justify-center w-16 h-16 bg-green-600 rounded-full mb-6"
-            >
-              <Shield className="w-8 h-8" />
-            </motion.div>
+          {/* Compact Header */}
+          <div className="text-center mb-8">
             <motion.h1
               {...fadeInUp}
-              transition={{ delay: 0.1 }}
-              className="text-4xl font-bold mb-4"
+              className="text-3xl font-bold mb-2"
             >
               {language === 'ko' ? '개인정보 처리방침' : 'Privacy Policy'}
             </motion.h1>
             <motion.p
               {...fadeInUp}
-              transition={{ delay: 0.2 }}
-              className="text-xl text-gray-300"
+              transition={{ delay: 0.1 }}
+              className="text-sm text-gray-400"
             >
               {language === 'ko' 
-                ? '개인정보 수집, 이용, 보호에 관한 정책'
-                : 'Our policy on collecting, using, and protecting your personal information'
-              }
-            </motion.p>
-            <motion.p
-              {...fadeInUp}
-              transition={{ delay: 0.3 }}
-              className="text-sm text-gray-400 mt-2 flex items-center justify-center gap-2"
-            >
-              <Calendar className="w-4 h-4" />
-              {language === 'ko' 
-                ? `버전 ${privacyPolicy.version} • 최종 업데이트: ${privacyPolicy.lastUpdated.toLocaleDateString('ko-KR')}`
-                : `Version ${privacyPolicy.version} • Last updated: ${privacyPolicy.lastUpdated.toLocaleDateString('en-US')}`
+                ? `최종 업데이트: ${privacyPolicy.lastUpdated.toLocaleDateString('ko-KR')}`
+                : `Last updated: ${privacyPolicy.lastUpdated.toLocaleDateString('en-US')}`
               }
             </motion.p>
           </div>
 
-          {/* Introduction */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 0.4 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6 flex items-center">
-              <Eye className="w-6 h-6 mr-3 text-green-400" />
-              {language === 'ko' ? '개요' : 'Introduction'}
-            </h2>
-            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-              <p className="text-gray-200 leading-relaxed">
-                {privacyPolicy.introduction[language]}
-              </p>
-            </div>
-          </motion.section>
-
-          {/* Data Collection */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 0.5 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6 flex items-center">
-              <Database className="w-6 h-6 mr-3 text-blue-400" />
-              {language === 'ko' ? '수집하는 정보' : 'Information We Collect'}
-            </h2>
-            <div className="grid gap-4">
-              {privacyPolicy.dataCollection[language].map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6 + index * 0.1 }}
-                  className="bg-gray-800/50 p-4 rounded-lg border border-gray-700 flex items-start"
-                >
-                  <span className="text-blue-400 mr-3 mt-1">•</span>
-                  <p className="text-gray-200">{item}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-
-          {/* Data Use */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 0.7 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6">
-              {language === 'ko' ? '정보 이용 목적' : 'How We Use Your Information'}
-            </h2>
-            <div className="grid gap-4">
-              {privacyPolicy.dataUse[language].map((use, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.8 + index * 0.1 }}
-                  className="bg-purple-900/20 p-4 rounded-lg border border-purple-700 flex items-start"
-                >
-                  <span className="text-purple-400 mr-3 mt-1">→</span>
-                  <p className="text-gray-200">{use}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-
-          {/* Data Sharing */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 0.9 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6">
-              {language === 'ko' ? '정보 공유' : 'Information Sharing'}
-            </h2>
-            <div className="grid gap-4">
-              {privacyPolicy.dataSharing[language].map((sharing, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.0 + index * 0.1 }}
-                  className="bg-yellow-900/20 p-4 rounded-lg border border-yellow-700 flex items-start"
-                >
-                  <span className="text-yellow-400 mr-3 mt-1">!</span>
-                  <p className="text-gray-200">{sharing}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-
-          {/* Data Retention */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 1.1 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6">
-              {language === 'ko' ? '정보 보관' : 'Data Retention'}
-            </h2>
-            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-              <p className="text-gray-200 leading-relaxed">
-                {privacyPolicy.dataRetention[language]}
-              </p>
-            </div>
-          </motion.section>
-
-          {/* User Rights */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 1.2 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6">
-              {language === 'ko' ? '사용자 권리' : 'Your Rights'}
-            </h2>
-            <div className="grid gap-4">
-              {privacyPolicy.userRights[language].map((right, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.3 + index * 0.1 }}
-                  className="bg-green-900/20 p-4 rounded-lg border border-green-700 flex items-start"
-                >
-                  <span className="text-green-400 mr-3 mt-1">✓</span>
-                  <p className="text-gray-200">{right}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-
-          {/* Security */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 1.4 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6 flex items-center">
-              <Lock className="w-6 h-6 mr-3 text-red-400" />
-              {language === 'ko' ? '보안' : 'Security'}
-            </h2>
-            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-              <p className="text-gray-200 leading-relaxed">
-                {privacyPolicy.security[language]}
-              </p>
-            </div>
-          </motion.section>
-
-          {/* Cookies */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 1.5 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6 flex items-center">
-              <Cookie className="w-6 h-6 mr-3 text-orange-400" />
-              {language === 'ko' ? '쿠키' : 'Cookies'}
-            </h2>
-            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-              <p className="text-gray-200 leading-relaxed">
-                {privacyPolicy.cookies[language]}
-              </p>
-            </div>
-          </motion.section>
-
-          {/* Contact */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 1.6 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6 flex items-center">
-              <Mail className="w-6 h-6 mr-3 text-purple-400" />
-              {language === 'ko' ? '문의' : 'Contact'}
-            </h2>
-            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-              <p className="text-gray-200 mb-4">
-                {language === 'ko' 
-                  ? '개인정보 처리방침에 관한 문의사항이 있으시면 아래 이메일로 연락해 주세요:'
-                  : 'For questions about this privacy policy, please contact us at:'
-                }
-              </p>
-              <div className="flex items-center text-purple-400">
-                <Mail className="w-5 h-5 mr-2" />
-                <a 
-                  href={`mailto:${privacyPolicy.contact}`}
-                  className="hover:text-purple-300 transition-colors"
-                >
-                  {privacyPolicy.contact}
-                </a>
-              </div>
-            </div>
-          </motion.section>
-
-          {/* Footer */}
+          {/* Main Content - Flowing Text */}
           <motion.div
             {...fadeInUp}
-            transition={{ delay: 1.7 }}
-            className="text-center text-gray-400 text-sm"
+            transition={{ delay: 0.2 }}
+            className="space-y-6 text-gray-200 leading-relaxed"
           >
+            {/* Quick Summary Box */}
+            <div className="bg-green-900/20 border border-green-700/50 rounded-lg p-4 mb-6">
+              <p className="text-sm">
+                <span className="font-semibold text-green-400">🔒 {language === 'ko' ? '간단 요약' : 'Quick Summary'}:</span> {privacyPolicy.introduction[language]}
+              </p>
+            </div>
+
             <p>
-              {language === 'ko' 
-                ? '이 정책은 예고 없이 변경될 수 있습니다. 최신 버전을 확인해 주세요.'
-                : 'This policy may be updated without notice. Please check for the latest version.'
-              }
+              <span className="font-semibold text-white">{language === 'ko' ? '1. 수집 정보' : '1. What We Collect'}:</span> {language === 'ko' ? '기본 정보(이름, 이메일, 프로필 사진), 예술 선호도 및 성격 퀴즈 결과, 좋아하고 관람한 작품 정보를 수집합니다.' : 'Basic info (name, email, profile picture), art preferences and personality quiz results, liked and viewed artworks.'}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '2. 이용 목적' : '2. How We Use It'}:</span> {language === 'ko' ? '취향에 맞는 예술 작품 추천, 서비스 개선, 계정 보안 유지에 사용합니다.' : 'To show you art recommendations that match your taste, improve the service, and keep your account secure.'}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '3. 정보 공유' : '3. Information Sharing'}:</span> {language === 'ko' ? '개인정보를 절대 판매하지 않습니다. 박물관 작품을 보여주기 위해 신뢰할 수 있는 서비스와 협력하며, 연구를 위해 익명화된 통계만 공유할 수 있습니다.' : 'We never sell your information. We work with trusted services to show museum art and may share anonymous statistics for research.'}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '4. 정보 보관' : '4. Data Retention'}:</span> {privacyPolicy.dataRetention[language]}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '5. 사용자 권리' : '5. Your Rights'}:</span> {language === 'ko' ? '보유한 개인정보 확인, 잘못된 정보 수정, 계정 완전 삭제, 데이터 다운로드가 가능합니다.' : 'See your information, fix any errors, delete your account completely, download your data.'}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '6. 보안' : '6. Security'}:</span> {privacyPolicy.security[language]}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '7. 쿠키' : '7. Cookies'}:</span> {privacyPolicy.cookies[language]}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '8. 추가 정보' : '8. Additional Info'}:</span> {language === 'ko' ? '13세 이상 사용 가능. 동의 기반 정보 처리. 한국과 미국에서 데이터 처리. 정책 변경 시 이메일과 앱으로 알림. 외부 사이트의 개인정보 처리는 책임지지 않음.' : 'Must be 13+. We process data with your consent. Data processed in Korea and US. Policy changes notified via email and app. Not responsible for external sites\' privacy practices.'}
             </p>
           </motion.div>
+
+          {/* Contact Box */}
+          <motion.div
+            {...fadeInUp}
+            transition={{ delay: 0.3 }}
+            className="mt-8 bg-gray-800/30 rounded-lg p-4 border border-gray-700"
+          >
+            <p className="text-sm text-gray-300">
+              <span className="font-semibold text-purple-400">✉️ {language === 'ko' ? '문의' : 'Contact'}:</span> {language === 'ko' ? '질문이 있으시면' : 'Questions?'} <a href={`mailto:${privacyPolicy.contact}`} className="text-purple-400 hover:text-purple-300 underline">{privacyPolicy.contact}</a>
+            </p>
+          </motion.div>
+
         </motion.div>
       </div>
       <Footer />

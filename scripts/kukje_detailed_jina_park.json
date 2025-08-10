@@ -1,0 +1,103 @@
+{
+  "exhibition": {
+    "id": "kukje-jina-park-rocks-smoke-pianos-2024",
+    "seq": 276,
+    "title_en": "Rocks, Smoke, and Pianos",
+    "title_ko": "돌과 연기와 피아노",
+    "subtitle": null,
+    "description": "박지나 개인전 '돌과 연기와 피아노'는 미술관 전시장, 레스토랑 주방, 피아노 공장의 장면들을 담은 36점의 신작을 선보입니다. 작가는 사진을 기반으로 한 회화를 통해 일상적인 순간들을 회화적 사건으로 변환시키며, 재료의 물질적 성질과 형식적 관계에 집중합니다.",
+    "description_en": "Jina Park's solo exhibition 'Rocks, Smoke, and Pianos' features 36 new works exploring scenes from a museum exhibition hall, restaurant kitchen, and piano factory. Park transforms utterly quotidian moments into painterly subjects through photography-based paintings, focusing on material qualities and formal relationships.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "서울",
+    "venue_country": "KR",
+    "gallery_location": "K2 and Hanok spaces",
+    
+    "start_date": "2024-12-03",
+    "end_date": "2025-01-26",
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "painting",
+    "artworks_count": 36,
+    
+    "artists": [
+      {
+        "name": "Jina Park",
+        "name_ko": "박지나",
+        "role": "artist",
+        "birth_year": 1974,
+        "nationality": "Korean",
+        "education": [
+          "BFA Painting, Seoul National University",
+          "MA Fine Art, Chelsea College of Arts, London"
+        ],
+        "artistic_approach": "Photography-based painting exploring pictoriality",
+        "artistic_themes": ["everyday scenes", "material qualities", "formal relationships", "labor spaces"]
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Exhibition exploring the transformation of quotidian moments into painterly events through formal relationships of lines, planes, and colors",
+    
+    "artistic_techniques": {
+      "primary_medium": ["Oil painting", "Watercolor"],
+      "source_material": "Photography-based compositions",
+      "methodology": [
+        "Captures 'staff only' labor spaces",
+        "Eliminates narrative context", 
+        "Focuses on formal relationships",
+        "Deliberately exposes material qualities of paint",
+        "Uses camera-inspired visual distortions"
+      ]
+    },
+    
+    "exhibition_subjects": [
+      {
+        "location": "Museum exhibition hall",
+        "focus": "Behind-the-scenes spaces"
+      },
+      {
+        "location": "Restaurant kitchen", 
+        "focus": "Labor environments"
+      },
+      {
+        "location": "Steingraeber piano factory, Bayreuth, Germany",
+        "focus": "Manufacturing processes"
+      }
+    ],
+    
+    "artistic_philosophy": {
+      "goal": "Horizontal paintings without hierarchy",
+      "exploration": "Boundaries between drawing/painting, figuration/abstraction",
+      "transformation": "Quotidian moments into painterly events",
+      "material_focus": "Physical qualities of painterly materials and greater autonomy"
+    },
+    
+    "themes": ["contemporary painting", "photography-based art", "everyday life", "labor spaces", "material exploration"],
+    "tags": ["contemporary art", "Korean art", "painting", "photography", "everyday scenes", "material qualities"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=276",
+    
+    "exhibition_highlights": {
+      "new_works": 36,
+      "artistic_evolution": "Continuous experimentation with painterly materials",
+      "unique_approach": "Photography as basis for painterly reconstruction",
+      "thematic_focus": "Transformation of ordinary moments"
+    },
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 95,
+    "collected_at": "2025-08-06T15:15:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=276",
+    
+    "personality_matches": ["LAEF", "LAEC", "LREF", "LREC", "SAEF", "SAEC"],
+    "recommendation_score": 88,
+    
+    "created_at": "2025-08-06T15:15:00.000Z",
+    "updated_at": "2025-08-06T15:15:00.000Z"
+  }
+}

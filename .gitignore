@@ -149,6 +149,8 @@ Thumbs.db
 
 # Artvee crawler images (too large for git)
 artvee-crawler/images/
+artvee-crawler/images-complete/
+artvee-crawler/temp-images/
 artvee-crawler/data/test-crawl-result.json
 artvee-crawler/test-page.html
 

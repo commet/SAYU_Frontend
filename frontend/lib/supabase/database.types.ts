@@ -20,6 +20,12 @@ export interface Database {
           is_admin: boolean
           profile_image: string | null
           bio: string | null
+          gender: string | null
+          age_group: string | null
+          region: string | null
+          viewing_styles: string[] | null
+          profile_completed_at: string | null
+          profile_completion_version: number | null
           created_at: string
           updated_at: string | null
         }
@@ -33,6 +39,12 @@ export interface Database {
           is_admin?: boolean
           profile_image?: string | null
           bio?: string | null
+          gender?: string | null
+          age_group?: string | null
+          region?: string | null
+          viewing_styles?: string[] | null
+          profile_completed_at?: string | null
+          profile_completion_version?: number | null
           created_at?: string
           updated_at?: string | null
         }
@@ -46,6 +58,12 @@ export interface Database {
           is_admin?: boolean
           profile_image?: string | null
           bio?: string | null
+          gender?: string | null
+          age_group?: string | null
+          region?: string | null
+          viewing_styles?: string[] | null
+          profile_completed_at?: string | null
+          profile_completion_version?: number | null
           created_at?: string
           updated_at?: string | null
         }

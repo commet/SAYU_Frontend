@@ -105,7 +105,7 @@ export default function ModernLandingPage() {
       <footer className="relative py-12 px-4 border-t border-gray-200 dark:border-gray-800">
         <div className="max-w-6xl mx-auto text-center text-gray-600 dark:text-gray-400">
           <p className="text-sm">
-            © 2024 SAYU. {language === 'ko' ? '모든 권리 보유.' : 'All rights reserved.'}
+            © 2024 SAYU.MY. {language === 'ko' ? '모든 권리 보유.' : 'All rights reserved.'}
           </p>
         </div>
       </footer>

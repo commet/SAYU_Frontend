@@ -20,6 +20,7 @@ import CompactStats from '@/components/profile/CompactStats';
 import ProfileShareCard from '@/components/profile/ProfileShareCard';
 import ProfileIDCard from '@/components/profile/ProfileIDCard';
 import SocialLoginModal from '@/components/SocialLoginModal';
+import FeedbackButton from '@/components/feedback/FeedbackButton';
 // import { useGamificationDashboard } from '@/hooks/useGamification';
 
 // Mock data - in real app, would fetch from API
@@ -557,6 +558,17 @@ export default function ProfilePage() {
           window.location.reload();
         }}
         language={language}
+      />
+
+      {/* Fixed Feedback Button */}
+      <FeedbackButton
+        position="fixed"
+        variant="primary"
+        contextData={{
+          page: 'profile',
+          personalityType: userPersonalityType,
+          userLevel: userStats?.level || mockUserStats.level
+        }}
       />
     </div>
   );

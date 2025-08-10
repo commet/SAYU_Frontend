@@ -1,0 +1,132 @@
+{
+  "exhibition": {
+    "id": "kukje-superflex-fish-chips-2024",
+    "seq": 272,
+    "title_en": "Fish & Chips",
+    "title_ko": "피시 & 칩스",
+    "subtitle": null,
+    "description": "덴마크 아티스트 그룹 슈퍼플렉스의 개인전 '피시 & 칩스'는 기후 위기와 경제 부패의 교차점을 탐구합니다. LED 설치, 회화, 조각, 인터랙티브 애니메이션 등 다양한 매체를 통해 종간 관계를 지구적 문제의 해결책으로 제시하며, 유머와 비판적 관점으로 경제 및 생태 시스템을 검토합니다.",
+    "description_en": "SUPERFLEX's solo exhibition 'Fish & Chips' explores the intersections of the climate crisis and economic corruption through various media including paintings, sculptures, LED signs, and interactive animation. The artists present a speculative vision of interspecies relations as a potential solution to global challenges, using humor and critical perspectives to examine economic and ecological systems.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "서울",
+    "venue_country": "KR",
+    "gallery_location": "K1 and K3 spaces",
+    
+    "start_date": "2024-06-04",
+    "end_date": "2024-07-28",
+    "status": "ended",
+    
+    "exhibition_type": "group",
+    "art_medium": "mixed_media",
+    "artworks_count": 5,
+    
+    "artists": [
+      {
+        "name": "SUPERFLEX",
+        "role": "artist_group",
+        "members": [
+          "Jakob Fenger",
+          "Bjørnstjerne Christiansen", 
+          "Rasmus Rosengren Nielsen"
+        ],
+        "founding_year": 1993,
+        "nationality": "Danish",
+        "base": "Denmark",
+        "artistic_philosophy": "Mobilize the 'power of collectivity'",
+        "approach": "Critical, humorous examination of global systems",
+        "specialization": "Social critique, collective action, systemic analysis"
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Exploring intersections of climate crisis and economic corruption through speculative vision of interspecies relations as potential solution to global challenges",
+    
+    "featured_artworks": [
+      {
+        "title": "LED Text Installations",
+        "materials": ["Pink LED", "Aluminum frames"],
+        "phrases": ["SAVE YOUR SKIN", "MAKE A KILLING", "HOLD YOUR TONGUE"],
+        "concept": "Economic language critique",
+        "location": "K1 and K3"
+      },
+      {
+        "title": "Chips Painting Series",
+        "materials": ["Microchip designs", "White canvas"],
+        "concept": "Communication networks and global transactions",
+        "symbolism": "Digital connectivity and economic flows"
+      },
+      {
+        "title": "Investment Bank Flowerpots",
+        "materials": "Ceramic",
+        "design": "Modeled after global bank headquarters",
+        "contents": "Hallucinogenic plants",
+        "concept": "Economic institutions as containers for alternative consciousness"
+      },
+      {
+        "title": "As Close As We Get",
+        "materials": "Modular stone blocks",
+        "concept": "Underwater infrastructure imagination",
+        "theme": "Alternative living systems"
+      },
+      {
+        "title": "Vertical Migration",
+        "type": "Interactive animation",
+        "subject": "Siphonophore journey",
+        "concept": "Non-human perspective exploration",
+        "interaction": "User-controlled movement"
+      }
+    ],
+    
+    "thematic_exploration": [
+      "Climate crisis and economic corruption intersections",
+      "Interspecies relations as solutions",
+      "Critique of economic systems",
+      "Collective resistance models",
+      "Alternative consciousness and perception",
+      "Global communication networks",
+      "Underwater and alternative habitats",
+      "Non-human perspectives"
+    ],
+    
+    "artistic_methodology": {
+      "approach": "Collective critical practice",
+      "media_diversity": "LED, painting, sculpture, animation, ceramics",
+      "humor_strategy": "Critical humor to address serious topics",
+      "speculative_vision": "Imagining alternative futures and relationships",
+      "systemic_critique": "Examining economic and ecological interconnections"
+    },
+    
+    "title_significance": {
+      "fish": "Marine life, ecosystem, alternative perspectives",
+      "chips": "Technology, microchips, digital networks, economic systems",
+      "combination": "Intersection of natural and technological/economic systems"
+    },
+    
+    "themes": ["contemporary art", "environmental art", "economic critique", "collective practice", "climate crisis", "interspecies relations"],
+    "tags": ["contemporary art", "Danish art", "collective", "climate", "economics", "critique", "LED art", "interactive"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=272",
+    
+    "exhibition_significance": {
+      "environmental_focus": "Climate crisis as central theme",
+      "economic_critique": "Analysis of corruption and global financial systems",
+      "collective_practice": "Danish artist collective's Korean debut",
+      "speculative_approach": "Imagining alternative solutions through art"
+    },
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 95,
+    "collected_at": "2025-08-06T15:30:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=272",
+    
+    "personality_matches": ["SAEF", "SAEC", "SREF", "SREC", "LAEF", "LAEC"],
+    "recommendation_score": 88,
+    
+    "created_at": "2025-08-06T15:30:00.000Z",
+    "updated_at": "2025-08-06T15:30:00.000Z"
+  }
+}

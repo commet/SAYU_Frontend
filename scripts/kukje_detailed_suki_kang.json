@@ -1,0 +1,146 @@
+{
+  "exhibition": {
+    "id": "kukje-suki-seokyeong-kang-march-2024",
+    "seq": 269,
+    "title_en": "MARCH",
+    "title_ko": "마치",
+    "subtitle": null,
+    "description": "강서경의 개인전 '마치'는 시간, 공간, 그리고 개인적 뿌리내림의 주제를 탐구합니다. 작가는 전통 한국 악보에서 영감을 받은 격자 기반 구성을 사용하며, '정(Jeong)' (공간적 틀)과 '모라(Mora)' (시간의 단위)에 집중하여 개인적 시간과 계절적 전환을 검토하는 신작 회화와 조각을 선보입니다.",
+    "description_en": "Suki Seokyeong Kang's solo exhibition 'MARCH' explores themes of time, space, and individual rootedness through her unique conceptual approach. She uses grid-based compositions inspired by traditional Korean musical notation and focuses on 'Jeong' (spatial framework) and 'Mora' (unit of time), presenting new paintings and sculptures that examine personal time and seasonal transitions.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "서울",
+    "venue_country": "KR",
+    "gallery_location": "K3",
+    
+    "start_date": "2024-03-19",
+    "end_date": "2024-04-28",
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "mixed_media",
+    "artworks_count": null,
+    
+    "artists": [
+      {
+        "name": "Suki Seokyeong Kang",
+        "name_ko": "강서경",
+        "role": "artist",
+        "birth_year": 1977,
+        "birth_place": "Seoul, Korea",
+        "nationality": "Korean",
+        "education": [
+          "Korean Painting at Ewha Womans University",
+          "Painting at Royal College of Art"
+        ],
+        "current_position": "Professor of Korean Painting at Ewha Womans University",
+        "international_recognition": "Baloise Art Prize (Art Basel, 2018)",
+        "artistic_approach": "Reinterpreting traditional Korean cultural elements through contemporary art"
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Exploring individual rootedness through spatial and temporal frameworks, translating personal and historical narratives through innovative representations",
+    
+    "key_concepts": {
+      "jeong": {
+        "definition": "Spatial framework",
+        "source": "Grid system inspired by traditional Korean musical notation",
+        "application": "Structural basis for compositions"
+      },
+      "mora": {
+        "definition": "Temporal unit representing painting's narrative layers",
+        "concept": "Unit of time in artistic expression",
+        "symbolism": "Personal time and cyclical nature"
+      }
+    },
+    
+    "artistic_techniques": {
+      "painting_process": "Horizontal canvas painting allowing paint to flow naturally",
+      "paint_flow": "Documentation of paint flowing over canvas edges",
+      "grid_system": "Rectangular grids referencing historical musical scores",
+      "material_integration": "Combination of traditional and contemporary materials"
+    },
+    
+    "materials_used": [
+      "Silk",
+      "Bronze", 
+      "Embroidered frames",
+      "Traditional painting materials",
+      "Mixed media elements"
+    ],
+    
+    "signature_works": [
+      {
+        "series": "Mora - Nuha",
+        "medium": "Mixed media",
+        "concept": "Temporal narrative layers"
+      },
+      {
+        "series": "Hours - one",
+        "medium": "Paintings",
+        "concept": "Personal time representation"
+      },
+      {
+        "title": "Mountain - hours",
+        "medium": "Sculpture",
+        "concept": "Spatial-temporal integration"
+      },
+      {
+        "title": "Mountain - flower", 
+        "medium": "Sculpture",
+        "concept": "Natural cyclical patterns"
+      }
+    ],
+    
+    "thematic_exploration": [
+      "Time and space relationship",
+      "Individual rootedness and identity",
+      "Traditional Korean cultural elements",
+      "Seasonal transitions and natural cycles",
+      "Personal narrative through spatial frameworks",
+      "Historical and contemporary dialogue",
+      "Musical notation as visual language"
+    ],
+    
+    "title_significance": {
+      "march_english": "Forward movement, progression, seasonal transition",
+      "machi_korean": "마치 (as if, like) - suggesting transformation and resemblance",
+      "wordplay": "Bilingual pun connecting movement and transformation concepts",
+      "seasonal_timing": "March as spring transition period"
+    },
+    
+    "cultural_context": {
+      "traditional_elements": "Korean musical notation systems",
+      "contemporary_translation": "Modern artistic interpretation of historical frameworks",
+      "educational_background": "Korean painting tradition combined with Western training",
+      "institutional_connection": "Academic position at Ewha Womans University"
+    },
+    
+    "themes": ["contemporary art", "Korean art", "traditional culture", "time", "space", "mixed media", "painting", "sculpture"],
+    "tags": ["contemporary art", "Korean art", "traditional notation", "mixed media", "time", "space", "painting"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=269",
+    
+    "exhibition_significance": {
+      "cultural_bridge": "Connecting traditional Korean elements with contemporary art",
+      "conceptual_innovation": "Unique spatial-temporal framework approach", 
+      "material_experimentation": "Integration of diverse traditional and modern materials",
+      "academic_contribution": "Professor-artist perspective on cultural reinterpretation"
+    },
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 95,
+    "collected_at": "2025-08-06T15:45:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=269",
+    
+    "personality_matches": ["LAEF", "LAEC", "LAMF", "LAMC", "SAEF", "SAEC"],
+    "recommendation_score": 88,
+    
+    "created_at": "2025-08-06T15:45:00.000Z",
+    "updated_at": "2025-08-06T15:45:00.000Z"
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "exhibition": {
+    "id": "kukje-kim-yun-shin-2024",
+    "seq": 268,
+    "title_en": "Kim Yun Shin",
+    "title_ko": "김윤신",
+    "subtitle": null,
+    "description": "김윤신 개인전은 아르헨티나에서 40년을 보낸 1세대 한국 여성 조각가의 작품 약 50점을 선보입니다. 전시는 '합이분일, 분이합일(Add Two Add One, Divide Two Divide One)'이라는 철학적 개념에 기반한 목조각과 물질성, 문화적 전통, 인간과 자연의 관계를 탐구한 회화를 포함합니다.",
+    "description_en": "Kim Yun Shin's solo exhibition showcases approximately 50 works by the first-generation Korean woman sculptor who spent 40 years in Argentina. The exhibition features wood sculptures based on her philosophical concept of 'Add Two Add One, Divide Two Divide One' and paintings that reflect her exploration of materiality, cultural traditions, and the relationship between humans and nature.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "서울",
+    "venue_country": "KR",
+    "gallery_location": "K1 and K2 spaces",
+    
+    "start_date": "2024-03-19",
+    "end_date": "2024-04-28",
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "mixed_media",
+    "artworks_count": 50,
+    
+    "artists": [
+      {
+        "name": "Kim Yun Shin",
+        "name_ko": "김윤신",
+        "role": "artist",
+        "birth_year": 1935,
+        "birth_place": "Wonsan, North Korea",
+        "nationality": "Korean",
+        "status": "First-generation Korean woman sculptor",
+        "international_experience": "40 years in Argentina",
+        "cultural_bridge": "Korean and South American indigenous traditions",
+        "return_significance": "First major show in Korea after returning from Argentina"
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Showcasing lifelong artistic evolution of a pioneering Korean woman sculptor who bridged Eastern philosophy with South American artistic traditions",
+    
+    "philosophical_framework": {
+      "core_concept": "합이분일, 분이합일 (Add Two Add One, Divide Two Divide One)",
+      "eastern_philosophy": {
+        "hap": "합 (Addition/Integration)",
+        "bun": "분 (Division/Separation)",
+        "principle": "Source of Eastern philosophy and foundation of world existence"
+      },
+      "cyclical_interaction": "Continuous process of integration and division as universal principle",
+      "cultural_synthesis": "Fusion of Korean philosophy with Argentine artistic experience"
+    },
+    
+    "artistic_techniques": {
+      "primary_medium": "Wood sculpture",
+      "technique": "Chainsaw carving",
+      "materials": [
+        "Algarrobo wood",
+        "Lapacho wood", 
+        "Eucalyptus wood",
+        "Various South American hardwoods"
+      ],
+      "visual_contrast": "Rough bark exterior vs. exposed smooth inner wood",
+      "process_innovation": "Recycling wood fragments, experimental color exploration"
+    },
+    
+    "artistic_approach": {
+      "interdisciplinary": "Integration of sculpture and painting",
+      "material_exploration": "Deep investigation of wood properties and potential",
+      "cultural_fusion": "Korean aesthetic principles with Argentine materials",
+      "philosophical_expression": "Visual manifestation of Eastern philosophical concepts",
+      "experimental_method": "Continuous material and technique experimentation"
+    },
+    
+    "thematic_exploration": [
+      "Human-nature relationship",
+      "Transcendence through material transformation",
+      "Cultural tradition preservation and adaptation",
+      "Eastern philosophy visualization",
+      "Integration and division as universal principles",
+      "Cross-cultural artistic dialogue",
+      "Indigenous South American influences"
+    ],
+    
+    "exhibition_significance": {
+      "pioneering_status": "First-generation Korean woman sculptor recognition",
+      "cultural_bridge": "40-year artistic journey between Korea and Argentina",
+      "homecoming_exhibition": "First major Korean exhibition after international career",
+      "philosophical_contribution": "Unique fusion of Eastern philosophy with contemporary sculpture",
+      "material_innovation": "Distinctive approach to wood sculpture techniques"
+    },
+    
+    "wood_materials": {
+      "algarrobo": "South American hardwood with distinctive grain",
+      "lapacho": "Dense tropical wood with natural resistance",
+      "eucalyptus": "Fast-growing wood with varied characteristics",
+      "processing": "Chainsaw carving revealing internal wood beauty"
+    },
+    
+    "themes": ["sculpture", "Korean art", "wood art", "philosophy", "cultural bridge", "international art", "Eastern philosophy"],
+    "tags": ["sculpture", "Korean art", "wood", "philosophy", "Argentina", "cultural fusion", "chainsaw carving"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=268",
+    
+    "artist_quote": "The principles of addition (合) and division (分) are the source of Eastern philosophy and the foundation on which the world exists.",
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 95,
+    "collected_at": "2025-08-06T15:50:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=268",
+    
+    "personality_matches": ["LAMF", "LAMC", "LREF", "LREC", "SAMF", "SAMC"],
+    "recommendation_score": 90,
+    
+    "created_at": "2025-08-06T15:50:00.000Z",
+    "updated_at": "2025-08-06T15:50:00.000Z"
+  }
+}

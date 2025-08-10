@@ -127,7 +127,7 @@ export default function ReflectionCard({ reflection, designTemplate }: Reflectio
   
   const getShareText = (): string => {
     const responses = Object.values(reflection.responses).filter(r => r);
-    return `${reflection.exhibition.title} @ ${reflection.exhibition.gallery.name}\n\n${responses.join('\n\n')}\n\n#SAYU #ArtReflection`;
+    return `${reflection.exhibition.title} @ ${reflection.exhibition.gallery.name}\n\n${responses.join('\n\n')}\n\n#SAYUMY #ArtReflection`;
   };
   
   const renderMinimalLayout = () => (
@@ -157,7 +157,7 @@ export default function ReflectionCard({ reflection, designTemplate }: Reflectio
       </div>
       
       <footer className="text-center pt-4 border-t border-current/10">
-        <p className="text-xs opacity-50">Created with SAYU</p>
+        <p className="text-xs opacity-50">Created with SAYU.MY</p>
       </footer>
     </div>
   );
@@ -200,7 +200,7 @@ export default function ReflectionCard({ reflection, designTemplate }: Reflectio
         <p className="text-sm opacity-60">
           {new Date(reflection.metadata.createdAt).toLocaleDateString()}
         </p>
-        <p className="text-sm font-serif">SAYU</p>
+        <p className="text-sm font-serif">SAYU.MY</p>
       </footer>
     </div>
   );
@@ -282,7 +282,7 @@ export default function ReflectionCard({ reflection, designTemplate }: Reflectio
           })}
           
           <div className="pt-4 mt-6 border-t border-current/10">
-            <p className="text-xs font-mono opacity-30">SAYU.ART</p>
+            <p className="text-xs font-mono opacity-30">SAYU.MY</p>
           </div>
         </div>
       </div>

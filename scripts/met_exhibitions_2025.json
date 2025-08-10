@@ -1,0 +1,854 @@
+{
+  "exhibitions": [
+    {
+      "id": "met-monstrous-beauty-2025",
+      "venue_id": null,
+      "venue_name": "Metropolitan Museum of Art",
+      "venue_city": "New York",
+      "venue_country": "US",
+      "venue_type": "museum",
+      "venue_tier": 1,
+      "title": "Monstrous Beauty: A Feminist Revision of Chinoiserie",
+      "title_en": "Monstrous Beauty: A Feminist Revision of Chinoiserie",
+      "title_local": "Monstrous Beauty: A Feminist Revision of Chinoiserie",
+      "subtitle": null,
+      "description": "Radically reimagines the story of European porcelain through a feminist lens, exploring how porcelain shaped European women's identities and racial and cultural stereotypes around Asian women",
+      "description_en": "Radically reimagines the story of European porcelain through a feminist lens, exploring how porcelain shaped European women's identities and racial and cultural stereotypes around Asian women",
+      "artists": [
+        {
+          "name": "Various contemporary Asian and Asian American women artists",
+          "role": "artist"
+        }
+      ],
+      "curator": null,
+      "curator_en": null,
+      "start_date": "2024-11-01",
+      "end_date": "2025-08-17",
+      "status": "ongoing",
+      "exhibition_type": "temporary",
+      "art_medium": "mixed_media",
+      "themes": ["feminism", "chinoiserie", "porcelain", "cultural identity", "Asian diaspora"],
+      "admission_fee": 0,
+      "ticket_required": false,
+      "ticket_price": {
+        "general": "Included with museum admission",
+        "adult": 30,
+        "senior": 25,
+        "student": 17
+      },
+      "booking_required": false,
+      "official_url": "https://www.metmuseum.org/exhibitions/monstrous-beauty-a-feminist-revision-of-chinoiserie",
+      "poster_image_url": "https://cdn.sanity.io/images/cctd4ker/production/713d098f6f699a6c090cb11c4f401d6391ba23ec-5120x5120.jpg",
+      "gallery_images": [
+        "https://cdn.sanity.io/images/cctd4ker/production/a376e61926eb2e9b985c33edd188e1802e5b6924-320x490.jpg"
+      ],
+      "gallery_location": "The Met Fifth Avenue, Galleries 963–965",
+      "special_events": [
+        {
+          "title": "Artists on Artworks—Readings in Monstrous Beauty",
+          "date": "2025-08-08",
+          "time": "18:00"
+        }
+      ],
+      "sponsors": [
+        "William Randolph Hearst Foundation",
+        "The Andrew W. Mellon Foundation"
+      ],
+      "data_source": "manual_extraction",
+      "data_quality_score": 95,
+      "personality_matches": ["LAEF", "SAEF", "LAEC", "SAEC", "SREF", "SREC"],
+      "recommendation_score": 85,
+      "created_at": "2025-08-06T12:45:00.000Z",
+      "updated_at": "2025-08-06T12:45:00.000Z"
+    },
+    {
+      "id": "met-george-morrison-2025",
+      "venue_id": null,
+      "venue_name": "Metropolitan Museum of Art",
+      "venue_city": "New York",
+      "venue_country": "US",
+      "venue_type": "museum",
+      "venue_tier": 1,
+      "title": "The Magical City: George Morrison's New York",
+      "title_en": "The Magical City: George Morrison's New York",
+      "title_local": "The Magical City: George Morrison's New York",
+      "subtitle": null,
+      "description": "An exhibition exploring George Morrison's artistic journey in New York City, featuring 25 of his most important paintings and drawings that highlight his experience as a Native American Abstract Expressionist painter",
+      "description_en": "An exhibition exploring George Morrison's artistic journey in New York City, featuring 25 of his most important paintings and drawings that highlight his experience as a Native American Abstract Expressionist painter",
+      "artists": [
+        {
+          "name": "George Morrison",
+          "name_local": "Wah-wah-ta-ga-nah-gah-boo and Gwe-ki-ge-nah-gah-boo",
+          "role": "artist",
+          "nationality": "Grand Portage Chippewa",
+          "birth_year": 1919,
+          "death_year": 2000
+        }
+      ],
+      "curator": null,
+      "curator_en": null,
+      "start_date": "2025-01-01",
+      "end_date": "2026-05-31",
+      "status": "ongoing",
+      "exhibition_type": "temporary",
+      "art_medium": "painting",
+      "themes": ["Native American art", "Abstract Expressionism", "New York art scene", "urban landscape"],
+      "artworks_count": 25,
+      "admission_fee": 0,
+      "ticket_required": false,
+      "ticket_price": {
+        "general": "Included with museum admission",
+        "adult": 30,
+        "senior": 25,
+        "student": 17
+      },
+      "booking_required": false,
+      "official_url": "https://www.metmuseum.org/exhibitions/the-magical-city-george-morrison-s-new-york",
+      "poster_image_url": "https://cdn.sanity.io/images/cctd4ker/production/ae6551b07e87b0a943ee2e77b762ec5a1003ba30-5120x5120.jpg",
+      "gallery_images": [
+        "https://cdn.sanity.io/images/cctd4ker/production/a33926b3cb0d2c6ce6491a935851b58af5288316-320x490.jpg"
+      ],
+      "gallery_location": "The Met Fifth Avenue, Gallery 746 North",
+      "publications": [
+        {
+          "title": "The Metropolitan Museum of Art Bulletin",
+          "type": "catalog"
+        }
+      ],
+      "data_source": "manual_extraction",
+      "data_quality_score": 95,
+      "personality_matches": ["LAEF", "LAEC", "LREF", "LREC", "SAEF", "SAEC"],
+      "recommendation_score": 90,
+      "created_at": "2025-08-06T12:50:00.000Z",
+      "updated_at": "2025-08-06T12:50:00.000Z"
+    },
+    {
+      "id": "met-casa-susanna-2025",
+      "venue_id": null,
+      "venue_name": "Metropolitan Museum of Art",
+      "venue_city": "New York",
+      "venue_country": "US",
+      "venue_type": "museum",
+      "venue_tier": 1,
+      "title": "Casa Susanna",
+      "title_en": "Casa Susanna",
+      "title_local": "Casa Susanna",
+      "subtitle": null,
+      "description": "Casa Susanna brings together photographs and publications created by and for a community of cross-dressers who met regularly in New York City and the Catskill Mountains throughout the 1960s. The exhibition explores the double lives cross-dressers led and their representations of femininity",
+      "description_en": "Casa Susanna brings together photographs and publications created by and for a community of cross-dressers who met regularly in New York City and the Catskill Mountains throughout the 1960s. The exhibition explores the double lives cross-dressers led and their representations of femininity",
+      "artists": [
+        {
+          "name": "Susanna Valenti",
+          "role": "artist"
+        },
+        {
+          "name": "Marie Tornell",
+          "role": "artist"
+        },
+        {
+          "name": "Casa Susanna community photographers",
+          "role": "artist"
+        }
+      ],
+      "curator": "Art Gallery of Ontario and Les Rencontres d'Arles",
+      "curator_en": "Art Gallery of Ontario and Les Rencontres d'Arles",
+      "start_date": "2025-07-21",
+      "end_date": "2026-01-25",
+      "status": "upcoming",
+      "exhibition_type": "temporary",
+      "art_medium": "photography",
+      "themes": ["gender identity", "LGBTQ+ history", "1960s America", "cross-dressing", "community", "photography"],
+      "admission_fee": 0,
+      "ticket_required": false,
+      "ticket_price": {
+        "general": "Included with museum admission",
+        "adult": 30,
+        "senior": 25,
+        "student": 17
+      },
+      "booking_required": false,
+      "official_url": "https://www.metmuseum.org/exhibitions/casa-susanna",
+      "poster_image_url": "https://cdn.sanity.io/images/cctd4ker/production/6ab87d0725f2f51e5d503a9ee0c7a35356c692df-5120x5120.png",
+      "gallery_images": [
+        "https://cdn.sanity.io/images/cctd4ker/production/e34cf52f8e7ca2e162062e1e9f14ec777df09a1d-1707x569.png"
+      ],
+      "gallery_location": "The Met Fifth Avenue, Gallery 852",
+      "special_events": [
+        {
+          "title": "Met Expert Talks—Casa Susanna",
+          "date": "2025-09-11",
+          "time": "15:00"
+        },
+        {
+          "title": "Met Expert Talks—Casa Susanna",
+          "date": "2025-12-02",
+          "time": "15:00"
+        },
+        {
+          "title": "Met Expert Talks—Casa Susanna",
+          "date": "2026-01-20",
+          "time": "15:00"
+        }
+      ],
+      "collaborators": [
+        "Art Gallery of Ontario",
+        "Les Rencontres d'Arles",
+        "The Metropolitan Museum of Art"
+      ],
+      "data_source": "manual_extraction",
+      "data_quality_score": 95,
+      "personality_matches": ["SAEF", "SAEC", "SREF", "SREC", "LAEF", "LAEC"],
+      "recommendation_score": 88,
+      "created_at": "2025-08-06T12:55:00.000Z",
+      "updated_at": "2025-08-06T12:55:00.000Z"
+    },
+    {
+      "id": "met-baseball-cards-burdick-2025",
+      "venue_id": null,
+      "venue_name": "Metropolitan Museum of Art",
+      "venue_city": "New York",
+      "venue_country": "US",
+      "venue_type": "museum",
+      "venue_tier": 1,
+      "title": "Baseball Cards from the Collection of Jefferson R. Burdick",
+      "title_en": "Baseball Cards from the Collection of Jefferson R. Burdick",
+      "title_local": "Baseball Cards from the Collection of Jefferson R. Burdick",
+      "subtitle": null,
+      "description": "The Jefferson R. Burdick collection contains one of the most distinguished collections of historical baseball cards. The exhibition features over one hundred cards dating from the nineteenth century to the 1950s, produced using various printing techniques and styles",
+      "description_en": "The Jefferson R. Burdick collection contains one of the most distinguished collections of historical baseball cards. The exhibition features over one hundred cards dating from the nineteenth century to the 1950s, produced using various printing techniques and styles",
+      "artists": [
+        {
+          "name": "Various baseball card manufacturers and illustrators",
+          "role": "artist"
+        }
+      ],
+      "curator": null,
+      "curator_en": null,
+      "start_date": "2025-07-24",
+      "end_date": "2026-01-20",
+      "status": "upcoming",
+      "exhibition_type": "temporary",
+      "art_medium": "prints",
+      "themes": ["American culture", "baseball", "sports history", "printmaking", "ephemera", "collecting"],
+      "artworks_count": 100,
+      "admission_fee": 0,
+      "ticket_required": false,
+      "ticket_price": {
+        "general": "Included with museum admission",
+        "adult": 30,
+        "senior": 25,
+        "student": 17
+      },
+      "booking_required": false,
+      "official_url": "https://www.metmuseum.org/exhibitions/baseball-cards-from-the-collection-of-jefferson-r-burdick-2025",
+      "poster_image_url": "https://cdn.sanity.io/images/cctd4ker/production/a0d982c606dcc373439de3b3b94e20a7beb1d767-5120x5120.jpg",
+      "gallery_images": [
+        "https://cdn.sanity.io/images/cctd4ker/production/cb3620126336b650a152e0a22e942fde2c058b0e-5121x1707.jpg"
+      ],
+      "gallery_location": "The Met Fifth Avenue, Gallery 774A",
+      "collection_info": {
+        "collector": "Jefferson R. Burdick",
+        "total_collection_size": "over 30,000 cards",
+        "collection_period": "from 1880s"
+      },
+      "data_source": "manual_extraction",
+      "data_quality_score": 95,
+      "personality_matches": ["LRMC", "SRMC", "LREC", "SREC"],
+      "recommendation_score": 75,
+      "created_at": "2025-08-06T13:00:00.000Z",
+      "updated_at": "2025-08-06T13:00:00.000Z"
+    },
+    {
+      "id": "met-spectrum-desire-2025",
+      "venue_id": null,
+      "venue_name": "The Met Cloisters",
+      "venue_city": "New York",
+      "venue_country": "US",
+      "venue_type": "museum",
+      "venue_tier": 1,
+      "title": "Spectrum of Desire: Love, Sex, and Gender in the Middle Ages",
+      "title_en": "Spectrum of Desire: Love, Sex, and Gender in the Middle Ages",
+      "title_local": "Spectrum of Desire: Love, Sex, and Gender in the Middle Ages",
+      "subtitle": null,
+      "description": "Discover a world of powerful desires and fluid identities in the art of the Middle Ages. Set in the stunning atmosphere of The Met Cloisters, the exhibition explores often-overlooked themes of sexuality and gender in the medieval past",
+      "description_en": "Discover a world of powerful desires and fluid identities in the art of the Middle Ages. Set in the stunning atmosphere of The Met Cloisters, the exhibition explores often-overlooked themes of sexuality and gender in the medieval past",
+      "artists": [
+        {
+          "name": "Various medieval artists and craftspeople",
+          "role": "artist"
+        }
+      ],
+      "curator": null,
+      "curator_en": null,
+      "start_date": "2025-10-17",
+      "end_date": "2026-03-29",
+      "status": "upcoming",
+      "exhibition_type": "temporary",
+      "art_medium": "mixed_media",
+      "themes": ["medieval art", "sexuality", "gender", "love", "Middle Ages", "LGBTQ+ history"],
+      "artworks_count": 50,
+      "featured_artworks": [
+        "Gold jewelry",
+        "Ivory sculptures",
+        "Stained glass",
+        "Illuminated manuscripts",
+        "Woven textiles",
+        "Aquamanile in the Form of Phyllis and Aristotle"
+      ],
+      "admission_fee": 0,
+      "ticket_required": false,
+      "ticket_price": {
+        "general": "Included with museum admission",
+        "adult": 30,
+        "senior": 25,
+        "student": 17
+      },
+      "booking_required": false,
+      "official_url": "https://www.metmuseum.org/exhibitions/spectrum-of-desire-love-sex-and-gender-in-the-middle-ages",
+      "poster_image_url": "https://cdn.sanity.io/images/cctd4ker/production/b2e43fc305c9478f26b4bd26b82940018f1c6062-5120x5120.jpg",
+      "gallery_images": [
+        "https://cdn.sanity.io/images/cctd4ker/production/43ea45d1aa0961c94fd47d059755a2ab0e53f947-5120x1707.jpg"
+      ],
+      "gallery_location": "The Met Cloisters, Gallery 002",
+      "data_source": "manual_extraction",
+      "data_quality_score": 95,
+      "personality_matches": ["SAEF", "SAEC", "SREF", "SREC", "LAEF", "LAEC"],
+      "recommendation_score": 85,
+      "created_at": "2025-08-06T13:10:00.000Z",
+      "updated_at": "2025-08-06T13:10:00.000Z"
+    },
+    {
+      "id": "met-helene-schjerfbeck-2025",
+      "venue_id": null,
+      "venue_name": "Metropolitan Museum of Art",
+      "venue_city": "New York",
+      "venue_country": "US",
+      "venue_type": "museum",
+      "venue_tier": 1,
+      "title": "Seeing Silence: The Paintings of Helene Schjerfbeck",
+      "title_en": "Seeing Silence: The Paintings of Helene Schjerfbeck",
+      "title_local": "Seeing Silence: The Paintings of Helene Schjerfbeck",
+      "subtitle": null,
+      "description": "Beloved in Nordic countries for her highly original style, Finnish painter Helene Schjerfbeck (1862–1946) is relatively unknown to the rest of the world. Overcoming immense personal struggles and working in a remote location for decades, she produced a powerful body of work through sheer force of will",
+      "description_en": "Beloved in Nordic countries for her highly original style, Finnish painter Helene Schjerfbeck (1862–1946) is relatively unknown to the rest of the world. Overcoming immense personal struggles and working in a remote location for decades, she produced a powerful body of work through sheer force of will",
+      "artists": [
+        {
+          "name": "Helene Schjerfbeck",
+          "nationality": "Finnish",
+          "birth_year": 1862,
+          "death_year": 1946,
+          "role": "artist"
+        }
+      ],
+      "curator": null,
+      "curator_en": null,
+      "start_date": "2025-12-05",
+      "end_date": "2026-04-05",
+      "status": "upcoming",
+      "exhibition_type": "temporary",
+      "art_medium": "painting",
+      "themes": ["Nordic art", "modernism", "portraiture", "Finnish art", "solitude", "self-portraits"],
+      "artworks_count": 60,
+      "admission_fee": 0,
+      "ticket_required": false,
+      "ticket_price": {
+        "general": "Included with museum admission",
+        "adult": 30,
+        "senior": 25,
+        "student": 17
+      },
+      "booking_required": false,
+      "official_url": "https://www.metmuseum.org/exhibitions/seeing-silence-the-paintings-of-helene-schjerfbeck",
+      "poster_image_url": "https://cdn.sanity.io/images/cctd4ker/production/bb36720fd854466e0100b7b1ae080e89ad20a083-5120x5120.jpg",
+      "gallery_images": [
+        "https://cdn.sanity.io/images/cctd4ker/production/c72e38c2bb979145904613f5ddc3c286577dfdf5-5120x1707.jpg"
+      ],
+      "gallery_location": "The Met Fifth Avenue, Gallery 964",
+      "collaborators": [
+        "Finnish National Gallery",
+        "Ateneum Art Museum"
+      ],
+      "data_source": "manual_extraction",
+      "data_quality_score": 95,
+      "personality_matches": ["LAEF", "LAEC", "LREF", "LREC", "LAMF", "LAMC"],
+      "recommendation_score": 92,
+      "created_at": "2025-08-06T13:15:00.000Z",
+      "updated_at": "2025-08-06T13:15:00.000Z"
+    },
+    {
+      "id": "met-cycladic-art-ongoing",
+      "venue_id": null,
+      "venue_name": "Metropolitan Museum of Art",
+      "venue_city": "New York",
+      "venue_country": "US",
+      "venue_type": "museum",
+      "venue_tier": 1,
+      "title": "Cycladic Art",
+      "title_en": "Cycladic Art",
+      "title_local": "Cycladic Art",
+      "subtitle": "The Leonard N. Stern Collection",
+      "description": "The display of the Leonard N. Stern Collection of Cycladic Art at The Met is the result of a historic 50-year partnership featuring 161 Cycladic works of art from the Early Bronze Age, showcasing marble figures and vessels",
+      "description_en": "The display of the Leonard N. Stern Collection of Cycladic Art at The Met is the result of a historic 50-year partnership featuring 161 Cycladic works of art from the Early Bronze Age, showcasing marble figures and vessels",
+      "artists": [
+        {
+          "name": "Early Cycladic sculptors",
+          "role": "artist",
+          "period": "Early Bronze Age"
+        }
+      ],
+      "curator": null,
+      "curator_en": null,
+      "start_date": "2023-01-01",
+      "end_date": null,
+      "status": "ongoing",
+      "exhibition_type": "permanent",
+      "art_medium": "sculpture",
+      "themes": ["ancient art", "Cycladic civilization", "marble sculpture", "Early Bronze Age", "Greek art"],
+      "artworks_count": 161,
+      "admission_fee": 0,
+      "ticket_required": false,
+      "ticket_price": {
+        "general": "Included with museum admission",
+        "adult": 30,
+        "senior": 25,
+        "student": 17
+      },
+      "booking_required": false,
+      "official_url": "https://www.metmuseum.org/exhibitions/cycladic-art",
+      "poster_image_url": "https://cdn.sanity.io/images/cctd4ker/production/0450b4b758459b23f77f274ebe3ab6ceea6bdc9a-5120x5120.jpg",
+      "gallery_location": "The Met Fifth Avenue, Galleries 150–151 and Gallery 171",
+      "collection_info": {
+        "collector": "Leonard N. Stern",
+        "partnership_duration": "50 years"
+      },
+      "data_source": "manual_extraction",
+      "data_quality_score": 95,
+      "personality_matches": ["LRMC", "LREC", "LAMC", "LAEC"],
+      "recommendation_score": 85,
+      "created_at": "2025-08-06T13:20:00.000Z",
+      "updated_at": "2025-08-06T13:20:00.000Z"
+    },
+    {
+      "id": "met-arts-africa-2025",
+      "venue_id": null,
+      "venue_name": "Metropolitan Museum of Art",
+      "venue_city": "New York",
+      "venue_country": "US",
+      "venue_type": "museum",
+      "venue_tier": 1,
+      "title": "Arts of Africa",
+      "title_en": "Arts of Africa",
+      "title_local": "Arts of Africa",
+      "subtitle": null,
+      "description": "A reimagined installation featuring approximately 500 works of sub-Saharan African art spanning from the Middle Ages to the present. The exhibition highlights the creativity of artists across the subcontinent and enduring, dynamic historical traditions",
+      "description_en": "A reimagined installation featuring approximately 500 works of sub-Saharan African art spanning from the Middle Ages to the present. The exhibition highlights the creativity of artists across the subcontinent and enduring, dynamic historical traditions",
+      "artists": [
+        {
+          "name": "Ọlọ́wẹ̀ of Ìsẹ̀",
+          "nationality": "Nigerian",
+          "birth_year": 1873,
+          "death_year": 1938,
+          "role": "artist"
+        },
+        {
+          "name": "Abdoulaye Konaté",
+          "nationality": "Malian",
+          "birth_year": 1953,
+          "role": "artist"
+        },
+        {
+          "name": "40+ recognized individual African artists",
+          "role": "artist"
+        }
+      ],
+      "curator": null,
+      "curator_en": null,
+      "start_date": "2025-05-01",
+      "end_date": null,
+      "status": "ongoing",
+      "exhibition_type": "permanent",
+      "art_medium": "mixed_media",
+      "themes": ["African art", "sub-Saharan Africa", "contemporary African art", "traditional crafts", "cultural heritage"],
+      "artworks_count": 500,
+      "admission_fee": 0,
+      "ticket_required": false,
+      "ticket_price": {
+        "general": "Included with museum admission",
+        "adult": 30,
+        "senior": 25,
+        "student": 17
+      },
+      "booking_required": false,
+      "official_url": "https://www.metmuseum.org/exhibitions/arts-of-africa",
+      "poster_image_url": "https://cdn.sanity.io/images/cctd4ker/production/5ad023d6b8e4d431a9d421e7ab31926248c444bf-5120x5120.jpg",
+      "gallery_images": [
+        "https://cdn.sanity.io/images/cctd4ker/production/0c338f9e4b12eceeb981b91e365b4ea200d7cf63-5121x1707.jpg"
+      ],
+      "gallery_location": "The Met Fifth Avenue, Galleries 340-345, Michael C. Rockefeller Wing",
+      "special_programs": [
+        "Verbal imaging tours for blind/partially sighted visitors",
+        "Digital initiative with World Monuments Fund"
+      ],
+      "data_source": "manual_extraction",
+      "data_quality_score": 95,
+      "personality_matches": ["SAEF", "SAEC", "SREF", "SREC", "LAEF", "LAEC"],
+      "recommendation_score": 90,
+      "created_at": "2025-08-06T13:25:00.000Z",
+      "updated_at": "2025-08-06T13:25:00.000Z"
+    },
+    {
+      "id": "met-divine-egypt-2025",
+      "venue_id": null,
+      "venue_name": "Metropolitan Museum of Art",
+      "venue_city": "New York",
+      "venue_country": "US",
+      "venue_type": "museum",
+      "venue_tier": 1,
+      "title": "Divine Egypt",
+      "title_en": "Divine Egypt",
+      "title_local": "Divine Egypt",
+      "subtitle": null,
+      "description": "In ancient Egypt, images of gods weren't just images—they brought the gods to life. Egyptians believed that it was through their depictions in tombs, temples, and shrines that the deities could enter sacred spaces and become active participants in rituals",
+      "description_en": "In ancient Egypt, images of gods weren't just images—they brought the gods to life. Egyptians believed that it was through their depictions in tombs, temples, and shrines that the deities could enter sacred spaces and become active participants in rituals",
+      "artists": [
+        {
+          "name": "Ancient Egyptian artists and craftspeople",
+          "role": "artist"
+        }
+      ],
+      "curator": null,
+      "curator_en": null,
+      "start_date": "2025-10-12",
+      "end_date": "2026-01-19",
+      "status": "upcoming",
+      "exhibition_type": "temporary",
+      "art_medium": "mixed_media",
+      "themes": ["ancient Egypt", "religious art", "deities", "ritual objects", "sacred spaces"],
+      "artworks_count": 250,
+      "admission_fee": 0,
+      "ticket_required": false,
+      "ticket_price": {
+        "general": "Included with museum admission",
+        "adult": 30,
+        "senior": 25,
+        "student": 17
+      },
+      "booking_required": false,
+      "official_url": "https://www.metmuseum.org/exhibitions/divine-egypt",
+      "poster_image_url": "https://cdn.sanity.io/images/cctd4ker/production/c968ac59f544b565e200c414e0e92c2a2e195e19-5120x5120.jpg",
+      "gallery_images": [
+        "https://cdn.sanity.io/images/cctd4ker/production/b111826cfb97ff59b6380f32fabc21be8b763c50-5121x1707.jpg"
+      ],
+      "gallery_location": "The Met Fifth Avenue, Gallery 899",
+      "lenders": [
+        "Museum of Fine Arts, Boston",
+        "Musée du Louvre, Paris",
+        "Ny Carlsberg Glyptotek, Copenhagen"
+      ],
+      "data_source": "manual_extraction",
+      "data_quality_score": 95,
+      "personality_matches": ["LRMC", "LREC", "SRMC", "SREC", "LAMC", "LAEC"],
+      "recommendation_score": 88,
+      "created_at": "2025-08-06T13:30:00.000Z",
+      "updated_at": "2025-08-06T13:30:00.000Z"
+    },
+    {
+      "id": "met-arts-ancient-americas-2025",
+      "venue_id": null,
+      "venue_name": "Metropolitan Museum of Art",
+      "venue_city": "New York",
+      "venue_country": "US",
+      "venue_type": "museum",
+      "venue_tier": 1,
+      "title": "Arts of the Ancient Americas",
+      "title_en": "Arts of the Ancient Americas",
+      "title_local": "Arts of the Ancient Americas",
+      "subtitle": null,
+      "description": "A reimagined gallery showcasing Indigenous art from North, Central, and South America and the Caribbean prior to 1600 CE. The exhibition features nearly 700 items, including monumental stone sculptures and exquisite metalwork",
+      "description_en": "A reimagined gallery showcasing Indigenous art from North, Central, and South America and the Caribbean prior to 1600 CE. The exhibition features nearly 700 items, including monumental stone sculptures and exquisite metalwork",
+      "artists": [
+        {
+          "name": "Ancient Indigenous artists from the Americas",
+          "role": "artist"
+        }
+      ],
+      "curator": null,
+      "curator_en": null,
+      "start_date": "2025-05-01",
+      "end_date": null,
+      "status": "ongoing",
+      "exhibition_type": "permanent",
+      "art_medium": "mixed_media",
+      "themes": ["Indigenous art", "pre-Columbian", "ancient Americas", "cultural heritage", "archaeological artifacts"],
+      "artworks_count": 700,
+      "admission_fee": 0,
+      "ticket_required": false,
+      "ticket_price": {
+        "general": "Included with museum admission",
+        "adult": 30,
+        "senior": 25,
+        "student": 17
+      },
+      "booking_required": false,
+      "official_url": "https://www.metmuseum.org/exhibitions/arts-of-the-ancient-americas",
+      "poster_image_url": "https://cdn.sanity.io/images/cctd4ker/production/2e3bc2166127b5246bd08022062d374aac73e56f-5120x5120.jpg",
+      "gallery_images": [
+        "https://cdn.sanity.io/images/cctd4ker/production/7af8070c5946a5395fbb463263f1434b704b1012-5121x1707.jpg"
+      ],
+      "gallery_location": "The Met Fifth Avenue, Galleries 360-363",
+      "special_events": [
+        {
+          "title": "Symposium—New Discoveries/New Directions in the Archaeology of the Ancient Americas",
+          "date": "2025-09-13",
+          "time": "10:30"
+        },
+        {
+          "title": "Singing Stones: Celebrating the Ancient Americas",
+          "date": "2025-11-07",
+          "time": "19:00"
+        }
+      ],
+      "press_quotes": [
+        {
+          "source": "The New York Times",
+          "quote": "Extraordinary."
+        }
+      ],
+      "data_source": "manual_extraction",
+      "data_quality_score": 95,
+      "personality_matches": ["LRMC", "LREC", "SRMC", "SREC", "LAMC", "LAEC"],
+      "recommendation_score": 90,
+      "created_at": "2025-08-06T13:35:00.000Z",
+      "updated_at": "2025-08-06T13:35:00.000Z"
+    },
+    {
+      "id": "met-arts-oceania-2025",
+      "venue_id": null,
+      "venue_name": "Metropolitan Museum of Art",
+      "venue_city": "New York",
+      "venue_country": "US",
+      "venue_type": "museum",
+      "venue_tier": 1,
+      "title": "Arts of Oceania",
+      "title_en": "Arts of Oceania",
+      "title_local": "Arts of Oceania",
+      "subtitle": null,
+      "description": "A reimagined exhibition featuring over 650 artworks from 140 distinct Oceanic cultures, showcasing ancestral figures, ritual regalia, and navigational artifacts from New Guinea, the Pacific, Australia, and Island Southeast Asia",
+      "description_en": "A reimagined exhibition featuring over 650 artworks from 140 distinct Oceanic cultures, showcasing ancestral figures, ritual regalia, and navigational artifacts from New Guinea, the Pacific, Australia, and Island Southeast Asia",
+      "artists": [
+        {
+          "name": "Artists from 140 distinct Oceanic cultures",
+          "role": "artist"
+        }
+      ],
+      "curator": null,
+      "curator_en": null,
+      "start_date": "2025-05-01",
+      "end_date": null,
+      "status": "ongoing",
+      "exhibition_type": "permanent",
+      "art_medium": "mixed_media",
+      "themes": ["Oceanic art", "Pacific cultures", "ancestral artifacts", "ritual objects", "Indigenous temporalities"],
+      "artworks_count": 650,
+      "admission_fee": 0,
+      "ticket_required": false,
+      "ticket_price": {
+        "general": "Included with museum admission",
+        "adult": 30,
+        "senior": 25,
+        "student": 17
+      },
+      "booking_required": false,
+      "official_url": "https://www.metmuseum.org/exhibitions/arts-of-oceania",
+      "poster_image_url": "https://cdn.sanity.io/images/cctd4ker/production/004d7e3b022892a197edf2006d4198a4f1d55c42-5120x5120.jpg",
+      "gallery_images": [
+        "https://cdn.sanity.io/images/cctd4ker/production/8d59555509ce53bbdc49398ef755d96c6f1920d5-5121x1707.jpg"
+      ],
+      "gallery_location": "The Met Fifth Avenue, Galleries 350-354",
+      "special_features": [
+        "Galleries designed to foreground ancestral connections and Indigenous temporalities",
+        "Verbal imaging tours for blind/partially sighted visitors"
+      ],
+      "press_quotes": [
+        {
+          "source": "The New York Times",
+          "quote": "Rhapsodic energy."
+        }
+      ],
+      "data_source": "manual_extraction",
+      "data_quality_score": 95,
+      "personality_matches": ["SAEF", "SAEC", "LAEF", "LAEC", "SREF", "SREC"],
+      "recommendation_score": 88,
+      "created_at": "2025-08-06T13:40:00.000Z",
+      "updated_at": "2025-08-06T13:40:00.000Z"
+    },
+    {
+      "id": "met-defensive-display-shields",
+      "venue_id": null,
+      "venue_name": "Metropolitan Museum of Art",
+      "venue_city": "New York",
+      "venue_country": "US",
+      "venue_type": "museum",
+      "venue_tier": 1,
+      "title": "Defensive Display: Shields from The Met Collection",
+      "title_en": "Defensive Display: Shields from The Met Collection",
+      "title_local": "Defensive Display: Shields from The Met Collection",
+      "subtitle": null,
+      "description": "Throughout history, the shield has been one of the most common and versatile forms of personal defense, used by foot soldiers and kings alike. The exhibition explores shields' utility, visual display, and cultural origins",
+      "description_en": "Throughout history, the shield has been one of the most common and versatile forms of personal defense, used by foot soldiers and kings alike. The exhibition explores shields' utility, visual display, and cultural origins",
+      "artists": [
+        {
+          "name": "Various historical armorers and craftspeople",
+          "role": "artist"
+        }
+      ],
+      "curator": null,
+      "curator_en": null,
+      "start_date": "2024-01-01",
+      "end_date": null,
+      "status": "ongoing",
+      "exhibition_type": "permanent",
+      "art_medium": "armor",
+      "themes": ["military history", "armor", "defensive equipment", "cultural identity", "battlefield technology"],
+      "admission_fee": 0,
+      "ticket_required": false,
+      "ticket_price": {
+        "general": "Included with museum admission",
+        "adult": 30,
+        "senior": 25,
+        "student": 17
+      },
+      "booking_required": false,
+      "official_url": "https://www.metmuseum.org/exhibitions/defensive-display-shields-from-the-met-collection",
+      "poster_image_url": "https://cdn.sanity.io/images/cctd4ker/production/79a280740dc8f367ca2f3248bdb0875f3939df1f-5120x5120.jpg",
+      "gallery_images": [
+        "https://cdn.sanity.io/images/cctd4ker/production/b31322b1077e211d8b74d9fb91afa6d1c9eef8fc-5121x1707.jpg"
+      ],
+      "gallery_location": "The Met Fifth Avenue, Gallery 380",
+      "key_themes": [
+        "Shields as battlefield protection",
+        "Visual intimidation and social display",
+        "Cultural and regional design variations"
+      ],
+      "data_source": "manual_extraction",
+      "data_quality_score": 95,
+      "personality_matches": ["LRMC", "SRMC", "LREC", "SREC"],
+      "recommendation_score": 75,
+      "created_at": "2025-08-06T13:45:00.000Z",
+      "updated_at": "2025-08-06T13:45:00.000Z"
+    },
+    {
+      "id": "met-american-wing-100",
+      "venue_id": null,
+      "venue_name": "Metropolitan Museum of Art",
+      "venue_city": "New York",
+      "venue_country": "US",
+      "venue_type": "museum",
+      "venue_tier": 1,
+      "title": "The American Wing at 100",
+      "title_en": "The American Wing at 100",
+      "title_local": "The American Wing at 100",
+      "subtitle": null,
+      "description": "A reinstallation celebrating the American Wing's 100th anniversary, featuring art and design from mid-17th to mid-20th century, with connections across the Wing's increasingly hemispheric holdings",
+      "description_en": "A reinstallation celebrating the American Wing's 100th anniversary, featuring art and design from mid-17th to mid-20th century, with connections across the Wing's increasingly hemispheric holdings",
+      "artists": [
+        {
+          "name": "Various American artists and designers",
+          "role": "artist"
+        }
+      ],
+      "curator": null,
+      "curator_en": null,
+      "start_date": "2024-11-01",
+      "end_date": null,
+      "status": "ongoing",
+      "exhibition_type": "permanent",
+      "art_medium": "mixed_media",
+      "themes": ["American art", "decorative arts", "design history", "cultural heritage", "hemispheric connections"],
+      "admission_fee": 0,
+      "ticket_required": false,
+      "ticket_price": {
+        "general": "Included with museum admission",
+        "adult": 30,
+        "senior": 25,
+        "student": 17
+      },
+      "booking_required": false,
+      "official_url": "https://www.metmuseum.org/exhibitions/the-american-wing-at-100",
+      "poster_image_url": "https://cdn.sanity.io/images/cctd4ker/production/edef0dbb2f9d67461d2908a771b17f086ef6a0cf-10667x10667.jpg",
+      "gallery_images": [
+        "https://cdn.sanity.io/images/cctd4ker/production/6cd8a6e5e1db4b78cb59f15715424593cdc74a4c-5121x1707.jpg"
+      ],
+      "gallery_location": "The Met Fifth Avenue, Galleries 700–701, 717–719, 723, 730–731, 733, 736, and 755–772",
+      "sponsors": [
+        "Jane Parsons Klein Fund",
+        "Terra Foundation for American Art"
+      ],
+      "data_source": "manual_extraction",
+      "data_quality_score": 95,
+      "personality_matches": ["LRMC", "LREC", "SRMC", "SREC", "LAMC", "LAEC"],
+      "recommendation_score": 85,
+      "created_at": "2025-08-06T13:50:00.000Z",
+      "updated_at": "2025-08-06T13:50:00.000Z"
+    },
+    {
+      "id": "met-man-ray-objects-dream-2025",
+      "venue_id": null,
+      "venue_name": "Metropolitan Museum of Art",
+      "venue_city": "New York",
+      "venue_country": "US",
+      "venue_type": "museum",
+      "venue_tier": 1,
+      "title": "Man Ray: When Objects Dream",
+      "title_en": "Man Ray: When Objects Dream",
+      "title_local": "Man Ray: When Objects Dream",
+      "subtitle": null,
+      "description": "An exhibition exploring Man Ray's pioneering rayograph technique, featuring approximately 60 rayographs and 100 artworks from the 1910s and 1920s. As Man Ray described, the rayographs captured moments 'when objects dream' by transforming recognizable subjects into wonderfully mysterious compositions",
+      "description_en": "An exhibition exploring Man Ray's pioneering rayograph technique, featuring approximately 60 rayographs and 100 artworks from the 1910s and 1920s. As Man Ray described, the rayographs captured moments 'when objects dream' by transforming recognizable subjects into wonderfully mysterious compositions",
+      "artists": [
+        {
+          "name": "Man Ray",
+          "nationality": "American",
+          "birth_year": 1890,
+          "death_year": 1976,
+          "role": "artist"
+        }
+      ],
+      "curator": null,
+      "curator_en": null,
+      "start_date": "2025-09-14",
+      "end_date": "2026-02-01",
+      "status": "upcoming",
+      "exhibition_type": "temporary",
+      "art_medium": "photography",
+      "themes": ["surrealism", "photography", "rayographs", "experimental art", "modernism", "1920s"],
+      "artworks_count": 160,
+      "admission_fee": 0,
+      "ticket_required": false,
+      "ticket_price": {
+        "general": "Included with museum admission",
+        "adult": 30,
+        "senior": 25,
+        "student": 17
+      },
+      "booking_required": false,
+      "official_url": "https://www.metmuseum.org/exhibitions/man-ray-when-objects-dream",
+      "poster_image_url": "https://cdn.sanity.io/images/cctd4ker/production/aaa6051a6a537fb2f5e9be1ab1542dc87c1b2942-5120x5120.jpg",
+      "gallery_images": [
+        "https://cdn.sanity.io/images/cctd4ker/production/4f0c43b96ecc7064ca799ddfd6dc7b2f300c5b57-5121x1707.jpg"
+      ],
+      "gallery_location": "The Met Fifth Avenue, Gallery 199",
+      "sponsors": [
+        "Barrie A. and Deedee Wigmore Foundation",
+        "Linda Macklowe",
+        "Horace W. Goldsmith Foundation"
+      ],
+      "data_source": "manual_extraction",
+      "data_quality_score": 95,
+      "personality_matches": ["LAEF", "LAEC", "SAEF", "SAEC", "LAMF", "LAMC"],
+      "recommendation_score": 92,
+      "created_at": "2025-08-06T13:55:00.000Z",
+      "updated_at": "2025-08-06T13:55:00.000Z"
+    }
+  ]
+}

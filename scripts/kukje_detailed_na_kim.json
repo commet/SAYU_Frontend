@@ -1,0 +1,143 @@
+{
+  "exhibition": {
+    "id": "kukje-na-kim-easy-heavy-2024",
+    "seq": 270,
+    "title_en": "Easy Heavy",
+    "title_ko": "Easy Heavy",
+    "subtitle": null,
+    "description": "김나의 개인전 'Easy Heavy'는 디자인과 미술의 경계를 탐구하며, 회화, 콜라주, 조각, 벽화 등 약 40점의 작품을 선보입니다. 전시는 전시 공간 내에서 그래픽 디자인 요소의 표현적 잠재력과 유용성을 검토하며, 시각 언어를 재맥락화하고 전통적인 예술적 경계에 도전합니다.",
+    "description_en": "Na Kim's solo exhibition 'Easy Heavy' explores the boundaries between design and art, presenting nearly 40 works including paintings, collages, sculptures, and wall paintings. The exhibition examines the expressive potential and utility of graphic design elements within an exhibition space by recontextualizing visual language and challenging traditional artistic boundaries.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "부산",
+    "venue_country": "KR",
+    "gallery_location": "Kukje Gallery Busan",
+    
+    "start_date": "2024-05-08",
+    "end_date": "2024-06-30",
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "mixed_media",
+    "artworks_count": 40,
+    
+    "artists": [
+      {
+        "name": "Na Kim",
+        "name_ko": "김나",
+        "role": "artist/designer",
+        "birth_year": 1979,
+        "nationality": "Korean",
+        "base": "Seoul and Berlin",
+        "education": [
+          "KAIST Industrial Design",
+          "Hongik University Visual Communication Design",
+          "ArtEZ Werkplaats Typografie (Typography, M.Des)"
+        ],
+        "professional_focus": "Designer and Artist",
+        "specialization": "Graphic design elements in art context",
+        "artistic_approach": "Sampling and editing visual language"
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Exploring boundaries between design and art through recontextualization of graphic design elements and visual language sampling",
+    
+    "artwork_types": [
+      {
+        "type": "Paintings",
+        "materials": ["Canvas", "Acrylic"],
+        "concept": "Abstract visual material translation"
+      },
+      {
+        "type": "Collages", 
+        "materials": ["Mixed media", "Found materials"],
+        "concept": "Visual language reconstruction"
+      },
+      {
+        "type": "Hanging sculptures",
+        "materials": ["Wool", "Mixed media"],
+        "concept": "Three-dimensional design elements"
+      },
+      {
+        "type": "Wall paintings",
+        "materials": ["Gypsum", "Acrylic", "Stickers"],
+        "concept": "Site-specific graphic interventions"
+      }
+    ],
+    
+    "key_series": [
+      {
+        "title": "SET",
+        "start_year": 2015,
+        "status": "Ongoing",
+        "concept": "Systematic exploration of visual elements"
+      },
+      {
+        "title": "Piece", 
+        "start_year": 2020,
+        "status": "Ongoing",
+        "concept": "Individual component analysis"
+      },
+      {
+        "title": "Found Composition",
+        "start_year": 2009,
+        "status": "Ongoing",
+        "concept": "Discovery and rearrangement of existing visual materials"
+      }
+    ],
+    
+    "artistic_methodology": {
+      "core_exploration": "Boundaries between design and art",
+      "techniques": [
+        "Abstraction of everyday visual materials",
+        "Geometric rearrangement", 
+        "Cross-media translation",
+        "Sampling visual language",
+        "Recontextualization of graphic design elements"
+      ],
+      "approach": "Challenging traditional artistic boundaries through functional aesthetic integration"
+    },
+    
+    "conceptual_themes": [
+      "Design as cultural interpretation",
+      "Functional vs aesthetic elements interaction",
+      "Visual communication system deconstruction",
+      "Image culture and sampling",
+      "Typography and visual language",
+      "Graphic design utility in art context"
+    ],
+    
+    "title_significance": {
+      "easy": "Accessibility and immediate visual impact",
+      "heavy": "Conceptual weight and cultural significance",
+      "contrast": "Tension between simplicity and complexity in design/art"
+    },
+    
+    "themes": ["contemporary art", "graphic design", "visual communication", "mixed media", "Korean art", "design theory"],
+    "tags": ["contemporary art", "Korean art", "design", "typography", "visual communication", "mixed media"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=270",
+    
+    "exhibition_significance": {
+      "interdisciplinary_approach": "Bridging design and fine art boundaries",
+      "cultural_commentary": "Examination of visual culture and communication",
+      "methodological_innovation": "Sampling and editing as artistic practice",
+      "educational_impact": "Design elements as expressive artistic tools"
+    },
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 95,
+    "collected_at": "2025-08-06T15:40:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=270",
+    
+    "personality_matches": ["LAEF", "LAEC", "SAEF", "SAEC", "LREF", "LREC"],
+    "recommendation_score": 85,
+    
+    "created_at": "2025-08-06T15:40:00.000Z",
+    "updated_at": "2025-08-06T15:40:00.000Z"
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "exhibition": {
+    "id": "kukje-roni-horn-frick-fracks-2023",
+    "seq": 263,
+    "title_en": "Roni Horn",
+    "title_ko": "로니 혼",
+    "subtitle": "Frick and Fracks",
+    "description": "로니 혼의 개인전은 'Frick and Fracks' 시리즈를 통해 드로잉이라는 매체의 본질을 탐구합니다. 각각 8개의 과슈/수채화 드로잉으로 구성된 15점의 작품은 추상적인 기하학적 형태를 통해 짝짓기와 이중성, 유사성과 차이의 관계를 탐구하며 관람자의 해석을 유도합니다.",
+    "description_en": "Roni Horn's solo exhibition explores the essence of drawing through the 'Frick and Fracks' series. Featuring 15 works, each composed of 8 gouache/watercolor drawings, the exhibition investigates pairing and doubling, similarity and difference through abstract geometric forms that invite viewer interpretation.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "서울",
+    "venue_country": "KR",
+    "gallery_location": "K3 Space",
+    
+    "start_date": "2023-11-16",
+    "end_date": "2023-12-31",
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "drawing",
+    "artworks_count": 15,
+    
+    "artists": [
+      {
+        "name": "Roni Horn",
+        "name_ko": "로니 혼",
+        "role": "artist",
+        "birth_year": 1955,
+        "birth_place": "New York, USA",
+        "nationality": "American",
+        "education": [
+          "BFA, Rhode Island School of Design",
+          "MFA, Yale University"
+        ],
+        "primary_medium": "Drawing",
+        "artistic_philosophy": "Drawing as primary artistic activity",
+        "international_presence": "Extensive global exhibition history"
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Presenting drawing as fundamental artistic practice through explorations of doubling, repetition, and subtle variation",
+    
+    "series_details": {
+      "frick_and_fracks": {
+        "name_origin": "Comedic ice-skating duo",
+        "symbolism": "Inseparable partnership through visual abstraction",
+        "composition": "15 works, each with 8 drawings",
+        "medium": "Gouache and watercolor",
+        "technique": "Repetitive drawing with subtle variations"
+      }
+    },
+    
+    "artistic_approach": {
+      "primary_activity": "Drawing as foundational practice",
+      "methodology": "Repetition with variation",
+      "abstraction": "Geometric forms open to interpretation",
+      "pairing_concept": "Exploring relationships between similar forms",
+      "viewer_engagement": "Inviting personal interpretation"
+    },
+    
+    "conceptual_themes": [
+      "Drawing as primary medium",
+      "Pairing and doubling",
+      "Similarity and difference",
+      "Repetition and variation",
+      "Abstract geometric exploration",
+      "Visual partnership metaphors",
+      "Interpretive openness"
+    ],
+    
+    "technical_details": {
+      "medium": "Gouache and watercolor",
+      "format": "Groups of 8 drawings per work",
+      "total_drawings": 120,
+      "presentation": "Serial arrangement",
+      "visual_style": "Abstract geometric forms"
+    },
+    
+    "exhibition_significance": {
+      "drawing_focus": "Elevating drawing as primary art form",
+      "conceptual_rigor": "Systematic exploration of variation",
+      "visual_poetry": "Abstract forms creating dialogue",
+      "minimal_aesthetic": "Reduction to essential elements"
+    },
+    
+    "artist_quote": "If you were to ask me what I do, I would say I draw–this is the primary activity...",
+    
+    "themes": ["contemporary art", "drawing", "abstraction", "minimalism", "conceptual art", "repetition"],
+    "tags": ["drawing", "American art", "abstraction", "watercolor", "gouache", "conceptual", "minimalism"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=263",
+    
+    "international_context": {
+      "global_recognition": "Major museum collections worldwide",
+      "artistic_influence": "Leading contemporary drawing practice",
+      "critical_acclaim": "Internationally celebrated artist"
+    },
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 94,
+    "collected_at": "2025-08-06T16:15:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=263",
+    
+    "personality_matches": ["LAMC", "LAEC", "LRMC", "LREC", "SAMC", "SAEC"],
+    "recommendation_score": 91,
+    
+    "created_at": "2025-08-06T16:15:00.000Z",
+    "updated_at": "2025-08-06T16:15:00.000Z"
+  }
+}

@@ -120,8 +120,10 @@ function RegisterContent() {
         toast.info(language === 'ko' ? '로그인 페이지로 이동합니다' : 'Please login with your credentials');
         router.push('/login');
       }
-    } catch (error) {
-      toast.error(language === 'ko' ? '회원가입에 실패했습니다' : 'Registration failed');
+    } catch (error: any) {
+      console.error('Registration error:', error);
+      const errorMessage = error?.message || (language === 'ko' ? '회원가입에 실패했습니다' : 'Registration failed');
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -130,7 +132,7 @@ function RegisterContent() {
   return (
     <div className="min-h-screen flex">
       {/* Left Panel - Form */}
-      <div className="flex-1 flex items-center justify-center px-8 py-12 bg-sayu-bg-primary">
+      <div className="flex-1 flex items-center justify-center px-8 py-12 bg-gray-900 dark:bg-gray-950">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -177,10 +179,10 @@ function RegisterContent() {
             transition={{ delay: 0.1 }}
             className="mb-8"
           >
-            <h1 className="sayu-display text-4xl font-bold text-sayu-text-primary mb-2">
+            <h1 className="sayu-display text-4xl font-bold text-white mb-2">
               {language === 'ko' ? '예술 여정 시작하기' : 'Start Your Art Journey'}
             </h1>
-            <p className="text-sayu-text-secondary">
+            <p className="text-gray-300">
               {language === 'ko' 
                 ? 'SAYU와 함께 당신만의 예술 취향을 발견하세요' 
                 : 'Discover your unique artistic preferences with SAYU'}
@@ -193,11 +195,11 @@ function RegisterContent() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
             onSubmit={handleSubmit}
-            className="space-y-6"
+            className="space-y-4"
           >
             {/* Name Field */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-sayu-text-secondary mb-2">
+              <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">
                 {language === 'ko' ? '이름' : 'Name'}
               </label>
               <div className="relative group">
@@ -206,8 +208,8 @@ function RegisterContent() {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-3 pl-12 bg-white border-2 border-sayu-warm-gray/30 rounded-xl focus:border-sayu-mocha focus:outline-none focus:ring-4 focus:ring-sayu-mocha/10 transition-all duration-300 hover:border-sayu-warm-gray/50"
-                  placeholder={language === 'ko' ? '홍길동' : 'John Doe'}
+                  className="w-full px-4 py-2 pl-12 bg-gray-800 text-white border border-gray-600 rounded-lg focus:border-sayu-mocha focus:outline-none focus:ring-2 focus:ring-sayu-mocha/10 transition-all duration-300 hover:border-gray-500 placeholder-gray-500"
+                  placeholder={language === 'ko' ? '레오나르도 다빈치' : 'Leonardo da Vinci'}
                   required
                   autoComplete="name"
                 />
@@ -217,7 +219,7 @@ function RegisterContent() {
 
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-sayu-text-secondary mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
                 {language === 'ko' ? '이메일' : 'Email'}
               </label>
               <div className="relative group">
@@ -226,7 +228,7 @@ function RegisterContent() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 pl-12 bg-white border-2 border-sayu-warm-gray/30 rounded-xl focus:border-sayu-mocha focus:outline-none focus:ring-4 focus:ring-sayu-mocha/10 transition-all duration-300 hover:border-sayu-warm-gray/50"
+                  className="w-full px-4 py-2 pl-12 bg-gray-800 text-white border border-gray-600 rounded-lg focus:border-sayu-mocha focus:outline-none focus:ring-2 focus:ring-sayu-mocha/10 transition-all duration-300 hover:border-gray-500 placeholder-gray-500"
                   placeholder={language === 'ko' ? 'your@email.com' : 'your@email.com'}
                   required
                   autoComplete="email"
@@ -237,7 +239,7 @@ function RegisterContent() {
 
             {/* Password Field */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-sayu-text-secondary mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
                 {language === 'ko' ? '비밀번호' : 'Password'}
               </label>
               <div className="relative group">
@@ -246,7 +248,7 @@ function RegisterContent() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 pl-12 pr-12 bg-white border-2 border-sayu-warm-gray/30 rounded-xl focus:border-sayu-mocha focus:outline-none focus:ring-4 focus:ring-sayu-mocha/10 transition-all duration-300 hover:border-sayu-warm-gray/50"
+                  className="w-full px-4 py-2 pl-12 pr-12 bg-gray-800 text-white border border-gray-600 rounded-lg focus:border-sayu-mocha focus:outline-none focus:ring-2 focus:ring-sayu-mocha/10 transition-all duration-300 hover:border-gray-500 placeholder-gray-500"
                   placeholder="••••••••"
                   required
                   autoComplete="new-password"
@@ -282,7 +284,7 @@ function RegisterContent() {
                       />
                     ))}
                   </div>
-                  <p className="text-xs text-sayu-text-muted">
+                  <p className="text-xs text-gray-400">
                     {language === 'ko' 
                       ? passwordStrength <= 2 ? '약함' : passwordStrength <= 3 ? '보통' : '강함'
                       : passwordStrength <= 2 ? 'Weak' : passwordStrength <= 3 ? 'Medium' : 'Strong'}
@@ -293,7 +295,7 @@ function RegisterContent() {
 
             {/* Confirm Password Field */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-sayu-text-secondary mb-2">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-1">
                 {language === 'ko' ? '비밀번호 확인' : 'Confirm Password'}
               </label>
               <div className="relative group">
@@ -302,9 +304,9 @@ function RegisterContent() {
                   type={showConfirmPassword ? 'text' : 'password'}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={`w-full px-4 py-3 pl-12 pr-12 bg-white border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 hover:border-sayu-warm-gray/50 ${
+                  className={`w-full px-4 py-2 pl-12 pr-12 bg-gray-800 text-white border rounded-lg focus:outline-none focus:ring-2 transition-all duration-300 hover:border-gray-500 placeholder-gray-500 ${
                     confirmPassword && (passwordsMatch ? 'border-green-400 focus:border-green-500 focus:ring-green-500/10' : 'border-red-400 focus:border-red-500 focus:ring-red-500/10')
-                    || 'border-sayu-warm-gray/30 focus:border-sayu-mocha focus:ring-sayu-mocha/10'
+                    || 'border-gray-600 focus:border-sayu-mocha focus:ring-sayu-mocha/10'
                   }`}
                   placeholder="••••••••"
                   required
@@ -343,18 +345,18 @@ function RegisterContent() {
                 id="terms"
                 checked={agreedToTerms}
                 onChange={(e) => setAgreedToTerms(e.target.checked)}
-                className="w-5 h-5 text-sayu-mocha border-sayu-warm-gray rounded focus:ring-sayu-mocha mt-0.5"
+                className="w-5 h-5 text-purple-500 bg-gray-800 border-gray-600 rounded focus:ring-purple-500 mt-0.5"
               />
-              <label htmlFor="terms" className="text-sm text-sayu-text-secondary">
+              <label htmlFor="terms" className="text-sm text-white">
                 {language === 'ko' 
                   ? <>
-                      <Link href="/terms" className="text-sayu-mocha hover:text-sayu-mocha/80">이용약관</Link>과{' '}
-                      <Link href="/privacy" className="text-sayu-mocha hover:text-sayu-mocha/80">개인정보 처리방침</Link>에 동의합니다
+                      <Link href="/terms" className="text-white hover:text-white/80 underline">이용약관</Link>과{' '}
+                      <Link href="/privacy" className="text-white hover:text-white/80 underline">개인정보 처리방침</Link>에 동의합니다
                     </>
                   : <>
                       I agree to the{' '}
-                      <Link href="/terms" className="text-sayu-mocha hover:text-sayu-mocha/80">Terms of Service</Link> and{' '}
-                      <Link href="/privacy" className="text-sayu-mocha hover:text-sayu-mocha/80">Privacy Policy</Link>
+                      <Link href="/terms" className="text-white hover:text-white/80 underline">Terms of Service</Link> and{' '}
+                      <Link href="/privacy" className="text-white hover:text-white/80 underline">Privacy Policy</Link>
                     </>
                 }
               </label>
@@ -367,8 +369,7 @@ function RegisterContent() {
             >
               <ModernButton
                 type="submit"
-                size="lg"
-                className="w-full bg-gradient-to-r from-sayu-blush to-sayu-lavender hover:from-sayu-blush/90 hover:to-sayu-lavender/90 shadow-lg hover:shadow-xl"
+                className="w-full bg-white hover:bg-gray-100 text-gray-900 shadow-lg hover:shadow-xl"
                 loading={loading}
                 iconLeft={!loading && <UserPlus className="w-5 h-5" />}
                 disabled={!agreedToTerms}
@@ -381,10 +382,10 @@ function RegisterContent() {
           {/* Divider */}
           <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-sayu-warm-gray/30"></div>
+              <div className="w-full border-t border-gray-700"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-sayu-bg-primary text-sayu-text-muted">
+              <span className="px-4 bg-gray-900 dark:bg-gray-950 text-gray-300">
                 {language === 'ko' ? '또는' : 'Or continue with'}
               </span>
             </div>
@@ -397,10 +398,10 @@ function RegisterContent() {
             transition={{ delay: 0.3 }}
             className="space-y-3"
           >
-            <SocialLoginButton provider="google" />
-            <SocialLoginButton provider="apple" />
             <SocialLoginButton provider="instagram" />
+            <SocialLoginButton provider="google" />
             <SocialLoginButton provider="kakao" />
+            <SocialLoginButton provider="discord" />
           </motion.div>
 
           {/* Sign In Link */}
@@ -422,34 +423,60 @@ function RegisterContent() {
       </div>
 
       {/* Right Panel - Visual */}
-      <div className="hidden lg:flex flex-1 relative overflow-hidden bg-gradient-to-br from-sayu-powder-blue via-sayu-lavender to-sayu-blush">
+      <div className="hidden lg:flex flex-1 relative overflow-hidden">
+        {/* Background Image with Overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ 
+            backgroundImage: 'url("/images/backgrounds/baroque-gallery-ornate-arches-historical.jpg")',
+          }}
+        >
+          {/* No overlay - full opacity background */}
+        </div>
         {/* Animated Background Pattern */}
         <div className="absolute inset-0">
           {/* Gradient Orbs */}
           <motion.div
-            className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-gradient-to-br from-sayu-sage/40 to-transparent blur-3xl"
+            className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-gradient-to-br from-sayu-blush/40 to-transparent blur-3xl"
             animate={{
-              x: [0, -100, 0],
-              y: [0, 50, 0],
-              scale: [1, 1.3, 1],
+              x: [0, 100, 0],
+              y: [0, -50, 0],
+              scale: [1, 1.2, 1],
             }}
             transition={{
-              duration: 18,
+              duration: 15,
               repeat: Infinity,
               ease: "easeInOut",
             }}
           />
           <motion.div
-            className="absolute bottom-1/3 left-1/4 w-80 h-80 rounded-full bg-gradient-to-br from-sayu-lavender/40 to-transparent blur-3xl"
+            className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-gradient-to-br from-sayu-powder-blue/40 to-transparent blur-3xl"
             animate={{
-              x: [0, 80, 0],
-              y: [0, -60, 0],
-              scale: [1, 1.2, 1],
+              x: [0, -80, 0],
+              y: [0, 60, 0],
+              scale: [1, 1.3, 1],
             }}
             transition={{
-              duration: 22,
+              duration: 20,
               repeat: Infinity,
               ease: "easeInOut",
+            }}
+          />
+          
+          {/* Pattern Overlay */}
+          <motion.div
+            className="absolute inset-0 opacity-10"
+            animate={{
+              backgroundPosition: ['0% 0%', '100% 100%'],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              repeatType: 'reverse',
+            }}
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236F4E37' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              backgroundSize: '60px 60px',
             }}
           />
         </div>
@@ -461,60 +488,80 @@ function RegisterContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="sayu-display text-5xl font-bold text-sayu-charcoal mb-6">
+            <h2 className="sayu-display text-5xl font-bold text-white mb-6 drop-shadow-lg">
               {language === 'ko' 
-                ? '당신만의\n예술 성격을 찾아서' 
-                : 'Find Your\nArtistic Personality'}
+                ? '예술로 만나는\n나의 진짜 모습' 
+                : 'Discover Your\nTrue Artistic Self'}
             </h2>
-            <p className="text-xl text-sayu-charcoal/70 max-w-md mx-auto mb-12">
+            <p className="text-xl text-white/90 max-w-md mx-auto mb-12 whitespace-pre-line drop-shadow-md">
               {language === 'ko'
-                ? '간단한 퀴즈를 통해 16가지 예술 성격 중 당신만의 유형을 발견하세요.'
-                : 'Discover your unique type among 16 art personalities through a simple quiz.'}
+                ? 'SAYU와 함께 당신만의 예술 취향을\n발견하고, 마음에 드는 작품들을 만나보세요.'
+                : 'Explore your unique art preferences and discover masterpieces that resonate with your soul.'}
             </p>
 
-            {/* Personality Types Preview */}
+            {/* Feature List */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
-              className="grid grid-cols-4 gap-4 max-w-md mx-auto"
+              className="space-y-4 text-left max-w-sm mx-auto"
             >
               {[
-                { emoji: '🦁', color: 'from-orange-400 to-red-400' },
-                { emoji: '🦋', color: 'from-purple-400 to-pink-400' },
-                { emoji: '🐺', color: 'from-gray-400 to-blue-400' },
-                { emoji: '🦅', color: 'from-yellow-400 to-orange-400' },
-                { emoji: '🐧', color: 'from-blue-400 to-cyan-400' },
-                { emoji: '🦊', color: 'from-red-400 to-orange-400' },
-                { emoji: '🐨', color: 'from-gray-400 to-green-400' },
-                { emoji: '🦉', color: 'from-purple-400 to-indigo-400' },
-              ].map((type, index) => (
+                { icon: '🎨', text: language === 'ko' ? 'AI 기반 개인 맞춤 추천' : 'AI-powered personalization' },
+                { icon: '🎭', text: language === 'ko' ? '16가지 예술 성격 유형' : '16 art personality types' },
+                { icon: '🖼️', text: language === 'ko' ? '세계적인 미술관 컬렉션' : 'World-class museum collections' },
+                { icon: '👥', text: language === 'ko' ? '예술 애호가 커뮤니티' : 'Art enthusiast community' }
+              ].map((feature, index) => (
                 <motion.div
-                  key={type.emoji}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.6 + index * 0.05, type: "spring" }}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${type.color} flex items-center justify-center shadow-lg cursor-pointer`}
+                  key={feature.text}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 + index * 0.1 }}
+                  className="group flex items-center gap-3 bg-white/20 backdrop-blur-md rounded-xl px-5 py-4 border border-white/30 hover:bg-white/30 hover:border-white/40 transition-all cursor-pointer"
+                  whileHover={{ x: 10 }}
                 >
-                  <span className="text-3xl">{type.emoji}</span>
+                  <motion.span 
+                    className="text-2xl"
+                    whileHover={{ scale: 1.2, rotate: 10 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
+                    {feature.icon}
+                  </motion.span>
+                  <span className="text-sayu-charcoal font-medium group-hover:text-sayu-charcoal/90">{feature.text}</span>
                 </motion.div>
               ))}
             </motion.div>
-
-            {/* Call to Action */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1 }}
-              className="mt-12 inline-flex items-center gap-2 px-6 py-3 bg-white/30 backdrop-blur-md rounded-full border border-white/40"
-            >
-              <Sparkles className="w-5 h-5 text-sayu-charcoal" />
-              <span className="text-sayu-charcoal font-medium">
-                {language === 'ko' ? '가입 후 바로 시작하세요!' : 'Start right after signing up!'}
-              </span>
-            </motion.div>
           </motion.div>
+        </div>
+
+        {/* Floating Art Frames */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[
+            { size: 'w-32 h-40', top: '10%', left: '15%', delay: 0, duration: 25 },
+            { size: 'w-24 h-32', top: '60%', left: '70%', delay: 2, duration: 30 },
+            { size: 'w-28 h-36', top: '35%', left: '80%', delay: 4, duration: 28 },
+            { size: 'w-36 h-44', top: '70%', left: '20%', delay: 6, duration: 32 },
+          ].map((frame, i) => (
+            <motion.div
+              key={i}
+              className={`absolute ${frame.size} bg-white/10 backdrop-blur-md rounded-lg border border-white/20 shadow-2xl`}
+              style={{ top: frame.top, left: frame.left }}
+              initial={{ opacity: 0, rotate: -5 }}
+              animate={{
+                opacity: [0.3, 0.6, 0.3],
+                rotate: [-5, 5, -5],
+                y: [-20, 20, -20],
+              }}
+              transition={{
+                duration: frame.duration,
+                delay: frame.delay,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              <div className="absolute inset-2 bg-gradient-to-br from-white/20 to-transparent rounded" />
+            </motion.div>
+          ))}
         </div>
       </div>
     </div>

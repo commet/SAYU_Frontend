@@ -4,6 +4,7 @@
  */
 
 import { PERSONALITY_ARTIST_MATCHING_2025 } from '@/data/personality-artwork-matching-2025';
+import { getSREFCuratedArtworks } from '@/data/sref-curated-artworks';
 import artworksData from '@/public/data/artworks.json';
 
 interface ArtworkRecommendation {
@@ -94,6 +95,28 @@ export function getPersonalizedRecommendations(
   
   // APT 타입을 SAYU 타입으로 변환
   const sayuType = APT_TO_SAYU_MAPPING[userType] || 'SREF';
+  
+  // SREF 유형인 경우 실제 큐레이션된 데이터 사용
+  if (sayuType === 'SREF') {
+    const srefArtworks = getSREFCuratedArtworks();
+    return srefArtworks.map(artwork => ({
+      id: artwork.id,
+      title: artwork.title,
+      artist: artwork.artist,
+      year: artwork.year,
+      imageUrl: artwork.imageUrl,
+      cloudinaryUrl: artwork.imageUrl,
+      museum: artwork.museum,
+      medium: artwork.medium,
+      department: artwork.medium,
+      description: artwork.description,
+      matchPercent: artwork.matchPercent,
+      curatorNote: artwork.personalityResonance,
+      category: artwork.tags,
+      isPublicDomain: artwork.isPublicDomain
+    }));
+  }
+  
   const matching = PERSONALITY_ARTIST_MATCHING_2025[sayuType];
   
   if (!matching) {
@@ -101,70 +124,181 @@ export function getPersonalizedRecommendations(
     return getRandomRecommendations(category);
   }
   
-  // 1. Primary Artist 작품들
-  const primaryWorks = findArtworksByArtist(matching.primary.name, 4);
+  // 1. Primary Artist 작품들 (key artwork + alternatives)
+  // Key artwork first
+  recommendations.push({
+    id: `primary-key`,
+    title: matching.primary.keyArtwork.title,
+    artist: matching.primary.name,
+    year: matching.primary.keyArtwork.year || matching.primary.period,
+    imageUrl: `https://picsum.photos/800/600?random=primary-key`,
+    cloudinaryUrl: `https://picsum.photos/800/600?random=primary-key`,
+    museum: 'SAYU Curated Collection',
+    medium: 'Oil on canvas',
+    department: matching.primary.style,
+    description: matching.primary.keyArtwork.description,
+    matchPercent: 98,
+    curatorNote: matching.primary.keyArtwork.personalityResonance,
+    category: [category],
+    isPublicDomain: true
+  });
+  
+  // Alternative works
+  matching.primary.alternativeWorks.forEach((altWork, index) => {
+    recommendations.push({
+      id: `primary-alt-${index}`,
+      title: altWork.title,
+      artist: matching.primary.name,
+      year: altWork.year || matching.primary.period,
+      imageUrl: `https://picsum.photos/800/600?random=primary-alt-${index}`,
+      cloudinaryUrl: `https://picsum.photos/800/600?random=primary-alt-${index}`,
+      museum: 'SAYU Curated Collection',
+      medium: 'Oil on canvas',
+      department: matching.primary.style,
+      description: altWork.description,
+      matchPercent: 94 - (index * 2),
+      curatorNote: altWork.personalityResonance,
+      category: [category],
+      isPublicDomain: true
+    });
+  });
+  
+  // Additional primary works from actual collection
+  const primaryWorks = findArtworksByArtist(matching.primary.name, 3);
   primaryWorks.forEach((artwork, index) => {
     recommendations.push({
-      id: `primary-${index}`,
-      title: artwork.title || matching.primary.keyArtwork.title,
+      id: `primary-real-${index}`,
+      title: artwork.title || `${matching.primary.name} Collection ${index + 1}`,
       artist: artwork.artist || matching.primary.name,
       year: artwork.date || matching.primary.period,
-      imageUrl: artwork.cloudinaryUrl || artwork.primaryImage || '',
+      imageUrl: artwork.cloudinaryUrl || artwork.primaryImage || `https://picsum.photos/800/600?random=primary-real-${index}`,
       cloudinaryUrl: artwork.cloudinaryUrl,
       museum: artwork.department || 'SAYU Curated',
-      medium: artwork.medium,
-      department: artwork.classification,
-      description: index === 0 ? matching.primary.keyArtwork.description : artwork.description,
-      matchPercent: 95 - (index * 2),
-      curatorNote: index === 0 
-        ? matching.primary.keyArtwork.personalityResonance
-        : matching.primary.personalityAlignment,
+      medium: artwork.medium || 'Oil on canvas',
+      department: artwork.classification || matching.primary.style,
+      description: artwork.description || 'A masterpiece that exemplifies the artist\'s unique style and vision.',
+      matchPercent: 90 - (index * 2),
+      curatorNote: matching.primary.personalityAlignment,
       category: [category],
       isPublicDomain: artwork.isPublicDomain
     });
   });
   
   // 2. Secondary Artist 작품들
-  const secondaryWorks = findArtworksByArtist(matching.secondary.name, 3);
+  // Key artwork
+  recommendations.push({
+    id: `secondary-key`,
+    title: matching.secondary.keyArtwork.title,
+    artist: matching.secondary.name,
+    year: matching.secondary.keyArtwork.year || matching.secondary.period,
+    imageUrl: `https://picsum.photos/800/600?random=secondary-key`,
+    cloudinaryUrl: `https://picsum.photos/800/600?random=secondary-key`,
+    museum: 'SAYU Curated Collection',
+    medium: 'Oil on canvas',
+    department: matching.secondary.style,
+    description: matching.secondary.keyArtwork.description,
+    matchPercent: 92,
+    curatorNote: matching.secondary.keyArtwork.personalityResonance,
+    category: [category],
+    isPublicDomain: true
+  });
+  
+  // Alternative works
+  matching.secondary.alternativeWorks.forEach((altWork, index) => {
+    recommendations.push({
+      id: `secondary-alt-${index}`,
+      title: altWork.title,
+      artist: matching.secondary.name,
+      year: altWork.year || matching.secondary.period,
+      imageUrl: `https://picsum.photos/800/600?random=secondary-alt-${index}`,
+      cloudinaryUrl: `https://picsum.photos/800/600?random=secondary-alt-${index}`,
+      museum: 'SAYU Curated Collection',
+      medium: 'Oil on canvas',
+      department: matching.secondary.style,
+      description: altWork.description,
+      matchPercent: 88 - (index * 2),
+      curatorNote: altWork.personalityResonance,
+      category: [category],
+      isPublicDomain: true
+    });
+  });
+  
+  // Additional secondary works
+  const secondaryWorks = findArtworksByArtist(matching.secondary.name, 2);
   secondaryWorks.forEach((artwork, index) => {
     recommendations.push({
-      id: `secondary-${index}`,
-      title: artwork.title || matching.secondary.keyArtwork.title,
+      id: `secondary-real-${index}`,
+      title: artwork.title || `${matching.secondary.name} Collection ${index + 1}`,
       artist: artwork.artist || matching.secondary.name,
       year: artwork.date || matching.secondary.period,
-      imageUrl: artwork.cloudinaryUrl || artwork.primaryImage || '',
+      imageUrl: artwork.cloudinaryUrl || artwork.primaryImage || `https://picsum.photos/800/600?random=secondary-real-${index}`,
       cloudinaryUrl: artwork.cloudinaryUrl,
       museum: artwork.department || 'SAYU Curated',
-      medium: artwork.medium,
-      department: artwork.classification,
-      description: index === 0 ? matching.secondary.keyArtwork.description : artwork.description,
-      matchPercent: 88 - (index * 2),
-      curatorNote: index === 0
-        ? matching.secondary.keyArtwork.personalityResonance
-        : matching.secondary.personalityAlignment,
+      medium: artwork.medium || 'Oil on canvas',
+      department: artwork.classification || matching.secondary.style,
+      description: artwork.description || 'A remarkable work that showcases the artist\'s mastery and emotional depth.',
+      matchPercent: 84 - (index * 2),
+      curatorNote: matching.secondary.personalityAlignment,
       category: [category],
       isPublicDomain: artwork.isPublicDomain
     });
   });
   
   // 3. Tertiary Artist 작품들 (숨겨진 보석)
-  const tertiaryWorks = findArtworksByArtist(matching.tertiary.name, 3);
+  // Key artwork
+  recommendations.push({
+    id: `tertiary-key`,
+    title: matching.tertiary.keyArtwork.title,
+    artist: matching.tertiary.name,
+    year: matching.tertiary.keyArtwork.year || matching.tertiary.period,
+    imageUrl: `https://picsum.photos/800/600?random=tertiary-key`,
+    cloudinaryUrl: `https://picsum.photos/800/600?random=tertiary-key`,
+    museum: 'SAYU Hidden Gems',
+    medium: 'Mixed media',
+    department: matching.tertiary.style,
+    description: matching.tertiary.keyArtwork.description,
+    matchPercent: 86,
+    curatorNote: matching.tertiary.keyArtwork.personalityResonance,
+    category: [category],
+    isPublicDomain: true
+  });
+  
+  // Alternative works
+  matching.tertiary.alternativeWorks.forEach((altWork, index) => {
+    recommendations.push({
+      id: `tertiary-alt-${index}`,
+      title: altWork.title,
+      artist: matching.tertiary.name,
+      year: altWork.year || matching.tertiary.period,
+      imageUrl: `https://picsum.photos/800/600?random=tertiary-alt-${index}`,
+      cloudinaryUrl: `https://picsum.photos/800/600?random=tertiary-alt-${index}`,
+      museum: 'SAYU Hidden Gems',
+      medium: 'Mixed media',
+      department: matching.tertiary.style,
+      description: altWork.description,
+      matchPercent: 82 - (index * 2),
+      curatorNote: altWork.personalityResonance,
+      category: [category],
+      isPublicDomain: true
+    });
+  });
+  
+  // Additional tertiary works
+  const tertiaryWorks = findArtworksByArtist(matching.tertiary.name, 1);
   tertiaryWorks.forEach((artwork, index) => {
     recommendations.push({
-      id: `tertiary-${index}`,
-      title: artwork.title || matching.tertiary.keyArtwork.title,
+      id: `tertiary-real-${index}`,
+      title: artwork.title || `${matching.tertiary.name} Hidden Gem`,
       artist: artwork.artist || matching.tertiary.name,
       year: artwork.date || matching.tertiary.period,
-      imageUrl: artwork.cloudinaryUrl || artwork.primaryImage || '',
+      imageUrl: artwork.cloudinaryUrl || artwork.primaryImage || `https://picsum.photos/800/600?random=tertiary-real-${index}`,
       cloudinaryUrl: artwork.cloudinaryUrl,
       museum: artwork.department || 'SAYU Hidden Gem',
-      medium: artwork.medium,
-      department: artwork.classification,
-      description: index === 0 ? matching.tertiary.keyArtwork.description : artwork.description,
-      matchPercent: 82 - (index * 2),
-      curatorNote: index === 0
-        ? matching.tertiary.keyArtwork.personalityResonance
-        : matching.tertiary.personalityAlignment,
+      medium: artwork.medium || 'Mixed media',
+      department: artwork.classification || matching.tertiary.style,
+      description: artwork.description || 'A hidden treasure that reveals new layers of meaning with each viewing.',
+      matchPercent: 80,
+      curatorNote: matching.tertiary.personalityAlignment,
       category: [category],
       isPublicDomain: artwork.isPublicDomain
     });

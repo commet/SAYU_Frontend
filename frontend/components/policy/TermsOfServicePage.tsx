@@ -7,8 +7,8 @@ import { Footer } from '@/components/ui/Footer';
 
 const termsOfService = {
   version: "1.0",
-  lastUpdated: new Date('2024-01-01'),
-  effective: new Date('2024-01-01'),
+  lastUpdated: new Date('2025-08-31'),
+  effective: new Date('2025-08-31'),
   acceptance: {
     en: "By accessing and using SAYU, you accept and agree to be bound by the terms and provision of this agreement.",
     ko: "SAYU에 접근하고 이용함으로써 귀하는 이 약관의 조건과 규정에 동의하고 이를 준수할 것에 동의합니다."
@@ -84,10 +84,34 @@ const termsOfService = {
     ko: "당사는 이 약관 위반 시 단독 재량으로 귀하의 계정을 종료하거나 정지할 수 있습니다."
   },
   thirdPartyServices: {
-    en: "Our platform integrates with third-party services including OpenAI, Google AI, Replicate, Met Museum, Cleveland Museum, Rijksmuseum, and Cloudinary. Use of these services is subject to their respective terms and privacy policies.",
-    ko: "저희 플랫폼은 OpenAI, Google AI, Replicate, Met Museum, Cleveland Museum, Rijksmuseum, Cloudinary 등의 제3자 서비스와 통합됩니다. 이러한 서비스 사용은 각각의 이용약관 및 개인정보 처리방침의 적용을 받습니다."
+    en: "Our platform integrates with third-party services for enhanced functionality. Use of these services is subject to their respective terms.",
+    ko: "플랫폼 기능 향상을 위해 제3자 서비스와 통합됩니다. 이러한 서비스 사용은 각각의 이용약관의 적용을 받습니다."
   },
-  contact: "legal@sayu.app"
+  intellectualProperty: {
+    en: "All content on SAYU, including text, graphics, logos, and software, is our property or licensed to us. You grant us a license to use content you upload for service operation.",
+    ko: "텍스트, 그래픽, 로고, 소프트웨어를 포함한 SAYU의 모든 콘텐츠는 당사 소유이거나 라이선스를 받았습니다. 귀하가 업로드한 콘텐츠에 대해 서비스 운영을 위한 라이선스를 부여합니다."
+  },
+  disclaimers: {
+    en: "SAYU provides entertainment and educational content only. We are not responsible for decisions made based on our recommendations. AI-generated content may contain errors.",
+    ko: "SAYU는 오락 및 교육 목적의 콘텐츠만 제공합니다. 추천에 기반한 결정에 대해 책임지지 않습니다. AI 생성 콘텐츠는 오류를 포함할 수 있습니다."
+  },
+  indemnification: {
+    en: "You agree to defend and hold SAYU harmless from any claims arising from your use of the service or violation of these terms.",
+    ko: "서비스 사용 또는 약관 위반으로 인한 모든 청구로부터 SAYU를 방어하고 면책하는 데 동의합니다."
+  },
+  governingLaw: {
+    en: "These terms are governed by the laws of the Republic of Korea. Any disputes shall be resolved in the courts of Seoul, Korea.",
+    ko: "이 약관은 대한민국 법률의 적용을 받습니다. 모든 분쟁은 서울 법원에서 해결됩니다."
+  },
+  modifications: {
+    en: "We may update these terms at any time. Continued use after changes constitutes acceptance of the new terms.",
+    ko: "약관은 언제든지 업데이트될 수 있습니다. 변경 후 계속 사용하면 새 약관에 동의하는 것으로 간주됩니다."
+  },
+  severability: {
+    en: "If any provision of these terms is found invalid, the remaining provisions will continue in full force.",
+    ko: "약관의 일부 조항이 무효인 경우에도 나머지 조항은 완전한 효력을 유지합니다."
+  },
+  contact: "sayucurator@gmail.com"
 };
 
 export default function TermsOfServicePage() {
@@ -101,234 +125,105 @@ export default function TermsOfServicePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto"
+          className="max-w-3xl mx-auto"
         >
-          {/* Header */}
-          <div className="text-center mb-12">
-            <motion.div
-              {...fadeInUp}
-              className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-6"
-            >
-              <FileText className="w-8 h-8" />
-            </motion.div>
+          {/* Compact Header */}
+          <div className="text-center mb-8">
             <motion.h1
               {...fadeInUp}
-              transition={{ delay: 0.1 }}
-              className="text-4xl font-bold mb-4"
+              className="text-3xl font-bold mb-2"
             >
               {language === 'ko' ? '이용약관' : 'Terms of Service'}
             </motion.h1>
             <motion.p
               {...fadeInUp}
-              transition={{ delay: 0.2 }}
-              className="text-xl text-gray-300"
+              transition={{ delay: 0.1 }}
+              className="text-sm text-gray-400"
             >
               {language === 'ko' 
-                ? 'SAYU 서비스 이용을 위한 약관과 조건'
-                : 'Terms and conditions for using SAYU services'
-              }
-            </motion.p>
-            <motion.p
-              {...fadeInUp}
-              transition={{ delay: 0.3 }}
-              className="text-sm text-gray-400 mt-2 flex items-center justify-center gap-2"
-            >
-              <Clock className="w-4 h-4" />
-              {language === 'ko' 
-                ? `버전 ${termsOfService.version} • 최종 업데이트: ${termsOfService.lastUpdated.toLocaleDateString('ko-KR')}`
-                : `Version ${termsOfService.version} • Last updated: ${termsOfService.lastUpdated.toLocaleDateString('en-US')}`
+                ? `최종 업데이트: ${termsOfService.lastUpdated.toLocaleDateString('ko-KR')}`
+                : `Last updated: ${termsOfService.lastUpdated.toLocaleDateString('en-US')}`
               }
             </motion.p>
           </div>
 
-          {/* Acceptance */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 0.4 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6 flex items-center">
-              <Shield className="w-6 h-6 mr-3 text-blue-400" />
-              {language === 'ko' ? '약관 동의' : 'Acceptance of Terms'}
-            </h2>
-            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-              <p className="text-gray-200 leading-relaxed">
-                {termsOfService.acceptance[language]}
-              </p>
-            </div>
-          </motion.section>
-
-          {/* Services */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 0.5 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6">
-              {language === 'ko' ? '제공 서비스' : 'Our Services'}
-            </h2>
-            <div className="grid gap-4">
-              {termsOfService.services[language].map((service, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6 + index * 0.1 }}
-                  className="bg-gray-800/50 p-4 rounded-lg border border-gray-700 flex items-start"
-                >
-                  <span className="text-blue-400 mr-3 mt-1">•</span>
-                  <p className="text-gray-200">{service}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-
-          {/* User Responsibilities */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 0.7 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6 flex items-center">
-              <Users className="w-6 h-6 mr-3 text-green-400" />
-              {language === 'ko' ? '사용자 책임' : 'User Responsibilities'}
-            </h2>
-            <div className="grid gap-4">
-              {termsOfService.userResponsibilities[language].map((responsibility, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.8 + index * 0.1 }}
-                  className="bg-green-900/20 p-4 rounded-lg border border-green-700 flex items-start"
-                >
-                  <span className="text-green-400 mr-3 mt-1">✓</span>
-                  <p className="text-gray-200">{responsibility}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-
-          {/* Prohibited Activities */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 0.9 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6 flex items-center">
-              <AlertTriangle className="w-6 h-6 mr-3 text-red-400" />
-              {language === 'ko' ? '금지 활동' : 'Prohibited Activities'}
-            </h2>
-            <div className="grid gap-4">
-              {termsOfService.prohibitedActivities[language].map((activity, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.0 + index * 0.1 }}
-                  className="bg-red-900/20 p-4 rounded-lg border border-red-700 flex items-start"
-                >
-                  <span className="text-red-400 mr-3 mt-1">✕</span>
-                  <p className="text-gray-200">{activity}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-
-          {/* Limitation of Liability */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 1.1 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6">
-              {language === 'ko' ? '책임의 제한' : 'Limitation of Liability'}
-            </h2>
-            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-              <p className="text-gray-200 leading-relaxed">
-                {termsOfService.limitation[language]}
-              </p>
-            </div>
-          </motion.section>
-
-          {/* Termination */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 1.2 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6">
-              {language === 'ko' ? '서비스 종료' : 'Termination'}
-            </h2>
-            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-              <p className="text-gray-200 leading-relaxed">
-                {termsOfService.termination[language]}
-              </p>
-            </div>
-          </motion.section>
-
-          {/* Third Party Services */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 1.2 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6">
-              {language === 'ko' ? '제3자 서비스' : 'Third-Party Services'}
-            </h2>
-            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-              <p className="text-gray-200 leading-relaxed">
-                {termsOfService.thirdPartyServices[language]}
-              </p>
-            </div>
-          </motion.section>
-
-          {/* Contact */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 1.3 }}
-            className="mb-12"
-          >
-            <h2 className="text-2xl font-bold mb-6 flex items-center">
-              <Mail className="w-6 h-6 mr-3 text-purple-400" />
-              {language === 'ko' ? '문의' : 'Contact'}
-            </h2>
-            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-              <p className="text-gray-200 mb-4">
-                {language === 'ko' 
-                  ? '이용약관에 관한 문의사항이 있으시면 아래 이메일로 연락해 주세요:'
-                  : 'For questions about these terms, please contact us at:'
-                }
-              </p>
-              <div className="flex items-center text-purple-400">
-                <Mail className="w-5 h-5 mr-2" />
-                <a 
-                  href={`mailto:${termsOfService.contact}`}
-                  className="hover:text-purple-300 transition-colors"
-                >
-                  {termsOfService.contact}
-                </a>
-              </div>
-            </div>
-          </motion.section>
-
-          {/* Footer */}
+          {/* Main Content - Flowing Text */}
           <motion.div
             {...fadeInUp}
-            transition={{ delay: 1.4 }}
-            className="text-center text-gray-400 text-sm"
+            transition={{ delay: 0.2 }}
+            className="space-y-6 text-gray-200 leading-relaxed"
           >
+            {/* Quick Summary Box */}
+            <div className="bg-blue-900/20 border border-blue-700/50 rounded-lg p-4 mb-6">
+              <p className="text-sm">
+                <span className="font-semibold text-blue-400">📋 {language === 'ko' ? '간단 요약' : 'Quick Summary'}:</span> {language === 'ko' ? 'SAYU는 AI 기반 예술 추천 서비스입니다. 13세 이상 이용 가능하며, 개인정보는 안전하게 보호됩니다. 부적절한 행위는 계정 정지 사유가 됩니다.' : 'SAYU is an AI-powered art recommendation service. Must be 13+ to use. Your data is protected. Inappropriate behavior may result in account suspension.'}
+              </p>
+            </div>
+
             <p>
-              {language === 'ko' 
-                ? '이 약관은 예고 없이 변경될 수 있습니다. 최신 버전을 확인해 주세요.'
-                : 'These terms may be updated without notice. Please check for the latest version.'
-              }
+              <span className="font-semibold text-white">{language === 'ko' ? '1. 서비스 이용' : '1. Using Our Service'}:</span> {termsOfService.acceptance[language]} {language === 'ko' ? 'SAYU는 예술 성격 평가, 전시회 발견, 작품 추천, 커뮤니티 기능을 제공합니다.' : 'SAYU provides art personality assessments, exhibition discovery, artwork recommendations, and community features.'}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '2. 사용자 책임' : '2. Your Responsibilities'}:</span> {language === 'ko' ? '정확한 정보 제공, 타인의 권리 존중, 계정 보안 유지가 필요합니다. AI 추천은 참고용이며 완벽하지 않을 수 있습니다.' : 'Provide accurate info, respect others\' rights, keep your account secure. AI recommendations are for reference and may not be perfect.'}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '3. 금지사항' : '3. Don\'t Do This'}:</span> {language === 'ko' ? '저작권 침해, 괴롭힘, 스팸, 해킹, 가짜 계정 생성, 무단 상업적 이용은 금지됩니다.' : 'No copyright infringement, harassment, spam, hacking, fake accounts, or unauthorized commercial use.'}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '4. 책임 제한' : '4. Limitations'}:</span> {termsOfService.limitation[language]}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '5. 계정 정지' : '5. Account Termination'}:</span> {termsOfService.termination[language]}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '6. 외부 서비스' : '6. Third-Party Services'}:</span> {termsOfService.thirdPartyServices[language]}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '7. 지적재산권' : '7. Intellectual Property'}:</span> {termsOfService.intellectualProperty[language]}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '8. 면책조항' : '8. Disclaimers'}:</span> {termsOfService.disclaimers[language]}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '9. 배상' : '9. Indemnification'}:</span> {termsOfService.indemnification[language]}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '10. 준거법' : '10. Governing Law'}:</span> {termsOfService.governingLaw[language]}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '11. 약관 변경' : '11. Changes to Terms'}:</span> {termsOfService.modifications[language]}
+            </p>
+
+            <p>
+              <span className="font-semibold text-white">{language === 'ko' ? '12. 가분성' : '12. Severability'}:</span> {termsOfService.severability[language]}
             </p>
           </motion.div>
+
+          {/* Contact Box */}
+          <motion.div
+            {...fadeInUp}
+            transition={{ delay: 0.3 }}
+            className="mt-8 bg-gray-800/30 rounded-lg p-4 border border-gray-700"
+          >
+            <p className="text-sm text-gray-300">
+              <span className="font-semibold text-purple-400">✉️ {language === 'ko' ? '문의' : 'Contact'}:</span> {language === 'ko' ? '질문이 있으시면' : 'Questions?'} <a href={`mailto:${termsOfService.contact}`} className="text-purple-400 hover:text-purple-300 underline">{termsOfService.contact}</a>
+            </p>
+          </motion.div>
+
         </motion.div>
       </div>
       <Footer />

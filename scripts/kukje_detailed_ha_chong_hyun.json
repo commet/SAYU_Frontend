@@ -1,0 +1,116 @@
+{
+  "exhibition": {
+    "id": "kukje-ha-chong-hyun-2025",
+    "seq": 277,
+    "title_en": "Ha Chong-Hyun",
+    "title_ko": "하종현",
+    "subtitle": null,
+    "description": "Ha Chong-Hyun 개인전은 작가의 50년 예술 여정을 조망하는 전시로, 약 30점의 작품을 통해 '회화란 무엇인가?'라는 근본적 질문을 탐구합니다. 작가의 독창적인 '배압법(bae-ap-bub)' 기법으로 제작된 Conjunction 및 Post-Conjunction 시리즈를 중심으로, 물감의 물질적 속성과 색채의 점진적 변화를 실험한 작품들을 선보입니다.",
+    "description_en": "This solo exhibition examines Ha Chong-Hyun's 50-year artistic journey through approximately 30 works, exploring the fundamental question 'What is painting?' The exhibition features works from the Conjunction and Post-Conjunction series, created using the artist's unique 'bae-ap-bub' (back pressure method) technique, demonstrating experimental approaches to paint's material properties and color gradation.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "서울",
+    "venue_country": "KR",
+    "gallery_location": "K1 and Hanok spaces",
+    
+    "start_date": "2025-03-20",
+    "end_date": "2025-05-11", 
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "painting",
+    "artworks_count": 30,
+    
+    "artists": [
+      {
+        "name": "Ha Chong-Hyun",
+        "name_ko": "하종현",
+        "role": "artist",
+        "birth_year": 1935,
+        "birth_place": "Ilsan, Korea",
+        "nationality": "Korean",
+        "education": "Hongik University (1959)",
+        "career_highlights": [
+          "Former Dean of Fine Arts at Hongik University",
+          "Former Director of Seoul Museum of Art"
+        ],
+        "artistic_technique": "bae-ap-bub (back pressure method) - pushing paint through canvas from behind",
+        "artistic_themes": ["material properties of paint", "experimental mark-making", "color gradation"]
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Explores 'What is painting?' through examination of paint's material properties and the artist's continuous experimentation with oil paint",
+    
+    "featured_series": [
+      "Conjunction series",
+      "Post-Conjunction series"
+    ],
+    
+    "techniques": [
+      {
+        "name": "bae-ap-bub",
+        "name_en": "back pressure method", 
+        "description": "Pushing paint through hemp cloth from behind to create unique textures and color effects"
+      }
+    ],
+    
+    "materials": ["oil paint", "hemp cloth", "wood strips"],
+    
+    "themes": ["materiality of painting", "experimental techniques", "color theory", "contemporary Korean art"],
+    "tags": ["contemporary art", "Korean art", "Dansaekhwa", "experimental painting", "monochrome"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=277",
+    
+    "press_coverage": [
+      {
+        "outlets": "Multiple Korean and international media",
+        "coverage_type": "extensive documentation"
+      }
+    ],
+    
+    "artist_collections": [
+      {
+        "institution": "MoMA",
+        "location": "New York",
+        "country": "US"
+      },
+      {
+        "institution": "Guggenheim Museum", 
+        "location": "New York",
+        "country": "US"
+      },
+      {
+        "institution": "Centre Pompidou",
+        "location": "Paris", 
+        "country": "FR"
+      },
+      {
+        "institution": "National Museum of Modern and Contemporary Art",
+        "location": "Korea",
+        "country": "KR"
+      }
+    ],
+    
+    "exhibition_highlights": {
+      "work_period": "2009-2024",
+      "artistic_evolution": "50-year journey",
+      "key_question": "What is painting?",
+      "technical_innovation": "bae-ap-bub technique"
+    },
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 95,
+    "collected_at": "2025-08-06T15:00:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=277",
+    
+    "personality_matches": ["LAEF", "LAEC", "LAMF", "LAMC", "LREF", "LREC"],
+    "recommendation_score": 95,
+    
+    "created_at": "2025-08-06T15:00:00.000Z",
+    "updated_at": "2025-08-06T15:00:00.000Z"
+  }
+}

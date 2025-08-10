@@ -1,0 +1,120 @@
+{
+  "exhibition": {
+    "id": "kukje-candida-hofer-renascence-2024",
+    "seq": 271,
+    "title_en": "RENASCENCE",
+    "title_ko": "르네상스",
+    "subtitle": null,
+    "description": "독일 사진작가 칸디다 회퍼의 개인전 '르네상스'는 팬데믹 기간 동안 리노베이션을 거친 역사적 건물들을 담은 14점의 신작 사진을 선보입니다. 회퍼는 미술관, 도서관, 오페라 하우스 같은 문화기관의 내부 공간에 집중하며, 정밀하고 중립적인 사진 스타일로 물리적이고 제도적인 '재생'의 교차 이슈를 탐구합니다.",
+    "description_en": "Candida Höfer's solo exhibition 'RENASCENCE' features 14 new photographic works documenting historic buildings that underwent renovations during the pandemic. Höfer focuses on interior spaces of cultural institutions like museums, libraries, and opera houses, capturing the intersecting issues of physical and institutional 'regeneration' through her signature precise, neutral photographic style.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "서울",
+    "venue_country": "KR",
+    "gallery_location": "K2",
+    
+    "start_date": "2024-05-23",
+    "end_date": "2024-07-28",
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "photography",
+    "artworks_count": 14,
+    
+    "artists": [
+      {
+        "name": "Candida Höfer",
+        "name_ko": "칸디다 회퍼",
+        "role": "artist",
+        "birth_year": 1944,
+        "birth_place": "Eberswalde, Germany",
+        "nationality": "German",
+        "education": "Düsseldorf Academy (1973-1982)",
+        "artistic_movement": "Becher School, First Generation",
+        "specialization": "Architectural interior photography",
+        "artistic_philosophy": "Show something that holds eternity",
+        "photographic_approach": "Precise, neutral documentation without human presence"
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Exploring the intersecting issues of physical and institutional 'regeneration' through documentation of pandemic-era architectural renovations",
+    
+    "featured_institutions": [
+      {
+        "name": "Carnavalet Museum",
+        "location": "Paris",
+        "type": "Museum"
+      },
+      {
+        "name": "Komische Oper",
+        "location": "Berlin", 
+        "type": "Opera House"
+      },
+      {
+        "name": "New National Gallery",
+        "location": "Berlin",
+        "type": "Museum"
+      },
+      {
+        "name": "St. Gall Abbey Library",
+        "location": "Switzerland",
+        "type": "Library"
+      }
+    ],
+    
+    "photographic_technique": {
+      "style": "Precise, neutral documentation",
+      "approach": "Minimal intervention",
+      "characteristic": "Absence of human presence",
+      "focus": "Interior spaces of cultural institutions",
+      "lighting": "Natural and architectural lighting",
+      "composition": "Symmetrical, balanced framing"
+    },
+    
+    "thematic_exploration": [
+      "Institutional regeneration",
+      "Physical architectural preservation",
+      "Temporal continuity and eternity",
+      "Public space transformation",
+      "Cultural heritage renovation",
+      "Pandemic-era changes",
+      "Historic building adaptation"
+    ],
+    
+    "artistic_significance": {
+      "movement": "Becher School tradition",
+      "international_recognition": "Works in major museum collections worldwide",
+      "documentation_approach": "Systematic recording of institutional spaces",
+      "historical_importance": "First generation of Düsseldorf School photographers"
+    },
+    
+    "exhibition_context": {
+      "pandemic_relevance": "Buildings renovated during COVID-19 period",
+      "regeneration_theme": "Both physical and institutional renewal",
+      "cultural_institutions": "Museums, libraries, opera houses as subjects",
+      "preservation_focus": "Historical continuity through architectural documentation"
+    },
+    
+    "themes": ["photography", "architecture", "cultural institutions", "preservation", "renovation", "documentary photography"],
+    "tags": ["photography", "German art", "architecture", "documentary", "cultural heritage", "institutional spaces"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=271",
+    
+    "artist_quote": "I want to show what is not just modern but to show something that holds eternity.",
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 95,
+    "collected_at": "2025-08-06T15:35:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=271",
+    
+    "personality_matches": ["LRMC", "LREC", "LAMC", "LAEC", "SRMC", "SREC"],
+    "recommendation_score": 90,
+    
+    "created_at": "2025-08-06T15:35:00.000Z",
+    "updated_at": "2025-08-06T15:35:00.000Z"
+  }
+}

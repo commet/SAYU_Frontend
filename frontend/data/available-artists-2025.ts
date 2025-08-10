@@ -202,27 +202,108 @@ export function getBestAvailableArtists(personalityType: string): AvailableArtis
 
 /**
  * Personality-specific art appreciation styles
+ * Updated with behavioral keywords from personality-descriptions.ts
  */
 export const PERSONALITY_ART_STYLES = {
   // L계열 (Lone)
-  LAEF: { focus: "감정적 추상", keywords: ["꿈", "환상", "신비", "직관"] },
-  LAEC: { focus: "정제된 미감", keywords: ["균형", "조화", "절제", "우아"] },
-  LAMF: { focus: "철학적 상징", keywords: ["의미", "진리", "영적", "초월"] },
-  LAMC: { focus: "학문적 완성", keywords: ["체계", "분석", "구조", "완벽"] },
+  LAEF: { 
+    focus: "감정적 추상", 
+    focusEn: "Emotional Abstraction",
+    keywords: ["내면 대화", "감정 몰입", "개인적 의미", "고독한 감상"],
+    keywordsEn: ["Inner Dialogue", "Emotional Immersion", "Personal Meaning", "Solitary Appreciation"]
+  },
+  LAEC: { 
+    focus: "정제된 미감", 
+    focusEn: "Refined Aesthetics",
+    keywords: ["감정 수집", "섬세한 분류", "개인 아카이브", "취향 정제"],
+    keywordsEn: ["Emotion Collection", "Delicate Classification", "Personal Archive", "Taste Refinement"]
+  },
+  LAMF: { 
+    focus: "철학적 상징", 
+    focusEn: "Philosophical Symbolism",
+    keywords: ["직관적 끌림", "추상 선호", "자유로운 해석", "내적 탐험"],
+    keywordsEn: ["Intuitive Attraction", "Abstract Preference", "Free Interpretation", "Inner Exploration"]
+  },
+  LAMC: { 
+    focus: "학문적 완성", 
+    focusEn: "Academic Perfection",
+    keywords: ["배경 탐구", "체계적 학습", "지식 축적", "깊이있는 분석"],
+    keywordsEn: ["Background Research", "Systematic Learning", "Knowledge Accumulation", "Deep Analysis"]
+  },
   
-  LREF: { focus: "자연 관찰", keywords: ["변화", "순간", "적응", "섬세"] },
-  LREC: { focus: "절제된 감성", keywords: ["보호", "신중", "깊이", "안정"] },
-  LRMF: { focus: "현실 탐구", keywords: ["진실", "분석", "독립", "탐험"] },
-  LRMC: { focus: "지식 구축", keywords: ["연구", "완성", "논리", "체계"] },
+  LREF: { 
+    focus: "자연 관찰", 
+    focusEn: "Nature Observation",
+    keywords: ["디테일 포착", "미묘한 감정", "조용한 관찰", "개인적 발견"],
+    keywordsEn: ["Detail Capture", "Subtle Emotions", "Quiet Observation", "Personal Discovery"]
+  },
+  LREC: { 
+    focus: "절제된 감성", 
+    focusEn: "Restrained Emotion",
+    keywords: ["심층 의미", "감정 깊이", "반복 감상", "성찰적 사고"],
+    keywordsEn: ["Deep Meaning", "Emotional Depth", "Repeated Viewing", "Reflective Thinking"]
+  },
+  LRMF: { 
+    focus: "현실 탐구", 
+    focusEn: "Reality Exploration",
+    keywords: ["의미 추리", "독립적 시각", "패턴 발견", "논리적 상상"],
+    keywordsEn: ["Meaning Deduction", "Independent Perspective", "Pattern Discovery", "Logical Imagination"]
+  },
+  LRMC: { 
+    focus: "지식 구축", 
+    focusEn: "Knowledge Building",
+    keywords: ["방법론적 접근", "비교 분석", "종합적 이해", "학술적 관심"],
+    keywordsEn: ["Methodological Approach", "Comparative Analysis", "Comprehensive Understanding", "Academic Interest"]
+  },
   
   // S계열 (Social) 
-  SAEF: { focus: "감정 나눔", keywords: ["전파", "교류", "변화", "영감"] },
-  SAEC: { focus: "조화 구성", keywords: ["조직", "협력", "체계", "창의"] },
-  SAMF: { focus: "메시지 전달", keywords: ["소통", "영향", "아이디어", "변화"] },
-  SAMC: { focus: "문화 기획", keywords: ["통합", "전통", "사회", "가치"] },
+  SAEF: { 
+    focus: "감정 나눔", 
+    focusEn: "Emotional Sharing",
+    keywords: ["즉각적 반응", "감정 전파", "활발한 표현", "공감의 기쁨"],
+    keywordsEn: ["Immediate Response", "Emotion Spreading", "Active Expression", "Joy of Empathy"]
+  },
+  SAEC: { 
+    focus: "조화 구성", 
+    focusEn: "Harmonious Composition",
+    keywords: ["감정 구조화", "공감 연결", "추상 해석", "집단 경험"],
+    keywordsEn: ["Emotion Structuring", "Empathy Connection", "Abstract Interpretation", "Collective Experience"]
+  },
+  SAMF: { 
+    focus: "메시지 전달", 
+    focusEn: "Message Delivery",
+    keywords: ["의미 연결", "통찰 순간", "패턴 직조", "공유된 이해"],
+    keywordsEn: ["Meaning Connection", "Insight Moments", "Pattern Weaving", "Shared Understanding"]
+  },
+  SAMC: { 
+    focus: "문화 기획", 
+    focusEn: "Cultural Planning",
+    keywords: ["지식 공유", "체계적 설명", "학습 촉진", "집단 지성"],
+    keywordsEn: ["Knowledge Sharing", "Systematic Explanation", "Learning Facilitation", "Collective Intelligence"]
+  },
   
-  SREF: { focus: "순수 공감", keywords: ["따뜻함", "자연", "연결", "기쁨"] },
-  SREC: { focus: "안정 제공", keywords: ["돌봄", "안전", "포용", "지원"] },
-  SRMF: { focus: "지혜 전수", keywords: ["경험", "이야기", "맥락", "역사"] },
-  SRMC: { focus: "교육 체계", keywords: ["학습", "전달", "구조", "완성"] }
+  SREF: { 
+    focus: "순수 공감", 
+    focusEn: "Pure Empathy",
+    keywords: ["감정 여행", "타인 공감", "정서적 연결", "따뜻한 시선"],
+    keywordsEn: ["Emotional Journey", "Others' Empathy", "Emotional Connection", "Warm Perspective"]
+  },
+  SREC: { 
+    focus: "안정 제공", 
+    focusEn: "Stability Providing",
+    keywords: ["감정 치유", "공간 분위기", "집단 정서", "영적 경험"],
+    keywordsEn: ["Emotional Healing", "Space Atmosphere", "Collective Emotion", "Spiritual Experience"]
+  },
+  SRMF: { 
+    focus: "지혜 전수", 
+    focusEn: "Wisdom Transmission",
+    keywords: ["시대 탐험", "문화 맥락", "역사적 상상", "보편적 의미"],
+    keywordsEn: ["Era Exploration", "Cultural Context", "Historical Imagination", "Universal Meaning"]
+  },
+  SRMC: { 
+    focus: "교육 체계", 
+    focusEn: "Educational System",
+    keywords: ["지식 전달", "교육적 관점", "체계적 안내", "학습 공동체"],
+    keywordsEn: ["Knowledge Transfer", "Educational Perspective", "Systematic Guidance", "Learning Community"]
+  }
 };

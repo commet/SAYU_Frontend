@@ -1,0 +1,5374 @@
+✅ Cloudinary 설정 완료
+🎨 수집된 작품 이미지 다운로드 및 업로드 시작
+
+📂 데이터 로드: C:\Users\SAMSUNG\documents\github\sayu\artvee-crawler\data\complete-artists-collection-2025-08-06T14-24-00.json
+📊 총 4593개 작품 처리 예정
+
+📈 이전 진행 상황 로드: 100개 완료
+
+
+📦 배치 1/92 처리 중 (50개 작품)
+============================================================
+
+📦 배치 2/92 처리 중 (50개 작품)
+============================================================
+
+📦 배치 3/92 처리 중 (50개 작품)
+============================================================
+
+[101/4593] (2.2%)
+📍 Cocorico magazine title illustration
+👤 Alphonse Mucha
+  ☁️ Cloudinary 업로드 완료
+
+[102/4593] (2.2%)
+📍 Dawn
+👤 Alphonse Mucha
+  ☁️ Cloudinary 업로드 완료
+
+[103/4593] (2.2%)
+📍 Deutsches Schauspiel-Haus Theater Program
+👤 Alphonse Mucha
+  ☁️ Cloudinary 업로드 완료
+
+[104/4593] (2.3%)
+📍 French Advertisement
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[105/4593] (2.3%)
+📍 Krajinská výstava v Ivancicích
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[106/4593] (2.3%)
+📍 La Dame aux Camelias (from Les Maîtres de l’Affiche)
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[107/4593] (2.3%)
+📍 Menu Card
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[108/4593] (2.4%)
+📍 Menu Card
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[109/4593] (2.4%)
+📍 Menu Card
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[110/4593] (2.4%)
+📍 Nectar
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (110/4593)
+
+[111/4593] (2.4%)
+📍 Repos de la nuit
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[112/4593] (2.4%)
+📍 Reverie du soir, from Times of Day
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[113/4593] (2.5%)
+📍 Seated Woman, plate no. 48 from Documents Décoratifs
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[114/4593] (2.5%)
+📍 The West End Review
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[115/4593] (2.5%)
+📍 Au Quartier Latin
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[116/4593] (2.5%)
+📍 Bisquit’s Brandy Lithographic Poster In Colours
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[117/4593] (2.5%)
+📍 Cocorico
+👤 Alphonse Mucha
+  ☁️ Cloudinary 업로드 완료
+
+[118/4593] (2.6%)
+📍 Dictionnaire des Arts Décoratifs
+👤 Alphonse Mucha
+  ☁️ Cloudinary 업로드 완료
+
+[119/4593] (2.6%)
+📍 Etoile Du Matin
+👤 Alphonse Mucha
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[120/4593] (2.6%)
+📍 Etoile Du Soir
+👤 Alphonse Mucha
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (120/4593)
+
+[121/4593] (2.6%)
+📍 Figaro
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[122/4593] (2.7%)
+📍 La Plume
+👤 Alphonse Mucha
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[123/4593] (2.7%)
+📍 Les Menus and Programmes Illustres
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[124/4593] (2.7%)
+📍 Lygie
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[125/4593] (2.7%)
+📍 Société Populaire Des Beaux-Arts
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[126/4593] (2.7%)
+📍 Study for a Mural
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[127/4593] (2.8%)
+📍 Têtes Byzantines (Blonde)
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[128/4593] (2.8%)
+📍 Têtes Byzantines (Brunette)
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[129/4593] (2.8%)
+📍 Portrait of a young woman in folk costume
+👤 Alphonse Mucha
+  ☁️ Cloudinary 업로드 완료
+
+[130/4593] (2.8%)
+📍 Le rêve
+👤 Alphonse Mucha
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (130/4593)
+
+[131/4593] (2.9%)
+📍 Le rêve
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[132/4593] (2.9%)
+📍 Le rêve
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[133/4593] (2.9%)
+📍 L’Illustration, Noël, 1896
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[134/4593] (2.9%)
+📍 Abstract design based on arabesques
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[135/4593] (2.9%)
+📍 Abstract design based on arabesques
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[136/4593] (3.0%)
+📍 Abstract design based on arabesques.
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[137/4593] (3.0%)
+📍 Abstract design based on flowers and arabesques.
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[138/4593] (3.0%)
+📍 Abstract design based on flowers and curvilinear shapes.
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[139/4593] (3.0%)
+📍 Abstract design based on flowers and leaves
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[140/4593] (3.0%)
+📍 Abstract design based on flowers, angels, birds, beetles.
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (140/4593)
+
+[141/4593] (3.1%)
+📍 Abstract design based on stars, circles, leaves.
+👤 Alphonse Mucha
+  ☁️ Cloudinary 업로드 완료
+
+[142/4593] (3.1%)
+📍 Abstract design based on wings and leaf shapes.
+👤 Alphonse Mucha
+  ☁️ Cloudinary 업로드 완료
+
+[143/4593] (3.1%)
+📍 Sarah Bernhardt as Hamlet
+👤 Alphonse Mucha
+  ☁️ Cloudinary 업로드 완료
+
+[144/4593] (3.1%)
+📍 Exécution de Katte
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[145/4593] (3.2%)
+📍 Guillaume 1er dans son collège de Tabac
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[146/4593] (3.2%)
+📍 L’Empereur Lothaire et le pape Innocent
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[147/4593] (3.2%)
+📍 Portrait of a girl with hands in hair
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[148/4593] (3.2%)
+📍 Maslenitsa effigy
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[149/4593] (3.2%)
+📍 La Peinture (Painting)
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[150/4593] (3.3%)
+📍 Les Saisons – automne
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (150/4593)
+
+📦 배치 4/92 처리 중 (50개 작품)
+============================================================
+
+[151/4593] (3.3%)
+📍 Les Saisons – ete
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[152/4593] (3.3%)
+📍 Les Saisons – hiver
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[153/4593] (3.3%)
+📍 Les Saisons – printemps
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[154/4593] (3.4%)
+📍 Etrennes
+👤 Alphonse Mucha
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[155/4593] (3.4%)
+📍 Design for a box of Lefèvre-Utile biscuits
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[156/4593] (3.4%)
+📍 Design for a box of Lefèvre-Utile biscuits
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[157/4593] (3.4%)
+📍 La Plume
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[158/4593] (3.4%)
+📍 Monaco Monte-Carlo
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[159/4593] (3.5%)
+📍 Salon des Cent, 20. Ausstellung
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[160/4593] (3.5%)
+📍 Salon des Cent. A. Mucha
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (160/4593)
+
+[161/4593] (3.5%)
+📍 Joan of Arc. Apparition
+👤 Alphonse Mucha
+  ☁️ Cloudinary 업로드 완료
+
+[162/4593] (3.5%)
+📍 Joan of Arc. Before the Battle
+👤 Alphonse Mucha
+  ☁️ Cloudinary 업로드 완료
+
+[163/4593] (3.5%)
+📍 Au Quartier Latin – cover design
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[164/4593] (3.6%)
+📍 Femme à la Plume
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[165/4593] (3.6%)
+📍 LAVIA Bank Wzajemnych Ubezpieczeń w Pradze Generalna Reprezentacya we Lwowie…
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[166/4593] (3.6%)
+📍 Salammbô – L’Incantation
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[167/4593] (3.6%)
+📍 Salomé
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[168/4593] (3.7%)
+📍 Services secret – maquette d’affiche – Lucien Guitry et Berthe Bovy
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[169/4593] (3.7%)
+📍 Lorenzaccio, pièce en V actes et un épilogue d’Alfred de Musset
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[170/4593] (3.7%)
+📍 Tragique histoire d’Hamlet, prince de Danemark, Sarah Bernhardt. Théâtre Sarah Bernhardt
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (170/4593)
+
+[171/4593] (3.7%)
+📍 Dessin de Mucha Illustrant l’un des trois menu du banquet Sarah Bernhardt
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[172/4593] (3.7%)
+📍 Vrouwenfiguur
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[173/4593] (3.8%)
+📍 Waverley Cycles
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[174/4593] (3.8%)
+📍 Woman With Headscarf And Star Medallion
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[175/4593] (3.8%)
+📍 Allegory Of Spring
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[176/4593] (3.8%)
+📍 The Dance Of Death
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[177/4593] (3.9%)
+📍 Jaroslava Mucha
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[178/4593] (3.9%)
+📍 Czech young woman
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[179/4593] (3.9%)
+📍 Woman bending over
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[180/4593] (3.9%)
+📍 Young woman with folk headdress
+👤 Alphonse Mucha
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (180/4593)
+
+[181/4593] (3.9%)
+📍 Cheminée décorative avec le buste de La Nature mucha fouquet
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[182/4593] (4.0%)
+📍 Sedící žena – studie k plakátu
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[183/4593] (4.0%)
+📍 Absinth (Study of a Woman)
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[184/4593] (4.0%)
+📍 Jaroslava Muchová
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[185/4593] (4.0%)
+📍 Sarah Bernhardt
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[186/4593] (4.0%)
+📍 Preliminary design for ‘The Rose’
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[187/4593] (4.1%)
+📍 Étude de femme
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[188/4593] (4.1%)
+📍 A costume design for the Théâtre de la Renaissance, Paris
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[189/4593] (4.1%)
+📍 Ascension
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[190/4593] (4.1%)
+📍 Evocation
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (190/4593)
+
+[191/4593] (4.2%)
+📍 Female nude
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[192/4593] (4.2%)
+📍 Figures Décoratives
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[193/4593] (4.2%)
+📍 Study for Premier Shampooing d’Absalon
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[194/4593] (4.2%)
+📍 Two female figures
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[195/4593] (4.2%)
+📍 Witches
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[196/4593] (4.3%)
+📍 Portrait of the Artist’s Daughter in Slavic Dress
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[197/4593] (4.3%)
+📍 Portrait
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[198/4593] (4.3%)
+📍 Warrior
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[199/4593] (4.3%)
+📍 L’Iris
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[200/4593] (4.4%)
+📍 Rama
+👤 Alphonse Mucha
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (200/4593)
+
+📦 배치 5/92 처리 중 (50개 작품)
+============================================================
+
+[201/4593] (4.4%)
+📍 Red Madras Headdress (Le Madras rouge)
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[202/4593] (4.4%)
+📍 Domino Players
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[203/4593] (4.4%)
+📍 The Venetian Blinds (Les Persiennes)
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[204/4593] (4.4%)
+📍 Still Life with Gourds (Nature morte aux coloquintes)
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[205/4593] (4.5%)
+📍 Young Girl on a Balcony over the Ocean (Jeune fille au balcon sur la mer)
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[206/4593] (4.5%)
+📍 Woman Reclining
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[207/4593] (4.5%)
+📍 Moorish Woman (The Raised Knee) (Femme mauresque (Le Genou levé))
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[208/4593] (4.5%)
+📍 The Music Lesson
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[209/4593] (4.6%)
+📍 Woman and Screen (La Femme au paravent)
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[210/4593] (4.6%)
+📍 Young Woman before an Aquarium (Jeune fille devant un aquarium)
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (210/4593)
+
+[211/4593] (4.6%)
+📍 Le Bonheur de vivre, also called The Joy of Life
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[212/4593] (4.6%)
+📍 High Tide (Pleine mer)
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[213/4593] (4.6%)
+📍 Studio with Goldfish (L’Atelier aux poissons rouges)
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[214/4593] (4.7%)
+📍 Blue Still Life (Nature morte bleue)
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[215/4593] (4.7%)
+📍 The Green Dress (La Robe verte)
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[216/4593] (4.7%)
+📍 Interior with Two Figures, Open Window
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[217/4593] (4.7%)
+📍 Three Sisters with an African Sculpture (Les Trois soeurs à la sculpture africaine)
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[218/4593] (4.7%)
+📍 Chinese Casket (Le Coffret chinois)
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[219/4593] (4.8%)
+📍 Seated Riffian (Le Rifain assis)
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[220/4593] (4.8%)
+📍 Three Sisters with Grey Background (Les Trois soeurs sur fond gris)
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (220/4593)
+
+[221/4593] (4.8%)
+📍 Head of a Young Girl (Tête de fillette)
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[222/4593] (4.8%)
+📍 Three Sisters and ‘The Rose Marble Table’ (Les Trois soeurs à ‘La Table de marbre rose’)
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[223/4593] (4.9%)
+📍 Reclining Odalisque (Nu étendu)
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[224/4593] (4.9%)
+📍 Blue Villa
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[225/4593] (4.9%)
+📍 Standing Nude near Window
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[226/4593] (4.9%)
+📍 The clown
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[227/4593] (4.9%)
+📍 The circus
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[228/4593] (5.0%)
+📍 Monsieur Loyal
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[229/4593] (5.0%)
+📍 The nightmare of the white elephant
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[230/4593] (5.0%)
+📍 The horse, the rider and the clown
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (230/4593)
+
+[231/4593] (5.0%)
+📍 The wolf
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[232/4593] (5.1%)
+📍 The heart
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[233/4593] (5.1%)
+📍 Icarus
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[234/4593] (5.1%)
+📍 Forms
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[235/4593] (5.1%)
+📍 Pierrot’s funeral
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[236/4593] (5.1%)
+📍 The Codomas
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[237/4593] (5.2%)
+📍 The swimmer in the tank
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[238/4593] (5.2%)
+📍 The sword swallower
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[239/4593] (5.2%)
+📍 The cowboy
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[240/4593] (5.2%)
+📍 The knife thrower
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (240/4593)
+
+[241/4593] (5.2%)
+📍 Destiny
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[242/4593] (5.3%)
+📍 The lagoon
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[243/4593] (5.3%)
+📍 The lagoon
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[244/4593] (5.3%)
+📍 The lagoon
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[245/4593] (5.3%)
+📍 The toboggan
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[246/4593] (5.4%)
+📍 Jeune fille assise, robe jaune
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[247/4593] (5.4%)
+📍 Nu à la fenêtre
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[248/4593] (5.4%)
+📍 Odalisque au coffret rouge
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[249/4593] (5.4%)
+📍 Seated Nude in a Tan Room
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[250/4593] (5.4%)
+📍 Ancilla
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (250/4593)
+
+📦 배치 6/92 처리 중 (50개 작품)
+============================================================
+
+[251/4593] (5.5%)
+📍 Bathers with a Turtle
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[252/4593] (5.5%)
+📍 Deux Fillettes, fond jaune et rouge
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[253/4593] (5.5%)
+📍 Femme en blanc debout devant une glace
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[254/4593] (5.5%)
+📍 Femme nue
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[255/4593] (5.6%)
+📍 Homme assis
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[256/4593] (5.6%)
+📍 Interior at Nice
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[257/4593] (5.6%)
+📍 La Leçon de musique
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[258/4593] (5.6%)
+📍 Mademoiselle Matisse en manteau écossais
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[259/4593] (5.6%)
+📍 Nu accroupi près d’un aquarium (Nu aux poissons rouges)
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[260/4593] (5.7%)
+📍 Nu demi couché
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (260/4593)
+
+[261/4593] (5.7%)
+📍 Nu sur la chaise longue
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[262/4593] (5.7%)
+📍 Odalisque, mains dans le dos
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[263/4593] (5.7%)
+📍 Tête de femme penchée (Lorette)
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[264/4593] (5.7%)
+📍 Entrée de cabaret Breton
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[265/4593] (5.8%)
+📍 Le ruisseau, Maintenon
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[266/4593] (5.8%)
+📍 Le Petit pêcheur, Maintenon
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[267/4593] (5.8%)
+📍 Collioure en août
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[268/4593] (5.8%)
+📍 Jardin du Luxembourg, Paris
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[269/4593] (5.9%)
+📍 Paysage aux environs de Nice ou Les Oliviers ou Coin du Mont-Boron
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[270/4593] (5.9%)
+📍 Paysage avec cyprès et oliviers aux environs de Nice
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (270/4593)
+
+[271/4593] (5.9%)
+📍 Paysage de Bretagne
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[272/4593] (5.9%)
+📍 Paysage du Midi
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[273/4593] (5.9%)
+📍 Nature morte au Magnolia
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[274/4593] (6.0%)
+📍 Nature morte au purro, I
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[275/4593] (6.0%)
+📍 Anémones au miroir noir
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[276/4593] (6.0%)
+📍 L’Atelier aux poissons rouges
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[277/4593] (6.0%)
+📍 Vase de fleurs
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[278/4593] (6.1%)
+📍 Arabesque
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[279/4593] (6.1%)
+📍 Végétaux
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[280/4593] (6.1%)
+📍 Algue blanche sur fond rouge et vert
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ⚠️ Cloudinary 업로드 실패: undefined
+💾 진행 상황 저장됨 (280/4593)
+
+[281/4593] (6.1%)
+📍 La Chute d´Icare
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[282/4593] (6.1%)
+📍 Jazz – Title
+👤 Henri Matisse
+  ☁️ Cloudinary 업로드 완료
+
+[283/4593] (6.2%)
+📍 Escargots
+👤 Henri Matisse
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[284/4593] (6.2%)
+📍 La fenêtre ouverte
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[285/4593] (6.2%)
+📍 Losange
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[286/4593] (6.2%)
+📍 Marie-José en robe jaune
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[287/4593] (6.2%)
+📍 Nymphe et faune rouge
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[288/4593] (6.3%)
+📍 Océanie, la mer
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[289/4593] (6.3%)
+📍 Océanie, le ciel
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[290/4593] (6.3%)
+📍 Sirènes
+👤 Henri Matisse
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (290/4593)
+
+[291/4593] (6.3%)
+📍 A Peasant Woman Digging in Front of Her Cottage
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[292/4593] (6.4%)
+📍 Adeline Ravoux
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[293/4593] (6.4%)
+📍 Girl in White
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[294/4593] (6.4%)
+📍 La Mousmé
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[295/4593] (6.4%)
+📍 Madame Roulin Rocking the Cradle (La berceuse)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[296/4593] (6.4%)
+📍 Roulin’s Baby
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[297/4593] (6.5%)
+📍 Self-Portrait
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[298/4593] (6.5%)
+📍 Self-Portrait
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[299/4593] (6.5%)
+📍 The Drinkers
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[300/4593] (6.5%)
+📍 Cypresses
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (300/4593)
+
+📦 배치 7/92 처리 중 (50개 작품)
+============================================================
+
+[301/4593] (6.6%)
+📍 Factories at Clichy
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ⚠️ Cloudinary 업로드 실패: File size too large. Got 12308386. Maximum is 10485760. Upgrade your plan to enjoy higher limits https://www.cloudinary.com/pricing/upgrades/file-limit
+
+[302/4593] (6.6%)
+📍 Farmhouse in Provence
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[303/4593] (6.6%)
+📍 Fishing in Spring, the Pont de Clichy (Asnières)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[304/4593] (6.6%)
+📍 Flower Beds in Holland
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[305/4593] (6.6%)
+📍 Green Wheat Fields, Auvers
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[306/4593] (6.7%)
+📍 Irises
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[307/4593] (6.7%)
+📍 Orchard Bordered by Cypresses
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[308/4593] (6.7%)
+📍 River Bank in Springtime
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ⚠️ Cloudinary 업로드 실패: File size too large. Got 15838081. Maximum is 10485760. Upgrade your plan to enjoy higher limits https://www.cloudinary.com/pricing/upgrades/file-limit
+
+[309/4593] (6.7%)
+📍 Sheaves of Wheat
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ⚠️ Cloudinary 업로드 실패: File size too large. Got 20918879. Maximum is 10485760. Upgrade your plan to enjoy higher limits https://www.cloudinary.com/pricing/upgrades/file-limit
+
+[310/4593] (6.7%)
+📍 Stairway at Auvers
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ⚠️ Cloudinary 업로드 실패: File size too large. Got 16410222. Maximum is 10485760. Upgrade your plan to enjoy higher limits https://www.cloudinary.com/pricing/upgrades/file-limit
+💾 진행 상황 저장됨 (310/4593)
+
+[311/4593] (6.8%)
+📍 Terrace and Observation Deck at the Moulin de Blute-Fin, Montmartre
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[312/4593] (6.8%)
+📍 Tetards (Pollards)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[313/4593] (6.8%)
+📍 The Large Plane Trees (Road Menders at Saint-Rémy)
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[314/4593] (6.8%)
+📍 Vineyards at Auvers
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[315/4593] (6.9%)
+📍 Wheat Field with Cypresses
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[316/4593] (6.9%)
+📍 Grapes, Lemons, Pears, and Apples
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[317/4593] (6.9%)
+📍 Roses
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[318/4593] (6.9%)
+📍 Shoes
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[319/4593] (6.9%)
+📍 Still Life of Oranges and Lemons with Blue Gloves
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[320/4593] (7.0%)
+📍 Still Life, Basket of Apples
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+❌ 오류: ENOSPC: no space left on device, write
+
+[321/4593] (7.0%)
+📍 Sunflowers
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[322/4593] (7.0%)
+📍 The Bedroom
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[323/4593] (7.0%)
+📍 Le café de nuit (The Night Café)
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[324/4593] (7.1%)
+📍 A Weaver’s Cottage
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[325/4593] (7.1%)
+📍 Courtesan- After Eisen
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[326/4593] (7.1%)
+📍 Dr Paul Gachet
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[327/4593] (7.1%)
+📍 Eugène Boch
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[328/4593] (7.1%)
+📍 Head Of A Man
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[329/4593] (7.2%)
+📍 Head Of A Peasant
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[330/4593] (7.2%)
+📍 Head Of A Prostitute
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (330/4593)
+
+[331/4593] (7.2%)
+📍 Head Of A Skeleton With A Burning Cigarette
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[332/4593] (7.2%)
+📍 Head Of A Woman 2
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[333/4593] (7.3%)
+📍 Head Of A Woman 3
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[334/4593] (7.3%)
+📍 Night (After Millet)
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[335/4593] (7.3%)
+📍 Nude Girl, Seated
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[336/4593] (7.3%)
+📍 Peasant Woman Binding Sheaves (After Millet)
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[337/4593] (7.3%)
+📍 Portrait Of Armand Roulin
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[338/4593] (7.4%)
+📍 Self-Portrait
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[339/4593] (7.4%)
+📍 The Dance Hall In Arles
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[340/4593] (7.4%)
+📍 The Italian Woman
+👤 Vincent van Gogh
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+❌ 오류: ENOSPC: no space left on device, write
+
+[341/4593] (7.4%)
+📍 The Potato Eaters
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[342/4593] (7.4%)
+📍 The Sheep-Shearer (After Millet)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[343/4593] (7.5%)
+📍 The Siesta (After Millet)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[344/4593] (7.5%)
+📍 The Zouave
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[345/4593] (7.5%)
+📍 Marguerite Gachet at the Piano
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[346/4593] (7.5%)
+📍 Rain
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[347/4593] (7.6%)
+📍 Almond tree in blossom
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[348/4593] (7.6%)
+📍 Corn Harvest in Provence
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[349/4593] (7.6%)
+📍 Daubigny’s garden
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[350/4593] (7.6%)
+📍 Enclosed Field with Ploughman
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (350/4593)
+
+📦 배치 8/92 처리 중 (50개 작품)
+============================================================
+
+[351/4593] (7.6%)
+📍 Entrance to the Public Gardens in Arle
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[352/4593] (7.7%)
+📍 Garden at Arles
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[353/4593] (7.7%)
+📍 Green Field
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[354/4593] (7.7%)
+📍 House at Auvers
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[355/4593] (7.7%)
+📍 Houses at Auvers
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[356/4593] (7.8%)
+📍 Le Moulin de la Galette
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[357/4593] (7.8%)
+📍 Moulin de la Galette
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[358/4593] (7.8%)
+📍 Olive grove
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[359/4593] (7.8%)
+📍 Olive Orchard
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[360/4593] (7.8%)
+📍 Olive Trees
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (360/4593)
+
+[361/4593] (7.9%)
+📍 Orchard in Blossom (Plum Trees)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[362/4593] (7.9%)
+📍 Patch of grass
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[363/4593] (7.9%)
+📍 Poplars near Nuenen
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[364/4593] (7.9%)
+📍 Poppy field
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[365/4593] (7.9%)
+📍 Starry Night
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[366/4593] (8.0%)
+📍 Thatched Cottages at Cordeville
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[367/4593] (8.0%)
+📍 The Church in Auvers-sur-Oise, View from the Chevet
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[368/4593] (8.0%)
+📍 The garden of Saint Paul’s Hospital (`The fall of the leaves’)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[369/4593] (8.0%)
+📍 The garden of Saint Paul’s Hospital
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[370/4593] (8.1%)
+📍 The Olive Trees
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (370/4593)
+
+[371/4593] (8.1%)
+📍 The raising of Lazarus (after Rembrandt)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[372/4593] (8.1%)
+📍 The Road Menders
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[373/4593] (8.1%)
+📍 The Rocks
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[374/4593] (8.1%)
+📍 The yellow house (`The street’)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ⚠️ Cloudinary 업로드 실패: undefined
+
+[375/4593] (8.2%)
+📍 Tree-roots
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[376/4593] (8.2%)
+📍 Trees
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[377/4593] (8.2%)
+📍 Undergrowth
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[378/4593] (8.2%)
+📍 View from Montmartre
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[379/4593] (8.3%)
+📍 View from Theo’s apartment
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[380/4593] (8.3%)
+📍 View of a butcher’s shop
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (380/4593)
+
+[381/4593] (8.3%)
+📍 Wheat Fields with Reaper, Auvers
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[382/4593] (8.3%)
+📍 Man Polishing A Boot
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[383/4593] (8.3%)
+📍 Olive Trees
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[384/4593] (8.4%)
+📍 Square Saint-Pierre, Paris
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[385/4593] (8.4%)
+📍 Two Poplars in the Alpilles near Saint-Rémy
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[386/4593] (8.4%)
+📍 Eglogue En Provence – Un Couple D’amoureux
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[387/4593] (8.4%)
+📍 Self-Portrait
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[388/4593] (8.4%)
+📍 L’allée Aux Deux Promeneurs
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[389/4593] (8.5%)
+📍 At Eternity’s Gate
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[390/4593] (8.5%)
+📍 Still Life with Bible
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (390/4593)
+
+[391/4593] (8.5%)
+📍 Avenue of Poplars in Autumn
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[392/4593] (8.5%)
+📍 The Prison Courtyard
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[393/4593] (8.6%)
+📍 Die Ebene Von Auvers
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[394/4593] (8.6%)
+📍 Parc de l’hôpital Saint-Paul
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[395/4593] (8.6%)
+📍 Olive Trees
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[396/4593] (8.6%)
+📍 The Flowering Orchard
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[397/4593] (8.6%)
+📍 Women Picking Olives
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[398/4593] (8.7%)
+📍 Bouquet of Flowers in a Vase
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[399/4593] (8.7%)
+📍 Irises
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[400/4593] (8.7%)
+📍 Oleanders
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (400/4593)
+
+📦 배치 9/92 처리 중 (50개 작품)
+============================================================
+
+[401/4593] (8.7%)
+📍 Roses
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[402/4593] (8.8%)
+📍 Stillleben mit fünf Flaschen
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[403/4593] (8.8%)
+📍 First Steps, after Millet
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[404/4593] (8.8%)
+📍 L’Arlésienne; Madame Joseph-Michel Ginoux (Marie Julien, 1848–1911)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[405/4593] (8.8%)
+📍 Madame Roulin and Her Baby
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[406/4593] (8.8%)
+📍 Peasant Woman Cooking by a Fireplace
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[407/4593] (8.9%)
+📍 Self-Portrait with a Straw Hat
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[408/4593] (8.9%)
+📍 The Potato Peeler
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[409/4593] (8.9%)
+📍 Landscape at Saint-Rémy (Enclosed Field with Peasant)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[410/4593] (8.9%)
+📍 Peasant woman, head
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (410/4593)
+
+[411/4593] (8.9%)
+📍 The Zouave
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[412/4593] (9.0%)
+📍 Corridor in the Asylum
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[413/4593] (9.0%)
+📍 Gauguin’s Chair
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[414/4593] (9.0%)
+📍 Bleachery at Scheveningen
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[415/4593] (9.0%)
+📍 Houses Seen From The Back Window Of Sien’s Mother’s House
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[416/4593] (9.1%)
+📍 Water Mill At Opwetten
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[417/4593] (9.1%)
+📍 Langlois Bridge at Arles
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[418/4593] (9.1%)
+📍 Starry Night Over the Rhone
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[419/4593] (9.1%)
+📍 View of Arles with Irises
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[420/4593] (9.1%)
+📍 Wheatfield with Crows
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (420/4593)
+
+[421/4593] (9.2%)
+📍 Cottages with a Woman Working in the Middle Ground
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[422/4593] (9.2%)
+📍 The Poet’s Garden
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[423/4593] (9.2%)
+📍 Self-portrait
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[424/4593] (9.2%)
+📍 Farming Village at Twilight
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[425/4593] (9.3%)
+📍 Portrait of Armand Roulin
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[426/4593] (9.3%)
+📍 Beach at Scheveningen
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[427/4593] (9.3%)
+📍 Field with Poppies
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[428/4593] (9.3%)
+📍 Windmills on Montmartre
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[429/4593] (9.3%)
+📍 La Maison de la Crau
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[430/4593] (9.4%)
+📍 Quay with men unloading sand barges
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (430/4593)
+
+[431/4593] (9.4%)
+📍 Shelter on Montmartre
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[432/4593] (9.4%)
+📍 The Garden of Saint-Paul Hospital
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[433/4593] (9.4%)
+📍 Three white cottages in Saintes-Maries
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[434/4593] (9.4%)
+📍 Undergrowth with two Figures
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[435/4593] (9.5%)
+📍 View of Vessenots Near Auvers
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[436/4593] (9.5%)
+📍 Wheat Field Behind Saint-Paul Hospital with a Reaper
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[437/4593] (9.5%)
+📍 Wheatfield With Cornflowers
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[438/4593] (9.5%)
+📍 Weaver
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[439/4593] (9.6%)
+📍 Portrait of Joseph Roulin
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[440/4593] (9.6%)
+📍 Self Portrait (dedicated to Paul Gauguin)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (440/4593)
+
+[441/4593] (9.6%)
+📍 The Schoolboy (Camille Roulin)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[442/4593] (9.6%)
+📍 The Woman from Arles
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[443/4593] (9.6%)
+📍 Cineraria
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[444/4593] (9.7%)
+📍 Imperial Fritillaries in a Copper Vase
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[445/4593] (9.7%)
+📍 A Pair of Boots
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[446/4593] (9.7%)
+📍 Three pairs of shoes
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[447/4593] (9.7%)
+📍 La maison de La Crau (The Old Mill)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[448/4593] (9.8%)
+📍 Peasant Woman Digging Potatoes
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[449/4593] (9.8%)
+📍 The Brothel (Le Lupanar)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[450/4593] (9.8%)
+📍 Along the Seine
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (450/4593)
+
+📦 배치 10/92 처리 중 (50개 작품)
+============================================================
+
+[451/4593] (9.8%)
+📍 Bank of the Seine
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[452/4593] (9.8%)
+📍 Boulevard de Clichy
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[453/4593] (9.9%)
+📍 Bridge in the rain (after Hiroshige)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[454/4593] (9.9%)
+📍 Cabanes de bois parmi les oliviers et cyprès
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[455/4593] (9.9%)
+📍 Farm with stacks of peat
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[456/4593] (9.9%)
+📍 Farmhouse in a wheat field
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[457/4593] (9.9%)
+📍 Field with flowers near Arles
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[458/4593] (10.0%)
+📍 Fishing boats on the beach at Les Saintes-Maries-de-la-Mer
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[459/4593] (10.0%)
+📍 Garden in Montmarte with lovers
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[460/4593] (10.0%)
+📍 Garden with butterflies
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (460/4593)
+
+[461/4593] (10.0%)
+📍 Houses seen from the back
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[462/4593] (10.1%)
+📍 Impasse des Deux Frères
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[463/4593] (10.1%)
+📍 Landscape at twilight
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[464/4593] (10.1%)
+📍 Meules de blé
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[465/4593] (10.1%)
+📍 Montmartre; behind the Moulin de la Galette
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[466/4593] (10.1%)
+📍 Montmartre; mills and vegetable gardens
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[467/4593] (10.2%)
+📍 Orchards in blossom, view of Arles
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[468/4593] (10.2%)
+📍 Ploughed fields (‘The furrows’)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[469/4593] (10.2%)
+📍 Small pear tree in blossom
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[470/4593] (10.2%)
+📍 The cottage
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (470/4593)
+
+[471/4593] (10.3%)
+📍 The harvest
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[472/4593] (10.3%)
+📍 The hill of Montmartre with stone quarry
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[473/4593] (10.3%)
+📍 The hill of Montmartre with stone quarry
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[474/4593] (10.3%)
+📍 The Langlois bridge
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[475/4593] (10.3%)
+📍 The old church tower at Nuenen (`The peasants’ churchyard’)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[476/4593] (10.4%)
+📍 The Pink Orchard
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[477/4593] (10.4%)
+📍 The pink peach tree
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[478/4593] (10.4%)
+📍 The vicarage at Nuenen
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[479/4593] (10.4%)
+📍 The white orchard
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[480/4593] (10.5%)
+📍 Trees and undergrowth
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (480/4593)
+
+[481/4593] (10.5%)
+📍 View of Auvers
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[482/4593] (10.5%)
+📍 View of Paris
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[483/4593] (10.5%)
+📍 Wheatfield
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[484/4593] (10.5%)
+📍 Head of a woman
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[485/4593] (10.6%)
+📍 In the café; Agostina Segatori in Le tambourin
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[486/4593] (10.6%)
+📍 Jeune homme au bleuet
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[487/4593] (10.6%)
+📍 Portrait of a prostitute
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[488/4593] (10.6%)
+📍 Portrait of an old man
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[489/4593] (10.6%)
+📍 Portrait of Camille Roulin
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[490/4593] (10.7%)
+📍 Self-portrait with grey felt hat
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (490/4593)
+
+[491/4593] (10.7%)
+📍 Self-portrait with pipe
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[492/4593] (10.7%)
+📍 Self-portrait with straw hat
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[493/4593] (10.7%)
+📍 Self-portrait
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[494/4593] (10.8%)
+📍 The Sower
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[495/4593] (10.8%)
+📍 Two women on the heath
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[496/4593] (10.8%)
+📍 A pair of leather clogs
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[497/4593] (10.8%)
+📍 Apples
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[498/4593] (10.8%)
+📍 Basket of apples
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[499/4593] (10.9%)
+📍 Basket of pansies on a small table
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[500/4593] (10.9%)
+📍 Bobbin winder
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (500/4593)
+
+📦 배치 11/92 처리 중 (50개 작품)
+============================================================
+
+[501/4593] (10.9%)
+📍 Café table with absinth
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[502/4593] (10.9%)
+📍 Daisies, Arles
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[503/4593] (11.0%)
+📍 Irises
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[504/4593] (11.0%)
+📍 Piles of French novels
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[505/4593] (11.0%)
+📍 Quinces, lemons, pears and grapes
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ⚠️ Cloudinary 업로드 실패: undefined
+
+[506/4593] (11.0%)
+📍 Red cabbages and onions
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[507/4593] (11.0%)
+📍 Roses
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[508/4593] (11.1%)
+📍 Sprig of flowering almond in a glass
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[509/4593] (11.1%)
+📍 Three books
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[510/4593] (11.1%)
+📍 Vase with Chinese asters and gladioli
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (510/4593)
+
+[511/4593] (11.1%)
+📍 Vase with gladioli and China asters
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[512/4593] (11.1%)
+📍 A crab on its back
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[513/4593] (11.2%)
+📍 Butterflies and poppies
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[514/4593] (11.2%)
+📍 Emperor moth
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[515/4593] (11.2%)
+📍 Cottage with Peasant Woman Digging
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[516/4593] (11.2%)
+📍 Landscape from Saint-Rémy
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[517/4593] (11.3%)
+📍 Farmhouse in Nuenen
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[518/4593] (11.3%)
+📍 Wever naar rechts gekeerd (Weaver Facing Right)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[519/4593] (11.3%)
+📍 Laboureur dans un champ
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[520/4593] (11.3%)
+📍 Olive Grove, Saint-Rémy
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (520/4593)
+
+[521/4593] (11.3%)
+📍 Acacia in Flowers
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ⚠️ Cloudinary 업로드 실패: undefined
+
+[522/4593] (11.4%)
+📍 Landscape with Wheelbarrow
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[523/4593] (11.4%)
+📍 Les canots amarrés
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[524/4593] (11.4%)
+📍 Head of a Peasant Woman
+👤 Vincent van Gogh
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[525/4593] (11.4%)
+📍 Landscape with Pollard Willows
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[526/4593] (11.5%)
+📍 The Olive Orchard
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[527/4593] (11.5%)
+📍 Verger avec cyprès
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[528/4593] (11.5%)
+📍 Le pont de Trinquetaille
+👤 Vincent van Gogh
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[529/4593] (11.5%)
+📍 Arbres dans le jardin de l’asile
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[530/4593] (11.5%)
+📍 Green Wheat Field with Cypress
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (530/4593)
+
+[531/4593] (11.6%)
+📍 Vue de l’asile et de la Chapelle Saint-Paul de Mausole (Saint-Rémy)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[532/4593] (11.6%)
+📍 Weilanden bij Rijswijk en de Schenkweg
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[533/4593] (11.6%)
+📍 Dans le verger – Le bêcheur
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[534/4593] (11.6%)
+📍 Les mangeurs de pommes de terre
+👤 Vincent van Gogh
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[535/4593] (11.6%)
+📍 Ploughman in the Fields near Arles
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[536/4593] (11.7%)
+📍 The Harvest
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[537/4593] (11.7%)
+📍 The Magrot House, Cuesmes
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[538/4593] (11.7%)
+📍 The Zandmennik House
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[539/4593] (11.7%)
+📍 Nursery on Schenkweg
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[540/4593] (11.8%)
+📍 Road in Etten
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (540/4593)
+
+[541/4593] (11.8%)
+📍 Street in Saintes-Maries-de-la-Mer
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[542/4593] (11.8%)
+📍 Wheat Field
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[543/4593] (11.8%)
+📍 Arles; View from the Wheatfields
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[544/4593] (11.8%)
+📍 Portrait of Joseph Roulin
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[545/4593] (11.9%)
+📍 Woman from Scheveningen
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[546/4593] (11.9%)
+📍 La Mousmé
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[547/4593] (11.9%)
+📍 The Langlois Bridge
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[548/4593] (11.9%)
+📍 The Postman Joseph Roulin
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[549/4593] (12.0%)
+📍 Boats at Saintes-Maries
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[550/4593] (12.0%)
+📍 The Road to Tarascon
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (550/4593)
+
+📦 배치 12/92 처리 중 (50개 작품)
+============================================================
+
+[551/4593] (12.0%)
+📍 Cypresses with four people working in the field
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[552/4593] (12.0%)
+📍 Enclosed field with a sower in the rain
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[553/4593] (12.0%)
+📍 The Plain of La Crau
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[554/4593] (12.1%)
+📍 The Harvest (for Émile Bernard)
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[555/4593] (12.1%)
+📍 Landscape with Bog Trunks (Travaux aux Champs)
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[556/4593] (12.1%)
+📍 Peasant of the Camargue
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[557/4593] (12.1%)
+📍 Two Cottages at Saintes-Maries-de-la-Mer
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[558/4593] (12.1%)
+📍 Bald-Headed Orphan Man
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[559/4593] (12.2%)
+📍 Landschap met Lopende Vrouw
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[560/4593] (12.2%)
+📍 View of Arles
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (560/4593)
+
+[561/4593] (12.2%)
+📍 Tassel hyancinth
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[562/4593] (12.2%)
+📍 Planteuse de pommes de terre
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[563/4593] (12.3%)
+📍 Portrait of Dr Gachet
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[564/4593] (12.3%)
+📍 Portrait of Dr Gachet
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[565/4593] (12.3%)
+📍 Jong meisje met een brood (Young Girl with a Loaf of Bread)
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[566/4593] (12.3%)
+📍 Weesman met een hoge hoed in zijn linkerhand
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[567/4593] (12.3%)
+📍 Dr. Gachet
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[568/4593] (12.4%)
+📍 Aardappelrooier
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[569/4593] (12.4%)
+📍 Cafe Terrace at Night
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[570/4593] (12.4%)
+📍 Boerin bij de wastobbe, in een tuin (Woman by the Wash Tub, in a Garden)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (570/4593)
+
+[571/4593] (12.4%)
+📍 Fishing Boats at Saintes-Maries-de-la-Mer
+👤 Vincent van Gogh
+  ☁️ Cloudinary 업로드 완료
+
+[572/4593] (12.5%)
+📍 Parc à Arles avec un coin de la Maison Jaune
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[573/4593] (12.5%)
+📍 In de Duinen (In the Dunes)
+👤 Vincent van Gogh
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[574/4593] (12.5%)
+📍 Boys Bathing
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[575/4593] (12.5%)
+📍 Boys Bathing
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[576/4593] (12.5%)
+📍 Head of an Old Man with Beard
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[577/4593] (12.6%)
+📍 Madonna
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[578/4593] (12.6%)
+📍 Man Bathing
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[579/4593] (12.6%)
+📍 Melancholy III
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[580/4593] (12.6%)
+📍 Moonlight
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (580/4593)
+
+[581/4593] (12.6%)
+📍 Neutralia
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[582/4593] (12.7%)
+📍 Self-Portrait in Moonlight
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[583/4593] (12.7%)
+📍 Sunbathing I
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[584/4593] (12.7%)
+📍 The Girl by the Window
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[585/4593] (12.7%)
+📍 The Hands
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[586/4593] (12.8%)
+📍 The Kiss IV
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[587/4593] (12.8%)
+📍 The Scream
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[588/4593] (12.8%)
+📍 The Sick Child I
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[589/4593] (12.8%)
+📍 Woman’s Head against the Shore
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[590/4593] (12.8%)
+📍 Young Woman on the Beach
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (590/4593)
+
+[591/4593] (12.9%)
+📍 Anxiety
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[592/4593] (12.9%)
+📍 The Girls on the Bridge
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[593/4593] (12.9%)
+📍 Two Women on the Shore
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[594/4593] (12.9%)
+📍 Coastal Landscape
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[595/4593] (13.0%)
+📍 Das Herz
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[596/4593] (13.0%)
+📍 Portrait Of Käte Perls
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[597/4593] (13.0%)
+📍 Redhaired Girl With White Rat
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[598/4593] (13.0%)
+📍 Road In Aasgaardstrand
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[599/4593] (13.0%)
+📍 Golgotha
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[600/4593] (13.1%)
+📍 Despair
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (600/4593)
+
+📦 배치 13/92 처리 중 (50개 작품)
+============================================================
+
+[601/4593] (13.1%)
+📍 Elm Forest in Spring
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[602/4593] (13.1%)
+📍 Experiment in Colour
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[603/4593] (13.1%)
+📍 Flirting in the Park
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[604/4593] (13.2%)
+📍 Geniuses in Sun Rays
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[605/4593] (13.2%)
+📍 Horse Team on a Building Site
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[606/4593] (13.2%)
+📍 Melancholy. Weeping Woman on the Beach
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[607/4593] (13.2%)
+📍 Men Turning towards the Sun
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[608/4593] (13.2%)
+📍 Moonlight on the Beach
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[609/4593] (13.3%)
+📍 Red Rocks by Åsgårdstrand
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[610/4593] (13.3%)
+📍 The Death of the Bohemian
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (610/4593)
+
+[611/4593] (13.3%)
+📍 Winter in Kragerø
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[612/4593] (13.3%)
+📍 Beach Landscape with Trees and Boats
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[613/4593] (13.3%)
+📍 Brothel Scene
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[614/4593] (13.4%)
+📍 17th of May in a Small, Norwegian Town
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[615/4593] (13.4%)
+📍 African with Green Scarf
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[616/4593] (13.4%)
+📍 Alma Mater, Standing Child
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[617/4593] (13.4%)
+📍 Bathing Girls
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[618/4593] (13.5%)
+📍 Bathing Men on Rocks
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[619/4593] (13.5%)
+📍 Bathing Men
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[620/4593] (13.5%)
+📍 Bathing Men
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (620/4593)
+
+[621/4593] (13.5%)
+📍 Bathing Woman and Children
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[622/4593] (13.5%)
+📍 Bathing Women
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[623/4593] (13.6%)
+📍 Bathing Young Men
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[624/4593] (13.6%)
+📍 Beneath the Red Apples
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[625/4593] (13.6%)
+📍 Birgit Prestøe in the Garden
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[626/4593] (13.6%)
+📍 Children in the Street
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[627/4593] (13.7%)
+📍 Gamblers in Monte Carlo
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[628/4593] (13.7%)
+📍 Girl from Nordland
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[629/4593] (13.7%)
+📍 Girls watering Flowers (The Linde Frieze)
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[630/4593] (13.7%)
+📍 Kneeling Female Figure
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (630/4593)
+
+[631/4593] (13.7%)
+📍 Landowner in the Park
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[632/4593] (13.8%)
+📍 Man and Woman by the Window with Potted Plants
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[633/4593] (13.8%)
+📍 Marat in the Bath and Charlotte Corday
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[634/4593] (13.8%)
+📍 Meeting on the Beach
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[635/4593] (13.8%)
+📍 Metabolism
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[636/4593] (13.8%)
+📍 Model by the Wicker Chair
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[637/4593] (13.9%)
+📍 Model in the Garden
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[638/4593] (13.9%)
+📍 Naked Men in Landscape
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[639/4593] (13.9%)
+📍 Naked Men in Swimming Pool
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[640/4593] (13.9%)
+📍 Nude Couple on the Beach
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (640/4593)
+
+[641/4593] (14.0%)
+📍 Nude with Red Skirt
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[642/4593] (14.0%)
+📍 Nude, Sitting on the Couch
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[643/4593] (14.0%)
+📍 Promenade in Spring
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[644/4593] (14.0%)
+📍 Puberty
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[645/4593] (14.0%)
+📍 Scene of Ibsen’s ‘Ghosts’
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[646/4593] (14.1%)
+📍 Seated Model on the Couch II
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[647/4593] (14.1%)
+📍 Seated Model on the Couch
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[648/4593] (14.1%)
+📍 Self-Portrait
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[649/4593] (14.1%)
+📍 Study of a Model
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[650/4593] (14.2%)
+📍 Summer Night. Mermaid
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (650/4593)
+
+📦 배치 14/92 처리 중 (50개 작품)
+============================================================
+
+[651/4593] (14.2%)
+📍 The Artist and his Model
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[652/4593] (14.2%)
+📍 The Hands
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[653/4593] (14.2%)
+📍 The Sower
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[654/4593] (14.2%)
+📍 The Women on the Bridge
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[655/4593] (14.3%)
+📍 Tingletangle
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[656/4593] (14.3%)
+📍 Two Women by the Veranda Steps
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[657/4593] (14.3%)
+📍 Two Women in the Garden
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[658/4593] (14.3%)
+📍 Two Women on the Shore II
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+  ⚠️ Cloudinary 업로드 실패: Invalid image file
+
+[659/4593] (14.3%)
+📍 Two Women on the Shore
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[660/4593] (14.4%)
+📍 Under the Chestnut Tree
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ⚠️ Cloudinary 업로드 실패: undefined
+💾 진행 상황 저장됨 (660/4593)
+
+[661/4593] (14.4%)
+📍 Wilhelm Wartmann
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[662/4593] (14.4%)
+📍 Woman in a Green Meadow
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[663/4593] (14.4%)
+📍 Woman Seated on a Couch
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[664/4593] (14.5%)
+📍 Woman Standing in the Doorway
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[665/4593] (14.5%)
+📍 Woman with Children
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[666/4593] (14.5%)
+📍 Woman. Sphinx
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[667/4593] (14.5%)
+📍 Women in the Bath
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[668/4593] (14.5%)
+📍 Horse Team and a St. Bernhard in the Snow
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[669/4593] (14.6%)
+📍 Horses Ploughing
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[670/4593] (14.6%)
+📍 Apple Tree By The Studio
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (670/4593)
+
+[671/4593] (14.6%)
+📍 Cabbage Field
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[672/4593] (14.6%)
+📍 Sunbathin
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[673/4593] (14.7%)
+📍 Sunrise In The Harbour
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[674/4593] (14.7%)
+📍 Taarbæk Harbour
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[675/4593] (14.7%)
+📍 The Building Of The Winter Studio
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[676/4593] (14.7%)
+📍 The Seine At Saint-Cloud
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[677/4593] (14.7%)
+📍 The Storm, Right Part
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[678/4593] (14.8%)
+📍 The Tram Loop At Skøyen
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[679/4593] (14.8%)
+📍 Trees By The Canal
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[680/4593] (14.8%)
+📍 Waves Against The Shore
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (680/4593)
+
+[681/4593] (14.8%)
+📍 Waves
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[682/4593] (14.8%)
+📍 Winter. Elgersburg
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[683/4593] (14.9%)
+📍 Woman By The Veranda Step
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[684/4593] (14.9%)
+📍 Jealousy
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[685/4593] (14.9%)
+📍 In the Tavern
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[686/4593] (14.9%)
+📍 Andreas Reading
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[687/4593] (15.0%)
+📍 The Scream
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[688/4593] (15.0%)
+📍 Two Human Beings. The Lonely Ones
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[689/4593] (15.0%)
+📍 Vignette; Amaryllis
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[690/4593] (15.0%)
+📍 Boy In Blue
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (690/4593)
+
+[691/4593] (15.0%)
+📍 The Sower
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[692/4593] (15.1%)
+📍 Liggende akt
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[693/4593] (15.1%)
+📍 Akt med kne på seng
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[694/4593] (15.1%)
+📍 Akt på mønstret teppe
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[695/4593] (15.1%)
+📍 Akt på sengen
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[696/4593] (15.2%)
+📍 Akt som bøyer seg
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[697/4593] (15.2%)
+📍 Alma Mater; Exploring Children
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[698/4593] (15.2%)
+📍 Angst
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[699/4593] (15.2%)
+📍 Arbeidere i gate
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[700/4593] (15.2%)
+📍 Arbeiderscene
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (700/4593)
+
+📦 배치 15/92 처리 중 (50개 작품)
+============================================================
+
+[701/4593] (15.3%)
+📍 Arbeiderscene
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[702/4593] (15.3%)
+📍 Badende kvinner, Åsgårdstrand
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[703/4593] (15.3%)
+📍 Bathing Women
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[704/4593] (15.3%)
+📍 Beach Landscape with Trees and Boats
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[705/4593] (15.3%)
+📍 Blood Waterfall
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[706/4593] (15.4%)
+📍 Blossom of Pain
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[707/4593] (15.4%)
+📍 By the Deathbed. Fever
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[708/4593] (15.4%)
+📍 Bygningsarbeid
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[709/4593] (15.4%)
+📍 Cascade of Blood
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[710/4593] (15.5%)
+📍 Death and Crystallization
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (710/4593)
+
+[711/4593] (15.5%)
+📍 Det syke øye
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[712/4593] (15.5%)
+📍 Det syke øyet. Optiske illusjoner
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[713/4593] (15.5%)
+📍 Female head
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[714/4593] (15.5%)
+📍 Female Nude
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[715/4593] (15.6%)
+📍 Four Girls in Åsgårdstrand
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[716/4593] (15.6%)
+📍 Framoverbøyd kvinneakt
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[717/4593] (15.6%)
+📍 Geniuses in Sunrays
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[718/4593] (15.6%)
+📍 Ghosts; Osvald
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[719/4593] (15.7%)
+📍 Head by Head in Landscape
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[720/4593] (15.7%)
+📍 Hest og vogn i gate
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (720/4593)
+
+[721/4593] (15.7%)
+📍 History
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[722/4593] (15.7%)
+📍 In the Man’s Brain
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[723/4593] (15.7%)
+📍 Jealousy Motif
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ⚠️ Cloudinary 업로드 실패: undefined
+
+[724/4593] (15.8%)
+📍 Kilden
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[725/4593] (15.8%)
+📍 Kiss
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[726/4593] (15.8%)
+📍 Knelende akt
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[727/4593] (15.8%)
+📍 Knelende akt
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[728/4593] (15.9%)
+📍 Knelende kvinneakt
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[729/4593] (15.9%)
+📍 Kunstneren og hans syke øye. Knelende kvinnelig akt med ørn
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[730/4593] (15.9%)
+📍 Kunstneren og hans syke øye. Optisk illusjon.
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (730/4593)
+
+[731/4593] (15.9%)
+📍 Kvinne og selvportrett i profil
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[732/4593] (15.9%)
+📍 Kvinneakt
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[733/4593] (16.0%)
+📍 Kvinnelig modellstudie
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ⚠️ Cloudinary 업로드 실패: undefined
+
+[734/4593] (16.0%)
+📍 Kvinner høster frukt
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[735/4593] (16.0%)
+📍 Kvinner på stranden, Åsgårdstrand
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[736/4593] (16.0%)
+📍 Landscape from Hvitsten
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[737/4593] (16.0%)
+📍 Landskap og døde kropper
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[738/4593] (16.1%)
+📍 Liggende akt
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[739/4593] (16.1%)
+📍 Liggende akt med hevede ben
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[740/4593] (16.1%)
+📍 Liggende akt
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (740/4593)
+
+[741/4593] (16.1%)
+📍 Mann og kvinne
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[742/4593] (16.2%)
+📍 Mannsakt
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ⚠️ Cloudinary 업로드 실패: Invalid image file
+
+[743/4593] (16.2%)
+📍 Manskropp på obduksjonsbordet
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[744/4593] (16.2%)
+📍 Mason
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[745/4593] (16.2%)
+📍 Melancholy II
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[746/4593] (16.2%)
+📍 Melankoli II
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[747/4593] (16.3%)
+📍 Men Turned towards the Sun
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[748/4593] (16.3%)
+📍 Men Turning towards the Sun
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[749/4593] (16.3%)
+📍 Mennesker og sol
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[750/4593] (16.3%)
+📍 Mennesker
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (750/4593)
+
+📦 배치 16/92 처리 중 (50개 작품)
+============================================================
+
+[751/4593] (16.4%)
+📍 Møte ved veranda
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[752/4593] (16.4%)
+📍 Mountains
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[753/4593] (16.4%)
+📍 Mystical Shore
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[754/4593] (16.4%)
+📍 Naked Figures
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[755/4593] (16.4%)
+📍 Naken mann vasker føttene
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[756/4593] (16.5%)
+📍 Old Man with Naked Woman on his Lap
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[757/4593] (16.5%)
+📍 Physics
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[758/4593] (16.5%)
+📍 Portrait of Model
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[759/4593] (16.5%)
+📍 Red Rocks
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[760/4593] (16.5%)
+📍 Restaurantscene
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (760/4593)
+
+[761/4593] (16.6%)
+📍 Rose and Amelie
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[762/4593] (16.6%)
+📍 Rugged Trunks in Snow
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[763/4593] (16.6%)
+📍 Rugged Trunks in Snow
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[764/4593] (16.6%)
+📍 Seated Female Nude with Blue Stockings
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[765/4593] (16.7%)
+📍 Set Design for Henrik Ibsen’s Ghosts
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[766/4593] (16.7%)
+📍 Sittende akt
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[767/4593] (16.7%)
+📍 Sittende akt
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[768/4593] (16.7%)
+📍 Sittende akt
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[769/4593] (16.7%)
+📍 Sittende kvinnelig akt i sidelys
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[770/4593] (16.8%)
+📍 Sittende naken mann og kvinne
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (770/4593)
+
+[771/4593] (16.8%)
+📍 Sittende ung kvinne
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[772/4593] (16.8%)
+📍 Snowstorm by the Sea
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[773/4593] (16.8%)
+📍 Stående akt
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[774/4593] (16.9%)
+📍 Stående akt
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[775/4593] (16.9%)
+📍 Stående akt
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[776/4593] (16.9%)
+📍 Stående figur  
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[777/4593] (16.9%)
+📍 Stående halvakt
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[778/4593] (16.9%)
+📍 Street Workers in Snow
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[779/4593] (17.0%)
+📍 Summernight. The Voice
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[780/4593] (17.0%)
+📍 Sun Rays
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+❌ 오류: ENOSPC: no space left on device, write
+
+[781/4593] (17.0%)
+📍 The Drowning Child
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[782/4593] (17.0%)
+📍 The hospital room
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[783/4593] (17.0%)
+📍 The pet pig
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[784/4593] (17.1%)
+📍 The Storm; Right Middle Part
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[785/4593] (17.1%)
+📍 The Sun
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[786/4593] (17.1%)
+📍 The Wave
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[787/4593] (17.1%)
+📍 The Wedding of the Bohemian
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[788/4593] (17.2%)
+📍 Three Seated Young Women
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[789/4593] (17.2%)
+📍 To liggende akter
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[790/4593] (17.2%)
+📍 Top Section of Decoration for Oslo City Hall
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+❌ 오류: ENOSPC: no space left on device, write
+
+[791/4593] (17.2%)
+📍 Two Women at the Table
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[792/4593] (17.2%)
+📍 Untitled 10
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[793/4593] (17.3%)
+📍 Untitled 11
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[794/4593] (17.3%)
+📍 Untitled 12
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[795/4593] (17.3%)
+📍 Untitled 13
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[796/4593] (17.3%)
+📍 Untitled 14
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+  ⚠️ Cloudinary 업로드 실패: Invalid image file
+
+[797/4593] (17.4%)
+📍 Untitled 15
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[798/4593] (17.4%)
+📍 Untitled 17
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[799/4593] (17.4%)
+📍 Untitled 18
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[800/4593] (17.4%)
+📍 Untitled 19
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (800/4593)
+
+📦 배치 17/92 처리 중 (50개 작품)
+============================================================
+
+[801/4593] (17.4%)
+📍 Untitled 2
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[802/4593] (17.5%)
+📍 Untitled 20
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[803/4593] (17.5%)
+📍 Untitled 21
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[804/4593] (17.5%)
+📍 Untitled 22
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[805/4593] (17.5%)
+📍 Untitled 23
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[806/4593] (17.5%)
+📍 Untitled 24
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[807/4593] (17.6%)
+📍 Untitled 25
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[808/4593] (17.6%)
+📍 Untitled 26
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[809/4593] (17.6%)
+📍 Untitled 27
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[810/4593] (17.6%)
+📍 Untitled 28
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+💾 진행 상황 저장됨 (810/4593)
+
+[811/4593] (17.7%)
+📍 Untitled 3
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[812/4593] (17.7%)
+📍 Untitled 4
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[813/4593] (17.7%)
+📍 Untitled 5
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[814/4593] (17.7%)
+📍 Untitled 6
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[815/4593] (17.7%)
+📍 Untitled 7
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[816/4593] (17.8%)
+📍 Untitled 8
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[817/4593] (17.8%)
+📍 Untitled 9
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[818/4593] (17.8%)
+📍 Untitled
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[819/4593] (17.8%)
+📍 Vampyr
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[820/4593] (17.9%)
+📍 Variation on ‘Jealousy’
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+❌ 오류: ENOSPC: no space left on device, write
+
+[821/4593] (17.9%)
+📍 Venus
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[822/4593] (17.9%)
+📍 Village by the Sea
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[823/4593] (17.9%)
+📍 Winter Landscape from Kragerø
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[824/4593] (17.9%)
+📍 Harry Graf Kessler
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[825/4593] (18.0%)
+📍 Landscape
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[826/4593] (18.0%)
+📍 Nude in Front of the Mirror
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[827/4593] (18.0%)
+📍 Sittende kvinneakt
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[828/4593] (18.0%)
+📍 Clothes On A Line In Åsgårdstrand
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[829/4593] (18.0%)
+📍 Garden With Red House
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[830/4593] (18.1%)
+📍 Sommernatt (Summer Night)
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+❌ 오류: ENOSPC: no space left on device, write
+
+[831/4593] (18.1%)
+📍 Despair
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[832/4593] (18.1%)
+📍 Evening (Melancholy III)
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[833/4593] (18.1%)
+📍 Friedrich Nietzsche
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[834/4593] (18.2%)
+📍 Madonna
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[835/4593] (18.2%)
+📍 Moonlight (Moonlight II)
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[836/4593] (18.2%)
+📍 On the Bridge
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[837/4593] (18.2%)
+📍 Portrait of Ernest Thiel (Study)
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[838/4593] (18.2%)
+📍 Portrait of Ernest Thiel
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[839/4593] (18.3%)
+📍 Portrait of Helge Bäckström
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[840/4593] (18.3%)
+📍 Portrait of Mrs. Förster-Nietzsche
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+❌ 오류: ENOSPC: no space left on device, write
+
+[841/4593] (18.3%)
+📍 Portrait of the Painter Ludvig Karsten
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[842/4593] (18.3%)
+📍 Self-portrait
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[843/4593] (18.4%)
+📍 The Family (The Book Family)
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[844/4593] (18.4%)
+📍 The Sick Child
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[845/4593] (18.4%)
+📍 Three Children
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[846/4593] (18.4%)
+📍 The Oak
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[847/4593] (18.4%)
+📍 Encounter in Space
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[848/4593] (18.5%)
+📍 Field in Snow
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[849/4593] (18.5%)
+📍 Aase and Harald Nørregaard
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[850/4593] (18.5%)
+📍 Aase Nørregaard
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (850/4593)
+
+📦 배치 18/92 처리 중 (50개 작품)
+============================================================
+
+[851/4593] (18.5%)
+📍 Andreas Reading
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[852/4593] (18.5%)
+📍 Around the Paraffin Lamp
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[853/4593] (18.6%)
+📍 Ashes
+👤 Edvard Munch
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[854/4593] (18.6%)
+📍 Bathing Boys
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[855/4593] (18.6%)
+📍 Bathing Man
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[856/4593] (18.6%)
+📍 Death in the Sickroom
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[857/4593] (18.7%)
+📍 Hans Jæger
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[858/4593] (18.7%)
+📍 Inger in Black and Violet
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[859/4593] (18.7%)
+📍 Inger in Black
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[860/4593] (18.7%)
+📍 Jørgen Sørensen
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (860/4593)
+
+[861/4593] (18.7%)
+📍 Julius Meier-Graefe
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[862/4593] (18.8%)
+📍 Man in the Cabbage Field
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[863/4593] (18.8%)
+📍 Melancholy
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[864/4593] (18.8%)
+📍 Midsummer
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[865/4593] (18.8%)
+📍 Moonlight
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[866/4593] (18.9%)
+📍 Mother and Daughter
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[867/4593] (18.9%)
+📍 On the Veranda
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[868/4593] (18.9%)
+📍 Puberty
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[869/4593] (18.9%)
+📍 Ragnhild Bäckström
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[870/4593] (18.9%)
+📍 Rue Lafayette
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (870/4593)
+
+[871/4593] (19.0%)
+📍 Seated Nude
+👤 Edvard Munch
+  ☁️ Cloudinary 업로드 완료
+
+[872/4593] (19.0%)
+📍 Self-Portrait with Cigarette
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[873/4593] (19.0%)
+📍 Self-Portrait with the Spanish Flu
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[874/4593] (19.0%)
+📍 Self-Portrait
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[875/4593] (19.1%)
+📍 Spring
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[876/4593] (19.1%)
+📍 The Dance of Life
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[877/4593] (19.1%)
+📍 The Day After
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[878/4593] (19.1%)
+📍 The Fairytale Forest
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[879/4593] (19.1%)
+📍 The Frenchman, Marcel Archinard
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[880/4593] (19.2%)
+📍 The Girls on the Bridge
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+❌ 오류: ENOSPC: no space left on device, write
+
+[881/4593] (19.2%)
+📍 The Kiss
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[882/4593] (19.2%)
+📍 Thorvald Løchen
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[883/4593] (19.2%)
+📍 Workers Returning Home
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[884/4593] (19.2%)
+📍 Young Woman Washing herself
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[885/4593] (19.3%)
+📍 Flowery Meadow at Veierland
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[886/4593] (19.3%)
+📍 From Vestre Aker
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[887/4593] (19.3%)
+📍 House with Red Virginia Creeper
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[888/4593] (19.3%)
+📍 Moonlight
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[889/4593] (19.4%)
+📍 Moonlight by the Mediterranean
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[890/4593] (19.4%)
+📍 Night in Nice
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+❌ 오류: ENOSPC: no space left on device, write
+
+[891/4593] (19.4%)
+📍 White Night
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[892/4593] (19.4%)
+📍 Winter on the Fiord
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[893/4593] (19.4%)
+📍 Winter
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[894/4593] (19.5%)
+📍 Autumn Ploughing
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[895/4593] (19.5%)
+📍 Der Maler Paul Herrmann und der Arzt Paul Contard
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[896/4593] (19.5%)
+📍 Männer am Meer
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[897/4593] (19.5%)
+📍 Park in Kösen
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[898/4593] (19.6%)
+📍 Night in Saint-Cloud
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[899/4593] (19.6%)
+📍 Der Leichenwagen. Potsdamer Platz
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[900/4593] (19.6%)
+📍 Head by head (man and woman kissing)
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (900/4593)
+
+📦 배치 19/92 처리 중 (50개 작품)
+============================================================
+
+[901/4593] (19.6%)
+📍 Sitzender Raubvogel. Adler
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[902/4593] (19.6%)
+📍 Bathing Women
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[903/4593] (19.7%)
+📍 Kvinne Som Speiler Seg (Woman Looking In The Mirror)
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[904/4593] (19.7%)
+📍 Sittende Ung Kvinne (Seated Young Woman)
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[905/4593] (19.7%)
+📍 Natt I Saint-Cloud (Night In Saint-Cloud)
+👤 Edvard Munch
+  ❌ 처리 실패: ENOSPC: no space left on device, write
+
+[906/4593] (19.7%)
+📍 Såmannen (The Sower)
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[907/4593] (19.7%)
+📍 Kragerø Om Våren (Kragerø In Spring)
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[908/4593] (19.8%)
+📍 Klestørk I Åsgårdstrand (Clothes On A Line In Åsgårdstrand)
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[909/4593] (19.8%)
+📍 Morgen På Promenade Des Anglais (Morning On The Promenade Des Anglais)
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[910/4593] (19.8%)
+📍 Dr. Linde’s Sons
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+💾 진행 상황 저장됨 (910/4593)
+
+[911/4593] (19.8%)
+📍 An Old Man
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[912/4593] (19.9%)
+📍 Christian Gierlöff, Author
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[913/4593] (19.9%)
+📍 The Vampire
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[914/4593] (19.9%)
+📍 The Sick Girl
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[915/4593] (19.9%)
+📍 Kneeling Nude
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[916/4593] (19.9%)
+📍 Kiss on the Beach
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[917/4593] (20.0%)
+📍 Weeping Nude
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[918/4593] (20.0%)
+📍 Old Fisherman and his Daughter
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료
+
+[919/4593] (20.0%)
+📍 Two People. The Lonely Ones
+👤 Edvard Munch
+  ✅ 원본 이미지 다운로드 완료
+  ✅ 썸네일 다운로드 완료
+  ☁️ Cloudinary 업로드 완료

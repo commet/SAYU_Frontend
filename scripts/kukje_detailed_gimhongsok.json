@@ -1,0 +1,127 @@
+{
+  "exhibition": {
+    "id": "kukje-gimhongsok-normal-order-2024",
+    "seq": 265,
+    "title_en": "Normal order aimed at failure",
+    "title_ko": "실패를 목적으로 한 정상적 질서",
+    "subtitle": null,
+    "description": "김홍석의 개인전 '실패를 목적으로 한 정상적 질서'는 이분법적 사고와 서구 현대성에 도전하는 작품들을 선보입니다. '뒤엉킴(entanglement)'이라는 핵심 개념을 통해 예술, 문화, 정체성의 고정된 인식을 해체하고, 서구와 비서구 관점 사이의 긴장을 탐구합니다.",
+    "description_en": "Gimhongsok's solo exhibition 'Normal order aimed at failure' presents works that challenge binary thinking and Western modernity. Through the key concept of 'entanglement,' the exhibition deconstructs fixed perceptions of art, culture, and identity while exploring tensions between Western and non-Western perspectives.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "서울",
+    "venue_country": "KR",
+    "gallery_location": "K2 and K3 spaces",
+    
+    "start_date": "2024-02-01",
+    "end_date": "2024-03-03",
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "mixed_media",
+    "artworks_count": null,
+    
+    "artists": [
+      {
+        "name": "Gimhongsok",
+        "name_ko": "김홍석",
+        "role": "artist",
+        "birth_year": 1964,
+        "nationality": "Korean",
+        "artistic_approach": "Challenging established norms through conceptual disruption",
+        "key_concepts": ["Entanglement", "Binary opposition", "Cultural hybridity"],
+        "international_recognition": "Major exhibitions at Tate Modern, Venice Biennale"
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Exploring the crucial action of escaping binary thinking through artworks that exist in ambiguous, in-between spaces",
+    
+    "key_concept": {
+      "entanglement": {
+        "korean": "뒤엉킴",
+        "definition": "A pivotal point for escaping binary thinking",
+        "application": "Creating works that blur boundaries between categories",
+        "philosophical_basis": "Challenging Western modernist dichotomies"
+      }
+    },
+    
+    "artwork_categories": [
+      {
+        "type": "Sculptures",
+        "approach": "Challenging viewer expectations",
+        "effect": "Disrupting conventional understanding"
+      },
+      {
+        "type": "Paintings",
+        "subject": "Traditional Asian motifs",
+        "technique": "Western materials and methods",
+        "concept": "Cultural hybridity and tension"
+      },
+      {
+        "type": "Mixed media installations",
+        "focus": "Blurring real/unreal, normal/abnormal boundaries"
+      }
+    ],
+    
+    "thematic_exploration": [
+      "Binary thinking deconstruction",
+      "Western modernity critique",
+      "Cultural identity fluidity",
+      "Art perception challenges",
+      "East-West dialogue",
+      "Failure as productive concept",
+      "Normal vs abnormal definitions",
+      "Fixed concepts dissolution"
+    ],
+    
+    "artistic_methodology": {
+      "disruption": "Conventional understanding of art",
+      "challenging": "Established cultural and artistic norms",
+      "creating": "Ambiguous, in-between spaces",
+      "provoking": "Reconsideration of fixed concepts"
+    },
+    
+    "conceptual_framework": {
+      "failure_purpose": "Using failure as intentional strategy",
+      "normal_order": "Questioning what constitutes normalcy",
+      "entangled_world": "Reality as interconnected, non-binary",
+      "playful_provocation": "Humor and wit as critical tools"
+    },
+    
+    "cultural_commentary": {
+      "western_critique": "Questioning Western modernist paradigms",
+      "non_western_perspective": "Asserting alternative worldviews",
+      "hybrid_identity": "Navigating between cultures",
+      "global_local_tension": "Contemporary art's cultural politics"
+    },
+    
+    "artist_quote": "The entangled world is a pivotal point for the crucial action of escaping binary thinking.",
+    
+    "themes": ["contemporary art", "Korean art", "conceptual art", "cultural critique", "post-colonial", "installation"],
+    "tags": ["contemporary art", "Korean art", "conceptual", "cultural identity", "binary thinking", "installation"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=265",
+    
+    "exhibition_significance": {
+      "conceptual_rigor": "Sophisticated philosophical framework",
+      "cultural_relevance": "Timely critique of binary thinking",
+      "artistic_innovation": "Boundary-pushing conceptual practice",
+      "international_dialogue": "Contributing to global art discourse"
+    },
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 93,
+    "collected_at": "2025-08-06T16:05:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=265",
+    
+    "personality_matches": ["LAEF", "LAEC", "LREF", "LREC", "SAEF", "SAEC"],
+    "recommendation_score": 92,
+    
+    "created_at": "2025-08-06T16:05:00.000Z",
+    "updated_at": "2025-08-06T16:05:00.000Z"
+  }
+}

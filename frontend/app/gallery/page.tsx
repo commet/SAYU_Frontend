@@ -14,6 +14,7 @@ import { galleryApi, Artwork, FollowingArtist } from '@/lib/gallery-api';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
+import { ArtworkDetailModal } from '@/components/ui/ArtworkDetailModal';
 import toast from 'react-hot-toast';
 
 // 새로운 컴포넌트들 import
@@ -76,13 +77,19 @@ function GalleryContent() {
   const [likedArtworks, setLikedArtworks] = useState<Set<string>>(new Set());
   const [viewedArtworks, setViewedArtworks] = useState<Set<string>>(new Set());
   const [savedArtworks, setSavedArtworks] = useState<Set<string>>(new Set());
+  const [savedArtworksData, setSavedArtworksData] = useState<GalleryArtwork[]>([]);
   
   // 새로운 통계 상태
   const [monthlyCollected, setMonthlyCollected] = useState(0);
   const [todayDiscovered, setTodayDiscovered] = useState(0);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [recommendedArtworks, setRecommendedArtworks] = useState<any[]>([]);
+  const [showAllRecommendations, setShowAllRecommendations] = useState(false);
   const [layout, setLayout] = useState<'masonry' | 'grid' | 'list'>('masonry');
+  
+  // 작품 상세 모달 상태
+  const [selectedArtwork, setSelectedArtwork] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Load user profile and preferences
   useEffect(() => {
@@ -163,8 +170,8 @@ function GalleryContent() {
       const userType = userProfile?.typeCode || userProfile?.personalityType || user?.aptType || 'SREF';
       const recommendations = getPersonalizedRecommendations(userType, selectedCategory);
       
-      // Transform to match existing interface
-      const formattedRecommendations = recommendations.slice(0, 5).map((rec, i) => ({
+      // Transform to match existing interface - get more recommendations for expansion
+      const formattedRecommendations = recommendations.slice(0, 12).map((rec, i) => ({
         id: rec.id || `rec-${i}`,
         title: rec.title,
         artist: rec.artist,
@@ -332,6 +339,7 @@ function GalleryContent() {
     
     console.log('handleSave called:', { artworkId, isSaving });
     console.log('recommendedArtworks:', recommendedArtworks);
+    console.log('galleryArtworks:', galleryArtworks);
     
     if (isSaving) {
       newSaved.add(artworkId);
@@ -340,19 +348,38 @@ function GalleryContent() {
       // 오늘 발견한 작품 카운트 증가
       setTodayDiscovered(prev => prev + 1);
       
-      // 추천 작품에서 보관한 작품을 galleryArtworks 맨 앞에 추가 (최신 순)
-      const savedArtwork = recommendedArtworks.find(artwork => artwork.id === artworkId);
+      // 추천 작품 또는 갤러리 작품에서 저장한 작품 찾기
+      let savedArtwork = recommendedArtworks.find(artwork => artwork.id === artworkId);
+      
+      // 추천 작품에 없으면 갤러리 작품에서 찾기
+      if (!savedArtwork) {
+        const galleryArtwork = galleryArtworks.find(artwork => artwork.id === artworkId);
+        if (galleryArtwork) {
+          savedArtwork = {
+            id: galleryArtwork.id,
+            title: galleryArtwork.title,
+            artist: galleryArtwork.artist,
+            year: galleryArtwork.year,
+            image: galleryArtwork.imageUrl,
+            imageUrl: galleryArtwork.imageUrl,
+            museum: galleryArtwork.museum,
+            medium: galleryArtwork.medium,
+            department: galleryArtwork.department,
+            matchPercent: galleryArtwork.matchPercent,
+            curatorNote: galleryArtwork.curatorNote,
+            description: galleryArtwork.description
+          };
+        }
+      }
+      
       console.log('Found savedArtwork:', savedArtwork);
       
       if (savedArtwork) {
-        setGalleryArtworks(prev => {
-          console.log('Current galleryArtworks length:', prev.length);
+        // savedArtworksData에 작품 추가 (맨 앞에)
+        setSavedArtworksData(prev => {
           const exists = prev.some(artwork => artwork.id === artworkId);
-          console.log('Artwork exists in gallery:', exists);
-          
           if (!exists) {
-            // 새로운 작품을 배열의 맨 앞에 추가 (unshift 효과)
-            const newArtwork = {
+            const newArtwork: GalleryArtwork = {
               id: savedArtwork.id,
               title: savedArtwork.title,
               artist: savedArtwork.artist,
@@ -367,20 +394,17 @@ function GalleryContent() {
               curatorNote: savedArtwork.description || savedArtwork.curatorNote,
               description: savedArtwork.description
             };
-            console.log('Adding newArtwork to gallery:', newArtwork);
-            
-            // 맨 앞에 새 작품 추가 + 저장 상태 표시
-            const updatedArtworks = [{ ...newArtwork, isNewlyAdded: true }, ...prev];
-            console.log('Updated galleryArtworks length:', updatedArtworks.length);
-            return updatedArtworks;
+            console.log('Adding newArtwork to savedArtworksData:', newArtwork);
+            return [newArtwork, ...prev]; // 맨 앞에 추가 (왼쪽에 새로 추가)
           }
           return prev;
         });
       } else {
-        console.log('savedArtwork not found in recommendedArtworks');
+        console.log('savedArtwork not found');
       }
     } else {
       newSaved.delete(artworkId);
+      setSavedArtworksData(prev => prev.filter(artwork => artwork.id !== artworkId));
       toast.success('📌 컬렉션에서 제거되었습니다');
     }
     
@@ -412,6 +436,17 @@ function GalleryContent() {
     const shuffled = [...galleryArtworks].sort(() => Math.random() - 0.5);
     setGalleryArtworks(shuffled);
     toast.success('Gallery shuffled!');
+  };
+
+  const handleArtworkClick = (artwork: any) => {
+    setSelectedArtwork(artwork);
+    setIsModalOpen(true);
+    handleView(artwork.id);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedArtwork(null);
   };
 
   if (loading && !isGuestMode) {
@@ -559,21 +594,97 @@ function GalleryContent() {
                   </span>
                 </div>
               </div>
-              <Button variant="ghost" size="sm" className="rounded-full text-slate-400 hover:text-white hover:bg-slate-800">
-                더보기 <ChevronRight className="w-4 h-4 ml-1" />
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="rounded-full text-slate-400 hover:text-white hover:bg-slate-800"
+                onClick={() => setShowAllRecommendations(!showAllRecommendations)}
+              >
+                {showAllRecommendations ? '접기' : '더보기'} 
+                <ChevronRight className={`w-4 h-4 ml-1 transition-transform ${showAllRecommendations ? 'rotate-90' : ''}`} />
               </Button>
             </div>
             
-            {/* 추천 작품 horizontal scroll */}
-            <div className="relative overflow-x-auto pb-4">
-              <div className="flex gap-4 min-w-max">
-                {recommendedArtworks.slice(0, 5).map((item, index) => (
+            {/* 추천 작품 grid or horizontal scroll */}
+            {showAllRecommendations ? (
+              // Grid layout for expanded view (4x3)
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {recommendedArtworks.slice(0, 12).map((item, index) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    className="group bg-slate-800 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-slate-700 hover:border-purple-500"
+                    onClick={() => handleArtworkClick(item)}
+                  >
+                    <div className="aspect-[4/3] bg-slate-700 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      
+                      {/* 추천 작품 액션 버튼 */}
+                      <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-y-2 group-hover:translate-y-0 z-10">
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="p-2 rounded-full backdrop-blur-md bg-slate-800/80 hover:bg-slate-700/90 shadow-lg border border-slate-600 group/like"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleLike(item.id);
+                          }}
+                          title="좋아요 - AI가 비슷한 작품을 더 추천해줍니다"
+                        >
+                          <Heart className={`w-4 h-4 transition-colors ${likedArtworks.has(item.id) ? 'text-red-500 fill-red-500' : 'text-purple-400 group-hover/like:text-red-400'}`} />
+                        </motion.button>
+                        
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="p-2 rounded-full backdrop-blur-md bg-slate-800/80 hover:bg-slate-700/90 shadow-lg border border-slate-600 group/save"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSave(item.id);
+                          }}
+                          title="보관하기 - 내 아트 컬렉션에 추가됩니다"
+                        >
+                          <Bookmark className={`w-4 h-4 transition-colors ${savedArtworks.has(item.id) ? 'text-green-500 fill-green-500' : 'text-purple-400 group-hover/save:text-green-400'}`} />
+                        </motion.button>
+                      </div>
+                      
+                      <Sparkles className="absolute bottom-4 left-4 w-6 h-6 text-purple-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:rotate-12" />
+                      
+                      {/* 실제 이미지 표시 */}
+                      <img 
+                        src={item.image || `https://picsum.photos/600/450?random=${item.id}`} 
+                        alt={item.title}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="p-4">
+                      <h3 className="font-semibold text-sm line-clamp-1 text-white">{item.title}</h3>
+                      <p className="text-xs text-slate-400 mt-0.5">{item.artist} · {item.year}</p>
+                      <p className="text-xs text-slate-500 mt-2 line-clamp-2">{item.curatorNote || item.description}</p>
+                      <div className="flex items-center justify-between mt-3">
+                        <Badge variant="secondary" className="text-xs bg-purple-600/20 text-purple-300 border border-purple-500/30">
+                          {userAptType} 매치 {item.matchPercent || 95}%
+                        </Badge>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              // Horizontal scroll for collapsed view
+              <div className="relative overflow-x-auto pb-4">
+                <div className="flex gap-4 min-w-max">
+                  {recommendedArtworks.slice(0, 4).map((item, index) => (
                   <motion.div
                     key={item.id}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
                     className="group w-64 bg-slate-800 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer border border-slate-700 hover:border-purple-500"
+                    onClick={() => handleArtworkClick(item)}
                   >
                     <div className="aspect-[4/3] bg-slate-700 relative overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -631,80 +742,12 @@ function GalleryContent() {
                       </div>
                     </div>
                   </motion.div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </motion.div>
         )}
-
-        {/* 아카이빙 섹션 */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="text-xl font-semibold mb-1 text-white">
-                {language === 'ko' ? '내 아트 아카이빙' : 'My Art Collection'}
-              </h2>
-              <p className="text-sm text-gray-300">
-                {language === 'ko' 
-                  ? '지금까지 수집한 작품들을 한눈에 볼 수 있습니다'
-                  : 'View all the artworks you\'ve collected'}
-              </p>
-            </div>
-            <Button variant="ghost" size="sm" className="rounded-full text-slate-400 hover:text-white hover:bg-slate-800">
-              {language === 'ko' ? '모두 보기' : 'View All'} <ChevronRight className="w-4 h-4 ml-1" />
-            </Button>
-          </div>
-
-          {/* 아카이빙된 작품 표시 */}
-          {galleryArtworks.length > 0 ? (
-            <div className="overflow-x-auto pb-2">
-              <div className="flex gap-4 min-w-max">
-                {galleryArtworks.slice(0, 6).map((artwork) => (
-                  <motion.div
-                    key={artwork.id}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="relative group cursor-pointer"
-                  >
-                    <div className="w-32 h-32 rounded-lg overflow-hidden bg-slate-800 border border-slate-700 hover:border-purple-500 transition-all">
-                      <img 
-                        src={artwork.imageUrl || `https://picsum.photos/200/200?random=${artwork.id}`} 
-                        alt={artwork.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
-                      {artwork.isNewlyAdded && (
-                        <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
-                          New
-                        </div>
-                      )}
-                    </div>
-                    <div className="mt-2">
-                      <p className="text-xs text-white font-medium line-clamp-1">{artwork.title}</p>
-                      <p className="text-xs text-gray-400">{artwork.artist}</p>
-                    </div>
-                  </motion.div>
-                ))}
-                {galleryArtworks.length > 6 && (
-                  <div className="w-32 h-32 rounded-lg bg-slate-800/50 border border-slate-700 flex items-center justify-center cursor-pointer hover:bg-slate-700 transition-all">
-                    <div className="text-center">
-                      <ChevronRight className="w-6 h-6 mx-auto text-slate-400 mb-1" />
-                      <p className="text-xs text-slate-400">+{galleryArtworks.length - 6} more</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="bg-slate-800/50 rounded-lg p-8 text-center border border-slate-700">
-              <Bookmark className="w-8 h-8 mx-auto mb-3 text-slate-500" />
-              <p className="text-sm text-slate-400">
-                {language === 'ko' 
-                  ? '아직 저장한 작품이 없습니다. 아래 추천 작품에서 마음에 드는 작품을 저장해보세요!'
-                  : 'No saved artworks yet. Save your favorite artworks from the recommendations below!'}
-              </p>
-            </div>
-          )}
-        </div>
 
 
         {/* APT 유형별 맞춤 추천 배너 */}
@@ -734,22 +777,36 @@ function GalleryContent() {
           </div>
         )}
 
-        {/* Gallery Grid */}
-        {loading_artworks ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {[...Array(12)].map((_, i) => (
-              <div key={i} className="aspect-square bg-slate-800 rounded-xl animate-pulse" />
-            ))}
+        {/* My Art Collection */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-xl font-semibold mb-1 text-white">
+                {language === 'ko' ? 'My Art Collection' : 'My Art Collection'}
+              </h2>
+              <p className="text-sm text-gray-300">
+                {language === 'ko' 
+                  ? 'View all the artworks you\'ve collected'
+                  : 'View all the artworks you\'ve collected'}
+              </p>
+            </div>
+            <Button variant="ghost" size="sm" className="rounded-full text-slate-400 hover:text-white hover:bg-slate-800">
+              {language === 'ko' ? 'View All' : 'View All'} <ChevronRight className="w-4 h-4 ml-1" />
+            </Button>
           </div>
-        ) : galleryArtworks.length > 0 ? (
+        </div>
+
+        {/* Gallery Grid */}
+        {savedArtworksData.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {galleryArtworks.map((artwork, index) => (
+            {savedArtworksData.map((artwork, index) => (
               <motion.div
                 key={artwork.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="group"
+                className="group cursor-pointer"
+                onClick={() => handleArtworkClick(artwork)}
               >
                 <div className="relative overflow-hidden rounded-xl bg-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-700 hover:border-purple-500">
                   <div className="aspect-square bg-slate-700 flex items-center justify-center relative overflow-hidden">
@@ -833,13 +890,13 @@ function GalleryContent() {
           </div>
         ) : (
           /* Empty state */
-          <div className="text-center py-12">
-            <Eye className="w-12 h-12 mx-auto mb-4 text-slate-600" />
-            <h3 className="text-lg font-semibold mb-2 text-white">No artworks found</h3>
-            <p className="text-slate-400 mb-4">Try selecting a different category</p>
-            <Button onClick={() => fetchArtworks(selectedCategory)} className="bg-purple-600 hover:bg-purple-700">
-              Retry
-            </Button>
+          <div className="bg-slate-800/50 rounded-lg p-8 text-center border border-slate-700">
+            <Bookmark className="w-8 h-8 mx-auto mb-3 text-slate-500" />
+            <p className="text-sm text-slate-400">
+              {language === 'ko' 
+                ? '아직 저장한 작품이 없습니다. 위 추천 작품에서 마음에 드는 작품을 보관해보세요!'
+                : 'No saved artworks yet. Save your favorite artworks from the recommendations above!'}
+            </p>
           </div>
         )}
 
@@ -867,29 +924,44 @@ function GalleryContent() {
           </div>
         )}
 
-        {/* Met Museum Attribution */}
+        {/* Artwork Attribution */}
         <div className="mt-8 p-4 bg-slate-800/50 rounded-lg text-sm border border-slate-700">
           <p className="flex items-center gap-2 mb-2 text-slate-300">
             <ExternalLink className="w-4 h-4" />
-            <strong>{language === 'ko' ? '작품 컬렉션' : 'Artwork Collection'}</strong>
+            <strong>{language === 'ko' ? '작품 출처 및 라이선스' : 'Artwork Sources & Licensing'}</strong>
           </p>
           <p className="text-slate-400">
             {language === 'ko' 
-              ? '이 갤러리는 메트로폴리탄 미술관의 오픈 액세스 컬렉션 작품들을 선보입니다. 모든 작품은 크리에이티브 커먼즈 제로(CC0) 라이선스 하에 제공되며, 퍼블릭 도메인으로 자유롭게 사용 가능합니다.'
-              : 'This gallery features artworks from The Metropolitan Museum of Art\'s Open Access collection, available under the Creative Commons Zero (CC0) license. All displayed artworks are in the public domain and free to use.'}
+              ? 'SAYU는 전 세계 유명 미술관과 갤러리의 오픈 액세스 작품들을 큐레이션합니다. 메트로폴리탄 미술관, 시카고 미술관, 국립현대미술관 등 다양한 기관의 퍼블릭 도메인 작품과 오픈 라이선스 작품들을 선별하여 제공합니다.'
+              : 'SAYU curates open access artworks from renowned museums and galleries worldwide, including The Metropolitan Museum of Art, Art Institute of Chicago, National Museum of Modern and Contemporary Art, and more. All featured works are either in the public domain or available under open licenses.'}
           </p>
-          <p className="mt-2">
-            <a 
-              href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-purple-400 hover:underline"
-            >
-              {language === 'ko' ? 'Met 오픈 액세스 이니셔티브 자세히 보기 →' : 'Learn more about The Met\'s Open Access initiative →'}
-            </a>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="px-2 py-1 bg-slate-700 text-slate-300 rounded text-xs">Met Museum</span>
+            <span className="px-2 py-1 bg-slate-700 text-slate-300 rounded text-xs">AIC Chicago</span>
+            <span className="px-2 py-1 bg-slate-700 text-slate-300 rounded text-xs">MMCA Korea</span>
+            <span className="px-2 py-1 bg-slate-700 text-slate-300 rounded text-xs">Rijksmuseum</span>
+            <span className="px-2 py-1 bg-slate-700 text-slate-300 rounded text-xs">WikiArt</span>
+            <span className="px-2 py-1 bg-slate-700 text-slate-300 rounded text-xs">Artvee</span>
+          </div>
+          <p className="mt-3 text-xs text-slate-500">
+            {language === 'ko' 
+              ? '각 작품의 라이선스 정보는 작품 상세 페이지에서 확인할 수 있습니다. CC0, Public Domain, CC BY 등 다양한 오픈 라이선스 작품을 포함합니다.'
+              : 'License information for each artwork is available on the artwork detail page. Collection includes CC0, Public Domain, CC BY, and other open license works.'}
           </p>
         </div>
       </div>
+
+      {/* 작품 상세 모달 */}
+      <ArtworkDetailModal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        artwork={selectedArtwork}
+        onLike={handleLike}
+        onSave={handleSave}
+        isLiked={selectedArtwork ? likedArtworks.has(selectedArtwork.id) : false}
+        isSaved={selectedArtwork ? savedArtworks.has(selectedArtwork.id) : false}
+        userType={userAptType}
+      />
     </div>
   );
 }

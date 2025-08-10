@@ -15,13 +15,15 @@ import {
   RefreshCw,
   Search,
   Filter,
-  Download
+  Download,
+  MessageSquare
 } from 'lucide-react';
 
 import { SubmissionsList } from './SubmissionsList';
 import { DashboardStats } from './DashboardStats';
 import { ReportsList } from './ReportsList';
 import { ExhibitionManager } from './ExhibitionManager';
+import { FeedbackManager } from './FeedbackManager';
 
 interface DashboardData {
   submissions: {
@@ -41,7 +43,7 @@ interface DashboardData {
   monthlyStats: any;
 }
 
-type ActiveTab = 'overview' | 'submissions' | 'exhibitions' | 'reports' | 'settings';
+type ActiveTab = 'overview' | 'submissions' | 'exhibitions' | 'reports' | 'feedback' | 'settings';
 
 export function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
@@ -81,6 +83,7 @@ export function AdminDashboard() {
     { id: 'submissions', label: '제출 검토', icon: FileText },
     { id: 'exhibitions', label: '전시 관리', icon: Eye },
     { id: 'reports', label: '신고 처리', icon: AlertTriangle },
+    { id: 'feedback', label: '피드백 관리', icon: MessageSquare },
     { id: 'settings', label: '설정', icon: Users }
   ];
 
@@ -210,6 +213,10 @@ export function AdminDashboard() {
               
               {activeTab === 'reports' && (
                 <ReportsList onUpdate={fetchDashboardData} />
+              )}
+              
+              {activeTab === 'feedback' && (
+                <FeedbackManager />
               )}
               
               {activeTab === 'settings' && (

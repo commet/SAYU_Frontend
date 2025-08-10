@@ -28,6 +28,8 @@ export interface PersonalityDescription {
   recognition_ko?: string[];
   lifeExtension: string;
   lifeExtension_ko?: string;
+  keywords?: string[];
+  keywords_ko?: string[];
   lifeAreas: Array<{
     title: string;
     title_ko?: string;
@@ -59,7 +61,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '감성 탐험가',
     subtitle: 'Dancing with abstract emotions in solitude',
     subtitle_ko: '감정의 나침반을 따라 예술을 탐험하는',
-    essence: 'You\'ve been standing in front of this Monet for twenty-three minutes now, and the security guard is starting to give you concerned looks. But you can\'t help it - those water lilies are literally speaking to your soul in a language only you understand. Your phone has twelve missed calls from friends wondering where you disappeared to, but you\'re too busy having a full-blown emotional conversation with a splash of cerulean blue that somehow captured exactly how you felt last Tuesday at 3:47 PM.',
+    essence: 'You\'ve been standing in front of this Monet for twenty-three minutes now, and the security guard is starting to give you concerned looks. But you can\'t help it - those water lilies are literally speaking to your soul in a language only you understand.\n\nYour phone has twelve missed calls from friends wondering where you disappeared to, but you\'re too busy having a full-blown emotional conversation with a splash of cerulean blue that somehow captured exactly how you felt last Tuesday at 3:47 PM. While others say "It\'s just a pond painting, isn\'t it?", to you it\'s like an emotional diary containing the universe\'s secrets. These moments of communion with art in your private time are the most precious.',
     essence_ko: '모네 작품 앞에 선 지 벌써 23분째예요. 경비원 아저씨가 걱정스럽게 쳐다보시는데, 어쩔 수 없어요. 저 수련들이 말 그대로 영혼에게 말을 걸고 있거든요. 친구들이 어디 갔냐고 전화를 12번이나 걸었는데 못 받았어요.\n\n세룰리안 블루 한 방울이 지난주 화요일 오후 3시 47분에 느꼈던 그 기분을 정확히 담고 있어서 완전히 넋을 잃었거든요. 다른 사람들은 "그냥 연못 그림 아니야?"라고 하지만, 당신에게는 우주의 비밀이 담긴 감정 일기장 같아요. 혼자만의 시간에 작품과 교감하는 이 순간이 가장 소중해요.',
     strengths: [
       {
@@ -162,7 +164,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Hidden meanings',
         emotionalTag_ko: '숨겨진 의미'
       }
-    ]
+    ],
+    keywords: ['Inner Dialogue', 'Emotional Immersion', 'Personal Meaning', 'Solitary Appreciation'],
+    keywords_ko: ['내면 대화', '감정 몰입', '개인적 의미', '고독한 감상']
   },
 
   // Lone + Abstract + Emotional + Constructive
@@ -172,7 +176,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '감성 큐레이터',
     subtitle: 'Creating personal collections of emotional art experiences',
     subtitle_ko: '감정적 예술 경험의 개인 커렉션을 만드는',
-    essence: 'Your art journal has 47 different shades of blue meticulously catalogued with their corresponding emotional temperatures. While your friends scroll through Instagram, you\'re creating a personal Wikipedia of feelings, complete with color swatches and mood ratings. You\'ve just spent forty minutes analyzing why this particular shade of vermillion makes you feel like autumn rain, and honestly? You\'re not even sorry. Your systematic approach to emotions would make Marie Kondo proud.',
+    essence: 'Your art journal has 47 different shades of blue meticulously catalogued with their corresponding emotional temperatures. While your friends scroll through Instagram, you\'re creating a personal Wikipedia of feelings, complete with color swatches and mood ratings.\n\nYou\'ve just spent forty minutes analyzing why this particular shade of vermillion makes you feel like autumn rain, and honestly? You\'re not even sorry. Your systematic approach to emotions would make Marie Kondo proud. You can be heard muttering "I need to record this feeling on page 3, line 3 of my A4 notebook" - it\'s so perfectly you.',
     essence_ko: '예술 감상 노트에 파란색만 47가지 톤으로 분류해놨어요. 각각에 감정 온도까지 매겨서요. 친구들이 인스타 스크롤할 때, 당신은 감정의 개인 위키백과를 만들고 있어요. 색깔 견본과 기분 평점까지 포함해서 말이에요.\n\n방금 버밀리온 색깔이 왜 가을비 같은 기분을 주는지 40분 동안 분석했는데, 전혀 후회하지 않아요. 감정을 체계화하는 당신의 방식은 마리 곤도도 감탄할 거예요. "이 느낌은 A4용지 3번째 줄에 기록해둬야지"라고 중얼거리는 모습이 너무나도 당신다워요.',
     strengths: [
       {
@@ -275,7 +279,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Intellectual emotion',
         emotionalTag_ko: '지적 감정'
       }
-    ]
+    ],
+    keywords: ['Emotion Collection', 'Delicate Classification', 'Personal Archive', 'Taste Refinement'],
+    keywords_ko: ['감정 수집', '섬세한 분류', '개인 아카이브', '취향 정제']
   },
 
   // Lone + Abstract + Meaning-driven + Flow
@@ -285,8 +291,8 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '직관 탐색자',
     subtitle: 'Following artistic instincts through abstract realms',
     subtitle_ko: '직관을 따라 추상 예술의 세계를 항해하는',
-    essence: 'You\'ve been staring at this Jackson Pollock for so long that you\'ve developed three different theories about what it represents, written a mental dissertation on chaos theory, and somehow connected it to your childhood memories of watching rain on windows. The couple next to you just said "My kid could paint that," and you had to physically bite your tongue to stop yourself from launching into a twenty-minute explanation about the metaphysical implications of controlled randomness.',
-    essence_ko: '잭슨 폴록 작품을 너무 오래 봐서 이미 세 가지 이론을 세웠고, 카오스 이론에 대한 정신적 논문을 썼고, 어떻게든 어린 시절 창문에 떨어지는 빗방울 기억과 연결시켰어요. 옆에 있던 커플이 "우리 애도 이런 거 그릴 수 있겠다"라고 하자, 통제된 무작위성의 형이상학적 의미에 대해 20분짜리 설명을 하고 싶은 걸 입술을 깨물며 참았어요.\n\n미술관이 당신만의 철학 놀이터가 되는 순간이에요. "저 붓자국은 시간의 흐름일까, 기억의 파편일까?"라고 혼자 중얼거리면서 깊은 사색에 빠져들어요. 답보다 질문이 더 흥미로운 당신만의 특별한 감상법이죠.',
+    essence: 'You\'ve been staring at this Jackson Pollock for so long that you\'ve developed three different theories about what it represents, written a mental dissertation on chaos theory, and somehow connected it to your childhood memories of watching rain on windows.\n\nThe couple next to you just said "My kid could paint that," and you had to physically bite your tongue to stop yourself from launching into a twenty-minute explanation about the metaphysical implications of controlled randomness. The museum becomes your personal philosophy playground. You find yourself muttering "Is that brushstroke the flow of time or fragments of memory?" as you sink into deep contemplation.',
+    essence_ko: '잭슨 폴록 작품을 너무 오래 봐서 이미 세 가지 이론을 세웠고, 카오스 이론에 대한 정신적 논문을 썼고, 어떻게든 어린 시절 창문에 떨어지는 빗방울 기억과 연결시켰어요.\n\n옆에 있던 커플이 "우리 애도 이런 거 그릴 수 있겠다"라고 하자, 통제된 무작위성의 형이상학적 의미에 대해 20분짜리 설명을 하고 싶은 걸 입술을 깨물며 참았어요. 미술관이 당신만의 철학 놀이터가 되는 순간이에요. "저 붓자국은 시간의 흐름일까, 기억의 파편일까?"라고 혼자 중얼거리면서 깊은 사색에 빠져들어요.',
     strengths: [
       {
         icon: '🌀',
@@ -388,7 +394,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Zen philosophy',
         emotionalTag_ko: '선 철학'
       }
-    ]
+    ],
+    keywords: ['Intuitive Attraction', 'Abstract Preference', 'Free Interpretation', 'Inner Exploration'],
+    keywords_ko: ['직관적 끌림', '추상 선호', '자유로운 해석', '내적 탐험']
   },
 
   // Lone + Abstract + Meaning-driven + Constructive
@@ -398,7 +406,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '지식 수집가',
     subtitle: 'Gathering artistic knowledge systematically',
     subtitle_ko: '체계적으로 예술 지식을 수집하는',
-    essence: 'You\'ve been documenting this Rothko for three hours straight, and your notebook now looks like a doctoral thesis. Color temperature readings, brushstroke analysis, historical timeline connections - you\'ve basically created a master class on abstract expressionism from one painting. Your friend texted "where are you?" an hour ago, but you\'re too busy discovering that this particular shade of orange appears in exactly seven other significant works from 1958-1962.',
+    essence: 'You\'ve been documenting this Rothko for three hours straight, and your notebook now looks like a doctoral thesis. Color temperature readings, brushstroke analysis, historical timeline connections - you\'ve basically created a master class on abstract expressionism from one painting.\n\nYour friend texted "where are you?" an hour ago, but you\'re too busy discovering that this particular shade of orange appears in exactly seven other significant works from 1958-1962.',
     essence_ko: '로스코 작품을 3시간째 분석하고 있는데, 노트가 이제 박사논문처럼 보여요. 색온 측정값, 붓자국 분석, 역사적 연결점 - 그림 한 점으로 추상표현주의 마스터클래스를 만들어버렸어요.\n\n친구가 한 시간 전에 "어디 있어?"라고 문자를 보냈는데 못 봤어요. 1958-1962년 사이 중요한 작품 일곱 점에서 정확히 이 오렌지 색조가 나타난다는 사실을 발견하느라 정신이 없거든요. 미술관이 당신만의 연구소가 되는 순간, 발견의 기쁨은 오롯이 당신만의 것이에요.',
     strengths: [
       {
@@ -501,7 +509,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Systematic sensation',
         emotionalTag_ko: '체계적 감각'
       }
-    ]
+    ],
+    keywords: ['Background Research', 'Systematic Learning', 'Knowledge Accumulation', 'Deep Analysis'],
+    keywords_ko: ['배경 탐구', '체계적 학습', '지식 축적', '깊이있는 분석']
   },
 
   // Social + Abstract + Emotional + Flow
@@ -511,7 +521,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '감정의 물결',
     subtitle: 'Creating spontaneous waves of artistic connection',
     subtitle_ko: '예술적 연결의 자연스러운 파장을 만드는',
-    essence: 'You literally squealed "Oh my GOD, look at those colors dancing!" in front of a Kandinsky, and now half the gallery is crowding around to see what the fuss is about. Your infectious excitement has turned a quiet Tuesday afternoon into an impromptu art appreciation party. Three strangers are now debating color theory because of your genuine "This makes me want to cry happy tears!" moment.',
+    essence: 'You literally squealed "Oh my GOD, look at those colors dancing!" in front of a Kandinsky, and now half the gallery is crowding around to see what the fuss is about. Your infectious excitement has turned a quiet Tuesday afternoon into an impromptu art appreciation party.\n\nThree strangers are now debating color theory because of your genuine "This makes me want to cry happy tears!" moment. Your pure emotion spreads like a virus, turning the museum into a space for new conversations about art. When you\'re around, art is no longer something on a high pedestal, but becomes joy that anyone can approach.',
     essence_ko: '칸딘스키 앞에서 "왕 저 색깔들 보세요! 춤추고 있잖아요!"라고 소리치자, 갤러리 절반이 다 모여들었어요. 당신의 전염성 있는 흥분이 조용한 화요일 오후를 즉석 예술 감상 파티로 만들어버렸거든요.\n\n"이거 보면 기뻐서 울고 싶어져요!"라는 당신의 진심 어린 말 때문에 낯선 사람 세 명이 지금 색체 이론에 대해 토론하고 있어요. 당신의 순수한 감동이 바이러스처럼 퍼져나가서, 미술관이 갑자기 예술에 대한 새로운 대화의 공간이 되었어요. 당신이 있으면 예술이 더 이상 높은 다리 위의 무엇이 아니라 누구나 다가갈 수 있는 기쁨이 되어요.',
     strengths: [
       {
@@ -621,7 +631,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Vibrant connection',
         emotionalTag_ko: '생동감 있는 연결'
       }
-    ]
+    ],
+    keywords: ['Immediate Response', 'Emotion Spreading', 'Active Expression', 'Joy of Empathy'],
+    keywords_ko: ['즉각적 반응', '감정 전파', '활발한 표현', '공감의 기쁨']
   },
 
   // Social + Abstract + Emotional + Constructive
@@ -631,7 +643,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '감정의 건축가',
     subtitle: 'Constructing bridges of understanding through abstract feeling',
     subtitle_ko: '추상적 감정을 통해 이해의 다리를 놓는',
-    essence: '"See how this angry red slash suddenly softens into that peaceful blue pool? It\'s like watching someone\'s anxiety literally melt away." Your emotionally precise explanations help the confused teenager next to you go from "I don\'t get it" to "Oh wow, I can actually FEEL what this painting is saying!" You\'ve somehow become the unofficial emotional translator for everyone within earshot.',
+    essence: '"See how this angry red slash suddenly softens into that peaceful blue pool? It\'s like watching someone\'s anxiety literally melt away." Your emotionally precise explanations help the confused teenager next to you go from "I don\'t get it" to "Oh wow, I can actually FEEL what this painting is saying!"\n\nYou\'ve somehow become the unofficial emotional translator for everyone within earshot. Like the emotional architect you are, you find clear structure within what appears to be chaos, helping others understand it. Thanks to you, art is no longer something on a high pedestal, but becomes an emotional language that anyone can empathize with.',
     essence_ko: '"저기 화난 빨간 선이 갑자기 평화로운 파란 웅덩이로 부드럽게 변하는 거 보세요? 마치 누군가의 불안이 말 그대로 녹아내리는 것처럼요." 당신의 감정적으로 정확한 설명 덕분에 옆에 있던 혼란스러워하던 청소년이 "이해 못하겠어요"에서 "와 이 그림이 말하는 것을 정말로 느낄 수 있어요!"로 바뀌었어요.\n\n당신은 어느새 들리는 모든 사람들의 비공식 감정 번역가가 되어버렸어요. 감정의 건축가답게, 카오스처럼 보이는 감정 속에서 명확한 구조를 찾아내어 다른 사람들이 이해할 수 있게 도와주어요. 당신 덕분에 예술이 더 이상 높은 다리 위의 무엇이 아니라, 누구나 공감할 수 있는 감정의 언어가 되어요.',
     strengths: [
       {
@@ -741,7 +753,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Collective mourning',
         emotionalTag_ko: '집단적 애도'
       }
-    ]
+    ],
+    keywords: ['Emotion Structuring', 'Empathy Connection', 'Abstract Interpretation', 'Collective Experience'],
+    keywords_ko: ['감정 구조화', '공감 연결', '추상 해석', '집단 경험']
   },
 
   // Social + Abstract + Meaning-driven + Flow
@@ -751,7 +765,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '의미의 직조자',
     subtitle: 'Spinning threads of insight into tapestries of understanding',
     subtitle_ko: '통찰의 실을 짜서 이해의 태피스트리로 만드는',
-    essence: '"Wait, what if that swirling chaos over there is actually having a conversation with this geometric precision here? Like, what if they\'re debating order versus freedom?" Your random observation just turned a casual museum visit into a two-hour philosophical deep-dive involving twelve strangers, three art students, and one very enthusiastic museum docent who completely abandoned their scheduled tour.',
+    essence: '"Wait, what if that swirling chaos over there is actually having a conversation with this geometric precision here? Like, what if they\'re debating order versus freedom?" Your random observation just turned a casual museum visit into a two-hour philosophical deep-dive.\n\nNow there are twelve strangers, three art students, and one very enthusiastic museum docent who completely abandoned their scheduled tour. You\'re a detective who finds hidden connections in art, and a weaver who threads those discoveries together with others. What starts as a simple "this, not that" observation blossoms into completely new collective wisdom about art. When you\'re around, the museum becomes a collaborative treasure hunt for meaning.',
     essence_ko: '"잠깐, 저기 소용돌이치는 혼돈과 여기 기하학적 정밀함이 사실 대화를 나누고 있는 건 아닐까요? 마치 질서와 자유에 대해 토론하는 것처럼 말이에요!" 당신의 무작정 관찰 한 마디가 캐주얼한 미술관 방문을 낯선 사람 12명, 미대생 3명, 그리고 예정된 투어를 완전히 포기한 열성적인 미술관 도슨트 한 명이 참여하는 2시간짜리 철학적 심화 토론으로 바꿔버렸어요.\n\n당신은 예술 속 숨겼던 연결고리를 찾아내는 탐정이자, 그 발견을 다른 사람들과 함께 엮어가는 직조자예요. "이거 말고 저거 말고"라는 단순한 지적에서 시작된 대화가 예술에 대한 완전히 새로운 집단적 지혜로 피어나요. 당신이 있으면 미술관이 의미를 찾는 협력적 보물찾기 현장이 되어요.',
     strengths: [
       {
@@ -861,7 +875,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Living philosophy',
         emotionalTag_ko: '살아있는 철학'
       }
-    ]
+    ],
+    keywords: ['Meaning Connection', 'Insight Moments', 'Pattern Weaving', 'Shared Understanding'],
+    keywords_ko: ['의미 연결', '통찰 순간', '패턴 직조', '공유된 이해']
   },
 
   // Social + Abstract + Meaning-driven + Constructive
@@ -871,7 +887,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '지혜의 건축가',
     subtitle: 'Building cathedrals of understanding from abstract insights',
     subtitle_ko: '추상적 통찰로부터 이해의 성당을 짓는',
-    essence: 'You\'ve just transformed a random group of confused museum visitors into an organized art appreciation seminar. "Okay everyone, let\'s start with the brushwork technique, then we\'ll analyze the symbolic meaning, and finish with historical context." Somehow you\'ve become the unofficial tour guide, and people are actually taking notes. Your color-coded analysis method has turned abstract art viewing into a masterclass.',
+    essence: 'You\'ve just transformed a random group of confused museum visitors into an organized art appreciation seminar. "Okay everyone, let\'s start with the brushwork technique, then we\'ll analyze the symbolic meaning, and finish with historical context."\n\nSomehow you\'ve become the unofficial tour guide, and people are actually taking notes. Your color-coded analysis method has turned abstract art viewing into a masterclass. You have a genius for breaking complex concepts into easy-to-understand steps. Starting with "Step 1: Let\'s figure out what we\'re looking at," you soon have everyone analyzing artworks like experts. When you\'re around, the museum becomes a living classroom.',
     essence_ko: '헤매던 미술관 관람객들을 체계적인 예술 감상 세미나로 바꿔놨어요. "자, 모두 붓터치 기법부터 시작해서 상징적 의미 분석하고, 역사적 맥락으로 마무리해요." 어느새 비공식 도슨트가 되어버렸는데, 사람들이 진짜로 노트까지 적고 있어요.\n\n당신의 색깔별 분석 방법이 추상 예술 감상을 마스터클래스로 바꿔버렸거든요. 복잡한 개념들을 이해하기 쉬운 단계로 나누어서 설명하는 천재예요. "1단계: 뭘 보고 있는지부터 파악해봐요"라고 시작해서 어느새 모든 사람이 전문가처럼 작품을 분석하고 있어요. 당신이 있으면 미술관이 살아있는 학교가 되어요.',
     strengths: [
       {
@@ -981,7 +997,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Collective order',
         emotionalTag_ko: '집단적 질서'
       }
-    ]
+    ],
+    keywords: ['Knowledge Sharing', 'Systematic Explanation', 'Learning Facilitation', 'Collective Intelligence'],
+    keywords_ko: ['지식 공유', '체계적 설명', '학습 촉진', '집단 지성']
   },
 
   // Lone + Realistic + Emotional + Flow
@@ -991,8 +1009,8 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '섬세한 관찰자',
     subtitle: 'Finding subtle emotions in every detail',
     subtitle_ko: '모든 디테일에서 섬세한 감정을 발견하는',
-    essence: 'You\'ve been staring at this Vermeer portrait for forty-five minutes, and you\'ve just discovered that the woman\'s pinky finger is positioned at exactly the angle that suggests suppressed anxiety. The way her left eyebrow is 0.2 millimeters higher than her right tells a whole story about hidden sadness. Your friend thinks you\'re overthinking it, but you know that tiny crease near her mouth contains an entire lifetime of unspoken words.',
-    essence_ko: '베르메르 초상화를 45분째 보고 있는데, 방금 여인의 새끼손가락이 억눌린 불안을 나타내는 정확한 각도로 놓여있다는 걸 발견했어요. 왼쪽 눈썹이 오른쪽보다 0.2밀리미터 높은 것도 숨겨진 슬픔에 대한 완전한 스토리를 말해주고 있어요.\n\n친구는 "너무 깊게 생각하는 거 아니야?"라고 하지만, 당신은 입가의 작은 주름 하나에 평생 말하지 못한 이야기가 담겨있다는 걸 알고 있어요. 다른 사람들이 그냥 "예쁜 그림이네"라고 지나갈 때, 당신은 붓터치 하나하나에서 화가의 숨소리까지 들을 수 있어요. 혼자만의 시간에 가장 섬세한 감정의 탐정이 되는 순간이에요.',
+    essence: 'You\'ve been staring at this Vermeer portrait for forty-five minutes, and you\'ve just discovered that the woman\'s pinky finger is positioned at exactly the angle that suggests suppressed anxiety. The way her left eyebrow is 0.2 millimeters higher than her right tells a whole story about hidden sadness.\n\nYour friend thinks you\'re overthinking it, but you know that tiny crease near her mouth contains an entire lifetime of unspoken words. While others pass by saying "pretty painting," you can hear the painter\'s breath in each brushstroke.',
+    essence_ko: '베르메르 초상화를 45분째 보고 있는데, 방금 여인의 새끼손가락이 억눌린 불안을 나타내는 정확한 각도로 놓여있다는 걸 발견했어요. 왼쪽 눈썹이 오른쪽보다 0.2밀리미터 높은 것도 숨겨진 슬픔에 대한 완전한 스토리를 말해주고 있어요.\n\n친구는 "너무 깊게 생각하는 거 아니야?"라고 하지만, 당신은 입가의 작은 주름 하나에 평생 말하지 못한 이야기가 담겨있다는 걸 알고 있어요. 다른 사람들이 그냥 "예쁜 그림이네"라고 지나갈 때, 당신은 붓터치 하나하나에서 화가의 숨소리까지 들을 수 있어요.',
     strengths: [
       {
         icon: '👁️',
@@ -1094,7 +1112,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Beautiful loneliness',
         emotionalTag_ko: '아름다운 고독'
       }
-    ]
+    ],
+    keywords: ['Detail Capture', 'Subtle Emotions', 'Quiet Observation', 'Personal Discovery'],
+    keywords_ko: ['디테일 포착', '미묘한 감정', '조용한 관찰', '개인적 발견']
   },
 
   // Lone + Realistic + Emotional + Constructive
@@ -1104,7 +1124,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '깊이있는 감상자',
     subtitle: 'Finding profound meaning in every artistic element',
     subtitle_ko: '모든 예술적 요소에서 깊은 의미를 찾는',
-    essence: 'You\'ve created a 27-page analysis of this one Caravaggio painting, complete with detailed sections on "Fabric Texture Psychology," "Shadow Symbolism," and "The Emotional Physics of Light." Your systematic approach to appreciation means you experience art in layers - first the visual impact, then the technical mastery, and finally the soul-crushing beauty that makes you question everything you thought you knew about existence.',
+    essence: 'You\'ve created a 27-page analysis of this one Caravaggio painting, complete with detailed sections on "Fabric Texture Psychology," "Shadow Symbolism," and "The Emotional Physics of Light."\n\nYour systematic approach to appreciation means you experience art in layers - first the visual impact, then the technical mastery, and finally the soul-crushing beauty that makes you question everything you thought you knew about existence. You analyze art like a wine connoisseur approaches a vintage - never settling for just one viewing, going deeper step by step until you finally reach that "ah, this is what art truly is" moment. Your deepest artistic discernment shines in your private moments.',
     essence_ko: '카라바조 그림 하나로 27페이지 분석 리포트를 만들었어요. "직물 질감 심리학", "그림자 상징론", "빛의 감정 물리학" 같은 상세한 섹션까지 포함해서요. 체계적인 감상법 덕분에 예술을 층층이 경험해요 - 첫 번째는 시각적 임팩트, 두 번째는 기술적 숙련도, 마지막은 존재에 대해 알고 있던 모든 걸 다시 생각하게 만드는 영혼을 짓누르는 아름다움.\n\n와인 감정가가 빈티지를 대하듯 예술을 분석하는 거예요. 한 번 보는 걸로 끝나지 않고, 단계별로 깊이 들어가서 마침내 "아, 이게 바로 예술이구나" 하는 순간까지 도달해요. 혼자만의 시간에 가장 깊은 예술적 감식안을 발휘하는 순간이에요.',
     strengths: [
       {
@@ -1207,7 +1227,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Meditative precision',
         emotionalTag_ko: '명상적 정밀함'
       }
-    ]
+    ],
+    keywords: ['Deep Meaning', 'Emotional Depth', 'Repeated Viewing', 'Reflective Thinking'],
+    keywords_ko: ['심층 의미', '감정 깊이', '반복 감상', '성찰적 사고']
   },
 
   // Lone + Realistic + Meaning-driven + Flow
@@ -1217,7 +1239,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '자유로운 분석가',
     subtitle: 'Exploring artistic meaning with logical freedom',
     subtitle_ko: '논리적 자유로움으로 예술적 의미를 탐구하는',
-    essence: 'You wandered into the portrait gallery just to kill time, but now you\'re playing detective with this 17th-century merchant painting. "Why is his hand positioned like that? What\'s with the weird shadow on the wall? And is that anxiety or indigestion in his expression?" You\'ve spent an hour developing three different theories about this guy\'s psychological state, social status, and possibly his digestive issues.',
+    essence: 'You wandered into the portrait gallery just to kill time, but now you\'re playing detective with this 17th-century merchant painting. "Why is his hand positioned like that? What\'s with the weird shadow on the wall? And is that anxiety or indigestion in his expression?"\n\nYou\'ve spent an hour developing three different theories about this guy\'s psychological state, social status, and possibly his digestive issues. Even while wandering freely, you instantly become an investigator in front of intriguing artworks. Once curiosity strikes about "what is this painting trying to say?" you have to dig until you\'re satisfied. In your private, free-flowing analysis time, art becomes fascinating investigative material about human behavior.',
     essence_ko: '시간 때우려고 초상화 갤러리에 들어왔는데, 이제 17세기 상인 그림으로 탐정 놀이를 하고 있어요. "왜 손을 저렇게 놓았을까? 벽에 있는 이상한 그림자는 뭐지? 그리고 저 표정은 불안한 건가 소화불량인 건가?" 한 시간 동안 이 아저씨의 심리 상태, 사회적 지위, 그리고 아마도 소화기 문제에 대한 세 가지 이론을 개발했어요.\n\n자유롭게 돌아다니다가도 흥미로운 작품 앞에서는 순간 수사관이 되는 거예요. "이 그림이 말하고 싶은 게 뭘까?"라는 궁금증이 생기면 끝까지 파헤쳐야 직성이 풀려요. 혼자만의 자유로운 분석 시간에 예술이 인간 행동에 대한 흥미진진한 수사 자료가 되어요.',
     strengths: [
       {
@@ -1320,7 +1342,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Contemporary truth',
         emotionalTag_ko: '동시대의 진실'
       }
-    ]
+    ],
+    keywords: ['Meaning Deduction', 'Independent Perspective', 'Pattern Discovery', 'Logical Imagination'],
+    keywords_ko: ['의미 추리', '독립적 시각', '패턴 발견', '논리적 상상']
   },
 
   // Lone + Realistic + Meaning-driven + Constructive
@@ -1330,7 +1354,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '체계적 연구자',
     subtitle: 'Building comprehensive understanding through methodical study',
     subtitle_ko: '체계적 연구로 포괄적 이해를 구축하는',
-    essence: 'You\'ve brought a magnifying glass, a measuring tape, and seventeen different art history books to analyze this one da Vinci painting. Your spreadsheet tracking "Sfumato Technique Variations" now has 847 entries. Security guards have started checking on you because you\'ve been examining the same 6-inch section of canvas for two hours, muttering about "revolutionary glazing methods."',
+    essence: 'You\'ve brought a magnifying glass, a measuring tape, and seventeen different art history books to analyze this one da Vinci painting. Your spreadsheet tracking "Sfumato Technique Variations" now has 847 entries.\n\nSecurity guards have started checking on you because you\'ve been examining the same 6-inch section of canvas for two hours, muttering about "revolutionary glazing methods." The museum becomes your personal laboratory. While others pass by saying "pretty," you\'re analyzing the direction of every individual brushstroke. When curiosity strikes about "why was this technique used here?" you have the researcher\'s DNA that compels you to dig until satisfied. Your happiest moments are spent in deep concentration, decoding the masters\' secrets one by one.',
     essence_ko: '다빈치 그림 하나 분석하려고 확대경, 줄자, 미술사 책 17권을 가져왔어요. "스푸마토 기법 변화" 추적 스프레드시트에 이제 847개 항목이 들어가 있어요. 캔버스 15cm 구간을 두 시간째 들여다보면서 "혁신적인 글레이징 기법"에 대해 중얼거리고 있어서, 경비원들이 계속 확인하러 와요.\n\n미술관이 당신만의 실험실이 되는 순간이에요. 다른 사람들이 "예쁘네"라고 지나갈 때, 당신은 붓털 하나하나의 방향까지 분석하고 있어요. "이 기법이 왜 여기서 쓰였을까?"라는 궁금증이 생기면 끝까지 파헤쳐야 직성이 풀리는 연구자의 DNA가 있어요. 혼자만의 깊은 집중 속에서 거장들의 비밀을 하나씩 해독해나가는 순간이 가장 행복해요.',
     strengths: [
       {
@@ -1433,7 +1457,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         description: 'Consider sharing your deep technical insights with others - your expertise could illuminate aspects of art that many never notice',
         description_ko: '깊은 기술적 통찰을 다른 사람들과 공유해보세요. 당신의 전문성이 많은 사람들이 눈치채지 못하는 예술의 측면을 밝혀줄 수 있습니다'
       }
-    ]
+    ],
+    keywords: ['Methodological Approach', 'Comparative Analysis', 'Comprehensive Understanding', 'Academic Interest'],
+    keywords_ko: ['방법론적 접근', '비교 분석', '종합적 이해', '학술적 관심']
   },
 
   // Social + Realistic + Emotional + Flow
@@ -1443,7 +1469,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '마음의 여행자',
     subtitle: 'Journeying through painted souls with fellow travelers',
     subtitle_ko: '동행자들과 함께 그려진 영혼들을 여행하는',
-    essence: '"See how she\'s holding that flower? My grandmother used to hold her rosary exactly the same way when she was worried." Your gentle observation to a nearby stranger turns into a two-hour conversation about family memories, traditions, and the universal language of protective gestures. You\'ve somehow transformed a quiet museum into a sharing circle where art becomes the starting point for the most beautiful human connections.',
+    essence: '"See how she\'s holding that flower? My grandmother used to hold her rosary exactly the same way when she was worried." Your gentle observation to a nearby stranger turns into a two-hour conversation about family memories, traditions, and the universal language of protective gestures.\n\nYou\'ve somehow transformed a quiet museum into a sharing circle where art becomes the starting point for the most beautiful human connections. You\'re someone with a warm heart who finds our current stories in every expression of the painted figures. When you\'re around, museums are no longer just places for quiet contemplation, but become special spaces where heart meets heart.',
     essence_ko: '"저 여인이 꽃을 쥐고 있는 방식 보세요? 우리 할머니가 걱정될 때 묵주를 꼭 저렇게 쥐셨거든요." 옆에 있던 낯선 분에게 건넨 부드러운 관찰이 가족 추억, 전통, 그리고 보호하려는 몸짓의 보편적 언어에 대한 2시간짜리 대화로 이어졌어요.\n\n조용했던 미술관이 어느새 예술을 시작점으로 한 가장 아름다운 인간관계가 피어나는 나눔의 공간으로 바뀌었어요. 그림 속 사람들의 표정 하나하나에서 지금 우리의 이야기를 발견하는 따뜻한 마음을 가진 분이에요. 당신이 있으면 미술관이 더 이상 조용히 감상만 하는 곳이 아니라, 마음과 마음이 만나는 특별한 공간이 되어요.',
     strengths: [
       {
@@ -1553,7 +1579,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Dignified stories',
         emotionalTag_ko: '품위 있는 이야기'
       }
-    ]
+    ],
+    keywords: ['Emotional Journey', 'Others Empathy', 'Emotional Connection', 'Warm Perspective'],
+    keywords_ko: ['감정 여행', '타인 공감', '정서적 연결', '따뜻한 시선']
   },
 
   // Social + Realistic + Emotional + Constructive
@@ -1563,7 +1591,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '감정의 치유사',
     subtitle: 'Creating sacred spaces for collective emotional transformation',
     subtitle_ko: '집단적 감정 변화를 위한 신성한 공간을 만드는',
-    essence: '"That sadness in her painted eyes... I see you recognize it too." Your compassionate observation to a tearful stranger creates an instant safe space where they feel permission to share their own story of loss. You\'ve somehow turned this corner of the museum into an impromptu support group, where Renaissance paintings become mirrors for modern healing. Three different people have thanked you for helping them process emotions they didn\'t even know they were carrying.',
+    essence: '"That sadness in her painted eyes... I see you recognize it too." Your compassionate observation to a tearful stranger creates an instant safe space where they feel permission to share their own story of loss.\n\nYou\'ve somehow turned this corner of the museum into an impromptu support group, where Renaissance paintings become mirrors for modern healing. Three different people have thanked you for helping them process emotions they didn\'t even know they were carrying. You have a special talent where every expression of painted figures becomes a healing tool that soothes the wounds of the heart. You\'re someone who creates moments when art truly becomes medicine for the soul.',
     essence_ko: '"저 그림 속 눈빛의 슬픔... 당신도 알아보시는군요." 눈물을 흘리고 있던 낯선 분에게 건넨 따뜻한 관찰이 순간 안전한 공간을 만들어내어, 그분이 자신의 상실 이야기를 나눌 수 있는 용기를 주었어요.\n\n미술관 한쪽 구석이 어느새 즉석 힐링 그룹이 되어버렸고, 르네상스 그림들이 현대인의 치유를 위한 거울이 되었어요. 세 명의 다른 사람들이 자신들도 몰랐던 감정을 처리할 수 있게 도와주었다며 고맙다고 했어요. 당신에게는 그림 속 인물들의 표정 하나하나가 마음의 상처를 어루만져주는 치유의 도구가 되는 특별한 재능이 있어요. 예술이 진짜 마음의 약이 되는 순간을 만들어내는 분이에요.',
     strengths: [
       {
@@ -1673,7 +1701,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Collective reckoning',
         emotionalTag_ko: '집단적 성찰'
       }
-    ]
+    ],
+    keywords: ['Emotional Healing', 'Space Atmosphere', 'Collective Emotion', 'Spiritual Experience'],
+    keywords_ko: ['감정 치유', '공간 분위기', '집단 정서', '영적 경험']
   },
 
   // Social + Realistic + Meaning-driven + Flow
@@ -1683,7 +1713,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '문화의 시간여행자',
     subtitle: 'Leading expeditions through the living museums of human civilization',
     subtitle_ko: '인류 문명의 살아있는 박물관을 통한 탐험을 이끄는',
-    essence: '"Look at that merchant\'s worried face - he\'s probably thinking \'Will those newfangled printing presses put scribes out of business?\' Sound familiar?" Your time-bending observation gets everyone laughing as they realize they\'re looking at the 16th-century version of our AI anxiety. You\'ve just turned a dusty historical portrait into a viral-worthy social commentary that makes five centuries feel like yesterday.',
+    essence: '"Look at that merchant\'s worried face - he\'s probably thinking \'Will those newfangled printing presses put scribes out of business?\' Sound familiar?" Your time-bending observation gets everyone laughing as they realize they\'re looking at the 16th-century version of our AI anxiety.\n\nYou\'ve just turned a dusty historical portrait into a viral-worthy social commentary that makes five centuries feel like yesterday. You have a special talent for connecting past and present. You\'re like a time travel guide who brings the realization that "people are the same whether then or now," turning history into a living present.',
     essence_ko: '"저 상인의 걱정스러운 표정 보세요 - 아마 \'저 새로 나온 인쇄기 때문에 필경사들이 일자리를 잃는 건 아닐까?\' 생각하고 있을 거예요. 어디서 많이 들어본 얘기죠?" 시간을 뛰어넘는 당신의 관찰에 모든 사람이 웃음을 터뜨려요. 16세기 버전의 AI 불안을 보고 있다는 걸 깨달으면서 말이에요.\n\n먼지 쌓인 역사적 초상화를 SNS에 올릴 만한 사회적 코멘터리로 바꿔버렸어요. 5세기가 마치 어제 일처럼 느껴지게 만들었거든요. 당신에게는 과거와 현재를 연결하는 특별한 재능이 있어요. "그때나 지금이나 사람 사는 게 다 똑같네"라는 깨달음을 주면서 역사를 살아있는 현재로 만들어내는 시간여행 가이드 같은 분이에요.',
     strengths: [
       {
@@ -1793,7 +1823,9 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Social consciousness',
         emotionalTag_ko: '사회적 의식'
       }
-    ]
+    ],
+    keywords: ['Era Exploration', 'Cultural Context', 'Historical Imagination', 'Universal Meaning'],
+    keywords_ko: ['시대 탐험', '문화 맥락', '역사적 상상', '보편적 의미']
   },
 
   // Social + Realistic + Meaning-driven + Constructive
@@ -1803,7 +1835,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title_ko: '마스터 도슨트',
     subtitle: 'Building cathedrals of knowledge through collective artistic scholarship',
     subtitle_ko: '집단적 예술 학문을 통해 지식의 성당을 건설하는',
-    essence: 'You\'ve accidentally become the most popular unofficial museum docent ever. "Alright everyone, we\'re going to analyze this painting in three phases: technique, historical context, and contemporary relevance." A crowd of fifteen strangers has gathered around you, hanging on every word as you turn a random gallery visit into a masterclass. Someone just asked if you offer regular tours, and honestly, you\'re considering it.',
+    essence: 'You\'ve accidentally become the most popular unofficial museum docent ever. "Alright everyone, we\'re going to analyze this painting in three phases: technique, historical context, and contemporary relevance." A crowd of fifteen strangers has gathered around you, hanging on every word as you turn a random gallery visit into a masterclass. Someone just asked if you offer regular tours, and honestly, you\'re considering it. You have a genius talent for explaining complex artworks in stages that anyone can understand. Starting with "It looks difficult but it\'s actually like this," you soon have everyone feeling like art experts. You\'re like a magician who turns museums into living schools.',
     essence_ko: '어느새 역대급 인기 비공식 미술관 도슨트가 되어버렸어요. "자, 여러분, 이 그림을 세 단계로 분석해볼까요: 기법, 역사적 맥락, 그리고 현재적 의미." 낯선 사람 15명이 당신 주변에 모여서 모든 말에 귀를 기울이고 있어요. 아무 계획 없던 갤러리 방문이 마스터클래스로 바뀌었거든요.\n\n누군가 정기 투어를 하는지 물어봤는데, 솔직히 진지하게 고려 중이에요. 복잡한 예술 작품을 누구나 이해할 수 있게 단계별로 설명하는 천재적인 재능이 있어요. "어려워 보이지만 사실은 이런 거예요"라고 시작해서 어느새 모든 사람이 예술 전문가가 된 기분을 느끼게 해주는 마법사 같은 분이에요. 당신이 있으면 미술관이 살아있는 학교가 되어요.',
     strengths: [
       {
@@ -1913,6 +1945,8 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
         emotionalTag: 'Shared learning',
         emotionalTag_ko: '공유된 학습'
       }
-    ]
+    ],
+    keywords: ['Knowledge Transfer', 'Educational Perspective', 'Systematic Guidance', 'Learning Community'],
+    keywords_ko: ['지식 전달', '교육적 관점', '체계적 안내', '학습 공동체']
   }
 };

@@ -1,0 +1,124 @@
+{
+  "exhibition": {
+    "id": "kukje-lee-kwang-ho-blow-up-2023",
+    "seq": 264,
+    "title_en": "BLOW-UP",
+    "title_ko": "BLOW-UP",
+    "subtitle": null,
+    "description": "이광호의 개인전 'BLOW-UP'은 안토니오니의 1966년 영화에서 영감을 받아 회화적 시각과 재현의 문제를 탐구합니다. 뉴질랜드 습지를 그린 59개 캔버스로 구성된 'Untitled 4819' 시리즈를 통해 풍경을 파편화하고 재구성하며, 관람자가 이미지를 인식하고 상호작용하는 방식에 대해 질문합니다.",
+    "description_en": "Lee Kwang-Ho's solo exhibition 'BLOW-UP' explores painterly perspective and representation, inspired by Antonioni's 1966 film. Through the 'Untitled 4819' series featuring 59 canvases of New Zealand wetlands, the exhibition fragments and reconstructs landscape, questioning how viewers perceive and interact with imagery.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "서울",
+    "venue_country": "KR",
+    "gallery_location": "K1 space",
+    
+    "start_date": "2023-12-14",
+    "end_date": "2024-01-28",
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "painting",
+    "artworks_count": 59,
+    
+    "artists": [
+      {
+        "name": "Lee Kwang-Ho",
+        "name_ko": "이광호",
+        "role": "artist",
+        "birth_year": 1967,
+        "nationality": "Korean",
+        "artistic_focus": "Landscape painting and visual perception",
+        "technique_specialization": "Mixed painting techniques including encaustic"
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Examining the representation of painterly perspective through fragmented landscape compositions that challenge traditional viewing experiences",
+    
+    "featured_series": {
+      "untitled_4819": {
+        "canvas_count": 59,
+        "subject": "New Zealand wetlands",
+        "arrangement": "Modular, interconnected paintings",
+        "concept": "Large-scale landscape through fragmentation",
+        "viewing_experience": "Puzzle-like visual experience"
+      }
+    },
+    
+    "artistic_techniques": {
+      "painting_methods": [
+        "Glazing",
+        "Impasto",
+        "Encaustic (pigments mixed with heated beeswax)"
+      ],
+      "experimental_approaches": [
+        "Canvas preparation variations",
+        "Paint absorption experiments",
+        "Surface texture manipulation"
+      ],
+      "compositional_strategy": "Fragmentation and modular assembly"
+    },
+    
+    "conceptual_framework": {
+      "film_inspiration": {
+        "source": "Michelangelo Antonioni's 'Blow-Up' (1966)",
+        "connection": "Photography, perception, and reality questioning",
+        "application": "Painterly investigation of visual truth"
+      },
+      "perspective_exploration": "How gaze constructs meaning",
+      "viewer_interaction": "Active participation in image construction",
+      "representation_questioning": "Traditional landscape painting conventions"
+    },
+    
+    "thematic_exploration": [
+      "Visual perception and reality",
+      "Fragmentation and wholeness",
+      "Scale and perspective shifts",
+      "Natural landscape interpretation",
+      "Viewer agency in meaning-making",
+      "Photography-painting dialogue",
+      "Multiple viewing possibilities"
+    ],
+    
+    "exhibition_design": {
+      "spatial_arrangement": "Modular canvas installation",
+      "viewing_options": "Multiple image combinations possible",
+      "interactive_element": "Viewer-generated interpretations",
+      "scale_play": "Intimate details to expansive landscape"
+    },
+    
+    "technical_innovation": {
+      "encaustic_technique": "Ancient method in contemporary context",
+      "material_experimentation": "Wax-pigment fusion effects",
+      "surface_quality": "Varied textures and absorption rates",
+      "modular_system": "Flexible compositional arrangements"
+    },
+    
+    "themes": ["contemporary art", "Korean art", "landscape", "painting", "perception", "fragmentation"],
+    "tags": ["painting", "Korean art", "landscape", "encaustic", "modular", "perception", "contemporary"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=264",
+    
+    "exhibition_significance": {
+      "technical_mastery": "Innovative use of traditional techniques",
+      "conceptual_depth": "Sophisticated exploration of perception",
+      "viewer_engagement": "Interactive visual experience",
+      "contemporary_relevance": "Digital age fragmentation parallels"
+    },
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 94,
+    "collected_at": "2025-08-06T16:10:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=264",
+    
+    "personality_matches": ["LAMC", "LAEC", "LRMC", "LREC", "SAMC", "SAEC"],
+    "recommendation_score": 89,
+    
+    "created_at": "2025-08-06T16:10:00.000Z",
+    "updated_at": "2025-08-06T16:10:00.000Z"
+  }
+}

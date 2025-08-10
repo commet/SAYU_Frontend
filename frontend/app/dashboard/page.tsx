@@ -6,12 +6,15 @@ import { useAuth } from '@/hooks/useAuth';
 import { Sparkles, Palette, MapPin, Heart, TrendingUp, Calendar, ArrowRight, Zap, Eye, Clock, GalleryVerticalEnd, Home, Users, User, LogOut, Menu, Star, BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import FeedbackButton from '@/components/feedback/FeedbackButton';
+import ProfileCompletion from '@/components/dashboard/ProfileCompletion';
 
 export default function DashboardPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [artworks, setArtworks] = useState<any[]>([]);
+  const [showProfileCompletion, setShowProfileCompletion] = useState(false);
 
   console.log('Dashboard - Loading:', loading, 'User:', user);
 
@@ -31,6 +34,27 @@ export default function DashboardPage() {
     const timer = setInterval(() => setCurrentTime(new Date()), 60000);
     return () => clearInterval(timer);
   }, []);
+
+  // Check if profile completion should be shown
+  useEffect(() => {
+    if (user && !loading) {
+      // Show profile completion if user doesn't have completion data in bio
+      let needsCompletion = true;
+      
+      try {
+        if (user.profile?.bio) {
+          const bioData = JSON.parse(user.profile.bio);
+          if (bioData.profile_completed_at) {
+            needsCompletion = false;
+          }
+        }
+      } catch {
+        // If bio is not JSON, it means no completion data
+      }
+      
+      setShowProfileCompletion(needsCompletion);
+    }
+  }, [user, loading]);
 
   // Fetch artworks data
   useEffect(() => {
@@ -194,6 +218,14 @@ export default function DashboardPage() {
             </div>
           </div>
         </motion.div>
+
+        {/* Profile Completion Section - Show after welcome message */}
+        {showProfileCompletion && (
+          <ProfileCompletion
+            onComplete={() => setShowProfileCompletion(false)}
+            onSkip={() => setShowProfileCompletion(false)}
+          />
+        )}
 
         {/* Quiz CTA for new users - Prominent position */}
         {!hasCompletedQuiz && (
@@ -562,6 +594,17 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Fixed Feedback Button */}
+      <FeedbackButton
+        position="fixed"
+        variant="primary"
+        contextData={{
+          page: 'dashboard',
+          hasCompletedQuiz: hasCompletedQuiz,
+          personalityType: personalityType
+        }}
+      />
     </div>
   );
 }

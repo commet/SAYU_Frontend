@@ -66,8 +66,8 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
             files: [file],
             title: language === 'ko' ? '나의 아트 프로필' : 'My Art Profile',
             text: language === 'ko' 
-              ? `AI가 만든 나만의 ${result.styleUsed?.nameKo || result.styleUsed?.name || 'Art'} 스타일 아트 프로필! #SAYU #아트프로필` 
-              : `My AI-generated ${result.styleUsed?.name || 'Art'} style art profile! #SAYU #ArtProfile`,
+              ? `AI가 만든 나만의 ${result.styleUsed?.nameKo || result.styleUsed?.name || 'Art'} 스타일 아트 프로필! #SAYUMY #아트프로필` 
+              : `My AI-generated ${result.styleUsed?.name || 'Art'} style art profile! #SAYUMY #ArtProfile`,
           });
         } else {
           // 데스크톱에서는 이미지 다운로드
@@ -223,8 +223,8 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
               {result.styleUsed?.nameKo || result.styleUsed?.name || 'Unknown Style'} Style
             </p>
             <div className="flex items-center justify-center gap-2">
-              <OptimizedImage src="/logo.png" alt="SAYU" width={32} height={32} className="h-8" placeholder="blur" quality={90} />
-              <span className="text-lg font-medium">SAYU</span>
+              <OptimizedImage src="/logo.png" alt="SAYU.MY" width={32} height={32} className="h-8" placeholder="blur" quality={90} />
+              <span className="text-lg font-medium">SAYU.MY</span>
             </div>
           </div>
         </div>

@@ -1,0 +1,125 @@
+{
+  "exhibition": {
+    "id": "kukje-wook-kyung-choi-2024",
+    "seq": 266,
+    "title_en": "Wook-kyung Choi",
+    "title_ko": "최욱경",
+    "subtitle": null,
+    "description": "최욱경 개인전은 작가가 미국 유학 시절 제작한 21점의 종이 작품과 흑백 잉크 드로잉을 선보입니다. 전시는 1972년 출간한 시집 '이방인에게 낯선 이방인'의 선별된 시와 함께 구성되어, 문화적 변위와 정체성 탐구를 통한 작가의 예술적 발전을 조명합니다.",
+    "description_en": "Wook-kyung Choi's solo exhibition presents 21 works on paper and black-and-white ink drawings created during her study period in the United States. The exhibition, accompanied by selections from her 1972 poetry book 'A Stranger to Strangers,' illuminates the artist's exploration of cultural displacement and identity through experimental artistic development.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "서울",
+    "venue_country": "KR",
+    "gallery_location": "Kukje Gallery Hanok",
+    
+    "start_date": "2024-02-01",
+    "end_date": "2024-03-03",
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "mixed_media",
+    "artworks_count": 21,
+    
+    "artists": [
+      {
+        "name": "Wook-kyung Choi",
+        "name_ko": "최욱경",
+        "role": "artist",
+        "birth_year": 1940,
+        "death_year": 1985,
+        "birth_place": "Seoul, Korea",
+        "nationality": "Korean",
+        "education": [
+          "Seoul National University",
+          "Cranbrook Academy of Art",
+          "Brooklyn Museum Art School"
+        ],
+        "career_highlights": [
+          "Art professor in US and Korea",
+          "Published poet",
+          "Pioneer of Korean abstract expressionism"
+        ],
+        "artistic_focus": "Identity, cultural barriers, personal transformation"
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Exploring the artist's formative years through experimental works that blend visual art and poetry, revealing her journey of self-discovery as a foreign artist navigating cultural displacement",
+    
+    "featured_works": {
+      "paper_works": {
+        "count": 21,
+        "media": ["ink", "pencil", "charcoal", "printmaking"],
+        "characteristics": "Experimental, spontaneous, text-integrated"
+      },
+      "poetry_integration": {
+        "source": "A Stranger to Strangers (1972)",
+        "language": "English",
+        "themes": "Cultural alienation, identity search, personal reflections"
+      }
+    },
+    
+    "artistic_approach": {
+      "experimental_techniques": [
+        "Mixed media exploration",
+        "Text-image integration",
+        "Spontaneous mark-making",
+        "Abstract expressionism"
+      ],
+      "emotional_expression": "Candid, unfiltered emotional states",
+      "cultural_navigation": "Bridging Korean heritage and American experience",
+      "interdisciplinary": "Visual art and poetry synthesis"
+    },
+    
+    "cultural_context": {
+      "migration_experience": "Korean artist in 1960s-70s America",
+      "academic_journey": "From Seoul to Michigan to New York",
+      "identity_formation": "Navigating between cultures",
+      "artistic_community": "Connection to international art movements"
+    },
+    
+    "thematic_exploration": [
+      "Cultural displacement and belonging",
+      "Identity formation in foreign contexts",
+      "Language barriers and communication",
+      "Artistic experimentation and freedom",
+      "Personal transformation through art",
+      "East-West cultural dialogue",
+      "Emotional vulnerability in artistic expression"
+    ],
+    
+    "historical_significance": {
+      "pioneer_status": "Early Korean woman artist abroad",
+      "experimental_period": "Formative years in American art scene",
+      "cultural_bridge": "Between Korean and Western art practices",
+      "documentation": "Rare insight into artist's developmental phase"
+    },
+    
+    "themes": ["Korean art", "abstract expressionism", "cultural identity", "experimental art", "drawing", "poetry"],
+    "tags": ["Korean art", "drawing", "mixed media", "poetry", "identity", "cultural displacement", "1970s"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=266",
+    
+    "exhibition_significance": {
+      "archival_importance": "Rare documentation of early experimental period",
+      "cultural_narrative": "Korean diaspora artist experience",
+      "artistic_evolution": "Foundation for later expressionist works",
+      "interdisciplinary_innovation": "Poetry-visual art integration"
+    },
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 95,
+    "collected_at": "2025-08-06T16:00:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=266",
+    
+    "personality_matches": ["LAEF", "LAEC", "LAMF", "LAMC", "SAEF", "SAEC"],
+    "recommendation_score": 88,
+    
+    "created_at": "2025-08-06T16:00:00.000Z",
+    "updated_at": "2025-08-06T16:00:00.000Z"
+  }
+}

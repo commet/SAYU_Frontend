@@ -1,0 +1,129 @@
+{
+  "exhibition": {
+    "id": "kukje-wook-kyung-choi-stranger-2023",
+    "seq": 261,
+    "title_en": "A Stranger to Strangers",
+    "title_ko": "낯설은 얼굴들처럼",
+    "subtitle": null,
+    "description": "최욱경의 개인전 '낯설은 얼굴들처럼'은 작가가 미국에서 보낸 형성기 시절에 초점을 맞춘 26점의 종이 작품을 선보입니다. 대부분 흑백 잉크 드로잉과 판화로 구성된 전시는 1972년 동명의 시집 작품들을 포함하며, 한국인 예술가로서 미국에서 경험한 정체성 탐구와 독특한 추상 문법의 발전을 보여줍니다.",
+    "description_en": "Wook-kyung Choi's 'A Stranger to Strangers' presents 26 works on paper focusing on the artist's formative years in the United States. Featuring mostly black-and-white ink drawings and prints, including works from her 1972 poetry book of the same name, the exhibition explores her identity as a Korean artist in America and the development of her unique grammar of abstraction.",
+    
+    "venue_name": "국제갤러리",
+    "venue_city": "부산",
+    "venue_country": "KR",
+    "gallery_location": "Kukje Gallery Busan",
+    
+    "start_date": "2023-08-25",
+    "end_date": "2023-10-22",
+    "status": "ended",
+    
+    "exhibition_type": "solo",
+    "art_medium": "drawing",
+    "artworks_count": 26,
+    
+    "artists": [
+      {
+        "name": "Wook-kyung Choi",
+        "name_ko": "최욱경",
+        "role": "artist",
+        "birth_year": 1940,
+        "death_year": 1985,
+        "birth_place": "Seoul, Korea",
+        "nationality": "Korean",
+        "american_period": "1960s-1970s",
+        "artistic_development": "Formative years in United States",
+        "dual_practice": "Visual artist and poet"
+      }
+    ],
+    
+    "curator": null,
+    "curatorial_statement": "Presenting fragments of thoughts and candid yet unfinished entries in a diary, showcasing the artist's relentless and liberated artistic evolution",
+    
+    "featured_works": [
+      {
+        "title": "Untitled (AM I AMERICAN)",
+        "medium": "Ink on paper",
+        "significance": "Direct questioning of identity"
+      },
+      {
+        "title": "Study",
+        "medium": "Mixed media on paper",
+        "significance": "Experimental exploration"
+      },
+      {
+        "title": "Experiment",
+        "medium": "Ink drawing",
+        "significance": "Artistic language development"
+      },
+      {
+        "title": "I loved you once",
+        "medium": "Ink on paper",
+        "significance": "Personal emotional expression"
+      }
+    ],
+    
+    "poetry_connection": {
+      "book_title": "A Stranger to Strangers",
+      "publication_year": 1972,
+      "integration": "Visual works accompanying poetic expressions",
+      "themes": "Alienation, identity, cultural displacement"
+    },
+    
+    "artistic_characteristics": {
+      "primary_media": ["Black-and-white ink", "Prints", "Mixed media on paper"],
+      "visual_style": "Unique grammar of abstraction",
+      "emotional_tone": "Candid, unfinished, diary-like",
+      "experimental_approach": "Liberated mixed-media compositions"
+    },
+    
+    "thematic_exploration": [
+      "Korean identity in American context",
+      "Cultural displacement and belonging",
+      "Experimental artistic language",
+      "Personal diary as artistic form",
+      "Poetry-visual art intersection",
+      "Identity questioning and formation",
+      "Liberation through artistic expression"
+    ],
+    
+    "historical_context": {
+      "period_significance": "Korean artist abroad in 1960s-70s",
+      "cultural_navigation": "Between Eastern and Western art worlds",
+      "artistic_freedom": "Experimental possibilities in America",
+      "identity_formation": "Stranger to multiple cultures"
+    },
+    
+    "exhibition_narrative": {
+      "portrait_type": "Artist as relentless and liberated",
+      "presentation_style": "Intimate, diary-like revelation",
+      "viewer_experience": "Personal journey through displacement",
+      "emotional_arc": "From questioning to self-discovery"
+    },
+    
+    "themes": ["Korean art", "identity", "drawing", "poetry", "cultural displacement", "experimental art"],
+    "tags": ["Korean art", "drawing", "ink", "poetry", "identity", "1970s", "diaspora"],
+    
+    "admission_fee": 0,
+    "ticket_required": false,
+    "booking_required": false,
+    "official_url": "https://www.kukjegallery.com/exhibitions/view?seq=261",
+    
+    "exhibition_significance": {
+      "historical_importance": "Early Korean diaspora artist documentation",
+      "artistic_development": "Formative experimental period",
+      "cultural_bridge": "East-West artistic dialogue",
+      "personal_narrative": "Intimate artistic diary"
+    },
+    
+    "data_source": "kukje_detailed_webfetch_2025",
+    "data_quality_score": 95,
+    "collected_at": "2025-08-06T16:20:00.000Z",
+    "source_url": "https://www.kukjegallery.com/exhibitions/view?seq=261",
+    
+    "personality_matches": ["LAEF", "LAEC", "LAMF", "LAMC", "SAEF", "SAEC"],
+    "recommendation_score": 89,
+    
+    "created_at": "2025-08-06T16:20:00.000Z",
+    "updated_at": "2025-08-06T16:20:00.000Z"
+  }
+}

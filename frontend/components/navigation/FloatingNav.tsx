@@ -9,7 +9,6 @@ import { useDarkMode } from '@/contexts/DarkModeContext';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import { useAuth } from '@/hooks/useAuth';
 import toast from 'react-hot-toast';
-import { createClient } from '@/lib/supabase/client';
 
 interface NavItem {
   iconType: 'home' | 'sparkles' | 'users' | 'user' | 'zap' | 'dashboard' | 'calendar' | 'collection';
@@ -54,14 +53,13 @@ export default function FloatingNav() {
   const pathname = usePathname();
   const { language } = useLanguage();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(null);
   const [userInfo, setUserInfo] = useState<any>(null);
-  const supabase = createClient();
   
   console.log('=== FLOATING NAV RENDER ===');
   console.log('Pathname:', pathname);
@@ -97,24 +95,18 @@ export default function FloatingNav() {
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('click', handleClickOutside);
     
-    // Get detailed user info
-    const getUserInfo = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUserInfo(user);
-    };
-    
-    getUserInfo();
-    
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
-      getUserInfo();
-    });
+    // Set user info from auth context
+    if (user?.auth) {
+      setUserInfo(user.auth);
+    } else {
+      setUserInfo(null);
+    }
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('click', handleClickOutside);
-      subscription.unsubscribe();
     };
-  }, [dropdownOpen]);
+  }, [dropdownOpen, user]);
 
   const handleNavClick = (item: NavItem) => {
     if (item.requiresAuth && !user) {
@@ -139,9 +131,19 @@ export default function FloatingNav() {
   };
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    router.push('/');
-    toast.success(language === 'ko' ? '로그아웃되었습니다' : 'Signed out successfully');
+    try {
+      // Close any open menus
+      setIsOpen(false);
+      setDropdownOpen(null);
+      setMobileDropdownOpen(null);
+      
+      await signOut();
+      toast.success(language === 'ko' ? '로그아웃되었습니다' : 'Signed out successfully');
+      // The useAuth hook will handle the redirect to '/' via onAuthStateChange
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast.error(language === 'ko' ? '로그아웃 중 오류가 발생했습니다' : 'Error during logout');
+    }
   };
 
   const getProviderIcon = (provider: string) => {

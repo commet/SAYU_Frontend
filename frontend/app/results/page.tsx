@@ -17,6 +17,7 @@ import ProfileIDCard from '@/components/profile/ProfileIDCard';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
 import { useArtworksByArtist } from '@/lib/artvee-api';
 import { getBestAvailableArtists, PERSONALITY_ART_STYLES, type AvailableArtist } from '@/data/available-artists-2025';
+import { FormattedEssence } from '@/components/ui/FormattedEssence';
 
 interface QuizResults {
   personalityType: string;
@@ -257,7 +258,7 @@ function ResultsContent() {
         </motion.div>
       </section>
 
-      {/* 섹션 2: APT 4축 설명 */}
+      {/* 섹션 2: APT 4축 설명 (moved to top) */}
       <section className="max-w-4xl mx-auto px-4 pt-2 pb-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -372,7 +373,7 @@ function ResultsContent() {
         </motion.div>
       </section>
 
-      {/* 섹션 4: 페르소나 세부 설명 (탭 구조) */}
+      {/* 섹션 4: 페르소나 세부 설명 (탭 구조) - 상세 설명이 여기로 이동됨 */}
       <section className="max-w-4xl mx-auto px-4 py-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -380,16 +381,16 @@ function ResultsContent() {
           transition={{ delay: 1.2 }}
           className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 overflow-hidden"
         >
-          {/* Nature 설명 */}
-          <div className="p-8 border-b border-gray-200">
-            <h3 className="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-4">
-              {language === 'ko' ? '당신의 예술적 자아' : 'Your Artistic Nature'}
-            </h3>
-            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-              {language === 'ko' && personality.essence_ko ? personality.essence_ko : personality.essence}
-            </p>
+          {/* 상세 설명 (essence) - 탭 위에 항상 표시 */}
+          <div className="p-8 pb-0">
+            <div className="mb-6 p-6 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-200 dark:border-purple-700">
+              <FormattedEssence 
+                text={language === 'ko' && personality.essence_ko ? personality.essence_ko : personality.essence}
+                className="text-sm"
+              />
+            </div>
           </div>
-          
+
           {/* 탭 */}
           <div className="flex border-b border-gray-200 overflow-x-auto">
             <button
@@ -621,13 +622,15 @@ function ResultsContent() {
                 {language === 'ko' ? '당신의 예술 감상 스타일' : 'Your Art Appreciation Style'}
               </h3>
               <p className="text-gray-700 dark:text-gray-300 mb-4">
-                <span className="font-medium">{personalityStyle.focus}</span>
+                <span className="font-medium">
+                  {language === 'ko' ? personalityStyle.focus : personalityStyle.focusEn}
+                </span>
                 {language === 'ko' 
                   ? '에 중점을 두고 작품을 감상하시는 분입니다.' 
                   : ' is your primary focus when appreciating art.'}
               </p>
               <div className="flex flex-wrap gap-2">
-                {personalityStyle.keywords.map((keyword, i) => (
+                {(language === 'ko' ? personalityStyle.keywords : personalityStyle.keywordsEn).map((keyword, i) => (
                   <span 
                     key={i}
                     className="px-3 py-1 bg-white dark:bg-slate-700 rounded-full text-sm text-purple-600 dark:text-purple-300 border border-purple-200 dark:border-purple-600"
@@ -660,64 +663,65 @@ function ResultsContent() {
         </motion.div>
       </section>
 
+
       {/* 섹션 7: Save Results CTA */}
-      {!authLoading && !user && (
-        <section id="signup-cta" className="bg-gradient-to-br from-purple-50 to-pink-50 py-8 mt-8">
+      {!authLoading && !user ? (
+        <section id="signup-cta" className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 py-12 mt-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="max-w-4xl mx-auto px-4 text-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 dark:bg-purple-800 text-purple-700 dark:text-purple-200 rounded-full text-sm font-medium mb-6">
               <Sparkles className="w-4 h-4" />
               {language === 'ko' ? '게스트로 보는 중' : 'Viewing as Guest'}
             </div>
             
-            <h2 className="text-3xl font-serif font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-serif font-bold text-gray-900 dark:text-white mb-4">
               {language === 'ko' 
                 ? '이 결과를 저장하고 싶으신가요?' 
                 : 'Want to Save Your Results?'}
             </h2>
-            <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
               {language === 'ko' 
                 ? '나만의 예술 갤러리를 만들어 언제든지 결과를 확인하고, 맞춤 작품 추천을 받아보세요.'
                 : 'Create your personal art gallery to access your results anytime and receive personalized artwork recommendations.'}
             </p>
             
-            <div className="grid sm:grid-cols-3 gap-4 max-w-2xl mx-auto mb-8">
+            <div className="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto mb-8">
               <div className="text-center p-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Heart className="w-6 h-6 text-purple-600" />
+                <div className="w-14 h-14 bg-purple-100 dark:bg-purple-800 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Heart className="w-7 h-7 text-purple-600 dark:text-purple-300" />
                 </div>
-                <h3 className="font-medium text-gray-900 mb-1">
+                <h3 className="font-medium text-gray-900 dark:text-white mb-2">
                   {language === 'ko' ? '작품 저장' : 'Save Artworks'}
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   {language === 'ko' ? '마음에 드는 작품을 모아보세요' : 'Collect your favorite pieces'}
                 </p>
               </div>
               
               <div className="text-center p-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Map className="w-6 h-6 text-purple-600" />
+                <div className="w-14 h-14 bg-purple-100 dark:bg-purple-800 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Map className="w-7 h-7 text-purple-600 dark:text-purple-300" />
                 </div>
-                <h3 className="font-medium text-gray-900 mb-1">
+                <h3 className="font-medium text-gray-900 dark:text-white mb-2">
                   {language === 'ko' ? '전시 추천' : 'Exhibition Guide'}
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   {language === 'ko' ? '성향에 맞는 전시회 추천' : 'Get personalized exhibition recommendations'}
                 </p>
               </div>
               
               <div className="text-center p-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Palette className="w-6 h-6 text-purple-600" />
+                <div className="w-14 h-14 bg-purple-100 dark:bg-purple-800 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Palette className="w-7 h-7 text-purple-600 dark:text-purple-300" />
                 </div>
-                <h3 className="font-medium text-gray-900 mb-1">
+                <h3 className="font-medium text-gray-900 dark:text-white mb-2">
                   {language === 'ko' ? 'AI 프로필' : 'AI Profile'}
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   {language === 'ko' ? '당신만의 예술 프로필 생성' : 'Generate your unique art profile'}
                 </p>
               </div>
@@ -746,7 +750,7 @@ function ResultsContent() {
             </div>
           </motion.div>
         </section>
-      )}
+      ) : null}
 
       {/* Fixed Feedback Button */}
       <FeedbackButton

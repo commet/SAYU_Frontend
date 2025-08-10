@@ -129,83 +129,58 @@ export default function FeedbackModal({ isOpen, onClose, contextData }: Feedback
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 pt-20"
           onClick={handleClose}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[75vh] overflow-y-auto my-8"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-gray-900">
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+              <h2 className="text-lg font-bold text-gray-900">
                 {language === 'ko' ? '피드백 보내기' : 'Send Feedback'}
               </h2>
               <button
                 onClick={handleClose}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                className="p-1.5 hover:bg-gray-100 rounded-full transition-colors"
               >
                 <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
 
-            {/* Rewards Banner */}
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 p-4 border-b border-gray-100">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                  <Heart className="w-4 h-4 text-white" />
-                </div>
+            {/* Rewards Banner - Simplified */}
+            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 p-3 border-b border-gray-100">
+              <div className="flex items-center gap-2">
+                <Heart className="w-4 h-4 text-purple-500" />
                 <div className="flex-1">
-                  <h3 className="text-sm font-semibold text-gray-900">
-                    {language === 'ko' ? '🎁 피드백 보상 프로그램' : '🎁 Feedback Rewards Program'}
-                  </h3>
-                  <p className="text-xs text-gray-600">
+                  <p className="text-xs text-gray-700">
                     {language === 'ko' 
-                      ? '활발한 피드백 제공자에게 베타 기능 우선 체험, 큐레이터 뱃지, 프리미엄 AI 아트 프로필 등 특별 혜택을 드립니다!'
-                      : 'Active feedback contributors get exclusive access to beta features, curator badges, premium AI art profiles, and more!'
+                      ? '🎁 피드백 제공자에게 베타 기능, 큐레이터 뱃지 등 특별 혜택 제공'
+                      : '🎁 Contributors get beta access, curator badges & exclusive rewards'
                     }
                   </p>
-                </div>
-              </div>
-              
-              {/* Rewards List */}
-              <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-                <div className="flex items-center gap-1 text-purple-600">
-                  <span>🚀</span>
-                  <span>{language === 'ko' ? '베타 기능 우선 체험' : 'Beta Access'}</span>
-                </div>
-                <div className="flex items-center gap-1 text-pink-600">
-                  <span>🏅</span>
-                  <span>{language === 'ko' ? '큐레이터 뱃지' : 'Curator Badge'}</span>
-                </div>
-                <div className="flex items-center gap-1 text-blue-600">
-                  <span>🎨</span>
-                  <span>{language === 'ko' ? '프리미엄 AI 아트' : 'Premium AI Art'}</span>
-                </div>
-                <div className="flex items-center gap-1 text-amber-600">
-                  <span>✨</span>
-                  <span>{language === 'ko' ? '맞춤형 큐레이션' : 'Custom Curation'}</span>
                 </div>
               </div>
             </div>
 
             {isSubmitted ? (
               /* Success State */
-              <div className="p-8 text-center">
+              <div className="p-6 text-center">
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
+                  className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3"
                 >
-                  <Heart className="w-8 h-8 text-green-600" />
+                  <Heart className="w-6 h-6 text-green-600" />
                 </motion.div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-base font-semibold text-gray-900 mb-2">
                   {language === 'ko' ? '피드백이 전송되었습니다!' : 'Feedback Sent!'}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-sm text-gray-600">
                   {language === 'ko' 
                     ? '소중한 의견 감사합니다. 더 나은 서비스를 위해 반영하겠습니다.'
                     : 'Thank you for your valuable feedback. We will use it to improve our service.'
@@ -214,13 +189,13 @@ export default function FeedbackModal({ isOpen, onClose, contextData }: Feedback
               </div>
             ) : (
               /* Feedback Form */
-              <form onSubmit={handleSubmit} className="p-6 space-y-6">
+              <form onSubmit={handleSubmit} className="p-4 space-y-2.5">
                 {/* Feedback Type Selection */}
                 <div>
-                  <h3 className="text-sm font-medium text-gray-700 mb-3">
+                  <h3 className="text-sm font-medium text-gray-700 mb-2">
                     {language === 'ko' ? '피드백 유형' : 'Feedback Type'}
                   </h3>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-2">
                     {Object.entries(feedbackTypes).map(([key, type]) => {
                       const Icon = type.icon;
                       return (
@@ -228,14 +203,14 @@ export default function FeedbackModal({ isOpen, onClose, contextData }: Feedback
                           key={key}
                           type="button"
                           onClick={() => setFeedbackType(key as FeedbackType)}
-                          className={`p-3 rounded-lg border-2 transition-all ${
+                          className={`p-2 rounded-lg border-2 transition-all ${
                             feedbackType === key
                               ? `border-purple-500 ${type.bgColor}`
                               : 'border-gray-200 hover:border-gray-300'
                           }`}
                         >
-                          <Icon className={`w-5 h-5 ${type.color} mx-auto mb-2`} />
-                          <span className="text-sm font-medium text-gray-700">
+                          <Icon className={`w-4 h-4 ${type.color} mx-auto mb-1`} />
+                          <span className="text-xs font-medium text-gray-700">
                             {type.label}
                           </span>
                         </button>
@@ -247,10 +222,10 @@ export default function FeedbackModal({ isOpen, onClose, contextData }: Feedback
                 {/* Rating (only for rating type) */}
                 {feedbackType === 'rating' && (
                   <div>
-                    <h3 className="text-sm font-medium text-gray-700 mb-3">
+                    <h3 className="text-sm font-medium text-gray-700 mb-2">
                       {language === 'ko' ? '평점' : 'Rating'}
                     </h3>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
                           key={star}
@@ -259,7 +234,7 @@ export default function FeedbackModal({ isOpen, onClose, contextData }: Feedback
                           className="p-1 hover:scale-110 transition-transform"
                         >
                           <Star
-                            className={`w-8 h-8 ${
+                            className={`w-6 h-6 ${
                               star <= rating
                                 ? 'text-yellow-400 fill-current'
                                 : 'text-gray-300'
@@ -276,7 +251,7 @@ export default function FeedbackModal({ isOpen, onClose, contextData }: Feedback
 
                 {/* Message */}
                 <div>
-                  <h3 className="text-sm font-medium text-gray-700 mb-3">
+                  <h3 className="text-sm font-medium text-gray-700 mb-2">
                     {language === 'ko' ? '메시지' : 'Message'}
                   </h3>
                   <textarea
@@ -287,15 +262,15 @@ export default function FeedbackModal({ isOpen, onClose, contextData }: Feedback
                         ? '자세한 의견이나 제안사항을 알려주세요...'
                         : 'Please share your detailed feedback or suggestions...'
                     }
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 resize-none"
-                    rows={4}
+                    className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 resize-none text-sm"
+                    rows={3}
                     required
                   />
                 </div>
 
                 {/* Email (optional) */}
                 <div>
-                  <h3 className="text-sm font-medium text-gray-700 mb-3">
+                  <h3 className="text-sm font-medium text-gray-700 mb-2">
                     {language === 'ko' ? '이메일 (선택사항)' : 'Email (Optional)'}
                   </h3>
                   <input
@@ -307,13 +282,13 @@ export default function FeedbackModal({ isOpen, onClose, contextData }: Feedback
                         ? '답변을 받으시려면 이메일을 입력해주세요'
                         : 'Enter your email to receive a response'
                     }
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                    className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm"
                   />
                 </div>
 
                 {/* Context Info */}
                 {contextData && (
-                  <div className="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg">
+                  <div className="text-xs text-gray-500 bg-gray-50 p-2 rounded-lg">
                     <p>
                       {language === 'ko' ? '현재 페이지: ' : 'Current page: '}
                       {contextData.page || 'Unknown'}
@@ -324,12 +299,6 @@ export default function FeedbackModal({ isOpen, onClose, contextData }: Feedback
                         {contextData.personalityType}
                       </p>
                     )}
-                    {contextData.feature && (
-                      <p>
-                        {language === 'ko' ? '기능: ' : 'Feature: '}
-                        {contextData.feature}
-                      </p>
-                    )}
                   </div>
                 )}
 
@@ -337,16 +306,16 @@ export default function FeedbackModal({ isOpen, onClose, contextData }: Feedback
                 <button
                   type="submit"
                   disabled={isSubmitting || !message.trim() || (feedbackType === 'rating' && rating === 0)}
-                  className="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+                  className="w-full bg-purple-600 text-white py-2.5 px-4 rounded-lg font-medium hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 text-sm"
                 >
                   {isSubmitting ? (
                     <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <Loader2 className="w-4 h-4 animate-spin" />
                       {language === 'ko' ? '전송 중...' : 'Sending...'}
                     </>
                   ) : (
                     <>
-                      <Send className="w-5 h-5" />
+                      <Send className="w-4 h-4" />
                       {language === 'ko' ? '피드백 보내기' : 'Send Feedback'}
                     </>
                   )}
