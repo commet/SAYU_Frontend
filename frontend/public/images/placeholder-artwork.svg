@@ -1,0 +1,12 @@
+<svg width="400" height="500" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="500" fill="#F3F4F6"/>
+  <rect x="50" y="100" width="300" height="200" rx="8" fill="#E5E7EB"/>
+  <circle cx="130" cy="180" r="20" fill="#D1D5DB"/>
+  <path d="M180 220L220 180L280 240L350 160V280H50V220L180 220Z" fill="#D1D5DB"/>
+  <rect x="50" y="320" width="300" height="2" fill="#D1D5DB"/>
+  <rect x="50" y="340" width="200" height="12" rx="6" fill="#E5E7EB"/>
+  <rect x="50" y="360" width="150" height="8" rx="4" fill="#F3F4F6"/>
+  <text x="200" y="420" text-anchor="middle" fill="#9CA3AF" font-family="Inter, sans-serif" font-size="14">
+    Classic Artwork
+  </text>
+</svg>

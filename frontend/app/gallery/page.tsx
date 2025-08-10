@@ -654,6 +654,56 @@ function GalleryContent() {
               {language === 'ko' ? '모두 보기' : 'View All'} <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
+
+          {/* 아카이빙된 작품 표시 */}
+          {galleryArtworks.length > 0 ? (
+            <div className="overflow-x-auto pb-2">
+              <div className="flex gap-4 min-w-max">
+                {galleryArtworks.slice(0, 6).map((artwork) => (
+                  <motion.div
+                    key={artwork.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="relative group cursor-pointer"
+                  >
+                    <div className="w-32 h-32 rounded-lg overflow-hidden bg-slate-800 border border-slate-700 hover:border-purple-500 transition-all">
+                      <img 
+                        src={artwork.imageUrl || `https://picsum.photos/200/200?random=${artwork.id}`} 
+                        alt={artwork.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                      {artwork.isNewlyAdded && (
+                        <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+                          New
+                        </div>
+                      )}
+                    </div>
+                    <div className="mt-2">
+                      <p className="text-xs text-white font-medium line-clamp-1">{artwork.title}</p>
+                      <p className="text-xs text-gray-400">{artwork.artist}</p>
+                    </div>
+                  </motion.div>
+                ))}
+                {galleryArtworks.length > 6 && (
+                  <div className="w-32 h-32 rounded-lg bg-slate-800/50 border border-slate-700 flex items-center justify-center cursor-pointer hover:bg-slate-700 transition-all">
+                    <div className="text-center">
+                      <ChevronRight className="w-6 h-6 mx-auto text-slate-400 mb-1" />
+                      <p className="text-xs text-slate-400">+{galleryArtworks.length - 6} more</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="bg-slate-800/50 rounded-lg p-8 text-center border border-slate-700">
+              <Bookmark className="w-8 h-8 mx-auto mb-3 text-slate-500" />
+              <p className="text-sm text-slate-400">
+                {language === 'ko' 
+                  ? '아직 저장한 작품이 없습니다. 아래 추천 작품에서 마음에 드는 작품을 저장해보세요!'
+                  : 'No saved artworks yet. Save your favorite artworks from the recommendations below!'}
+              </p>
+            </div>
+          )}
         </div>
 
 

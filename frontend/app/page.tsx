@@ -394,7 +394,7 @@ export default function JourneyHomePage() {
               >
                 {language === 'ko' 
                   ? '하루에도 몇 번씩 바뀌는 마음,'
-                  : 'A heart that changes by the hour,'}
+                  : 'Your feelings shift like the tides,'}
               </motion.h1>
               <motion.p 
                 className="text-xl text-white/70 mb-4 text-center"
@@ -413,8 +413,8 @@ export default function JourneyHomePage() {
                 transition={{ duration: 1, delay: 0.8 }}
               >
                 {language === 'ko'
-                  ? '괜찮아요. 여기서는 모든 당신이 진짜예요'
-                  : "It's okay. Here, every version of you is real"}
+                  ? '예술과 함께 진정한 나를 발견하는 여정을 시작하세요'
+                  : "Begin your artistic journey to discover your true self"}
               </motion.p>
               
               {/* 시작점으로의 초대 */}

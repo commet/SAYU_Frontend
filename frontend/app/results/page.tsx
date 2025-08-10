@@ -25,7 +25,6 @@ interface QuizResults {
   completedAt: string;
 }
 
-
 function ResultsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -565,7 +564,7 @@ function ResultsContent() {
       </section>
 
       {/* 섹션 6: Connection/추천 파트 */}
-      <section className="max-w-4xl mx-auto px-4 py-8">
+      <section className="max-w-4xl mx-auto px-4 py-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -595,7 +594,6 @@ function ResultsContent() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.7 + index * 0.1 }}
-                  className={isMainMatch ? 'lg:col-span-1 lg:row-span-1 ring-2 ring-purple-200 dark:ring-purple-800' : ''}
                 >
                   <ArtworkCard
                     image={artistMatch.imageUrl}
@@ -647,7 +645,7 @@ function ResultsContent() {
               onClick={scrollToSignup}
               className="flex items-center justify-center gap-2 px-6 py-3 text-purple-600 hover:text-purple-700 font-medium transition-colors"
             >
-              {language === 'ko' ? '더 많은 작품 탐색하기' : 'Explore More Artworks'
+              {language === 'ko' ? '더 많은 작품 탐색하기' : 'Explore More Artworks'}
               <ArrowRight size={18} />
             </button>
             
@@ -664,7 +662,7 @@ function ResultsContent() {
 
       {/* 섹션 7: Save Results CTA */}
       {!authLoading && !user && (
-        <section id="signup-cta" className="bg-gradient-to-br from-purple-50 to-pink-50 py-16">
+        <section id="signup-cta" className="bg-gradient-to-br from-purple-50 to-pink-50 py-8 mt-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

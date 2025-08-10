@@ -1335,24 +1335,24 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     strengths: [
       {
         icon: '⚙️',
-        title: 'Technical Analysis',
-        title_ko: '기술적 분석',
-        description: 'You understand the how behind the what',
-        description_ko: '작품 뒤에 숨은 기법을 이해합니다'
+        title: 'Technical Mastery',
+        title_ko: '기술적 숙달',
+        description: 'You dissect brushstrokes like a surgeon, understanding not just what was painted but exactly how - the pressure, the pigment load, the hand\'s movement across canvas',
+        description_ko: '외과의사처럼 붓질을 해부합니다. 무엇이 그려졌는지뿐만 아니라 정확히 어떻게 그려졌는지 - 압력, 물감의 양, 캔버스를 가로지르는 손의 움직임까지 이해합니다'
       },
       {
         icon: '📐',
-        title: 'Compositional Lone',
-        title_ko: '구성의 논리',
-        description: 'You see the mathematics in masterpieces',
-        description_ko: '걸작에서 수학적 원리를 발견합니다'
+        title: 'Mathematical Beauty',
+        title_ko: '수학적 아름다움',
+        description: 'Golden ratios speak to you like music, perspective lines guide your eye like a conductor\'s baton, and compositional balance feels like solved equations',
+        description_ko: '황금비는 음악처럼 당신에게 말을 걸고, 원근선은 지휘봉처럼 시선을 이끌며, 구성의 균형은 풀린 방정식처럼 느껴집니다'
       },
       {
         icon: '🎓',
-        title: 'Scholarly Depth',
-        title_ko: '학구적 깊이',
-        description: 'You build expertise through systematic study',
-        description_ko: '체계적 학습으로 전문성을 구축합니다'
+        title: 'Scholarly Pursuit',
+        title_ko: '학문적 탐구',
+        description: 'Each artwork becomes a research project - you trace influences, study apprenticeships, compare periods, building expertise layer by methodical layer',
+        description_ko: '모든 작품이 연구 프로젝트가 됩니다. 영향 관계를 추적하고, 도제 시절을 연구하며, 시대를 비교하면서 체계적으로 전문성을 쌓아갑니다'
       }
     ],
     recognition: [

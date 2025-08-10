@@ -8,6 +8,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { personalityAnimals } from '@/data/personality-animals';
 import { personalityGradients, getGradientStyle } from '@/constants/personality-gradients';
+import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
 
 interface ShareModalProps {
   personalityType: string;
@@ -145,17 +146,17 @@ Discover your art personality too!`;
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
-          className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
+          className="bg-white rounded-3xl max-w-lg w-full max-h-[70vh] overflow-hidden shadow-2xl"
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b">
-            <h2 className="text-2xl font-bold text-gray-900">
-              {language === 'ko' ? '내 예술 성격 공유하기' : 'Share Your Art Personality'}
+          <div className="flex items-center justify-between p-4 border-b">
+            <h2 className="text-xl font-bold text-gray-900">
+              {language === 'ko' ? '내 예술 페르소나 공유하기' : 'Share Your Art Persona'}
             </h2>
             <button
               onClick={onClose}
@@ -165,10 +166,10 @@ Discover your art personality too!`;
             </button>
           </div>
 
-          <div className="p-6 space-y-6 max-h-[calc(90vh-100px)] overflow-y-auto">
+          <div className="p-4 space-y-4 max-h-[calc(70vh-80px)] overflow-y-auto">
             {/* Share Format Selection */}
             <div>
-              <h3 className="text-lg font-medium mb-3 text-gray-900">
+              <h3 className="text-sm font-medium mb-2 text-gray-900">
                 {language === 'ko' ? '공유 형식 선택' : 'Choose Share Format'}
               </h3>
               <div className="grid grid-cols-3 gap-3">
@@ -176,21 +177,21 @@ Discover your art personality too!`;
                   <button
                     key={format}
                     onClick={() => setShareFormat(format)}
-                    className={`p-4 rounded-xl border-2 transition-all ${
+                    className={`p-2 rounded-xl border-2 transition-all ${
                       shareFormat === format
                         ? 'border-blue-500 bg-blue-50'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
-                    <div className="text-sm font-medium capitalize">
+                    <div className="text-xs font-medium capitalize">
                       {format === 'story' ? (language === 'ko' ? '스토리' : 'Story') :
                        format === 'feed' ? (language === 'ko' ? '피드' : 'Feed') :
                        (language === 'ko' ? '카드' : 'Card')}
                     </div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      {format === 'story' ? '540 × 960' :
-                       format === 'feed' ? '1080 × 1080' :
-                       '540 × 680'}
+                    <div className="text-[10px] text-gray-500 mt-0.5">
+                      {format === 'story' ? '9:16' :
+                       format === 'feed' ? '1:1' :
+                       '4:5'}
                     </div>
                   </button>
                 ))}
@@ -199,39 +200,78 @@ Discover your art personality too!`;
 
             {/* Preview */}
             <div>
-              <h3 className="text-lg font-medium mb-3 text-gray-900">
+              <h3 className="text-sm font-medium mb-2 text-gray-900">
                 {language === 'ko' ? '미리보기' : 'Preview'}
               </h3>
               <div className="flex justify-center">
                 <div
                   ref={shareCardRef}
                   className={`rounded-2xl overflow-hidden shadow-xl ${
-                    shareFormat === 'story' ? 'w-48 h-80' :
-                    shareFormat === 'feed' ? 'w-64 h-64' :
-                    'w-60 h-72'
+                    shareFormat === 'story' ? 'w-36 h-60' :
+                    shareFormat === 'feed' ? 'w-48 h-48' :
+                    'w-44 h-52'
                   }`}
                   style={{ background: gradientStyle }}
                 >
-                  <div className="h-full p-6 text-white flex flex-col justify-between">
+                  <div className="h-full p-4 text-white flex flex-col justify-between">
                     {/* Top Section */}
                     <div className="text-center">
-                      <div className="text-5xl mb-3">{animal?.emoji}</div>
-                      <div className="text-xs uppercase tracking-wider opacity-80 mb-1">
-                        {language === 'ko' ? '나의 예술 성격' : 'My Art Personality'}
+                      <div className="mb-1 flex justify-center">
+                        {animal ? (
+                          <PersonalityAnimalImage 
+                            animal={animal} 
+                            variant="illustration"
+                            size="sm"
+                            showFallback={true}
+                            className="w-16 h-16 object-contain drop-shadow-md"
+                          />
+                        ) : (
+                          <div className="text-3xl">{animal?.emoji}</div>
+                        )}
                       </div>
-                      <div className="font-mono text-2xl font-bold">{personalityType}</div>
+                      <div className="bg-white/10 backdrop-blur-sm rounded-md px-2 py-1 inline-block mx-auto">
+                        <div className="font-mono text-base font-bold leading-tight">{personalityType}</div>
+                        <div className="text-xs font-medium leading-tight">
+                          {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
+                        </div>
+                      </div>
                     </div>
                     
                     {/* Middle Section */}
-                    <div className="text-center flex-1 flex flex-col justify-center">
-                      <div className="text-lg font-medium mb-2">
-                        {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
-                      </div>
-                      {shareFormat !== 'card' && (
-                        <div className="text-xs opacity-90 leading-relaxed px-2">
-                          {language === 'ko' && personality?.subtitle_ko 
-                            ? personality.subtitle_ko 
-                            : personality?.subtitle
+                    <div className="text-center flex-1 flex flex-col justify-center mt-2">
+                      {shareFormat === 'story' && (
+                        <div className="text-[10px] opacity-90 leading-tight px-0.5">
+                          {language === 'ko' 
+                            ? `"예술 속 감정을 ${personality?.strengths?.[0]?.title_ko === '감정적 건축' ? '건축물처럼 설계하는' : 
+                               personality?.strengths?.[0]?.title_ko === '미세한 감수성' ? '섬세하게 포착하는' :
+                               personality?.strengths?.[0]?.title_ko === '직관적 연결' ? '직관으로 연결하는' :
+                               personality?.strengths?.[0]?.title_ko === '기술적 숙달' ? '해부하듯 분석하는' :
+                               personality?.strengths?.[0]?.title_ko === '패턴 인식' ? '패턴으로 읽어내는' :
+                               '깊이 있게 탐구하는'} 예술 애호가"` 
+                            : `"An art lover who ${personality?.strengths?.[0]?.title === 'Emotional Architecture' ? 'architects emotions in art' :
+                               personality?.strengths?.[0]?.title === 'Micro Sensitivity' ? 'captures subtle feelings' :
+                               personality?.strengths?.[0]?.title === 'Intuitive Connection' ? 'connects through intuition' :
+                               personality?.strengths?.[0]?.title === 'Technical Mastery' ? 'dissects techniques' :
+                               personality?.strengths?.[0]?.title === 'Pattern Recognition' ? 'reads through patterns' :
+                               'deeply explores artworks'}"`
+                          }
+                        </div>
+                      )}
+                      {shareFormat === 'feed' && (
+                        <div className="text-[10px] opacity-90 leading-tight px-0.5">
+                          {language === 'ko' 
+                            ? `"예술 속 감정을 ${personality?.strengths?.[0]?.title_ko === '감정적 건축' ? '건축물처럼 설계하는' : 
+                               personality?.strengths?.[0]?.title_ko === '미세한 감수성' ? '섬세하게 포착하는' :
+                               personality?.strengths?.[0]?.title_ko === '직관적 연결' ? '직관으로 연결하는' :
+                               personality?.strengths?.[0]?.title_ko === '기술적 숙달' ? '해부하듯 분석하는' :
+                               personality?.strengths?.[0]?.title_ko === '패턴 인식' ? '패턴으로 읽어내는' :
+                               '깊이 있게 탐구하는'} 예술 애호가"` 
+                            : `"An art lover who ${personality?.strengths?.[0]?.title === 'Emotional Architecture' ? 'architects emotions in art' :
+                               personality?.strengths?.[0]?.title === 'Micro Sensitivity' ? 'captures subtle feelings' :
+                               personality?.strengths?.[0]?.title === 'Intuitive Connection' ? 'connects through intuition' :
+                               personality?.strengths?.[0]?.title === 'Technical Mastery' ? 'dissects techniques' :
+                               personality?.strengths?.[0]?.title === 'Pattern Recognition' ? 'reads through patterns' :
+                               'deeply explores artworks'}"`
                           }
                         </div>
                       )}
@@ -239,20 +279,16 @@ Discover your art personality too!`;
                     
                     {/* Bottom Section */}
                     <div className="text-center">
-                      {shareFormat === 'feed' && (
-                        <div className="text-sm opacity-90 mb-3">
-                          {language === 'ko' 
-                            ? `${animal?.animal_ko || ''}와 함께하는 예술 여정` 
-                            : `Art journey with ${animal?.animal || ''}`
-                          }
-                        </div>
-                      )}
-                      <div className="border-t border-white/20 pt-3">
-                        <div className="text-xs opacity-70">
-                          {language === 'ko' ? '당신의 예술 성격을 발견하세요' : 'Discover your art personality'}
+                      <div className="border-t border-white/20 pt-2 mt-2">
+                        <div className="text-xs opacity-70 tracking-tighter">
+                          {language === 'ko' ? (
+                            shareFormat === 'feed' ? '당신의 예술 페르소나를 발견하세요' : <>당신의 예술 페르소나를<br />발견하세요</>
+                          ) : (
+                            'Discover your art persona'
+                          )}
                         </div>
                         <div className="text-xs font-medium mt-1">
-                          SAYU • sayu.vercel.app
+                          SAYU
                         </div>
                       </div>
                     </div>
@@ -263,7 +299,7 @@ Discover your art personality too!`;
 
             {/* Share Options */}
             <div>
-              <h3 className="text-lg font-medium mb-3 text-gray-900">
+              <h3 className="text-sm font-medium mb-2 text-gray-900">
                 {language === 'ko' ? '공유 방법' : 'Share Options'}
               </h3>
               
