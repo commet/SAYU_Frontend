@@ -35,17 +35,28 @@ export interface Artwork {
   description?: string;
 }
 
+export interface ChatContext {
+  pageContext?: {
+    type: string;
+    metadata?: any;
+  };
+  personalityType?: string;
+  userId?: string;
+}
+
 class ChatbotAPI {
   // Send a message to the chatbot
   async sendMessage(
     message: string, 
     artworkId: string,
-    artwork?: Artwork
+    artwork?: Artwork,
+    context?: ChatContext
   ): Promise<ChatbotResponse> {
     return apiClient.post<ChatbotResponse>('/api/chatbot/message', {
       message,
       artworkId,
-      artwork
+      artwork,
+      context
     });
   }
 

@@ -1,13 +1,14 @@
 // 챗봇 컨텍스트 및 페이지별 설정
 
 export interface PageContext {
-  type: 'home' | 'quiz' | 'gallery' | 'artwork' | 'profile' | 'exhibition' | 'results' | 'unknown';
+  type: 'home' | 'quiz' | 'gallery' | 'artwork' | 'profile' | 'exhibition' | 'results' | 'community' | 'discover' | 'daily' | 'unknown';
   metadata?: {
     artworkId?: string;
     artworkTitle?: string;
     artistName?: string;
     exhibitionName?: string;
     quizStep?: number;
+    personalityType?: string;
   };
 }
 
@@ -15,19 +16,19 @@ export interface PageContext {
 export const PAGE_GREETINGS = {
   home: {
     initial: [
-      "안녕하세요! SAYU에 오신 걸 환영해요 ✨",
-      "오늘은 어떤 예술 여행을 떠나볼까요?",
-      "SAYU와 함께 당신만의 예술 세계를 발견해보세요!"
+      "안녕하세요! SAYU의 AI 큐레이터 미유예요 ✨ 오늘 어떤 기분이신가요?",
+      "반가워요! 당신만의 예술 여행을 시작해볼까요? 🎨",
+      "SAYU에 오신 걸 환영해요! 어떤 예술 세계를 탐험하고 싶으신가요?"
     ],
     suggestions: [
       "SAYU가 뭔가요?",
-      "어떤 서비스인지 알려주세요",
-      "성격 테스트는 어떻게 하나요?"
+      "성격 테스트는 어떻게 하나요?",
+      "어떤 서비스인지 알려주세요"
     ],
     idlePrompts: [
-      "혹시 도움이 필요하신가요?",
+      "무엇을 도와드릴까요?",
       "예술 여행을 시작해볼까요?",
-      "어떤 것부터 해보실래요?"
+      "궁금한 것이 있으면 언제든 물어보세요!"
     ]
   },
   
@@ -51,19 +52,19 @@ export const PAGE_GREETINGS = {
   
   gallery: {
     initial: [
-      "멋진 작품들이 가득하네요! 🖼️",
-      "어떤 스타일의 작품을 찾고 계신가요?",
-      "마음에 드는 작품이 있으신가요?"
+      "어떤 작품을 찾고 계신가요? 도와드릴게요! 🖼️",
+      "멋진 작품들이 가득하네요! 마음에 드는 작품이 있나요?",
+      "갤러리 탐험을 함께 해봐요! 어떤 스타일을 좋아하시나요?"
     ],
     suggestions: [
-      "인상주의 작품 보여주세요",
-      "한국 작가들의 작품이 있나요?",
-      "오늘의 추천 작품은?"
+      "인상주의 작품 보기",
+      "오늘의 추천 작품은?",
+      "내 취향에 맞는 작품 찾기"
     ],
     idlePrompts: [
-      "특별히 관심있는 시대나 스타일이 있으신가요?",
-      "작품 추천을 받아보시겠어요?",
-      "어떤 분위기의 작품을 좋아하시나요?"
+      "어떤 분위기의 작품을 찾고 계신가요?",
+      "작품 추천을 받아보실까요?",
+      "특정 작가나 시대가 궁금하신가요?"
     ]
   },
   
@@ -87,19 +88,19 @@ export const PAGE_GREETINGS = {
   
   profile: {
     initial: [
-      "당신의 예술 취향을 함께 살펴볼까요? 📊",
+      "프로필을 멋지게 꾸며보실래요? 도와드릴게요! 📊",
       "{personalityType} 유형의 특별한 예술 여정이네요!",
-      "지금까지의 예술 탐험이 궁금하신가요?"
+      "당신의 예술 취향을 더 깊이 알아볼까요?"
     ],
     suggestions: [
       "내 취향 분석해주세요",
       "추천 작품 보여주세요",
-      "다른 유형과 비교해주세요"
+      "프로필 꾸미기 도움"
     ],
     idlePrompts: [
-      "예술 취향이 바뀌었나요?",
-      "새로운 스타일을 탐험해보실래요?",
-      "저장한 작품들을 다시 볼까요?"
+      "프로필 설정에 도움이 필요하신가요?",
+      "새로운 기능을 시도해보실래요?",
+      "궁금한 것이 있으면 물어보세요!"
     ]
   },
   
@@ -136,6 +137,60 @@ export const PAGE_GREETINGS = {
       "결과가 마음에 드시나요?",
       "궁금한 점이 있으신가요?",
       "이제 어떤 것부터 해볼까요?"
+    ]
+  },
+  
+  community: {
+    initial: [
+      "커뮤니티에 오신 것을 환영해요! 🤝",
+      "다른 사용자들과 예술 이야기를 나눠보세요!",
+      "어떤 아트 클럽에 관심이 있으신가요?"
+    ],
+    suggestions: [
+      "아트 클럽이 뭔가요?",
+      "다른 사용자들과 연결하기",
+      "커뮤니티 둘러보기"
+    ],
+    idlePrompts: [
+      "새로운 친구를 만나보실래요?",
+      "흥미로운 토론에 참여해보세요",
+      "커뮤니티 활동이 궁금하신가요?"
+    ]
+  },
+  
+  discover: {
+    initial: [
+      "새로운 발견의 시간이에요! ✨",
+      "어떤 예술적 경험을 해보고 싶으신가요?",
+      "탐험할 준비가 되셨나요?"
+    ],
+    suggestions: [
+      "새로운 작품 탐색하기",
+      "추천 받기",
+      "트렌드 작품 보기"
+    ],
+    idlePrompts: [
+      "새로운 스타일을 탐험해보세요",
+      "흥미로운 작가를 발견해보실래요?",
+      "모험을 떠날 준비가 되셨나요?"
+    ]
+  },
+  
+  daily: {
+    initial: [
+      "오늘의 예술 습관을 함께 만들어봐요! 📅",
+      "일상 속 예술이 어떤 변화를 가져다줄까요?",
+      "매일매일 성장하는 예술 감성!"
+    ],
+    suggestions: [
+      "오늘의 추천은?",
+      "습관 만들기 도움",
+      "일일 챌린지 참여하기"
+    ],
+    idlePrompts: [
+      "오늘 어떤 예술을 만나볼까요?",
+      "새로운 습관을 시작해보실래요?",
+      "일상에 예술을 더해보세요"
     ]
   }
 };
@@ -207,6 +262,12 @@ export function detectPageType(pathname: string): PageContext {
     return { type: 'exhibition' };
   } else if (pathname.includes('/results')) {
     return { type: 'results' };
+  } else if (pathname.includes('/community')) {
+    return { type: 'community' };
+  } else if (pathname.includes('/discover')) {
+    return { type: 'discover' };
+  } else if (pathname.includes('/daily')) {
+    return { type: 'daily' };
   }
   
   return { type: 'unknown' };

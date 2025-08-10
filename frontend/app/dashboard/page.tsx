@@ -7,14 +7,15 @@ import { Sparkles, Palette, MapPin, Heart, TrendingUp, Calendar, ArrowRight, Zap
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
-import ProfileCompletion from '@/components/dashboard/ProfileCompletion';
+import { useResponsive } from '@/lib/responsive';
+import { cn } from '@/lib/utils';
 
 export default function DashboardPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
+  const { isMobile } = useResponsive();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [artworks, setArtworks] = useState<any[]>([]);
-  const [showProfileCompletion, setShowProfileCompletion] = useState(false);
 
   console.log('Dashboard - Loading:', loading, 'User:', user);
 
@@ -35,26 +36,6 @@ export default function DashboardPage() {
     return () => clearInterval(timer);
   }, []);
 
-  // Check if profile completion should be shown
-  useEffect(() => {
-    if (user && !loading) {
-      // Show profile completion if user doesn't have completion data in bio
-      let needsCompletion = true;
-      
-      try {
-        if (user.profile?.bio) {
-          const bioData = JSON.parse(user.profile.bio);
-          if (bioData.profile_completed_at) {
-            needsCompletion = false;
-          }
-        }
-      } catch {
-        // If bio is not JSON, it means no completion data
-      }
-      
-      setShowProfileCompletion(needsCompletion);
-    }
-  }, [user, loading]);
 
   // Fetch artworks data
   useEffect(() => {
@@ -135,10 +116,11 @@ export default function DashboardPage() {
       {/* Dark overlay for better readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />
       
-      {/* Simple Navigation Bar */}
-      <nav className="relative z-20 border-b border-white/10 backdrop-blur-md bg-black/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+      {/* Simple Navigation Bar - 데스크탑만 */}
+      {!isMobile && (
+        <nav className="relative z-20 border-b border-white/10 backdrop-blur-md bg-black/30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
               <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-300 to-orange-300 bg-clip-text text-transparent">SAYU</h1>
               <div className="hidden md:flex space-x-6">
@@ -190,42 +172,54 @@ export default function DashboardPage() {
                 <LogOut className="w-5 h-5" />
               </button>
             </div>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      )}
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
+      <div className={cn(
+        "relative z-10 mx-auto",
+        isMobile ? "px-4 py-4 pt-20" : "max-w-7xl px-4 sm:px-6 lg:px-8 py-8"
+      )}>
+        {/* Header - 모바일 반응형 */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className={cn("mb-6", isMobile && "mb-4")}
         >
-          <div className="bg-black/40 backdrop-blur-md rounded-3xl shadow-2xl p-8 border border-white/10 ring-1 ring-white/20">
-            <div className="flex items-center justify-between flex-wrap gap-4">
+          <div className={cn(
+            "bg-black/40 backdrop-blur-md shadow-2xl border border-white/10 ring-1 ring-white/20",
+            isMobile ? "rounded-2xl p-4" : "rounded-3xl p-8"
+          )}>
+            <div className={cn(
+              "flex flex-wrap gap-4",
+              isMobile ? "flex-col" : "items-center justify-between"
+            )}>
               <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-300 via-yellow-300 to-orange-300 bg-clip-text text-transparent mb-2 drop-shadow-lg">
+                <h1 className={cn(
+                  "font-bold bg-gradient-to-r from-amber-300 via-yellow-300 to-orange-300 bg-clip-text text-transparent mb-2 drop-shadow-lg",
+                  isMobile ? "text-2xl" : "text-4xl"
+                )}>
                   {greeting}, {user.username || user.displayName || user.email?.split('@')[0] || '예술 애호가'}님
                 </h1>
-                <p className="text-gray-200 text-lg">
+                <p className={cn(
+                  "text-gray-200",
+                  isMobile ? "text-sm" : "text-lg"
+                )}>
                   {hasCompletedQuiz ? '오늘도 새로운 예술을 발견해보세요' : '예술 여정을 시작해보세요'}
                 </p>
               </div>
-              <div className="text-right">
-                <p className="text-sm text-gray-300">{currentTime.toLocaleDateString('ko-KR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                <p className="text-2xl font-bold text-white">{currentTime.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}</p>
-              </div>
+              {!isMobile && (
+                <div className="text-right">
+                  <p className="text-sm text-gray-300">{currentTime.toLocaleDateString('ko-KR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                  <p className="text-2xl font-bold text-white">{currentTime.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}</p>
+                </div>
+              )}
             </div>
           </div>
         </motion.div>
 
-        {/* Profile Completion Section - Show after welcome message */}
-        {showProfileCompletion && (
-          <ProfileCompletion
-            onComplete={() => setShowProfileCompletion(false)}
-            onSkip={() => setShowProfileCompletion(false)}
-          />
-        )}
+        {/* Profile Completion Section - Moved to Profile page as modal */}
 
         {/* Quiz CTA for new users - Prominent position */}
         {!hasCompletedQuiz && (
@@ -259,7 +253,10 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+            className={cn(
+              "grid gap-4 mb-8",
+              isMobile ? "grid-cols-2 gap-3 mb-6" : "grid-cols-2 md:grid-cols-4"
+            )}
           >
             <div className="bg-black/40 backdrop-blur-md rounded-xl p-4 border border-white/10">
               <div className="flex items-center justify-between">
@@ -300,8 +297,11 @@ export default function DashboardPage() {
           </motion.div>
         )}
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Main Content Grid - 모바일 반응형 */}
+        <div className={cn(
+          "grid gap-8",
+          isMobile ? "grid-cols-1 gap-6" : "grid-cols-1 lg:grid-cols-3"
+        )}>
           {/* Left Column - Profile & Activity */}
           <div className="space-y-6">
             {/* Art Profile Card - Only for users who completed quiz */}
@@ -445,7 +445,10 @@ export default function DashboardPage() {
                 오늘의 추천
               </h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className={cn(
+                "grid gap-4",
+                isMobile ? "grid-cols-1 gap-3" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+              )}>
                 {todayRecommendations.slice(0, 3).map((item, index) => (
                   <motion.div
                     key={index}

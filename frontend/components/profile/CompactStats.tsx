@@ -78,12 +78,12 @@ export default function CompactStats({ stats }: CompactStatsProps) {
             </div>
             <div className="flex flex-col">
               <div className="flex items-baseline gap-1">
-                <span className="font-semibold text-lg">{stat.value}</span>
+                <span className="font-semibold text-2xl text-white">{stat.value}</span>
                 {stat.subValue && (
-                  <span className="text-xs opacity-60">{stat.subValue}</span>
+                  <span className="text-sm opacity-60 text-white">{stat.subValue}</span>
                 )}
               </div>
-              <span className="text-xs opacity-60">{stat.label}</span>
+              <span className="text-xs opacity-60 text-white">{stat.label}</span>
               
               {/* Mini progress bar for level */}
               {stat.showProgress && (
@@ -110,11 +110,11 @@ export default function CompactStats({ stats }: CompactStatsProps) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: statItems.length * 0.05 }}
         >
-          <span className="text-sm opacity-60">{language === 'ko' ? '총' : 'Total'}</span>
-          <span className="font-bold text-xl bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <span className="text-sm opacity-60 text-white">{language === 'ko' ? '총' : 'Total'}</span>
+          <span className="font-bold text-2xl bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
             {stats.totalPoints.toLocaleString()}
           </span>
-          <span className="text-sm opacity-60">{language === 'ko' ? '포인트' : 'pts'}</span>
+          <span className="text-sm opacity-60 text-white">{language === 'ko' ? '포인트' : 'pts'}</span>
         </motion.div>
       </div>
     </motion.div>

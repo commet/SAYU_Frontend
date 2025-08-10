@@ -4,7 +4,24 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Calendar, MapPin, Clock, Filter, Search, ChevronRight, Eye, Heart, TrendingUp, Sparkles, Map, Grid3x3, List, Star, Users, Ticket } from 'lucide-react';
+import { 
+  Calendar, 
+  MapPin, 
+  Clock, 
+  Filter, 
+  Search, 
+  ChevronRight, 
+  Eye, 
+  Heart, 
+  TrendingUp, 
+  Sparkles, 
+  Map, 
+  Grid3x3, 
+  List, 
+  Star, 
+  Users, 
+  Ticket 
+} from 'lucide-react';
 
 interface Exhibition {
   id: string;
@@ -24,89 +41,6 @@ interface Exhibition {
   featured?: boolean;
 }
 
-// Mock data - 실제로는 API에서 가져올 데이터
-const mockExhibitions: Exhibition[] = [
-  {
-    id: '1',
-    title: '모네와 인상주의: 빛의 순간들',
-    venue: '국립현대미술관 서울',
-    location: '서울 종로구',
-    startDate: '2024-12-01',
-    endDate: '2025-03-31',
-    description: '인상파의 거장 클로드 모네의 대표작품을 만나보는 특별전',
-    image: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754449/sayu/met-artworks/met-chicago-100829.jpg',
-    category: '회화',
-    price: '20,000원',
-    status: 'ongoing',
-    viewCount: 15234,
-    likeCount: 892,
-    distance: '2.5km',
-    featured: true
-  },
-  {
-    id: '2',
-    title: '한국 현대미술의 거장들',
-    venue: '리움미술관',
-    location: '서울 용산구',
-    startDate: '2024-11-15',
-    endDate: '2025-02-28',
-    description: '이우환, 박서보 등 한국 현대미술을 이끈 거장들의 작품전',
-    image: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754451/sayu/met-artworks/met-chicago-156596.jpg',
-    category: '현대미술',
-    price: '18,000원',
-    status: 'ongoing',
-    viewCount: 8921,
-    likeCount: 567,
-    distance: '5.2km'
-  },
-  {
-    id: '3',
-    title: '미디어 아트: 디지털 캔버스',
-    venue: '아모레퍼시픽미술관',
-    location: '서울 용산구',
-    startDate: '2025-01-15',
-    endDate: '2025-04-30',
-    description: '최첨단 기술과 예술이 만나는 미디어 아트 특별전',
-    image: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754453/sayu/met-artworks/met-chicago-120154.jpg',
-    category: '미디어아트',
-    price: '15,000원',
-    status: 'upcoming',
-    viewCount: 3421,
-    likeCount: 234,
-    distance: '5.5km'
-  },
-  {
-    id: '4',
-    title: '피카소와 20세기 예술',
-    venue: '예술의전당 한가람미술관',
-    location: '서울 서초구',
-    startDate: '2024-10-01',
-    endDate: '2024-12-31',
-    description: '20세기 최고의 예술가 피카소의 생애와 작품을 조명하는 대규모 회고전',
-    image: 'https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752754455/sayu/met-artworks/met-chicago-154496.jpg',
-    category: '회화',
-    price: '25,000원',
-    status: 'ended',
-    viewCount: 42156,
-    likeCount: 2341,
-    distance: '8.1km'
-  },
-  {
-    id: '5',
-    title: '조선의 미: 간송 컬렉션',
-    venue: '간송미술관',
-    location: '서울 성북구',
-    startDate: '2025-02-01',
-    endDate: '2025-05-31',
-    description: '간송 전형필이 수집한 조선시대 명품을 만나는 특별전',
-    category: '전통미술',
-    price: '무료',
-    status: 'upcoming',
-    viewCount: 1892,
-    likeCount: 156,
-    distance: '7.3km'
-  }
-];
 
 export default function ExhibitionsPage() {
   const router = useRouter();
@@ -123,14 +57,14 @@ export default function ExhibitionsPage() {
     const fetchExhibitions = async () => {
       try {
         setLoading(true);
-        // Fetch from actual API
-        const response = await fetch('http://localhost:3002/api/exhibitions?limit=50');
+        // Fetch from actual API - now with 790 real exhibitions
+        const response = await fetch('http://localhost:3002/api/exhibitions?limit=100');
         
         if (!response.ok) {
-          // Fallback to mock data if API fails
-          console.error('API failed, using mock data');
-          setExhibitions(mockExhibitions);
-          setFilteredExhibitions(mockExhibitions);
+          // Fallback if API fails
+          console.error('API failed');
+          setExhibitions([]);
+          setFilteredExhibitions([]);
         } else {
           const data = await response.json();
           
@@ -153,20 +87,21 @@ export default function ExhibitionsPage() {
             featured: ex.featured || false
           }));
           
-          // If no data from API, use mock data
+          // If no data from API, show empty
           if (transformedData.length === 0) {
-            setExhibitions(mockExhibitions);
-            setFilteredExhibitions(mockExhibitions);
+            setExhibitions([]);
+            setFilteredExhibitions([]);
           } else {
+            console.log('Exhibition data sample:', transformedData[0]); // 디버깅
             setExhibitions(transformedData);
             setFilteredExhibitions(transformedData);
           }
         }
       } catch (error) {
         console.error('Error fetching exhibitions:', error);
-        // Fallback to mock data
-        setExhibitions(mockExhibitions);
-        setFilteredExhibitions(mockExhibitions);
+        // Show empty if error
+        setExhibitions([]);
+        setFilteredExhibitions([]);
       } finally {
         setLoading(false);
       }
@@ -205,6 +140,7 @@ export default function ExhibitionsPage() {
 
     setFilteredExhibitions(filtered);
   }, [exhibitions, selectedStatus, selectedCategory, searchQuery]);
+
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -386,19 +322,10 @@ export default function ExhibitionsPage() {
             </h2>
             <div className="bg-gradient-to-r from-purple-900/30 to-indigo-900/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-purple-500/20">
               <div className="md:flex">
-                <div className="md:w-2/5 h-64 md:h-auto relative bg-gradient-to-br from-purple-900/40 to-pink-900/40">
-                  {featuredExhibition.image ? (
-                    <Image
-                      src={featuredExhibition.image}
-                      alt={featuredExhibition.title}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <TrendingUp className="w-16 h-16 text-white/30" />
-                    </div>
-                  )}
+                <div className="md:w-2/5 h-48 md:h-auto relative bg-gradient-to-br from-purple-900/40 to-pink-900/40">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <TrendingUp className="w-16 h-16 text-white/30" />
+                  </div>
                 </div>
                 <div className="md:w-3/5 p-6">
                   <div className="flex items-start justify-between mb-3">
@@ -582,19 +509,10 @@ export default function ExhibitionsPage() {
                   className="bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700 hover:border-purple-500 transition-all duration-300 cursor-pointer group"
                   onClick={() => router.push(`/exhibitions/${exhibition.id}`)}
                 >
-                  <div className="h-48 bg-gradient-to-br from-purple-900/40 to-pink-900/40 relative overflow-hidden">
-                    {exhibition.image ? (
-                      <Image
-                        src={exhibition.image}
-                        alt={exhibition.title}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <TrendingUp className="w-12 h-12 text-white/30" />
-                      </div>
-                    )}
+                  <div className="h-32 bg-gradient-to-br from-purple-900/40 to-pink-900/40 relative overflow-hidden">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <TrendingUp className="w-12 h-12 text-white/30" />
+                    </div>
                     <div className="absolute top-3 right-3">
                       {getStatusBadge(exhibition.status)}
                     </div>
@@ -666,18 +584,9 @@ export default function ExhibitionsPage() {
                 >
                   <div className="flex items-start gap-6">
                     <div className="w-32 h-24 bg-gradient-to-br from-purple-900/40 to-pink-900/40 rounded-lg overflow-hidden flex-shrink-0 relative">
-                      {exhibition.image ? (
-                        <Image
-                          src={exhibition.image}
-                          alt={exhibition.title}
-                          fill
-                          className="object-cover"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <TrendingUp className="w-8 h-8 text-white/30" />
-                        </div>
-                      )}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <TrendingUp className="w-8 h-8 text-white/30" />
+                      </div>
                     </div>
                     <div className="flex-1">
                       <div className="flex items-start justify-between mb-2">

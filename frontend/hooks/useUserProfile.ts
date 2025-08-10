@@ -28,12 +28,16 @@ export function useUserProfile() {
     const fetchProfile = async () => {
       try {
         setLoading(true)
-        const data = await apiClient.get<{ profile: UserProfile }>('/api/profile')
+        // Temporarily disable API call
+        // const data = await apiClient.get<{ profile: UserProfile }>('/api/profile')
         
-        // If no personalityType, use default
+        // Use default profile data
         const profileData = {
-          ...data.profile,
-          personalityType: data.profile.personalityType || 'LAEF'
+          id: user.id || 'default',
+          email: user.email || 'user@example.com',
+          name: user.name || 'User',
+          personalityType: 'LAEF',
+          animalType: 'cat'
         }
         
         setProfile(profileData)

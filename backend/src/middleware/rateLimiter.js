@@ -95,6 +95,45 @@ const strict = createRateLimiter({
   keyGenerator: (req) => `strict:${req.userId}`
 });
 
+// Museum API 제한 (분당 30개)
+const museumApiLimiter = createRateLimiter({
+  windowMs: 60 * 1000, // 1분
+  max: 30,
+  message: {
+    error: 'Too many museum API requests. Please try again later.',
+    retryAfter: 60
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => `museum:${req.ip}`
+});
+
+// Exhibition API 제한 (분당 60개)
+const exhibitionLimiter = createRateLimiter({
+  windowMs: 60 * 1000, // 1분
+  max: 60,
+  message: {
+    error: 'Too many exhibition requests. Please try again later.',
+    retryAfter: 60
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => `exhibition:${req.ip}`
+});
+
+// Realtime API 제한 (분당 100개)
+const realtimeLimiter = createRateLimiter({
+  windowMs: 60 * 1000, // 1분
+  max: 100,
+  message: {
+    error: 'Too many realtime requests. Please try again later.',
+    retryAfter: 60
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => `realtime:${req.ip}`
+});
+
 // 매칭 시스템별 적응형 rate limiting
 const adaptiveMatchingLimiter = (req, res, next) => {
   const redis = getRedisClient();
@@ -210,6 +249,9 @@ module.exports = {
   matchAction,
   general,
   strict,
+  museumApiLimiter,
+  exhibitionLimiter,
+  realtimeLimiter,
   adaptiveMatchingLimiter,
   updateSpamScore,
   globalIpLimit,

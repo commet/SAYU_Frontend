@@ -941,25 +941,121 @@ export default function CommunityPage() {
     handleBlock(userId);
   };
 
-  // Mock exhibition matches
-  const exhibitionMatches: ExhibitionMatch[] = [
-    {
-      id: '1',
-      title: '모네의 정원',
-      museum: '국립현대미술관',
-      image: '/images/exhibitions/monet-garden.jpg',
-      matchingUsers: 12,
-      endDate: '2024.03.31'
-    },
-    {
-      id: '2',
-      title: '추상표현주의의 거장들',
-      museum: '서울시립미술관',
-      image: '/images/exhibitions/abstract-expressionism.jpg',
-      matchingUsers: 8,
-      endDate: '2024.04.15'
+  // State for real exhibition data
+  const [exhibitionMatches, setExhibitionMatches] = useState<ExhibitionMatch[]>([]);
+  const [loadingExhibitions, setLoadingExhibitions] = useState(true);
+
+  // Fetch real exhibition data
+  useEffect(() => {
+    const fetchExhibitions = async () => {
+      try {
+        setLoadingExhibitions(true);
+        const response = await fetch('http://localhost:3002/api/exhibitions?limit=100');
+        
+        if (response.ok) {
+          const data = await response.json();
+          const exhibitions = data.data || data.exhibitions || [];
+          
+          // Find specific exhibitions: 리움 이불전 and 르누아르전
+          const targetExhibitions: ExhibitionMatch[] = [];
+          
+          // Look for 리움 이불 전시
+          const leebulExhibition = exhibitions.find((ex: any) => 
+            (ex.title?.includes('이불') || ex.title?.includes('LEE BUL')) && 
+            (ex.venue_name?.includes('리움') || ex.venue?.includes('리움'))
+          );
+          
+          if (leebulExhibition) {
+            targetExhibitions.push({
+              id: leebulExhibition.id || '1',
+              title: leebulExhibition.title || '이불: 시작',
+              museum: leebulExhibition.venue_name || '리움미술관',
+              image: leebulExhibition.image_url || 'https://images.unsplash.com/photo-1578662996442-48f60103fc31?w=400',
+              matchingUsers: 18,
+              endDate: formatEndDate(leebulExhibition.end_date || leebulExhibition.endDate || '2025.05.25')
+            });
+          }
+          
+          // Look for 르누아르 전시
+          const renoirExhibition = exhibitions.find((ex: any) => 
+            (ex.title?.includes('르누아르') || ex.title?.includes('Renoir')) && 
+            (ex.venue_name?.includes('한가람') || ex.venue?.includes('한가람'))
+          );
+          
+          if (renoirExhibition) {
+            targetExhibitions.push({
+              id: renoirExhibition.id || '2',
+              title: renoirExhibition.title || '르누아르: 여인의 향기',
+              museum: renoirExhibition.venue_name || '예술의전당 한가람미술관',
+              image: renoirExhibition.image_url || 'https://images.unsplash.com/photo-1577720643272-265f09367456?w=400',
+              matchingUsers: 24,
+              endDate: formatEndDate(renoirExhibition.end_date || renoirExhibition.endDate || '2025.04.20')
+            });
+          }
+          
+          // If we couldn't find the specific exhibitions, use fallback data
+          if (targetExhibitions.length === 0) {
+            targetExhibitions.push(
+              {
+                id: '1',
+                title: '이불: 시작',
+                museum: '리움미술관',
+                image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc31?w=400',
+                matchingUsers: 18,
+                endDate: '2025.05.25'
+              },
+              {
+                id: '2',
+                title: '르누아르: 여인의 향기',
+                museum: '예술의전당 한가람미술관',
+                image: 'https://images.unsplash.com/photo-1577720643272-265f09367456?w=400',
+                matchingUsers: 24,
+                endDate: '2025.04.20'
+              }
+            );
+          }
+          
+          setExhibitionMatches(targetExhibitions);
+        }
+      } catch (error) {
+        console.error('Failed to fetch exhibitions:', error);
+        // Use fallback data on error
+        setExhibitionMatches([
+          {
+            id: '1',
+            title: '이불: 시작',
+            museum: '리움미술관',
+            image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc31?w=400',
+            matchingUsers: 18,
+            endDate: '2025.05.25'
+          },
+          {
+            id: '2',
+            title: '르누아르: 여인의 향기',
+            museum: '예술의전당 한가람미술관',
+            image: 'https://images.unsplash.com/photo-1577720643272-265f09367456?w=400',
+            matchingUsers: 24,
+            endDate: '2025.04.20'
+          }
+        ]);
+      } finally {
+        setLoadingExhibitions(false);
+      }
+    };
+
+    fetchExhibitions();
+  }, []);
+
+  // Helper function to format date
+  const formatEndDate = (dateStr: string) => {
+    if (!dateStr) return '2025.03.31';
+    try {
+      const date = new Date(dateStr);
+      return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+    } catch {
+      return dateStr;
     }
-  ];
+  };
 
   const getCustomChemistryData = (type1: string, type2: string): ChemistryData | null => {
     // LAEF(여우)의 케미스트리
@@ -2424,7 +2520,7 @@ export default function CommunityPage() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="bg-black/35 backdrop-blur-md rounded-xl p-4 mb-4 border border-white/30"
+                    className="bg-black/60 backdrop-blur-md rounded-xl p-4 mb-4 border border-white/40"
                   >
                     <div className="space-y-4">
                       {/* Age Filter */}
@@ -3048,7 +3144,7 @@ export default function CommunityPage() {
                   <motion.div
                     key={exhibition.id}
                     whileHover={{ scale: 1.02 }}
-                    className="bg-black/30 backdrop-blur-md rounded-2xl overflow-hidden border border-white/30 hover:bg-black/40 hover:border-white/50 transition-all duration-300 shadow-lg hover:shadow-xl"
+                    className="bg-black/60 backdrop-blur-md rounded-2xl overflow-hidden border border-white/40 hover:bg-black/70 hover:border-white/60 transition-all duration-300 shadow-lg hover:shadow-xl"
                   >
                     <div className="relative h-48">
                       <OptimizedImage
@@ -3076,7 +3172,12 @@ export default function CommunityPage() {
                         </div>
                       </div>
                       
-                      <button className="w-full bg-purple-600/40 hover:bg-purple-600/60 text-purple-300 rounded-lg py-2 font-medium transition-colors">
+                      <button 
+                        onClick={() => {
+                          alert(language === 'ko' ? '동행자 찾기 기능은 추후 구현 예정입니다!' : 'Find Companions feature coming soon!');
+                        }}
+                        className="w-full bg-purple-600/40 hover:bg-purple-600/60 text-purple-300 rounded-lg py-2 font-medium transition-colors"
+                      >
                         {language === 'ko' ? '동행자 찾기' : 'Find Companions'}
                       </button>
                     </div>

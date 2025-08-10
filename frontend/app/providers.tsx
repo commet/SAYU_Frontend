@@ -4,10 +4,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '@/hooks/useAuth';
 import { ThemeProvider } from '@/hooks/usePersonalizedTheme';
 import { OnboardingProvider } from '@/contexts/OnboardingContext';
+import { OnboardingProviderV2 } from '@/contexts/OnboardingContextV2';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { AnimalCursorProvider } from '@/contexts/AnimalCursorContext';
 import { EasterEggProvider } from '@/contexts/EasterEggContext';
 import { DarkModeProvider } from '@/contexts/DarkModeContext';
+import { ArtworkViewingProvider } from '@/contexts/ArtworkViewingContext';
 import { PWAProvider } from '@/components/pwa/PWAProvider';
 import ClientLayout from '@/components/layouts/ClientLayout';
 import { Toaster } from 'react-hot-toast';
@@ -31,14 +33,18 @@ export function Providers({ children }: { children: React.ReactNode }) {
             <DarkModeProvider>
               <ThemeProvider>
                 <OnboardingProvider>
-                  <AnimalCursorProvider>
-                    <EasterEggProvider>
-                      <ClientLayout>
-                        {children}
-                      </ClientLayout>
-                      <PersonalizedToaster />
-                    </EasterEggProvider>
-                  </AnimalCursorProvider>
+                  <OnboardingProviderV2>
+                    <AnimalCursorProvider>
+                      <EasterEggProvider>
+                        <ArtworkViewingProvider>
+                          <ClientLayout>
+                            {children}
+                          </ClientLayout>
+                          <PersonalizedToaster />
+                        </ArtworkViewingProvider>
+                      </EasterEggProvider>
+                    </AnimalCursorProvider>
+                  </OnboardingProviderV2>
                 </OnboardingProvider>
               </ThemeProvider>
             </DarkModeProvider>

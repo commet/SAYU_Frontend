@@ -615,12 +615,13 @@ app.use((err, req, res, next) => {
 });
 
 // ===========================================
-// ARTVEE API ENDPOINTS (Living Mode)
+// ARTVEE API ENDPOINTS (Living Mode) - TEMPORARILY DISABLED FOR DEBUGGING
 // ===========================================
 
-// Import cloudinary service directly
-const cloudinaryArtveeService = require('./services/cloudinaryArtveeService');
+// Import cloudinary service directly (temporarily disabled for debugging)
+// const cloudinaryArtveeService = require('./services/cloudinaryArtveeService');
 
+/*
 // Artvee random artworks
 app.get('/api/artvee/random', (req, res) => {
   cloudinaryArtveeService.getRandomArtworks(parseInt(req.query.limit) || 10)
@@ -675,6 +676,7 @@ app.get('/api/artvee/personality/:type', (req, res) => {
       res.status(500).json({ success: false, error: error.message });
     });
 });
+*/
 
 // ===========================================
 // USER MATCHING API ENDPOINTS (Living Mode Demo)
@@ -798,6 +800,51 @@ app.patch('/api/auth/purpose', simpleAuth, (req, res) => {
     message: 'User purpose updated successfully',
     userPurpose
   });
+});
+
+// ===========================================
+// CHATBOT API ENDPOINTS - Simple Implementation
+// ===========================================
+
+// Simple chatbot endpoint for living mode
+app.post('/api/chatbot/message', async (req, res) => {
+  try {
+    const { message, pageContext, personalityType } = req.body;
+    
+    // Simple responses based on context
+    let response = '';
+    
+    if (pageContext?.type === 'home') {
+      response = "안녕하세요! SAYU의 AI 큐레이터 미유예요 ✨ 오늘 어떤 기분이신가요?";
+    } else if (pageContext?.type === 'gallery') {
+      response = "어떤 작품을 찾고 계신가요? 도와드릴게요! 🖼️";
+    } else if (pageContext?.type === 'profile') {
+      response = "프로필을 멋지게 꾸며보실래요? 도와드릴게요! 📊";
+    } else if (message.includes('안녕')) {
+      response = `안녕하세요! 반가워요 😊 SAYU에서 어떤 도움이 필요하신가요?`;
+    } else if (message.includes('성격') || message.includes('테스트')) {
+      response = "16가지 예술 성향 테스트를 통해 당신만의 예술 큐레이터를 만나보세요! 퀴즈 페이지로 안내해드릴까요?";
+    } else if (message.includes('작품') || message.includes('추천')) {
+      response = "당신의 성격 유형과 현재 감정에 맞는 작품을 추천해드릴게요. 어떤 분위기의 작품을 원하시나요?";
+    } else {
+      response = `"${message}"에 대해 생각해보고 있어요... SAYU는 계속 발전하고 있답니다! 🌟`;
+    }
+    
+    res.json({
+      success: true,
+      data: {
+        response,
+        sessionId: `session-${Date.now()}`,
+        timestamp: new Date().toISOString()
+      }
+    });
+  } catch (error) {
+    console.error('Chatbot error:', error);
+    res.status(500).json({ 
+      error: 'Chatbot service temporarily unavailable',
+      fallbackResponse: '잠시 후 다시 시도해주세요 💫' 
+    });
+  }
 });
 
 // 404 handler

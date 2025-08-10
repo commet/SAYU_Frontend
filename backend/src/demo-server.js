@@ -54,45 +54,161 @@ const demoResponses = {
 
 const responseIndex = {};
 
-// Demo chatbot endpoint
+// Demo chatbot endpoint - Universal MIYU assistant
 app.post('/api/chatbot/message', (req, res) => {
-  const { message, artworkId } = req.body;
+  const { message, artworkId, artwork, context } = req.body;
 
-  console.log('Received message:', message, 'for artwork:', artworkId);
+  console.log('Received message:', message, 'for context:', artworkId, context);
 
-  // Get demo responses for this artwork
-  const artworkData = demoResponses[artworkId];
-  if (!artworkData) {
-    return res.json({
-      success: false,
-      message: '죄송해요, 이 작품에 대한 정보가 없어요.'
-    });
+  // Handle general SAYU questions first
+  const lowerMessage = message.toLowerCase();
+  if (lowerMessage.includes('sayu') || lowerMessage.includes('서비스') || lowerMessage.includes('뭔가')) {
+    return setTimeout(() => {
+      res.json({
+        success: true,
+        message: 'SAYU는 16가지 성격 유형을 바탕으로 개인 맞춤 예술 추천을 제공하는 서비스예요! 🎨 당신만의 예술 취향을 발견하고, 비슷한 성향의 사람들과 연결될 수 있어요.',
+        suggestions: [
+          '성격 테스트는 어떻게 하나요?',
+          '어떤 예술 작품이 있나요?',
+          '16가지 성격 유형이 궁금해요'
+        ],
+        sessionId: `general-session-${Date.now()}`
+      });
+    }, 800);
   }
 
-  // Get next response
-  if (!responseIndex[artworkId]) {
-    responseIndex[artworkId] = 0;
+  if (lowerMessage.includes('성격') || lowerMessage.includes('테스트') || lowerMessage.includes('유형')) {
+    return setTimeout(() => {
+      res.json({
+        success: true,
+        message: '성격 테스트는 간단한 질문들을 통해 당신의 예술 감상 스타일을 파악해요. 혼자 vs 함께, 분위기 vs 사실 두 축으로 16가지 동물 유형으로 나뉘어져요! 🦊🐱🦉',
+        suggestions: [
+          '테스트 시작하기',
+          '16가지 유형 보기',
+          '내 성격은 어떻게 나올까요?'
+        ],
+        sessionId: `quiz-session-${Date.now()}`
+      });
+    }, 800);
   }
 
-  const { responses } = artworkData;
-  const response = responses[responseIndex[artworkId] % responses.length];
-  responseIndex[artworkId]++;
+  if (lowerMessage.includes('작품') || lowerMessage.includes('추천') || lowerMessage.includes('갤러리')) {
+    return setTimeout(() => {
+      res.json({
+        success: true,
+        message: context?.pageContext?.type === 'gallery' ? 
+          '멋진 작품들이 많죠! 어떤 스타일의 작품을 찾고 계신가요? 저는 당신의 성향에 맞는 작품을 추천해드릴 수 있어요.' :
+          '갤러리에서 다양한 명작들을 만나보세요! 인상주의부터 현대 미술까지, 당신의 마음을 움직일 작품들이 기다리고 있어요.',
+        suggestions: [
+          '인상주의 작품 보기',
+          '오늘의 추천 작품은?',
+          '내 취향에 맞는 작품 찾기'
+        ],
+        sessionId: `gallery-session-${Date.now()}`
+      });
+    }, 800);
+  }
 
-  // Simulate AI processing delay
+  // Handle artwork-specific conversations
+  if (artworkId && artworkId !== 'general' && demoResponses[artworkId]) {
+    const artworkData = demoResponses[artworkId];
+    
+    if (!responseIndex[artworkId]) {
+      responseIndex[artworkId] = 0;
+    }
+
+    const { responses } = artworkData;
+    const response = responses[responseIndex[artworkId] % responses.length];
+    responseIndex[artworkId]++;
+
+    return setTimeout(() => {
+      res.json({
+        success: true,
+        message: response,
+        suggestions: [
+          '작품의 역사적 배경은?',
+          '사용된 기법이 궁금해요',
+          '비슷한 작품 추천해주세요'
+        ],
+        sessionId: `demo-session-${Date.now()}`
+      });
+    }, 1000);
+  }
+
+  // Default helpful responses based on page context
+  const contextualResponse = getContextualResponse(context, message);
+  
   setTimeout(() => {
     res.json({
       success: true,
-      message: response,
-      suggestions: [
-        '작품의 역사적 배경은?',
-        '사용된 기법이 궁금해요',
-        '다른 작품과의 차이점은?',
-        '작가의 다른 작품도 보여줘요'
-      ],
-      sessionId: `demo-session-${Date.now()}`
+      message: contextualResponse.message,
+      suggestions: contextualResponse.suggestions,
+      sessionId: `context-session-${Date.now()}`
     });
-  }, 1000);
+  }, 800);
 });
+
+// Get contextual response based on page and message
+function getContextualResponse(context, message) {
+  const pageType = context?.pageContext?.type || 'home';
+  const personalityType = context?.personalityType;
+  
+  // Personality-based responses
+  const animalGreetings = {
+    'LAEF': '신비로운 분위기가 느껴지네요... ✨',
+    'SAEF': '와! 정말 신나는 질문이에요! 🦋',
+    'LAMC': '차근차근 설명해드릴게요. 🐢',
+    'SREF': '좋아요! 함께 알아봐요! 🐕'
+  };
+  
+  const greeting = personalityType && animalGreetings[personalityType] ? 
+    animalGreetings[personalityType] : '도움이 되도록 최선을 다할게요! 😊';
+
+  const responses = {
+    'home': {
+      message: `${greeting} SAYU에 오신 것을 환영해요! 어떤 예술 여행을 시작해보실까요?`,
+      suggestions: ['성격 테스트 하기', '갤러리 둘러보기', 'SAYU에 대해 더 알기']
+    },
+    'profile': {
+      message: `${greeting} 프로필을 멋지게 꾸며보실래요? 당신의 예술 취향을 더 자세히 알아볼까요?`,
+      suggestions: ['내 취향 분석하기', '저장한 작품 보기', '추천 작품 받기']
+    },
+    'gallery': {
+      message: `${greeting} 어떤 작품을 찾고 계신가요? 마음에 드는 작품을 발견하도록 도와드릴게요!`,
+      suggestions: ['인상주의 작품', '현대 미술', '오늘의 추천']
+    },
+    'quiz': {
+      message: `${greeting} 성격 테스트를 진행하고 계시는군요! 궁금한 점이 있으면 언제든 물어보세요.`,
+      suggestions: ['테스트가 어려워요', '다시 시작하고 싶어요', '결과가 궁금해요']
+    },
+    'community': {
+      message: `${greeting} 커뮤니티에 오신 것을 환영해요! 다른 사용자들과 예술 이야기를 나눠보세요.`,
+      suggestions: ['아트 클럽이 뭔가요?', '다른 사용자들과 연결하기', '커뮤니티 둘러보기']
+    },
+    'discover': {
+      message: `${greeting} 새로운 발견의 시간이에요! 어떤 예술적 경험을 해보고 싶으신가요?`,
+      suggestions: ['새로운 작품 탐색하기', '추천 받기', '트렌드 작품 보기']
+    },
+    'daily': {
+      message: `${greeting} 오늘의 예술 습관을 함께 만들어봐요! 일상 속 예술이 어떤 변화를 가져다줄까요?`,
+      suggestions: ['오늘의 추천은?', '습관 만들기 도움', '일일 챌린지 참여하기']
+    },
+    'results': {
+      message: `${greeting} 축하해요! 당신만의 예술 성향을 발견했네요! 이제 진짜 예술 여행이 시작됩니다.`,
+      suggestions: ['내 유형에 대해 자세히 알기', '추천 작품 보기', '다른 유형과 비교하기']
+    },
+    'exhibition': {
+      message: `${greeting} 특별한 전시를 둘러보고 계시네요! 어떤 작품부터 보실래요?`,
+      suggestions: ['전시 하이라이트 보기', '큐레이터 노트', '관람 순서 추천']
+    },
+    'unknown': {
+      message: `${greeting} 무엇을 도와드릴까요? 예술과 관련된 모든 것을 함께 탐험해봐요!`,
+      suggestions: ['SAYU 둘러보기', '작품 추천받기', '도움말']
+    }
+  };
+  
+  return responses[pageType] || responses['unknown'];
+}
 
 // Demo suggestions endpoint
 app.get('/api/chatbot/suggestions/:artworkId', (req, res) => {

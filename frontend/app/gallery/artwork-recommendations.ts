@@ -93,12 +93,18 @@ export function getPersonalizedRecommendations(
 ): ArtworkRecommendation[] {
   const recommendations: ArtworkRecommendation[] = [];
   
+  console.log('🎯 getPersonalizedRecommendations called with userType:', userType);
+  
   // APT 타입을 SAYU 타입으로 변환
   const sayuType = APT_TO_SAYU_MAPPING[userType] || 'SREF';
+  console.log('🔄 Mapped to sayuType:', sayuType);
   
   // SREF 유형인 경우 실제 큐레이션된 데이터 사용
-  if (sayuType === 'SREF') {
+  if (sayuType === 'SREF' || userType === 'SREF') {
+    console.log('✨ Loading SREF curated artworks...');
     const srefArtworks = getSREFCuratedArtworks();
+    console.log('📚 Got', srefArtworks.length, 'SREF artworks');
+    console.log('🖼️ First SREF artwork:', srefArtworks[0]);
     return srefArtworks.map(artwork => ({
       id: artwork.id,
       title: artwork.title,

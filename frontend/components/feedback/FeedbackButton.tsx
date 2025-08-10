@@ -27,7 +27,7 @@ export default function FeedbackButton({
     const baseClasses = 'flex items-center gap-2 font-medium transition-all duration-200';
     
     if (position === 'fixed') {
-      return `${baseClasses} fixed bottom-6 right-6 z-40 px-4 py-3 rounded-full shadow-lg hover:shadow-xl`;
+      return `${baseClasses} fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-40 px-4 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105`;
     }
 
     switch (variant) {

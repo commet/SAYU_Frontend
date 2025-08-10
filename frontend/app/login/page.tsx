@@ -61,7 +61,7 @@ function LoginContent() {
       toast.success(language === 'ko' ? '로그인 성공!' : 'Login successful!');
       // Wait a bit for session to be established
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push('/profile');
       }, 500);
     } catch (error: any) {
       console.error('Login error:', error);

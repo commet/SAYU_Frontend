@@ -112,20 +112,28 @@ export const ArtCuratorChatbot = ({
     return greetings[personalityType] || greetings['LAEF'];
   };
   
-  // Load suggestions for current artwork
+  // Load suggestions for current context (artwork or page)
   const loadSuggestions = async () => {
-    if (!currentArtwork) return;
-    
     try {
-      const result = await chatbotAPI.getSuggestions(currentArtwork.id, {
-        title: currentArtwork.title,
-        artist: currentArtwork.artist,
-        year: currentArtwork.year
-      });
+      const contextualSuggestions = getContextualMessage({
+        ...pageContext,
+        metadata: {
+          ...pageContext.metadata,
+          personalityType,
+          artworkTitle: currentArtwork?.title,
+          artistName: currentArtwork?.artist
+        }
+      }, 'suggestions');
       
-      if (result.success) {
-        setSuggestions(result.suggestions);
-      }
+      // 페이지별 기본 제안사항 설정
+      const suggestions = contextualSuggestions ? [contextualSuggestions] : 
+        pageContext.type === 'home' ? ['SAYU가 뭔가요?', '어떤 서비스인지 알려주세요'] :
+        pageContext.type === 'gallery' ? ['인상주의 작품 보여주세요', '오늘의 추천 작품은?'] :
+        pageContext.type === 'profile' ? ['내 취향 분석해주세요', '추천 작품 보여주세요'] :
+        currentArtwork ? ['이 작품에 대해 더 알려주세요', '비슷한 작품 추천해주세요'] :
+        ['도움이 필요해요', 'SAYU 사용법 알려주세요'];
+      
+      setSuggestions(suggestions);
     } catch (error) {
       console.error('Failed to load suggestions:', error);
     }
@@ -134,7 +142,7 @@ export const ArtCuratorChatbot = ({
   // Send message
   const sendMessage = async (messageText?: string) => {
     const message = messageText || inputValue.trim();
-    if (!message || !currentArtwork) return;
+    if (!message) return;
     
     // Check for easter egg commands
     if (message.startsWith('/')) {
@@ -153,15 +161,23 @@ export const ArtCuratorChatbot = ({
     setIsTyping(true);
     
     try {
-      const response = await chatbotAPI.sendMessage(message, currentArtwork.id, {
-        id: currentArtwork.id,
-        title: currentArtwork.title,
-        artist: currentArtwork.artist,
-        year: currentArtwork.year,
-        imageUrl: currentArtwork.imageUrl,
-        medium: currentArtwork.medium,
-        description: currentArtwork.description
-      });
+      const response = await chatbotAPI.sendMessage(
+        message, 
+        currentArtwork?.id || 'general', 
+        currentArtwork || {
+          id: 'general',
+          title: '일반 상담',
+          artist: 'SAYU',
+          year: new Date().getFullYear(),
+          imageUrl: '',
+          medium: 'digital',
+          description: `${pageContext.type} 페이지에서의 대화`
+        },
+        {
+          pageContext,
+          personalityType
+        }
+      );
       
       if (response.success) {
         const assistantMessage: ChatMessage = { 
@@ -219,11 +235,10 @@ export const ArtCuratorChatbot = ({
     setSessionId(null);
     setShowFeedback(null);
     
-    if (currentArtwork) {
-      const greeting = getGreeting();
-      setMessages([{ role: 'assistant', content: greeting }]);
-      loadSuggestions();
-    }
+    // 항상 인사말 생성 (작품 없이도 가능)
+    const greeting = getGreeting();
+    setMessages([{ role: 'assistant', content: greeting }]);
+    loadSuggestions();
   }, [currentArtwork, personalityType]);
   
   // Handle key press
@@ -234,6 +249,51 @@ export const ArtCuratorChatbot = ({
     }
   };
   
+  // Get page status message for header
+  const getPageStatusMessage = () => {
+    if (currentArtwork) {
+      return currentArtwork.title;
+    }
+    
+    const statusMessages = {
+      'home': 'SAYU에 오신 것을 환영해요!',
+      'gallery': '갤러리를 둘러보고 계시네요',
+      'profile': '프로필 페이지',
+      'quiz': '성격 테스트 진행중',
+      'exhibition': '전시를 관람하고 계시네요',
+      'results': '결과를 확인하고 계시네요'
+    };
+    
+    return statusMessages[pageContext.type] || '함께 예술을 탐험해봐요';
+  };
+
+  // Get input placeholder based on context
+  const getInputPlaceholder = () => {
+    if (personalityType && animalData) {
+      const animalName = animalData.animal || '미유';
+      
+      const contextPlaceholders = {
+        'home': `${animalName}에게 SAYU에 대해 물어보세요...`,
+        'gallery': `${animalName}에게 작품을 추천받아보세요...`,
+        'profile': `${animalName}에게 내 취향에 대해 물어보세요...`,
+        'artwork': `${animalName}에게 이 작품에 대해 물어보세요...`,
+        'quiz': `${animalName}에게 테스트에 대해 물어보세요...`
+      };
+      
+      return contextPlaceholders[pageContext.type] || `${animalName}에게 궁금한 것을 물어보세요...`;
+    }
+    
+    const defaultPlaceholders = {
+      'home': 'SAYU에 대해 궁금한 것을 물어보세요...',
+      'gallery': '어떤 작품을 찾고 계신가요?',
+      'profile': '프로필에 대해 궁금한 점이 있나요?',
+      'artwork': '이 작품에 대해 궁금한 것을 물어보세요...',
+      'quiz': '테스트에 대해 도움이 필요하신가요?'
+    };
+    
+    return defaultPlaceholders[pageContext.type] || '무엇을 도와드릴까요?';
+  };
+
   // Toggle chat
   const toggleChat = () => {
     console.log('toggleChat called, current isOpen:', isOpen);
@@ -285,10 +345,10 @@ export const ArtCuratorChatbot = ({
                 )}
                 <div>
                   <h3 className="font-semibold text-gray-800">
-                    {personalityType ? `${animalData?.animal || '여우'} 큐레이터` : 'AI 큐레이터'}
+                    {personalityType ? `${animalData?.animal || '미유'} 미유` : '미유 (MIYU)'}
                   </h3>
                   <p className="text-xs text-gray-500">
-                    {currentArtwork?.title || '작품을 선택해주세요'}
+                    {getPageStatusMessage()}
                   </p>
                 </div>
               </div>
@@ -314,7 +374,7 @@ export const ArtCuratorChatbot = ({
             
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {currentArtwork ? (
+              {
                 <>
                   {messages.map((message, index) => (
                     <motion.div
@@ -387,26 +447,13 @@ export const ArtCuratorChatbot = ({
                     </div>
                   )}
                 </>
-              ) : (
-                <div className="flex-1 flex items-center justify-center">
-                  <div className="text-center">
-                    <img 
-                      src={animalData?.image}
-                      alt={animalData?.animal || 'Curator'}
-                      className="w-32 h-32 mx-auto mb-4 opacity-50"
-                    />
-                    <p className="text-gray-500">
-                      먼저 감상할 작품을 선택해주세요
-                    </p>
-                  </div>
-                </div>
-              )}
+              }
               
               <div ref={messagesEndRef} />
             </div>
             
             {/* Suggestions */}
-            {currentArtwork && suggestions.length > 0 && !isTyping && (
+            {suggestions.length > 0 && !isTyping && (
               <div className="px-4 py-2 border-t bg-gray-50">
                 <div className="flex gap-2 overflow-x-auto scrollbar-hide">
                   {suggestions.map((suggestion, index) => (
@@ -424,34 +471,28 @@ export const ArtCuratorChatbot = ({
             
             {/* Input */}
             <div className="p-4 border-t bg-white">
-              {currentArtwork ? (
-                <form onSubmit={(e) => { e.preventDefault(); sendMessage(); }} className="flex gap-2">
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyDown={handleKeyPress}
-                    placeholder={personalityType ? `${animalData?.animal || '큐레이터'}에게 물어보세요...` : '궁금한 점을 물어보세요...'}
-                    className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
-                    maxLength={500}
-                    disabled={isTyping}
-                  />
-                  <motion.button
-                    type="submit"
-                    disabled={!inputValue.trim() || isTyping}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="p-2.5 bg-primary text-white rounded-full hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                  >
-                    <Send className="w-5 h-5" />
-                  </motion.button>
-                </form>
-              ) : (
-                <p className="text-center text-gray-500 text-sm py-2">
-                  작품을 선택하면 대화를 시작할 수 있어요
-                </p>
-              )}
+              <form onSubmit={(e) => { e.preventDefault(); sendMessage(); }} className="flex gap-2">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  placeholder={getInputPlaceholder()}
+                  className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                  maxLength={500}
+                  disabled={isTyping}
+                />
+                <motion.button
+                  type="submit"
+                  disabled={!inputValue.trim() || isTyping}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="p-2.5 bg-primary text-white rounded-full hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  <Send className="w-5 h-5" />
+                </motion.button>
+              </form>
             </div>
           </motion.div>
         )}

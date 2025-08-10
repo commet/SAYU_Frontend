@@ -10,7 +10,7 @@ import { PioneerBadge } from '@/components/ui/PioneerBadge';
 import PersonalArtMap from '@/components/artmap/PersonalArtMap';
 import ExhibitionRecord from '@/components/exhibition/ExhibitionRecord';
 import BadgeSystem from '@/components/gamification/BadgeSystem';
-import { Trophy, MapPin, BookOpen, Settings, LogIn, Palette, Share2, Sparkles } from 'lucide-react';
+import { Trophy, MapPin, BookOpen, Settings, LogIn, Palette, Share2, Sparkles, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { personalityDescriptions } from '@/data/personality-descriptions';
@@ -21,6 +21,8 @@ import ProfileShareCard from '@/components/profile/ProfileShareCard';
 import ProfileIDCard from '@/components/profile/ProfileIDCard';
 import SocialLoginModal from '@/components/SocialLoginModal';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
+import { JourneySection } from '@/components/profile/JourneySection';
+import { ProfileCompleteModal } from '@/components/profile/ProfileCompleteModal';
 // import { useGamificationDashboard } from '@/hooks/useGamification';
 
 // Mock data - in real app, would fetch from API
@@ -153,18 +155,37 @@ export default function ProfilePage() {
   const dashboard = null;
   const userPoints = dashboard?.currentPoints || 0;
   const userStats = dashboard;
-  const [activeTab, setActiveTab] = useState<'map' | 'records' | 'badges' | 'share'>('map');
+  const [activeTab, setActiveTab] = useState<'journey' | 'map' | 'records' | 'badges' | 'share'>('journey');
   const [redirecting, setRedirecting] = useState(false);
   const [userPersonalityType, setUserPersonalityType] = useState<string | null>(null);
   const [pioneerProfile, setPioneerProfile] = useState<any>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showIDCard, setShowIDCard] = useState(false);
+  const [showProfileCompleteModal, setShowProfileCompleteModal] = useState(false);
   const [followStats, setFollowStats] = useState({ followerCount: 0, followingCount: 0 });
   const [artProfile, setArtProfile] = useState<any>(null);
   const [loadingArtProfile, setLoadingArtProfile] = useState(true);
   
   // Load quiz results from localStorage
+  // 프로필 완성 모달 표시 로직
+  useEffect(() => {
+    if (user && !showProfileCompleteModal) {
+      // 프로필이 완성되지 않은 사용자에게 모달 표시
+      const shouldShowModal = !user.profile_completed && 
+                             !localStorage.getItem('profile_complete_modal_dismissed');
+      
+      if (shouldShowModal) {
+        // 페이지 로드 후 1초 뒤에 모달 표시
+        const timer = setTimeout(() => {
+          setShowProfileCompleteModal(true);
+        }, 1000);
+        
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [user, showProfileCompleteModal]);
+
   useEffect(() => {
     const quizResults = localStorage.getItem('quizResults');
     if (quizResults) {
@@ -240,6 +261,22 @@ export default function ProfilePage() {
     } catch (error) {
       console.error('Failed to load follow stats:', error);
     }
+  };
+
+  const handleProfileCompleteModalClose = () => {
+    setShowProfileCompleteModal(false);
+    // 나중에 하기 선택 시 24시간 동안 다시 보지 않기
+    localStorage.setItem('profile_complete_modal_dismissed', 'true');
+    // 24시간 후에 다시 표시하도록 설정 (선택사항)
+    setTimeout(() => {
+      localStorage.removeItem('profile_complete_modal_dismissed');
+    }, 24 * 60 * 60 * 1000);
+  };
+
+  const handleProfileCompleteSuccess = () => {
+    setShowProfileCompleteModal(false);
+    // 완성 후에는 더 이상 표시하지 않음
+    localStorage.setItem('profile_complete_modal_dismissed', 'true');
   };
 
   if (!user) {
@@ -326,8 +363,32 @@ export default function ProfilePage() {
               </div>
               
               <div>
-                <div className="flex items-center gap-3">
-                  <h1 className="text-2xl font-bold">{user.nickname || user.auth.email}</h1>
+                <div className="flex items-center gap-3 flex-wrap">
+                  <h1 className="text-2xl font-bold text-white">{user.nickname || user.auth.email}</h1>
+                  
+                  {/* Personality Type Badge - Inline with name */}
+                  {userPersonalityType && personalityDescriptions[userPersonalityType] && (
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                      className="inline-flex"
+                    >
+                      <div 
+                        className="px-3 py-1 rounded-full text-sm font-bold inline-flex items-center gap-1.5 shadow-lg"
+                        style={{ 
+                          background: getGradientStyle(userPersonalityType as keyof typeof personalityGradients),
+                          color: 'white',
+                          textShadow: '0 1px 2px rgba(0,0,0,0.2)',
+                          boxShadow: '0 2px 10px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)'
+                        }}
+                      >
+                        <Palette className="w-3.5 h-3.5" />
+                        {userPersonalityType}
+                      </div>
+                    </motion.div>
+                  )}
+                  
                   {pioneerProfile?.pioneer_number && (
                     <PioneerBadge 
                       pioneerNumber={pioneerProfile.pioneer_number}
@@ -338,27 +399,18 @@ export default function ProfilePage() {
                   )}
                 </div>
                 
-                {/* Personality Type Display */}
+                {/* Personality Description - Subtitle */}
                 {userPersonalityType && personalityDescriptions[userPersonalityType] && (
-                  <div className="flex items-center gap-3 mt-2">
-                    <div 
-                      className="px-3 py-1 rounded-full text-sm font-medium inline-flex items-center gap-1"
-                      style={{ 
-                        background: getGradientStyle(userPersonalityType as keyof typeof personalityGradients),
-                        color: 'white',
-                        textShadow: '0 1px 2px rgba(0,0,0,0.1)'
-                      }}
-                    >
-                      <Palette className="w-4 h-4" />
-                      {userPersonalityType}
-                    </div>
-                    <span className="text-sm opacity-80">
+                  <div className="mt-2 flex items-center gap-2 flex-wrap">
+                    <span className="text-sm text-gray-300">
                       {personalityGradients[userPersonalityType as keyof typeof personalityGradients]?.name || personalityDescriptions[userPersonalityType].title}
                     </span>
                     {artProfile?.style && (
                       <>
-                        <span className="text-sm opacity-40">•</span>
-                        <span className="text-sm opacity-70">{artProfile.style}</span>
+                        <span className="text-sm text-gray-400">•</span>
+                        <span className="text-sm text-gray-300">
+                          AI Style: {artProfile.style}
+                        </span>
                       </>
                     )}
                   </div>
@@ -368,7 +420,7 @@ export default function ProfilePage() {
             
             <div className="flex gap-2">
               <motion.button
-                className="p-2 rounded-lg bg-purple-500 hover:bg-purple-600 text-white transition-colors"
+                className="p-2 rounded-lg bg-white/10 hover:bg-white/20 dark:bg-white/10 dark:hover:bg-white/20 backdrop-blur-sm text-gray-700 dark:text-gray-200 transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => router.push('/profile/art-profile')}
@@ -385,6 +437,16 @@ export default function ProfilePage() {
               >
                 <Trophy className="w-5 h-5" />
               </motion.button>
+              {/* 프로필 완성 버튼 - 더 subtle하게 */}
+              <motion.button
+                className="p-2 rounded-lg bg-white/5 hover:bg-white/10 dark:bg-white/5 dark:hover:bg-white/10 backdrop-blur-sm text-gray-500 dark:text-gray-400 transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowProfileCompleteModal(true)}
+                title={language === 'ko' ? '프로필 완성하기' : 'Complete Profile'}
+              >
+                <User className="w-5 h-5" />
+              </motion.button>
               <motion.button
                 className="p-2 rounded-lg bg-white/10 hover:bg-white/20 dark:bg-white/10 dark:hover:bg-white/20 backdrop-blur-sm text-gray-700 dark:text-gray-200 transition-colors"
                 whileHover={{ scale: 1.05 }}
@@ -399,7 +461,7 @@ export default function ProfilePage() {
         </motion.div>
 
         {/* Compact Stats */}
-        <div className="mb-6">
+        <div className="mb-6 -mt-3">
           <CompactStats 
             stats={{
               ...mockUserStats,
@@ -412,6 +474,7 @@ export default function ProfilePage() {
         {/* Tab Navigation */}
         <div className="flex gap-2 mb-6 flex-wrap">
           {[
+            { id: 'journey' as const, icon: Sparkles, label: { en: 'Journey', ko: '여정' } },
             { id: 'map' as const, icon: MapPin, label: { en: 'Art Map', ko: '아트맵' } },
             { id: 'records' as const, icon: BookOpen, label: { en: 'Records', ko: '기록' } },
             { id: 'badges' as const, icon: Trophy, label: { en: 'Badges', ko: '배지' } },
@@ -441,6 +504,10 @@ export default function ProfilePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
+          {activeTab === 'journey' && (
+            <JourneySection />
+          )}
+          
           {activeTab === 'map' && (
             <PersonalArtMap
               museums={mockMuseums}
@@ -504,9 +571,9 @@ export default function ProfilePage() {
           email: user.auth.email,
           personalityType: userPersonalityType
         }}
-        onUpdate={(updates) => {
-          // In real app, would update user state here
-          console.log('Profile updates:', updates);
+        onUpdate={async (updates) => {
+          // 화면 새로고침으로 업데이트된 정보 반영
+          window.location.reload();
         }}
       />
 
@@ -569,6 +636,13 @@ export default function ProfilePage() {
           personalityType: userPersonalityType,
           userLevel: userStats?.level || mockUserStats.level
         }}
+      />
+
+      {/* Profile Complete Modal */}
+      <ProfileCompleteModal
+        isOpen={showProfileCompleteModal}
+        onClose={handleProfileCompleteModalClose}
+        onComplete={handleProfileCompleteSuccess}
       />
     </div>
   );

@@ -3,15 +3,17 @@
 import { memo, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { MessageSquare, Sparkles } from 'lucide-react';
+import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
+import type { PersonalityAnimal } from '@/data/personality-animals';
 
 // 동물 캐릭터 플로팅 버튼 - 최적화 버전
 export const ChatbotFloatingButton = memo(({ 
   onClick, 
-  animalType = 'fox',
+  animalData,
   position = 'bottom-right' 
 }: {
   onClick: () => void;
-  animalType?: string;
+  animalData?: PersonalityAnimal | null;
   position?: 'bottom-left' | 'bottom-right';
 }) => {
   const positionClasses = position === 'bottom-left' 
@@ -51,18 +53,22 @@ export const ChatbotFloatingButton = memo(({
         />
         
         {/* 동물 아바타 */}
-        <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden bg-white shadow-lg">
-          <img
-            src={`/images/personality-animals/avatars/${animalType}-avatar.png`}
-            alt={`${animalType} curator`}
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
+        <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden bg-white/10 dark:bg-black/20 backdrop-blur-md shadow-lg flex items-center justify-center border border-white/20">
+          {animalData ? (
+            <PersonalityAnimalImage 
+              animal={animalData}
+              variant="avatar"
+              size="sm"
+              className="scale-110 !rounded-full"
+              showFallback={true}
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm flex items-center justify-center">
+              <MessageSquare className="w-8 h-8 text-purple-400" />
+            </div>
+          )}
           
-          {/* 호버시 오버레이 */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-            <MessageSquare className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-          </div>
+          {/* 호버시 오버레이 (제거 - 깨끗한 UI) */}
         </div>
         
         {/* 상태 인디케이터 */}
@@ -77,15 +83,7 @@ export const ChatbotFloatingButton = memo(({
           }}
         />
         
-        {/* 툴팁 */}
-        <motion.div
-          className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 px-3 py-1 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-          initial={{ y: 10 }}
-          whileHover={{ y: 0 }}
-        >
-          AI 큐레이터와 대화하기
-          <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-4 border-transparent border-t-gray-900" />
-        </motion.div>
+        {/* 툴팁 (제거 - 깨끗한 UI) */}
       </motion.button>
       
       {/* 파티클 효과 */}

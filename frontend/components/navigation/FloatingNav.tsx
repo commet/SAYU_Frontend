@@ -9,6 +9,7 @@ import { useDarkMode } from '@/contexts/DarkModeContext';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import { useAuth } from '@/hooks/useAuth';
 import toast from 'react-hot-toast';
+import { useOnboardingV2 } from '@/contexts/OnboardingContextV2';
 
 interface NavItem {
   iconType: 'home' | 'sparkles' | 'users' | 'user' | 'zap' | 'dashboard' | 'calendar' | 'collection';
@@ -54,6 +55,7 @@ export default function FloatingNav() {
   const { language } = useLanguage();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const { user, signOut } = useAuth();
+  const { isNewUser, currentJourney, getCompletionPercentage, isOnboardingComplete } = useOnboardingV2();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
@@ -167,7 +169,7 @@ export default function FloatingNav() {
   };
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative' }} className="hidden lg:block">
       {/* Top Floating Bar */}
       <div className="fixed top-0 left-0 right-0 z-[1000] px-4 pt-4 bg-gray-900">
         <motion.div
@@ -194,6 +196,26 @@ export default function FloatingNav() {
               <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 SAYU
               </div>
+              {/* 온보딩 진행률 표시 */}
+              {isNewUser && !isOnboardingComplete && currentJourney && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex items-center gap-2 ml-2 px-3 py-1 bg-purple-900/30 rounded-full border border-purple-700/50"
+                >
+                  <div className="text-xs text-purple-300">
+                    Day {currentJourney.day}/7
+                  </div>
+                  <div className="w-12 h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                    <motion.div
+                      className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                      initial={{ width: 0 }}
+                      animate={{ width: `${getCompletionPercentage()}%` }}
+                      transition={{ duration: 0.5 }}
+                    />
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
 
           {/* Desktop Navigation */}

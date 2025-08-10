@@ -20,6 +20,29 @@ const config: Config = {
       },
     },
     extend: {
+      // SAYU Mobile-first breakpoints
+      screens: {
+        'xs': '375px',   // iPhone SE
+        'sm': '640px',   // Mobile landscape
+        'md': '768px',   // Tablet portrait
+        'lg': '1024px',  // Tablet landscape / Small desktop
+        'xl': '1280px',  // Desktop
+        '2xl': '1536px', // Large desktop
+        // Custom breakpoints for specific use cases
+        'mobile-s': '320px',
+        'mobile-m': '375px',
+        'mobile-l': '425px',
+        'tablet': '768px',
+        'laptop': '1024px',
+        'laptop-l': '1440px',
+        '4k': '2560px',
+        // Device-specific breakpoints
+        'iphone-se': '375px',
+        'iphone': '390px',
+        'android': '360px',
+        'tablet-sm': '768px',
+        'tablet-lg': '1024px'
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -195,7 +218,7 @@ const config: Config = {
 };
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
-function addVariablesForColors({ addBase, theme }: any) {
+function addVariablesForColors({ addBase, addUtilities, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));
   let newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
@@ -203,6 +226,32 @@ function addVariablesForColors({ addBase, theme }: any) {
 
   addBase({
     ":root": newVars,
+  });
+  
+  // Add mobile-specific utilities
+  addUtilities({
+    '.safe-area-top': {
+      'padding-top': 'env(safe-area-inset-top)',
+    },
+    '.safe-area-bottom': {
+      'padding-bottom': 'env(safe-area-inset-bottom)',
+    },
+    '.safe-area-left': {
+      'padding-left': 'env(safe-area-inset-left)',
+    },
+    '.safe-area-right': {
+      'padding-right': 'env(safe-area-inset-right)',
+    },
+    '.touch-manipulation': {
+      'touch-action': 'manipulation',
+    },
+    '.scrollbar-hide': {
+      '-ms-overflow-style': 'none',
+      'scrollbar-width': 'none',
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
   });
 }
 

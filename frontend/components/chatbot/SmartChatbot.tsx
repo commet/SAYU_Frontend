@@ -15,14 +15,17 @@ import { MysteryCharacter } from './MysteryCharacter';
 import { ChatbotFloatingButton } from './ChatbotOptimized';
 import { ArtCuratorChatbot } from './ArtCuratorChatbot';
 import { MessageCircle, X } from 'lucide-react';
+import { getAnimalByType } from '@/data/personality-animals';
+import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
 
 export const SmartChatbot = () => {
   const pathname = usePathname();
   const { personalityType, user } = useUserProfile();
   const { currentArtwork } = useArtworkViewing();
+  const animalData = personalityType ? getAnimalByType(personalityType) : null;
   
   const [isOpen, setIsOpen] = useState(false);
-  const [showHint, setShowHint] = useState(false);
+  const [showHint, setShowHint] = useState(false); // 힌트 비활성화
   const [currentPhase, setCurrentPhase] = useState('subtle');
   const [bubbleMessage, setBubbleMessage] = useState('');
   const [pageLoadTime] = useState(Date.now());
@@ -53,24 +56,24 @@ export const SmartChatbot = () => {
         if (elapsed >= phase.startTime && (!phase.endTime || elapsed < phase.endTime)) {
           setCurrentPhase(phase.name);
           
-          // 페이즈별 액션 실행
-          if (phase.name === 'notice' && !showHint) {
-            setShowHint(true);
-            const message = personalityType 
-              ? getContextualMessage(pageContext, 'idlePrompts', 0)
-              : UNIDENTIFIED_USER_MESSAGES.prompts[0];
-            setBubbleMessage(message);
-          } else if (phase.name === 'engage') {
-            const message = personalityType 
-              ? getContextualMessage(pageContext, 'idlePrompts', 1)
-              : UNIDENTIFIED_USER_MESSAGES.prompts[1];
-            setBubbleMessage(message);
-          } else if (phase.name === 'active') {
-            const message = personalityType 
-              ? getContextualMessage(pageContext, 'idlePrompts', 2)
-              : UNIDENTIFIED_USER_MESSAGES.hints[0];
-            setBubbleMessage(message);
-          }
+          // 페이즈별 액션 실행 (비활성화 - 힌트 표시 안 함)
+          // if (phase.name === 'notice' && !showHint) {
+          //   setShowHint(true);
+          //   const message = personalityType 
+          //     ? getContextualMessage(pageContext, 'idlePrompts', 0)
+          //     : UNIDENTIFIED_USER_MESSAGES.prompts[0];
+          //   setBubbleMessage(message);
+          // } else if (phase.name === 'engage') {
+          //   const message = personalityType 
+          //     ? getContextualMessage(pageContext, 'idlePrompts', 1)
+          //     : UNIDENTIFIED_USER_MESSAGES.prompts[1];
+          //   setBubbleMessage(message);
+          // } else if (phase.name === 'active') {
+          //   const message = personalityType 
+          //     ? getContextualMessage(pageContext, 'idlePrompts', 2)
+          //     : UNIDENTIFIED_USER_MESSAGES.hints[0];
+          //   setBubbleMessage(message);
+          // }
           
           break;
         }
@@ -104,71 +107,37 @@ export const SmartChatbot = () => {
     setCurrentPhase('subtle');
   }, [pathname]);
   
-  // 애니메이션 변형
-  const getAnimationVariants = () => {
-    switch (currentPhase) {
-      case 'subtle':
-        return {
-          animate: {
-            scale: [1, 1.1, 1],
-            transition: { duration: 2, repeat: Infinity }
-          }
-        };
-      case 'notice':
-        return {
-          animate: {
-            y: [0, -10, 0],
-            transition: { duration: 1.5, repeat: Infinity }
-          }
-        };
-      case 'engage':
-        return {
-          animate: {
-            rotate: [-5, 5, -5],
-            transition: { duration: 2, repeat: Infinity }
-          }
-        };
-      case 'active':
-        return {
-          animate: {
-            scale: [1, 1.2, 1],
-            rotate: [0, 10, -10, 0],
-            transition: { duration: 3, repeat: Infinity }
-          }
-        };
-      default:
-        return {};
-    }
-  };
-  
-  const animationVariants = getAnimationVariants();
+  // 애니메이션 변형 (제거 - 가만히 있도록)
+  const animationVariants = {};
   
   return (
     <>
       {/* 플로팅 버튼 - 개인화된 또는 미스터리 캐릭터 */}
       <motion.div
-        className="fixed bottom-6 right-6 z-40"
-        {...animationVariants}
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50"
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
       >
         {personalityType ? (
           <div className="relative">
             <ChatbotFloatingButton
               onClick={handleInteraction}
-              animalType={personalityType.toLowerCase()}
+              animalData={animalData}
             />
             
             {/* 말풍선 */}
             <AnimatePresence>
               {showHint && bubbleMessage && (
                 <motion.div
-                  className="absolute bottom-full mb-2 right-0"
+                  className="absolute bottom-full mb-3 -right-2 z-[60]"
                   initial={{ opacity: 0, y: 10, scale: 0.8 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.8 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg px-4 py-2 max-w-xs">
-                    <p className="text-sm">{bubbleMessage}</p>
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg px-4 py-3 min-w-[200px] max-w-[280px]">
+                    <p className="text-sm whitespace-normal break-words">{bubbleMessage}</p>
                     <button
                       onClick={() => setShowHint(false)}
                       className="absolute -top-2 -right-2 w-5 h-5 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-600"
@@ -193,14 +162,14 @@ export const SmartChatbot = () => {
             <AnimatePresence>
               {showHint && bubbleMessage && (
                 <motion.div
-                  className="absolute bottom-full mb-2 right-0"
+                  className="absolute bottom-full mb-3 -right-2 z-[60]"
                   initial={{ opacity: 0, y: 10, scale: 0.8 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.8 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-lg shadow-lg px-4 py-2 max-w-xs border border-purple-200 dark:border-purple-700">
-                    <p className="text-sm font-medium bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                  <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-lg shadow-lg px-4 py-3 min-w-[200px] max-w-[280px] border border-purple-200 dark:border-purple-700">
+                    <p className="text-sm font-medium bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent whitespace-normal break-words">
                       {bubbleMessage}
                     </p>
                     <button

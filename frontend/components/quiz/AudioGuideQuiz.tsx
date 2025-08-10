@@ -24,6 +24,8 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useResponsive } from '@/lib/responsive';
+import { MobileQuiz } from './MobileQuiz';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import '@/styles/audio-guide.css';
 
@@ -37,6 +39,7 @@ interface QuizResponse {
 export const AudioGuideQuiz: React.FC = () => {
   const router = useRouter();
   const { language } = useLanguage();
+  const { isMobile } = useResponsive();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [responses, setResponses] = useState<QuizResponse[]>([]);
   const [showEncouragement, setShowEncouragement] = useState(false);
@@ -65,7 +68,7 @@ export const AudioGuideQuiz: React.FC = () => {
         'curiosity': language === 'ko' ? '입구 홀' : 'Entrance Hall',
         'exploration': language === 'ko' ? '메인 갤러리' : 'Main Gallery',
         'revelation': language === 'ko' ? '성찰의 방' : 'Reflection Room'
-      }[question.act];
+      }[question.act] || (language === 'ko' ? '입구 홀' : 'Entrance Hall');
     }
   };
   const galleryRoom = getGalleryRoom();

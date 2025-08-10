@@ -5,6 +5,18 @@ import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useResponsive } from '@/lib/responsive';
+import dynamic from 'next/dynamic';
+
+// 모바일 홈페이지 컴포넌트 동적 로드
+const MobileHomePage = dynamic(() => import('./MobileHomePage'), {
+  ssr: false,
+  loading: () => (
+    <div className="min-h-screen bg-gradient-to-b from-purple-900 to-indigo-600 flex items-center justify-center">
+      <div className="text-white animate-pulse">Loading...</div>
+    </div>
+  ),
+});
 
 // 작품 이미지 - 저작권 free 작품들 사용
 
@@ -159,9 +171,16 @@ const famousArtworks = [
 export default function JourneyHomePage() {
   const router = useRouter();
   const { language } = useLanguage();
+  const { isMobile } = useResponsive();
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [currentArtwork, setCurrentArtwork] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  // 클라이언트 사이드 마운트 확인
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -196,6 +215,12 @@ export default function JourneyHomePage() {
   const lightIntensity = useTransform(scrollYProgress, [0, 1], [0.2, 1]);
   const mazeScale = useTransform(scrollYProgress, [0, 0.25], [1, 1.2]);
 
+  // 클라이언트 사이드에서만 모바일 체크하고 렌더링
+  if (mounted && isMobile) {
+    return <MobileHomePage />;
+  }
+
+  // SSR 중이거나 데스크탑일 때는 기본 페이지 렌더링
   return (
     <div ref={containerRef} className="relative h-[400vh] home-page-preserve">
       {/* Fixed viewport container */}

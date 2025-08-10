@@ -14,6 +14,10 @@ import { galleryApi, Artwork, FollowingArtist } from '@/lib/gallery-api';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
+import MobileOptimizedImage from '@/components/ui/MobileOptimizedImage';
+import MobileGalleryGrid from '@/components/mobile/MobileGalleryGrid';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useResponsive } from '@/lib/responsive';
 import { ArtworkDetailModal } from '@/components/ui/ArtworkDetailModal';
 import toast from 'react-hot-toast';
 
@@ -68,9 +72,11 @@ const ART_CATEGORIES = [
 function GalleryContent() {
   const { user, loading } = useAuth();
   const { language } = useLanguage();
+  const { isMobile } = useResponsive();
   const router = useRouter();
   const searchParams = useSearchParams();
   const isGuestMode = searchParams?.get('guest') === 'true';
+  
   const [galleryArtworks, setGalleryArtworks] = useState<GalleryArtwork[]>([]);
   const [loading_artworks, setLoadingArtworks] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -84,7 +90,7 @@ function GalleryContent() {
   const [todayDiscovered, setTodayDiscovered] = useState(0);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [recommendedArtworks, setRecommendedArtworks] = useState<any[]>([]);
-  const [showAllRecommendations, setShowAllRecommendations] = useState(false);
+  const [showAllRecommendations, setShowAllRecommendations] = useState(true);
   const [layout, setLayout] = useState<'masonry' | 'grid' | 'list'>('masonry');
   
   // 작품 상세 모달 상태
@@ -96,8 +102,19 @@ function GalleryContent() {
     if (user && !isGuestMode) {
       fetchUserProfile();
       loadUserPreferences();
-    } else if (isGuestMode) {
+    } else if (isGuestMode || !user) {
+      // Set default SREF profile for guest users to show curated artworks
+      const guestProfile: UserProfile = {
+        id: 'guest',
+        sayuType: 'SREF',
+        email: '',
+        name: 'Guest',
+        typeCode: 'SREF',
+        personalityType: 'SREF'
+      };
+      setUserProfile(guestProfile);
       loadUserPreferences();
+      console.log('👥 Setting SREF profile for guest to show 12 curated artworks');
     }
   }, [user, isGuestMode]);
 
@@ -111,6 +128,15 @@ function GalleryContent() {
   useEffect(() => {
     loadRecommendedArtworks();
   }, [userProfile, selectedCategory]);
+
+  // Auto-expand recommendations for SREF users with 12+ artworks
+  useEffect(() => {
+    const userType = userProfile?.typeCode || userProfile?.personalityType || user?.aptType || 'SREF';
+    if (userType === 'SREF' && recommendedArtworks.length >= 12) {
+      console.log('🎨 Auto-expanding recommendations for SREF user with', recommendedArtworks.length, 'artworks');
+      setShowAllRecommendations(true);
+    }
+  }, [recommendedArtworks.length, userProfile, user]);
 
   const fetchUserProfile = async () => {
     try {
@@ -135,6 +161,7 @@ function GalleryContent() {
         personalityType: 'SREF'
       };
       setUserProfile(mockProfile);
+      console.log('👥 Setting default SREF profile for guest user');
     }
   };
 
@@ -167,8 +194,20 @@ function GalleryContent() {
       // Import the new recommendation system
       const { getPersonalizedRecommendations } = await import('./artwork-recommendations');
       
+      // Default to SREF for guest users to show the 12 curated artworks
       const userType = userProfile?.typeCode || userProfile?.personalityType || user?.aptType || 'SREF';
+      console.log('🎨 Loading recommendations for user type:', userType);
+      const guestMode = !user || isGuestMode;
+      console.log('👥 Guest mode:', guestMode, '| User profile:', userProfile?.typeCode, '| User apt:', user?.aptType);
+      
       const recommendations = getPersonalizedRecommendations(userType, selectedCategory);
+      console.log('📚 Got recommendations:', recommendations.length, 'artworks');
+      
+      if (recommendations.length > 0) {
+        console.log('🖼️ First artwork:', recommendations[0]);
+        console.log('🌐 First artwork URL:', recommendations[0].imageUrl);
+        console.log('🎨 Is Wikimedia URL?:', recommendations[0].imageUrl?.includes('wikimedia'));
+      }
       
       // Transform to match existing interface - get more recommendations for expansion
       const formattedRecommendations = recommendations.slice(0, 12).map((rec, i) => ({
@@ -178,11 +217,16 @@ function GalleryContent() {
         year: rec.year,
         description: rec.description || rec.curatorNote,
         href: '#',
-        image: rec.cloudinaryUrl || rec.imageUrl || `https://picsum.photos/600/400?random=rec${i}`,
+        imageUrl: rec.imageUrl || rec.cloudinaryUrl,
         matchPercent: rec.matchPercent,
         curatorNote: rec.curatorNote
       }));
       
+      console.log('✅ Formatted recommendations:', formattedRecommendations);
+      console.log('🔍 All Image URLs:');
+      formattedRecommendations.forEach((rec, i) => {
+        console.log(`  ${i+1}. ${rec.title}: ${rec.imageUrl?.substring(0, 80)}...`);
+      });
       setRecommendedArtworks(formattedRecommendations);
     } catch (error) {
       console.error('Failed to load recommendations:', error);
@@ -312,7 +356,8 @@ function GalleryContent() {
     console.log('New liked artworks:', [...newLiked]);
     
     // Save to guest storage if in guest mode
-    if (effectiveGuestMode) {
+    const guestMode = !user || isGuestMode;
+    if (guestMode) {
       const { GuestStorage } = await import('@/lib/guest-storage');
       if (isLiking) {
         GuestStorage.addSavedArtwork(artworkId);
@@ -411,7 +456,8 @@ function GalleryContent() {
     setSavedArtworks(newSaved);
     
     // Save to storage
-    if (effectiveGuestMode) {
+    const guestMode = !user || isGuestMode;
+    if (guestMode) {
       const { GuestStorage } = await import('@/lib/guest-storage');
       if (isSaving) {
         GuestStorage.addSavedArtwork(artworkId);
@@ -466,9 +512,6 @@ function GalleryContent() {
     );
   }
 
-  // 임시로 인증 체크를 비활성화하여 guest 모드로 항상 접근 가능하도록 함
-  const effectiveGuestMode = !user || isGuestMode;
-
   // 사용자 APT 타입 가져오기
   const userAptType = userProfile?.typeCode || userProfile?.personalityType || 'SREF';
 
@@ -481,34 +524,42 @@ function GalleryContent() {
     >
       {/* Background overlay for better readability */}
       <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[1px]" />
-      {/* Header */}
+      {/* Header - 모바일 반응형 */}
       <motion.div 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="border-b border-slate-700 backdrop-blur-md sticky top-0 z-20 bg-slate-900/80 relative"
+        className={cn(
+          "border-b border-slate-700 backdrop-blur-md sticky z-20 bg-slate-900/80 relative",
+          isMobile ? "top-14" : "top-0"
+        )}
       >
-        <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className={cn("mx-auto", isMobile ? "px-4 py-3" : "max-w-7xl px-4 py-4")}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => router.back()}
-                className="text-slate-300 hover:text-white hover:bg-slate-800"
-              >
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
+              {!isMobile && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => router.back()}
+                  className="text-slate-300 hover:text-white hover:bg-slate-800"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                </Button>
+              )}
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <h1 className={cn(
+                  "font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent",
+                  isMobile ? "text-xl" : "text-2xl"
+                )}>
                   내 컬렉션
-                  {effectiveGuestMode && (
+                  {isGuestMode && (
                     <Badge variant="secondary" className="ml-2 rounded-full bg-slate-700 text-slate-300">
                       Guest Mode
                     </Badge>
                   )}
                 </h1>
                 <p className="text-sm text-slate-400 mt-1">
-                  {effectiveGuestMode 
+                  {isGuestMode 
                     ? `놀라운 작품들을 발견하세요`
                     : `${userAptType} 님을 위한 맞춤 큐레이션`
                   }
@@ -516,7 +567,7 @@ function GalleryContent() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              {effectiveGuestMode ? (
+              {isGuestMode ? (
                 <>
                   <Button variant="outline" size="sm" onClick={() => router.push('/quiz')} className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white">
                     <UserPlus className="w-4 h-4 mr-2" />
@@ -546,18 +597,23 @@ function GalleryContent() {
             </div>
           </div>
           
-          {/* Category Filter - 개선된 스타일 */}
-          <div className="mt-4">
-            <div className="flex gap-2 overflow-x-auto pb-2">
+          {/* Category Filter - 모바일 최적화 */}
+          <div className={cn("mt-4", isMobile && "mt-3")}>
+            <div className={cn(
+              "flex gap-2 overflow-x-auto scrollbar-hide",
+              isMobile ? "pb-1" : "pb-2"
+            )}>
               {ART_CATEGORIES.map((category) => (
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                  className={cn(
+                    "rounded-full font-medium whitespace-nowrap transition-all",
+                    isMobile ? "px-3 py-1.5 text-xs" : "px-4 py-2 text-sm",
                     selectedCategory === category.id
                       ? 'bg-purple-600 text-white shadow-lg'
                       : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-600'
-                  }`}
+                  )}
                 >
                   {category.name}
                 </button>
@@ -569,8 +625,38 @@ function GalleryContent() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto p-4 relative z-10">
-        {/* 추천 섹션 */}
-        {!effectiveGuestMode && recommendedArtworks.length > 0 && (
+        {/* Art Fair Mode Teaser */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-6"
+        >
+          <div className="bg-gradient-to-r from-amber-900/20 to-orange-900/20 backdrop-blur-sm rounded-xl p-4 border border-amber-500/30 hover:border-amber-500/50 transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">🎪</span>
+                <div>
+                  <h3 className="text-amber-300 font-semibold flex items-center gap-2">
+                    아트 페어 모드 
+                    <span className="text-xs bg-amber-500/20 px-2 py-0.5 rounded-full text-amber-200">Coming Soon</span>
+                  </h3>
+                  <p className="text-xs text-gray-400 mt-0.5">
+                    8월 말 KIAF & Frieze Seoul 2025를 위한 특별 기능이 준비중입니다
+                  </p>
+                </div>
+              </div>
+              <button 
+                className="px-4 py-2 bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 rounded-lg text-sm font-medium transition-all duration-200 border border-amber-500/30 hover:border-amber-500/50"
+                onClick={() => toast('🎨 아트 페어 모드는 8월 말에 만나요!', { icon: '🎪' })}
+              >
+                알림 받기
+              </button>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* 추천 섹션 - Show for both logged-in and SREF guest users */}
+        {recommendedArtworks.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -580,10 +666,13 @@ function GalleryContent() {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h2 className="text-xl font-semibold mb-1 text-white">
-                  {userAptType} 유형을 위한 추천 작품
+                  {isGuestMode ? 'SREF 유형 큐레이션 작품' : `${userAptType} 유형을 위한 추천 작품`}
                 </h2>
                 <p className="text-sm text-gray-300 mb-2">
-                  AI Curator가 당신의 APT 분석을 기반으로 큐레이션한 작품들입니다
+                  {isGuestMode ? 
+                    'SREF 유형을 위한 특별 큐레이션 - 인간관계와 따뜻함을 담은 작품들' :
+                    'AI Curator가 당신의 APT 분석을 기반으로 큐레이션한 작품들입니다'
+                  }
                 </p>
                 <div className="flex gap-4 text-xs text-white">
                   <span className="flex items-center gap-1">
@@ -594,22 +683,25 @@ function GalleryContent() {
                   </span>
                 </div>
               </div>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="rounded-full text-slate-400 hover:text-white hover:bg-slate-800"
-                onClick={() => setShowAllRecommendations(!showAllRecommendations)}
-              >
-                {showAllRecommendations ? '접기' : '더보기'} 
-                <ChevronRight className={`w-4 h-4 ml-1 transition-transform ${showAllRecommendations ? 'rotate-90' : ''}`} />
-              </Button>
+              {/* Only show expand/collapse if there are more than 4 artworks */}
+              {recommendedArtworks.length > 4 && (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="rounded-full text-slate-400 hover:text-white hover:bg-slate-800"
+                  onClick={() => setShowAllRecommendations(!showAllRecommendations)}
+                >
+                  {showAllRecommendations ? '접기' : `모든 ${recommendedArtworks.length}개 보기`} 
+                  <ChevronRight className={`w-4 h-4 ml-1 transition-transform ${showAllRecommendations ? 'rotate-90' : ''}`} />
+                </Button>
+              )}
             </div>
             
             {/* 추천 작품 grid or horizontal scroll */}
             {showAllRecommendations ? (
-              // Grid layout for expanded view (4x3)
+              // Grid layout for expanded view (4x3) - Show all 12 artworks for SREF users
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {recommendedArtworks.slice(0, 12).map((item, index) => (
+                {recommendedArtworks.map((item, index) => (
                   <motion.div
                     key={item.id}
                     initial={{ opacity: 0, y: 20 }}
@@ -652,12 +744,15 @@ function GalleryContent() {
                       
                       <Sparkles className="absolute bottom-4 left-4 w-6 h-6 text-purple-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:rotate-12" />
                       
-                      {/* 실제 이미지 표시 */}
+                      {/* 실제 이미지 표시 - Wikimedia Commons images */}
                       <img 
-                        src={item.image || `https://picsum.photos/600/450?random=${item.id}`} 
+                        src={item.imageUrl?.includes('wikimedia') ? `/api/image-proxy?url=${encodeURIComponent(item.imageUrl)}` : item.imageUrl} 
                         alt={item.title}
                         className="absolute inset-0 w-full h-full object-cover"
                         loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.src = 'https://via.placeholder.com/400x300?text=Artwork';
+                        }}
                       />
                     </div>
                     <div className="p-4">
@@ -722,12 +817,15 @@ function GalleryContent() {
                       
                       <Sparkles className="absolute bottom-4 left-4 w-6 h-6 text-purple-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:rotate-12" />
                       
-                      {/* 실제 이미지 표시 - Cloudinary에서 직접 로드 */}
+                      {/* 실제 이미지 표시 - Wikimedia Commons images */}
                       <img 
-                        src={item.image || `https://picsum.photos/600/450?random=${item.id}`} 
+                        src={item.imageUrl?.includes('wikimedia') ? `/api/image-proxy?url=${encodeURIComponent(item.imageUrl)}` : item.imageUrl} 
                         alt={item.title}
                         className="absolute inset-0 w-full h-full object-cover"
                         loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.src = 'https://via.placeholder.com/400x300?text=Artwork';
+                        }}
                       />
                     </div>
                     <div className="p-4">
@@ -796,10 +894,22 @@ function GalleryContent() {
           </div>
         </div>
 
-        {/* Gallery Grid */}
+        {/* Gallery Grid - 모바일/데스크탑 반응형 */}
         {savedArtworksData.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {savedArtworksData.map((artwork, index) => (
+          isMobile ? (
+            // 모바일: 가상화 스크롤 갤러리
+            <MobileGalleryGrid
+              artworks={savedArtworksData}
+              onLike={handleLike}
+              onSave={handleSave}
+              onView={handleArtworkClick}
+              likedItems={likedArtworks}
+              savedItems={savedArtworks}
+            />
+          ) : (
+            // 데스크탑: 기존 그리드 레이아웃
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {savedArtworksData.map((artwork, index) => (
               <motion.div
                 key={artwork.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -811,10 +921,13 @@ function GalleryContent() {
                 <div className="relative overflow-hidden rounded-xl bg-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-700 hover:border-purple-500">
                   <div className="aspect-square bg-slate-700 flex items-center justify-center relative overflow-hidden">
                     <img 
-                      src={artwork.imageUrl || `https://picsum.photos/400/400?random=${artwork.id}`} 
+                      src={artwork.imageUrl?.includes('wikimedia') ? `/api/image-proxy?url=${encodeURIComponent(artwork.imageUrl)}` : artwork.imageUrl} 
                       alt={artwork.title}
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                       loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.src = 'https://via.placeholder.com/400x300?text=Artwork';
+                      }}
                     />
                     
                   </div>
@@ -886,8 +999,9 @@ function GalleryContent() {
                   </div>
                 </div>
               </motion.div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )
         ) : (
           /* Empty state */
           <div className="bg-slate-800/50 rounded-lg p-8 text-center border border-slate-700">
@@ -901,7 +1015,7 @@ function GalleryContent() {
         )}
 
         {/* Guest Mode CTA Banner */}
-        {effectiveGuestMode && (
+        {isGuestMode && (
           <div className="mt-8 p-6 bg-slate-800 rounded-xl border border-slate-700">
             <div className="text-center">
               <h3 className="text-lg font-bold text-white mb-2">

@@ -101,7 +101,7 @@ export function ForumList({ className = '' }: ForumListProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
-          className="bg-gray-900/50 backdrop-blur-lg rounded-xl border border-gray-800 hover:border-purple-500/30 transition-all duration-300"
+          className="bg-black/70 backdrop-blur-lg rounded-xl border border-white/40 hover:border-purple-500/50 transition-all duration-300"
         >
           <Link href={`/community/forums/${forum.slug}`}>
             <div className="p-6 cursor-pointer">

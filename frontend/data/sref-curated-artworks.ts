@@ -21,6 +21,7 @@ export interface SREFArtwork {
   tags: string[];
 }
 
+// Export both the array and the function
 export const SREF_CURATED_ARTWORKS: SREFArtwork[] = [
   // === Primary: Renoir (5개) - 인간관계와 따뜻함의 대가 ===
   {

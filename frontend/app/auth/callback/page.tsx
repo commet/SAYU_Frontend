@@ -51,7 +51,7 @@ export default function AuthCallbackPage() {
               console.error('Failed to migrate quiz results:', error);
             }
             
-            router.push('/dashboard');
+            router.push('/profile');
             return;
           } else if (error) {
             console.error('Error getting session:', error);
@@ -70,7 +70,7 @@ export default function AuthCallbackPage() {
         
         if (refreshData?.session) {
           console.log('Session refreshed successfully!');
-          router.push('/dashboard');
+          router.push('/profile');
           return;
         } else {
           console.error('Failed to refresh session:', refreshError);
@@ -101,7 +101,7 @@ export default function AuthCallbackPage() {
       
       if (session) {
         console.log('Session found!');
-        router.push('/dashboard');
+        router.push('/profile');
       } else {
         console.log('No session found after all attempts');
         console.log('Full URL for debugging:', window.location.href);
