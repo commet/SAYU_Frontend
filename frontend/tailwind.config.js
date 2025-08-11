@@ -44,6 +44,53 @@ module.exports = {
   				'ucla-blue': 'rgb(83 104 149)',
   				'pearl': 'rgb(219 218 190)',
   			},
+  			/* SAYU 브랜드 색상 시스템 */
+  			sayu: {
+  				// 따뜻하고 부드러운 조합
+  				'peach-breeze': 'var(--sayu-peach-breeze)',
+  				'lavender-dream': 'var(--sayu-lavender-dream)',
+  				'apricot-whisper': 'var(--sayu-apricot-whisper)',
+  				'tangerine-zest': 'var(--sayu-tangerine-zest)',
+  				'peppermint-pink': 'var(--sayu-peppermint-pink)',
+  				'silent-night': 'var(--sayu-silent-night)',
+  				'tea-rose': 'var(--sayu-tea-rose)',
+  				'fern-green': 'var(--sayu-fern-green)',
+  				
+  				// 차분하고 세련된 조합
+  				'sage': 'var(--sayu-sage)',
+  				'dark-purple': 'var(--sayu-dark-purple)',
+  				'dusty-jupiter': 'var(--sayu-dusty-jupiter)',
+  				'lime-cream': 'var(--sayu-lime-cream)',
+  				'dusty-mauve': 'var(--sayu-dusty-mauve)',
+  				'ivory-mist': 'var(--sayu-ivory-mist)',
+  				'powder-blue': 'var(--sayu-powder-blue)',
+  				'urban-smoke': 'var(--sayu-urban-smoke)',
+  				
+  				// 대비가 강한 활기찬 조합
+  				'match-point': 'var(--sayu-match-point)',
+  				'double-bounce': 'var(--sayu-double-bounce)',
+  				'soft-melon': 'var(--sayu-soft-melon)',
+  				'astral-blue': 'var(--sayu-astral-blue)',
+  				'ucla-blue': 'var(--sayu-ucla-blue)',
+  				'pearl': 'var(--sayu-pearl)',
+  				
+  				// 기능적 색상들
+  				'bg-primary': 'var(--sayu-bg-primary)',
+  				'bg-secondary': 'var(--sayu-bg-secondary)',
+  				'bg-tertiary': 'var(--sayu-bg-tertiary)',
+  				'text-primary': 'var(--sayu-text-primary)',
+  				'text-secondary': 'var(--sayu-text-secondary)',
+  				'text-muted': 'var(--sayu-text-muted)',
+  				
+  				// 단축 색상들
+  				'lavender': 'var(--sayu-lavender-dream)',
+  				'powder-blue': 'var(--sayu-powder-blue)',
+  				'blush': 'var(--sayu-peppermint-pink)',
+  				'mocha': 'var(--sayu-dark-purple)',
+  				'cream': 'var(--sayu-ivory-mist)',
+  				'charcoal': 'var(--sayu-urban-smoke)',
+  				'warm-gray': 'var(--sayu-dusty-mauve)',
+  			},
   			/* shadcn 기본 색상 */
   			primary: {
   				DEFAULT: 'hsl(var(--primary))',

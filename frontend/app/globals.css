@@ -33,6 +33,75 @@
 @tailwind components; 
 @tailwind utilities;
 
+/* ===== MOBILE RESPONSIVE BASE SETTINGS ===== */
+/* Root font size for better mobile scaling */
+html {
+  font-size: 16px; /* Base font size */
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px; /* Slightly smaller on mobile */
+  }
+}
+
+/* Container system with proper constraints */
+@layer components {
+  .container-responsive {
+    @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 100%;
+  }
+  
+  @media (min-width: 640px) {
+    .container-responsive {
+      max-width: 640px;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .container-responsive {
+      max-width: 768px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .container-responsive {
+      max-width: 1024px;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .container-responsive {
+      max-width: 1280px;
+    }
+  }
+}
+
+/* Responsive grid system */
+@layer components {
+  .grid-responsive {
+    @apply grid gap-4;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  @media (max-width: 640px) {
+    .grid-responsive {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+/* Prevent horizontal overflow on mobile */
+@layer base {
+  body {
+    overflow-x: hidden;
+  }
+  
+  * {
+    max-width: 100vw;
+  }
+}
+
 /* Import Modern Design System */
 @import url('../components/modern/design-system.css');
 
@@ -46,6 +115,56 @@
 
 .animation-delay-4000 {
   animation-delay: 4s;
+}
+
+/* Text size utilities with responsive scaling */
+@layer utilities {
+  .text-responsive-xs {
+    @apply text-xs sm:text-sm;
+  }
+  
+  .text-responsive-sm {
+    @apply text-sm sm:text-base;
+  }
+  
+  .text-responsive-base {
+    @apply text-base sm:text-lg;
+  }
+  
+  .text-responsive-lg {
+    @apply text-lg sm:text-xl lg:text-2xl;
+  }
+  
+  .text-responsive-xl {
+    @apply text-xl sm:text-2xl lg:text-3xl;
+  }
+  
+  .text-responsive-2xl {
+    @apply text-2xl sm:text-3xl lg:text-4xl;
+  }
+  
+  .text-responsive-3xl {
+    @apply text-3xl sm:text-4xl lg:text-5xl;
+  }
+  
+  .text-responsive-4xl {
+    @apply text-4xl sm:text-5xl lg:text-6xl;
+  }
+}
+
+/* Padding utilities with responsive scaling */
+@layer utilities {
+  .p-responsive {
+    @apply p-4 sm:p-6 lg:p-8;
+  }
+  
+  .px-responsive {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+  
+  .py-responsive {
+    @apply py-4 sm:py-6 lg:py-8;
+  }
 }
 
 /* Liquid Glass Background Animation */

@@ -43,7 +43,8 @@ export const OptimizedImage = memo(function OptimizedImage({
     onLoad?.();
   };
 
-  const handleError = () => {
+  const handleError = (error?: any) => {
+    console.warn('Image load failed:', { src, error });
     setIsLoading(false);
     setHasError(true);
     onError?.();
