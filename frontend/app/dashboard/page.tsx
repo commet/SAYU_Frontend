@@ -9,11 +9,22 @@ import Image from 'next/image';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
 import { useResponsive } from '@/lib/responsive';
 import { cn } from '@/lib/utils';
+import dynamic from 'next/dynamic';
+
+// Lazy load mobile component
+const MobileDashboard = dynamic(() => import('@/components/mobile/MobileDashboard'), {
+  ssr: false
+});
 
 export default function DashboardPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
   const { isMobile } = useResponsive();
+  
+  // Render mobile component for mobile devices
+  if (isMobile) {
+    return <MobileDashboard />;
+  }
   const [currentTime, setCurrentTime] = useState(new Date());
   const [artworks, setArtworks] = useState<any[]>([]);
 

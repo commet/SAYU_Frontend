@@ -16,6 +16,13 @@ import { getExhibitionRecommendation } from '@/lib/exhibitionRecommendations';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { synergyTable, getSynergyKey } from '@/data/personality-synergy-table';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
+import { useResponsive } from '@/lib/responsive';
+import dynamic from 'next/dynamic';
+
+// Lazy load mobile component
+const MobileCommunity = dynamic(() => import('@/components/mobile/MobileCommunity'), {
+  ssr: false
+});
 
 interface UserMatch {
   id: string;
@@ -48,6 +55,12 @@ export default function CommunityPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
   const { language } = useLanguage();
+  const { isMobile } = useResponsive();
+  
+  // Render mobile component for mobile devices
+  if (isMobile) {
+    return <MobileCommunity />;
+  }
   const [activeTab, setActiveTab] = useState<'matches' | 'exhibitions' | 'forums'>('matches');
   const [selectedMatch, setSelectedMatch] = useState<UserMatch | null>(null);
   const [genderFilter, setGenderFilter] = useState<'all' | 'opposite'>('all');

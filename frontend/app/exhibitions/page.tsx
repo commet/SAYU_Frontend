@@ -4,6 +4,13 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useResponsive } from '@/lib/responsive';
+import dynamic from 'next/dynamic';
+
+// Lazy load mobile component
+const MobileExhibitions = dynamic(() => import('@/components/mobile/MobileExhibitions'), {
+  ssr: false
+});
 import { 
   Calendar, 
   MapPin, 
@@ -44,6 +51,13 @@ interface Exhibition {
 
 export default function ExhibitionsPage() {
   const router = useRouter();
+  const { isMobile } = useResponsive();
+  
+  // Render mobile component for mobile devices
+  if (isMobile) {
+    return <MobileExhibitions />;
+  }
+  
   const [exhibitions, setExhibitions] = useState<Exhibition[]>([]);
   const [filteredExhibitions, setFilteredExhibitions] = useState<Exhibition[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<'all' | 'ongoing' | 'upcoming' | 'ended'>('all');

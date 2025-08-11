@@ -4,6 +4,13 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
+import { useResponsive } from '@/lib/responsive';
+import dynamic from 'next/dynamic';
+
+// Lazy load mobile component
+const MobileProfile = dynamic(() => import('@/components/mobile/MobileProfile'), {
+  ssr: false
+});
 import { followAPI } from '@/lib/follow-api';
 import { getPioneerProfile } from '@/lib/api/pioneer';
 import { PioneerBadge } from '@/components/ui/PioneerBadge';
@@ -150,6 +157,12 @@ export default function ProfilePage() {
   const { language } = useLanguage();
   const { user } = useAuth();
   const router = useRouter();
+  const { isMobile } = useResponsive();
+  
+  // Render mobile component for mobile devices
+  if (isMobile) {
+    return <MobileProfile />;
+  }
   // Temporarily disabled due to API issues
   // const { dashboard } = useGamificationDashboard();
   const dashboard = null;
