@@ -189,8 +189,8 @@ export const AnimalCompanion = ({
   };
 
   const positionClasses = position === 'bottom-left' 
-    ? 'fixed bottom-4 left-4' 
-    : 'fixed bottom-4 right-4';
+    ? 'fixed bottom-24 lg:bottom-4 left-4' 
+    : 'fixed bottom-24 lg:bottom-4 right-4';
 
   return (
     <div className={`${positionClasses} z-40`}>

@@ -15,9 +15,7 @@ import {
   LayoutDashboard,
   Settings,
   LogOut,
-  ChevronRight,
-  Heart,
-  MapPin
+  ChevronRight
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
@@ -30,38 +28,36 @@ interface NavItem {
   requiresAuth?: boolean;
 }
 
-// 하단 탭 바 아이템 (5개 핵심 메뉴)
+// 하단 탭 바 아이템 (5개 핵심 메뉴) - FloatingNav와 동일
 const bottomTabItems: NavItem[] = [
   { icon: Home, label: { en: 'Home', ko: '홈' }, path: '/' },
   { icon: Sparkles, label: { en: 'Quiz', ko: '퀴즈' }, path: '/quiz' },
-  { icon: GalleryVerticalEnd, label: { en: 'Gallery', ko: '갤러리' }, path: '/gallery' },
   { icon: Users, label: { en: 'Community', ko: '커뮤니티' }, path: '/community', requiresAuth: true },
+  { icon: LayoutDashboard, label: { en: 'Dashboard', ko: '대시보드' }, path: '/dashboard', requiresAuth: true },
   { icon: User, label: { en: 'Profile', ko: '프로필' }, path: '/profile', requiresAuth: true },
 ];
 
-// 사이드 드로어 메뉴 아이템 (전체 메뉴)
+// 사이드 드로어 메뉴 아이템 (전체 메뉴) - FloatingNav 구조와 동일하게
 const drawerMenuItems = [
   { 
     title: { en: 'Main', ko: '메인' },
     items: [
       { icon: Home, label: { en: 'Home', ko: '홈' }, path: '/' },
-      { icon: Sparkles, label: { en: 'APT Quiz', ko: 'APT 퀴즈' }, path: '/quiz' },
-      { icon: LayoutDashboard, label: { en: 'Dashboard', ko: '대시보드' }, path: '/dashboard', requiresAuth: true },
+      { icon: Sparkles, label: { en: 'Discover', ko: '탐색' }, path: '/quiz' },
     ]
   },
   {
-    title: { en: 'Art & Exhibition', ko: '예술 & 전시' },
+    title: { en: 'Art Collection', ko: '아트 컬렉션' },
     items: [
-      { icon: GalleryVerticalEnd, label: { en: 'Gallery', ko: '갤러리' }, path: '/gallery' },
-      { icon: Calendar, label: { en: 'Exhibitions', ko: '전시회' }, path: '/exhibitions' },
-      { icon: MapPin, label: { en: 'Exhibition Map', ko: '전시 지도' }, path: '/exhibition-map' },
+      { icon: LayoutDashboard, label: { en: 'Dashboard', ko: '대시보드' }, path: '/dashboard', requiresAuth: true },
+      { icon: GalleryVerticalEnd, label: { en: 'My Collection', ko: '내 컬렉션' }, path: '/gallery', requiresAuth: true },
+      { icon: Calendar, label: { en: 'Exhibitions', ko: '전시회' }, path: '/exhibitions', requiresAuth: true },
     ]
   },
   {
     title: { en: 'Community', ko: '커뮤니티' },
     items: [
       { icon: Users, label: { en: 'Community', ko: '커뮤니티' }, path: '/community', requiresAuth: true },
-      { icon: Heart, label: { en: 'Following', ko: '팔로잉' }, path: '/following', requiresAuth: true },
     ]
   },
   {

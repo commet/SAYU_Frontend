@@ -347,7 +347,7 @@ export const ArtCuratorChatbot = ({
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className={`fixed ${
               position === 'bottom-left' ? 'left-4' : 'right-4'
-            } bottom-24 w-96 h-[600px] bg-white rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden`}
+            } bottom-36 lg:bottom-24 w-96 max-w-[calc(100vw-2rem)] h-[600px] max-h-[70vh] bg-white rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden`}
           >
             {/* Header */}
             <div className="p-4 bg-gradient-to-r from-primary/10 to-primary/5 border-b flex items-center justify-between">

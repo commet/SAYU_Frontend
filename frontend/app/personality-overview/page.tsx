@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -37,7 +37,7 @@ const groupTitles: Record<string, { title: string; subtitle: string }> = {
   SR: { title: '사교적 구상파', subtitle: '함께 구상미술을 감상하는' }
 }
 
-export default function PersonalityOverviewPage() {
+function PersonalityOverviewContent() {
   const [selectedType, setSelectedType] = useState<string | null>(null)
   const [userType, setUserType] = useState<string | null>(null)
   const searchParams = useSearchParams()
@@ -306,5 +306,17 @@ export default function PersonalityOverviewPage() {
         </motion.div>
       )}
     </div>
+  )
+}
+
+export default function PersonalityOverviewPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <div className="text-white">Loading...</div>
+      </div>
+    }>
+      <PersonalityOverviewContent />
+    </Suspense>
   )
 }
