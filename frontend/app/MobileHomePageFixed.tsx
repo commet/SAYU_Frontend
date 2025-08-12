@@ -200,7 +200,7 @@ export default function MobileHomePageFixed() {
           </div>
           
           {/* 메인 텍스트 - 위치를 위로 이동 */}
-          <div className="relative z-10 flex flex-col items-center px-6 pt-20">
+          <div className="relative z-10 flex flex-col items-center px-6 pt-12">
             <motion.h1 
               className={`font-bold text-white/90 text-center ${language === 'ko' ? 'whitespace-nowrap' : 'whitespace-pre-line'}`}
               style={{
