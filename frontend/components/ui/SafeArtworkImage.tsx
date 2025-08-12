@@ -26,7 +26,7 @@ export default function SafeArtworkImage({
   quality = 90,
   sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
   placeholder = "empty",
-  fallbackSrc = "/images/placeholder-artwork.svg"
+  fallbackSrc = "/api/placeholder-image?type=backgrounds&name=gallery-space"
 }: SafeArtworkImageProps) {
   const [imageSrc, setImageSrc] = useState(src);
   const [hasError, setHasError] = useState(false);

@@ -9,6 +9,10 @@ export async function middleware(request: NextRequest) {
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
+    pathname.startsWith('/images') ||
+    pathname.startsWith('/data') ||
+    pathname.startsWith('/icons') ||
+    pathname.startsWith('/manifest') ||
     pathname.includes('.') // static files
   ) {
     return NextResponse.next()

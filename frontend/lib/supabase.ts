@@ -5,6 +5,11 @@ export const supabase = createClient();
 
 // Auth helper functions
 export const signInWithProvider = async (provider: 'google' | 'apple' | 'kakao' | 'discord') => {
+  // Debug logging
+  console.log('🔐 Auth Provider:', provider);
+  console.log('📍 Current Origin:', window.location.origin);
+  console.log('🔄 Redirect URL:', `${window.location.origin}/auth/callback`);
+  
   // Set specific options for Kakao
   const options: any = {
     redirectTo: `${window.location.origin}/auth/callback`,
@@ -24,12 +29,19 @@ export const signInWithProvider = async (provider: 'google' | 'apple' | 'kakao' 
     delete options.scopes;
   }
 
+  console.log('🚀 OAuth Options:', options);
+  
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provider,
     options: options
   });
   
-  if (error) throw error;
+  console.log('✅ OAuth Response:', { data, error });
+  
+  if (error) {
+    console.error('❌ OAuth Error:', error);
+    throw error;
+  }
   return data;
 };
 

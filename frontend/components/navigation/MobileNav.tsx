@@ -119,9 +119,12 @@ export default function MobileNav() {
             <Menu className="w-6 h-6 text-gray-700 dark:text-gray-300" />
           </button>
           
-          <h1 className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <button 
+            onClick={() => router.push('/')}
+            className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hover:opacity-80 transition-opacity touch-manipulation"
+          >
             SAYU
-          </h1>
+          </button>
           
           <div className="w-10" /> {/* 균형을 위한 spacer */}
         </div>

@@ -52,7 +52,7 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchArtworks = async () => {
       try {
-        const response = await fetch('/data/artworks.json');
+        const response = await fetch('/api/artworks');
         const data = await response.json();
         setArtworks(data.artworks || []);
       } catch (error) {

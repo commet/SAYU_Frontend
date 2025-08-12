@@ -117,13 +117,13 @@ export const ArtworkCard: React.FC<ArtworkCardProps> = ({
           transition={{ duration: 0.7, ease: [0.445, 0.050, 0.550, 0.950] }}
         >
           <img
-            src={image || '/images/placeholder-artwork.svg'}
+            src={image || '/api/placeholder-image?type=backgrounds&name=gallery-space'}
             alt={title}
             className="w-full h-full object-cover"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
-              if (target.src !== '/images/placeholder-artwork.svg') {
-                target.src = '/images/placeholder-artwork.svg';
+              if (!target.src.includes('/api/placeholder-image')) {
+                target.src = '/api/placeholder-image?type=backgrounds&name=gallery-space';
               }
             }}
           />

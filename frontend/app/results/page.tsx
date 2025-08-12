@@ -92,7 +92,7 @@ function ResultsContent() {
       if (availableArtists.length === 0) return;
       
       try {
-        const response = await fetch('/data/artworks.json');
+        const response = await fetch('/api/artworks');
         const data = await response.json();
         
         const matchedArtworks = availableArtists.map((artist, index) => {
@@ -103,7 +103,7 @@ function ResultsContent() {
             ...artist,
             matchType,
             bestWork,
-            imageUrl: bestWork?.imageUrl || '/images/placeholder-artwork.svg',
+            imageUrl: bestWork?.imageUrl || '/api/placeholder-image?type=backgrounds&name=gallery-space',
             artworkTitle: bestWork?.title || artist.notableWorks[0] || 'Notable Work'
           };
         });
@@ -115,7 +115,7 @@ function ResultsContent() {
         const fallbackArtworks = availableArtists.map((artist, index) => ({
           ...artist,
           matchType: index === 0 ? 'primary' : index === 1 ? 'secondary' : 'tertiary',
-          imageUrl: '/images/placeholder-artwork.svg',
+          imageUrl: '/api/placeholder-image?type=backgrounds&name=gallery-space',
           artworkTitle: artist.notableWorks[0] || 'Notable Work'
         }));
         setArtistArtworks(fallbackArtworks);
@@ -364,7 +364,7 @@ function ResultsContent() {
           </button>
           
           <button
-            onClick={() => router.push('/personality-overview')}
+            onClick={() => router.push(`/personality-overview?from=${results.personalityType}`)}
             className="flex items-center justify-center gap-2 px-4 sm:px-6 py-3 bg-white dark:bg-slate-700 border-2 border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-200 rounded-lg hover:border-gray-400 dark:hover:border-slate-500 transition-colors font-medium text-sm sm:text-base"
           >
             <Palette size={18} />

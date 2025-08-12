@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowLeft, X } from 'lucide-react'
 import { SAYU_TYPES } from '@/types/sayu-shared'
 import { personalityAnimals } from '@/data/personality-animals'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 // 타입별 배경 색상
 const typeColors: Record<string, string> = {
@@ -38,6 +39,27 @@ const groupTitles: Record<string, { title: string; subtitle: string }> = {
 
 export default function PersonalityOverviewPage() {
   const [selectedType, setSelectedType] = useState<string | null>(null)
+  const [userType, setUserType] = useState<string | null>(null)
+  const searchParams = useSearchParams()
+
+  // 사용자의 실제 검사 결과 가져오기
+  useEffect(() => {
+    // URL 파라미터에서 type 확인
+    const urlType = searchParams?.get('from')
+    if (urlType) {
+      console.log('URL type:', urlType)
+      setUserType(urlType)
+    } else {
+      // localStorage에서 검사 결과 확인
+      const storedResults = localStorage.getItem('quizResults')
+      console.log('Stored results:', storedResults)
+      if (storedResults) {
+        const parsed = JSON.parse(storedResults)
+        console.log('Parsed type:', parsed.personalityType)
+        setUserType(parsed.personalityType)
+      }
+    }
+  }, [searchParams])
 
   // 그룹별로 타입 분류
   const typesByGroup = {
@@ -64,7 +86,7 @@ export default function PersonalityOverviewPage() {
       <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-gray-700">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link 
-            href="/results"
+            href={userType ? `/results?type=${userType}` : "/results"}
             className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />

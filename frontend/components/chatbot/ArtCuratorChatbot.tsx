@@ -125,13 +125,33 @@ export const ArtCuratorChatbot = ({
         }
       }, 'suggestions');
       
-      // 페이지별 기본 제안사항 설정
+      // 페이지별 기본 제안사항 설정 (2-3개씩)
       const suggestions = contextualSuggestions ? [contextualSuggestions] : 
-        pageContext.type === 'home' ? ['SAYU가 뭔가요?', '어떤 서비스인지 알려주세요'] :
-        pageContext.type === 'gallery' ? ['인상주의 작품 보여주세요', '오늘의 추천 작품은?'] :
-        pageContext.type === 'profile' ? ['내 취향 분석해주세요', '추천 작품 보여주세요'] :
-        currentArtwork ? ['이 작품에 대해 더 알려주세요', '비슷한 작품 추천해주세요'] :
-        ['도움이 필요해요', 'SAYU 사용법 알려주세요'];
+        pageContext.type === 'home' ? [
+          'SAYU가 뭔가요?', 
+          '어떤 서비스인지 알려주세요', 
+          '성격 테스트는 어떻게 하나요?'
+        ] :
+        pageContext.type === 'gallery' ? [
+          '인상주의 작품 보여주세요', 
+          '오늘의 추천 작품은?', 
+          '내 취향에 맞는 작품 찾아주세요'
+        ] :
+        pageContext.type === 'profile' ? [
+          '내 취향 분석해주세요', 
+          '추천 작품 보여주세요', 
+          'APT 유형 설명해주세요'
+        ] :
+        currentArtwork ? [
+          '이 작품에 대해 더 알려주세요', 
+          '비슷한 작품 추천해주세요', 
+          '작가의 다른 작품은?'
+        ] :
+        [
+          '도움이 필요해요', 
+          'SAYU 사용법 알려주세요', 
+          '어떤 질문을 할 수 있나요?'
+        ];
       
       setSuggestions(suggestions);
     } catch (error) {

@@ -13,57 +13,87 @@ export interface Database {
         Row: {
           id: string
           username: string | null
-          email: string
-          personality_type: string | null
-          animal_type: string | null
-          is_premium: boolean
-          is_admin: boolean
-          profile_image: string | null
+          email: string | null
+          avatar_url: string | null
           bio: string | null
           gender: string | null
-          age_group: string | null
+          age_range: string | null
           region: string | null
-          viewing_styles: string[] | null
+          companion_type: string | null
+          profile_completed: boolean | null
           profile_completed_at: string | null
-          profile_completion_version: number | null
+          language: string | null
+          preferences: Json | null
+          points: number | null
+          level: number | null
+          personality_type: string | null
+          animal_type: string | null
+          apt_scores: Json | null
+          apt_completed_at: string | null
+          art_preferences: Json | null
+          personality_traits: Json | null
+          ai_generated_image_url: string | null
+          generated_prompt: string | null
+          style_description: string | null
+          color_palette: Json | null
           created_at: string
           updated_at: string | null
         }
         Insert: {
           id?: string
           username?: string | null
-          email: string
-          personality_type?: string | null
-          animal_type?: string | null
-          is_premium?: boolean
-          is_admin?: boolean
-          profile_image?: string | null
+          email?: string | null
+          avatar_url?: string | null
           bio?: string | null
           gender?: string | null
-          age_group?: string | null
+          age_range?: string | null
           region?: string | null
-          viewing_styles?: string[] | null
+          companion_type?: string | null
+          profile_completed?: boolean | null
           profile_completed_at?: string | null
-          profile_completion_version?: number | null
+          language?: string | null
+          preferences?: Json | null
+          points?: number | null
+          level?: number | null
+          personality_type?: string | null
+          animal_type?: string | null
+          apt_scores?: Json | null
+          apt_completed_at?: string | null
+          art_preferences?: Json | null
+          personality_traits?: Json | null
+          ai_generated_image_url?: string | null
+          generated_prompt?: string | null
+          style_description?: string | null
+          color_palette?: Json | null
           created_at?: string
           updated_at?: string | null
         }
         Update: {
           id?: string
           username?: string | null
-          email?: string
-          personality_type?: string | null
-          animal_type?: string | null
-          is_premium?: boolean
-          is_admin?: boolean
-          profile_image?: string | null
+          email?: string | null
+          avatar_url?: string | null
           bio?: string | null
           gender?: string | null
-          age_group?: string | null
+          age_range?: string | null
           region?: string | null
-          viewing_styles?: string[] | null
+          companion_type?: string | null
+          profile_completed?: boolean | null
           profile_completed_at?: string | null
-          profile_completion_version?: number | null
+          language?: string | null
+          preferences?: Json | null
+          points?: number | null
+          level?: number | null
+          personality_type?: string | null
+          animal_type?: string | null
+          apt_scores?: Json | null
+          apt_completed_at?: string | null
+          art_preferences?: Json | null
+          personality_traits?: Json | null
+          ai_generated_image_url?: string | null
+          generated_prompt?: string | null
+          style_description?: string | null
+          color_palette?: Json | null
           created_at?: string
           updated_at?: string | null
         }

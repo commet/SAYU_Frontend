@@ -1,12 +1,49 @@
-// API Route for artwork recommendations
+// API Route for artwork data and recommendations
 import { NextResponse } from 'next/server';
 import { ArtworkRecommendationEngine } from '@/lib/museums/recommendation-engine';
+import path from 'path';
+import { promises as fs } from 'fs';
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const personalityType = searchParams.get('personality');
     const action = searchParams.get('action');
+    
+    // Handle static data requests first (no action means return all artworks)
+    if (!action) {
+      try {
+        const jsonPath = path.join(process.cwd(), 'public', 'data', 'artworks.json');
+        console.log('Attempting to read artworks from:', jsonPath);
+        const jsonData = await fs.readFile(jsonPath, 'utf8');
+        const data = JSON.parse(jsonData);
+        console.log('Successfully loaded artworks, count:', data.artworks?.length || 0);
+        
+        return NextResponse.json(data, {
+          headers: {
+            'Cache-Control': 'public, max-age=86400, stale-while-revalidate=43200', // Cache for 24h, stale-while-revalidate for 12h
+          },
+        });
+      } catch (error) {
+        console.error('Failed to load artworks.json:', error);
+        // Return a basic fallback structure instead of error
+        return NextResponse.json(
+          { 
+            metadata: { 
+              total: 0, 
+              error: 'Failed to load artworks data' 
+            }, 
+            artworks: [] 
+          },
+          { 
+            status: 200, // Return 200 with empty data instead of 500 error
+            headers: {
+              'Cache-Control': 'no-store', // Don't cache error responses
+            },
+          }
+        );
+      }
+    }
     
     // Initialize recommendation engine (in production, use env var for API key)
     const engine = new ArtworkRecommendationEngine(

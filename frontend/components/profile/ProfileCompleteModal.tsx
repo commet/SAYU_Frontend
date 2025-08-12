@@ -72,12 +72,56 @@ export function ProfileCompleteModal({ isOpen, onClose, onComplete }: ProfileCom
   ];
 
   const handleSubmit = async () => {
-    if (!user) return;
+    console.log('🚀 handleSubmit called');
     
+    if (!user) {
+      console.error('❌ No user found!');
+      toast.error('사용자 정보를 찾을 수 없습니다');
+      setLoading(false);
+      return;
+    }
+    
+    console.log('👤 User found:', user);
     setLoading(true);
+    
     try {
-      const { error } = await supabase
-        .from('users')
+      console.log('🔄 Starting profile update for user:', user.id);
+      console.log('📝 Profile data to save:', {
+        gender,
+        age_range: ageRange,
+        region,
+        companion_type: companionType,
+        profile_completed: true
+      });
+      
+      // First, check if profile exists in the database
+      console.log('🔍 Checking if profile exists in database...');
+      const { data: existingProfile, error: fetchError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+      
+      if (fetchError) {
+        console.error('❌ Error fetching profile:', fetchError);
+        // If profile doesn't exist, it should have been created by trigger
+        // This is an unexpected case, but we'll handle it gracefully
+        if (fetchError.code === 'PGRST116') {
+          console.log('⚠️ Profile not found - this should not happen with auto-creation trigger');
+          toast.error(language === 'ko' 
+            ? '프로필을 찾을 수 없습니다. 다시 로그인해주세요.' 
+            : 'Profile not found. Please log in again.');
+          setLoading(false);
+          return;
+        }
+        throw fetchError;
+      }
+      
+      console.log('✅ Profile exists:', existingProfile);
+      console.log('📤 Updating profile...');
+      
+      const { data, error } = await supabase
+        .from('profiles')
         .update({
           gender,
           age_range: ageRange,
@@ -86,9 +130,21 @@ export function ProfileCompleteModal({ isOpen, onClose, onComplete }: ProfileCom
           profile_completed: true,
           profile_completed_at: new Date().toISOString()
         })
-        .eq('id', user.id);
+        .eq('id', user.id)
+        .select();
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Supabase error details:', {
+          message: error.message,
+          code: error.code,
+          details: error.details,
+          hint: error.hint,
+          fullError: error
+        });
+        throw error;
+      }
+      
+      console.log('✅ Profile updated successfully:', data);
 
       toast.success(
         language === 'ko' 
@@ -96,15 +152,19 @@ export function ProfileCompleteModal({ isOpen, onClose, onComplete }: ProfileCom
           : 'Profile completed! 🎉'
       );
       
-      await refreshUser();
+      // Refresh user data
+      const { data: { user: updatedUser } } = await supabase.auth.getUser();
+      console.log('🔄 User refreshed:', updatedUser);
+      
       onComplete?.();
       onClose();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating profile:', error);
+      const errorMessage = error?.message || error?.details || 'Unknown error';
       toast.error(
         language === 'ko' 
-          ? '프로필 업데이트에 실패했습니다' 
-          : 'Failed to update profile'
+          ? `프로필 업데이트 실패: ${errorMessage}` 
+          : `Failed to update profile: ${errorMessage}`
       );
     } finally {
       setLoading(false);

@@ -14,6 +14,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, metadata?: any) => Promise<void>;
   signOut: () => Promise<void>;
   updateProfile: (updates: Partial<UserProfile>) => Promise<void>;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -332,6 +333,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setProfile(data);
   };
 
+  const refreshUser = async () => {
+    if (!session?.user) {
+      console.log('refreshUser: No session or user');
+      return;
+    }
+
+    try {
+      console.log('refreshUser: Refreshing user data for:', session.user.id);
+      
+      // Fetch updated profile
+      const profile = await fetchProfile(session.user.id);
+      
+      if (profile) {
+        console.log('refreshUser: Updated profile fetched:', profile);
+        setProfile(profile);
+        setUser(createAuthUser(session.user, profile));
+      } else {
+        console.log('refreshUser: No profile found');
+      }
+    } catch (error) {
+      console.error('refreshUser: Error refreshing user data:', error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -343,6 +368,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signUp,
         signOut,
         updateProfile,
+        refreshUser,
       }}
     >
       {children}

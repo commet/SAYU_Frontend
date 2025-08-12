@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Static Files Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        img { max-width: 200px; max-height: 150px; }
+    </style>
+</head>
+<body>
+    <h1>SAYU Static Files Test</h1>
+    
+    <div id="api-test" class="test">
+        <h3>API Artworks Test</h3>
+        <p>Status: <span id="api-status">Testing...</span></p>
+        <div id="api-result"></div>
+    </div>
+    
+    <div id="static-test" class="test">
+        <h3>Static JSON Test</h3>
+        <p>Status: <span id="static-status">Testing...</span></p>
+        <div id="static-result"></div>
+    </div>
+    
+    <div id="image-test" class="test">
+        <h3>Placeholder Image Test</h3>
+        <p>Status: <span id="image-status">Testing...</span></p>
+        <div id="image-result"></div>
+    </div>
+    
+    <div id="placeholder-api-test" class="test">
+        <h3>Placeholder API Test</h3>
+        <p>Status: <span id="placeholder-status">Testing...</span></p>
+        <div id="placeholder-result"></div>
+    </div>
+
+    <script>
+        // Test API artworks endpoint
+        fetch('/api/artworks')
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('api-status').textContent = 'SUCCESS';
+                document.getElementById('api-test').className += ' success';
+                document.getElementById('api-result').innerHTML = `
+                    <p>Loaded ${data.artworks?.length || 0} artworks</p>
+                    <p>Total: ${data.metadata?.total || 0}</p>
+                `;
+            })
+            .catch(error => {
+                document.getElementById('api-status').textContent = 'FAILED: ' + error.message;
+                document.getElementById('api-test').className += ' error';
+            });
+
+        // Test static JSON file
+        fetch('/data/artworks.json')
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('static-status').textContent = 'SUCCESS';
+                document.getElementById('static-test').className += ' success';
+                document.getElementById('static-result').innerHTML = `
+                    <p>Loaded ${data.artworks?.length || 0} artworks directly</p>
+                `;
+            })
+            .catch(error => {
+                document.getElementById('static-status').textContent = 'FAILED: ' + error.message;
+                document.getElementById('static-test').className += ' error';
+            });
+
+        // Test placeholder SVG image
+        const img = new Image();
+        img.onload = function() {
+            document.getElementById('image-status').textContent = 'SUCCESS';
+            document.getElementById('image-test').className += ' success';
+            document.getElementById('image-result').appendChild(img);
+        };
+        img.onerror = function() {
+            document.getElementById('image-status').textContent = 'FAILED: Image not found';
+            document.getElementById('image-test').className += ' error';
+        };
+        img.src = '/images/placeholder-artwork.svg';
+
+        // Test placeholder API
+        const apiImg = new Image();
+        apiImg.onload = function() {
+            document.getElementById('placeholder-status').textContent = 'SUCCESS';
+            document.getElementById('placeholder-api-test').className += ' success';
+            document.getElementById('placeholder-result').appendChild(apiImg);
+        };
+        apiImg.onerror = function() {
+            document.getElementById('placeholder-status').textContent = 'FAILED: API image not found';
+            document.getElementById('placeholder-api-test').className += ' error';
+        };
+        apiImg.src = '/api/placeholder-image?type=backgrounds&name=gallery-space';
+    </script>
+</body>
+</html>

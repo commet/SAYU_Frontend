@@ -90,7 +90,7 @@ function GalleryContent() {
     setLoading(true);
     try {
       // Load artworks from local Cloudinary data
-      const response = await fetch('/data/artworks.json');
+      const response = await fetch('/api/artworks');
       if (!response.ok) {
         throw new Error('Failed to load artwork data');
       }

@@ -28,6 +28,7 @@ import { CategoryFilter, FloatingDock, MobileBottomNav, GalleryStats } from './g
 import { Gallery4 } from '@/components/ui/gallery4';
 import { SayuGalleryGrid } from '@/components/ui/sayu-gallery-grid';
 import { ChevronRight, LayoutGrid, List } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { aptRecommendations } from './sayu-recommendations';
 
 interface UserProfile {
@@ -242,7 +243,48 @@ function GalleryContent() {
     try {
       console.log('Fetching artworks for category:', category);
       
-      // 유저의 APT 유형에 따른 맞춤 추천 작품 가져오기
+      // 먼저 실제 API에서 아트워크 데이터 가져오기
+      const response = await fetch('/api/artworks');
+      const data = await response.json();
+      console.log('API Response:', data);
+      
+      if (data.artworks && data.artworks.length > 0) {
+        // API 데이터 사용
+        const apiArtworks = data.artworks
+          .filter((artwork: any) => {
+            if (category === 'all') return true;
+            // 카테고리 필터링 로직
+            const lowerCategory = category.toLowerCase();
+            return (
+              artwork.department?.toLowerCase().includes(lowerCategory) ||
+              artwork.medium?.toLowerCase().includes(lowerCategory) ||
+              artwork.classification?.toLowerCase().includes(lowerCategory)
+            );
+          })
+          .slice(0, 50) // 최대 50개만
+          .map((artwork: any) => ({
+            id: artwork.objectID || artwork.id,
+            title: artwork.title,
+            artist: artwork.artist || artwork.artistDisplayName || 'Unknown Artist',
+            year: artwork.date || artwork.objectDate || '',
+            imageUrl: artwork.cloudinaryUrl || artwork.primaryImage || artwork.primaryImageSmall || '',
+            museum: artwork.museum || artwork.repository || 'Museum',
+            medium: artwork.medium,
+            department: artwork.department,
+            isPublicDomain: artwork.isPublicDomain !== undefined ? artwork.isPublicDomain : true,
+            license: 'CC0'
+          }))
+          .filter((artwork: any) => artwork.imageUrl); // 이미지가 있는 것만
+        
+        if (apiArtworks.length > 0) {
+          console.log('Using API artworks:', apiArtworks.length);
+          setGalleryArtworks(apiArtworks);
+          setLoadingArtworks(false);
+          return;
+        }
+      }
+      
+      // API 데이터가 없으면 기존 추천 시스템 사용
       const getPersonalizedArtworks = async () => {
         try {
           const { getPersonalizedRecommendations } = await import('./artwork-recommendations');
@@ -254,7 +296,7 @@ function GalleryContent() {
             title: artwork.title,
             artist: artwork.artist,
             year: artwork.year,
-            imageUrl: artwork.cloudinaryUrl || artwork.imageUrl || 'https://via.placeholder.com/400x300',
+            imageUrl: artwork.cloudinaryUrl || artwork.imageUrl,
             museum: artwork.museum || 'SAYU Curated Collection',
             medium: artwork.medium || 'Mixed Media',
             department: artwork.department || category,

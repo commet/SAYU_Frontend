@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Share2, Download, Copy, Check, Instagram, Facebook, Twitter } from 'lucide-react';
+import { X, Download, Copy, Check, Instagram, Facebook } from 'lucide-react';
 // html2canvas will be dynamically imported when download is triggered
 import { useLanguage } from '@/contexts/LanguageContext';
 import { personalityDescriptions } from '@/data/personality-descriptions';
@@ -32,7 +32,7 @@ export default function ShareModal({
   const animal = personalityAnimals[personalityType];
   const gradientStyle = getGradientStyle(personalityType);
 
-  const shareUrl = `https://sayu.vercel.app/results?type=${personalityType}`;
+  const shareUrl = `https://sayu.my/results?type=${personalityType}`;
   
   // Enhanced share text with personality description
   const getShareText = () => {
@@ -69,24 +69,38 @@ Discover your art personality too!`;
     }
   };
 
-  const handleNativeShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'SAYU - 나의 예술 성격',
-          text: shareText,
-          url: shareUrl
-        });
-      } catch (error) {
-        console.error('Error sharing:', error);
-      }
-    }
-  };
-
-  const handleImageShare = async () => {
+  const handleSaveImage = async () => {
     if (!shareCardRef.current) return;
 
     try {
+      // Dynamic import to reduce initial bundle size
+      const { default: html2canvas } = await import('html2canvas');
+      const canvas = await html2canvas(shareCardRef.current, {
+        scale: 4,
+        backgroundColor: null,
+        useCORS: true,
+        width: shareFormat === 'story' ? 1080 : shareFormat === 'feed' ? 1080 : 1080,
+        height: shareFormat === 'story' ? 1920 : shareFormat === 'feed' ? 1080 : 1350
+      });
+      
+      // Download the image
+      const url = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `sayu-${personalityType}-${shareFormat}.png`;
+      a.click();
+    } catch (error) {
+      console.error('Error creating image:', error);
+    }
+  };
+
+  const handleInstagramShare = async () => {
+    if (!shareCardRef.current) return;
+
+    try {
+      // 모바일 체크
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      
       // Dynamic import to reduce initial bundle size
       const { default: html2canvas } = await import('html2canvas');
       const canvas = await html2canvas(shareCardRef.current, {
@@ -101,44 +115,73 @@ Discover your art personality too!`;
         canvas.toBlob((blob) => resolve(blob!), 'image/png');
       });
 
-      if (navigator.share && navigator.canShare({ files: [new File([blob], 'art-personality.png', { type: 'image/png' })] })) {
-        await navigator.share({
-          title: shareText,
-          files: [new File([blob], 'art-personality.png', { type: 'image/png' })]
-        });
-      } else {
-        // Fallback to download
-        const url = canvas.toDataURL('image/png');
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `sayu-${personalityType}-${shareFormat}.png`;
-        a.click();
+      // 모바일에서 Web Share API 사용
+      if (isMobile && navigator.share && navigator.canShare) {
+        const file = new File([blob], 'sayu-art-persona.png', { type: 'image/png' });
+        
+        // 이미지를 공유할 수 있는지 확인
+        if (navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              title: 'SAYU Art Persona',
+              text: shareText + '\n\n' + shareUrl,
+              files: [file]
+            });
+            return; // 공유 성공
+          } catch (error) {
+            // 사용자가 취소한 경우는 무시
+            if ((error as Error).name !== 'AbortError') {
+              console.error('Share failed:', error);
+            }
+          }
+        }
       }
+
+      // 데스크톱 또는 Web Share API를 사용할 수 없는 경우
+      const url = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `sayu-${personalityType}-instagram-${shareFormat}.png`;
+      a.click();
+
+      // 클립보드에 텍스트 복사
+      try {
+        await navigator.clipboard.writeText(shareText + '\n\n' + shareUrl);
+        
+        // 토스트 메시지 표시 (alert 대신)
+        const message = language === 'ko' 
+          ? '이미지가 저장되고 텍스트가 복사되었습니다! 인스타그램에 공유해주세요 📸'
+          : 'Image saved and text copied! Share on Instagram 📸';
+        
+        // 임시 토스트 메시지
+        const toast = document.createElement('div');
+        toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-[200] transition-opacity';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+        
+      } catch (clipboardError) {
+        console.error('Clipboard write failed:', clipboardError);
+        alert(
+          language === 'ko' 
+          ? '이미지가 다운로드되었습니다! 다음 텍스트를 복사해서 사용하세요:\n\n' + shareText + '\n\n' + shareUrl
+          : 'Image downloaded! Copy this text:\n\n' + shareText + '\n\n' + shareUrl
+        );
+      }
+      
     } catch (error) {
       console.error('Error creating image:', error);
     }
   };
 
-  const handlePlatformShare = (platform: string) => {
-    let shareUrlFormatted = '';
+  const handleFacebookShare = () => {
     const encodedText = encodeURIComponent(shareText);
     const encodedUrl = encodeURIComponent(shareUrl);
-
-    switch (platform) {
-      case 'twitter':
-        shareUrlFormatted = `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}&hashtags=SAYU,예술성격,ArtPersonality`;
-        break;
-      case 'facebook':
-        shareUrlFormatted = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`;
-        break;
-      case 'instagram':
-        // Instagram doesn't support direct URL sharing, so we'll provide instructions
-        handleImageShare();
-        return;
-      default:
-        return;
-    }
-
+    const shareUrlFormatted = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`;
     window.open(shareUrlFormatted, '_blank', 'width=600,height=400');
   };
 
@@ -321,7 +364,7 @@ Discover your art personality too!`;
               {/* Platform Buttons */}
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <button
-                  onClick={() => handlePlatformShare('instagram')}
+                  onClick={handleInstagramShare}
                   className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all"
                 >
                   <Instagram className="w-5 h-5" />
@@ -329,15 +372,7 @@ Discover your art personality too!`;
                 </button>
                 
                 <button
-                  onClick={() => handlePlatformShare('twitter')}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-blue-500 text-white hover:bg-blue-600 transition-all"
-                >
-                  <Twitter className="w-5 h-5" />
-                  <span>{language === 'ko' ? '트위터' : 'Twitter'}</span>
-                </button>
-                
-                <button
-                  onClick={() => handlePlatformShare('facebook')}
+                  onClick={handleFacebookShare}
                   className="flex items-center gap-3 p-4 rounded-xl bg-blue-700 text-white hover:bg-blue-800 transition-all"
                 >
                   <Facebook className="w-5 h-5" />
@@ -345,25 +380,12 @@ Discover your art personality too!`;
                 </button>
                 
                 <button
-                  onClick={handleImageShare}
+                  onClick={handleSaveImage}
                   className="flex items-center gap-3 p-4 rounded-xl bg-green-500 text-white hover:bg-green-600 transition-all"
                 >
                   <Download className="w-5 h-5" />
                   <span>{language === 'ko' ? '이미지 저장' : 'Save Image'}</span>
                 </button>
-              </div>
-
-              {/* Native Share and Copy Link */}
-              <div className="grid grid-cols-2 gap-3">
-                {navigator.share && (
-                  <button
-                    onClick={handleNativeShare}
-                    className="flex items-center gap-3 p-4 rounded-xl bg-gray-100 text-gray-900 hover:bg-gray-200 transition-all"
-                  >
-                    <Share2 className="w-5 h-5" />
-                    <span>{language === 'ko' ? '시스템 공유' : 'System Share'}</span>
-                  </button>
-                )}
                 
                 <button
                   onClick={handleCopyLink}

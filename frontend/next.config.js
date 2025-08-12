@@ -50,6 +50,30 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   
+  // Custom headers for static files
+  async headers() {
+    return [
+      {
+        source: '/data/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate',
+          },
+        ],
+      },
+      {
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+  
   // 웹팩 최적화 설정
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {

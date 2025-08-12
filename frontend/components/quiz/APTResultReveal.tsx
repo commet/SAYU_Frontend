@@ -17,6 +17,29 @@ import {
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button-enhanced'
 
+// APT 코드에 따른 동물 이미지 경로 매핑
+const getAnimalImagePath = (aptCode: string): string => {
+  const imageMap: Record<string, string> = {
+    'LAEF': '1. LAEF (Fox).png',
+    'LAEC': '2. LAEC (Cat).png',
+    'LAMF': '3. LAMF (Owl).png',
+    'LAMC': '4. LAMC (Turtle).png',
+    'LREF': '5. LREF (Chameleon).png',
+    'LREC': '6. LREC (Hedgehog).png',
+    'LRMF': '7. LRMF (Octopus).png',
+    'LRMC': '8. LRMC (Beaver).png',
+    'SAEF': '9. SAEF (Butterfly).png',
+    'SAEC': '10. SAEC (Penguin).png',
+    'SAMF': '11. SAMF (Parrot).png',
+    'SAMC': '12. SAMC (Deer).png',
+    'SREF': '13. SREF (Dog).png',
+    'SREC': '14. SREC (Duck).png',
+    'SRMF': '15. SRMF (Elephant).png',
+    'SRMC': '16. SRMC (Eagle).png'
+  };
+  return imageMap[aptCode] || '1. LAEF (Fox).png'; // 기본값으로 Fox 사용
+};
+
 interface APTResultRevealProps {
   aptCode: string // e.g., "LAEF"
   animalName: string // e.g., "여우"
@@ -169,17 +192,19 @@ export default function APTResultReveal({
                       }}
                       className="absolute inset-0 flex items-center justify-center"
                     >
-                      {imageUrl ? (
-                        <img 
-                          src={imageUrl} 
-                          alt={animalName}
-                          className="w-48 h-48 object-contain drop-shadow-2xl"
-                        />
-                      ) : (
-                        <span className="text-[140px] filter drop-shadow-2xl">
-                          {animalEmoji}
-                        </span>
-                      )}
+                      <img 
+                        src={`/images/personality-animals/main/${getAnimalImagePath(aptCode)}`} 
+                        alt={animalName}
+                        className="w-48 h-48 object-contain drop-shadow-2xl"
+                        onError={(e) => {
+                          // 이미지 로드 실패시 이모지로 폴백
+                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                        }}
+                      />
+                      <span className="text-[140px] filter drop-shadow-2xl hidden">
+                        {animalEmoji}
+                      </span>
                     </motion.div>
 
                     {/* APT 코드 배지 */}
@@ -272,9 +297,21 @@ export default function APTResultReveal({
                       repeat: Infinity,
                       ease: "easeInOut"
                     }}
-                    className="text-8xl filter drop-shadow-xl"
+                    className="relative"
                   >
-                    {animalEmoji}
+                    <img 
+                      src={`/images/personality-animals/main/${getAnimalImagePath(aptCode)}`} 
+                      alt={animalName}
+                      className="w-32 h-32 object-contain drop-shadow-xl"
+                      onError={(e) => {
+                        // 이미지 로드 실패시 이모지로 폴백
+                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                      }}
+                    />
+                    <span className="text-8xl filter drop-shadow-xl hidden">
+                      {animalEmoji}
+                    </span>
                   </motion.div>
                 </div>
 

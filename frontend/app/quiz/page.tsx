@@ -51,7 +51,7 @@ export default function QuizIntroPage() {
         transition={{ duration: 0.8, ease: [0.390, 0.575, 0.565, 1.000] }}
         className="relative z-10 max-w-4xl mx-auto px-4 py-4"
       >
-        <GlassCard variant="heavy" className="p-6">
+        <GlassCard variant="heavy" className="p-4 md:p-6">
           {/* Language Toggle removed - now in floating nav */}
 
           <motion.div
@@ -60,16 +60,14 @@ export default function QuizIntroPage() {
             transition={{ delay: 0.3 }}
             className="text-center mb-6"
           >
-            {/* Small museum icon instead of heart */}
+            {/* Journey compass icon */}
             <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 mb-3">
-              <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
+              <Compass className="w-6 h-6 text-indigo-600" />
             </div>
             
-            <h1 className="text-2xl md:text-3xl font-bold mb-3 leading-tight text-gray-900 dark:text-gray-900">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 leading-tight text-gray-900 dark:text-gray-900 whitespace-pre-line">
               {language === 'ko' 
-                ? '당신만의 예술 여정이 시작됩니다' 
+                ? '당신만의 예술 여정이\n시작됩니다' 
                 : 'Your Personal Art Journey Awaits'
               }
             </h1>
@@ -77,9 +75,9 @@ export default function QuizIntroPage() {
             <div className="text-base text-gray-700 dark:text-gray-700 leading-relaxed max-w-2xl mx-auto">
               {language === 'ko' ? (
                 <>
-                  <p className="mb-1">이것은 테스트가 아닙니다.</p>
-                  <p className="mb-2">당신이 아름다움을 경험하는 고유한 방식을 발견하는 여정입니다.</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-600 font-medium italic">미술관을 거닐며 당신만의 예술 취향을 찾아가는 이야기</p>
+                  <p>이것은 테스트가 아닙니다.</p>
+                  <p className="mb-1">당신이 아름다움을 경험하는<br />고유한 방식을 발견하는 여정입니다.</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-600 font-medium italic whitespace-nowrap">미술관을 거닐며 당신만의 예술 취향을 찾아가는 이야기</p>
                 </>
               ) : (
                 <>
@@ -99,26 +97,26 @@ export default function QuizIntroPage() {
           >
             {/* What You'll Discover */}
             <div className="text-center">
-              <h2 className="text-xl font-bold mb-4 flex items-center justify-center gap-2 text-gray-900 dark:text-gray-900">
-                <Compass className="w-6 h-6 text-gray-800 dark:text-gray-800" />
+              <h2 className="text-base md:text-xl font-bold mb-3 flex items-center justify-center gap-2 text-gray-900 dark:text-gray-900">
+                <Compass className="w-5 h-5 md:w-6 md:h-6 text-gray-800 dark:text-gray-800" />
                 {language === 'ko' ? '무엇을 발견하게 될까요?' : 'What You\'ll Discover'}
               </h2>
               
-              <div className="grid md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 gap-2">
                 <motion.div 
                   whileHover={{ y: -4, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <GlassCard variant="light" className="h-full p-4 text-center group">
-                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">🌅</div>
-                    <h3 className="font-semibold text-lg mb-2 text-gray-900 dark:text-gray-900">
-                      {language === 'ko' ? '당신의 관람 스타일' : 'Your Viewing Style'}
+                  <GlassCard variant="default" className="h-full p-2 text-center group">
+                    <div className="text-xl mb-1">👥</div>
+                    <h3 className="font-semibold text-xs mb-1 text-gray-900 dark:text-gray-900">
+                      {language === 'ko' ? '관람 스타일' : 'Viewing Style'}
                     </h3>
-                    <div className="text-sm text-gray-600 whitespace-pre-line">
+                    <div className="text-[10px] text-gray-600 leading-tight">
                       {language === 'ko' 
-                        ? '혼자 조용히,\n또는 함께 나누며' 
-                        : 'Solitary contemplation\nor shared discovery'
+                        ? '혼자 또는 함께' 
+                        : 'Solo or shared'
                       }
                     </div>
                   </GlassCard>
@@ -129,15 +127,15 @@ export default function QuizIntroPage() {
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <GlassCard variant="light" className="h-full p-4 text-center group">
-                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">🎭</div>
-                    <h3 className="font-semibold text-lg mb-2 text-gray-900 dark:text-gray-900">
-                      {language === 'ko' ? '당신의 감상 방식' : 'Your Perception Style'}
+                  <GlassCard variant="default" className="h-full p-2 text-center group">
+                    <div className="text-xl mb-1">🎭</div>
+                    <h3 className="font-semibold text-xs mb-1 text-gray-900 dark:text-gray-900">
+                      {language === 'ko' ? '감상 방식' : 'Perception'}
                     </h3>
-                    <div className="text-sm text-gray-600 whitespace-pre-line">
+                    <div className="text-[10px] text-gray-600 leading-tight">
                       {language === 'ko' 
-                        ? '감정적 몰입\n또는 분석적 이해' 
-                        : 'Emotional immersion\nor analytical understanding'
+                        ? '감정 또는 분석' 
+                        : 'Feel or analyze'
                       }
                     </div>
                   </GlassCard>
@@ -148,15 +146,15 @@ export default function QuizIntroPage() {
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <GlassCard variant="light" className="h-full p-4 text-center group">
-                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">✨</div>
-                    <h3 className="font-semibold text-lg mb-2 text-gray-900 dark:text-gray-900">
-                      {language === 'ko' ? '당신의 예술 언어' : 'Your Art Language'}
+                  <GlassCard variant="default" className="h-full p-2 text-center group">
+                    <div className="text-xl mb-1">✨</div>
+                    <h3 className="font-semibold text-xs mb-1 text-gray-900 dark:text-gray-900">
+                      {language === 'ko' ? '예술 언어' : 'Art Language'}
                     </h3>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-[10px] text-gray-600 leading-tight">
                       {language === 'ko' 
-                        ? '당신에게 말을 거는 작품들' 
-                        : 'The artworks that speak to you'
+                        ? '당신의 작품' 
+                        : 'Your artworks'
                       }
                     </p>
                   </GlassCard>
@@ -165,23 +163,23 @@ export default function QuizIntroPage() {
             </div>
 
             {/* Journey Details */}
-            <GlassCard variant="default" className="mt-6">
-              <div className="flex items-center justify-center gap-8 py-3">
+            <GlassCard variant="light" className="mt-4 py-0">
+              <div className="flex items-center justify-between px-1 md:px-8 py-0.5">
                 <div className="text-center group">
-                  <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">🖼️</div>
-                  <p className="text-sm font-medium text-gray-700">
+                  <div className="text-xl md:text-3xl group-hover:scale-110 transition-transform">🖼️</div>
+                  <p className="text-[11px] md:text-sm font-medium text-gray-700">
                     {language === 'ko' ? '15개의 순간' : '15 Moments'}
                   </p>
                 </div>
-                <div className="text-center group">
-                  <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">⏱️</div>
-                  <p className="text-sm font-medium text-gray-700">
+                <div className="text-center group ml-2">
+                  <div className="text-xl md:text-3xl group-hover:scale-110 transition-transform">⏱️</div>
+                  <p className="text-[11px] md:text-sm font-medium text-gray-700">
                     {language === 'ko' ? '7-10분의 여정' : '7-10 min journey'}
                   </p>
                 </div>
                 <div className="text-center group">
-                  <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">💫</div>
-                  <p className="text-sm font-medium text-gray-700">
+                  <div className="text-xl md:text-3xl group-hover:scale-110 transition-transform">💫</div>
+                  <p className="text-[11px] md:text-sm font-medium text-gray-700">
                     {language === 'ko' ? '깊은 자기 발견' : 'Deep self-discovery'}
                   </p>
                 </div>
@@ -197,16 +195,16 @@ export default function QuizIntroPage() {
           >
             <button
               onClick={startQuiz}
-              className="mx-auto flex items-center gap-2 px-12 py-6 text-lg font-semibold bg-gray-900 dark:bg-gray-900 text-white hover:bg-gray-800 dark:hover:bg-gray-800 rounded-xl transition-all hover:scale-105 active:scale-95"
+              className="mx-auto flex items-center gap-2 px-8 md:px-12 py-4 md:py-6 text-base md:text-lg font-semibold bg-gray-900 dark:bg-gray-900 text-white hover:bg-gray-800 dark:hover:bg-gray-800 rounded-xl transition-all hover:scale-105 active:scale-95"
             >
               <Sparkles className="w-6 h-6 text-white" />
               {language === 'ko' ? '나의 예술 페르소나 알아보기' : 'Discover My Art Persona'}
             </button>
             
-            <p className="mt-6 text-sm text-gray-600 dark:text-gray-600">
+            <p className="mt-4 text-sm text-gray-600 dark:text-gray-600 whitespace-pre-line">
               {language === 'ko' 
-                ? '정답은 없습니다. 오직 당신의 진실한 마음만이 있을 뿐입니다.' 
-                : 'There are no right answers. Only your authentic self.'
+                ? '정답은 없습니다.\n오직 당신의 진실한 마음만이 있을 뿐입니다.' 
+                : 'There are no right answers.\nOnly your authentic self.'
               }
             </p>
           </motion.div>

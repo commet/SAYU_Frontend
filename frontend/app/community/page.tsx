@@ -3027,7 +3027,7 @@ export default function CommunityPage() {
                                     <div className="flex gap-3">
                                       <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
                                         <OptimizedImage
-                                          src="https://images.unsplash.com/photo-1578662996442-48f60103fc31?w=200"
+                                          src="/images/backgrounds/contemporary-gallery-motion-blur-minimal.jpg"
                                           alt="Exhibition"
                                           width={80}
                                           height={80}
@@ -3051,7 +3051,7 @@ export default function CommunityPage() {
                                   </div>
                                   
                                   <button 
-                                    onClick={() => router.push('/gallery')}
+                                    onClick={() => router.push('/exhibitions')}
                                     className="w-full mt-2 bg-gradient-to-r from-cyan-600/80 to-teal-600/80 hover:from-cyan-600 hover:to-teal-600 text-white rounded-lg py-2 text-xs font-semibold transition-all drop-shadow-lg flex items-center justify-center gap-1"
                                   >
                                     <Sparkles className="w-3 h-3" />

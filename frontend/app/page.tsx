@@ -8,8 +8,8 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useResponsive } from '@/lib/responsive';
 import dynamic from 'next/dynamic';
 
-// 모바일 홈페이지 컴포넌트 동적 로드
-const MobileHomePage = dynamic(() => import('./MobileHomePage'), {
+// 모바일 홈페이지 컴포넌트 동적 로드 (Fixed 버전 사용)
+const MobileHomePage = dynamic(() => import('./MobileHomePageFixed'), {
   ssr: false,
   loading: () => (
     <div className="min-h-screen bg-gradient-to-b from-purple-900 to-indigo-600 flex items-center justify-center">

@@ -816,8 +816,45 @@
 
 @media (max-width: 768px) {
   .quiz-content-wrapper {
-    padding: 1.5rem;
+    padding: 0.25rem;
     max-width: 95%;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  
+  .room-plaque-new {
+    top: -40px;
+    right: 0;
+    padding: 10px 16px;
+    font-size: 0.875rem;
+  }
+  
+  .room-plaque-new h3 {
+    font-size: 0.75rem;
+  }
+  
+  .room-plaque-new p {
+    font-size: 0.625rem;
+  }
+  
+  .narrative-setup-box {
+    padding: 1rem 1.25rem;
+    font-size: 0.875rem;
+  }
+  
+  .choice-card-fixed {
+    padding: 1rem 1.25rem;
+    min-height: 80px;
+  }
+  
+  .choice-card-fixed h4 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .choice-card-fixed p {
+    font-size: 0.75rem;
   }
 }
 

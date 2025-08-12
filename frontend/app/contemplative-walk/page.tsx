@@ -87,7 +87,7 @@ export default function ContemplativeWalkPage() {
         title: `Contemplative Work ${i + 1}`,
         artist: 'Various Artists',
         year: '2020-2024',
-        imageUrl: '/images/placeholder-artwork.svg',
+        imageUrl: '/api/placeholder-image?type=backgrounds&name=gallery-space',
         description: 'A work that invites deep contemplation and personal reflection.',
         details: {
           medium: 'Mixed Media',
