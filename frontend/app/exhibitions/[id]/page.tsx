@@ -5,32 +5,24 @@ import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, MapPin, Heart, Eye, Clock, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
-import VenueInfoCard from '@/components/venue/VenueInfoCard';
 
 interface Exhibition {
   id: string;
   title: string;
-  venue_name: string;
-  venue_city: string;
-  start_date: string;
-  end_date: string;
+  venue: string;
+  location: string;
+  startDate: string;
+  endDate: string;
   description: string;
-  tags: string[];
+  image?: string;
+  category?: string;
+  price?: string;
   status: 'ongoing' | 'upcoming' | 'ended';
-  like_count: number;
-  view_count: number;
-  admission_fee: number;
-  source_url?: string;
-  venues: {
-    name: string;
-    city: string;
-    website?: string;
-    instagram?: string;
-  };
+  viewCount?: number;
+  likeCount?: number;
+  distance?: string;
+  featured?: boolean;
 }
-
-// API configuration
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002';
 
 export default function ExhibitionDetailPage() {
   const params = useParams();
@@ -50,12 +42,19 @@ export default function ExhibitionDetailPage() {
   const fetchExhibition = async (id: string) => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/api/exhibitions/${id}`);
-      if (!response.ok) throw new Error('Failed to fetch exhibition');
+      const response = await fetch(`/api/exhibitions/${id}`);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch exhibition');
+      }
       
-      const data = await response.json();
-      setExhibition(data.data);
-      setLikeCount(data.data.like_count);
+      const result = await response.json();
+      if (result.success && result.data) {
+        setExhibition(result.data);
+        setLikeCount(result.data.likeCount || 0);
+      } else {
+        throw new Error('No exhibition data found');
+      }
     } catch (err) {
       setError('전시 정보를 불러오는데 실패했습니다');
       console.error('Error fetching exhibition:', err);
@@ -68,7 +67,7 @@ export default function ExhibitionDetailPage() {
     if (!exhibition) return;
     
     try {
-      const response = await fetch(`${API_BASE_URL}/api/exhibitions/${exhibition.id}/like`, {
+      const response = await fetch(`/api/exhibitions/${exhibition.id}/like`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -76,8 +75,11 @@ export default function ExhibitionDetailPage() {
       });
       
       if (response.ok) {
-        setLiked(!liked);
-        setLikeCount(prev => liked ? prev - 1 : prev + 1);
+        const result = await response.json();
+        if (result.success) {
+          setLiked(!liked);
+          setLikeCount(result.data.likeCount);
+        }
       }
     } catch (err) {
       console.error('Error liking exhibition:', err);
@@ -197,7 +199,7 @@ export default function ExhibitionDetailPage() {
                 <div className="space-y-4 mb-6">
                   <div className="flex items-center gap-3 text-white/80">
                     <Calendar className="w-5 h-5" />
-                    <span>{formatDate(exhibition.start_date)} - {formatDate(exhibition.end_date)}</span>
+                    <span>{formatDate(exhibition.startDate)} - {formatDate(exhibition.endDate)}</span>
                   </div>
                   
                   <div className="flex items-center gap-3 text-white/80">
@@ -212,27 +214,29 @@ export default function ExhibitionDetailPage() {
                   </p>
                 </div>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mt-6">
-                  {exhibition.tags.map(tag => (
-                    <span
-                      key={tag}
-                      className="bg-white/20 px-3 py-1 rounded-full text-sm text-white"
-                    >
-                      {tag}
+                {/* Category */}
+                {exhibition.category && (
+                  <div className="flex flex-wrap gap-2 mt-6">
+                    <span className="bg-white/20 px-3 py-1 rounded-full text-sm text-white">
+                      {exhibition.category}
                     </span>
-                  ))}
-                </div>
+                  </div>
+                )}
               </div>
 
               {/* Sidebar */}
               <div className="space-y-6">
                 {/* Venue Information */}
-                <VenueInfoCard 
-                  venueName={exhibition.venues.name}
-                  venueCity={exhibition.venues.city}
-                  venueWebsite={exhibition.venues.website}
-                />
+                <div className="bg-white/10 rounded-xl p-6">
+                  <h3 className="text-lg font-semibold text-white mb-4">장소 정보</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-white/80">
+                      <MapPin className="w-4 h-4" />
+                      <span>{exhibition.venue}</span>
+                    </div>
+                    <p className="text-sm text-white/60">{exhibition.location}</p>
+                  </div>
+                </div>
 
                 {/* Stats */}
                 <div className="bg-white/10 rounded-xl p-6">
@@ -243,7 +247,7 @@ export default function ExhibitionDetailPage() {
                         <Eye className="w-4 h-4" />
                         조회수
                       </span>
-                      <span className="text-white font-semibold">{exhibition.view_count}</span>
+                      <span className="text-white font-semibold">{exhibition.viewCount}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-white/80 flex items-center gap-2">
@@ -269,36 +273,13 @@ export default function ExhibitionDetailPage() {
                     {liked ? '좋아요 취소' : '좋아요'}
                   </button>
 
-                  {exhibition.venues.website && (
-                    <a
-                      href={exhibition.venues.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-purple-600 text-white font-semibold hover:bg-purple-700 transition-colors"
-                    >
-                      <ExternalLink className="w-5 h-5" />
-                      미술관 홈페이지
-                    </a>
-                  )}
-
-                  {exhibition.source_url && (
-                    <a
-                      href={exhibition.source_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors"
-                    >
-                      <ExternalLink className="w-5 h-5" />
-                      원본 소스
-                    </a>
-                  )}
                 </div>
 
                 {/* Admission */}
                 <div className="bg-white/10 rounded-xl p-6">
                   <h3 className="text-lg font-semibold text-white mb-4">입장료</h3>
                   <p className="text-white/80">
-                    {exhibition.admission_fee === 0 ? '무료' : `${exhibition.admission_fee.toLocaleString()}원`}
+                    {exhibition.price || '정보 없음'}
                   </p>
                 </div>
               </div>
