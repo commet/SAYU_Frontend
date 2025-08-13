@@ -105,8 +105,8 @@ export default function MobileNav() {
   return (
     <>
       {/* 모바일 상단 헤더 */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
-        <div className="flex items-center justify-between px-4 py-3">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-gray-900/95 backdrop-blur-md border-b border-gray-800">
+        <div className="flex items-center justify-between px-4 py-2">
           <button 
             onClick={() => setIsDrawerOpen(true)}
             className="p-2 -ml-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors touch-manipulation"

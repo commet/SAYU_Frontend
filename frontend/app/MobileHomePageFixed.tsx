@@ -97,7 +97,7 @@ const testimonials = [
     name_en: "James",
     aptType: "SREC",
     emoji: "🦆",
-    quote: "전시 동행 매칭으로 만난 친구와 매주 미술관을 가요. 혼자서는 발견하지 못했을 작품들을 함께 감상하니 더 풍부해져요.",
+    quote: "전시 동행 매칭으로 만난 친구와 매주 미술관을 가요.\n혼자서는 발견하지 못했을 작품들을 함께 감상하니 더 풍부해져요.",
     quote_en: "Weekly museum visits with my exhibition companion opened my eyes to artworks I'd never have discovered alone."
   },
   {
@@ -105,7 +105,7 @@ const testimonials = [
     name_en: "Sarah",
     aptType: "LAMF",
     emoji: "🦉",
-    quote: "AI 상담사와 대화하면서 제가 왜 특정 작품에 끌리는지 알게 되었어요. 예술이 제 마음의 거울이 되어주고 있어요.",
+    quote: "AI 상담사와 대화하면서 제가 왜 특정 작품에 끌리는지 알게 되었어요.\n예술이 제 마음의 거울이 되어주고 있어요.",
     quote_en: "Through conversations with the AI counselor, I learned why I'm drawn to certain artworks. Art has become a mirror to my heart."
   }
 ];
@@ -128,7 +128,7 @@ export default function MobileHomePageFixed() {
   return (
     <div 
       ref={containerRef}
-      className="h-screen overflow-y-auto snap-y snap-mandatory relative"
+      className="h-screen overflow-y-auto snap-y snap-mandatory relative -mt-14"
       style={{
         scrollBehavior: 'smooth',
         WebkitOverflowScrolling: 'touch',
@@ -200,7 +200,7 @@ export default function MobileHomePageFixed() {
           </div>
           
           {/* 메인 텍스트 - 위치를 위로 이동 */}
-          <div className="relative z-10 flex flex-col items-center px-6 pt-12">
+          <div className="relative z-10 flex flex-col items-center px-6 pt-28">
             <motion.h1 
               className={`font-bold text-white/90 text-center ${language === 'ko' ? 'whitespace-nowrap' : 'whitespace-pre-line'}`}
               style={{
@@ -300,7 +300,7 @@ export default function MobileHomePageFixed() {
       {/* Scene 2: 미로 속 작품들 - 100vh (배경색 수정: 녹색) */}
       <section className="h-screen w-full snap-start overflow-hidden">
         <div className="relative w-full h-full bg-gradient-to-b from-green-900 to-green-950">
-          <div className="h-full flex flex-col p-4">
+          <div className="h-full flex flex-col p-4 pt-12">
             {/* 헤더 */}
             <div className="text-center mb-3">
               <h2 className="text-white font-bold" style={{ fontSize: mobileClamp(22, 26, 30) }}>
@@ -411,7 +411,7 @@ export default function MobileHomePageFixed() {
       {/* Scene 3: 다른 사람들과의 만남 - 100vh with 3 testimonials */}
       <section className="h-screen w-full snap-start overflow-hidden">
         <div className="relative w-full h-full bg-gradient-to-b from-green-800 to-green-900">
-          <div className="h-full flex flex-col p-4">
+          <div className="h-full flex flex-col p-4 pt-12">
             {/* 타이틀 */}
             <div className="text-center mb-3">
               <h2 className="text-white font-bold" style={{ fontSize: mobileClamp(20, 24, 28) }}>
@@ -428,21 +428,19 @@ export default function MobileHomePageFixed() {
             </div>
             
             {/* 3명의 testimonials */}
-            <div className="flex flex-col gap-2 mb-2">
+            <div className="flex flex-col gap-1.5 mb-2">
               {testimonials.map((testimonial, i) => (
                 <motion.div
                   key={i}
-                  className={`bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-center ${
-                    language === 'en' ? 'py-1.5 px-2' : 'p-2'
-                  }`}
+                  className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-center py-1.5 px-2"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + i * 0.1 }}
                 >
-                  <div className="mb-1">
-                    <span className="text-xl">{testimonial.emoji}</span>
+                  <div className="mb-0.5">
+                    <span className="text-lg">{testimonial.emoji}</span>
                   </div>
-                  <p className="text-white/90 text-xs mb-1.5 leading-normal whitespace-pre-line italic">
+                  <p className="text-white/90 text-xs mb-1 leading-snug whitespace-pre-line italic">
                     "{language === 'ko' ? testimonial.quote : testimonial.quote_en}"
                   </p>
                   <div className="flex items-center justify-center gap-2">

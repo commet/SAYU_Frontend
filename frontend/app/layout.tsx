@@ -94,7 +94,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} min-h-screen transition-colors`}>
+      <body className={`${inter.className} min-h-screen transition-colors bg-gray-900`}>
         <Providers>
           <SystemInitializer />
           {/* Temporarily disabled for debugging
@@ -108,7 +108,7 @@ export default function RootLayout({
           <div className="lg:hidden">
             <MobileNav />
           </div>
-          <main className="pt-0 pb-20 lg:pt-4 lg:pb-4 bg-gray-900">
+          <main className="pb-20 lg:pt-4 lg:pb-4 bg-gray-900">
             {children}
           </main>
           <ProgressivePrompt />
