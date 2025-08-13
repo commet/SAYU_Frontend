@@ -2,6 +2,11 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
+  // TEMPORARY: Skip all authentication checks
+  // TODO: Re-enable authentication after backend deployment
+  return NextResponse.next()
+  
+  /* Original authentication code - commented out temporarily
   // Skip middleware for Next.js internal routes and static files
   const pathname = request.nextUrl.pathname
   
@@ -25,6 +30,7 @@ export async function middleware(request: NextRequest) {
   }
 
   return await updateSession(request)
+  */
 }
 
 export const config = {
