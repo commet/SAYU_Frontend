@@ -76,7 +76,7 @@ export default function QuizIntroPage() {
               {language === 'ko' ? (
                 <>
                   <p>이것은 테스트가 아닙니다.</p>
-                  <p className="mb-1">당신이 아름다움을 경험하는<br />고유한 방식을 발견하는 여정입니다.</p>
+                  <p className="mb-1">당신이 아름다움을 경험하는 고유한 방식을 발견하는 여정입니다.</p>
                   <p className="text-xs text-gray-600 dark:text-gray-600 font-medium italic whitespace-nowrap">미술관을 거닐며 당신만의 예술 취향을 찾아가는 이야기</p>
                 </>
               ) : (

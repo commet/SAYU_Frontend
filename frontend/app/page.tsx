@@ -467,7 +467,7 @@ export default function JourneyHomePage() {
                 </motion.div>
                 
                 {/* 미로 출구 문 */}
-                <div className="relative w-56 h-72 rounded-t-full bg-gradient-to-t from-gray-800/40 via-gray-600/30 to-white/60 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center overflow-hidden">
+                <div className="relative w-72 h-96 rounded-t-full bg-gradient-to-t from-gray-800/40 via-gray-600/30 to-white/60 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center overflow-hidden">
                   {/* 문틀 효과 */}
                   <div className="absolute inset-2 rounded-t-full border border-white/20" />
                   
@@ -493,14 +493,14 @@ export default function JourneyHomePage() {
                         ease: "easeInOut"
                       }}
                     >
-                      <p className="text-white/90 font-bold text-2xl mb-2 whitespace-nowrap">
+                      <p className="text-white/90 font-bold text-3xl mb-3 whitespace-nowrap">
                         {language === 'ko' ? '당신의 시작점' : 'Begin Here'}
                       </p>
-                      <p className="text-white/80 text-base mb-3 whitespace-nowrap">
+                      <p className="text-white/80 text-lg mb-4 whitespace-nowrap">
                         {language === 'ko' ? '모든 나를 만나는 여정' : 'Discover Your Many Selves'}
                       </p>
-                      <div className="bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 border border-white/20">
-                        <p className="text-white/90 text-sm font-medium whitespace-nowrap">
+                      <div className="bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 border border-white/20">
+                        <p className="text-white/90 text-base font-medium whitespace-nowrap">
                           {language === 'ko' ? '16가지 예술 성향 테스트' : '16 Art Personality Test'}
                         </p>
                       </div>
@@ -508,7 +508,7 @@ export default function JourneyHomePage() {
                   </div>
                   
                   {/* 문 손잡이 */}
-                  <div className="absolute right-4 top-1/2 w-3 h-3 rounded-full bg-white/60 shadow-lg" />
+                  <div className="absolute right-6 top-1/2 w-4 h-4 rounded-full bg-white/60 shadow-lg" />
                 </div>
                 
                 {/* 빛의 파문 효과 */}

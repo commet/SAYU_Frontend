@@ -89,29 +89,56 @@ export default function AuthCallbackPage() {
       }
       
       if (code) {
-        console.log('Found OAuth code, exchanging for session...');
+        console.log('Found OAuth code:', code);
+        console.log('Full URL:', window.location.href);
         setStatus('Exchanging authorization code...');
         
-        // Exchange code for session (PKCE flow)
-        const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-        
-        if (data?.session) {
-          console.log('Session created from code exchange!');
-          console.log('User:', data.session.user.email);
+        try {
+          // Exchange code for session (PKCE flow)
+          const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
           
-          // Migrate quiz results
-          try {
-            const { migrateLocalQuizResults } = await import('@/lib/quiz-api');
-            await migrateLocalQuizResults();
-            console.log('Quiz results migrated');
-          } catch (error) {
-            console.error('Failed to migrate quiz results:', error);
+          console.log('Exchange response:', { data, error: exchangeError });
+          
+          if (exchangeError) {
+            console.error('Exchange error details:', {
+              message: exchangeError.message,
+              status: exchangeError.status,
+              name: exchangeError.name,
+              cause: exchangeError.cause
+            });
+            setStatus(`Authentication failed: ${exchangeError.message}`);
+            
+            // Wait a bit before redirecting to login
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            router.push(`/login?error=${encodeURIComponent(exchangeError.message)}`);
+            return;
           }
           
-          router.push('/profile');
-          return;
-        } else {
-          console.error('Failed to exchange code:', exchangeError);
+          if (data?.session) {
+            console.log('Session created from code exchange!');
+            console.log('User:', data.session.user.email || data.session.user.user_metadata?.email || 'No email');
+            console.log('Provider:', data.session.user.app_metadata?.provider);
+            
+            // Migrate quiz results
+            try {
+              const { migrateLocalQuizResults } = await import('@/lib/quiz-api');
+              await migrateLocalQuizResults();
+              console.log('Quiz results migrated');
+            } catch (error) {
+              console.error('Failed to migrate quiz results:', error);
+            }
+            
+            router.push('/profile');
+            return;
+          } else {
+            console.log('No session in exchange response');
+            setStatus('No session created. Please try again.');
+          }
+        } catch (err) {
+          console.error('Unexpected error during code exchange:', err);
+          setStatus('Unexpected error. Please try again.');
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          router.push('/login?error=exchange_failed');
         }
       }
       
