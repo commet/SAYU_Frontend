@@ -5,6 +5,11 @@ export async function middleware(request: NextRequest) {
   // Skip middleware for Next.js internal routes and static files
   const pathname = request.nextUrl.pathname
   
+  // Skip for auth callback route - it needs to process OAuth responses
+  if (pathname.startsWith('/auth/callback')) {
+    return NextResponse.next()
+  }
+  
   // Skip for API routes, static files, and Next.js internals
   if (
     pathname.startsWith('/_next') ||

@@ -77,7 +77,7 @@ export default function AuthCallbackPage() {
         }
       }
       
-      // Check for OAuth code (authorization code flow)
+      // Check for OAuth code (authorization code flow / PKCE)
       const urlParams = new URLSearchParams(window.location.search);
       const code = urlParams.get('code');
       const error = urlParams.get('error');
@@ -89,8 +89,30 @@ export default function AuthCallbackPage() {
       }
       
       if (code) {
-        console.log('Found OAuth code, but using implicit flow instead');
-        // For implicit flow, we don't need to exchange code
+        console.log('Found OAuth code, exchanging for session...');
+        setStatus('Exchanging authorization code...');
+        
+        // Exchange code for session (PKCE flow)
+        const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+        
+        if (data?.session) {
+          console.log('Session created from code exchange!');
+          console.log('User:', data.session.user.email);
+          
+          // Migrate quiz results
+          try {
+            const { migrateLocalQuizResults } = await import('@/lib/quiz-api');
+            await migrateLocalQuizResults();
+            console.log('Quiz results migrated');
+          } catch (error) {
+            console.error('Failed to migrate quiz results:', error);
+          }
+          
+          router.push('/profile');
+          return;
+        } else {
+          console.error('Failed to exchange code:', exchangeError);
+        }
       }
       
       // Final check for session
