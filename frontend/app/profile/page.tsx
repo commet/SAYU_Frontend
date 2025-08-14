@@ -292,6 +292,8 @@ export default function ProfilePage() {
     localStorage.setItem('profile_complete_modal_dismissed', 'true');
   };
 
+  // TEMPORARY: Login check disabled for testing
+  /*
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center sayu-gradient-bg">
@@ -338,6 +340,7 @@ export default function ProfilePage() {
       </div>
     );
   }
+  */
 
   return (
     <div className="min-h-screen sayu-gradient-bg p-4">
