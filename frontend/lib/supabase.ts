@@ -5,14 +5,19 @@ export const supabase = createClient();
 
 // Auth helper functions
 export const signInWithProvider = async (provider: 'google' | 'apple' | 'kakao' | 'discord') => {
+  // Get the correct redirect URL based on environment
+  const redirectUrl = process.env.NEXT_PUBLIC_APP_URL 
+    ? `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
+    : `${window.location.origin}/auth/callback`;
+  
   // Debug logging
   console.log('🔐 Auth Provider:', provider);
-  console.log('📍 Current Origin:', window.location.origin);
-  console.log('🔄 Redirect URL:', `${window.location.origin}/auth/callback`);
+  console.log('📍 App URL:', process.env.NEXT_PUBLIC_APP_URL);
+  console.log('🔄 Redirect URL:', redirectUrl);
   
   // Set specific options for Kakao
   const options: any = {
-    redirectTo: `${window.location.origin}/auth/callback`,
+    redirectTo: redirectUrl,
     queryParams: {
       access_type: 'offline',
       prompt: 'consent',
@@ -47,14 +52,19 @@ export const signInWithProvider = async (provider: 'google' | 'apple' | 'kakao' 
 
 // Instagram 로그인 - Facebook 앱에서 email 권한 활성화됨
 export const signInWithInstagram = async () => {
+  // Get the correct redirect URL based on environment
+  const redirectUrl = process.env.NEXT_PUBLIC_APP_URL 
+    ? `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
+    : `${window.location.origin}/auth/callback`;
+    
   console.log('Starting Instagram/Facebook login...');
-  console.log('Redirect URL:', `${window.location.origin}/api/auth/callback`);
+  console.log('Redirect URL:', redirectUrl);
   
   try {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'facebook',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: redirectUrl,
         skipBrowserRedirect: false,
         queryParams: {
           scope: 'email,public_profile', // Facebook 앱에서 email 권한 활성화함

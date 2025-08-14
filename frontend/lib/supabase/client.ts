@@ -19,7 +19,7 @@ export function createClient() {
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: true,
-      flowType: 'implicit', // Changed from 'pkce' to 'implicit' for Facebook OAuth
+      flowType: 'pkce', // Using PKCE for better security
       storage: typeof window !== 'undefined' ? window.localStorage : undefined,
       storageKey: 'sayu-auth',
     }
