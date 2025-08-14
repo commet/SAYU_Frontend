@@ -27,8 +27,12 @@ import {
   List, 
   Star, 
   Users, 
-  Ticket 
+  Ticket,
+  BookOpen,
+  Camera,
+  Edit
 } from 'lucide-react';
+import ExhibitionRecordModal from '@/components/exhibitions/ExhibitionRecordModal';
 
 interface Exhibition {
   id: string;
@@ -56,6 +60,25 @@ interface Exhibition {
 export default function ExhibitionsPage() {
   const router = useRouter();
   const { isMobile } = useResponsive();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-cover bg-center bg-fixed flex items-center justify-center relative"
+           style={{ backgroundImage: 'url("/images/backgrounds/stone-gallery-entrance-solitary-figure.jpg")' }}>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />
+        <div className="relative z-10 text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-white/30 border-t-white mx-auto mb-4"></div>
+          <p className="text-white/80 text-sm">로딩 중...</p>
+        </div>
+      </div>
+    );
+  }
   
   // Render mobile component for mobile devices
   if (isMobile) {
@@ -72,13 +95,33 @@ export default function ExhibitionsPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
   const [loading, setLoading] = useState(true);
   const [popularExhibitions, setPopularExhibitions] = useState<Exhibition[]>([]);
+  const [activeTab, setActiveTab] = useState<'explore' | 'archive'>('explore');
+  const [exhibitionRecords, setExhibitionRecords] = useState<any[]>([]);
+  const [showRecordModal, setShowRecordModal] = useState(false);
+  const [selectedExhibition, setSelectedExhibition] = useState<Exhibition | null>(null);
+
+  // Load exhibition records from localStorage
+  useEffect(() => {
+    const savedRecords = localStorage.getItem('exhibitionRecords');
+    if (savedRecords) {
+      setExhibitionRecords(JSON.parse(savedRecords));
+    }
+  }, []);
 
   useEffect(() => {
     const fetchExhibitions = async () => {
       try {
         setLoading(true);
+        // Add timeout to prevent infinite loading
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+        
         // Fetch from Supabase API
-        const response = await fetch('/api/exhibitions?limit=100');
+        const response = await fetch('/api/exhibitions?limit=100', {
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
         
         if (!response.ok) {
           const errorData = await response.json();
@@ -103,7 +146,11 @@ export default function ExhibitionsPage() {
           }
         }
       } catch (error) {
-        console.error('Error fetching exhibitions:', error);
+        if (error instanceof Error && error.name === 'AbortError') {
+          console.error('Request timeout - API took too long to respond');
+        } else {
+          console.error('Error fetching exhibitions:', error);
+        }
         setExhibitions([]);
         setFilteredExhibitions([]);
       } finally {
@@ -195,6 +242,20 @@ export default function ExhibitionsPage() {
     setCities(uniqueCities);
   }, [exhibitions]);
 
+  // Handle record exhibition
+  const handleRecord = (exhibition: Exhibition, event: React.MouseEvent) => {
+    event.stopPropagation();
+    setSelectedExhibition(exhibition);
+    setShowRecordModal(true);
+  };
+
+  // Save exhibition record
+  const saveExhibitionRecord = (record: any) => {
+    const updatedRecords = [...exhibitionRecords, record];
+    setExhibitionRecords(updatedRecords);
+    localStorage.setItem('exhibitionRecords', JSON.stringify(updatedRecords));
+  };
+
   // Handle like/unlike exhibition
   const handleLike = async (exhibitionId: string, event: React.MouseEvent) => {
     event.stopPropagation(); // Prevent navigation when clicking like button
@@ -253,15 +314,30 @@ export default function ExhibitionsPage() {
       nearby: nearbyCount
     });
 
-    // Fetch popular exhibitions
-    fetch('/api/exhibitions/popular?limit=5')
-      .then(res => res.json())
-      .then(result => {
-        if (result.success && result.data) {
-          setPopularExhibitions(result.data);
+    // Fetch popular exhibitions with timeout
+    const fetchPopular = async () => {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+        
+        const res = await fetch('/api/exhibitions/popular?limit=5', {
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (res.ok) {
+          const result = await res.json();
+          if (result.data) {
+            setPopularExhibitions(result.data);
+          }
         }
-      })
-      .catch(err => console.error('Failed to fetch popular exhibitions:', err));
+      } catch (err) {
+        console.error('Failed to fetch popular exhibitions:', err);
+      }
+    };
+    
+    fetchPopular();
   }, [exhibitions]);
 
   if (loading) {
@@ -424,7 +500,46 @@ export default function ExhibitionsPage() {
           </motion.div>
         )}
 
-        {/* Filters and Search */}
+        {/* Tab Navigation */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="mb-6"
+        >
+          <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-1 flex gap-1">
+            <button
+              onClick={() => setActiveTab('explore')}
+              className={`flex-1 py-3 px-6 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
+                activeTab === 'explore' 
+                  ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg' 
+                  : 'text-gray-300 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              <Search className="w-5 h-5" />
+              전시 탐색
+            </button>
+            <button
+              onClick={() => setActiveTab('archive')}
+              className={`flex-1 py-3 px-6 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
+                activeTab === 'archive' 
+                  ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg' 
+                  : 'text-gray-300 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              <BookOpen className="w-5 h-5" />
+              내 아카이브 
+              {exhibitionRecords.length > 0 && (
+                <span className="ml-1 px-2 py-0.5 bg-purple-500/30 rounded-full text-xs">
+                  {exhibitionRecords.length}
+                </span>
+              )}
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Filters and Search - Only show in explore tab */}
+        {activeTab === 'explore' && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -579,8 +694,10 @@ export default function ExhibitionsPage() {
             </div>
           </div>
         </motion.div>
+        )}
 
-        {/* Exhibition List */}
+        {/* Exhibition List - Show in explore tab */}
+        {activeTab === 'explore' && (
         <AnimatePresence mode="wait">
           {viewMode === 'grid' && (
             <motion.div
@@ -652,7 +769,16 @@ export default function ExhibitionsPage() {
                           {exhibition.likeCount?.toLocaleString() || 0}
                         </span>
                       </div>
-                      <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-purple-300 transition-colors" />
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={(e) => handleRecord(exhibition, e)}
+                          className="p-2 bg-purple-600/20 hover:bg-purple-600/30 rounded-lg transition-colors"
+                          title="기록하기"
+                        >
+                          <Edit className="w-4 h-4 text-purple-400" />
+                        </button>
+                        <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-purple-300 transition-colors" />
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -759,7 +885,138 @@ export default function ExhibitionsPage() {
             <p className="text-gray-500 text-sm">다른 검색어나 필터를 시도해보세요</p>
           </motion.div>
         )}
+        </AnimatePresence>
+        )}
+
+        {/* Archive View */}
+        {activeTab === 'archive' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-6"
+          >
+            {exhibitionRecords.length === 0 ? (
+              <div className="text-center py-16">
+                <BookOpen className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-white mb-2">아직 기록된 전시가 없습니다</h3>
+                <p className="text-gray-400 mb-6">전시를 방문하고 나만의 기록을 남겨보세요</p>
+                <button
+                  onClick={() => setActiveTab('explore')}
+                  className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-colors"
+                >
+                  전시 탐색하기
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {/* 통계 카드 */}
+                <div className="grid grid-cols-4 gap-4 mb-6">
+                  <div className="bg-gradient-to-br from-purple-900/30 to-indigo-900/30 rounded-xl p-4 border border-purple-500/20">
+                    <p className="text-3xl font-bold text-white mb-1">{exhibitionRecords.length}</p>
+                    <p className="text-gray-400 text-sm">전시 기록</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 rounded-xl p-4 border border-blue-500/20">
+                    <p className="text-3xl font-bold text-white mb-1">
+                      {exhibitionRecords.reduce((acc, record) => acc + (record.artworks?.length || 0), 0)}
+                    </p>
+                    <p className="text-gray-400 text-sm">작품 기록</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-amber-900/30 to-orange-900/30 rounded-xl p-4 border border-amber-500/20">
+                    <p className="text-3xl font-bold text-white mb-1">
+                      {(exhibitionRecords.reduce((acc, record) => acc + (record.rating || 0), 0) / exhibitionRecords.length).toFixed(1)}
+                    </p>
+                    <p className="text-gray-400 text-sm">평균 평점</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-green-900/30 to-emerald-900/30 rounded-xl p-4 border border-green-500/20">
+                    <p className="text-3xl font-bold text-white mb-1">
+                      {new Set(exhibitionRecords.map(r => r.exhibitionVenue)).size}
+                    </p>
+                    <p className="text-gray-400 text-sm">방문 장소</p>
+                  </div>
+                </div>
+
+                {/* 기록된 전시 목록 */}
+                <div className="space-y-4">
+                  {exhibitionRecords.sort((a, b) => new Date(b.visitDate).getTime() - new Date(a.visitDate).getTime()).map((record, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-purple-500 transition-all duration-300"
+                    >
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <h3 className="text-xl font-semibold text-white mb-1">{record.exhibitionTitle}</h3>
+                          <p className="text-gray-400 text-sm">{record.exhibitionVenue}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-gray-300 text-sm mb-1">
+                            {new Date(record.visitDate).toLocaleDateString('ko-KR', { 
+                              year: 'numeric', 
+                              month: 'long', 
+                              day: 'numeric' 
+                            })}
+                          </p>
+                          <div className="flex gap-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <Star
+                                key={star}
+                                className={`w-4 h-4 ${
+                                  star <= record.rating 
+                                    ? 'text-yellow-400 fill-yellow-400' 
+                                    : 'text-gray-600'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {record.companions && (
+                        <p className="text-gray-300 text-sm mb-2 flex items-center gap-2">
+                          <Users className="w-4 h-4 text-gray-400" />
+                          {record.companions}와 함께
+                        </p>
+                      )}
+
+                      {record.artworks && record.artworks.length > 0 && (
+                        <div className="mb-3">
+                          <p className="text-gray-400 text-sm mb-2">기록한 작품들:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {record.artworks.map((artwork: any, i: number) => (
+                              <span key={i} className="px-3 py-1 bg-purple-600/20 text-purple-300 rounded-full text-xs">
+                                {artwork.title} - {artwork.artist}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {record.notes && (
+                        <p className="text-gray-300 text-sm italic">"{record.notes}"</p>
+                      )}
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </motion.div>
+        )}
       </div>
+
+      {/* Record Modal */}
+      {selectedExhibition && (
+        <ExhibitionRecordModal
+          exhibition={selectedExhibition}
+          isOpen={showRecordModal}
+          onClose={() => {
+            setShowRecordModal(false);
+            setSelectedExhibition(null);
+          }}
+          onSave={saveExhibitionRecord}
+        />
+      )}
     </div>
   );
 }

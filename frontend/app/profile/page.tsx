@@ -71,17 +71,17 @@ const mockVisits = [
   {
     id: '1',
     exhibitionId: 'ex1',
-    exhibitionTitle: 'MMCA Hyundai Motor Series 2023',
-    museum: 'National Museum of Modern and Contemporary Art',
-    visitDate: '2024-01-15',
+    exhibitionTitle: '론 뮤익',
+    museum: '국립현대미술관 서울',
+    visitDate: '2025-04-20',
     duration: 120,
     rating: 5,
     photos: ['photo1', 'photo2'],
-    notes: 'Amazing exhibition with immersive installations',
+    notes: '거대한 조각 앞에서 압도감을 느꼈다.',
     artworks: [
-      { id: 'a1', title: 'Infinite Space', artist: 'Kim Soun-Gui', liked: true },
-      { id: 'a2', title: 'Time Flows', artist: 'Lee Bul', liked: true },
-      { id: 'a3', title: 'Memory Palace', artist: 'Yang Haegue', liked: false }
+      { id: 'a1', title: '매스', artist: 'Ron Mueck', liked: true },
+      { id: 'a2', title: '젊은 연인', artist: 'Ron Mueck', liked: true },
+      { id: 'a3', title: '쇼핑하는 여인', artist: 'Ron Mueck', liked: false }
     ],
     badges: ['First Visit', 'Art Lover'],
     points: 150
@@ -89,13 +89,14 @@ const mockVisits = [
   {
     id: '2',
     exhibitionId: 'ex2',
-    exhibitionTitle: 'The Future of Art',
-    museum: 'Leeum Samsung Museum',
-    visitDate: '2024-01-10',
+    exhibitionTitle: '한국현대미술 하이라이트',
+    museum: '국립현대미술관 서울',
+    visitDate: '2025-05-10',
     duration: 90,
     rating: 4,
     artworks: [
-      { id: 'a4', title: 'Digital Dreams', artist: 'Nam June Paik', liked: true }
+      { id: 'a4', title: '무제', artist: '이우환', liked: true },
+      { id: 'a5', title: '사이', artist: '서도호', liked: true }
     ],
     points: 100
   }

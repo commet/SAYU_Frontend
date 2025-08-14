@@ -3,11 +3,22 @@ import { createClient } from '@/lib/supabase/server';
 
 export async function GET(request: NextRequest) {
   try {
+    // Check if Supabase environment variables are configured
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      console.error('Supabase environment variables not configured');
+      return NextResponse.json({
+        data: [],
+        exhibitions: [],
+        total: 0,
+        error: 'Database connection not configured'
+      });
+    }
+    
     const supabase = await createClient();
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '100');
     
-    // Fetch exhibitions from Supabase
+    // Fetch exhibitions from Supabase with timeout
     const { data: exhibitions, error } = await supabase
       .from('exhibitions')
       .select('*')
@@ -16,10 +27,13 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Supabase exhibitions error:', error);
-      return NextResponse.json(
-        { error: 'Failed to fetch exhibitions', details: error.message },
-        { status: 500 }
-      );
+      // Return empty data instead of error to prevent frontend crash
+      return NextResponse.json({
+        data: [],
+        exhibitions: [],
+        total: 0,
+        error: error.message
+      });
     }
 
     // Helper function to extract title from description
