@@ -66,8 +66,7 @@ const ART_CATEGORIES = [
   { id: 'sculpture', name: '조각', metDepartment: 12 },
   { id: 'photography', name: '사진', metDepartment: 12 },
   { id: 'asian-art', name: '동양미술', metDepartment: 6 },
-  { id: 'modern', name: '현대미술', metDepartment: 21 },
-  { id: 'contemporary', name: '컨템포러리', metDepartment: 21 }
+  { id: 'modern', name: '현대미술', metDepartment: 21 }
 ];
 
 function GalleryContent() {
@@ -92,7 +91,7 @@ function GalleryContent() {
   const [todayDiscovered, setTodayDiscovered] = useState(0);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [recommendedArtworks, setRecommendedArtworks] = useState<any[]>([]);
-  const [showAllRecommendations, setShowAllRecommendations] = useState(true);
+  const [showAllRecommendations, setShowAllRecommendations] = useState(!isMobile); // 모바일에서는 기본으로 접기
   const [layout, setLayout] = useState<'masonry' | 'grid' | 'list'>('masonry');
   
   // 작품 상세 모달 상태
@@ -131,14 +130,14 @@ function GalleryContent() {
     loadRecommendedArtworks();
   }, [userProfile, selectedCategory]);
 
-  // Auto-expand recommendations for SREF users with 12+ artworks
+  // Auto-expand recommendations for SREF users with 12+ artworks (desktop only)
   useEffect(() => {
     const userType = userProfile?.typeCode || userProfile?.personalityType || user?.aptType || 'SREF';
-    if (userType === 'SREF' && recommendedArtworks.length >= 12) {
+    if (!isMobile && userType === 'SREF' && recommendedArtworks.length >= 12) {
       console.log('🎨 Auto-expanding recommendations for SREF user with', recommendedArtworks.length, 'artworks');
       setShowAllRecommendations(true);
     }
-  }, [recommendedArtworks.length, userProfile, user]);
+  }, [recommendedArtworks.length, userProfile, user, isMobile]);
 
   const fetchUserProfile = async () => {
     try {
@@ -738,7 +737,7 @@ function GalleryContent() {
                 </div>
               </div>
               <button 
-                className="px-4 py-2 bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 rounded-lg text-sm font-medium transition-all duration-200 border border-amber-500/30 hover:border-amber-500/50"
+                className="px-3 py-1.5 bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 rounded-lg text-xs font-medium transition-all duration-200 border border-amber-500/30 hover:border-amber-500/50"
                 onClick={() => toast('🎨 아트 페어 모드는 8월 말에 만나요!', { icon: '🎪' })}
               >
                 알림 받기
@@ -755,32 +754,46 @@ function GalleryContent() {
             transition={{ delay: 0.2 }}
             className="mb-8"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h2 className="text-xl font-semibold mb-1 text-white">
+            <div className={`${isMobile ? 'space-y-3' : 'flex items-center justify-between'} mb-4`}>
+              <div className="w-full">
+                <h2 className={`text-xl font-semibold mb-1 text-white ${isMobile ? '' : 'whitespace-nowrap'}`}>
                   {isGuestMode ? 'SREF 유형 큐레이션 작품' : `${userAptType} 유형을 위한 추천 작품`}
                 </h2>
-                <p className="text-sm text-gray-300 mb-2">
+                <p className={`text-sm text-gray-300 mb-2 ${isMobile ? 'w-full' : ''}`}>
                   {isGuestMode ? 
                     'SREF 유형을 위한 특별 큐레이션 - 인간관계와 따뜻함을 담은 작품들' :
-                    'AI Curator가 당신의 APT 분석을 기반으로 큐레이션한 작품들입니다'
+                    <>
+                      AI Curator가 당신의 APT 분석을 기반으로<br className="md:hidden" />
+                      큐레이션한 작품들입니다
+                    </>
                   }
                 </p>
-                <div className="flex gap-4 text-xs text-white">
-                  <span className="flex items-center gap-1">
+                {isMobile && recommendedArtworks.length > 4 && (
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full rounded-full text-slate-400 hover:text-white hover:bg-slate-800 mb-2"
+                    onClick={() => setShowAllRecommendations(!showAllRecommendations)}
+                  >
+                    {showAllRecommendations ? '접기' : `모든 ${recommendedArtworks.length}개 보기`} 
+                    <ChevronRight className={`w-4 h-4 ml-1 transition-transform ${showAllRecommendations ? 'rotate-90' : ''}`} />
+                  </Button>
+                )}
+                <div className={`${isMobile ? 'flex flex-col gap-1' : 'flex gap-4'} text-xs text-white`}>
+                  <span className="flex items-center gap-1 w-full">
                     ❤️ <strong>좋아요</strong>: AI가 비슷한 작품을 더 추천해줍니다
                   </span>
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1 w-full">
                     📌 <strong>보관하기</strong>: 내 아트 컬렉션에 추가됩니다
                   </span>
                 </div>
               </div>
-              {/* Only show expand/collapse if there are more than 4 artworks */}
-              {recommendedArtworks.length > 4 && (
+              {/* Desktop expand/collapse button */}
+              {!isMobile && recommendedArtworks.length > 4 && (
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="rounded-full text-slate-400 hover:text-white hover:bg-slate-800"
+                  className="rounded-full text-slate-400 hover:text-white hover:bg-slate-800 flex-shrink-0"
                   onClick={() => setShowAllRecommendations(!showAllRecommendations)}
                 >
                   {showAllRecommendations ? '접기' : `모든 ${recommendedArtworks.length}개 보기`} 

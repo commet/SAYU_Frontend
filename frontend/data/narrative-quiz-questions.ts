@@ -235,14 +235,14 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       atmosphere: "depth"
     },
     question: "An experimental installation challenges your perception.\nHow do you engage?",
-    question_ko: "실험적인 설치 작품이 인식의 경계를 시험합니다.\n어떻게 받아들이시겠어요?",
+    question_ko: "실험적인 설치 작품이 호기심을 자극합니다.\n어떻게 받아들이시겠어요?",
     options: [
       {
         id: 'immerse',
         text: "Surrender to the sensory experience",
         text_ko: "감각적 경험에 온전히 몸을 맡깁니다",
         subtext: "Let it wash over you without trying to understand",
-        subtext_ko: "이해하려 애쓰지 않고 그저 받아들입니다",
+        subtext_ko: "이해하려 애쓰지 않고 받아들입니다",
         weight: { A: 3, F: 1 },
         narrative: "You become part of the artwork, your presence completing its purpose.",
         emotional: "transformed"

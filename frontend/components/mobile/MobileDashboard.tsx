@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { 
   Sparkles, Palette, MapPin, Heart, TrendingUp, Calendar, ArrowRight, 
   Zap, Eye, Clock, GalleryVerticalEnd, Home, Users, User, LogOut, 
-  Menu, Star, BookOpen, ChevronRight, MoreVertical
+  Menu, Star, BookOpen, ChevronRight, MoreVertical, BarChart3, Activity
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -99,7 +99,9 @@ export default function MobileDashboard() {
     exhibitionsVisited: 8,
     daysActive: 15,
     savedArtworks: 24,
-    likedArtworks: 87
+    likedArtworks: 87,
+    newExhibitions: 3,  // 새로운 전시 개수
+    communityUpdates: 5  // 커뮤니티 새 글 개수
   };
 
   return (
@@ -147,32 +149,35 @@ export default function MobileDashboard() {
           <div className="bg-black/30 backdrop-blur-sm rounded-lg p-1 flex">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 py-2.5 px-3 rounded-md text-sm font-medium transition-all duration-200 flex items-center justify-center gap-1.5 ${
                 activeTab === 'overview' 
-                  ? 'bg-white/20 text-white' 
-                  : 'text-gray-300'
+                  ? 'bg-white/20 text-white shadow-sm' 
+                  : 'text-gray-300 hover:text-white hover:bg-white/10 active:bg-white/15'
               }`}
             >
+              <BarChart3 className="w-4 h-4" />
               개요
             </button>
             <button
               onClick={() => setActiveTab('activity')}
-              className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 py-2.5 px-3 rounded-md text-sm font-medium transition-all duration-200 flex items-center justify-center gap-1.5 ${
                 activeTab === 'activity' 
-                  ? 'bg-white/20 text-white' 
-                  : 'text-gray-300'
+                  ? 'bg-white/20 text-white shadow-sm' 
+                  : 'text-gray-300 hover:text-white hover:bg-white/10 active:bg-white/15'
               }`}
             >
+              <Activity className="w-4 h-4" />
               활동
             </button>
             <button
               onClick={() => setActiveTab('recommendations')}
-              className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 py-2.5 px-3 rounded-md text-sm font-medium transition-all duration-200 flex items-center justify-center gap-1.5 ${
                 activeTab === 'recommendations' 
-                  ? 'bg-white/20 text-white' 
-                  : 'text-gray-300'
+                  ? 'bg-white/20 text-white shadow-sm' 
+                  : 'text-gray-300 hover:text-white hover:bg-white/10 active:bg-white/15'
               }`}
             >
+              <Sparkles className="w-4 h-4" />
               추천
             </button>
           </div>
@@ -279,7 +284,7 @@ export default function MobileDashboard() {
                       <GalleryVerticalEnd className="w-4 h-4 text-purple-300" />
                       <span className="text-sm">내 갤러리</span>
                     </span>
-                    <span className="text-xs bg-purple-600/30 px-2 py-0.5 rounded">{journeyStats.savedArtworks}</span>
+                    <span className="text-xs bg-purple-600/30 px-2 py-0.5 rounded font-medium">{journeyStats.savedArtworks}</span>
                   </button>
                   <button 
                     onClick={() => router.push('/exhibitions')}
@@ -289,7 +294,11 @@ export default function MobileDashboard() {
                       <MapPin className="w-4 h-4 text-blue-300" />
                       <span className="text-sm">주변 전시</span>
                     </span>
-                    <ChevronRight className="w-4 h-4 text-gray-400" />
+                    {journeyStats.newExhibitions > 0 && (
+                      <span className="text-xs bg-blue-600/30 px-2 py-0.5 rounded font-medium text-blue-200">
+                        {journeyStats.newExhibitions}
+                      </span>
+                    )}
                   </button>
                   <button 
                     onClick={() => router.push('/community')}
@@ -299,7 +308,11 @@ export default function MobileDashboard() {
                       <Users className="w-4 h-4 text-pink-300" />
                       <span className="text-sm">커뮤니티</span>
                     </span>
-                    <ChevronRight className="w-4 h-4 text-gray-400" />
+                    {journeyStats.communityUpdates > 0 && (
+                      <span className="text-xs bg-pink-600/30 px-2 py-0.5 rounded font-medium text-pink-200">
+                        {journeyStats.communityUpdates}
+                      </span>
+                    )}
                   </button>
                   <button 
                     onClick={() => router.push('/artist-portal')}

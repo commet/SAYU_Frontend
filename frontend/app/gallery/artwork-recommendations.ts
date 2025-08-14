@@ -63,8 +63,7 @@ function filterByCategory(artworks: any[], category: string): any[] {
     'sculpture': ['sculpture', 'bronze', 'marble', 'stone', '조각'],
     'photography': ['photograph', 'photo', 'gelatin', 'print', '사진'],
     'asian-art': ['asian', 'korean', 'chinese', 'japanese', '동양'],
-    'modern': ['modern', 'contemporary', 'abstract', '현대', '추상'],
-    'contemporary': ['contemporary', 'installation', 'conceptual', '컨템포러리']
+    'modern': ['modern', 'contemporary', 'abstract', '현대', '추상']
   };
   
   const keywords = categoryKeywords[category] || [];

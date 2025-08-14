@@ -9,6 +9,7 @@ import { personalityDescriptions } from '@/data/personality-descriptions';
 import { personalityAnimals } from '@/data/personality-animals';
 import { personalityGradients, getGradientStyle } from '@/constants/personality-gradients';
 import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
+import { getMasterpieceForAnyPersonality } from '@/data/personality-masterpieces';
 
 interface ShareModalProps {
   personalityType: string;
@@ -31,6 +32,7 @@ export default function ShareModal({
   const personality = personalityDescriptions[personalityType];
   const animal = personalityAnimals[personalityType];
   const gradientStyle = getGradientStyle(personalityType);
+  const masterpiece = getMasterpieceForAnyPersonality(personalityType);
 
   const shareUrl = `https://sayu.my/results?type=${personalityType}`;
   
@@ -249,104 +251,118 @@ Discover your art personality too!`;
               <div className="flex justify-center">
                 <div
                   ref={shareCardRef}
-                  className={`rounded-2xl overflow-hidden shadow-xl ${
+                  className={`rounded-2xl overflow-hidden shadow-xl relative ${
                     shareFormat === 'story' ? 'w-[180px] h-[320px]' :
                     shareFormat === 'feed' ? 'w-[180px] h-[180px]' :
                     'w-[180px] h-[225px]'
                   }`}
-                  style={{ background: gradientStyle }}
+                  style={{
+                    backgroundImage: `url(${masterpiece.imageUrl})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }}
                 >
-                  <div className={`h-full text-white flex flex-col justify-between ${
+                  {/* Dark overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
+                  
+                  <div className={`relative z-10 h-full text-white flex flex-col justify-between ${
                     shareFormat === 'story' ? 'p-4' : 
                     shareFormat === 'feed' ? 'p-3' : 'p-3'
                   }`}>
-                    {/* Top Section */}
+                    {/* Top Section - Minimalist */}
                     <div className="text-center">
-                      <div className="mb-1 flex justify-center">
-                        {animal ? (
-                          <PersonalityAnimalImage 
-                            animal={animal} 
-                            variant="illustration"
-                            size="sm"
-                            showFallback={true}
-                            className={`object-contain drop-shadow-lg ${
-                              shareFormat === 'feed' ? 'w-8 h-8' : 'w-12 h-12'
-                            }`}
-                          />
-                        ) : (
-                          <div className={`drop-shadow-lg ${
-                            shareFormat === 'feed' ? 'text-xl' : 'text-2xl'
-                          }`}>{animal?.emoji}</div>
-                        )}
+                      {/* Animal emoji large and prominent */}
+                      <div className="mb-3">
+                        <div className={`drop-shadow-xl ${
+                          shareFormat === 'feed' ? 'text-3xl' : shareFormat === 'story' ? 'text-5xl' : 'text-4xl'
+                        }`}>{animal?.emoji}</div>
                       </div>
-                      <div className="inline-block bg-white/15 backdrop-blur-sm px-3 py-2 border border-white/20">
-                        <div className={`font-mono font-bold leading-tight ${
-                          shareFormat === 'feed' ? 'text-sm' : shareFormat === 'story' ? 'text-lg' : 'text-base'
-                        }`} style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>{personalityType}</div>
-                        <div className={`font-medium leading-tight ${
-                          shareFormat === 'feed' ? 'text-[10px]' : shareFormat === 'story' ? 'text-sm' : 'text-xs'
-                        }`} style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
-                          {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
-                        </div>
+                      
+                      {/* Personality type - bold and large */}
+                      <div className={`font-black tracking-wider mb-1 ${
+                        shareFormat === 'feed' ? 'text-lg' : shareFormat === 'story' ? 'text-2xl' : 'text-xl'
+                      }`} style={{ 
+                        textShadow: '2px 2px 4px rgba(0,0,0,0.9)',
+                        letterSpacing: '2px'
+                      }}>
+                        {personalityType}
+                      </div>
+                      
+                      {/* Title - clean and readable */}
+                      <div className={`font-medium ${
+                        shareFormat === 'feed' ? 'text-xs' : shareFormat === 'story' ? 'text-sm' : 'text-xs'
+                      }`} style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
+                        "{language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}"
                       </div>
                     </div>
                     
-                    {/* Middle Section */}
+                    {/* Middle Section - Cleaner design */}
                     <div className="text-center flex-1 flex flex-col justify-center mt-2">
                       {shareFormat === 'story' && (
-                        <div className="text-xs leading-tight px-2" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
-                          {language === 'ko' 
-                            ? `"예술 속 감정을 ${personality?.strengths?.[0]?.title_ko === '감정적 건축' ? '건축물처럼 설계하는' : 
-                               personality?.strengths?.[0]?.title_ko === '미세한 감수성' ? '섬세하게 포착하는' :
-                               personality?.strengths?.[0]?.title_ko === '직관적 연결' ? '직관으로 연결하는' :
-                               personality?.strengths?.[0]?.title_ko === '기술적 숙달' ? '해부하듯 분석하는' :
-                               personality?.strengths?.[0]?.title_ko === '패턴 인식' ? '패턴으로 읽어내는' :
-                               '깊이 있게 탐구하는'} 예술 애호가"` 
-                            : `"An art lover who ${personality?.strengths?.[0]?.title === 'Emotional Architecture' ? 'architects emotions' :
-                               personality?.strengths?.[0]?.title === 'Micro Sensitivity' ? 'feels every detail' :
-                               personality?.strengths?.[0]?.title === 'Intuitive Connection' ? 'connects intuitively' :
-                               personality?.strengths?.[0]?.title === 'Technical Mastery' ? 'analyzes deeply' :
-                               personality?.strengths?.[0]?.title === 'Pattern Recognition' ? 'reads patterns' :
-                               'explores deeply'}"`
-                          }
+                        <div className="space-y-2">
+                          {/* Masterpiece info */}
+                          <div className="text-xs opacity-90" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.9)' }}>
+                            <div className="font-medium">{masterpiece.title_ko}</div>
+                            <div className="text-xs opacity-80">{masterpiece.artist_ko}</div>
+                          </div>
+                          {/* Personality tagline */}
+                          <div className="text-xs leading-tight px-2 opacity-90" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
+                            {language === 'ko' 
+                              ? `"${personality?.subtitle_ko || personality?.subtitle || ''}"`
+                              : `"${personality?.subtitle || ''}"`
+                            }
+                          </div>
                         </div>
                       )}
                       {shareFormat === 'feed' && (
-                        <div className="text-[10px] leading-tight px-1" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
-                          {language === 'ko' 
-                            ? `"예술 속 감정을 ${personality?.strengths?.[0]?.title_ko === '감정적 건축' ? '건축물처럼 설계하는' : 
-                               personality?.strengths?.[0]?.title_ko === '미세한 감수성' ? '섬세하게 포착하는' :
-                               personality?.strengths?.[0]?.title_ko === '직관적 연결' ? '직관으로 연결하는' :
-                               personality?.strengths?.[0]?.title_ko === '기술적 숙달' ? '해부하듯 분석하는' :
-                               personality?.strengths?.[0]?.title_ko === '패턴 인식' ? '패턴으로 읽어내는' :
-                               '깊이 있게 탐구하는'} 예술 애호가"` 
-                            : `"An art lover who ${personality?.strengths?.[0]?.title === 'Emotional Architecture' ? 'architects emotions' :
-                               personality?.strengths?.[0]?.title === 'Micro Sensitivity' ? 'feels every detail' :
-                               personality?.strengths?.[0]?.title === 'Intuitive Connection' ? 'connects intuitively' :
-                               personality?.strengths?.[0]?.title === 'Technical Mastery' ? 'analyzes deeply' :
-                               personality?.strengths?.[0]?.title === 'Pattern Recognition' ? 'reads patterns' :
-                               'explores deeply'}"`
-                          }
+                        <div className="space-y-1">
+                          <div className="text-[10px] opacity-90" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.9)' }}>
+                            <div className="font-medium">{masterpiece.title_ko}</div>
+                          </div>
+                          <div className="text-[10px] leading-tight px-1 opacity-90" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
+                            {language === 'ko' 
+                              ? `"${personality?.subtitle_ko || personality?.subtitle || ''}"`
+                              : `"${personality?.subtitle || ''}"`
+                            }
+                          </div>
+                        </div>
+                      )}
+                      {shareFormat === 'card' && (
+                        <div className="space-y-1">
+                          <div className="text-xs opacity-90" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.9)' }}>
+                            <div className="font-medium">{masterpiece.title_ko}</div>
+                            <div className="text-xs opacity-80">{masterpiece.artist_ko}</div>
+                          </div>
                         </div>
                       )}
                     </div>
                     
-                    {/* Bottom Section */}
+                    {/* Bottom Section - Minimal branding */}
                     <div className="text-center">
-                      <div className="pt-3 mt-2" style={{ borderTop: '1px solid rgba(255,255,255,0.3)' }}>
-                        <div className={`font-medium px-1 ${
-                          shareFormat === 'feed' ? 'text-[10px]' : 'text-xs'
-                        }`} style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
+                      <div className="pt-2 mt-1" style={{ borderTop: '1px solid rgba(255,255,255,0.2)' }}>
+                        {/* Clean call-to-action */}
+                        <div className={`font-semibold px-1 mb-1 ${
+                          shareFormat === 'feed' ? 'text-[11px]' : shareFormat === 'story' ? 'text-sm' : 'text-xs'
+                        }`} style={{ 
+                          textShadow: '2px 2px 4px rgba(0,0,0,0.9)',
+                          letterSpacing: '0.5px'
+                        }}>
                           {language === 'ko' ? (
-                            shareFormat === 'feed' ? '예술 페르소나 발견하기' : '예술 페르소나 발견하기'
+                            shareFormat === 'story' ? '나만의 예술 성격 발견하기' : '예술 페르소나 찾기'
                           ) : (
-                            'Find your art persona'
+                            shareFormat === 'story' ? 'Discover Your Art Personality' : 'Find Your Art Persona'
                           )}
                         </div>
-                        <div className={`font-medium mt-1 ${
-                          shareFormat === 'feed' ? 'text-[10px]' : 'text-xs'
-                        }`} style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
-                          SAYU.MY
+                        
+                        {/* Brand mark */}
+                        <div className={`font-bold tracking-wider ${
+                          shareFormat === 'feed' ? 'text-[10px]' : shareFormat === 'story' ? 'text-xs' : 'text-[10px]'
+                        }`} style={{ 
+                          textShadow: '2px 2px 4px rgba(0,0,0,0.9)',
+                          letterSpacing: '2px',
+                          opacity: 0.95
+                        }}>
+                          SAYU
                         </div>
                       </div>
                     </div>

@@ -69,11 +69,11 @@ export default function CollectionsPage() {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <Lock className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-        <h1 className="text-2xl font-bold mb-2">로그인이 필요합니다</h1>
+        <h1 className="text-2xl font-bold mb-2 text-white">로그인이 필요합니다</h1>
         <p className="text-muted-foreground mb-8">
           컬렉션 기능을 사용하려면 로그인해주세요
         </p>
-        <Button onClick={() => window.location.href = '/login'}>
+        <Button onClick={() => window.location.href = '/login'} className="text-black bg-white hover:bg-gray-100">
           로그인하기
         </Button>
       </div>

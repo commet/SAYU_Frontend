@@ -16,7 +16,6 @@ import { getExhibitionRecommendation } from '@/lib/exhibitionRecommendations';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { synergyTable, getSynergyKey } from '@/data/personality-synergy-table';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
-import { useResponsive } from '@/lib/responsive';
 import dynamic from 'next/dynamic';
 
 // Lazy load mobile component
@@ -55,7 +54,6 @@ export default function CommunityPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
   const { language } = useLanguage();
-  const { isMobile } = useResponsive();
   
   const [activeTab, setActiveTab] = useState<'matches' | 'exhibitions' | 'forums'>('matches');
   const [selectedMatch, setSelectedMatch] = useState<UserMatch | null>(null);
@@ -76,6 +74,69 @@ export default function CommunityPage() {
       router.push('/login');
     }
   }, [user, loading, router]);
+
+  // Fetch real exhibition data
+  useEffect(() => {
+    const fetchExhibitions = async () => {
+      try {
+        setLoadingExhibitions(true);
+        const response = await fetch('http://localhost:3002/api/exhibitions?limit=100');
+        
+        if (response.ok) {
+          const data = await response.json();
+          const exhibitions = data.data || data.exhibitions || [];
+          
+          // Find specific exhibitions: 리움 이불전 and 르누아르전
+          const targetExhibitions: ExhibitionMatch[] = [];
+          
+          // Look for 리움 이불 전시
+          const leebulExhibition = exhibitions.find((ex: any) => 
+            (ex.title?.includes('이불') || ex.title?.includes('LEE BUL')) && 
+            (ex.venue_name?.includes('리움') || ex.venue?.includes('리움'))
+          );
+          
+          if (leebulExhibition) {
+            targetExhibitions.push({
+              id: leebulExhibition.id || '1',
+              title: leebulExhibition.title || '이불: 시작',
+              museum: leebulExhibition.venue_name || '리움미술관',
+              image: leebulExhibition.image_url || 'https://images.unsplash.com/photo-1578662996442-48f60103fc31?w=400',
+              matchingUsers: 18,
+              endDate: '2025.05.25'
+            });
+          }
+          
+          // Look for 르누아르 전시
+          const renoirExhibition = exhibitions.find((ex: any) => 
+            (ex.title?.includes('르누아르') || ex.title?.includes('Renoir')) && 
+            (ex.venue_name?.includes('한가람') || ex.venue?.includes('한가람'))
+          );
+          
+          if (renoirExhibition) {
+            targetExhibitions.push({
+              id: renoirExhibition.id || '2',
+              title: renoirExhibition.title || '르누아르: 여인의 향기',
+              museum: renoirExhibition.venue_name || '예술의전당 한가람미술관',
+              image: renoirExhibition.image_url || 'https://images.unsplash.com/photo-1577720643272-265f09367456?w=400',
+              matchingUsers: 24,
+              endDate: '2025.04.20'
+            });
+          }
+          
+          // Set the found exhibitions
+          setExhibitionMatches(targetExhibitions);
+        } else {
+          console.error('Failed to fetch exhibitions');
+        }
+      } catch (error) {
+        console.error('Error fetching exhibitions:', error);
+      } finally {
+        setLoadingExhibitions(false);
+      }
+    };
+
+    fetchExhibitions();
+  }, []);
 
   if (loading) {
     return (
@@ -952,111 +1013,6 @@ export default function CommunityPage() {
     handleBlock(userId);
   };
 
-  // Fetch real exhibition data
-  useEffect(() => {
-    const fetchExhibitions = async () => {
-      try {
-        setLoadingExhibitions(true);
-        const response = await fetch('http://localhost:3002/api/exhibitions?limit=100');
-        
-        if (response.ok) {
-          const data = await response.json();
-          const exhibitions = data.data || data.exhibitions || [];
-          
-          // Find specific exhibitions: 리움 이불전 and 르누아르전
-          const targetExhibitions: ExhibitionMatch[] = [];
-          
-          // Look for 리움 이불 전시
-          const leebulExhibition = exhibitions.find((ex: any) => 
-            (ex.title?.includes('이불') || ex.title?.includes('LEE BUL')) && 
-            (ex.venue_name?.includes('리움') || ex.venue?.includes('리움'))
-          );
-          
-          if (leebulExhibition) {
-            targetExhibitions.push({
-              id: leebulExhibition.id || '1',
-              title: leebulExhibition.title || '이불: 시작',
-              museum: leebulExhibition.venue_name || '리움미술관',
-              image: leebulExhibition.image_url || 'https://images.unsplash.com/photo-1578662996442-48f60103fc31?w=400',
-              matchingUsers: 18,
-              endDate: formatEndDate(leebulExhibition.end_date || leebulExhibition.endDate || '2025.05.25')
-            });
-          }
-          
-          // Look for 르누아르 전시
-          const renoirExhibition = exhibitions.find((ex: any) => 
-            (ex.title?.includes('르누아르') || ex.title?.includes('Renoir')) && 
-            (ex.venue_name?.includes('한가람') || ex.venue?.includes('한가람'))
-          );
-          
-          if (renoirExhibition) {
-            targetExhibitions.push({
-              id: renoirExhibition.id || '2',
-              title: renoirExhibition.title || '르누아르: 여인의 향기',
-              museum: renoirExhibition.venue_name || '예술의전당 한가람미술관',
-              image: renoirExhibition.image_url || 'https://images.unsplash.com/photo-1577720643272-265f09367456?w=400',
-              matchingUsers: 24,
-              endDate: formatEndDate(renoirExhibition.end_date || renoirExhibition.endDate || '2025.04.20')
-            });
-          }
-          
-          // If we couldn't find the specific exhibitions, use fallback data
-          if (targetExhibitions.length === 0) {
-            targetExhibitions.push(
-              {
-                id: '1',
-                title: '이불: 시작',
-                museum: '리움미술관',
-                image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc31?w=400',
-                matchingUsers: 18,
-                endDate: '2025.05.25'
-              },
-              {
-                id: '2',
-                title: '르누아르: 여인의 향기',
-                museum: '예술의전당 한가람미술관',
-                image: 'https://images.unsplash.com/photo-1577720643272-265f09367456?w=400',
-                matchingUsers: 24,
-                endDate: '2025.04.20'
-              }
-            );
-          }
-          
-          setExhibitionMatches(targetExhibitions);
-        }
-      } catch (error) {
-        console.error('Failed to fetch exhibitions:', error);
-        // Use fallback data on error
-        setExhibitionMatches([
-          {
-            id: '1',
-            title: '이불: 시작',
-            museum: '리움미술관',
-            image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc31?w=400',
-            matchingUsers: 18,
-            endDate: '2025.05.25'
-          },
-          {
-            id: '2',
-            title: '르누아르: 여인의 향기',
-            museum: '예술의전당 한가람미술관',
-            image: 'https://images.unsplash.com/photo-1577720643272-265f09367456?w=400',
-            matchingUsers: 24,
-            endDate: '2025.04.20'
-          }
-        ]);
-      } finally {
-        setLoadingExhibitions(false);
-      }
-    };
-
-    fetchExhibitions();
-  }, []);
-
-  // Render mobile component for mobile devices
-  if (isMobile) {
-    return <MobileCommunity />;
-  }
 
   // Helper function to format date
   const formatEndDate = (dateStr: string) => {
@@ -2367,13 +2323,13 @@ export default function CommunityPage() {
   };
 
   // Main component render
-  return (
+  const desktopComponent = (
     <div className="min-h-screen relative">
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
         style={{ backgroundImage: "url('/images/backgrounds/classical-gallery-floor-sitting-contemplation.jpg')" }}
       />
-      <div className="absolute inset-0 bg-black/30" />
+      <div className="absolute inset-0 bg-black/20" />
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
@@ -3282,5 +3238,17 @@ export default function CommunityPage() {
         }}
       />
     </div>
+  );
+
+  // Return both components with CSS-based hiding
+  return (
+    <>
+      <div className="block lg:hidden">
+        <MobileCommunity />
+      </div>
+      <div className="hidden lg:block">
+        {desktopComponent}
+      </div>
+    </>
   );
 }
