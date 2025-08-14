@@ -25,28 +25,42 @@ export async function GET(request: NextRequest) {
 
   if (code) {
     try {
-      const supabase = createClient()
+      // createClient is async, need to await it
+      const supabase = await createClient()
       
       // Exchange code for session
       console.log('Exchanging code for session...')
       const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
       
       if (exchangeError) {
-        console.error('Code exchange error:', exchangeError)
+        console.error('Code exchange error:', {
+          message: exchangeError.message,
+          status: exchangeError.status,
+          name: exchangeError.name,
+          details: exchangeError
+        })
         return NextResponse.redirect(
-          new URL(`/login?error=${encodeURIComponent(exchangeError.message)}`, requestUrl.origin)
+          new URL(`/login?error=${encodeURIComponent(exchangeError.message || 'exchange_failed')}`, requestUrl.origin)
         )
       }
       
       if (data?.session) {
         console.log('Session created successfully, redirecting to profile')
+        console.log('User:', data.session.user.email)
         // Successful login - redirect to profile
         return NextResponse.redirect(new URL('/profile', requestUrl.origin))
+      } else {
+        console.log('No session in response, but no error either')
+        return NextResponse.redirect(new URL('/login?error=no_session', requestUrl.origin))
       }
-    } catch (err) {
-      console.error('Unexpected error during code exchange:', err)
+    } catch (err: any) {
+      console.error('Unexpected error during code exchange:', {
+        message: err?.message,
+        stack: err?.stack,
+        error: err
+      })
       return NextResponse.redirect(
-        new URL('/login?error=exchange_failed', requestUrl.origin)
+        new URL(`/login?error=${encodeURIComponent(err?.message || 'exchange_failed')}`, requestUrl.origin)
       )
     }
   }
