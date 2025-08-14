@@ -57,10 +57,6 @@ export default function CommunityPage() {
   const { language } = useLanguage();
   const { isMobile } = useResponsive();
   
-  // Render mobile component for mobile devices
-  if (isMobile) {
-    return <MobileCommunity />;
-  }
   const [activeTab, setActiveTab] = useState<'matches' | 'exhibitions' | 'forums'>('matches');
   const [selectedMatch, setSelectedMatch] = useState<UserMatch | null>(null);
   const [genderFilter, setGenderFilter] = useState<'all' | 'opposite'>('all');
@@ -72,6 +68,8 @@ export default function CommunityPage() {
   const [ageFilter, setAgeFilter] = useState<{ min: number; max: number }>({ min: 20, max: 50 });
   const [distanceFilter, setDistanceFilter] = useState<number>(50); // km
   const [showFilters, setShowFilters] = useState(false);
+  const [exhibitionMatches, setExhibitionMatches] = useState<ExhibitionMatch[]>([]);
+  const [loadingExhibitions, setLoadingExhibitions] = useState(true);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -954,10 +952,6 @@ export default function CommunityPage() {
     handleBlock(userId);
   };
 
-  // State for real exhibition data
-  const [exhibitionMatches, setExhibitionMatches] = useState<ExhibitionMatch[]>([]);
-  const [loadingExhibitions, setLoadingExhibitions] = useState(true);
-
   // Fetch real exhibition data
   useEffect(() => {
     const fetchExhibitions = async () => {
@@ -1058,6 +1052,11 @@ export default function CommunityPage() {
 
     fetchExhibitions();
   }, []);
+
+  // Render mobile component for mobile devices
+  if (isMobile) {
+    return <MobileCommunity />;
+  }
 
   // Helper function to format date
   const formatEndDate = (dateStr: string) => {
@@ -3131,8 +3130,8 @@ export default function CommunityPage() {
                     <Users className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                     <p className="text-gray-300">
                       {language === 'ko' 
-                        ? '동행자를 선택하여 자세한 호환성을 확인하세요'
-                        : 'Select a companion to see detailed compatibility'}
+                        ? '동행자를 선택하여 자세한 케미스트리를 확인하세요'
+                        : 'Select a companion to see detailed chemistry'}
                     </p>
                   </div>
                 )}
