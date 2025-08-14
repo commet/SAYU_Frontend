@@ -30,7 +30,9 @@
       "Bash(git commit:*)",
       "Bash(git pull:*)",
       "WebFetch(domain:upload.wikimedia.org)",
-      "WebFetch(domain:commons.wikimedia.org)"
+      "WebFetch(domain:commons.wikimedia.org)",
+      "mcp__serena__write_memory",
+      "Bash(taskkill:*)"
     ],
     "deny": []
   }

@@ -33,7 +33,10 @@ import {
 interface Exhibition {
   id: string;
   title: string;
+  title_local?: string;
+  subtitle?: string;
   venue: string;
+  venue_city?: string;
   location: string;
   startDate: string;
   endDate: string;
@@ -41,6 +44,7 @@ interface Exhibition {
   image?: string;
   category?: string;
   price?: string;
+  admission_fee?: number | string;
   status: 'ongoing' | 'upcoming' | 'ended';
   viewCount?: number;
   likeCount?: number;
@@ -62,6 +66,8 @@ export default function ExhibitionsPage() {
   const [filteredExhibitions, setFilteredExhibitions] = useState<Exhibition[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<'all' | 'ongoing' | 'upcoming' | 'ended'>('all');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCity, setSelectedCity] = useState<string>('all');
+  const [selectedFee, setSelectedFee] = useState<'all' | 'free' | 'paid'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
   const [loading, setLoading] = useState(true);
@@ -121,10 +127,34 @@ export default function ExhibitionsPage() {
       filtered = filtered.filter(ex => ex.category === selectedCategory);
     }
 
+    // Filter by city
+    if (selectedCity !== 'all') {
+      filtered = filtered.filter(ex => ex.venue_city === selectedCity);
+    }
+
+    // Filter by fee
+    if (selectedFee !== 'all') {
+      if (selectedFee === 'free') {
+        filtered = filtered.filter(ex => 
+          ex.admission_fee === 0 || 
+          ex.price === '무료' ||
+          (typeof ex.admission_fee === 'string' && ex.admission_fee.toLowerCase().includes('무료')) ||
+          (typeof ex.price === 'string' && ex.price.toLowerCase().includes('무료'))
+        );
+      } else if (selectedFee === 'paid') {
+        filtered = filtered.filter(ex => 
+          (typeof ex.admission_fee === 'number' && ex.admission_fee > 0) ||
+          (ex.price && !ex.price.includes('무료'))
+        );
+      }
+    }
+
     // Filter by search query
     if (searchQuery) {
       filtered = filtered.filter(ex => 
         ex.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (ex.title_local && ex.title_local.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (ex.subtitle && ex.subtitle.toLowerCase().includes(searchQuery.toLowerCase())) ||
         ex.venue.toLowerCase().includes(searchQuery.toLowerCase()) ||
         ex.description?.toLowerCase().includes(searchQuery.toLowerCase())
       );
@@ -154,6 +184,16 @@ export default function ExhibitionsPage() {
   };
 
   const categories = ['all', '회화', '현대미술', '미디어아트', '전통미술', '조각', '사진'];
+  const [cities, setCities] = useState<string[]>(['all']);
+
+  // Extract unique cities from exhibitions
+  useEffect(() => {
+    const uniqueCities = ['all', ...new Set(exhibitions
+      .filter(ex => ex.venue_city)
+      .map(ex => ex.venue_city as string)
+      .sort())];
+    setCities(uniqueCities);
+  }, [exhibitions]);
 
   // Handle like/unlike exhibition
   const handleLike = async (exhibitionId: string, event: React.MouseEvent) => {
@@ -468,6 +508,53 @@ export default function ExhibitionsPage() {
             {/* Divider - Hidden on mobile */}
             <div className="hidden md:block w-px h-6 bg-gray-600"></div>
             
+            {/* City Filter */}
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-medium text-gray-300 flex items-center gap-1">
+                <MapPin className="w-4 h-4" />
+                지역:
+              </span>
+              <select
+                value={selectedCity}
+                onChange={(e) => setSelectedCity(e.target.value)}
+                className="px-3 py-1.5 rounded-lg text-xs bg-gray-800/60 text-gray-300 hover:text-white hover:bg-gray-700/70 border border-gray-600/50 hover:border-purple-400/50 focus:outline-none focus:border-purple-500 transition-colors"
+              >
+                {cities.map(city => (
+                  <option key={city} value={city}>
+                    {city === 'all' ? '전체' : city}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Fee Filter */}
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-medium text-gray-300 flex items-center gap-1">
+                <Ticket className="w-4 h-4" />
+                입장료:
+              </span>
+              <div className="flex gap-2">
+                {(['all', 'free', 'paid'] as const).map((fee) => (
+                  <button
+                    key={fee}
+                    onClick={() => setSelectedFee(fee)}
+                    className={`px-3 py-1.5 rounded-full text-xs transition-all duration-200 ${
+                      selectedFee === fee
+                        ? 'bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg shadow-green-600/30'
+                        : 'bg-gray-800/60 text-gray-300 hover:text-white hover:bg-gray-700/70 border border-gray-600/50 hover:border-green-400/50'
+                    }`}
+                  >
+                    {fee === 'all' && '전체'}
+                    {fee === 'free' && '무료'}
+                    {fee === 'paid' && '유료'}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Divider - Hidden on mobile */}
+            <div className="hidden md:block w-px h-6 bg-gray-600"></div>
+            
             {/* Category Filter - Tag Style */}
             <div className="flex items-center gap-3 flex-1 min-w-0">
               <span className="text-sm font-medium text-gray-300 flex items-center gap-1 flex-shrink-0">
@@ -521,9 +608,14 @@ export default function ExhibitionsPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                   <div className="p-5">
-                    <h3 className="font-semibold text-white mb-2 group-hover:text-purple-300 transition-colors line-clamp-1">
-                      {exhibition.title}
+                    <h3 className="font-semibold text-white mb-1 group-hover:text-purple-300 transition-colors line-clamp-1">
+                      {exhibition.title_local || exhibition.title}
                     </h3>
+                    {exhibition.subtitle && (
+                      <p className="text-xs text-gray-400 mb-2 line-clamp-1">
+                        {exhibition.subtitle}
+                      </p>
+                    )}
                     <p className="text-sm text-gray-300 mb-3 line-clamp-2">
                       {exhibition.description || exhibition.venue}
                     </p>
@@ -588,9 +680,16 @@ export default function ExhibitionsPage() {
                     <div className="flex-1">
                       <div className="flex items-start gap-3 mb-2">
                         {getStatusBadge(exhibition.status)}
-                        <h3 className="text-lg font-semibold text-white group-hover:text-purple-300 transition-colors line-clamp-1 flex-1">
-                          {exhibition.title}
-                        </h3>
+                        <div className="flex-1">
+                          <h3 className="text-lg font-semibold text-white group-hover:text-purple-300 transition-colors line-clamp-1">
+                            {exhibition.title_local || exhibition.title}
+                          </h3>
+                          {exhibition.subtitle && (
+                            <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">
+                              {exhibition.subtitle}
+                            </p>
+                          )}
+                        </div>
                       </div>
                       <p className="text-sm text-gray-300 mb-3 line-clamp-2">
                         {exhibition.description || exhibition.venue}

@@ -206,14 +206,14 @@ export default function JourneyHomePage() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
-  // Transform values based on scroll - 더 명확한 구간 분리
-  const mazeOpacity = useTransform(scrollYProgress, [0, 0.2, 0.25], [1, 1, 0]);
-  const artworksOpacity = useTransform(scrollYProgress, [0.15, 0.2, 0.45, 0.5], [0, 1, 1, 0]);
-  const peopleOpacity = useTransform(scrollYProgress, [0.45, 0.5, 0.7, 0.75], [0, 1, 1, 0]);
-  const gardenOpacity = useTransform(scrollYProgress, [0.7, 0.75, 1], [0, 1, 1]);
+  // Transform values based on scroll - 200vh 기준으로 더 빠른 전환
+  const mazeOpacity = useTransform(scrollYProgress, [0, 0.18, 0.22], [1, 1, 0]);
+  const artworksOpacity = useTransform(scrollYProgress, [0.18, 0.25, 0.45, 0.52], [0, 1, 1, 0]);
+  const peopleOpacity = useTransform(scrollYProgress, [0.48, 0.55, 0.73, 0.8], [0, 1, 1, 0]);
+  const gardenOpacity = useTransform(scrollYProgress, [0.75, 0.82, 1], [0, 1, 1]);
   
   const lightIntensity = useTransform(scrollYProgress, [0, 1], [0.2, 1]);
-  const mazeScale = useTransform(scrollYProgress, [0, 0.25], [1, 1.2]);
+  const mazeScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.15]);
 
   // 클라이언트 사이드에서만 모바일 체크하고 렌더링
   if (mounted && isMobile) {
@@ -222,7 +222,7 @@ export default function JourneyHomePage() {
 
   // SSR 중이거나 데스크탑일 때는 기본 페이지 렌더링
   return (
-    <div ref={containerRef} className="relative h-[400vh] home-page-preserve">
+    <div ref={containerRef} className="relative h-[200vh] home-page-preserve">
       {/* Fixed viewport container */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         
@@ -408,7 +408,7 @@ export default function JourneyHomePage() {
               })}
             </div>
             
-            <div className="relative z-10 flex flex-col items-center justify-center h-full">
+            <div className="relative z-10 flex flex-col items-center justify-center h-full pt-24">
               <motion.h1 
                 className={`font-bold text-white/90 mb-4 text-center ${
                   language === 'ko' ? 'text-5xl' : 'text-[3.25rem]'
@@ -432,7 +432,7 @@ export default function JourneyHomePage() {
                   : 'Wondering which one is the real you?'}
               </motion.p>
               <motion.p 
-                className="text-lg text-white/60 mb-16 text-center"
+                className="text-lg text-white/60 mb-8 text-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.8 }}
@@ -441,6 +441,44 @@ export default function JourneyHomePage() {
                   ? '예술과 함께 진정한 나를 발견하는 여정을 시작하세요'
                   : "Begin your artistic journey to discover your true self"}
               </motion.p>
+              
+              {/* 서비스 가치 명확화 */}
+              <motion.div 
+                className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 md:p-6 mb-12 max-w-2xl mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 1 }}
+              >
+                <div className="grid grid-cols-3 gap-2 md:gap-4 text-center">
+                  <div className="flex flex-col items-center">
+                    <span className="text-lg md:text-2xl mb-1 md:mb-2">✨</span>
+                    <p className="text-white/90 text-[10px] md:text-sm font-medium leading-tight">
+                      {language === 'ko' ? '5분 만에 발견하는' : 'Discover in 5 minutes'}
+                    </p>
+                    <p className="text-white/70 text-[9px] md:text-sm mt-0.5">
+                      {language === 'ko' ? '나의 예술 성향' : 'Your art personality'}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span className="text-lg md:text-2xl mb-1 md:mb-2">🤝</span>
+                    <p className="text-white/90 text-[10px] md:text-sm font-medium leading-tight">
+                      {language === 'ko' ? '나와 취향이 딱 맞는' : 'Find perfect match'}
+                    </p>
+                    <p className="text-white/70 text-[9px] md:text-sm mt-0.5">
+                      {language === 'ko' ? '전시 동행 찾기' : 'Exhibition companions'}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span className="text-lg md:text-2xl mb-1 md:mb-2">🎨</span>
+                    <p className="text-white/90 text-[10px] md:text-sm font-medium leading-tight">
+                      {language === 'ko' ? 'AI가 맞춤형으로' : 'AI-powered'}
+                    </p>
+                    <p className="text-white/70 text-[9px] md:text-sm mt-0.5">
+                      {language === 'ko' ? '추천하는 작품과 전시' : 'Art recommendations'}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
               
               {/* 시작점으로의 초대 */}
               <motion.div
@@ -467,7 +505,7 @@ export default function JourneyHomePage() {
                 </motion.div>
                 
                 {/* 미로 출구 문 */}
-                <div className="relative w-72 h-96 rounded-t-full bg-gradient-to-t from-gray-800/40 via-gray-600/30 to-white/60 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center overflow-hidden">
+                <div className="relative w-56 h-72 rounded-t-full bg-gradient-to-t from-gray-800/40 via-gray-600/30 to-white/60 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center overflow-hidden">
                   {/* 문틀 효과 */}
                   <div className="absolute inset-2 rounded-t-full border border-white/20" />
                   
@@ -493,7 +531,7 @@ export default function JourneyHomePage() {
                         ease: "easeInOut"
                       }}
                     >
-                      <p className="text-white/90 font-bold text-3xl mb-3 whitespace-nowrap">
+                      <p className="text-white/90 font-bold text-2xl mb-3 whitespace-nowrap">
                         {language === 'ko' ? '당신의 시작점' : 'Begin Here'}
                       </p>
                       <p className="text-white/80 text-lg mb-4 whitespace-nowrap">
@@ -501,7 +539,7 @@ export default function JourneyHomePage() {
                       </p>
                       <div className="bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 border border-white/20">
                         <p className="text-white/90 text-base font-medium whitespace-nowrap">
-                          {language === 'ko' ? '16가지 예술 성향 테스트' : '16 Art Personality Test'}
+                          {language === 'ko' ? '예술 MBTI (APT) 테스트' : 'Art MBTI (APT) Test'}
                         </p>
                       </div>
                     </motion.div>
@@ -685,8 +723,8 @@ export default function JourneyHomePage() {
                 </p>
                 <p className="text-white/90 text-base drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
                   {language === 'ko' 
-                    ? '16가지 Art Persona가 바라보는 각자의 예술 세계'
-                    : '16 unique perspectives, each with their own art world'}
+                    ? '16가지 예술 MBTI가 바라보는 각자의 예술 세계'
+                    : '16 Art MBTI types, each with their own art world'}
                 </p>
               </motion.div>
             </div>
@@ -810,7 +848,7 @@ export default function JourneyHomePage() {
                     name_en: "Emily",
                     aptType: "LAEF",
                     emoji: "🦊",
-                    quote: "매일 아침 감정에 맞는 작품을 보며 하루를 시작해요. 예전엔 몰랐던 제 감정의 깊이를 이해하게 되었어요.",
+                    quote: <>매일 아침 <strong className="text-lime-300">감정에 맞는 작품</strong>을 보며 하루를 시작해요. 예전엔 몰랐던 제 감정의 깊이를 이해하게 되었어요.</>,
                     quote_en: "I start each day by viewing artworks that match my emotions. I've come to understand the depth of my feelings that I never knew before."
                   },
                   {
@@ -818,7 +856,7 @@ export default function JourneyHomePage() {
                     name_en: "James",
                     aptType: "SREC",
                     emoji: "🦆",
-                    quote: "전시 동행 매칭으로 만난 친구와 매주 미술관을 가요. 혼자서는 발견하지 못했을 작품들을 함께 감상하니 더 풍부해져요.",
+                    quote: <><strong className="text-lime-300">전시 동행 매칭</strong>으로 만난 친구와 매주 미술관을 가요. 혼자서는 발견하지 못했을 작품들을 함께 감상하니 더 풍부해져요.</>,
                     quote_en: "Weekly museum visits with my exhibition companion opened my eyes to artworks I'd never have discovered alone."
                   },
                   {
@@ -826,7 +864,7 @@ export default function JourneyHomePage() {
                     name_en: "Sarah",
                     aptType: "LAMF",
                     emoji: "🦉",
-                    quote: "AI 상담사와 대화하면서 제가 왜 특정 작품에 끌리는지 알게 되었어요. 예술이 제 마음의 거울이 되어주고 있어요.",
+                    quote: <><strong className="text-lime-300">AI 상담사와 대화</strong>하면서 제가 왜 특정 작품에 끌리는지 알게 되었어요. 예술이 제 마음의 거울이 되어주고 있어요.</>,
                     quote_en: "Through conversations with the AI counselor, I learned why I'm drawn to certain artworks. Art has become a mirror to my heart."
                   }
                 ].map((testimonial, i) => (
@@ -838,7 +876,7 @@ export default function JourneyHomePage() {
                     transition={{ delay: 0.6 + i * 0.1 }}
                   >
                     <p className="text-white text-base mb-6 leading-relaxed">
-                      "{language === 'ko' ? testimonial.quote : testimonial.quote_en}"
+                      {language === 'ko' ? testimonial.quote : testimonial.quote_en}
                     </p>
                     <div className="flex items-center gap-3">
                       <div className="text-3xl">{testimonial.emoji}</div>
@@ -847,7 +885,7 @@ export default function JourneyHomePage() {
                           {language === 'ko' ? testimonial.name : testimonial.name_en}
                         </p>
                         <p className="text-white/60 text-sm">
-                          APT: {testimonial.aptType}
+                          예술 성향: {testimonial.aptType}
                         </p>
                       </div>
                     </div>
@@ -1032,7 +1070,7 @@ export default function JourneyHomePage() {
                         <span className="text-2xl">👥</span>
                         <div>
                           <h4 className="text-green-800 font-semibold mb-1">
-                            {language === 'ko' ? 'APT 매칭 시스템' : 'APT Matching System'}
+                            {language === 'ko' ? '예술 MBTI 매칭' : 'Art MBTI Matching'}
                           </h4>
                           <p className="text-green-700/80 text-sm leading-relaxed">
                             {language === 'ko' ? (
@@ -1146,8 +1184,8 @@ export default function JourneyHomePage() {
                     <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                     <p className="text-sm">
                       {language === 'ko' 
-                        ? <>오늘 <span className="font-bold">47명</span>이 새로운 Art Persona를 발견했어요</>
-                        : <>Today <span className="font-bold">47 people</span> discovered their new Art Persona</>
+                        ? <>오늘 <span className="font-bold">47명</span>이 자신의 예술 MBTI를 발견했어요</>
+                        : <>Today <span className="font-bold">47 people</span> discovered their Art MBTI</>
                       }
                     </p>
                   </div>

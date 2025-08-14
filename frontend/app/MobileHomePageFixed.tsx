@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useMobileScale, mobileVw, mobileClamp } from '@/lib/mobile-scale';
 
@@ -89,7 +89,7 @@ const testimonials = [
     name_en: "Emily",
     aptType: "LAEF",
     emoji: "🦊",
-    quote: "매일 아침 감정에 맞는 작품을 보며 하루를 시작해요.\n예전엔 몰랐던 제 감정의 깊이를 이해하게 되었어요.",
+    quote: <>매일 아침 <strong className="text-lime-300 font-bold">감정에 맞는 작품</strong>을 보며 하루를 시작해요.{"\n"}예전엔 몰랐던 제 감정의 깊이를 이해하게 되었어요.</>,
     quote_en: "I start each day by viewing artworks that match my emotions. I've come to understand the depth of my feelings that I never knew before."
   },
   {
@@ -97,7 +97,7 @@ const testimonials = [
     name_en: "James",
     aptType: "SREC",
     emoji: "🦆",
-    quote: "전시 동행 매칭으로 만난 친구와 매주 미술관을 가요.\n혼자서는 발견하지 못했을 작품들을 함께 감상하니 더 풍부해져요.",
+    quote: <><strong className="text-lime-300 font-bold">전시 동행 매칭</strong>으로 만난 친구와 매주 미술관을 가요.{"\n"}혼자서는 발견하지 못했을 작품들을 함께 감상하니 더 풍부해져요.</>,
     quote_en: "Weekly museum visits with my exhibition companion opened my eyes to artworks I'd never have discovered alone."
   },
   {
@@ -105,7 +105,7 @@ const testimonials = [
     name_en: "Sarah",
     aptType: "LAMF",
     emoji: "🦉",
-    quote: "AI 상담사와 대화하면서 제가 왜 특정 작품에 끌리는지 알게 되었어요.\n예술이 제 마음의 거울이 되어주고 있어요.",
+    quote: <><strong className="text-lime-300 font-bold">AI 상담사와 대화</strong>하면서 제가 왜 특정 작품에 끌리는지 알게 되었어요.{"\n"}예술이 제 마음의 거울이 되어주고 있어요.</>,
     quote_en: "Through conversations with the AI counselor, I learned why I'm drawn to certain artworks. Art has become a mirror to my heart."
   }
 ];
@@ -115,6 +115,9 @@ export default function MobileHomePageFixed() {
   const { language, setLanguage } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentArtwork, setCurrentArtwork] = useState(0);
+  const [currentScene, setCurrentScene] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
   const scale = useMobileScale();
 
   // 자동 작품 전환
@@ -125,16 +128,66 @@ export default function MobileHomePageFixed() {
     return () => clearInterval(interval);
   }, []);
 
+  // 터치 스와이프 처리
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientY);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientY);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isSwipeUp = distance > 50;
+    const isSwipeDown = distance < -50;
+    
+    if (isSwipeUp && currentScene < 3) {
+      setCurrentScene(currentScene + 1);
+      // 프로그래매틱하게 스크롤
+      const sections = containerRef.current?.querySelectorAll('section');
+      sections?.[currentScene + 1]?.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    if (isSwipeDown && currentScene > 0) {
+      setCurrentScene(currentScene - 1);
+      const sections = containerRef.current?.querySelectorAll('section');
+      sections?.[currentScene - 1]?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // 스크롤 이벤트로 현재 Scene 추적
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      const scrollTop = containerRef.current.scrollTop;
+      const windowHeight = window.innerHeight;
+      const newScene = Math.round(scrollTop / windowHeight);
+      setCurrentScene(Math.min(3, Math.max(0, newScene)));
+    };
+
+    containerRef.current?.addEventListener('scroll', handleScroll);
+    return () => containerRef.current?.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div 
       ref={containerRef}
-      className="h-screen overflow-y-auto snap-y snap-mandatory relative -mt-14"
+      className="h-screen overflow-y-auto relative -mt-14"
       style={{
         scrollBehavior: 'smooth',
         WebkitOverflowScrolling: 'touch',
         msOverflowStyle: 'none',
-        scrollbarWidth: 'none'
+        scrollbarWidth: 'none',
+        scrollSnapType: 'y proximity',
+        scrollPaddingTop: '0px',
+        overscrollBehavior: 'contain'
       }}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {/* 모바일 플로팅 네비게이션 - 언어 전환 */}
       <div className="fixed top-4 right-4 z-50 flex gap-2">
@@ -146,8 +199,28 @@ export default function MobileHomePageFixed() {
           {language === 'ko' ? 'EN' : '한글'}
         </motion.button>
       </div>
+      
+      {/* Scene 인디케이터 - 왼쪽 사이드 */}
+      <div className="fixed left-3 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-2">
+        {[0, 1, 2, 3].map((scene) => (
+          <motion.div
+            key={scene}
+            className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+              currentScene === scene 
+                ? 'bg-white w-1.5 h-4' 
+                : 'bg-white/40 hover:bg-white/60'
+            }`}
+            whileTap={{ scale: 0.8 }}
+            onClick={() => {
+              setCurrentScene(scene);
+              const sections = containerRef.current?.querySelectorAll('section');
+              sections?.[scene]?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          />
+        ))}
+      </div>
       {/* Scene 1: 미로 입구 - 100vh */}
-      <section className="h-screen w-full snap-start overflow-hidden">
+      <section className="h-screen w-full snap-start snap-always overflow-hidden">
         <div className="relative w-full h-full">
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-950 to-gray-900" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30" />
@@ -253,7 +326,7 @@ export default function MobileHomePageFixed() {
               className="text-white/60 text-center px-4 italic"
               style={{
                 fontSize: scale.fontSize.base,
-                marginBottom: scale.spacing.lg
+                marginBottom: scale.spacing.md
               }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -263,6 +336,48 @@ export default function MobileHomePageFixed() {
                 ? '예술과 함께 진정한 나를 발견하는 여정'
                 : "Begin your artistic journey"}
             </motion.p>
+
+            {/* 서비스 가치 명확화 - 모바일 최적화 */}
+            <motion.div 
+              className="bg-white/10 backdrop-blur-sm rounded-xl mx-2 w-full max-w-sm"
+              style={{
+                padding: `${scale.spacing.sm}px ${scale.spacing.md}px`,
+                marginBottom: scale.spacing.lg
+              }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 1 }}
+            >
+              <div className="grid grid-cols-3 gap-3 text-center">
+                <div className="flex flex-col items-center">
+                  <span className="text-base mb-1">✨</span>
+                  <p className="text-white/90 text-[9px] font-medium leading-tight">
+                    {language === 'ko' ? '5분 만에' : 'Discover in'}
+                  </p>
+                  <p className="text-white/70 text-[8px] leading-tight">
+                    {language === 'ko' ? '예술 성향' : '5 minutes'}
+                  </p>
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="text-base mb-1">🤝</span>
+                  <p className="text-white/90 text-[9px] font-medium leading-tight">
+                    {language === 'ko' ? '완벽한 매칭' : 'Perfect match'}
+                  </p>
+                  <p className="text-white/70 text-[8px] leading-tight">
+                    {language === 'ko' ? '전시 동행' : 'Companions'}
+                  </p>
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="text-base mb-1">🎨</span>
+                  <p className="text-white/90 text-[9px] font-medium leading-tight">
+                    {language === 'ko' ? 'AI 추천' : 'AI-powered'}
+                  </p>
+                  <p className="text-white/70 text-[8px] leading-tight">
+                    {language === 'ko' ? '맞춤 전시' : 'Art recs'}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
             
             <motion.button
               className="bg-white/10 backdrop-blur-lg rounded-full border border-white/20 active:scale-95"
@@ -298,7 +413,7 @@ export default function MobileHomePageFixed() {
       </section>
 
       {/* Scene 2: 미로 속 작품들 - 100vh (배경색 수정: 녹색) */}
-      <section className="h-screen w-full snap-start overflow-hidden">
+      <section className="h-screen w-full snap-start snap-always overflow-hidden">
         <div className="relative w-full h-full bg-gradient-to-b from-green-900 to-green-950">
           <div className="h-full flex flex-col p-4 pt-12">
             {/* 헤더 */}
@@ -409,7 +524,7 @@ export default function MobileHomePageFixed() {
       </section>
 
       {/* Scene 3: 다른 사람들과의 만남 - 100vh with 3 testimonials */}
-      <section className="h-screen w-full snap-start overflow-hidden">
+      <section className="h-screen w-full snap-start snap-always overflow-hidden">
         <div className="relative w-full h-full bg-gradient-to-b from-green-800 to-green-900">
           <div className="h-full flex flex-col p-4 pt-12">
             {/* 타이틀 */}
@@ -441,7 +556,7 @@ export default function MobileHomePageFixed() {
                     <span className="text-lg">{testimonial.emoji}</span>
                   </div>
                   <p className="text-white/90 text-xs mb-1 leading-snug whitespace-pre-line italic">
-                    "{language === 'ko' ? testimonial.quote : testimonial.quote_en}"
+                    {language === 'ko' ? testimonial.quote : testimonial.quote_en}
                   </p>
                   <div className="flex items-center justify-center gap-2">
                     <p className="text-white/80 font-medium text-xs">
@@ -503,7 +618,7 @@ export default function MobileHomePageFixed() {
       </section>
 
       {/* Scene 4: 밝은 정원 - 100vh */}
-      <section className="h-screen w-full snap-start overflow-hidden">
+      <section className="h-screen w-full snap-start snap-always overflow-hidden">
         <div className="relative w-full h-full bg-gradient-to-b from-green-300 via-green-100 to-white">
           {/* 빛 입자들 */}
           <div className="absolute inset-0">
@@ -561,10 +676,13 @@ export default function MobileHomePageFixed() {
           {/* 중앙 콘텐츠 */}
           <div className="relative z-10 h-full flex flex-col items-center px-6" style={{ paddingTop: '15vh' }}>
             <motion.h2 
-              className="text-green-800 font-bold text-center"
+              className="text-green-800 font-bold text-center font-serif tracking-wide"
               style={{
                 fontSize: mobileClamp(36, 42, 48),
-                marginBottom: scale.spacing.sm
+                marginBottom: scale.spacing.sm,
+                fontFamily: "'Playfair Display', 'Noto Serif KR', serif",
+                textShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                letterSpacing: '0.05em'
               }}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -577,10 +695,10 @@ export default function MobileHomePageFixed() {
               {language === 'ko' ? '함께 만들어가는 예술의 정원' : 'A Garden of Art We Create Together'}
             </p>
             
-            {/* 16개 APT 이모지 */}
+            {/* 16개 SAYU Personality 동물 이모지 */}
             <div className="mb-6">
               <div className="grid grid-cols-8 gap-1 mb-2">
-                {['🦊', '🦆', '🦉', '🦁', '🐹', '🦌', '🐰', '🐺'].map((emoji, i) => (
+                {['🦊', '🐱', '🦉', '🐢', '🦎', '🦔', '🐙', '🦫'].map((emoji, i) => (
                   <motion.div
                     key={i}
                     className="text-xl"
@@ -593,7 +711,7 @@ export default function MobileHomePageFixed() {
                 ))}
               </div>
               <div className="grid grid-cols-8 gap-1">
-                {['🦄', '🐯', '🦋', '🐻', '🦜', '🐢', '🐳', '🦔'].map((emoji, i) => (
+                {['🦋', '🐧', '🦜', '🦌', '🐕', '🦆', '🐘', '🦅'].map((emoji, i) => (
                   <motion.div
                     key={i}
                     className="text-xl"

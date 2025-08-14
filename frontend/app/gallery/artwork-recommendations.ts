@@ -5,6 +5,7 @@
 
 import { PERSONALITY_ARTIST_MATCHING_2025 } from '@/data/personality-artwork-matching-2025';
 import { getSREFCuratedArtworks } from '@/data/sref-curated-artworks';
+import { getCuratedArtworkUrls } from '@/data/curated-artwork-urls';
 import artworksData from '@/public/data/artworks.json';
 
 interface ArtworkRecommendation {
@@ -130,6 +131,11 @@ export function getPersonalizedRecommendations(
     return getRandomRecommendations(category);
   }
   
+  // Get curated artwork URLs for this personality type
+  const curatedUrls = getCuratedArtworkUrls(userType);
+  const fallbackImage = '/images/placeholder-artwork.jpg';
+  let urlIndex = 0;
+  
   // 1. Primary Artist 작품들 (key artwork + alternatives)
   // Key artwork first
   recommendations.push({
@@ -137,8 +143,8 @@ export function getPersonalizedRecommendations(
     title: matching.primary.keyArtwork.title,
     artist: matching.primary.name,
     year: matching.primary.keyArtwork.year || matching.primary.period,
-    imageUrl: `https://picsum.photos/800/600?random=primary-key`,
-    cloudinaryUrl: `https://picsum.photos/800/600?random=primary-key`,
+    imageUrl: curatedUrls.length > 0 ? curatedUrls[urlIndex % curatedUrls.length] : fallbackImage,
+    cloudinaryUrl: curatedUrls.length > 0 ? curatedUrls[urlIndex % curatedUrls.length] : fallbackImage,
     museum: 'SAYU Curated Collection',
     medium: 'Oil on canvas',
     department: matching.primary.style,
@@ -148,6 +154,7 @@ export function getPersonalizedRecommendations(
     category: [category],
     isPublicDomain: true
   });
+  urlIndex++;
   
   // Alternative works
   matching.primary.alternativeWorks.forEach((altWork, index) => {
@@ -156,8 +163,8 @@ export function getPersonalizedRecommendations(
       title: altWork.title,
       artist: matching.primary.name,
       year: altWork.year || matching.primary.period,
-      imageUrl: `https://picsum.photos/800/600?random=primary-alt-${index}`,
-      cloudinaryUrl: `https://picsum.photos/800/600?random=primary-alt-${index}`,
+      imageUrl: curatedUrls[urlIndex % curatedUrls.length],
+      cloudinaryUrl: curatedUrls[urlIndex % curatedUrls.length],
       museum: 'SAYU Curated Collection',
       medium: 'Oil on canvas',
       department: matching.primary.style,
@@ -167,6 +174,7 @@ export function getPersonalizedRecommendations(
       category: [category],
       isPublicDomain: true
     });
+    urlIndex++;
   });
   
   // Additional primary works from actual collection
@@ -177,7 +185,7 @@ export function getPersonalizedRecommendations(
       title: artwork.title || `${matching.primary.name} Collection ${index + 1}`,
       artist: artwork.artist || matching.primary.name,
       year: artwork.date || matching.primary.period,
-      imageUrl: artwork.cloudinaryUrl || artwork.primaryImage || `https://picsum.photos/800/600?random=primary-real-${index}`,
+      imageUrl: artwork.cloudinaryUrl || artwork.primaryImage || (curatedUrls.length > 0 ? curatedUrls[urlIndex % curatedUrls.length] : fallbackImage),
       cloudinaryUrl: artwork.cloudinaryUrl,
       museum: artwork.department || 'SAYU Curated',
       medium: artwork.medium || 'Oil on canvas',
@@ -188,6 +196,7 @@ export function getPersonalizedRecommendations(
       category: [category],
       isPublicDomain: artwork.isPublicDomain
     });
+    urlIndex++;
   });
   
   // 2. Secondary Artist 작품들
@@ -197,8 +206,8 @@ export function getPersonalizedRecommendations(
     title: matching.secondary.keyArtwork.title,
     artist: matching.secondary.name,
     year: matching.secondary.keyArtwork.year || matching.secondary.period,
-    imageUrl: `https://picsum.photos/800/600?random=secondary-key`,
-    cloudinaryUrl: `https://picsum.photos/800/600?random=secondary-key`,
+    imageUrl: curatedUrls.length > 0 ? curatedUrls[urlIndex % curatedUrls.length] : fallbackImage,
+    cloudinaryUrl: curatedUrls.length > 0 ? curatedUrls[urlIndex % curatedUrls.length] : fallbackImage,
     museum: 'SAYU Curated Collection',
     medium: 'Oil on canvas',
     department: matching.secondary.style,
@@ -208,6 +217,7 @@ export function getPersonalizedRecommendations(
     category: [category],
     isPublicDomain: true
   });
+  urlIndex++;
   
   // Alternative works
   matching.secondary.alternativeWorks.forEach((altWork, index) => {
@@ -216,8 +226,8 @@ export function getPersonalizedRecommendations(
       title: altWork.title,
       artist: matching.secondary.name,
       year: altWork.year || matching.secondary.period,
-      imageUrl: `https://picsum.photos/800/600?random=secondary-alt-${index}`,
-      cloudinaryUrl: `https://picsum.photos/800/600?random=secondary-alt-${index}`,
+      imageUrl: curatedUrls[urlIndex % curatedUrls.length],
+      cloudinaryUrl: curatedUrls[urlIndex % curatedUrls.length],
       museum: 'SAYU Curated Collection',
       medium: 'Oil on canvas',
       department: matching.secondary.style,
@@ -227,6 +237,7 @@ export function getPersonalizedRecommendations(
       category: [category],
       isPublicDomain: true
     });
+    urlIndex++;
   });
   
   // Additional secondary works
@@ -237,7 +248,7 @@ export function getPersonalizedRecommendations(
       title: artwork.title || `${matching.secondary.name} Collection ${index + 1}`,
       artist: artwork.artist || matching.secondary.name,
       year: artwork.date || matching.secondary.period,
-      imageUrl: artwork.cloudinaryUrl || artwork.primaryImage || `https://picsum.photos/800/600?random=secondary-real-${index}`,
+      imageUrl: artwork.cloudinaryUrl || artwork.primaryImage || (curatedUrls.length > 0 ? curatedUrls[urlIndex % curatedUrls.length] : fallbackImage),
       cloudinaryUrl: artwork.cloudinaryUrl,
       museum: artwork.department || 'SAYU Curated',
       medium: artwork.medium || 'Oil on canvas',
@@ -248,6 +259,7 @@ export function getPersonalizedRecommendations(
       category: [category],
       isPublicDomain: artwork.isPublicDomain
     });
+    urlIndex++;
   });
   
   // 3. Tertiary Artist 작품들 (숨겨진 보석)
@@ -257,8 +269,8 @@ export function getPersonalizedRecommendations(
     title: matching.tertiary.keyArtwork.title,
     artist: matching.tertiary.name,
     year: matching.tertiary.keyArtwork.year || matching.tertiary.period,
-    imageUrl: `https://picsum.photos/800/600?random=tertiary-key`,
-    cloudinaryUrl: `https://picsum.photos/800/600?random=tertiary-key`,
+    imageUrl: curatedUrls.length > 0 ? curatedUrls[urlIndex % curatedUrls.length] : fallbackImage,
+    cloudinaryUrl: curatedUrls.length > 0 ? curatedUrls[urlIndex % curatedUrls.length] : fallbackImage,
     museum: 'SAYU Hidden Gems',
     medium: 'Mixed media',
     department: matching.tertiary.style,
@@ -268,6 +280,7 @@ export function getPersonalizedRecommendations(
     category: [category],
     isPublicDomain: true
   });
+  urlIndex++;
   
   // Alternative works
   matching.tertiary.alternativeWorks.forEach((altWork, index) => {
@@ -276,8 +289,8 @@ export function getPersonalizedRecommendations(
       title: altWork.title,
       artist: matching.tertiary.name,
       year: altWork.year || matching.tertiary.period,
-      imageUrl: `https://picsum.photos/800/600?random=tertiary-alt-${index}`,
-      cloudinaryUrl: `https://picsum.photos/800/600?random=tertiary-alt-${index}`,
+      imageUrl: curatedUrls[urlIndex % curatedUrls.length],
+      cloudinaryUrl: curatedUrls[urlIndex % curatedUrls.length],
       museum: 'SAYU Hidden Gems',
       medium: 'Mixed media',
       department: matching.tertiary.style,
@@ -287,6 +300,7 @@ export function getPersonalizedRecommendations(
       category: [category],
       isPublicDomain: true
     });
+    urlIndex++;
   });
   
   // Additional tertiary works
@@ -297,7 +311,7 @@ export function getPersonalizedRecommendations(
       title: artwork.title || `${matching.tertiary.name} Hidden Gem`,
       artist: artwork.artist || matching.tertiary.name,
       year: artwork.date || matching.tertiary.period,
-      imageUrl: artwork.cloudinaryUrl || artwork.primaryImage || `https://picsum.photos/800/600?random=tertiary-real-${index}`,
+      imageUrl: artwork.cloudinaryUrl || artwork.primaryImage || (curatedUrls.length > 0 ? curatedUrls[urlIndex % curatedUrls.length] : fallbackImage),
       cloudinaryUrl: artwork.cloudinaryUrl,
       museum: artwork.department || 'SAYU Hidden Gem',
       medium: artwork.medium || 'Mixed media',

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Playfair_Display, Cormorant_Garamond, Abril_Fatface } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
 import FloatingNav from '@/components/navigation/FloatingNav'
@@ -12,6 +12,23 @@ import { OnboardingWidget } from '@/components/onboarding/OnboardingWidget'
 import { DailyNudge } from '@/components/onboarding/DailyNudge'
 
 const inter = Inter({ subsets: ['latin'] })
+const playfair = Playfair_Display({ 
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap'
+})
+const cormorant = Cormorant_Garamond({ 
+  subsets: ['latin'],
+  variable: '--font-cormorant',
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap'
+})
+const abril = Abril_Fatface({ 
+  subsets: ['latin'],
+  variable: '--font-abril',
+  weight: '400',
+  display: 'swap'
+})
 
 export const metadata: Metadata = {
   title: 'SAYU - 당신의 감정과 예술이 만나는 곳',
@@ -23,7 +40,6 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'ko_KR',
-    alternateLocale: 'en_US',
     url: 'https://sayu.art',
     siteName: 'SAYU',
     title: 'SAYU - 당신의 감정과 예술이 만나는 곳',
@@ -94,7 +110,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} min-h-screen transition-colors bg-gray-900`}>
+      <body className={`${inter.className} ${playfair.variable} ${cormorant.variable} ${abril.variable} min-h-screen transition-colors bg-gray-900`}>
         <Providers>
           <SystemInitializer />
           {/* Temporarily disabled for debugging

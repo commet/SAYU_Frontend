@@ -32,6 +32,7 @@ export function PersonalityAnimalImage({
   const { width, height } = sizeMap[size];
   const imagePath = animal[variant];
   
+  
   // 이미지가 없거나 로드 에러가 있으면 이모지 폴백 표시
   if (!imagePath || imageError) {
     if (!showFallback) return null;

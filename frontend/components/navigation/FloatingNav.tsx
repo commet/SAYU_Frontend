@@ -193,8 +193,38 @@ export default function FloatingNav() {
               whileTap={{ scale: 0.98 }}
               onClick={() => router.push('/')}
             >
-              <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                SAYU
+              <div className="relative group">
+                {/* 로고 스타일 3: Artistic Script - 우아한 이탤릭 스타일 */}
+                <div className="text-3xl italic relative" 
+                     style={{ fontFamily: 'var(--font-playfair), serif', letterSpacing: '-0.02em' }}>
+                  <span className="bg-gradient-to-br from-purple-500 via-pink-400 to-purple-500 bg-clip-text text-transparent">
+                    Sayu
+                  </span>
+                  {/* 점 장식 */}
+                  <div className="absolute -top-1 -right-2 w-1.5 h-1.5 rounded-full bg-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+                
+                {/* 로고 스타일 1: Elegant Serif (주석 처리) */}
+                {/* <div className="text-[26px] tracking-[0.15em] font-light relative">
+                  <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent" 
+                        style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontWeight: 300 }}>
+                    SAYU
+                  </span>
+                  <div className="absolute -bottom-1 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-purple-400/30 to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                </div> */}
+                
+                {/* 로고 스타일 2: Modern Minimalist (주석 처리) */}
+                {/* <div className="text-2xl font-thin tracking-[0.3em] bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent uppercase">
+                  SAYU
+                </div> */}
+                
+                {/* 로고 스타일 4: Bold Statement (주석 처리) */}
+                {/* <div className="text-2xl font-bold" 
+                     style={{ fontFamily: 'var(--font-abril), serif' }}>
+                  <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+                    SAYU
+                  </span>
+                </div> */}
               </div>
               {/* 온보딩 진행률 표시 */}
               {isNewUser && !isOnboardingComplete && currentJourney && (

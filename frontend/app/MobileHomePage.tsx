@@ -258,7 +258,7 @@ export default function MobileHomePage() {
                   : 'Wondering which one is the real you?'}
               </motion.p>
               <motion.p 
-                className="text-base text-white/60 mb-12 text-center px-4"
+                className="text-base text-white/60 mb-6 text-center px-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.8 }}
@@ -267,6 +267,44 @@ export default function MobileHomePage() {
                   ? '예술과 함께 진정한 나를 발견하는 여정을 시작하세요'
                   : "Begin your artistic journey to discover your true self"}
               </motion.p>
+
+              {/* 서비스 가치 명확화 - 모바일 최적화 */}
+              <motion.div 
+                className="bg-white/10 backdrop-blur-sm rounded-xl p-3 mb-8 mx-4 max-w-sm"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 1 }}
+              >
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <div className="flex flex-col items-center">
+                    <span className="text-base mb-1">✨</span>
+                    <p className="text-white/90 text-[9px] font-medium leading-tight">
+                      {language === 'ko' ? '5분 만에' : 'Discover in'}
+                    </p>
+                    <p className="text-white/70 text-[8px] leading-tight">
+                      {language === 'ko' ? '예술 성향' : '5 minutes'}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span className="text-base mb-1">🤝</span>
+                    <p className="text-white/90 text-[9px] font-medium leading-tight">
+                      {language === 'ko' ? '완벽한 매칭' : 'Perfect match'}
+                    </p>
+                    <p className="text-white/70 text-[8px] leading-tight">
+                      {language === 'ko' ? '전시 동행' : 'Companions'}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span className="text-base mb-1">🎨</span>
+                    <p className="text-white/90 text-[9px] font-medium leading-tight">
+                      {language === 'ko' ? 'AI 추천' : 'AI-powered'}
+                    </p>
+                    <p className="text-white/70 text-[8px] leading-tight">
+                      {language === 'ko' ? '맞춤 전시' : 'Art recs'}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
               
               {/* 시작 버튼 (모바일 최적화) */}
               <motion.div

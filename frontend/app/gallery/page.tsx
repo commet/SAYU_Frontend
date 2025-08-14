@@ -85,6 +85,7 @@ function GalleryContent() {
   const [viewedArtworks, setViewedArtworks] = useState<Set<string>>(new Set());
   const [savedArtworks, setSavedArtworks] = useState<Set<string>>(new Set());
   const [savedArtworksData, setSavedArtworksData] = useState<GalleryArtwork[]>([]);
+  const [activeFilter, setActiveFilter] = useState<'all' | 'saved' | 'liked' | 'new'>('all');
   
   // 새로운 통계 상태
   const [monthlyCollected, setMonthlyCollected] = useState(0);
@@ -571,14 +572,66 @@ function GalleryContent() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         className={cn(
-          "border-b border-slate-700 backdrop-blur-md sticky z-20 bg-slate-900/80 relative",
-          isMobile ? "top-14" : "top-0"
+          "border-b border-slate-700 backdrop-blur-md sticky z-20 bg-slate-900/80 relative top-0"
         )}
       >
-        <div className={cn("mx-auto", isMobile ? "px-4 py-3" : "max-w-7xl px-4 py-4")}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              {!isMobile && (
+        <div className={cn("mx-auto", isMobile ? "px-4 py-2" : "max-w-7xl px-4 py-4")}>
+          {/* Mobile Layout */}
+          {isMobile ? (
+            <>
+              {/* First Row - Title and Description side by side */}
+              <div className="flex items-end gap-3 mb-2">
+                <h1 className="font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent text-xl">
+                  내 컬렉션
+                  {isGuestMode && (
+                    <Badge variant="secondary" className="ml-2 rounded-full bg-slate-700 text-slate-300 text-[10px]">
+                      Guest
+                    </Badge>
+                  )}
+                </h1>
+                <p className="text-xs text-slate-400">
+                  {isGuestMode 
+                    ? `놀라운 작품들을 발견하세요`
+                    : `${userAptType} 님을 위한 맞춤 큐레이션`
+                  }
+                </p>
+              </div>
+              
+              {/* Second Row - Stats on left, Shuffle on right */}
+              <div className="flex items-center justify-between gap-2">
+                {isGuestMode ? (
+                  <>
+                    <Button variant="outline" size="sm" onClick={() => router.push('/quiz')} className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white flex-1">
+                      <UserPlus className="w-4 h-4 mr-1" />
+                      <span className="text-xs">Get Personalized</span>
+                    </Button>
+                    <Button size="sm" onClick={() => router.push('/register')} className="bg-purple-600 hover:bg-purple-700 flex-1">
+                      <span className="text-xs">Sign Up Free</span>
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <GalleryStats 
+                      monthlyCollected={savedArtworks.size}  // 보관한 작품 수
+                      totalLiked={likedArtworks.size}        // 좋아요한 작품 수
+                      todayDiscovered={todayDiscovered}      // 오늘 새로 발견한 작품 수
+                      className="text-xs"
+                    />
+                    <Button 
+                      size="sm" 
+                      onClick={shuffleArtworks}
+                      className="bg-purple-600/20 text-purple-300 hover:bg-purple-600/30 border-0 px-2 py-1.5"
+                    >
+                      <Shuffle className="w-3 h-3" />
+                    </Button>
+                  </>
+                )}
+              </div>
+            </>
+          ) : (
+            /* Desktop Layout - Keep existing */
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
                 <Button
                   variant="ghost"
                   size="icon"
@@ -587,63 +640,60 @@ function GalleryContent() {
                 >
                   <ArrowLeft className="w-5 h-5" />
                 </Button>
-              )}
-              <div>
-                <h1 className={cn(
-                  "font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent",
-                  isMobile ? "text-xl" : "text-2xl"
-                )}>
-                  내 컬렉션
-                  {isGuestMode && (
-                    <Badge variant="secondary" className="ml-2 rounded-full bg-slate-700 text-slate-300">
-                      Guest Mode
-                    </Badge>
-                  )}
-                </h1>
-                <p className="text-sm text-slate-400 mt-1">
-                  {isGuestMode 
-                    ? `놀라운 작품들을 발견하세요`
-                    : `${userAptType} 님을 위한 맞춤 큐레이션`
-                  }
-                </p>
+                <div>
+                  <h1 className="font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent text-2xl">
+                    내 컬렉션
+                    {isGuestMode && (
+                      <Badge variant="secondary" className="ml-2 rounded-full bg-slate-700 text-slate-300">
+                        Guest Mode
+                      </Badge>
+                    )}
+                  </h1>
+                  <p className="text-sm text-slate-400 mt-1">
+                    {isGuestMode 
+                      ? `놀라운 작품들을 발견하세요`
+                      : `${userAptType} 님을 위한 맞춤 큐레이션`
+                    }
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                {isGuestMode ? (
+                  <>
+                    <Button variant="outline" size="sm" onClick={() => router.push('/quiz')} className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white">
+                      <UserPlus className="w-4 h-4 mr-2" />
+                      Get Personalized
+                    </Button>
+                    <Button size="sm" onClick={() => router.push('/register')} className="bg-purple-600 hover:bg-purple-700">
+                      Sign Up Free
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button 
+                      size="sm" 
+                      onClick={shuffleArtworks}
+                      className="bg-purple-600/20 text-purple-300 hover:bg-purple-600/30 border-0"
+                    >
+                      <Shuffle className="w-4 h-4 mr-2" />
+                      Shuffle
+                    </Button>
+                    <GalleryStats 
+                      monthlyCollected={savedArtworks.size}  // 컬렉션한 작품 수
+                      totalLiked={likedArtworks.size}        // 좋아요한 작품 수
+                      todayDiscovered={todayDiscovered}      // 오늘 새로 발견한 작품 수
+                    />
+                  </>
+                )}
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              {isGuestMode ? (
-                <>
-                  <Button variant="outline" size="sm" onClick={() => router.push('/quiz')} className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white">
-                    <UserPlus className="w-4 h-4 mr-2" />
-                    Get Personalized
-                  </Button>
-                  <Button size="sm" onClick={() => router.push('/register')} className="bg-purple-600 hover:bg-purple-700">
-                    Sign Up Free
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button 
-                    size="sm" 
-                    onClick={shuffleArtworks}
-                    className="bg-purple-600/20 text-purple-300 hover:bg-purple-600/30 border-0"
-                  >
-                    <Shuffle className="w-4 h-4 mr-2" />
-                    Shuffle
-                  </Button>
-                  <GalleryStats 
-                    monthlyCollected={savedArtworks.size}  // 컬렉션한 작품 수
-                    totalLiked={likedArtworks.size}        // 좋아요한 작품 수
-                    todayDiscovered={todayDiscovered}      // 오늘 새로 발견한 작품 수
-                  />
-                </>
-              )}
-            </div>
-          </div>
+          )}
           
           {/* Category Filter - 모바일 최적화 */}
-          <div className={cn("mt-4", isMobile && "mt-3")}>
+          <div className={cn(isMobile ? "mt-1" : "mt-4")}>
             <div className={cn(
               "flex gap-2 overflow-x-auto scrollbar-hide",
-              isMobile ? "pb-1" : "pb-2"
+              isMobile ? "" : "pb-2"
             )}>
               {ART_CATEGORIES.map((category) => (
                 <button
@@ -651,7 +701,7 @@ function GalleryContent() {
                   onClick={() => setSelectedCategory(category.id)}
                   className={cn(
                     "rounded-full font-medium whitespace-nowrap transition-all",
-                    isMobile ? "px-3 py-1.5 text-xs" : "px-4 py-2 text-sm",
+                    isMobile ? "px-3 py-1 text-xs" : "px-4 py-2 text-sm",
                     selectedCategory === category.id
                       ? 'bg-purple-600 text-white shadow-lg'
                       : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-600'
@@ -788,12 +838,13 @@ function GalleryContent() {
                       
                       {/* 실제 이미지 표시 - Wikimedia Commons images */}
                       <img 
-                        src={item.imageUrl?.includes('wikimedia') ? `/api/image-proxy?url=${encodeURIComponent(item.imageUrl)}` : item.imageUrl} 
+                        src={item.imageUrl} 
                         alt={item.title}
                         className="absolute inset-0 w-full h-full object-cover"
                         loading="lazy"
+                        crossOrigin="anonymous"
                         onError={(e) => {
-                          e.currentTarget.src = 'https://via.placeholder.com/400x300?text=Artwork';
+                          e.currentTarget.src = '/images/placeholder-artwork.jpg';
                         }}
                       />
                     </div>
@@ -861,12 +912,13 @@ function GalleryContent() {
                       
                       {/* 실제 이미지 표시 - Wikimedia Commons images */}
                       <img 
-                        src={item.imageUrl?.includes('wikimedia') ? `/api/image-proxy?url=${encodeURIComponent(item.imageUrl)}` : item.imageUrl} 
+                        src={item.imageUrl} 
                         alt={item.title}
                         className="absolute inset-0 w-full h-full object-cover"
                         loading="lazy"
+                        crossOrigin="anonymous"
                         onError={(e) => {
-                          e.currentTarget.src = 'https://via.placeholder.com/400x300?text=Artwork';
+                          e.currentTarget.src = '/images/placeholder-artwork.jpg';
                         }}
                       />
                     </div>
@@ -963,12 +1015,13 @@ function GalleryContent() {
                 <div className="relative overflow-hidden rounded-xl bg-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-700 hover:border-purple-500">
                   <div className="aspect-square bg-slate-700 flex items-center justify-center relative overflow-hidden">
                     <img 
-                      src={artwork.imageUrl?.includes('wikimedia') ? `/api/image-proxy?url=${encodeURIComponent(artwork.imageUrl)}` : artwork.imageUrl} 
+                      src={artwork.imageUrl} 
                       alt={artwork.title}
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                       loading="lazy"
+                      crossOrigin="anonymous"
                       onError={(e) => {
-                        e.currentTarget.src = 'https://via.placeholder.com/400x300?text=Artwork';
+                        e.currentTarget.src = '/images/placeholder-artwork.jpg';
                       }}
                     />
                     

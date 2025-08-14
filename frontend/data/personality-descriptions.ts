@@ -175,7 +175,7 @@ export const personalityDescriptions: Record<SAYUTypeCode, PersonalityDescriptio
     title: 'The Emotional Curator',
     title_ko: '감성 큐레이터',
     subtitle: 'Creating personal collections of emotional art experiences',
-    subtitle_ko: '감정적 예술 경험의 개인 커렉션을 만드는',
+    subtitle_ko: '감정적 예술 경험의 개인 컬렉션을 만드는',
     essence: 'Your art journal has 47 different shades of blue meticulously catalogued with their corresponding emotional temperatures. While your friends scroll through Instagram, you\'re creating a personal Wikipedia of feelings, complete with color swatches and mood ratings.\n\nYou\'ve just spent forty minutes analyzing why this particular shade of vermillion makes you feel like autumn rain, and honestly? You\'re not even sorry. Your systematic approach to emotions would make Marie Kondo proud. You can be heard muttering "I need to record this feeling on page 3, line 3 of my A4 notebook" - it\'s so perfectly you.',
     essence_ko: '예술 감상 노트에 파란색만 47가지 톤으로 분류해놨어요. 각각에 감정 온도까지 매겨서요. 친구들이 인스타 스크롤할 때, 당신은 감정의 개인 위키백과를 만들고 있어요. 색깔 견본과 기분 평점까지 포함해서 말이에요.\n\n방금 버밀리온 색깔이 왜 가을비 같은 기분을 주는지 40분 동안 분석했는데, 전혀 후회하지 않아요. 감정을 체계화하는 당신의 방식은 마리 곤도도 감탄할 거예요. "이 느낌은 A4용지 3번째 줄에 기록해둬야지"라고 중얼거리는 모습이 너무나도 당신다워요.',
     strengths: [

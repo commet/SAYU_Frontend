@@ -58,8 +58,7 @@ export const MobileQuiz: React.FC = () => {
   const handlers = useSwipeable({
     onSwipedRight: () => {
       if (currentQuestion > 0 && !isTransitioning) {
-        triggerHaptic('light');
-        setCurrentQuestion(prev => prev - 1);
+        handleGoBack();
       }
     },
     onSwipedLeft: () => {
@@ -77,6 +76,21 @@ export const MobileQuiz: React.FC = () => {
   const handleGoBack = () => {
     triggerHaptic('light');
     if (currentQuestion > 0) {
+      // 현재 질문 이후의 모든 응답 제거 및 점수 재계산
+      const filteredResponses = responses.filter(r => r.questionId < currentQuestion + 1);
+      setResponses(filteredResponses);
+      
+      // 점수 재계산
+      const recalculatedScores = { L: 0, S: 0, A: 0, R: 0, E: 0, M: 0, F: 0, C: 0 };
+      filteredResponses.forEach(response => {
+        Object.entries(response.weight).forEach(([key, value]) => {
+          if (key in recalculatedScores) {
+            recalculatedScores[key as keyof typeof recalculatedScores] += value;
+          }
+        });
+      });
+      setPersonalityScores(recalculatedScores);
+      
       setCurrentQuestion(currentQuestion - 1);
       setSelectedOption(null);
     } else {
@@ -305,7 +319,7 @@ export const MobileQuiz: React.FC = () => {
             <motion.h2 
               className="font-bold text-center mb-6 leading-tight"
               style={{ 
-                fontSize: '1.05rem', 
+                fontSize: '1.25rem', 
                 letterSpacing: '-0.03em',
                 background: currentQuestion >= 12
                   ? 'linear-gradient(180deg, #ffffff 0%, #22c55e 100%)'

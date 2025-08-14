@@ -107,7 +107,7 @@ export const ArtworkCard: React.FC<ArtworkCardProps> = ({
       data-personality={personality}
     >
       {/* Image Container */}
-      <div className="relative overflow-hidden h-64 md:h-72">
+      <div className="relative overflow-hidden h-48 sm:h-56 md:h-72">
         <motion.div
           className="w-full h-full"
           animate={{

@@ -62,7 +62,7 @@
 .animal-cursor-container {
   position: fixed;
   pointer-events: none;
-  z-index: 10000;
+  z-index: 9997;
   transition: var(--cursor-transition);
 }
 

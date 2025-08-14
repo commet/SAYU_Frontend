@@ -117,9 +117,19 @@ export default function MobileNav() {
           
           <button 
             onClick={() => router.push('/')}
-            className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hover:opacity-80 transition-opacity touch-manipulation"
+            className="hover:opacity-80 transition-opacity touch-manipulation"
           >
-            SAYU
+            <div className="relative group">
+              {/* 로고 스타일: Artistic Script - 모바일 버전 */}
+              <div className="text-2xl italic relative" 
+                   style={{ fontFamily: 'var(--font-playfair), serif', letterSpacing: '-0.02em' }}>
+                <span className="bg-gradient-to-br from-purple-500 via-pink-400 to-purple-500 bg-clip-text text-transparent">
+                  Sayu
+                </span>
+                {/* 점 장식 */}
+                <div className="absolute -top-1 -right-2 w-1 h-1 rounded-full bg-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            </div>
           </button>
           
           <div className="w-10" /> {/* 균형을 위한 spacer */}
@@ -135,7 +145,7 @@ export default function MobileNav() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 z-50 lg:hidden"
+              className="fixed inset-0 bg-black/50 z-[9998] lg:hidden"
               onClick={() => setIsDrawerOpen(false)}
             />
             
@@ -145,7 +155,7 @@ export default function MobileNav() {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="fixed left-0 top-0 h-full w-80 max-w-[85vw] bg-white dark:bg-gray-900 z-50 shadow-2xl lg:hidden overflow-y-auto"
+              className="fixed left-0 top-0 h-full w-80 max-w-[85vw] bg-white dark:bg-gray-900 z-[9999] shadow-2xl lg:hidden overflow-y-auto"
             >
               {/* 드로어 헤더 */}
               <div className="p-6 border-b border-gray-200 dark:border-gray-800">

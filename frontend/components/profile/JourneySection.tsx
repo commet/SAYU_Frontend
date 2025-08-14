@@ -103,15 +103,15 @@ export function JourneySection() {
   };
 
   return (
-    <div className="bg-gray-800/50 rounded-xl p-6">
+    <div className="bg-gray-800/50 rounded-xl p-4 sm:p-6">
       {/* 헤더 */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-            <Calendar className="w-6 h-6 text-purple-400" />
-            나의 7일 여정
+          <h2 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
+            <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-purple-400" />
+            <span className="text-base sm:text-2xl">나의 7일 여정</span>
           </h2>
-          <p className="text-gray-400 mt-1">
+          <p className="text-gray-400 mt-1 text-xs sm:text-base">
             SAYU와 함께하는 예술 발견의 여행
           </p>
         </div>
@@ -124,8 +124,8 @@ export function JourneySection() {
       </div>
 
       {/* 전체 진행률 */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between text-sm text-gray-400 mb-2">
+      <div className="mb-4 sm:mb-6">
+        <div className="flex items-center justify-between text-xs sm:text-sm text-gray-400 mb-2">
           <span>전체 진행률</span>
           <span>{getCompletionPercentage()}% 완료</span>
         </div>
@@ -167,17 +167,18 @@ export function JourneySection() {
             >
               {/* Day 헤더 */}
               <div
-                className={`p-4 flex items-center justify-between ${
+                className={`p-3 sm:p-4 flex items-center justify-between ${
                   isClickable ? 'cursor-pointer hover:bg-white/5' : ''
                 }`}
                 onClick={() => isClickable && setExpandedDay(isExpanded ? null : journey.day)}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 sm:gap-3 flex-1">
                   {getDayIcon(status)}
-                  <div>
-                    <h3 className="font-semibold text-white flex items-center gap-2">
-                      <span className="text-2xl">{getDayEmoji(journey.day)}</span>
-                      Day {journey.day}: {journey.title}
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-white flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
+                      <span className="text-lg sm:text-2xl">{getDayEmoji(journey.day)}</span>
+                      <span>Day {journey.day}:</span>
+                      <span className="line-clamp-1">{journey.title}</span>
                     </h3>
                     {status === 'current' && (
                       <p className="text-sm text-purple-400 mt-1">
@@ -199,14 +200,14 @@ export function JourneySection() {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  className="px-4 pb-4"
+                  className="px-3 sm:px-4 pb-3 sm:pb-4"
                 >
                   {/* Day 1 특별 강조 - AI 아트 프로필 (메인 태스크 통합) */}
                   {journey.day === 1 && status === 'current' && !journey.mainTask.completed ? (
                     <motion.div
                       initial={{ scale: 0.95 }}
                       animate={{ scale: 1 }}
-                      className="mb-4 p-4 bg-gradient-to-r from-purple-600/30 to-pink-600/30 rounded-xl border border-purple-500/50 shadow-lg shadow-purple-600/20"
+                      className="mb-4 p-3 sm:p-4 bg-gradient-to-r from-purple-600/30 to-pink-600/30 rounded-xl border border-purple-500/50 shadow-lg shadow-purple-600/20"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-1">

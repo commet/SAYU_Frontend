@@ -200,10 +200,39 @@ export default function ProfilePage() {
   }, [user, showProfileCompleteModal]);
 
   useEffect(() => {
-    const quizResults = localStorage.getItem('quizResults');
-    if (quizResults) {
-      const results = JSON.parse(quizResults);
-      setUserPersonalityType(results.personalityType);
+    // Check URL params first for new users coming from auth
+    const urlParams = new URLSearchParams(window.location.search);
+    const aptFromUrl = urlParams.get('apt');
+    const isNewUser = urlParams.get('new_user') === 'true';
+    
+    if (aptFromUrl && isNewUser) {
+      // New user with APT from auth callback
+      console.log('New user with APT:', aptFromUrl);
+      setUserPersonalityType(aptFromUrl);
+      
+      // Save to localStorage for persistence
+      const quizData = {
+        personalityType: aptFromUrl,
+        scores: {},
+        responses: [],
+        completedAt: new Date().toISOString()
+      };
+      localStorage.setItem('quizResults', JSON.stringify(quizData));
+      
+      // Clean up URL
+      window.history.replaceState({}, '', '/profile');
+      
+      // Optionally sync to backend
+      import('@/lib/quiz-api').then(({ saveQuizResultsWithSync }) => {
+        saveQuizResultsWithSync(quizData).catch(console.error);
+      });
+    } else {
+      // Check localStorage for existing quiz results
+      const quizResults = localStorage.getItem('quizResults');
+      if (quizResults) {
+        const results = JSON.parse(quizResults);
+        setUserPersonalityType(results.personalityType);
+      }
     }
   }, []);
 
@@ -363,7 +392,7 @@ export default function ProfilePage() {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    user.nickname?.[0] || user.auth.email?.[0] || 'U'
+                    user?.nickname?.[0] || user?.auth?.email?.[0] || 'U'
                   )}
                 </div>
                 {artProfile && (
@@ -380,7 +409,7 @@ export default function ProfilePage() {
               
               <div>
                 <div className="flex items-center gap-3 flex-wrap">
-                  <h1 className="text-2xl font-bold text-white">{user.nickname || user.auth.email}</h1>
+                  <h1 className="text-2xl font-bold text-white">{user?.nickname || user?.auth?.email || 'Anonymous'}</h1>
                   
                   {/* Personality Type Badge - Inline with name */}
                   {userPersonalityType && personalityDescriptions[userPersonalityType] && (
@@ -565,8 +594,8 @@ export default function ProfilePage() {
           {activeTab === 'share' && (
             <ProfileShareCard
               userInfo={{
-                nickname: user.nickname || undefined,
-                email: user.auth.email,
+                nickname: user?.nickname || undefined,
+                email: user?.auth?.email,
                 personalityType: userPersonalityType,
                 level: mockUserStats.level,
                 totalPoints: mockUserStats.totalPoints,
@@ -583,8 +612,8 @@ export default function ProfilePage() {
         isOpen={showSettings}
         onClose={() => setShowSettings(false)}
         userInfo={{
-          nickname: user.nickname || undefined,
-          email: user.auth.email,
+          nickname: user?.nickname || undefined,
+          email: user?.auth?.email,
           personalityType: userPersonalityType
         }}
         onUpdate={async (updates) => {
@@ -597,7 +626,7 @@ export default function ProfilePage() {
       {showIDCard && userPersonalityType && (
         <ProfileIDCard
           personalityType={userPersonalityType}
-          userName={user.nickname || user.auth.email || 'SAYU Explorer'}
+          userName={user?.nickname || user?.auth?.email || 'SAYU Explorer'}
           userLevel={userStats?.level || mockUserStats.level}
           userPoints={userPoints || mockUserStats.totalPoints}
           stats={{

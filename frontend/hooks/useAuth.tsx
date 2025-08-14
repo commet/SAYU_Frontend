@@ -308,6 +308,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       
       console.log('Sign out successful - all user data cleared');
+      
+      // Redirect to home page after logout
+      router.push('/');
     } catch (error) {
       console.error('Sign out failed:', error);
       throw error;

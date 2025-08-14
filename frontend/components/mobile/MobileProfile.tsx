@@ -14,6 +14,7 @@ import { personalityDescriptions } from '@/data/personality-descriptions';
 import { personalityGradients, getGradientStyle } from '@/constants/personality-gradients';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
 import Image from 'next/image';
+import { JourneySection } from '@/components/profile/JourneySection';
 
 // Mock data
 const mockMuseums = [
@@ -125,7 +126,6 @@ export default function MobileProfile() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'overview' | 'journey' | 'badges'>('overview');
   const [userPersonalityType, setUserPersonalityType] = useState<string | null>(null);
-  const [showSettings, setShowSettings] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [artProfile, setArtProfile] = useState<any>({
     imageUrl: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=400&h=400&fit=crop',
@@ -188,19 +188,13 @@ export default function MobileProfile() {
     <div className="min-h-screen pb-20 bg-gradient-to-br from-purple-900 via-pink-900 to-orange-900">
       {/* Profile Header */}
       <div className="relative">
-        {/* Cover Image */}
-        <div className="h-32 bg-gradient-to-br from-purple-600 to-pink-600 relative">
+        {/* Cover Image - 높이 축소 */}
+        <div className="h-20 bg-gradient-to-br from-purple-600 to-pink-600 relative">
           <div className="absolute inset-0 bg-black/20" />
-          <button
-            onClick={() => setShowSettings(!showSettings)}
-            className="absolute top-4 right-4 p-2 bg-white/20 backdrop-blur-sm rounded-lg"
-          >
-            <Settings className="w-5 h-5 text-white" />
-          </button>
         </div>
 
-        {/* Profile Info */}
-        <div className="px-4 -mt-12">
+        {/* Profile Info - 더 위로 올림 */}
+        <div className="px-4 -mt-10">
           <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
             <div className="flex items-start gap-3">
               {/* Profile Image */}
@@ -590,57 +584,10 @@ export default function MobileProfile() {
         </AnimatePresence>
       </div>
 
-      {/* Settings Modal */}
-      <AnimatePresence>
-        {showSettings && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/80 flex items-end"
-            onClick={() => setShowSettings(false)}
-          >
-            <motion.div
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '100%' }}
-              className="w-full bg-gray-900 rounded-t-2xl p-4"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="w-12 h-1 bg-gray-600 rounded-full mx-auto mb-4" />
-              <div className="space-y-3">
-                <button
-                  onClick={() => router.push('/settings')}
-                  className="w-full py-3 text-left text-white flex items-center gap-3"
-                >
-                  <Settings className="w-5 h-5" />
-                  설정
-                </button>
-                <button
-                  onClick={() => router.push('/profile/edit')}
-                  className="w-full py-3 text-left text-white flex items-center gap-3"
-                >
-                  <Edit className="w-5 h-5" />
-                  프로필 편집
-                </button>
-                <button
-                  onClick={() => {/* Logout logic */}}
-                  className="w-full py-3 text-left text-red-400 flex items-center gap-3"
-                >
-                  <LogOut className="w-5 h-5" />
-                  로그아웃
-                </button>
-                <button
-                  onClick={() => setShowSettings(false)}
-                  className="w-full py-3 text-center text-gray-400"
-                >
-                  취소
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Journey/Onboarding Section - 화면 하단 */}
+      <div className="mt-6 px-4 pb-20">
+        <JourneySection />
+      </div>
 
       {/* Feedback Button */}
       <FeedbackButton

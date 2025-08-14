@@ -30,29 +30,29 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     id: 1,
     act: 'curiosity',
     narrative: {
-      setup: "You receive an invitation to a mysterious gallery opening. The envelope is sealed with burgundy wax, and inside, the card simply reads: 'Your presence is requested for a journey of discovery.'",
-      setup_ko: "신비로운 갤러리 오프닝 초대장이 도착했습니다. 짙은 와인빛 밀랍 봉인 안, '발견의 여정에 당신을 초대합니다.'",
+      setup: "A gallery invitation arrives.\nInside: 'Discover art, discover yourself.'",
+      setup_ko: "갤러리 초대장이 도착했습니다.\n'예술과 함께 나를 발견하세요.'",
       atmosphere: "anticipation"
     },
-    question: "The heavy oak doors open before you.\nTwo paths diverge in the entrance hall...",
-    question_ko: "묵직한 참나무 문이 열립니다.\n입구에서 두 갈래 길이 나타납니다.",
+    question: "You arrive at the gallery entrance.\nTwo paths lead inside:",
+    question_ko: "갤러리 입구에 도착했습니다.\n두 개의 길이 보입니다:",
     options: [
       {
         id: 'solitary',
-        text: "A quiet corridor bathed in morning light",
-        text_ko: "아침 햇살이 스며든\n고요한 복도",
-        subtext: "You can hear your own footsteps echoing softly",
-        subtext_ko: "발걸음 소리가 부드럽게 울려 퍼집니다",
+        text: "A quiet corridor",
+        text_ko: "조용한 복도",
+        subtext: "Natural light streams in, few visitors around",
+        subtext_ko: "자연광이 들어오는 고요한 공간, 적은 관람객",
         weight: { L: 3 },
         narrative: "You choose solitude, drawn to the peaceful promise of undisturbed contemplation.",
         emotional: "introspective"
       },
       {
         id: 'social',
-        text: "A bustling atrium with voices and laughter",
-        text_ko: "웃음소리와 대화로\n활기찬 중앙 홀",
-        subtext: "Other visitors move in animated conversation",
-        subtext_ko: "다른 관람객들이 생동감 있게 대화를 나눕니다",
+        text: "A lively main hall",
+        text_ko: "활기찬 중앙 홀",
+        subtext: "Groups discussing artworks with enthusiasm",
+        subtext_ko: "작품에 대해 열정적으로 이야기 나누는 사람들",
         weight: { S: 3 },
         narrative: "You're energized by the collective excitement, eager to share this journey.",
         emotional: "connected"
@@ -63,18 +63,18 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     id: 2,
     act: 'curiosity',
     narrative: {
-      transition: "As you move deeper into the gallery, the walls seem to breathe with artistic energy.",
-      transition_ko: "갤러리 깊숙이 들어서자, 벽들이 예술적 에너지로 숨 쉬는 듯합니다.",
+      transition: "You enter the main exhibition space.",
+      transition_ko: "메인 전시 공간으로 들어섭니다.",
       atmosphere: "wonder"
     },
-    question: "A curator in a velvet jacket approaches.\nTheir eyes hold centuries of art wisdom...",
-    question_ko: "벨벳 재킷의 큐레이터가 다가옵니다.\n그의 눈빛엔 오랜 예술의 지혜가 담겨 있습니다.",
+    question: "A curator approaches.\nWould you like guidance?",
+    question_ko: "큐레이터가 다가옵니다.\n안내를 받으시겠어요?",
     options: [
       {
         id: 'intuitive',
-        text: "Please, let me wander and discover on my own",
-        text_ko: "혼자서 천천히\n둘러보고 싶어요",
-        subtext: "You prefer to let the art speak directly to your soul",
+        text: "I'll explore on my own",
+        text_ko: "혼자 둘러볼게요",
+        subtext: "Follow your instincts",
         subtext_ko: "작품이 영혼에 직접 말을 걸기를 바랍니다",
         weight: { F: 3 },
         narrative: "The curator nods knowingly, 'Some journeys are meant to be unguided.'",
@@ -82,10 +82,10 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       },
       {
         id: 'structured',
-        text: "I'd love to hear about the exhibition's design",
-        text_ko: "전시 구성에 대해\n들어보고 싶습니다",
-        subtext: "You appreciate understanding the curator's vision",
-        subtext_ko: "큐레이터의 시각을 이해하는 것이 중요합니다",
+        text: "Yes, tell me about the exhibition",
+        text_ko: "네, 전시에 대해 알려주세요",
+        subtext: "Context enhances understanding",
+        subtext_ko: "맥락이 이해를 돕습니다",
         weight: { C: 3 },
         narrative: "Their face lights up as they begin to share the careful choreography of the collection.",
         emotional: "grounded"
@@ -96,8 +96,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     id: 3,
     act: 'curiosity',
     narrative: {
-      transition: "The first room beckons. As you cross the threshold, the atmosphere shifts palpably.",
-      transition_ko: "첫 번째 전시실이 손짓합니다. 문턱을 넘자 분위기가 확연히 달라집니다.",
+      transition: "You enter the first exhibition room.",
+      transition_ko: "첫 전시실에 들어섭니다.",
       atmosphere: "threshold"
     },
     question: "The gallery's first chamber reveals itself.\nWhat captures your attention?",
@@ -105,18 +105,18 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     options: [
       {
         id: 'atmosphere',
-        text: "The room's emotional atmosphere washes over me",
-        text_ko: "공간 전체의 정서적\n분위기에 젖어듭니다",
-        subtext: "Colors and light create an almost tangible mood",
-        subtext_ko: "색과 빛이 만들어내는 분위기가 손에 잡힐 듯합니다",
+        text: "The room's atmosphere draws me in",
+        text_ko: "공간의 분위기에 빠져듭니다",
+        subtext: "Colors and light create a unique energy",
+        subtext_ko: "색과 빛이 만드는 특별한 기운",
         weight: { A: 3, E: 1 },
         narrative: "You breathe deeply, letting the space's energy fill your lungs and lift your spirit.",
         emotional: "absorbed"
       },
       {
         id: 'details',
-        text: "A specific painting's intricate brushwork draws me close",
-        text_ko: "한 작품의 섬세한 붓질에 이끌려 다가갑니다",
+        text: "A painting's details draw me close",
+        text_ko: "한 작품의 세부에 이끌립니다",
         subtext: "You notice techniques and textures others might miss",
         subtext_ko: "남들이 놓칠 법한 기법과 질감을 발견합니다",
         weight: { R: 3, M: 1 },
@@ -135,8 +135,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       transition_ko: "갤러리의 흐름 속에서 자신만의 리듬을 찾자, 시간이 느려지는 듯합니다.",
       atmosphere: "immersion"
     },
-    question: "A painting stops you in your tracks.\nIt's as if it was waiting for you...",
-    question_ko: "하나의 그림 앞에 발걸음이 멈춰 섭니다.\n마치 당신을 기다리고 있었던 것처럼...",
+    question: "A painting stops you mid-step.\nIt feels familiar somehow...",
+    question_ko: "한 그림 앞에 발걸음이 멈춥니다.\n어딘가 익숙한 느낌이...",
     options: [
       {
         id: 'emotional',
@@ -168,13 +168,13 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       transition_ko: "햇살이 비치는 작은 공간에서 하나의 이야기를 들려주는 연작을 발견합니다.",
       atmosphere: "discovery"
     },
-    question: "Time has become elastic.\nHow do you navigate this temporal gallery dance?",
-    question_ko: "시간의 흐름이 달라졌습니다.\n이 갤러리에서 어떻게 움직이시겠어요?",
+    question: "Time flows differently here.\nHow do you explore?",
+    question_ko: "시간이 다르게 흐릅니다.\n어떻게 둘러보시겠어요?",
     options: [
       {
         id: 'flowing',
-        text: "Let intuition guide me from piece to piece",
-        text_ko: "직감을 따라 자유롭게 작품을 둘러봅니다",
+        text: "Follow intuition between pieces",
+        text_ko: "직감 따라 자유롭게",
         subtext: "Each artwork calls to the next in an organic flow",
         subtext_ko: "작품들이 자연스럽게 다음을 향해 이끕니다",
         weight: { F: 3, A: 1 },
@@ -201,25 +201,25 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       transition_ko: "같은 작품에 이끌린 또 다른 관람객이 옆에 섭니다.",
       atmosphere: "connection"
     },
-    question: "A stranger's presence enters your artistic bubble.\nThe moment asks for a choice...",
-    question_ko: "낯선 이가 당신의 감상 공간에 들어섭니다.\n이 순간, 어떻게 하시겠어요?",
+    question: "Another visitor stands nearby.\nDo you engage?",
+    question_ko: "다른 관람객이 옆에 있습니다.\n어떻게 하시겠어요?",
     options: [
       {
         id: 'preserve',
         text: "You maintain your private communion with the art",
         text_ko: "작품과의 조용한 대화를 이어갑니다",
-        subtext: "Some experiences are too personal to share",
-        subtext_ko: "너무 개인적인 순간은 나누기 어렵습니다",
+        subtext: "This moment is personal",
+        subtext_ko: "개인적인 순간입니다",
         weight: { L: 2, M: 1 },
         narrative: "You close your eyes briefly, holding the moment like a secret.",
         emotional: "protected"
       },
       {
         id: 'share',
-        text: "You exchange a knowing glance and begin to speak",
-        text_ko: "눈빛을 나누고 대화를 시작합니다",
-        subtext: "Shared wonder doubles the joy",
-        subtext_ko: "함께 느끼는 감동은 배가 됩니다",
+        text: "You smile and nod in shared appreciation",
+        text_ko: "미소로 감상을 공유합니다",
+        subtext: "A silent connection forms",
+        subtext_ko: "말없는 교감이 생겨납니다",
         weight: { S: 2, E: 1 },
         narrative: "Your perspectives interweave, creating a richer tapestry of understanding.",
         emotional: "expanded"
@@ -269,23 +269,23 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       transition_ko: "갤러리의 중심부에 도착했습니다.\n마지막 전시실이 기다립니다.",
       atmosphere: "anticipation"
     },
-    question: "In the last room, a mirror-like installation reflects not your face, but your artistic soul...",
-    question_ko: "마지막 방의 거울 같은 설치 작품은\n얼굴이 아닌 당신의 예술적 영혼을 비춥니다...",
+    question: "The final room holds a reflective installation.\nWhat do you see?",
+    question_ko: "마지막 방의 반사 설치 작품.\n무엇이 보이나요?",
     options: [
       {
         id: 'abstract',
-        text: "You see swirling colors and emotions",
-        text_ko: "소용돌이치는 색채와 감정이 보입니다",
-        subtext: "Your reflection is pure feeling and energy",
-        subtext_ko: "순수한 느낌과 에너지가 반사됩니다",
+        text: "Colors and emotions swirling",
+        text_ko: "소용돌이치는 색과 감정",
+        subtext: "Pure feeling and energy",
+        subtext_ko: "순수한 느낌과 에너지",
         weight: { A: 4, E: 2 },
         narrative: "The mirror shows your inner landscape - beautiful, complex, ever-changing.",
         emotional: "recognized"
       },
       {
         id: 'concrete',
-        text: "You see precise patterns and clear forms",
-        text_ko: "정확한 패턴과 명확한 형태가 보입니다",
+        text: "Precise patterns and clear forms",
+        text_ko: "정확한 패턴과 명확한 형태",
         subtext: "Your reflection reveals structure and clarity",
         subtext_ko: "구조와 명료함이 드러납니다",
         weight: { R: 3, M: 2 },
@@ -302,13 +302,13 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       transition_ko: "여정이 끝나가지만, 내면에서 무언가 근본적인 변화가 일어났습니다.",
       atmosphere: "transformation"
     },
-    question: "As you prepare to leave,\nyou realize what you've been seeking all along...",
-    question_ko: "떠날 준비를 하며,\n처음부터 찾고 있던 것이 무엇인지 깨닫습니다...",
+    question: "Preparing to leave,\nyou realize what you've been seeking...",
+    question_ko: "떠날 준비를 하며,\n찾던 것을 깨닫습니다...",
     options: [
       {
         id: 'connection',
         text: "A deeper connection to your own emotions",
-        text_ko: "내 감정과의\n더 깊은 연결",
+        text_ko: "내 감정과의 더 깊은 연결",
         subtext: "Art as a mirror to your inner world",
         subtext_ko: "내면을 비추는 거울로서의\n예술",
         weight: { E: 3, L: 1 },
@@ -318,7 +318,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'understanding',
         text: "A framework for understanding beauty",
-        text_ko: "아름다움을\n이해하는 틀",
+        text_ko: "아름다움을 이해하는 틀",
         subtext: "Art as a system to be comprehended",
         subtext_ko: "이해할 수 있는 체계로서의\n예술",
         weight: { M: 3, S: 1 },
@@ -335,15 +335,15 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       transition_ko: "출구에 방명록이 펼쳐져 있습니다.\n펜을 든 손이 잠시 머뭇거립니다.",
       atmosphere: "reflection"
     },
-    question: "What will you carry with you from this gallery of the soul?",
-    question_ko: "영혼의 갤러리에서\n무엇을 가지고 돌아가시겠어요?",
+    question: "What will you take with you?",
+    question_ko: "무엇을 가지고 가시겠어요?",
     options: [
       {
         id: 'fluid',
         text: "The freedom to experience art without boundaries",
-        text_ko: "경계 없이 예술을 경험하는 자유",
-        subtext: "Each encounter will be a new adventure",
-        subtext_ko: "모든 만남이 새로운 모험이 될 것입니다",
+        text_ko: "경계 없이 예술을\n경험하는 자유",
+        subtext: "Every encounter, a new adventure",
+        subtext_ko: "모든 만남이 새로운 모험",
         weight: { F: 3, A: 1, L: 1 },
         narrative: "You write: 'I came seeking art, but found myself in every frame.'",
         emotional: "liberated"
@@ -351,9 +351,9 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'structured',
         text: "A deeper appreciation for artistic craft and intention",
-        text_ko: "예술적 기법과 의도에 대한 깊은 이해",
-        subtext: "Each piece now speaks in a language you understand",
-        subtext_ko: "이제 모든 작품이 이해할 수 있는 언어로 말합니다",
+        text_ko: "예술적 기법과 의도에\n대한 깊은 이해",
+        subtext: "Art speaks in a language you understand",
+        subtext_ko: "이제 예술의 언어를 이해합니다",
         weight: { C: 3, R: 1, S: 1 },
         narrative: "You write: 'I leave with eyes that see not just beauty, but the hands that shaped it.'",
         emotional: "enriched"
@@ -366,8 +366,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     id: 11,
     act: 'exploration',
     narrative: {
-      transition: "As you wander toward the museum shop, artistic merchandise catches your eye.",
-      transition_ko: "뮤지엄 샵으로 향하던 중,\n예술 상품들이 눈길을 끕니다.",
+      transition: "In the museum shop, books about the artists catch your eye.",
+      transition_ko: "뮤지엄 샵의 작가들에 대한 책들이 눈길을 끕니다.",
       atmosphere: "curiosity"
     },
     question: "What draws you most to understanding an artist?",
@@ -377,8 +377,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         id: 'life-story',
         text: "Their personal journey and struggles",
         text_ko: "작가의 개인적 여정과 고민",
-        subtext: "How their life shaped their vision",
-        subtext_ko: "삶의 경험이 작품에 어떻게 스며들었는지",
+        subtext: "Life shaping their art",
+        subtext_ko: "삶이 작품에 스며든 방식",
         weight: { E: 2, A: 1 },
         narrative: "You believe art is inseparable from the human story behind it.",
         emotional: "empathetic"
@@ -399,8 +399,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     id: 12,
     act: 'exploration',
     narrative: {
-      transition: "In the museum shop, you browse through exhibition catalogs from past shows.",
-      transition_ko: "아트샵에서 과거 전시들의 도록을 둘러보며 눈길을 끌는 전시들을 발견합니다.",
+      transition: "Exhibition catalogs from past shows.",
+      transition_ko: "과거 전시 도록들을 봅니다.",
       atmosphere: "decision"
     },
     question: "Which exhibition calls to you more strongly?",
@@ -432,8 +432,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     id: 13,
     act: 'revelation',
     narrative: {
-      transition: "Back in your personal space, you imagine how art could transform your daily environment.",
-      transition_ko: "일상의 공간으로 돌아와, 예술이 환경을 어떻게 바꿀 수 있을지 상상해 봅니다.",
+      transition: "Back home, imagining art in your space.",
+      transition_ko: "집으로 돌아와, 내 공간의 예술을 상상합니다.",
       atmosphere: "memory"
     },
     question: "What kind of art would you want in your personal space?",
@@ -474,8 +474,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     options: [
       {
         id: 'essential',
-        text: "It's the lens through which I see everything",
-        text_ko: "모든 것을 바라보는\n렌즈입니다",
+        text: "It filters and enriches my perception",
+        text_ko: "내 인식을 풍부하게 하는 필터",
         subtext: "Beauty and meaning are everywhere",
         subtext_ko: "아름다움과 의미는 어디에나 있습니다",
         weight: { A: 1, E: 2 },
@@ -485,7 +485,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'sanctuary',
         text: "It's my escape and my sanctuary",
-        text_ko: "나만의 도피처이자\n안식처입니다",
+        text_ko: "나만의 도피처이자 안식처",
         subtext: "A special realm I visit for renewal",
         subtext_ko: "재충전을 위해 찾는 특별한\n영역입니다",
         weight: { R: 1, M: 2 },
@@ -498,8 +498,8 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     id: 15,
     act: 'revelation',
     narrative: {
-      transition: "At home, reflecting on your journey, you realize this experience has changed something fundamental.",
-      transition_ko: "집에서 여정을 되돌아보며, 이 경험이 무언가 근본적인 것을 바꿨음을 깨닫습니다.",
+      transition: "Reflecting on your journey, something has shifted.",
+      transition_ko: "여정을 되돌아보니, 무언가 변했습니다.",
       atmosphere: "transformation"
     },
     question: "What kind of art lover have you discovered yourself to be?",
@@ -507,18 +507,18 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     options: [
       {
         id: 'seeker',
-        text: "An eternal seeker of new experiences",
-        text_ko: "끊임없이 새로운 경험을 찾는 탐구자",
-        subtext: "Following the flow of artistic discovery",
-        subtext_ko: "예술적 발견의 흐름을 따라가는",
+        text: "A seeker of new experiences",
+        text_ko: "새로운 경험의 탐구자",
+        subtext: "Following artistic discovery",
+        subtext_ko: "예술적 발견을 따라서",
         weight: { F: 2, S: 1, A: 1 },
         narrative: "Your artistic journey has just begun - infinite discoveries await.",
         emotional: "excited"
       },
       {
         id: 'cultivator',
-        text: "A patient cultivator of deep appreciation",
-        text_ko: "깊은 감상을 천천히\n가꾸는 사람",
+        text: "A cultivator of deep appreciation",
+        text_ko: "깊은 감상을 기르는 사람",
         subtext: "Constructing enduring frameworks of understanding",
         subtext_ko: "이해의 지속적인 체계를 구축하는",
         weight: { C: 2, L: 1, R: 1 },

@@ -45,7 +45,14 @@ function LoginContent() {
         github_auth_failed: { en: 'GitHub authentication failed.', ko: '깃허브 인증에 실패했습니다.' },
         apple_auth_failed: { en: 'Apple authentication failed.', ko: '애플 인증에 실패했습니다.' },
         server_error: { en: 'Instagram login failed. Please check if Instagram/Facebook app is configured correctly in Supabase.', ko: 'Instagram 로그인에 실패했습니다. Supabase에서 Instagram/Facebook 앱이 올바르게 설정되었는지 확인해주세요.' },
-        access_denied: { en: 'Access denied. You cancelled the login.', ko: '접근이 거부되었습니다. 로그인을 취소하셨습니다.' }
+        access_denied: { en: 'Access denied. You cancelled the login.', ko: '접근이 거부되었습니다. 로그인을 취소하셨습니다.' },
+        pkce_failed: { en: 'Authentication verification failed. Please try again.', ko: '인증 검증에 실패했습니다. 다시 시도해주세요.' },
+        'invalid request: both auth code and code verifier should be non-empty': { 
+          en: 'Authentication session expired. Please try logging in again.', 
+          ko: '인증 세션이 만료되었습니다. 다시 로그인해주세요.' 
+        },
+        exchange_failed: { en: 'Failed to complete login. Please try again.', ko: '로그인을 완료하지 못했습니다. 다시 시도해주세요.' },
+        no_session: { en: 'Failed to create session. Please try again.', ko: '세션 생성에 실패했습니다. 다시 시도해주세요.' }
       };
       const message = errorMessages[error]?.[language] || (language === 'ko' ? '인증 오류' : 'Authentication error');
       toast.error(message);
@@ -78,12 +85,12 @@ function LoginContent() {
   return (
     <div className="min-h-screen flex">
       {/* Left Panel - Form */}
-      <div className="flex-1 flex items-center justify-center px-8 py-12 bg-gray-900 dark:bg-gray-950">
+      <div className="flex-1 flex items-start justify-center px-8 pt-12 pb-6 bg-gray-900 dark:bg-gray-950">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
-          className="w-full max-w-md"
+          className="w-full max-w-md mt-8"
         >
           {/* Logo and Back Button */}
           <div className="flex items-center justify-between mb-8">

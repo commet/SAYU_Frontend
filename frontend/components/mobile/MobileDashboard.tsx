@@ -110,7 +110,7 @@ export default function MobileDashboard() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />
       
       {/* Mobile Header */}
-      <div className="relative z-20 pt-16">
+      <div className="relative z-20 pt-4">
         {/* Greeting Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -141,34 +141,6 @@ export default function MobileDashboard() {
             </p>
           </div>
         </motion.div>
-
-        {/* Quiz CTA for new users */}
-        {!hasCompletedQuiz && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="px-4 mb-4"
-          >
-            <div className="bg-gradient-to-r from-purple-900/50 to-indigo-900/50 backdrop-blur-md rounded-xl p-4 border border-purple-500/30">
-              <div className="flex items-center gap-3 mb-3">
-                <Sparkles className="w-8 h-8 text-amber-400 flex-shrink-0" />
-                <div className="flex-1">
-                  <h2 className="text-base font-bold text-white">당신만의 예술 성향을 발견하세요</h2>
-                  <p className="text-xs text-gray-200 mt-1">
-                    간단한 퀴즈를 통해 맞춤형 작품을 추천받아보세요
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={() => router.push('/quiz')}
-                className="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-medium shadow-lg active:scale-95 transition-transform"
-              >
-                테스트 시작하기 →
-              </button>
-            </div>
-          </motion.div>
-        )}
 
         {/* Mobile Tab Navigation */}
         <div className="px-4 mb-4">
@@ -363,6 +335,27 @@ export default function MobileDashboard() {
                   </button>
                 </div>
               </div>
+
+              {/* Quiz CTA for new users */}
+              {!hasCompletedQuiz && (
+                <div className="bg-gradient-to-r from-purple-900/50 to-indigo-900/50 backdrop-blur-md rounded-xl p-4 border border-purple-500/30">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Sparkles className="w-8 h-8 text-amber-400 flex-shrink-0" />
+                    <div className="flex-1">
+                      <h2 className="text-base font-bold text-white">당신만의 예술 성향을 발견하세요</h2>
+                      <p className="text-xs text-gray-200 mt-1">
+                        간단한 퀴즈를 통해 맞춤형 작품을 추천받아보세요
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => router.push('/quiz')}
+                    className="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-medium shadow-lg active:scale-95 transition-transform"
+                  >
+                    테스트 시작하기 →
+                  </button>
+                </div>
+              )}
             </motion.div>
           )}
 
