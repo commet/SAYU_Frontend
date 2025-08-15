@@ -71,13 +71,13 @@ const mockVisits = [
   {
     id: '1',
     exhibitionId: 'ex1',
-    exhibitionTitle: '론 뮤익',
-    museum: '국립현대미술관 서울',
+    exhibitionTitle: '론 뮤익: 거대한 인간',
+    museum: '국립현대미술관 서울관',
     visitDate: '2025-04-20',
     duration: 120,
     rating: 5,
     photos: ['photo1', 'photo2'],
-    notes: '거대한 조각 앞에서 압도감을 느꼈다.',
+    notes: '실물 크기를 뛰어넘는 조각들이 전하는 압도적인 감동. 특히 신생아 조각 앞에서 한참을 머물렀다.',
     artworks: [
       { id: 'a1', title: '매스', artist: 'Ron Mueck', liked: true },
       { id: 'a2', title: '젊은 연인', artist: 'Ron Mueck', liked: true },
@@ -90,10 +90,12 @@ const mockVisits = [
     id: '2',
     exhibitionId: 'ex2',
     exhibitionTitle: '한국현대미술 하이라이트',
-    museum: '국립현대미술관 서울',
+    museum: '국립현대미술관 서울관',
     visitDate: '2025-05-10',
     duration: 90,
     rating: 4,
+    photos: ['photo3'],
+    notes: '한국 현대미술의 다양한 스펙트럼을 한 자리에서. 이우환의 여백의 미학이 특히 인상적이었다.',
     artworks: [
       { id: 'a4', title: '무제', artist: '이우환', liked: true },
       { id: 'a5', title: '사이', artist: '서도호', liked: true }

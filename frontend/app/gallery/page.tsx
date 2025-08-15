@@ -256,46 +256,18 @@ function GalleryContent() {
     try {
       console.log('Fetching artworks for category:', category);
       
-      // 먼저 실제 API에서 아트워크 데이터 가져오기
-      const response = await fetch('/api/artworks');
-      const data = await response.json();
-      console.log('API Response:', data);
-      
-      if (data.artworks && data.artworks.length > 0) {
-        // API 데이터 사용
-        const apiArtworks = data.artworks
-          .filter((artwork: any) => {
-            if (category === 'all') return true;
-            // 카테고리 필터링 로직
-            const lowerCategory = category.toLowerCase();
-            return (
-              artwork.department?.toLowerCase().includes(lowerCategory) ||
-              artwork.medium?.toLowerCase().includes(lowerCategory) ||
-              artwork.classification?.toLowerCase().includes(lowerCategory)
-            );
-          })
-          .slice(0, 50) // 최대 50개만
-          .map((artwork: any) => ({
-            id: artwork.objectID || artwork.id,
-            title: artwork.title,
-            artist: artwork.artist || artwork.artistDisplayName || 'Unknown Artist',
-            year: artwork.date || artwork.objectDate || '',
-            imageUrl: artwork.cloudinaryUrl || artwork.primaryImage || artwork.primaryImageSmall || '',
-            museum: artwork.museum || artwork.repository || 'Museum',
-            medium: artwork.medium,
-            department: artwork.department,
-            isPublicDomain: artwork.isPublicDomain !== undefined ? artwork.isPublicDomain : true,
-            license: 'CC0'
-          }))
-          .filter((artwork: any) => artwork.imageUrl); // 이미지가 있는 것만
-        
-        if (apiArtworks.length > 0) {
-          console.log('Using API artworks:', apiArtworks.length);
-          setGalleryArtworks(apiArtworks);
-          setLoadingArtworks(false);
-          return;
+      // MVP: 백엔드 API 호출 스킵하고 바로 프론트엔드 데이터 사용
+      // 나중에 실제 백엔드 연동이 필요할 때 아래 주석 해제
+      /*
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3007';
+      const response = await fetch(`${apiUrl}/api/artworks`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.artworks && data.artworks.length > 0) {
+          // API 데이터 처리 로직...
         }
       }
+      */
       
       // API 데이터가 없으면 Cloudinary 작품 사용
       const getPersonalizedArtworks = async () => {

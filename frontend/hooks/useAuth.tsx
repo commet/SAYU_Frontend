@@ -257,15 +257,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.log('🎉 Sign in successful!');
       console.log('👤 User:', data.user?.email);
       console.log('🎫 Session:', !!data.session);
-    
-    // Migrate localStorage quiz results to backend after successful login
-    try {
-      const { migrateLocalQuizResults } = await import('@/lib/quiz-api');
-      await migrateLocalQuizResults();
-      console.log('Quiz results migrated successfully');
+      
+      // Migrate localStorage quiz results to backend after successful login
+      try {
+        const { migrateLocalQuizResults } = await import('@/lib/quiz-api');
+        await migrateLocalQuizResults();
+        console.log('Quiz results migrated successfully');
+      } catch (error) {
+        console.error('Failed to migrate quiz results:', error);
+        // Don't throw - login was successful
+      }
     } catch (error) {
-      console.error('Failed to migrate quiz results:', error);
-      // Don't throw - login was successful
+      console.error('🔴 Sign in error:', error);
+      throw error;
     }
   };
 

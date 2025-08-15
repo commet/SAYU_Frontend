@@ -184,7 +184,7 @@ export default function BadgeSystem({ badges, userStats, onBadgeClick }: BadgeSy
           >
             {/* Badge Icon */}
             <div
-              className={`w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center bg-gradient-to-br ${
+              className={`w-12 h-12 mx-auto mb-2 rounded-full flex items-center justify-center bg-gradient-to-br ${
                 badge.unlocked ? rarityColors[badge.rarity] : 'from-gray-300 to-gray-400'
               }`}
             >
