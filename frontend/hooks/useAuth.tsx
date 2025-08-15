@@ -232,19 +232,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [router]);
 
   const signIn = async (email: string, password: string) => {
-    console.log('Attempting to sign in with email:', email);
+    console.log('🔑 Starting signIn process...');
+    console.log('📧 Email:', email);
+    console.log('🌐 Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
     
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      console.log('🚀 Calling supabase.auth.signInWithPassword...');
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) {
-      console.error('Sign in error:', error);
-      throw error;
-    }
-    
-    console.log('Sign in successful:', data);
+      console.log('📦 Supabase response received');
+      console.log('❌ Error:', error);
+      console.log('✅ Data:', data);
+
+      if (error) {
+        console.error('🔴 Sign in error:', error);
+        console.error('🔴 Error message:', error.message);
+        console.error('🔴 Error code:', error.status);
+        throw error;
+      }
+      
+      console.log('🎉 Sign in successful!');
+      console.log('👤 User:', data.user?.email);
+      console.log('🎫 Session:', !!data.session);
     
     // Migrate localStorage quiz results to backend after successful login
     try {

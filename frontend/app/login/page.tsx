@@ -68,23 +68,38 @@ function LoginContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('🔄 Login form submitted');
+    console.log('📧 Email:', email);
+    console.log('🔒 Password length:', password?.length || 0);
+    
     setLoading(true);
     
     try {
+      console.log('🚀 Calling signIn function...');
       await signIn(email, password);
+      console.log('✅ signIn completed successfully');
+      
       toast.success(language === 'ko' ? '로그인 성공!' : 'Login successful!');
+      
       // Wait a bit for session to be established
       setTimeout(() => {
+        console.log('🔄 Redirecting to profile...');
         router.push('/profile');
       }, 500);
     } catch (error: any) {
-      console.error('Login error:', error);
+      console.error('🔴 Login error details:', error);
+      console.error('🔴 Error type:', typeof error);
+      console.error('🔴 Error name:', error?.name);
+      console.error('🔴 Error message:', error?.message);
+      console.error('🔴 Error stack:', error?.stack);
+      
       if (error.message) {
         toast.error(error.message);
       } else {
         toast.error(language === 'ko' ? '잘못된 인증 정보입니다' : 'Invalid credentials');
       }
     } finally {
+      console.log('🏁 Setting loading to false');
       setLoading(false);
     }
   };
