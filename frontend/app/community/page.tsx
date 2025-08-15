@@ -2617,7 +2617,7 @@ export default function CommunityPage() {
                              match.compatibility === 'challenging' ? ` - ${language === 'ko' ? '흥미로운 대조' : 'Interesting Contrast'}` :
                              ` - ${language === 'ko' ? '새로운 관점' : 'New Perspectives'}`}
                           </p>
-                          <div className="flex gap-3 text-xs text-gray-200 drop-shadow-sm">
+                          <div className="flex gap-3 text-xs text-white drop-shadow-sm">
                             {match.age && <span>{match.age}{language === 'ko' ? '세' : ' years'}</span>}
                             {match.distance && <span>{match.distance}km</span>}
                             <span>{language === 'ko' ? `전시 ${match.exhibitions}회` : `${match.exhibitions} exhibitions`}</span>
