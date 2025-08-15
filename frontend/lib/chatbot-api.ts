@@ -52,12 +52,33 @@ class ChatbotAPI {
     artwork?: Artwork,
     context?: ChatContext
   ): Promise<ChatbotResponse> {
-    return apiClient.post<ChatbotResponse>('/api/chatbot/message', {
-      message,
-      artworkId,
-      artwork,
-      context
+    // Next.js API Route 직접 호출 (배포 환경에서도 작동)
+    const response = await fetch('/api/chatbot', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message,
+        userId: context?.userId || 'guest',
+        artwork,
+        userType: context?.personalityType || 'LAEF',
+        page: context?.pageContext?.type || 'default',
+        context: context?.pageContext?.metadata || {}
+      })
     });
+
+    const data = await response.json();
+    
+    // 응답 형식 맞추기
+    return {
+      success: data.success,
+      message: data.data?.response || data.message || '',
+      suggestions: data.data?.suggestions,
+      sessionId: data.data?.sessionId,
+      action: data.action,
+      error: data.error
+    };
   }
 
   // Get conversation history for a specific artwork
