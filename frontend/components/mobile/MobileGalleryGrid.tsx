@@ -60,7 +60,10 @@ export default function MobileGalleryGrid({
       });
 
       const handleAction = (action: 'like' | 'save' | 'view', event: React.MouseEvent) => {
+        event.preventDefault();
         event.stopPropagation();
+        
+        console.log(`🔧 MobileGalleryGrid handleAction: ${action} for artwork ${artwork.id}`);
         
         // Haptic feedback on mobile
         if ('vibrate' in navigator) {
@@ -69,12 +72,15 @@ export default function MobileGalleryGrid({
         
         switch (action) {
           case 'like':
+            console.log('📱 Mobile Like:', artwork.id);
             onLike?.(artwork.id);
             break;
           case 'save':
+            console.log('📱 Mobile Save:', artwork.id);
             onSave?.(artwork.id);
             break;
           case 'view':
+            console.log('📱 Mobile View:', artwork.id);
             onView?.(artwork.id);
             break;
         }
@@ -106,29 +112,29 @@ export default function MobileGalleryGrid({
               <div className="w-full h-48 bg-gray-200 dark:bg-gray-700 animate-pulse" />
             )}
             
-            {/* Action Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-200">
-              <div className="absolute bottom-4 right-4 flex gap-2">
-                <motion.button
-                  whileTap={{ scale: 0.95 }}
-                  className="p-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30"
-                  onClick={(e) => handleAction('like', e)}
-                >
-                  <Heart 
-                    className={`w-4 h-4 ${likedItems.has(artwork.id) ? 'text-red-500 fill-red-500' : 'text-white'}`} 
-                  />
-                </motion.button>
-                
-                <motion.button
-                  whileTap={{ scale: 0.95 }}
-                  className="p-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30"
-                  onClick={(e) => handleAction('save', e)}
-                >
-                  <Bookmark 
-                    className={`w-4 h-4 ${savedItems.has(artwork.id) ? 'text-green-500 fill-green-500' : 'text-white'}`} 
-                  />
-                </motion.button>
-              </div>
+            {/* Mobile Action Buttons - Always visible on mobile */}
+            <div className="absolute top-2 right-2 flex flex-col gap-2">
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                className="p-2.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/20 shadow-lg touch-manipulation"
+                onClick={(e) => handleAction('like', e)}
+                style={{ minHeight: '44px', minWidth: '44px' }} // iOS touch target size
+              >
+                <Heart 
+                  className={`w-5 h-5 ${likedItems.has(artwork.id) ? 'text-red-400 fill-red-400' : 'text-white'}`} 
+                />
+              </motion.button>
+              
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                className="p-2.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/20 shadow-lg touch-manipulation"
+                onClick={(e) => handleAction('save', e)}
+                style={{ minHeight: '44px', minWidth: '44px' }} // iOS touch target size
+              >
+                <Bookmark 
+                  className={`w-5 h-5 ${savedItems.has(artwork.id) ? 'text-green-400 fill-green-400' : 'text-white'}`} 
+                />
+              </motion.button>
             </div>
 
             {/* Quick View Indicator */}

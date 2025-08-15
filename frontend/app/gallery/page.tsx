@@ -455,9 +455,10 @@ function GalleryContent() {
     const newSaved = new Set(savedArtworks);
     const isSaving = !newSaved.has(artworkId);
     
-    console.log('handleSave called:', { artworkId, isSaving });
-    console.log('recommendedArtworks:', recommendedArtworks);
-    console.log('galleryArtworks:', galleryArtworks);
+    console.log('🔧 handleSave called:', { artworkId, isSaving, isMobile });
+    console.log('📱 Current savedArtworksData length:', savedArtworksData.length);
+    console.log('🎨 recommendedArtworks:', recommendedArtworks.length);
+    console.log('🖼️ galleryArtworks:', galleryArtworks.length);
     
     if (isSaving) {
       newSaved.add(artworkId);
@@ -512,8 +513,11 @@ function GalleryContent() {
               curatorNote: savedArtwork.description || savedArtwork.curatorNote,
               description: savedArtwork.description
             };
-            console.log('Adding newArtwork to savedArtworksData:', newArtwork);
-            return [newArtwork, ...prev]; // 맨 앞에 추가 (왼쪽에 새로 추가)
+            console.log('✅ Adding newArtwork to savedArtworksData:', newArtwork);
+            console.log('📊 Previous savedArtworksData length:', prev.length);
+            const newData = [newArtwork, ...prev]; // 맨 앞에 추가 (왼쪽에 새로 추가)
+            console.log('📊 New savedArtworksData length will be:', newData.length);
+            return newData;
           }
           return prev;
         });
