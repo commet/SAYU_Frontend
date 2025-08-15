@@ -1,10 +1,15 @@
 import { createClient } from './supabase/client';
+import { signInWithKakaoCustom } from './kakao-auth';
 
 // Use the singleton client from supabase/client.ts
 export const supabase = createClient();
 
 // Auth helper functions
 export const signInWithProvider = async (provider: 'google' | 'apple' | 'kakao' | 'discord') => {
+  // Special handling for Kakao - use custom OAuth
+  if (provider === 'kakao') {
+    return signInWithKakaoCustom();
+  }
   // Environment-aware redirect URL
   const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
   const isVercel = window.location.hostname.includes('vercel.app');
@@ -43,15 +48,6 @@ export const signInWithProvider = async (provider: 'google' | 'apple' | 'kakao' 
     options.scopes = 'email profile';
   }
 
-  // For Kakao, explicitly set scopes without email and use queryParams
-  if (provider === 'kakao') {
-    options.queryParams = {
-      ...options.queryParams,
-      scope: 'profile_nickname profile_image',
-    };
-    // Remove scopes property as it might not work with Kakao
-    delete options.scopes;
-  }
 
   console.log('🚀 OAuth Options:', options);
   console.log('🔑 Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);

@@ -14,7 +14,7 @@ export const getKakaoAuthUrl = () => {
   // 환경에 따른 redirect URI 설정
   const isProduction = process.env.NODE_ENV === 'production';
   const baseUrl = isProduction 
-    ? process.env.NEXT_PUBLIC_APP_URL || 'https://your-domain.com' 
+    ? process.env.NEXT_PUBLIC_APP_URL || 'https://www.sayu.my' 
     : 'http://localhost:3000';
   
   const redirectUri = `${baseUrl}/auth/kakao/callback`;
@@ -35,11 +35,12 @@ export const getKakaoAuthUrl = () => {
 
 export const exchangeKakaoCode = async (code: string): Promise<string> => {
   const kakaoClientId = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
+  const kakaoClientSecret = process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET;
   
   // 환경에 따른 redirect URI 설정 (getKakaoAuthUrl과 동일하게)
   const isProduction = process.env.NODE_ENV === 'production';
   const baseUrl = isProduction 
-    ? process.env.NEXT_PUBLIC_APP_URL || 'https://your-domain.com' 
+    ? process.env.NEXT_PUBLIC_APP_URL || 'https://www.sayu.my' 
     : 'http://localhost:3000';
   
   const redirectUri = `${baseUrl}/auth/kakao/callback`;
@@ -56,6 +57,7 @@ export const exchangeKakaoCode = async (code: string): Promise<string> => {
     body: new URLSearchParams({
       grant_type: 'authorization_code',
       client_id: kakaoClientId,
+      client_secret: kakaoClientSecret || '',
       redirect_uri: redirectUri,
       code: code,
     }),

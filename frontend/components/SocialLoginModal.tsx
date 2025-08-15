@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { signInWithProvider, signInWithInstagram } from '@/lib/supabase';
+import { signInWithKakaoCustom } from '@/lib/kakao-auth';
 
 interface SocialLoginModalProps {
   isOpen: boolean;
@@ -27,8 +28,11 @@ export default function SocialLoginModal({
       if (provider === 'instagram') {
         // Instagram은 Facebook OAuth를 통해 처리
         await signInWithInstagram();
+      } else if (provider === 'kakao') {
+        // Kakao는 커스텀 OAuth 사용 (이메일 없이)
+        await signInWithKakaoCustom();
       } else {
-        // Google, Kakao는 Supabase OAuth 사용
+        // Google, Apple은 Supabase OAuth 사용
         await signInWithProvider(provider);
       }
       

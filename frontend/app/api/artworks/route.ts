@@ -6,6 +6,14 @@ import { promises as fs } from 'fs';
 
 export async function GET(request: Request) {
   try {
+    // Add CORS headers to prevent 403 issues
+    const headers = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Cache-Control': 'public, max-age=86400, stale-while-revalidate=43200',
+    };
+    
     const { searchParams } = new URL(request.url);
     const personalityType = searchParams.get('personality');
     const action = searchParams.get('action');
@@ -18,11 +26,7 @@ export async function GET(request: Request) {
         
         if (artworksData) {
           console.log('Successfully loaded artworks via import, count:', artworksData.artworks?.length || 0);
-          return NextResponse.json(artworksData, {
-            headers: {
-              'Cache-Control': 'public, max-age=86400, stale-while-revalidate=43200',
-            },
-          });
+          return NextResponse.json(artworksData, { headers });
         }
         
         // Fallback to file system read (for local development)
@@ -32,11 +36,7 @@ export async function GET(request: Request) {
         const data = JSON.parse(jsonData);
         console.log('Successfully loaded artworks, count:', data.artworks?.length || 0);
         
-        return NextResponse.json(data, {
-          headers: {
-            'Cache-Control': 'public, max-age=86400, stale-while-revalidate=43200',
-          },
-        });
+        return NextResponse.json(data, { headers });
       } catch (error) {
         console.error('Failed to load artworks:', error);
         // Return empty data structure for graceful degradation
@@ -52,6 +52,7 @@ export async function GET(request: Request) {
           { 
             status: 200,
             headers: {
+              ...headers,
               'Cache-Control': 'no-store',
             },
           }
@@ -124,4 +125,16 @@ export async function GET(request: Request) {
       { status: 500 }
     );
   }
+}
+
+// Handle CORS preflight requests
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    },
+  });
 }

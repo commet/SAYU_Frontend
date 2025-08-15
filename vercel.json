@@ -3,7 +3,23 @@
   "outputDirectory": "frontend/.next",
   "installCommand": "cd frontend && npm install",
   "env": {
-    "NEXT_PUBLIC_API_URL": "https://valiant-nature-production.up.railway.app",
+    "NEXT_PUBLIC_API_URL": "",
     "SKIP_ENV_VALIDATION": "true"
-  }
+  },
+  "functions": {
+    "frontend/app/api/artworks/route.ts": {
+      "maxDuration": 30
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=43200"
+        }
+      ]
+    }
+  ]
 }
