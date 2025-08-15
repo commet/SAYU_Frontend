@@ -1,4 +1,11 @@
 {
+  "mcpServers": {
+    "serena": {
+      "command": "uv",
+      "args": ["run", "serena-mcp-server"],
+      "cwd": "C:\\Users\\admin\\documents\\github\\sayu\\serena"
+    }
+  },
   "permissions": {
     "allow": [
       "Bash(node:*)",
@@ -32,7 +39,8 @@
       "WebFetch(domain:upload.wikimedia.org)",
       "WebFetch(domain:commons.wikimedia.org)",
       "mcp__serena__write_memory",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Bash(npm run dev:*)"
     ],
     "deny": []
   }

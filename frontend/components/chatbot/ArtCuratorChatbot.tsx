@@ -199,19 +199,19 @@ export const ArtCuratorChatbot = ({
         }
       );
       
-      if (response.success) {
+      if (response.success && response.data) {
         const assistantMessage: ChatMessage = { 
           role: 'assistant', 
-          content: response.message 
+          content: response.data.response 
         };
         setMessages(prev => [...prev, assistantMessage]);
         
-        if (response.suggestions) {
-          setSuggestions(response.suggestions);
+        if (response.data.suggestions) {
+          setSuggestions(response.data.suggestions);
         }
         
-        if (response.sessionId) {
-          setSessionId(response.sessionId);
+        if (response.data.sessionId) {
+          setSessionId(response.data.sessionId);
         }
         
         setCompanionMood('happy');
@@ -347,7 +347,7 @@ export const ArtCuratorChatbot = ({
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className={`fixed ${
               position === 'bottom-left' ? 'left-4' : 'right-4'
-            } bottom-36 lg:bottom-24 w-96 max-w-[calc(100vw-2rem)] h-[400px] sm:h-[500px] lg:h-[600px] max-h-[50vh] sm:max-h-[60vh] lg:max-h-[70vh] bg-white rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden`}
+            } bottom-20 sm:bottom-24 lg:bottom-20 w-96 max-w-[calc(100vw-2rem)] h-[400px] sm:h-[500px] lg:h-[600px] max-h-[50vh] sm:max-h-[60vh] lg:max-h-[70vh] bg-white rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden`}
           >
             {/* Header */}
             <div className="p-4 bg-gradient-to-r from-primary/10 to-primary/5 border-b flex items-center justify-between">

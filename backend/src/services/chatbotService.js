@@ -31,14 +31,19 @@ class ChatbotService {
 
   async initializeAI() {
     try {
+      console.log('🟡 Initializing Gemini AI...');
+      console.log('🟡 API Key exists:', !!process.env.GOOGLE_AI_API_KEY);
+      console.log('🟡 API Key prefix:', process.env.GOOGLE_AI_API_KEY?.substring(0, 10) + '...');
+      
       if (!process.env.GOOGLE_AI_API_KEY) {
+        console.error('🔴 Google AI API key not found');
         log.error('Google AI API key not found');
         return;
       }
 
       this.genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
       this.model = this.genAI.getGenerativeModel({
-        model: 'gemini-pro',
+        model: 'gemini-1.5-flash',
         safetySettings: [
           {
             category: 'HARM_CATEGORY_HARASSMENT',
@@ -59,8 +64,11 @@ class ChatbotService {
         ]
       });
 
+      console.log('🟢 Google Generative AI initialized successfully');
+      console.log('🟢 Model:', this.model ? 'Loaded' : 'Not loaded');
       log.info('Google Generative AI initialized successfully');
     } catch (error) {
+      console.error('🔴 Failed to initialize Google AI:', error);
       log.error('Failed to initialize Google AI:', error);
     }
   }
@@ -273,6 +281,28 @@ class ChatbotService {
   generateSystemPrompt(sayuType, artwork) {
     const personality = this.getAnimalPersonality(sayuType);
 
+    // SAYU 서비스 설명을 위한 특별한 경우
+    if (artwork.id === 'general' || artwork.title === '일반 상담') {
+      return `당신은 SAYU 서비스의 안내자이자 ${personality.name} 성격의 예술 큐레이터입니다.
+
+SAYU에 대한 정보:
+- SAYU는 예술 MBTI(APT) 테스트를 통해 사용자의 예술 성향을 분석하는 서비스입니다
+- 16가지 예술 성격 유형(APT)으로 분류하여 맞춤형 작품을 추천합니다
+- 사용자의 감상 스타일, 선호하는 분위기, 관람 방식을 고려합니다
+- AI가 생성한 개인 맞춤 예술 프로필을 제공합니다
+- 예술 작품 큐레이션과 전시 정보를 제공합니다
+
+SAYU 관련 질문 답변 시:
+1. 친근하고 이해하기 쉽게 설명합니다
+2. 서비스의 특징과 장점을 구체적으로 소개합니다
+3. ${personality.tone} 톤을 유지하되 명확하게 정보를 전달합니다
+4. 2-3문장으로 간결하게 답변합니다
+
+성격 특성:
+- 말투: ${personality.tone}
+- 관심사: ${personality.interests}`;
+    }
+
     return `당신은 ${personality.name} 성격의 미술 큐레이터입니다.
 현재 사용자와 함께 "${artwork.title}" (${artwork.artist}, ${artwork.year})를 감상하고 있습니다.
 
@@ -352,6 +382,16 @@ ${artwork.description ? `- 설명: ${artwork.description}` : ''}
   // Generate AI response
   async generateResponse(message, artwork, session) {
     try {
+      // Check if model is initialized
+      if (!this.model) {
+        log.error('Gemini model not initialized');
+        log.info('Attempting to reinitialize Gemini...');
+        await this.initializeAI();
+        if (!this.model) {
+          throw new Error('Failed to initialize Gemini model');
+        }
+      }
+
       // Check cache first
       const redisClient = getRedisClient();
       const cacheKey = `chatbot:${session.sayuType}:${artwork.id}:${message.substring(0, 50)}`;
@@ -372,12 +412,16 @@ ${artwork.description ? `- 설명: ${artwork.description}` : ''}
         ...session.history.slice(-10) // Keep last 10 exchanges
       ];
 
+      log.info(`Calling Gemini API with message: "${message.substring(0, 50)}..."`);
+
       // Start chat
       const chat = this.model.startChat({ history });
 
       // Send message and get response
       const result = await chat.sendMessage(message);
       const response = result.response.text();
+
+      log.info(`Gemini API response received: "${response.substring(0, 50)}..."`);
 
       // Cache response for 1 hour if Redis is available
       if (redisClient) {
@@ -387,7 +431,20 @@ ${artwork.description ? `- 설명: ${artwork.description}` : ''}
       return response;
 
     } catch (error) {
-      log.error('AI generation error:', error);
+      console.error('🔴 AI generation error details:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name,
+        code: error.code,
+        fullError: error
+      });
+      
+      log.error('AI generation error details:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name,
+        code: error.code
+      });
 
       // Fallback responses based on personality
       const personality = this.getAnimalPersonality(session.sayuType);

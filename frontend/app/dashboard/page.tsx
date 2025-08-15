@@ -238,7 +238,7 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-gradient-to-r from-purple-900/50 to-indigo-900/50 backdrop-blur-md rounded-xl p-5 mb-6 border border-purple-500/30"
+            className="bg-gradient-to-r from-purple-900/50 to-indigo-900/50 backdrop-blur-md rounded-xl p-5 mb-4 border border-purple-500/30"
           >
             <div className="flex items-center justify-center gap-6">
               <Sparkles className="w-10 h-10 text-amber-400 flex-shrink-0" />
@@ -265,8 +265,8 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className={cn(
-              "grid gap-4 mb-8",
-              isMobile ? "grid-cols-2 gap-3 mb-6" : "grid-cols-2 md:grid-cols-4"
+              "grid gap-4 mb-6",
+              isMobile ? "grid-cols-2 gap-3 mb-4" : "grid-cols-2 md:grid-cols-4"
             )}
           >
             <div className="bg-black/40 backdrop-blur-md rounded-xl p-4 border border-white/10">
@@ -310,11 +310,11 @@ export default function DashboardPage() {
 
         {/* Main Content Grid - 모바일 반응형 */}
         <div className={cn(
-          "grid gap-8",
-          isMobile ? "grid-cols-1 gap-6" : "grid-cols-1 lg:grid-cols-3"
+          "grid gap-6",
+          isMobile ? "grid-cols-1 gap-4" : "grid-cols-1 lg:grid-cols-3"
         )}>
           {/* Left Column - Profile & Activity */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Art Profile Card - Only for users who completed quiz */}
             {hasCompletedQuiz && (
               <motion.div

@@ -83,8 +83,7 @@ export function AdminDashboard() {
     { id: 'submissions', label: '제출 검토', icon: FileText },
     { id: 'exhibitions', label: '전시 관리', icon: Eye },
     { id: 'reports', label: '신고 처리', icon: AlertTriangle },
-    { id: 'feedback', label: '피드백 관리', icon: MessageSquare },
-    { id: 'settings', label: '설정', icon: Users }
+    { id: 'feedback', label: '피드백 관리', icon: MessageSquare }
   ];
 
   if (loading) {
@@ -217,33 +216,6 @@ export function AdminDashboard() {
               
               {activeTab === 'feedback' && (
                 <FeedbackManager />
-              )}
-              
-              {activeTab === 'settings' && (
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10">
-                  <h2 className="text-2xl font-bold text-white mb-6">시스템 설정</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-                      <h3 className="text-lg font-semibold text-white mb-4">캐시 관리</h3>
-                      <p className="text-gray-400 text-sm mb-4">
-                        시스템 캐시를 관리하고 성능을 최적화합니다.
-                      </p>
-                      <button className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors">
-                        캐시 초기화
-                      </button>
-                    </div>
-                    
-                    <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-                      <h3 className="text-lg font-semibold text-white mb-4">데이터 백업</h3>
-                      <p className="text-gray-400 text-sm mb-4">
-                        전시 데이터를 백업하고 복원합니다.
-                      </p>
-                      <button className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
-                        백업 생성
-                      </button>
-                    </div>
-                  </div>
-                </div>
               )}
             </motion.div>
           </div>

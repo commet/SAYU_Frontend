@@ -6,6 +6,7 @@ const cloudinary = require('cloudinary').v2;
 const { hybridDB } = require('../config/hybridDatabase');
 const redis = require('../config/redis');
 const logger = require('../utils/logger');
+const huggingFaceArtService = require('./huggingFaceArtService');
 
 class ArtProfileService {
   constructor() {
@@ -625,6 +626,114 @@ class ArtProfileService {
       logger.error('Error liking art profile:', error);
       throw error;
     }
+  }
+
+  /**
+   * Hugging Face AI를 사용한 아트 프로필 생성
+   */
+  async generateArtProfileWithHuggingFace(userId, imageUrl, styleId, customSettings = {}) {
+    try {
+      const startTime = Date.now();
+      const generationId = uuidv4();
+
+      logger.info(`Starting Hugging Face art profile generation`, {
+        userId,
+        styleId,
+        generationId
+      });
+
+      // 1. 이미지 처리
+      const imageBuffer = await huggingFaceArtService.processInputImage(imageUrl);
+      
+      // 2. AI 생성
+      const resultBuffer = await huggingFaceArtService.generateArtProfile(imageBuffer, styleId);
+      
+      // 3. Cloudinary에 업로드
+      const uploadResult = await this.uploadToCloudinary(resultBuffer, 'transformed');
+      
+      // 4. 데이터베이스 저장
+      const artProfile = {
+        id: generationId,
+        userId,
+        originalImage: imageUrl,
+        transformedImage: uploadResult.secure_url,
+        styleId,
+        customSettings,
+        processingTime: Date.now() - startTime,
+        aiProvider: 'huggingface',
+        createdAt: new Date()
+      };
+
+      // DB 저장
+      const insertQuery = `
+        INSERT INTO art_profiles (
+          id, user_id, original_image, transformed_image, 
+          style_id, custom_settings, processing_time, ai_provider, created_at
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        RETURNING *
+      `;
+      
+      const result = await hybridDB.query(insertQuery, [
+        artProfile.id,
+        artProfile.userId,
+        artProfile.originalImage,
+        artProfile.transformedImage,
+        artProfile.styleId,
+        JSON.stringify(artProfile.customSettings),
+        artProfile.processingTime,
+        artProfile.aiProvider,
+        artProfile.createdAt
+      ]);
+
+      logger.info(`Successfully generated Hugging Face art profile`, {
+        userId,
+        styleId,
+        generationId,
+        processingTime: artProfile.processingTime
+      });
+
+      return {
+        id: generationId,
+        originalImage: imageUrl,
+        transformedImage: uploadResult.secure_url,
+        style: huggingFaceArtService.getStyleDisplayName(styleId),
+        processingTime: artProfile.processingTime,
+        createdAt: artProfile.createdAt
+      };
+
+    } catch (error) {
+      logger.error('Error generating Hugging Face art profile:', {
+        userId,
+        styleId,
+        error: error.message,
+        stack: error.stack
+      });
+
+      // 에러 타입별 처리
+      if (error.message.includes('API rate limit exceeded')) {
+        throw new Error('AI service is currently busy. Please try again in a few minutes.');
+      } else if (error.message.includes('Invalid API key')) {
+        throw new Error('AI service configuration error. Please contact support.');
+      } else if (error.message.includes('model is currently loading')) {
+        throw new Error('AI model is starting up. Please try again in 2-3 minutes.');
+      }
+
+      throw new Error(`Failed to generate art profile: ${error.message}`);
+    }
+  }
+
+  /**
+   * 사용 가능한 Hugging Face 스타일 목록
+   */
+  getHuggingFaceStyles() {
+    return huggingFaceArtService.getAvailableStyles();
+  }
+
+  /**
+   * Hugging Face API 상태 확인
+   */
+  async checkHuggingFaceStatus() {
+    return await huggingFaceArtService.checkApiStatus();
   }
 }
 

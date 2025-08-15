@@ -5,12 +5,27 @@ export const supabase = createClient();
 
 // Auth helper functions
 export const signInWithProvider = async (provider: 'google' | 'apple' | 'kakao' | 'discord') => {
-  // Always use window.location.origin for redirect URL to match current environment
-  const redirectUrl = `${window.location.origin}/auth/callback`;
+  // Environment-aware redirect URL
+  const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const isVercel = window.location.hostname.includes('vercel.app');
+  
+  let redirectUrl: string;
+  
+  if (isDev) {
+    // Development: always use localhost
+    redirectUrl = `${window.location.origin}/auth/callback`;
+  } else if (isVercel) {
+    // Vercel preview: use current preview URL
+    redirectUrl = `${window.location.origin}/auth/callback`;
+  } else {
+    // Production: use production domain
+    redirectUrl = `https://www.sayu.my/auth/callback`;
+  }
   
   // Debug logging
   console.log('🔐 Auth Provider:', provider);
   console.log('📍 Window Origin:', window.location.origin);
+  console.log('🏠 Environment:', { isDev, isVercel, hostname: window.location.hostname });
   console.log('🔄 Redirect URL:', redirectUrl);
   console.log('📋 Current URL:', window.location.href);
   

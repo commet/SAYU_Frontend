@@ -130,5 +130,31 @@ export const predefinedStyles: ArtStyle[] = [
     movement: 'Traditional',
     colorPalette: ['#8B4513', '#2F4F4F', '#800020'],
     intensity: 0.8
+  },
+  {
+    id: 'ghibli-anime',
+    name: 'Studio Ghibli',
+    nameKo: '스튜디오 지브리',
+    description: 'Magical anime style with soft watercolor painting',
+    descriptionKo: '부드러운 수채화 느낌의 마법적인 애니메이션 스타일',
+    sample: '/samples/ghibli.jpg',
+    tags: ['anime', 'magical', 'watercolor', 'soft'],
+    artist: 'Hayao Miyazaki',
+    movement: 'Japanese Animation',
+    colorPalette: ['#87CEEB', '#98FB98', '#FFB6C1'],
+    intensity: 0.8
+  },
+  {
+    id: 'korean-webtoon',
+    name: 'Korean Webtoon',
+    nameKo: '한국 웹툰',
+    description: 'Clean digital art with beautiful character design',
+    descriptionKo: '아름다운 캐릭터 디자인의 깔끔한 디지털 아트',
+    sample: '/samples/webtoon.jpg',
+    tags: ['digital', 'clean', 'beautiful', 'modern'],
+    artist: 'Korean Artists',
+    movement: 'Digital Manhwa',
+    colorPalette: ['#FFB3BA', '#BFFCC6', '#DBCCFF'],
+    intensity: 0.8
   }
 ];

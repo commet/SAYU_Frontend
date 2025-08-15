@@ -2568,7 +2568,7 @@ export default function CommunityPage() {
                       <motion.div
                         key={match.id}
                         whileHover={{ scale: 1.02 }}
-                        className="bg-gradient-to-br from-black/40 to-black/25 backdrop-blur-md rounded-2xl p-3 border border-white/40 hover:from-black/50 hover:to-black/35 hover:border-white/60 transition-all duration-300 shadow-lg hover:shadow-xl"
+                        className="bg-gradient-to-br from-black/60 to-black/50 backdrop-blur-md rounded-2xl p-3 border border-white/40 hover:from-black/70 hover:to-black/60 hover:border-white/60 transition-all duration-300 shadow-lg hover:shadow-xl"
                       >
                       <div className="flex items-center gap-3 cursor-pointer" onClick={() => setSelectedMatch(match)}>
                         <div className="relative">

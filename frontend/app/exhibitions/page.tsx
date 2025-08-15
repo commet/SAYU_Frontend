@@ -61,6 +61,20 @@ export default function ExhibitionsPage() {
   const router = useRouter();
   const { isMobile } = useResponsive();
   const [mounted, setMounted] = useState(false);
+  const [exhibitions, setExhibitions] = useState<Exhibition[]>([]);
+  const [filteredExhibitions, setFilteredExhibitions] = useState<Exhibition[]>([]);
+  const [selectedStatus, setSelectedStatus] = useState<'all' | 'ongoing' | 'upcoming' | 'ended'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCity, setSelectedCity] = useState<string>('all');
+  const [selectedFee, setSelectedFee] = useState<'all' | 'free' | 'paid'>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
+  const [loading, setLoading] = useState(true);
+  const [popularExhibitions, setPopularExhibitions] = useState<Exhibition[]>([]);
+  const [activeTab, setActiveTab] = useState<'explore' | 'archive'>('explore');
+  const [exhibitionRecords, setExhibitionRecords] = useState<any[]>([]);
+  const [showRecordModal, setShowRecordModal] = useState(false);
+  const [selectedExhibition, setSelectedExhibition] = useState<Exhibition | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -84,21 +98,6 @@ export default function ExhibitionsPage() {
   if (isMobile) {
     return <MobileExhibitions />;
   }
-  
-  const [exhibitions, setExhibitions] = useState<Exhibition[]>([]);
-  const [filteredExhibitions, setFilteredExhibitions] = useState<Exhibition[]>([]);
-  const [selectedStatus, setSelectedStatus] = useState<'all' | 'ongoing' | 'upcoming' | 'ended'>('all');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedCity, setSelectedCity] = useState<string>('all');
-  const [selectedFee, setSelectedFee] = useState<'all' | 'free' | 'paid'>('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
-  const [loading, setLoading] = useState(true);
-  const [popularExhibitions, setPopularExhibitions] = useState<Exhibition[]>([]);
-  const [activeTab, setActiveTab] = useState<'explore' | 'archive'>('explore');
-  const [exhibitionRecords, setExhibitionRecords] = useState<any[]>([]);
-  const [showRecordModal, setShowRecordModal] = useState(false);
-  const [selectedExhibition, setSelectedExhibition] = useState<Exhibition | null>(null);
 
   // Load exhibition records from localStorage
   useEffect(() => {
@@ -342,9 +341,9 @@ export default function ExhibitionsPage() {
 
   if (loading) {
     return (
-      <div 
+      <div
         className="min-h-screen bg-cover bg-center bg-fixed flex items-center justify-center relative"
-        style={{ backgroundImage: 'url(/images/backgrounds/family-viewing-corner-gallery-intimate.jpg)' }}
+        style={{ backgroundImage: "url('/images/backgrounds/family-viewing-corner-gallery-intimate.jpg')" }}
       >
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 text-center">
@@ -356,9 +355,9 @@ export default function ExhibitionsPage() {
   }
 
   return (
-    <div 
+    <div
       className="min-h-screen bg-cover bg-center bg-fixed relative"
-      style={{ backgroundImage: 'url(/images/backgrounds/family-viewing-corner-gallery-intimate.jpg)' }}
+      style={{ backgroundImage: "url('/images/backgrounds/family-viewing-corner-gallery-intimate.jpg')" }}
     >
       <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
       {/* Header */}
@@ -872,6 +871,7 @@ export default function ExhibitionsPage() {
             </motion.div>
           )}
         </AnimatePresence>
+        )}
 
         {/* No Results */}
         {filteredExhibitions.length === 0 && (
@@ -884,8 +884,6 @@ export default function ExhibitionsPage() {
             <p className="text-gray-300 text-lg mb-2">검색 결과가 없습니다</p>
             <p className="text-gray-500 text-sm">다른 검색어나 필터를 시도해보세요</p>
           </motion.div>
-        )}
-        </AnimatePresence>
         )}
 
         {/* Archive View */}

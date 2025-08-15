@@ -129,7 +129,7 @@ export default function RootLayout({
           </main>
           <ProgressivePrompt />
           <SmartChatbot />
-          <WelcomeModalV2 />
+          {/* WelcomeModalV2 제거 - 프로필 페이지의 JourneySection에서 필요시 표시 */}
           <OnboardingWidget />
           <DailyNudge />
         </Providers>

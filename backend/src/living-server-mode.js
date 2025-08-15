@@ -806,38 +806,61 @@ app.patch('/api/auth/purpose', simpleAuth, (req, res) => {
 // CHATBOT API ENDPOINTS - Simple Implementation
 // ===========================================
 
-// Simple chatbot endpoint for living mode
+// Import the actual chatbot service
+let chatbotService;
+try {
+  chatbotService = require('./services/chatbotService');
+  console.log('✅ Chatbot service loaded successfully');
+} catch (error) {
+  console.error('❌ Failed to load chatbot service:', error.message);
+  chatbotService = null;
+}
+
+// Real chatbot endpoint using Gemini API
 app.post('/api/chatbot/message', async (req, res) => {
   try {
-    const { message, pageContext, personalityType } = req.body;
+    const { message, artworkId, artwork, pageContext, personalityType } = req.body;
     
-    // Simple responses based on context
-    let response = '';
+    // Use a default user ID for living mode
+    const userId = req.headers['x-user-id'] || 'guest-' + Date.now();
+    const userType = personalityType || 'LAEF';
     
-    if (pageContext?.type === 'home') {
-      response = "안녕하세요! SAYU의 AI 큐레이터 미유예요 ✨ 오늘 어떤 기분이신가요?";
-    } else if (pageContext?.type === 'gallery') {
-      response = "어떤 작품을 찾고 계신가요? 도와드릴게요! 🖼️";
-    } else if (pageContext?.type === 'profile') {
-      response = "프로필을 멋지게 꾸며보실래요? 도와드릴게요! 📊";
-    } else if (message.includes('안녕')) {
-      response = `안녕하세요! 반가워요 😊 SAYU에서 어떤 도움이 필요하신가요?`;
-    } else if (message.includes('성격') || message.includes('테스트')) {
-      response = "16가지 예술 성향 테스트를 통해 당신만의 예술 큐레이터를 만나보세요! 퀴즈 페이지로 안내해드릴까요?";
-    } else if (message.includes('작품') || message.includes('추천')) {
-      response = "당신의 성격 유형과 현재 감정에 맞는 작품을 추천해드릴게요. 어떤 분위기의 작품을 원하시나요?";
+    // If chatbot service is available, use it
+    if (chatbotService && chatbotService.processMessage) {
+      const result = await chatbotService.processMessage(
+        userId,
+        message,
+        artwork || { 
+          id: artworkId || 'unknown',
+          title: 'Unknown Artwork',
+          artist: 'Unknown Artist',
+          year: 2024
+        },
+        userType
+      );
+      
+      res.json({
+        success: true,
+        data: {
+          response: result.message,
+          sessionId: result.sessionId || `session-${Date.now()}`,
+          suggestions: result.suggestions,
+          timestamp: new Date().toISOString()
+        }
+      });
     } else {
-      response = `"${message}"에 대해 생각해보고 있어요... SAYU는 계속 발전하고 있답니다! 🌟`;
+      // Fallback to simple responses if service not available
+      let response = `"${message}"에 대해 생각해보고 있어요... SAYU는 계속 발전하고 있답니다! 🌟`;
+      
+      res.json({
+        success: true,
+        data: {
+          response,
+          sessionId: `session-${Date.now()}`,
+          timestamp: new Date().toISOString()
+        }
+      });
     }
-    
-    res.json({
-      success: true,
-      data: {
-        response,
-        sessionId: `session-${Date.now()}`,
-        timestamp: new Date().toISOString()
-      }
-    });
   } catch (error) {
     console.error('Chatbot error:', error);
     res.status(500).json({ 
@@ -853,13 +876,20 @@ app.use('*', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, '0.0.0.0', () => {
+console.log(`🔵 Attempting to start server on port ${PORT}...`);
+app.listen(PORT, '0.0.0.0', (err) => {
+  if (err) {
+    console.error('🔴 Failed to start server:', err);
+    process.exit(1);
+  }
   console.log(`🎨 SAYU Living Identity Server running on port ${PORT}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'production'}`);
   console.log(`🏘️ Village System: Active`);
   console.log(`🪙 Token Economy: Active`);
   console.log(`🔄 Evolution Tracking: Active`);
   console.log(`📊 Health Check: http://localhost:${PORT}/api/health`);
+}).on('error', (error) => {
+  console.error('🔴 Server error:', error);
 });
 
 // Graceful shutdown

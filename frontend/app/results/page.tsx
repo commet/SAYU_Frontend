@@ -211,7 +211,7 @@ function ResultsContent() {
       </header>
 
       {/* 섹션 1: 검사 결과 압축 페이지 */}
-      <section className="max-w-4xl mx-auto px-4 pt-6 pb-4">
+      <section className="max-w-4xl mx-auto px-4 pt-2 pb-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -578,9 +578,9 @@ function ResultsContent() {
           transition={{ delay: 1.4 }}
           className="text-center"
         >
-          <p className="text-base sm:text-lg text-gray-700 dark:text-gray-300 italic">
+          <p className="text-sm sm:text-lg text-gray-700 dark:text-gray-300 italic">
             {language === 'ko' ? '💫 일상 속 예술: ' : '💫 Art in daily life: '}
-            <span className="font-medium text-gray-800 dark:text-gray-200">
+            <span className="font-medium text-gray-800 dark:text-gray-200 text-sm sm:text-base">
               {language === 'ko' && personality.lifeExtension_ko 
                 ? personality.lifeExtension_ko 
                 : personality.lifeExtension}

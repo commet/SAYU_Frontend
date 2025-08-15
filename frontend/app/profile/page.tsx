@@ -29,7 +29,7 @@ import ProfileIDCard from '@/components/profile/ProfileIDCard';
 import SocialLoginModal from '@/components/SocialLoginModal';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
 import { JourneySection } from '@/components/profile/JourneySection';
-import { ProfileCompleteModal } from '@/components/profile/ProfileCompleteModal';
+import ShareModal from '@/components/share/ShareModal';
 // import { useGamificationDashboard } from '@/hooks/useGamification';
 
 // Mock data - in real app, would fetch from API
@@ -159,9 +159,26 @@ export default function ProfilePage() {
   const { user } = useAuth();
   const router = useRouter();
   const { isMobile } = useResponsive();
+  const [isClient, setIsClient] = useState(false);
+  const [renderMobile, setRenderMobile] = useState(false);
+  
+  // Handle client-side rendering to prevent hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+    setRenderMobile(isMobile);
+  }, [isMobile]);
+  
+  // Show loading on initial render to prevent hydration mismatch
+  if (!isClient) {
+    return (
+      <div className="min-h-screen sayu-gradient-bg flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+      </div>
+    );
+  }
   
   // Render mobile component for mobile devices
-  if (isMobile) {
+  if (renderMobile) {
     return <MobileProfile />;
   }
   // Temporarily disabled due to API issues
@@ -169,14 +186,14 @@ export default function ProfilePage() {
   const dashboard = null;
   const userPoints = dashboard?.currentPoints || 0;
   const userStats = dashboard;
-  const [activeTab, setActiveTab] = useState<'journey' | 'map' | 'records' | 'badges' | 'share'>('journey');
+  const [activeTab, setActiveTab] = useState<'journey' | 'map' | 'records' | 'badges' | 'share'>('records');
   const [redirecting, setRedirecting] = useState(false);
   const [userPersonalityType, setUserPersonalityType] = useState<string | null>(null);
   const [pioneerProfile, setPioneerProfile] = useState<any>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showIDCard, setShowIDCard] = useState(false);
-  const [showProfileCompleteModal, setShowProfileCompleteModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
   const [followStats, setFollowStats] = useState({ followerCount: 0, followingCount: 0 });
   const [artProfile, setArtProfile] = useState<any>(null);
   const [loadingArtProfile, setLoadingArtProfile] = useState(true);
@@ -184,21 +201,34 @@ export default function ProfilePage() {
   // Load quiz results from localStorage
   // 프로필 완성 모달 표시 로직
   useEffect(() => {
-    if (user && !showProfileCompleteModal) {
-      // 프로필이 완성되지 않은 사용자에게 모달 표시
-      const shouldShowModal = !user.profile_completed && 
-                             !localStorage.getItem('profile_complete_modal_dismissed');
-      
-      if (shouldShowModal) {
-        // 페이지 로드 후 1초 뒤에 모달 표시
-        const timer = setTimeout(() => {
-          setShowProfileCompleteModal(true);
-        }, 1000);
+    // 모달 대신 온보딩이 아래에 있다는 알림만 표시
+    if (user && !localStorage.getItem('onboarding_notification_shown')) {
+      // 페이지 로드 후 2초 뒤에 알림 표시
+      const timer = setTimeout(() => {
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-20 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full shadow-lg z-50 animate-slide-down flex items-center gap-2';
+        notification.innerHTML = `
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+          <span>${language === 'ko' ? '7일 여정이 아래에 준비되어 있습니다' : '7-Day Journey is ready below'}</span>
+        `;
+        document.body.appendChild(notification);
         
-        return () => clearTimeout(timer);
-      }
+        // 5초 후 알림 제거
+        setTimeout(() => {
+          notification.style.opacity = '0';
+          notification.style.transition = 'opacity 0.5s';
+          setTimeout(() => notification.remove(), 500);
+        }, 5000);
+        
+        // 한 번만 표시하도록 설정
+        localStorage.setItem('onboarding_notification_shown', 'true');
+      }, 2000);
+      
+      return () => clearTimeout(timer);
     }
-  }, [user, showProfileCompleteModal]);
+  }, [user, language]);
 
   useEffect(() => {
     // Check URL params first for new users coming from auth
@@ -277,8 +307,21 @@ export default function ProfilePage() {
   }, [user]);
 
   useEffect(() => {
+    // Remove Facebook OAuth hash fragment
+    if (window.location.hash === '#_=_') {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+    
+    // Only show login modal if user is not logged in and not redirecting
     if (!user && !redirecting) {
-      setShowLoginModal(true);
+      // Check if we just came from OAuth callback
+      const urlParams = new URLSearchParams(window.location.search);
+      const fromOAuth = urlParams.get('from') === 'oauth' || window.location.hash === '#_=_';
+      
+      // Don't show modal immediately after OAuth callback
+      if (!fromOAuth) {
+        setShowLoginModal(true);
+      }
     }
   }, [user, redirecting]);
 
@@ -306,21 +349,7 @@ export default function ProfilePage() {
     }
   };
 
-  const handleProfileCompleteModalClose = () => {
-    setShowProfileCompleteModal(false);
-    // 나중에 하기 선택 시 24시간 동안 다시 보지 않기
-    localStorage.setItem('profile_complete_modal_dismissed', 'true');
-    // 24시간 후에 다시 표시하도록 설정 (선택사항)
-    setTimeout(() => {
-      localStorage.removeItem('profile_complete_modal_dismissed');
-    }, 24 * 60 * 60 * 1000);
-  };
 
-  const handleProfileCompleteSuccess = () => {
-    setShowProfileCompleteModal(false);
-    // 완성 후에는 더 이상 표시하지 않음
-    localStorage.setItem('profile_complete_modal_dismissed', 'true');
-  };
 
   // TEMPORARY: Login check disabled for testing
   /*
@@ -488,8 +517,14 @@ export default function ProfilePage() {
                 className="p-2 rounded-lg bg-white/5 hover:bg-white/10 dark:bg-white/5 dark:hover:bg-white/10 backdrop-blur-sm text-gray-500 dark:text-gray-400 transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => setShowProfileCompleteModal(true)}
-                title={language === 'ko' ? '프로필 완성하기' : 'Complete Profile'}
+                onClick={() => {
+                  // 온보딩 섹션으로 스크롤
+                  const journeySection = document.getElementById('journey-section');
+                  if (journeySection) {
+                    journeySection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                title={language === 'ko' ? '7일 여정 보기' : 'View 7-Day Journey'}
               >
                 <User className="w-5 h-5" />
               </motion.button>
@@ -520,9 +555,9 @@ export default function ProfilePage() {
         {/* Tab Navigation */}
         <div className="flex gap-2 mb-6 flex-wrap">
           {[
-            { id: 'journey' as const, icon: Sparkles, label: { en: 'Journey', ko: '여정' } },
-            { id: 'map' as const, icon: MapPin, label: { en: 'Art Map', ko: '아트맵' } },
             { id: 'records' as const, icon: BookOpen, label: { en: 'Records', ko: '기록' } },
+            { id: 'map' as const, icon: MapPin, label: { en: 'Art Map', ko: '아트맵' } },
+            { id: 'journey' as const, icon: Sparkles, label: { en: 'Journey', ko: '여정' } },
             { id: 'badges' as const, icon: Trophy, label: { en: 'Badges', ko: '배지' } },
             { id: 'share' as const, icon: Share2, label: { en: 'Share', ko: '공유' } }
           ].map((tab) => (
@@ -593,17 +628,24 @@ export default function ProfilePage() {
           )}
           
           {activeTab === 'share' && (
-            <ProfileShareCard
-              userInfo={{
-                nickname: user?.nickname || undefined,
-                email: user?.auth?.email,
-                personalityType: userPersonalityType,
-                level: mockUserStats.level,
-                totalPoints: mockUserStats.totalPoints,
-                totalArtworks: mockUserStats.totalArtworks,
-                visitStreak: mockUserStats.visitStreak
-              }}
-            />
+            <div className="space-y-4">
+              <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 text-center">
+                <h2 className="text-xl font-bold mb-4">
+                  {language === 'ko' ? '내 APT 결과 공유하기' : 'Share My APT Result'}
+                </h2>
+                <p className="text-gray-300 mb-6">
+                  {language === 'ko' 
+                    ? '나의 예술 성향을 친구들과 공유해보세요' 
+                    : 'Share your art personality with friends'}
+                </p>
+                <button
+                  onClick={() => setShowShareModal(true)}
+                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium rounded-xl transition-all shadow-lg hover:shadow-xl"
+                >
+                  {language === 'ko' ? '공유하기' : 'Share'}
+                </button>
+              </div>
+            </div>
           )}
         </motion.div>
       </div>
@@ -673,6 +715,19 @@ export default function ProfilePage() {
         language={language}
       />
 
+      {/* Share Modal */}
+      {showShareModal && userPersonalityType && (
+        <ShareModal
+          isOpen={showShareModal}
+          onClose={() => setShowShareModal(false)}
+          quizResult={{
+            personalityType: userPersonalityType,
+            scores: {},
+            responses: []
+          }}
+        />
+      )}
+
       {/* Fixed Feedback Button */}
       <FeedbackButton
         position="fixed"
@@ -684,12 +739,6 @@ export default function ProfilePage() {
         }}
       />
 
-      {/* Profile Complete Modal */}
-      <ProfileCompleteModal
-        isOpen={showProfileCompleteModal}
-        onClose={handleProfileCompleteModalClose}
-        onComplete={handleProfileCompleteSuccess}
-      />
     </div>
   );
 }

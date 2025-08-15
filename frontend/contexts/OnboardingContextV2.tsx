@@ -343,7 +343,8 @@ export function OnboardingProviderV2({ children }: { children: ReactNode }) {
         setIsNewUser(userIsNew);
         
         if (userIsNew) {
-          setShowWelcomeModal(true);
+          // WelcomeModal 자동 표시 비활성화 - 사용자가 JourneySection에서 수동으로 열 수 있음
+          // setShowWelcomeModal(true);
           const initialProgress: OnboardingProgress = {
             ...progress,
             startedAt: new Date(),

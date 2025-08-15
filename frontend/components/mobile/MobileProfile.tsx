@@ -47,25 +47,25 @@ const mockMuseums = [
 const mockVisits = [
   {
     id: '1',
-    exhibitionTitle: 'MMCA 현대차 시리즈 2023',
-    museum: '국립현대미술관',
-    visitDate: '2024-01-15',
+    exhibitionTitle: '론 뮤익',
+    museum: '국립현대미술관 서울',
+    visitDate: '2025-04-20',
     duration: 120,
     rating: 5,
     photos: 2,
-    notes: '몰입형 설치 작품이 인상적이었다',
+    notes: '거대한 조각 앞에서 압도감을 느꼈다.',
     artworks: 3,
     points: 150
   },
   {
     id: '2',
-    exhibitionTitle: '미래의 예술',
-    museum: '리움미술관',
-    visitDate: '2024-01-10',
+    exhibitionTitle: '한국현대미술 하이라이트',
+    museum: '국립현대미술관 서울',
+    visitDate: '2025-05-10',
     duration: 90,
     rating: 4,
     photos: 1,
-    artworks: 1,
+    artworks: 2,
     points: 100
   }
 ];
@@ -131,6 +131,7 @@ export default function MobileProfile() {
     imageUrl: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=400&h=400&fit=crop',
     style: 'Digital Art Portrait'
   });
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   // Load quiz results from localStorage
   useEffect(() => {
@@ -140,6 +141,55 @@ export default function MobileProfile() {
       setUserPersonalityType(results.personalityType);
     }
   }, []);
+
+  // Handle profile picture upload
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('이미지 파일만 업로드 가능합니다.');
+      return;
+    }
+
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('파일 크기는 5MB 이하여야 합니다.');
+      return;
+    }
+
+    setUploadingImage(true);
+
+    try {
+      // Create preview URL
+      const previewUrl = URL.createObjectURL(file);
+      
+      // Update profile image immediately with preview
+      setArtProfile(prev => ({
+        ...prev,
+        imageUrl: previewUrl
+      }));
+
+      // Here you would normally upload to your backend
+      // For now, we'll just use the preview URL
+      // const formData = new FormData();
+      // formData.append('image', file);
+      // const response = await fetch('/api/upload-profile-image', {
+      //   method: 'POST',
+      //   body: formData
+      // });
+      // const data = await response.json();
+      // setArtProfile(prev => ({ ...prev, imageUrl: data.imageUrl }));
+
+      console.log('Profile picture uploaded:', file.name);
+    } catch (error) {
+      console.error('Failed to upload image:', error);
+      alert('이미지 업로드에 실패했습니다.');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
 
   if (!user) {
     return (
@@ -214,9 +264,31 @@ export default function MobileProfile() {
                     </div>
                   )}
                 </div>
+                
+                {/* Profile Picture Upload Button */}
+                <div className="absolute -bottom-1 -right-1">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    id="profile-upload"
+                  />
+                  <label
+                    htmlFor="profile-upload"
+                    className="flex items-center justify-center w-6 h-6 rounded-full bg-white text-gray-700 shadow-lg cursor-pointer hover:bg-gray-100 transition-colors"
+                  >
+                    {uploadingImage ? (
+                      <div className="w-3 h-3 border border-gray-400 border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <Camera className="w-3 h-3" />
+                    )}
+                  </label>
+                </div>
+                
                 {artProfile && (
                   <motion.div 
-                    className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center"
+                    className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.5, type: "spring" }}
@@ -246,10 +318,17 @@ export default function MobileProfile() {
                 )}
 
                 {/* Level & Points */}
-                <div className="mt-2 flex items-center gap-3 text-xs text-gray-300">
-                  <span>Lv.{mockUserStats.level}</span>
-                  <span>•</span>
-                  <span>{mockUserStats.totalPoints}P</span>
+                <div className="mt-2">
+                  <div className="flex items-center gap-3 text-xs text-gray-300">
+                    <span>Lv.{mockUserStats.level}</span>
+                    <span>•</span>
+                    <span>{mockUserStats.totalPoints}P</span>
+                  </div>
+                  <p className="text-xs text-purple-300 mt-1 opacity-90">
+                    {language === 'ko' 
+                      ? '🎁 포인트로 전시 할인 혜택 등 준비중' 
+                      : '🎁 Exhibition discounts coming soon'}
+                  </p>
                 </div>
               </div>
             </div>

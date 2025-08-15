@@ -142,7 +142,7 @@ export default function StyleSelector({
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
-        className="sayu-liquid-glass rounded-2xl p-6 sticky top-4"
+        className="sayu-liquid-glass rounded-2xl p-4 sticky top-4 max-w-sm"
       >
         <Button
           variant="ghost"
@@ -158,7 +158,7 @@ export default function StyleSelector({
           <img 
             src={imagePreview} 
             alt="Your photo"
-            className="w-full h-auto max-h-[400px] object-cover transition-all duration-300"
+            className="w-full h-auto max-h-[250px] object-cover transition-all duration-300"
             style={{
               filter: selectedStyle ? getStyleFilter(selectedStyle.id) : 'none'
             }}

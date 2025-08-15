@@ -111,7 +111,7 @@ export const SREF_CURATED_ARTWORKS: SREFArtwork[] = [
     title: 'The Child\'s Bath',
     artist: 'Mary Cassatt',
     year: '1893',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Mary_Cassatt_-_The_Child%27s_Bath_-_Google_Art_Project.jpg/800px-Mary_Cassatt_-_The_Child%27s_Bath_-_Google_Art_Project.jpg',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Mary_Cassatt_-_The_Bath_-_Google_Art_Project.jpg/800px-Mary_Cassatt_-_The_Bath_-_Google_Art_Project.jpg',
     museum: 'Art Institute of Chicago',
     medium: 'Oil on canvas',
     dimensions: '100.3 × 66.1 cm',

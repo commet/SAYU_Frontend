@@ -538,7 +538,7 @@ export default function JourneyHomePage() {
                         {language === 'ko' ? '모든 나를 만나는 여정' : 'Discover Your Many Selves'}
                       </p>
                       <div className="bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 border border-white/20">
-                        <p className="text-white/90 text-base font-medium whitespace-nowrap">
+                        <p className="text-white/90 text-sm font-medium whitespace-nowrap">
                           {language === 'ko' ? '예술 MBTI (APT) 테스트' : 'Art MBTI (APT) Test'}
                         </p>
                       </div>
@@ -1160,7 +1160,11 @@ export default function JourneyHomePage() {
                   className="px-10 py-5 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-full text-xl font-bold shadow-2xl relative overflow-hidden group"
                   whileHover={{ scale: 1.05, boxShadow: "0 30px 60px rgba(0,0,0,0.3)" }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => router.push('/quiz')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    router.push('/quiz');
+                  }}
                 >
                   <span className="relative z-10">
                     {language === 'ko' ? '나의 Art Persona 발견하기' : 'Discover My Art Persona'}

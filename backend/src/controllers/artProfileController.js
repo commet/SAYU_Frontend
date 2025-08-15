@@ -1,4 +1,6 @@
 const artProfileService = require('../services/artProfileService');
+const huggingFaceArtService = require('../services/huggingFaceArtService');
+const freeArtService = require('../services/freeArtService');
 const logger = require('../utils/logger');
 const db = require('../config/database');
 
@@ -33,13 +35,9 @@ class ArtProfileController {
         });
       }
 
-      // 아트 프로필 생성
-      const result = await artProfileService.generateArtProfile(
-        userId,
-        imageUrl,
-        styleId,
-        customSettings
-      );
+      // 무료 아트 효과를 사용한 프로필 생성 (API 키 불필요)
+      const imageBuffer = await freeArtService.processInputImage(imageUrl);
+      const result = await freeArtService.createArtProfile(userId, imageBuffer, styleId);
 
       res.json({
         success: true,

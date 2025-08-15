@@ -132,7 +132,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     act: 'exploration',
     narrative: {
       transition: "Time seems to slow as you find your rhythm in the gallery's flow.",
-      transition_ko: "갤러리의 흐름 속에서 자신만의 리듬을 찾자, 시간이 느려지는 듯합니다.",
+      transition_ko: "갤러리의 흐름 속에서 자신만의 리듬을 찾자,\n시간이 느려지는 듯합니다.",
       atmosphere: "immersion"
     },
     question: "A painting stops you mid-step.\nIt feels familiar somehow...",

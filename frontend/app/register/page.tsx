@@ -98,32 +98,24 @@ function RegisterContent() {
         }
       }
       
-      toast.success(language === 'ko' ? '회원가입 성공!' : 'Registration successful!');
+      toast.success(language === 'ko' ? '회원가입 성공! 로그인해주세요.' : 'Registration successful! Please login.');
       
-      // Try to sign in immediately after signup
-      try {
-        await signIn(email, password);
-        
-        // Check if coming from specific context
-        const from = searchParams.get('from');
-        const apt = searchParams.get('apt');
-        
-        if (from === 'results' && apt) {
-          router.push(`/results?type=${apt}`);
-        } else if (from === 'quiz_completed') {
-          router.push('/results');
-        } else {
-          router.push('/profile');
-        }
-      } catch (signInError) {
-        // If auto sign-in fails, redirect to login
-        toast.info(language === 'ko' ? '로그인 페이지로 이동합니다' : 'Please login with your credentials');
+      // Redirect to login page after successful registration
+      setTimeout(() => {
         router.push('/login');
-      }
+      }, 1000);
     } catch (error: any) {
       console.error('Registration error:', error);
-      const errorMessage = error?.message || (language === 'ko' ? '회원가입에 실패했습니다' : 'Registration failed');
-      toast.error(errorMessage);
+      
+      // Check if user already exists
+      if (error?.message?.includes('User already registered') || 
+          error?.message?.includes('already registered') ||
+          error?.code === 'user_already_exists') {
+        toast.error(language === 'ko' ? '이미 가입된 이메일입니다' : 'This email is already registered');
+      } else {
+        const errorMessage = error?.message || (language === 'ko' ? '회원가입에 실패했습니다' : 'Registration failed');
+        toast.error(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
@@ -195,7 +187,7 @@ function RegisterContent() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
             onSubmit={handleSubmit}
-            className="space-y-4"
+            className="space-y-2"
           >
             {/* Name Field */}
             <div>
@@ -208,12 +200,12 @@ function RegisterContent() {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-2 pl-12 bg-gray-800 text-white border border-gray-600 rounded-lg focus:border-sayu-mocha focus:outline-none focus:ring-2 focus:ring-sayu-mocha/10 transition-all duration-300 hover:border-gray-500 placeholder-gray-500"
+                  className="w-full px-3 py-1.5 pl-10 bg-gray-800 text-white border border-gray-600 rounded-lg focus:border-sayu-mocha focus:outline-none focus:ring-2 focus:ring-sayu-mocha/10 transition-all duration-300 hover:border-gray-500 placeholder-gray-500"
                   placeholder={language === 'ko' ? '레오나르도 다빈치' : 'Leonardo da Vinci'}
                   required
                   autoComplete="name"
                 />
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-sayu-text-muted transition-colors group-focus-within:text-sayu-mocha" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sayu-text-muted transition-colors group-focus-within:text-sayu-mocha" />
               </div>
             </div>
 
@@ -228,12 +220,12 @@ function RegisterContent() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2 pl-12 bg-gray-800 text-white border border-gray-600 rounded-lg focus:border-sayu-mocha focus:outline-none focus:ring-2 focus:ring-sayu-mocha/10 transition-all duration-300 hover:border-gray-500 placeholder-gray-500"
+                  className="w-full px-3 py-1.5 pl-10 bg-gray-800 text-white border border-gray-600 rounded-lg focus:border-sayu-mocha focus:outline-none focus:ring-2 focus:ring-sayu-mocha/10 transition-all duration-300 hover:border-gray-500 placeholder-gray-500"
                   placeholder={language === 'ko' ? 'your@email.com' : 'your@email.com'}
                   required
                   autoComplete="email"
                 />
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-sayu-text-muted transition-colors group-focus-within:text-sayu-mocha" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sayu-text-muted transition-colors group-focus-within:text-sayu-mocha" />
               </div>
             </div>
 
@@ -248,20 +240,20 @@ function RegisterContent() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-2 pl-12 pr-12 bg-gray-800 text-white border border-gray-600 rounded-lg focus:border-sayu-mocha focus:outline-none focus:ring-2 focus:ring-sayu-mocha/10 transition-all duration-300 hover:border-gray-500 placeholder-gray-500"
+                  className="w-full px-3 py-1.5 pl-10 pr-10 bg-gray-800 text-white border border-gray-600 rounded-lg focus:border-sayu-mocha focus:outline-none focus:ring-2 focus:ring-sayu-mocha/10 transition-all duration-300 hover:border-gray-500 placeholder-gray-500"
                   placeholder="••••••••"
                   required
                   autoComplete="new-password"
                 />
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-sayu-text-muted transition-colors group-focus-within:text-sayu-mocha" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sayu-text-muted transition-colors group-focus-within:text-sayu-mocha" />
                 <motion.button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-sayu-text-muted hover:text-sayu-text-primary transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-sayu-text-muted hover:text-sayu-text-primary transition-colors"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </motion.button>
               </div>
               
@@ -312,11 +304,11 @@ function RegisterContent() {
                   required
                   autoComplete="new-password"
                 />
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-sayu-text-muted transition-colors group-focus-within:text-sayu-mocha" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sayu-text-muted transition-colors group-focus-within:text-sayu-mocha" />
                 <motion.button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-sayu-text-muted hover:text-sayu-text-primary transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-sayu-text-muted hover:text-sayu-text-primary transition-colors"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                 >

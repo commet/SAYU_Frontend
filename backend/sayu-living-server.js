@@ -3,6 +3,9 @@
 // SAYU Production Server - Railway 배포용
 // Full-featured backend server for production deployment
 
+// Load environment variables first
+require('dotenv').config();
+
 console.log('🚀 Starting SAYU Production Server...');
 
 // 프로덕션 환경에서는 풀 서버 실행

@@ -100,6 +100,18 @@ function GalleryContent() {
 
   // Load user profile and preferences
   useEffect(() => {
+    // Try to get APT type from localStorage first
+    const quizResults = localStorage.getItem('quizResults');
+    let aptType = 'SREF';
+    if (quizResults) {
+      try {
+        const parsed = JSON.parse(quizResults);
+        aptType = parsed.personalityType || 'SREF';
+      } catch (e) {
+        console.error('Error parsing quiz results:', e);
+      }
+    }
+    
     if (user && !isGuestMode) {
       fetchUserProfile();
       loadUserPreferences();
@@ -107,15 +119,15 @@ function GalleryContent() {
       // Set default SREF profile for guest users to show curated artworks
       const guestProfile: UserProfile = {
         id: 'guest',
-        sayuType: 'SREF',
+        sayuType: aptType,
         email: '',
         name: 'Guest',
-        typeCode: 'SREF',
-        personalityType: 'SREF'
+        typeCode: aptType,
+        personalityType: aptType
       };
       setUserProfile(guestProfile);
       loadUserPreferences();
-      console.log('👥 Setting SREF profile for guest to show 12 curated artworks');
+      console.log(`👥 Setting ${aptType} profile for guest to show curated artworks`);
     }
   }, [user, isGuestMode]);
 
@@ -129,6 +141,9 @@ function GalleryContent() {
   useEffect(() => {
     loadRecommendedArtworks();
   }, [userProfile, selectedCategory]);
+  
+  // Get user APT type for display
+  const userAptType = userProfile?.typeCode || userProfile?.personalityType || user?.aptType || 'SREF';
 
   // Auto-expand recommendations for SREF users with 12+ artworks (desktop only)
   useEffect(() => {
@@ -141,14 +156,26 @@ function GalleryContent() {
 
   const fetchUserProfile = async () => {
     try {
+      // Try to get APT type from localStorage first
+      const quizResults = localStorage.getItem('quizResults');
+      let aptType = 'SREF';
+      if (quizResults) {
+        try {
+          const parsed = JSON.parse(quizResults);
+          aptType = parsed.personalityType || 'SREF';
+        } catch (e) {
+          console.error('Error parsing quiz results:', e);
+        }
+      }
+      
       if (user) {
         setUserProfile({
           id: user.id,
-          sayuType: user.personalityType || 'SREF',
+          sayuType: user.personalityType || aptType,
           email: user.auth?.email || '',
           name: user.nickname || '',
-          personalityType: user.personalityType || 'SREF',
-          typeCode: user.typeCode || user.personalityType || 'SREF'
+          personalityType: user.personalityType || aptType,
+          typeCode: user.typeCode || user.personalityType || aptType
         });
       }
     } catch (error) {
@@ -191,48 +218,34 @@ function GalleryContent() {
   };
 
   const loadRecommendedArtworks = async () => {
-    try {
-      // Import the new recommendation system
-      const { getPersonalizedRecommendations } = await import('./artwork-recommendations');
-      
-      // Default to SREF for guest users to show the 12 curated artworks
-      const userType = userProfile?.typeCode || userProfile?.personalityType || user?.aptType || 'SREF';
-      console.log('🎨 Loading recommendations for user type:', userType);
-      const guestMode = !user || isGuestMode;
-      console.log('👥 Guest mode:', guestMode, '| User profile:', userProfile?.typeCode, '| User apt:', user?.aptType);
-      
-      const recommendations = getPersonalizedRecommendations(userType, selectedCategory);
-      console.log('📚 Got recommendations:', recommendations.length, 'artworks');
-      
-      if (recommendations.length > 0) {
-        console.log('🖼️ First artwork:', recommendations[0]);
-        console.log('🌐 First artwork URL:', recommendations[0].imageUrl);
-        console.log('🎨 Is Wikimedia URL?:', recommendations[0].imageUrl?.includes('wikimedia'));
-      }
-      
-      // Transform to match existing interface - get more recommendations for expansion
-      const formattedRecommendations = recommendations.slice(0, 12).map((rec, i) => ({
-        id: rec.id || `rec-${i}`,
-        title: rec.title,
-        artist: rec.artist,
-        year: rec.year,
-        description: rec.description || rec.curatorNote,
-        href: '#',
-        imageUrl: rec.imageUrl || rec.cloudinaryUrl,
-        matchPercent: rec.matchPercent,
-        curatorNote: rec.curatorNote
-      }));
-      
-      console.log('✅ Formatted recommendations:', formattedRecommendations);
-      console.log('🔍 All Image URLs:');
-      formattedRecommendations.forEach((rec, i) => {
-        console.log(`  ${i+1}. ${rec.title}: ${rec.imageUrl?.substring(0, 80)}...`);
-      });
-      setRecommendedArtworks(formattedRecommendations);
-    } catch (error) {
-      console.error('Failed to load recommendations:', error);
-      setRecommendedArtworks([]);
-    }
+    // Get user type
+    const userType = userProfile?.typeCode || userProfile?.personalityType || user?.aptType || 'SREF';
+    console.log('🎨 Loading artworks for user type:', userType);
+    
+    // Import Cloudinary artworks with fallback
+    const { CLOUDINARY_FAMOUS_ARTWORKS, getArtworksForUserType, WIKIPEDIA_FALLBACK_URLS } = await import('@/data/cloudinary-artworks');
+    
+    // Get user type specific artworks
+    const artworks = getArtworksForUserType(userType);
+    
+    // Format recommendations with user type and fallback URLs
+    const formattedRecommendations = artworks.map((artwork, i) => ({
+      id: artwork.id,
+      title: artwork.title,
+      artist: artwork.artist,
+      year: artwork.year,
+      description: `${userType} 유형을 위한 특별 큐레이션`,
+      href: '#',
+      imageUrl: artwork.imageUrl,
+      fallbackUrl: WIKIPEDIA_FALLBACK_URLS[artwork.id] || artwork.imageUrl,
+      matchPercent: 95 - (i * 2),
+      curatorNote: `${userType} 유형의 감성과 완벽하게 어울리는 ${artwork.artist}의 작품입니다.`,
+      style: artwork.style,
+      museum: artwork.museum
+    }));
+    
+    console.log('✅ Loaded Cloudinary artworks:', formattedRecommendations.length);
+    setRecommendedArtworks(formattedRecommendations);
   };
 
   const fetchArtworks = async (category: string) => {
@@ -284,27 +297,45 @@ function GalleryContent() {
         }
       }
       
-      // API 데이터가 없으면 기존 추천 시스템 사용
+      // API 데이터가 없으면 Cloudinary 작품 사용
       const getPersonalizedArtworks = async () => {
         try {
-          const { getPersonalizedRecommendations } = await import('./artwork-recommendations');
+          // Use Cloudinary artworks as fallback
+          const { CLOUDINARY_FAMOUS_ARTWORKS, getArtworksForUserType } = await import('@/data/cloudinary-artworks');
           const userType = user?.aptType || userProfile?.typeCode || 'SREF';
-          const recommendations = getPersonalizedRecommendations(userType, category);
+          const cloudinaryArtworks = getArtworksForUserType(userType);
           
-          return recommendations.map((artwork, i) => ({
-            id: artwork.id || `apt-${userType}-${i}`,
+          // Filter by category if needed
+          let filteredArtworks = cloudinaryArtworks;
+          if (category !== 'all') {
+            filteredArtworks = cloudinaryArtworks.filter(artwork => {
+              const style = artwork.style?.toLowerCase() || '';
+              if (category === 'paintings' && (style.includes('impression') || style.includes('renaissance'))) return true;
+              if (category === 'asian-art' && style.includes('ukiyo')) return true;
+              if (category === 'modern' && (style.includes('nouveau') || style.includes('modern'))) return true;
+              return false;
+            });
+            
+            // If no matches for category, use all artworks
+            if (filteredArtworks.length === 0) {
+              filteredArtworks = cloudinaryArtworks;
+            }
+          }
+          
+          return filteredArtworks.map((artwork, i) => ({
+            id: artwork.id || `cloudinary-${i}`,
             title: artwork.title,
             artist: artwork.artist,
             year: artwork.year,
-            imageUrl: artwork.cloudinaryUrl || artwork.imageUrl,
+            imageUrl: artwork.imageUrl,
             museum: artwork.museum || 'SAYU Curated Collection',
-            medium: artwork.medium || 'Mixed Media',
-            department: artwork.department || category,
-            isPublicDomain: artwork.isPublicDomain !== undefined ? artwork.isPublicDomain : true,
+            medium: artwork.style || 'Mixed Media',
+            department: category,
+            isPublicDomain: true,
             license: 'CC0',
-            matchPercent: artwork.matchPercent,
-            curatorNote: artwork.curatorNote,
-            description: artwork.description
+            matchPercent: 95 - (i * 2),
+            curatorNote: `${userType} 유형에 특별히 선별된 ${artwork.artist}의 작품입니다.`,
+            description: `${artwork.style} 시대의 대표작품`
           }));
         } catch (error) {
           console.error('Error getting personalized artworks:', error);
@@ -554,8 +585,6 @@ function GalleryContent() {
     );
   }
 
-  // 사용자 APT 타입 가져오기
-  const userAptType = userProfile?.typeCode || userProfile?.personalityType || 'SREF';
 
   return (
     <div 
@@ -738,7 +767,14 @@ function GalleryContent() {
               </div>
               <button 
                 className="px-3 py-1.5 bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 rounded-lg text-xs font-medium transition-all duration-200 border border-amber-500/30 hover:border-amber-500/50"
-                onClick={() => toast('🎨 아트 페어 모드는 8월 말에 만나요!', { icon: '🎪' })}
+                onClick={() => toast('🎨 아트 페어 모드는 8월 말에 만나요!', { 
+                  icon: '🎪',
+                  style: {
+                    background: '#1f2937',
+                    color: '#f3f4f6',
+                    border: '1px solid #374151'
+                  }
+                })}
               >
                 알림 받기
               </button>
@@ -759,34 +795,39 @@ function GalleryContent() {
                 <h2 className={`text-xl font-semibold mb-1 text-white ${isMobile ? '' : 'whitespace-nowrap'}`}>
                   {isGuestMode ? 'SREF 유형 큐레이션 작품' : `${userAptType} 유형을 위한 추천 작품`}
                 </h2>
-                <p className={`text-sm text-gray-300 mb-2 ${isMobile ? 'w-full' : ''}`}>
+                <p className={`text-gray-300 mb-2 ${isMobile ? 'text-xs tracking-tight' : 'text-sm'}`}>
                   {isGuestMode ? 
                     'SREF 유형을 위한 특별 큐레이션 - 인간관계와 따뜻함을 담은 작품들' :
-                    <>
-                      AI Curator가 당신의 APT 분석을 기반으로<br className="md:hidden" />
-                      큐레이션한 작품들입니다
-                    </>
+                    'AI Curator가 당신의 APT 분석을 기반으로 큐레이션한 작품들'
                   }
                 </p>
-                {isMobile && recommendedArtworks.length > 4 && (
+                <div className={`${isMobile ? 'flex flex-col gap-1 mb-2' : 'flex gap-4'} text-xs text-white`}>
+                  <span className="flex items-center gap-1 w-full">
+                    ❤️ <strong>좋아요</strong>: AI가 비슷한 작품을 더 추천해줍니다
+                    {isMobile && recommendedArtworks.length > 4 && (
+                      <button
+                        onClick={() => setShowAllRecommendations(!showAllRecommendations)}
+                        className="ml-auto px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-full text-xs transition-colors flex items-center gap-1"
+                      >
+                        {showAllRecommendations ? '🎨 접기' : '🎨 전체'}
+                      </button>
+                    )}
+                  </span>
+                  <span className="flex items-center gap-1 w-full">
+                    📌 <strong>보관하기</strong>: 내 아트 컬렉션에 추가됩니다
+                  </span>
+                </div>
+                {!isMobile && recommendedArtworks.length > 4 && (
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="w-full rounded-full text-slate-400 hover:text-white hover:bg-slate-800 mb-2"
+                    className="rounded-full text-slate-400 hover:text-white hover:bg-slate-800 mb-2"
                     onClick={() => setShowAllRecommendations(!showAllRecommendations)}
                   >
                     {showAllRecommendations ? '접기' : `모든 ${recommendedArtworks.length}개 보기`} 
                     <ChevronRight className={`w-4 h-4 ml-1 transition-transform ${showAllRecommendations ? 'rotate-90' : ''}`} />
                   </Button>
                 )}
-                <div className={`${isMobile ? 'flex flex-col gap-1' : 'flex gap-4'} text-xs text-white`}>
-                  <span className="flex items-center gap-1 w-full">
-                    ❤️ <strong>좋아요</strong>: AI가 비슷한 작품을 더 추천해줍니다
-                  </span>
-                  <span className="flex items-center gap-1 w-full">
-                    📌 <strong>보관하기</strong>: 내 아트 컬렉션에 추가됩니다
-                  </span>
-                </div>
               </div>
               {/* Desktop expand/collapse button */}
               {!isMobile && recommendedArtworks.length > 4 && (
@@ -849,17 +890,32 @@ function GalleryContent() {
                       
                       <Sparkles className="absolute bottom-4 left-4 w-6 h-6 text-purple-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:rotate-12" />
                       
-                      {/* 실제 이미지 표시 - Wikimedia Commons images */}
-                      <img 
-                        src={item.imageUrl} 
-                        alt={item.title}
-                        className="absolute inset-0 w-full h-full object-cover"
-                        loading="lazy"
-                        crossOrigin="anonymous"
-                        onError={(e) => {
-                          e.currentTarget.src = '/images/placeholder-artwork.jpg';
-                        }}
-                      />
+                      {/* 실제 이미지 표시 - 직접 img 태그 사용 with fallback */}
+                      {item.imageUrl && (
+                        <img
+                          src={item.imageUrl}
+                          alt={item.title}
+                          className="absolute inset-0 w-full h-full object-cover"
+                          loading={index < 4 ? 'eager' : 'lazy'}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            // Try fallback URL if available
+                            if (item.fallbackUrl && target.src !== item.fallbackUrl) {
+                              console.log(`Trying fallback for ${item.title}`);
+                              target.src = item.fallbackUrl;
+                            } else {
+                              console.error(`Failed to load: ${item.title}`, item.imageUrl);
+                              // 이미지 로드 실패시 placeholder 표시
+                              target.style.display = 'none';
+                            }
+                          }}
+                        />
+                      )}
+                      {!item.imageUrl && (
+                        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-pink-900/20 flex items-center justify-center">
+                          <Palette className="w-8 h-8 text-purple-400" />
+                        </div>
+                      )}
                     </div>
                     <div className="p-4">
                       <h3 className="font-semibold text-sm line-clamp-1 text-white">{item.title}</h3>
@@ -923,17 +979,32 @@ function GalleryContent() {
                       
                       <Sparkles className="absolute bottom-4 left-4 w-6 h-6 text-purple-400 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:rotate-12" />
                       
-                      {/* 실제 이미지 표시 - Wikimedia Commons images */}
-                      <img 
-                        src={item.imageUrl} 
-                        alt={item.title}
-                        className="absolute inset-0 w-full h-full object-cover"
-                        loading="lazy"
-                        crossOrigin="anonymous"
-                        onError={(e) => {
-                          e.currentTarget.src = '/images/placeholder-artwork.jpg';
-                        }}
-                      />
+                      {/* 실제 이미지 표시 - 직접 img 태그 사용 with fallback */}
+                      {item.imageUrl && (
+                        <img
+                          src={item.imageUrl}
+                          alt={item.title}
+                          className="absolute inset-0 w-full h-full object-cover"
+                          loading={index < 4 ? 'eager' : 'lazy'}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            // Try fallback URL if available
+                            if (item.fallbackUrl && target.src !== item.fallbackUrl) {
+                              console.log(`Trying fallback for ${item.title}`);
+                              target.src = item.fallbackUrl;
+                            } else {
+                              console.error(`Failed to load: ${item.title}`, item.imageUrl);
+                              // 이미지 로드 실패시 placeholder 표시
+                              target.style.display = 'none';
+                            }
+                          }}
+                        />
+                      )}
+                      {!item.imageUrl && (
+                        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-pink-900/20 flex items-center justify-center">
+                          <Palette className="w-8 h-8 text-purple-400" />
+                        </div>
+                      )}
                     </div>
                     <div className="p-4">
                       <h3 className="font-semibold text-sm line-clamp-1 text-white">{item.title}</h3>

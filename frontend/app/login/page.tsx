@@ -52,7 +52,14 @@ function LoginContent() {
           ko: '인증 세션이 만료되었습니다. 다시 로그인해주세요.' 
         },
         exchange_failed: { en: 'Failed to complete login. Please try again.', ko: '로그인을 완료하지 못했습니다. 다시 시도해주세요.' },
-        no_session: { en: 'Failed to create session. Please try again.', ko: '세션 생성에 실패했습니다. 다시 시도해주세요.' }
+        no_session: { en: 'Failed to create session. Please try again.', ko: '세션 생성에 실패했습니다. 다시 시도해주세요.' },
+        unexpected_error: { en: 'An unexpected error occurred. Please try again.', ko: '예상치 못한 오류가 발생했습니다. 다시 시도해주세요.' },
+        invalid_callback: { en: 'Invalid login callback. Please try again.', ko: '잘못된 로그인 콜백입니다. 다시 시도해주세요.' },
+        kakao_error: { en: 'Kakao login failed. Please try again.', ko: '카카오 로그인에 실패했습니다. 다시 시도해주세요.' },
+        kakao_failed: { en: 'Kakao login failed. Please try again.', ko: '카카오 로그인에 실패했습니다. 다시 시도해주세요.' },
+        kakao_signup_failed: { en: 'Failed to create Kakao account. Please try again.', ko: '카카오 계정 생성에 실패했습니다. 다시 시도해주세요.' },
+        no_code: { en: 'No authorization code received. Please try again.', ko: '인증 코드를 받지 못했습니다. 다시 시도해주세요.' },
+        no_user_data: { en: 'Failed to get user data. Please try again.', ko: '사용자 데이터를 가져오지 못했습니다. 다시 시도해주세요.' }
       };
       const message = errorMessages[error]?.[language] || (language === 'ko' ? '인증 오류' : 'Authentication error');
       toast.error(message);
@@ -85,12 +92,12 @@ function LoginContent() {
   return (
     <div className="min-h-screen flex">
       {/* Left Panel - Form */}
-      <div className="flex-1 flex items-start justify-center px-8 pt-12 pb-6 bg-gray-900 dark:bg-gray-950">
+      <div className="flex-1 flex items-start justify-center px-8 pt-8 pb-6 bg-gray-900 dark:bg-gray-950">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
-          className="w-full max-w-md mt-8"
+          className="w-full max-w-md mt-4"
         >
           {/* Logo and Back Button */}
           <div className="flex items-center justify-between mb-8">
@@ -151,50 +158,50 @@ function LoginContent() {
             className="space-y-3"
           >
             {/* Email Field */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
+            <div className="flex items-center gap-2">
+              <label htmlFor="email" className="w-28 text-sm font-medium text-gray-300">
                 {language === 'ko' ? '이메일' : 'Email'}
               </label>
-              <div className="relative group">
+              <div className="relative group flex-1">
                 <input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2 pl-12 bg-gray-100 border-2 border-gray-200 rounded-xl focus:border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-300/20 transition-all duration-300 hover:border-gray-300 text-gray-900"
+                  className="w-full px-3 py-1.5 pl-10 bg-gray-100 border-2 border-gray-200 rounded-xl focus:border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-300/20 transition-all duration-300 hover:border-gray-300 text-gray-900"
                   placeholder={language === 'ko' ? 'your@email.com' : 'your@email.com'}
                   required
                   autoComplete="email"
                 />
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-sayu-text-muted transition-colors group-focus-within:text-sayu-mocha" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sayu-text-muted transition-colors group-focus-within:text-sayu-mocha" />
               </div>
             </div>
 
             {/* Password Field */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
+            <div className="flex items-center gap-2">
+              <label htmlFor="password" className="w-28 text-sm font-medium text-gray-300">
                 {language === 'ko' ? '비밀번호' : 'Password'}
               </label>
-              <div className="relative group">
+              <div className="relative group flex-1">
                 <input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-2 pl-12 pr-12 bg-gray-100 border-2 border-gray-200 rounded-xl focus:border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-300/20 transition-all duration-300 hover:border-gray-300 text-gray-900"
+                  className="w-full px-3 py-1.5 pl-10 pr-10 bg-gray-100 border-2 border-gray-200 rounded-xl focus:border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-300/20 transition-all duration-300 hover:border-gray-300 text-gray-900"
                   placeholder="••••••••"
                   required
                   autoComplete="current-password"
                 />
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-sayu-text-muted transition-colors group-focus-within:text-sayu-mocha" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sayu-text-muted transition-colors group-focus-within:text-sayu-mocha" />
                 <motion.button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-sayu-text-muted hover:text-sayu-text-primary transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-sayu-text-muted hover:text-sayu-text-primary transition-colors"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </motion.button>
               </div>
             </div>
@@ -234,6 +241,22 @@ function LoginContent() {
                 {language === 'ko' ? '로그인' : 'Sign in'}
               </ModernButton>
             </motion.div>
+
+            {/* Sign Up Link - moved here */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.25 }}
+              className="text-center text-sm text-gray-300"
+            >
+              {language === 'ko' ? '아직 계정이 없으신가요? ' : "Don't have an account? "}
+              <Link
+                href="/register"
+                className="font-medium text-white hover:text-gray-200 transition-colors"
+              >
+                {language === 'ko' ? '10초 간단 회원가입' : 'Quick Sign up'}
+              </Link>
+            </motion.p>
           </motion.form>
 
           {/* Divider */}
@@ -261,21 +284,7 @@ function LoginContent() {
             <SocialLoginButton provider="discord" />
           </motion.div>
 
-          {/* Sign Up Link */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="mt-6 text-center text-sm text-gray-300"
-          >
-            {language === 'ko' ? '아직 계정이 없으신가요? ' : "Don't have an account? "}
-            <Link
-              href="/register"
-              className="font-medium text-white hover:text-gray-200 transition-colors"
-            >
-              {language === 'ko' ? '회원가입' : 'Sign up'}
-            </Link>
-          </motion.p>
+          {/* Sign Up Link - moved after login button */}
         </motion.div>
       </div>
 
