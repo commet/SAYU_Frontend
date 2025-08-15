@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
-import { OptimizedImage } from '@/components/ui/OptimizedImage';
+import OptimizedImage from '@/components/ui/optimized-image';
 import { PersonalityAnimal } from '@/data/personality-animals';
 
 interface PersonalityAnimalImageProps {
@@ -59,32 +58,33 @@ export function PersonalityAnimalImage({
 
   return (
     <div className={`relative overflow-hidden rounded-lg shadow-sm ${className}`} style={{ width, height }}>
-      {isLoading && (
-        <div 
-          className="absolute inset-0 bg-gradient-to-br from-purple-100 to-pink-100 animate-pulse rounded-lg"
-        />
-      )}
-      
-      <Image
+      <OptimizedImage
         src={imagePath}
         alt={`${animal.animal_ko} 캐릭터`}
         width={width}
         height={height}
         className="object-contain rounded-lg transition-all duration-300"
-        style={{ display: isLoading ? 'none' : 'block' }}
+        priority={size === 'xl' || size === 'lg'} // 큰 이미지는 우선 로딩
+        isPersonalityAnimal={true}
+        quality={size === 'sm' ? 70 : 85} // 작은 이미지는 품질 낮춤
+        placeholder="blur"
+        onError={() => {
+          console.error('Image failed to load:', imagePath);
+          setImageError(true);
+          setIsLoading(false);
+        }}
         onLoad={() => {
           setIsLoading(false);
           if (process.env.NODE_ENV === 'development') {
             console.log('Image loaded successfully:', imagePath);
           }
         }}
-        onError={(e) => {
-          console.error('Image failed to load:', imagePath, e);
-          setImageError(true);
-          setIsLoading(false);
-        }}
-        priority
       />
+      
+      {/* 로딩 오버레이 */}
+      {isLoading && (
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-100 to-pink-100 animate-pulse rounded-lg" />
+      )}
     </div>
   );
 }
