@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { PersonalityAnimal } from '@/data/personality-animals';
 
@@ -42,26 +43,17 @@ export function PersonalityAnimalImage({
     });
   }
   
-  // 이미지가 없거나 로드 에러가 있으면 이모지 폴백 표시
+  // 이미지 로드 실패 시 처리 - 이모지 표시하지 않음
   if (!imagePath || imageError) {
+    // showFallback이 false면 아무것도 표시하지 않음
     if (!showFallback) return null;
     
+    // 빈 placeholder만 표시 (이모지 없음)
     return (
       <div 
-        className={`relative flex items-center justify-center bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg shadow-sm border border-white/10 ${className}`}
+        className={`relative flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg ${className}`}
         style={{ width, height }}
-        title={`${animal.animal_ko} (${animal.type}) - Image fallback`}
-      >
-        <span 
-          className="text-center select-none"
-          style={{ fontSize: width * 0.4 }}
-        >
-          {animal.emoji}
-        </span>
-        <div className="absolute bottom-1 right-1">
-          <div className="w-2 h-2 bg-black/20 rounded-full" />
-        </div>
-      </div>
+      />
     );
   }
 
@@ -69,20 +61,17 @@ export function PersonalityAnimalImage({
     <div className={`relative overflow-hidden rounded-lg shadow-sm ${className}`} style={{ width, height }}>
       {isLoading && (
         <div 
-          className="absolute inset-0 bg-gradient-to-br from-sayu-warm-gray/10 to-sayu-warm-gray/20 animate-pulse rounded-lg flex items-center justify-center"
-        >
-          <span className="text-sayu-text-muted" style={{ fontSize: width * 0.2 }}>
-            {animal.emoji}
-          </span>
-        </div>
+          className="absolute inset-0 bg-gradient-to-br from-purple-100 to-pink-100 animate-pulse rounded-lg"
+        />
       )}
       
-      <img
+      <Image
         src={imagePath}
         alt={`${animal.animal_ko} 캐릭터`}
         width={width}
         height={height}
         className="object-contain rounded-lg transition-all duration-300"
+        style={{ display: isLoading ? 'none' : 'block' }}
         onLoad={() => {
           setIsLoading(false);
           if (process.env.NODE_ENV === 'development') {
@@ -94,6 +83,7 @@ export function PersonalityAnimalImage({
           setImageError(true);
           setIsLoading(false);
         }}
+        priority
       />
     </div>
   );

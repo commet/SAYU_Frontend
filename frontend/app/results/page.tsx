@@ -93,12 +93,13 @@ function ResultsContent() {
       
       try {
         const response = await fetch('/api/artworks');
-        if (!response.ok) {
-          console.warn('Failed to fetch artworks, using fallback');
-          setArtistArtworks([]);
-          return;
+        let data = { artworks: [] };
+        
+        if (response.ok) {
+          data = await response.json();
+        } else {
+          console.warn('Failed to fetch artworks, using fallback data');
         }
-        const data = await response.json();
         
         const matchedArtworks = availableArtists.map((artist, index) => {
           const matchType = index === 0 ? 'primary' : index === 1 ? 'secondary' : 'tertiary';
@@ -140,6 +141,8 @@ function ResultsContent() {
       const personalityData = personalityDescriptions[urlType];
       const animalData = getAnimalByType(urlType);
       
+      console.log('URL Type:', urlType);
+      console.log('Animal Data:', animalData);
       
       if (personalityData) {
         // Mock results with URL type
@@ -170,6 +173,8 @@ function ResultsContent() {
       const personalityData = personalityDescriptions[type];
       const animalData = getAnimalByType(type);
       
+      console.log('LocalStorage Type:', type);
+      console.log('Animal Data from localStorage:', animalData);
       
       setPersonality(personalityData);
       setAnimalCharacter(animalData);
@@ -224,7 +229,7 @@ function ResultsContent() {
           className="text-center"
         >
           {/* 동물 캐릭터 */}
-          {animalCharacter ? (
+          {animalCharacter && (
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -236,10 +241,9 @@ function ResultsContent() {
                 variant="illustration"
                 size="lg"
                 className="mx-auto"
-                showFallback={false}
               />
             </motion.div>
-          ) : null}
+          )}
           
           {/* 유형 이름 */}
           <motion.h1
