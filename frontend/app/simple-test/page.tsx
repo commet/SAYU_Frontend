@@ -1,3 +1,5 @@
+'use client';
+
 export default function SimpleTestPage() {
   const lrmcUrls = [
     'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Claude_Monet_-_Water_Lilies_-_1906%2C_Ryerson.jpg/1280px-Claude_Monet_-_Water_Lilies_-_1906%2C_Ryerson.jpg',
