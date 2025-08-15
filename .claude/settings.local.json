@@ -1,11 +1,4 @@
 {
-  "mcpServers": {
-    "serena": {
-      "command": "uv",
-      "args": ["run", "serena-mcp-server"],
-      "cwd": "C:\\Users\\admin\\documents\\github\\sayu\\serena"
-    }
-  },
   "permissions": {
     "allow": [
       "Bash(node:*)",
@@ -42,6 +35,17 @@
       "Bash(taskkill:*)",
       "Bash(npm run dev:*)"
     ],
-    "deny": []
+    "deny": [],
+    "defaultMode": "acceptEdits"
+  },
+  "mcpServers": {
+    "serena": {
+      "command": "uv",
+      "args": [
+        "run",
+        "serena-mcp-server"
+      ],
+      "cwd": "C:\\Users\\admin\\documents\\github\\sayu\\serena"
+    }
   }
 }

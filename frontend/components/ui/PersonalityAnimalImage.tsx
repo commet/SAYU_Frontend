@@ -32,6 +32,15 @@ export function PersonalityAnimalImage({
   const { width, height } = sizeMap[size];
   const imagePath = animal[variant];
   
+  // Debug logging for development
+  if (process.env.NODE_ENV === 'development') {
+    console.log('PersonalityAnimalImage:', { 
+      animal: animal.type, 
+      variant, 
+      imagePath, 
+      imageError 
+    });
+  }
   
   // 이미지가 없거나 로드 에러가 있으면 이모지 폴백 표시
   if (!imagePath || imageError) {
@@ -39,8 +48,9 @@ export function PersonalityAnimalImage({
     
     return (
       <div 
-        className={`relative flex items-center justify-center bg-gradient-to-br from-sayu-lavender/20 to-sayu-sage/20 rounded-lg shadow-sm border border-sayu-warm-gray/10 ${className}`}
+        className={`relative flex items-center justify-center bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg shadow-sm border border-white/10 ${className}`}
         style={{ width, height }}
+        title={`${animal.animal_ko} (${animal.type}) - Image fallback`}
       >
         <span 
           className="text-center select-none"
@@ -49,7 +59,7 @@ export function PersonalityAnimalImage({
           {animal.emoji}
         </span>
         <div className="absolute bottom-1 right-1">
-          <div className="w-2 h-2 bg-sayu-mocha/20 rounded-full" />
+          <div className="w-2 h-2 bg-black/20 rounded-full" />
         </div>
       </div>
     );
@@ -67,20 +77,23 @@ export function PersonalityAnimalImage({
         </div>
       )}
       
-      <OptimizedImage
+      <img
         src={imagePath}
         alt={`${animal.animal_ko} 캐릭터`}
         width={width}
         height={height}
         className="object-contain rounded-lg transition-all duration-300"
-        placeholder="blur"
-        quality={90}
-        onLoad={() => setIsLoading(false)}
-        onError={() => {
+        onLoad={() => {
+          setIsLoading(false);
+          if (process.env.NODE_ENV === 'development') {
+            console.log('Image loaded successfully:', imagePath);
+          }
+        }}
+        onError={(e) => {
+          console.error('Image failed to load:', imagePath, e);
           setImageError(true);
           setIsLoading(false);
         }}
-        priority={size === 'lg' || size === 'xl'}
       />
     </div>
   );
