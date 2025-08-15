@@ -146,7 +146,8 @@ app.use(cors({
     // Check if the origin is in the allowed list or matches Railway/Vercel patterns
     const isAllowed = allowedOrigins.includes(origin) ||
                       origin.match(/^https:\/\/.*\.railway\.app$/) ||
-                      origin.match(/^https:\/\/.*\.vercel\.app$/);
+                      origin.match(/^https:\/\/.*\.vercel\.app$/) ||
+                      origin.match(/^https:\/\/sayu-frontend-.*\.vercel\.app$/);
     
     if (isAllowed) {
       callback(null, true);

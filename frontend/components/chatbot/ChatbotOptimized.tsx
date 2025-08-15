@@ -55,13 +55,9 @@ export const ChatbotFloatingButton = memo(({
         {/* 동물 아바타 */}
         <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden bg-white/10 dark:bg-black/20 backdrop-blur-md shadow-lg flex items-center justify-center border border-white/20">
           {animalData ? (
-            <PersonalityAnimalImage 
-              animal={animalData}
-              variant="avatar"
-              size="sm"
-              className="scale-110 !rounded-full"
-              showFallback={true}
-            />
+            <div className="text-4xl sm:text-5xl select-none">
+              {animalData.emoji}
+            </div>
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm flex items-center justify-center">
               <MessageSquare className="w-8 h-8 text-purple-400" />

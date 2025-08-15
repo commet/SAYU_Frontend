@@ -353,11 +353,9 @@ export const ArtCuratorChatbot = ({
             <div className="p-4 bg-gradient-to-r from-primary/10 to-primary/5 border-b flex items-center justify-between">
               <div className="flex items-center gap-3">
                 {personalityType ? (
-                  <img 
-                    src={animalData?.avatar || animalData?.image}
-                    alt={animalData?.animal || 'Curator'}
-                    className="w-10 h-10 rounded-full"
-                  />
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900 dark:to-pink-900 flex items-center justify-center text-2xl">
+                    {animalData?.emoji || '🦊'}
+                  </div>
                 ) : (
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-200 to-blue-200 dark:from-purple-700 dark:to-blue-700 flex items-center justify-center">
                     <HelpCircle className="w-5 h-5 text-white" />
