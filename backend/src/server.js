@@ -138,7 +138,9 @@ app.use(cors({
       'http://localhost:3000',
       'http://localhost:3001',
       'https://sayu.vercel.app',
-      'https://sayu-git-main-samsungs-projects.vercel.app'
+      'https://sayu-git-main-samsungs-projects.vercel.app',
+      'https://www.sayu.my',
+      'https://sayu.my'
     ];
     
     // Check if the origin is in the allowed list or matches Railway/Vercel patterns
