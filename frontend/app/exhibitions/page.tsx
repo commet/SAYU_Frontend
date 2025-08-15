@@ -116,30 +116,58 @@ export default function ExhibitionsPage() {
         const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
         
         // Fetch from Supabase API
+        console.log('🚀 Fetching exhibitions from API...');
+        const startTime = Date.now();
+        
         const response = await fetch('/api/exhibitions?limit=100', {
           signal: controller.signal
         });
         
         clearTimeout(timeoutId);
+        const duration = Date.now() - startTime;
+        console.log(`⏱️ API request took ${duration}ms`);
+        console.log('📊 Response status:', response.status);
+        console.log('📊 Response ok:', response.ok);
+        console.log('📊 Response headers:', Object.fromEntries(response.headers.entries()));
         
         if (!response.ok) {
-          const errorData = await response.json();
-          console.error('API failed:', errorData);
+          console.error('❌ API request failed with status:', response.status);
+          try {
+            const errorData = await response.json();
+            console.error('❌ Error data:', errorData);
+          } catch (parseError) {
+            console.error('❌ Could not parse error response:', parseError);
+            const text = await response.text();
+            console.error('❌ Raw error response:', text);
+          }
           setExhibitions([]);
           setFilteredExhibitions([]);
         } else {
-          const result = await response.json();
-          
-          if (result.data) {
-            console.log('Exhibition data fetched from Supabase:', result.data.length, 'exhibitions');
-            setExhibitions(result.data);
-            setFilteredExhibitions(result.data);
-          } else if (result.exhibitions) {
-            console.log('Exhibition data fetched from Supabase:', result.exhibitions.length, 'exhibitions');
-            setExhibitions(result.exhibitions);
-            setFilteredExhibitions(result.exhibitions);
-          } else {
-            console.log('No exhibition data found in response:', result);
+          console.log('✅ API request successful, parsing response...');
+          try {
+            const result = await response.json();
+            console.log('📦 Full API response:', result);
+            console.log('📊 Response keys:', Object.keys(result));
+            
+            if (result.data && Array.isArray(result.data)) {
+              console.log('🎯 Found result.data with', result.data.length, 'exhibitions');
+              setExhibitions(result.data);
+              setFilteredExhibitions(result.data);
+            } else if (result.exhibitions && Array.isArray(result.exhibitions)) {
+              console.log('🎯 Found result.exhibitions with', result.exhibitions.length, 'exhibitions');
+              setExhibitions(result.exhibitions);
+              setFilteredExhibitions(result.exhibitions);
+            } else {
+              console.log('❌ No valid exhibition data found in response');
+              console.log('📊 result.data:', result.data);
+              console.log('📊 result.exhibitions:', result.exhibitions);
+              setExhibitions([]);
+              setFilteredExhibitions([]);
+            }
+          } catch (parseError) {
+            console.error('❌ Failed to parse JSON response:', parseError);
+            const text = await response.text();
+            console.error('❌ Raw response text:', text);
             setExhibitions([]);
             setFilteredExhibitions([]);
           }

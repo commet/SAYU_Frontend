@@ -2,10 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
 export async function GET(request: NextRequest) {
+  console.log('🎯 exhibitions API called');
+  
   try {
     // Check if Supabase environment variables are configured
+    console.log('🔧 Checking environment variables...');
+    console.log('SUPABASE_URL present:', !!process.env.NEXT_PUBLIC_SUPABASE_URL);
+    console.log('SUPABASE_KEY present:', !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+    
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      console.error('Supabase environment variables not configured');
+      console.error('❌ Supabase environment variables not configured');
       return NextResponse.json({
         data: [],
         exhibitions: [],
@@ -14,27 +20,73 @@ export async function GET(request: NextRequest) {
       });
     }
     
+    console.log('🔗 Creating Supabase client...');
     const supabase = await createClient();
+    console.log('✅ Supabase client created');
+    
+    // Test Supabase connection first
+    console.log('🔍 Testing Supabase connection...');
+    try {
+      const { data: testData, error: testError } = await supabase
+        .from('exhibitions')
+        .select('count')
+        .limit(1);
+      
+      console.log('🔍 Connection test - Error:', testError);
+      console.log('🔍 Connection test - Data:', testData);
+      
+      if (testError) {
+        console.error('❌ Supabase connection test failed:', testError);
+        return NextResponse.json({
+          data: [],
+          exhibitions: [],
+          total: 0,
+          error: `Database connection failed: ${testError.message}`
+        });
+      }
+    } catch (connectionError) {
+      console.error('❌ Supabase connection error:', connectionError);
+      return NextResponse.json({
+        data: [],
+        exhibitions: [],
+        total: 0,
+        error: `Database connection error: ${connectionError}`
+      });
+    }
+    
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '100');
+    console.log('📊 Query limit:', limit);
     
     // Fetch exhibitions from Supabase with timeout
+    console.log('📡 Fetching exhibitions from database...');
     const { data: exhibitions, error } = await supabase
       .from('exhibitions')
       .select('*')
       .order('created_at', { ascending: false })
       .limit(limit);
+    
+    console.log('📦 Database response received');
+    console.log('Error:', error);
+    console.log('Data count:', exhibitions?.length || 0);
 
     if (error) {
-      console.error('Supabase exhibitions error:', error);
+      console.error('❌ Supabase exhibitions query error:', error);
+      console.error('❌ Error code:', error.code);
+      console.error('❌ Error message:', error.message);
+      console.error('❌ Error details:', error.details);
       // Return empty data instead of error to prevent frontend crash
       return NextResponse.json({
+        success: false,
         data: [],
         exhibitions: [],
         total: 0,
-        error: error.message
+        error: `Query failed: ${error.message}`,
+        errorCode: error.code
       });
     }
+
+    console.log('✅ Query successful, processing data...');
 
     // Helper function to extract title from description
     const extractTitle = (description: string, venue: string): string => {
@@ -125,11 +177,19 @@ export async function GET(request: NextRequest) {
       contact: ex.contact
     }));
 
-    return NextResponse.json({
+    console.log('🎯 Returning', transformedData.length, 'exhibitions');
+    console.log('📋 Sample exhibition:', transformedData[0]);
+    
+    const response = {
+      success: true,
       data: transformedData,
       exhibitions: transformedData, // Also include in exhibitions key for compatibility
-      total: transformedData.length
-    });
+      total: transformedData.length,
+      timestamp: new Date().toISOString()
+    };
+    
+    console.log('✅ API response ready:', Object.keys(response));
+    return NextResponse.json(response);
   } catch (error) {
     console.error('Exhibitions API error:', error);
     return NextResponse.json(

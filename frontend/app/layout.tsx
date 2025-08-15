@@ -8,8 +8,6 @@ import { SystemInitializer, PerformanceMonitor, SpatialPreloader } from '@/compo
 import { ProgressivePrompt } from '@/components/onboarding/ProgressivePrompt'
 import { SmartChatbot } from '@/components/chatbot/SmartChatbot'
 import { WelcomeModalV2 } from '@/components/onboarding/WelcomeModalV2'
-import { OnboardingWidget } from '@/components/onboarding/OnboardingWidget'
-import { DailyNudge } from '@/components/onboarding/DailyNudge'
 
 const inter = Inter({ subsets: ['latin'] })
 const playfair = Playfair_Display({ 
@@ -135,8 +133,6 @@ export default function RootLayout({
           <ProgressivePrompt />
           <SmartChatbot />
           {/* WelcomeModalV2 제거 - 프로필 페이지의 JourneySection에서 필요시 표시 */}
-          <OnboardingWidget />
-          <DailyNudge />
         </Providers>
       </body>
     </html>
