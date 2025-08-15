@@ -144,9 +144,9 @@ export function JourneySection() {
         )}
       </div>
 
-      {/* 7일 여정 리스트 */}
+      {/* 7일 여정 리스트 - Day 0 제외 */}
       <div className="space-y-3">
-        {allJourneys.map((journey, index) => {
+        {allJourneys.filter(journey => journey.day > 0).map((journey, index) => {
           const status = getDayStatus(journey);
           const isExpanded = expandedDay === journey.day;
           const isClickable = status !== 'locked';
