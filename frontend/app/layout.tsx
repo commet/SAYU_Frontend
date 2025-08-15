@@ -95,22 +95,27 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               try {
                 const darkMode = localStorage.getItem('darkMode');
-                if (darkMode === 'true' || (!darkMode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                // 기본값을 다크 모드로 설정 (lightMode가 명시적으로 true가 아닌 이상 다크 모드)
+                if (darkMode === 'false') {
+                  document.documentElement.classList.remove('dark');
+                } else {
                   document.documentElement.classList.add('dark');
                 }
-              } catch (e) {}
+              } catch (e) {
+                document.documentElement.classList.add('dark');
+              }
             `,
           }}
         />
       </head>
-      <body className={`${inter.className} ${playfair.variable} ${cormorant.variable} ${abril.variable} min-h-screen transition-colors bg-gray-900`}>
+      <body className={`${inter.className} ${playfair.variable} ${cormorant.variable} ${abril.variable} min-h-screen transition-colors bg-gray-900 dark:bg-gray-900`}>
         <Providers>
           <SystemInitializer />
           {/* Temporarily disabled for debugging
