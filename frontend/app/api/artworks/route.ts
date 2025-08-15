@@ -13,6 +13,19 @@ export async function GET(request: Request) {
     // Handle static data requests first (no action means return all artworks)
     if (!action) {
       try {
+        // Import the JSON directly (works with Vercel)
+        const artworksData = await import('../../../public/data/artworks.json').then(module => module.default || module).catch(() => null);
+        
+        if (artworksData) {
+          console.log('Successfully loaded artworks via import, count:', artworksData.artworks?.length || 0);
+          return NextResponse.json(artworksData, {
+            headers: {
+              'Cache-Control': 'public, max-age=86400, stale-while-revalidate=43200',
+            },
+          });
+        }
+        
+        // Fallback to file system read (for local development)
         const jsonPath = path.join(process.cwd(), 'public', 'data', 'artworks.json');
         console.log('Attempting to read artworks from:', jsonPath);
         const jsonData = await fs.readFile(jsonPath, 'utf8');
@@ -21,24 +34,25 @@ export async function GET(request: Request) {
         
         return NextResponse.json(data, {
           headers: {
-            'Cache-Control': 'public, max-age=86400, stale-while-revalidate=43200', // Cache for 24h, stale-while-revalidate for 12h
+            'Cache-Control': 'public, max-age=86400, stale-while-revalidate=43200',
           },
         });
       } catch (error) {
-        console.error('Failed to load artworks.json:', error);
-        // Return a basic fallback structure instead of error
+        console.error('Failed to load artworks:', error);
+        // Return empty data structure for graceful degradation
         return NextResponse.json(
           { 
             metadata: { 
               total: 0, 
-              error: 'Failed to load artworks data' 
+              source: 'fallback',
+              message: 'Artworks data temporarily unavailable' 
             }, 
             artworks: [] 
           },
           { 
-            status: 200, // Return 200 with empty data instead of 500 error
+            status: 200,
             headers: {
-              'Cache-Control': 'no-store', // Don't cache error responses
+              'Cache-Control': 'no-store',
             },
           }
         );

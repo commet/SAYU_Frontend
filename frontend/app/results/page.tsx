@@ -93,6 +93,11 @@ function ResultsContent() {
       
       try {
         const response = await fetch('/api/artworks');
+        if (!response.ok) {
+          console.warn('Failed to fetch artworks, using fallback');
+          setArtistArtworks([]);
+          return;
+        }
         const data = await response.json();
         
         const matchedArtworks = availableArtists.map((artist, index) => {
@@ -231,6 +236,7 @@ function ResultsContent() {
                 variant="illustration"
                 size="lg"
                 className="mx-auto"
+                showFallback={false}
               />
             </motion.div>
           ) : null}
