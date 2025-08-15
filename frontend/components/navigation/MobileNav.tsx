@@ -51,7 +51,7 @@ const drawerMenuItems = [
     items: [
       { icon: LayoutDashboard, label: { en: 'Dashboard', ko: '대시보드' }, path: '/dashboard', requiresAuth: true },
       { icon: GalleryVerticalEnd, label: { en: 'My Collection', ko: '내 컬렉션' }, path: '/gallery', requiresAuth: true },
-      { icon: Calendar, label: { en: 'Exhibitions', ko: '전시회' }, path: '/exhibitions', requiresAuth: true },
+      { icon: Calendar, label: { en: 'Exhibitions', ko: '전시회' }, path: '/exhibitions', requiresAuth: false },
     ]
   },
   {

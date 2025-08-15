@@ -6,10 +6,10 @@ const { withSentryConfig } = require('@sentry/nextjs');
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const withPWA = require('next-pwa')({
   dest: 'public',
-  register: true,
-  skipWaiting: true,
+  register: false,
+  skipWaiting: false,
   sw: 'sw.js',
-  disable: process.env.NODE_ENV === 'development',
+  disable: true, // PWA 완전 비활성화
   runtimeCaching: [
     {
       urlPattern: /^https:\/\/.*\.(png|jpg|jpeg|webp|svg|gif|tiff|js|woff|woff2|json|css)$/,

@@ -19,6 +19,7 @@ import ExhibitionRecord from '@/components/exhibition/ExhibitionRecord';
 import BadgeSystem from '@/components/gamification/BadgeSystem';
 import { Trophy, MapPin, BookOpen, Settings, LogIn, Palette, Share2, Sparkles, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { personalityGradients, getGradientStyle } from '@/constants/personality-gradients';
@@ -164,30 +165,7 @@ export default function ProfilePage() {
   const [isClient, setIsClient] = useState(false);
   const [renderMobile, setRenderMobile] = useState(false);
   
-  // Handle client-side rendering to prevent hydration mismatch
-  useEffect(() => {
-    setIsClient(true);
-    setRenderMobile(isMobile);
-  }, [isMobile]);
-  
-  // Show loading on initial render to prevent hydration mismatch
-  if (!isClient) {
-    return (
-      <div className="min-h-screen sayu-gradient-bg flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-      </div>
-    );
-  }
-  
-  // Render mobile component for mobile devices
-  if (renderMobile) {
-    return <MobileProfile />;
-  }
-  // Temporarily disabled due to API issues
-  // const { dashboard } = useGamificationDashboard();
-  const dashboard = null;
-  const userPoints = dashboard?.currentPoints || 0;
-  const userStats = dashboard;
+  // All hooks must be declared before any conditional returns
   const [activeTab, setActiveTab] = useState<'journey' | 'map' | 'records' | 'badges' | 'share'>('records');
   const [redirecting, setRedirecting] = useState(false);
   const [userPersonalityType, setUserPersonalityType] = useState<string | null>(null);
@@ -200,8 +178,20 @@ export default function ProfilePage() {
   const [artProfile, setArtProfile] = useState<any>(null);
   const [loadingArtProfile, setLoadingArtProfile] = useState(true);
   
+  // Temporarily disabled due to API issues
+  // const { dashboard } = useGamificationDashboard();
+  const dashboard = null;
+  const userPoints = dashboard?.currentPoints || 0;
+  const userStats = dashboard;
+  
+  // Handle client-side rendering to prevent hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+    setRenderMobile(isMobile);
+  }, [isMobile]);
+  
   // Load quiz results from localStorage
-  // 프로필 완성 모달 표시 로직
+  // 프로필 완성 모달 표시 로직 - All hooks must be declared before conditional returns
   useEffect(() => {
     // 모달 대신 온보딩이 아래에 있다는 알림만 표시
     if (user && !localStorage.getItem('onboarding_notification_shown')) {
@@ -350,6 +340,21 @@ export default function ProfilePage() {
       console.error('Failed to load follow stats:', error);
     }
   };
+  
+  // All conditional returns must be after all hooks
+  // Show loading on initial render to prevent hydration mismatch
+  if (!isClient) {
+    return (
+      <div className="min-h-screen sayu-gradient-bg flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+      </div>
+    );
+  }
+  
+  // Render mobile component for mobile devices
+  if (renderMobile) {
+    return <MobileProfile />;
+  }
 
 
 
@@ -500,7 +505,25 @@ export default function ProfilePage() {
                 className="p-2 rounded-lg bg-white/10 hover:bg-white/20 dark:bg-white/10 dark:hover:bg-white/20 backdrop-blur-sm text-gray-700 dark:text-gray-200 transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => router.push('/profile/art-profile')}
+                onClick={(e) => {
+                  e.preventDefault();
+                  console.log('🎨 AI Art Profile button clicked at:', new Date().toISOString());
+                  console.log('Router object:', router);
+                  
+                  // Add visual feedback
+                  const button = e.currentTarget;
+                  button.style.opacity = '0.5';
+                  
+                  router.push('/profile/art-profile').then(() => {
+                    console.log('✅ Navigation completed successfully');
+                  }).catch((error) => {
+                    console.error('❌ Navigation error:', error);
+                    button.style.opacity = '1';
+                    // Fallback to window.location
+                    console.log('🔄 Trying fallback navigation...');
+                    window.location.href = '/profile/art-profile';
+                  });
+                }}
                 title={language === 'ko' ? 'AI 아트 프로필' : 'AI Art Profile'}
               >
                 <Sparkles className="w-5 h-5" />

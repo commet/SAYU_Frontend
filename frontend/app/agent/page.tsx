@@ -213,12 +213,12 @@ export default function AgentPage() {
                     {/* Message bubble */}
                     <div className={`rounded-2xl px-4 py-3 ${
                       message.role === 'user'
-                        ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
+                        ? 'bg-gradient-to-r from-pink-100 to-purple-100 text-black border border-pink-200'
                         : 'bg-white dark:bg-gray-800 border shadow-sm'
                     }`}>
                       <p className="text-sm leading-relaxed">{message.content}</p>
                       <p className={`text-xs mt-1 ${
-                        message.role === 'user' ? 'text-blue-100' : 'text-muted-foreground'
+                        message.role === 'user' ? 'text-gray-600' : 'text-muted-foreground'
                       }`}>
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </p>
@@ -283,7 +283,7 @@ export default function AgentPage() {
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               placeholder="Ask me about art, your preferences, or anything aesthetic..."
-              className="flex-1 px-4 py-3 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="flex-1 px-4 py-3 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               disabled={isTyping}
             />
             <Button
