@@ -9,6 +9,11 @@ export interface ChatMessage {
 export interface ChatbotResponse {
   success: boolean;
   message: string;
+  data?: {
+    response: string;
+    suggestions?: string[];
+    sessionId?: string;
+  };
   suggestions?: string[];
   sessionId?: string;
   action?: string;
@@ -70,10 +75,15 @@ class ChatbotAPI {
 
     const data = await response.json();
     
-    // 응답 형식 맞추기
+    // 응답 형식 맞추기 - data 필드 추가
     return {
       success: data.success,
       message: data.data?.response || data.message || '',
+      data: data.data ? {
+        response: data.data.response,
+        suggestions: data.data.suggestions,
+        sessionId: data.data.sessionId
+      } : undefined,
       suggestions: data.data?.suggestions,
       sessionId: data.data?.sessionId,
       action: data.action,
