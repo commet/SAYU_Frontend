@@ -143,6 +143,7 @@ function ResultsContent() {
       
       console.log('URL Type:', urlType);
       console.log('Animal Data:', animalData);
+      console.log('Personality Data:', personalityData);
       
       if (personalityData) {
         // Mock results with URL type
@@ -229,7 +230,7 @@ function ResultsContent() {
           className="text-center"
         >
           {/* 동물 캐릭터 */}
-          {animalCharacter && (
+          {animalCharacter ? (
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -243,6 +244,10 @@ function ResultsContent() {
                 className="mx-auto"
               />
             </motion.div>
+          ) : (
+            <div className="mb-4">
+              <div className="w-[200px] h-[200px] bg-gray-100 dark:bg-gray-800 rounded-lg mx-auto animate-pulse" />
+            </div>
           )}
           
           {/* 유형 이름 */}

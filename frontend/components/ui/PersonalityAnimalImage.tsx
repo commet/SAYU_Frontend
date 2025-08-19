@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import OptimizedImage from '@/components/ui/optimized-image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { PersonalityAnimal } from '@/data/personality-animals';
 
 interface PersonalityAnimalImageProps {
@@ -30,29 +30,40 @@ export function PersonalityAnimalImage({
   const [isLoading, setIsLoading] = useState(true);
   
   const { width, height } = sizeMap[size];
-  const imagePath = animal[variant];
+  const imagePath = animal?.[variant] || animal?.image;
   
   // Debug logging for development
   if (process.env.NODE_ENV === 'development') {
-    console.log('PersonalityAnimalImage:', { 
-      animal: animal.type, 
+    console.log('PersonalityAnimalImage Debug:', { 
+      animalType: animal?.type,
+      animalObject: animal,
       variant, 
       imagePath, 
-      imageError 
+      imageError,
+      availableVariants: animal ? Object.keys(animal).filter(k => k.includes('image') || k.includes('avatar') || k.includes('illustration')) : []
     });
   }
   
-  // 이미지 로드 실패 시 처리 - 이모지 표시하지 않음
+  // 이미지 로드 실패 시 처리
   if (!imagePath || imageError) {
     // showFallback이 false면 아무것도 표시하지 않음
     if (!showFallback) return null;
     
-    // 빈 placeholder만 표시 (이모지 없음)
+    // fallback 이미지 사용
+    const fallbackSrc = '/images/personality-animals/fallback.png';
+    
     return (
-      <div 
-        className={`relative flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg ${className}`}
-        style={{ width, height }}
-      />
+      <div className={`relative overflow-hidden rounded-lg shadow-sm ${className}`} style={{ width, height }}>
+        <OptimizedImage
+          src={fallbackSrc}
+          alt="Animal character"
+          width={width}
+          height={height}
+          className="object-contain rounded-lg"
+          priority={false}
+          quality={70}
+        />
+      </div>
     );
   }
 

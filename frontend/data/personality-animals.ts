@@ -304,12 +304,15 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
 
 // Helper function to get animal by personality type
 export const getAnimalByType = (type: string): PersonalityAnimal | null => {
-  // Validate type using central definition
-  if (!isValidSAYUType(type)) {
-    console.warn(`Invalid SAYU type: ${type}`);
+  // Direct lookup without validation to avoid errors
+  const animal = personalityAnimals[type];
+  
+  if (!animal) {
+    console.warn(`Animal data not found for type: ${type}. Available types:`, Object.keys(personalityAnimals));
     return null;
   }
-  return personalityAnimals[type] || null;
+  
+  return animal;
 };
 
 // Get emoji by type for quick display
