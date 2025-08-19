@@ -1,4 +1,11 @@
-import { Redis } from 'ioredis';
+// Redis is optional - will use memory cache if not available
+let Redis: any;
+try {
+  Redis = require('ioredis').Redis;
+} catch (error) {
+  console.log('Redis not available, using memory cache only');
+  Redis = null;
+}
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
 
@@ -16,6 +23,10 @@ class RedisClient {
     if (!this.instance && !this.isConnecting) {
       this.isConnecting = true;
       try {
+        if (!Redis) {
+          this.instance = null;
+          return null;
+        }
         this.instance = new Redis(REDIS_URL, {
           retryDelayOnFailover: 100,
           enableReadyCheck: false,
