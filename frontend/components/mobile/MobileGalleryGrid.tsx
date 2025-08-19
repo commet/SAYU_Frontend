@@ -101,7 +101,7 @@ export default function MobileGalleryGrid({
               <img
                 src={artwork.imageUrl}
                 alt={artwork.title}
-                className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+                className="w-full h-32 object-cover transition-transform duration-300 hover:scale-105"
                 loading="lazy"
                 onLoad={() => onView?.(artwork.id)}
                 onError={(e) => {
@@ -109,30 +109,30 @@ export default function MobileGalleryGrid({
                 }}
               />
             ) : (
-              <div className="w-full h-48 bg-gray-200 dark:bg-gray-700 animate-pulse" />
+              <div className="w-full h-32 bg-gray-200 dark:bg-gray-700 animate-pulse" />
             )}
             
             {/* Mobile Action Buttons - Always visible on mobile */}
-            <div className="absolute top-2 right-2 flex flex-col gap-2">
+            <div className="absolute top-1 right-1 flex flex-col gap-1">
               <motion.button
                 whileTap={{ scale: 0.9 }}
-                className="p-2.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/20 shadow-lg touch-manipulation"
+                className="p-2 bg-black/60 backdrop-blur-sm rounded-full border border-white/20 shadow-lg touch-manipulation"
                 onClick={(e) => handleAction('like', e)}
-                style={{ minHeight: '44px', minWidth: '44px' }} // iOS touch target size
+                style={{ minHeight: '36px', minWidth: '36px' }} // Smaller touch target
               >
                 <Heart 
-                  className={`w-5 h-5 ${likedItems.has(artwork.id) ? 'text-red-400 fill-red-400' : 'text-white'}`} 
+                  className={`w-4 h-4 ${likedItems.has(artwork.id) ? 'text-red-400 fill-red-400' : 'text-white'}`} 
                 />
               </motion.button>
               
               <motion.button
                 whileTap={{ scale: 0.9 }}
-                className="p-2.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/20 shadow-lg touch-manipulation"
+                className="p-2 bg-black/60 backdrop-blur-sm rounded-full border border-white/20 shadow-lg touch-manipulation"
                 onClick={(e) => handleAction('save', e)}
-                style={{ minHeight: '44px', minWidth: '44px' }} // iOS touch target size
+                style={{ minHeight: '36px', minWidth: '36px' }} // Smaller touch target
               >
                 <Bookmark 
-                  className={`w-5 h-5 ${savedItems.has(artwork.id) ? 'text-green-400 fill-green-400' : 'text-white'}`} 
+                  className={`w-4 h-4 ${savedItems.has(artwork.id) ? 'text-green-400 fill-green-400' : 'text-white'}`} 
                 />
               </motion.button>
             </div>
@@ -148,31 +148,31 @@ export default function MobileGalleryGrid({
           </div>
 
           {/* Content */}
-          <div className="p-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white text-sm line-clamp-2">
+          <div className="p-3">
+            <h3 className="font-semibold text-gray-900 dark:text-white text-xs line-clamp-1">
               {artwork.title}
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 text-xs mt-1">
+            <p className="text-gray-600 dark:text-gray-400 text-[10px] mt-0.5">
               {artwork.artist} • {artwork.year}
             </p>
             
             {/* Mobile-specific quick actions */}
-            <div className="flex items-center justify-between mt-3">
+            <div className="flex items-center justify-between mt-2">
               <div className="flex gap-1">
                 {likedItems.has(artwork.id) && (
-                  <span className="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full text-xs">
+                  <span className="px-1.5 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full text-[10px]">
                     Liked
                   </span>
                 )}
                 {savedItems.has(artwork.id) && (
-                  <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full text-xs">
+                  <span className="px-1.5 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full text-[10px]">
                     Saved
                   </span>
                 )}
               </div>
               
-              <button className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                <MoreVertical className="w-4 h-4" />
+              <button className="p-0.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                <MoreVertical className="w-3 h-3" />
               </button>
             </div>
           </div>

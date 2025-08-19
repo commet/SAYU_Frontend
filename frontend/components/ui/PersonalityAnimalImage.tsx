@@ -48,18 +48,29 @@ export function PersonalityAnimalImage({
     // showFallback이 false면 아무것도 표시하지 않음
     if (!showFallback) return null;
     
-    // fallback 이미지 사용
-    const fallbackSrc = '/images/personality-animals/fallback.png';
+    // fallback: main 폴더의 기본 이미지 사용
+    const animalName = animal?.animal?.toLowerCase() || 'fox';
+    const typeCode = animal?.type?.toLowerCase() || 'laef';
+    const fallbackSrc = `/images/personality-animals/main/${animalName}-${typeCode}.png`;
     
     return (
       <div className={`relative overflow-hidden rounded-lg shadow-sm ${className}`} style={{ width, height }}>
         <img
           src={fallbackSrc}
-          alt="Animal character"
+          alt={`${animal?.animal_ko || 'Animal'} character`}
           width={width}
           height={height}
           className="object-contain rounded-lg w-full h-full"
           loading="lazy"
+          onError={(e) => {
+            // main 이미지도 실패하면 emoji 표시
+            const target = e.target as HTMLImageElement;
+            target.style.display = 'none';
+            const emojiDiv = document.createElement('div');
+            emojiDiv.className = 'w-full h-full flex items-center justify-center text-6xl bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg';
+            emojiDiv.textContent = animal?.emoji || '🎨';
+            target.parentElement?.appendChild(emojiDiv);
+          }}
         />
       </div>
     );

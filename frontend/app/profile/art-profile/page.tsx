@@ -1,37 +1,43 @@
 'use client';
 
-import { useEffect } from 'react';
+import React, { Suspense, lazy } from 'react';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
+
+// Dynamic import for complex AI generation component
+const ArtProfileGenerator = lazy(() => import('@/components/art-profile/ArtProfileGenerator'));
 
 export default function ArtProfilePage() {
-  useEffect(() => {
-    console.log('🎨 ArtProfilePage component mounted successfully!');
-  }, []);
+  const { user } = useAuth();
+  const router = useRouter();
+
+  // 로그인 체크
+  React.useEffect(() => {
+    if (!user) {
+      router.push('/login?redirect=/profile/art-profile');
+    }
+  }, [user, router]);
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p>로그인이 필요합니다...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center">
-      <div className="text-center p-8 bg-white rounded-lg shadow-lg max-w-md">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          🎨 AI Art Profile
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Welcome to the AI Art Profile Generator!
-        </p>
-        <div className="text-green-600 font-semibold mb-4">
-          ✅ Page loaded successfully!
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p>Loading Art Profile Generator...</p>
         </div>
-        <div className="text-blue-600 text-sm mb-4">
-          Navigation working! Current time: {new Date().toLocaleTimeString()}
-        </div>
-        <button 
-          onClick={() => {
-            console.log('Back button clicked');
-            window.history.back();
-          }}
-          className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-        >
-          ← Back to Profile
-        </button>
       </div>
-    </div>
+    }>
+      <ArtProfileGenerator />
+    </Suspense>
   );
 }

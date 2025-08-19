@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Route segment config for Vercel
+export const maxDuration = 30;
+
 export async function POST(request: NextRequest) {
   try {
     const { prompt } = await request.json();

@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { API_CONFIG, getApiUrl } from '@/config/api';
 
+// Route segment config for Vercel
+export const maxDuration = 30;
+
 export async function POST(request: NextRequest) {
   try {
     // Get auth token from cookies

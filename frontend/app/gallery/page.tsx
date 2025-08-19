@@ -736,7 +736,7 @@ function GalleryContent() {
                     아트 페어 모드 
                     <span className="text-xs bg-amber-500/20 px-2 py-0.5 rounded-full text-amber-200">Coming Soon</span>
                   </h3>
-                  <p className="text-xs text-gray-400 mt-0.5">
+                  <p className="text-xs text-gray-200 mt-0.5">
                     8월 말 KIAF & Frieze Seoul 2025를 위한 특별 기능이 준비중입니다
                   </p>
                 </div>
@@ -1053,6 +1053,7 @@ function GalleryContent() {
           isMobile ? (
             // 모바일: 가상화 스크롤 갤러리
             <MobileGalleryGrid
+              key={Array.from(savedArtworks).join(',')} // Force re-render when saved items change
               artworks={savedArtworksData}
               onLike={handleLike}
               onSave={handleSave}
@@ -1201,13 +1202,12 @@ function GalleryContent() {
           </p>
           <p className="text-slate-400">
             {language === 'ko' 
-              ? 'SAYU는 전 세계 유명 미술관과 갤러리의 오픈 액세스 작품들을 큐레이션합니다. 메트로폴리탄 미술관, 시카고 미술관, 국립현대미술관 등 다양한 기관의 퍼블릭 도메인 작품과 오픈 라이선스 작품들을 선별하여 제공합니다.'
-              : 'SAYU curates open access artworks from renowned museums and galleries worldwide, including The Metropolitan Museum of Art, Art Institute of Chicago, National Museum of Modern and Contemporary Art, and more. All featured works are either in the public domain or available under open licenses.'}
+              ? 'SAYU는 전 세계 유명 미술관과 갤러리의 오픈 액세스 작품들을 큐레이션합니다. 메트로폴리탄 미술관, 시카고 미술관 등 다양한 기관의 퍼블릭 도메인 작품과 오픈 라이선스 작품들을 선별하여 제공합니다.'
+              : 'SAYU curates open access artworks from renowned museums and galleries worldwide, including The Metropolitan Museum of Art, Art Institute of Chicago, and more. All featured works are either in the public domain or available under open licenses.'}
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             <span className="px-2 py-1 bg-slate-700 text-slate-300 rounded text-xs">Met Museum</span>
             <span className="px-2 py-1 bg-slate-700 text-slate-300 rounded text-xs">AIC Chicago</span>
-            <span className="px-2 py-1 bg-slate-700 text-slate-300 rounded text-xs">MMCA Korea</span>
             <span className="px-2 py-1 bg-slate-700 text-slate-300 rounded text-xs">Rijksmuseum</span>
             <span className="px-2 py-1 bg-slate-700 text-slate-300 rounded text-xs">WikiArt</span>
             <span className="px-2 py-1 bg-slate-700 text-slate-300 rounded text-xs">Artvee</span>

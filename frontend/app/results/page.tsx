@@ -239,7 +239,7 @@ function ResultsContent() {
             >
               <PersonalityAnimalImage 
                 animal={animalCharacter}
-                variant="illustration"
+                variant="image"
                 size="lg"
                 className="mx-auto"
               />

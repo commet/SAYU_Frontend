@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { Sparkles, Palette, MapPin, Heart, TrendingUp, Calendar, ArrowRight, Zap, Eye, Clock, GalleryVerticalEnd, Home, Users, User, LogOut, Menu, Star, BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { isFeatureEnabled } from '@/lib/features/flags';
 import Image from 'next/image';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
 import { useResponsive } from '@/lib/responsive';
@@ -27,6 +28,8 @@ export default function DashboardPage() {
   }
   const [currentTime, setCurrentTime] = useState(new Date());
   const [artworks, setArtworks] = useState<any[]>([]);
+  const [dashboardStats, setDashboardStats] = useState<any>(null);
+  const [statsLoading, setStatsLoading] = useState(true);
 
   console.log('Dashboard - Loading:', loading, 'User:', user);
 
@@ -61,6 +64,76 @@ export default function DashboardPage() {
     };
     fetchArtworks();
   }, []);
+
+  // Fetch dashboard stats
+  useEffect(() => {
+    const fetchDashboardStats = async () => {
+      // Check if real-time stats are enabled for this user
+      const useRealTimeStats = isFeatureEnabled('realtime_dashboard_stats', user?.id);
+      
+      if (!useRealTimeStats) {
+        console.log('🎯 Using mock dashboard data (feature flag disabled)');
+        setDashboardStats({
+          artworksViewed: 127,
+          artistsDiscovered: 43,
+          exhibitionsVisited: 8,
+          savedArtworks: 24,
+          recentActivities: [
+            { type: 'view', title: '모네의 수련', timeAgo: '2시간 전' },
+            { type: 'visit', title: '국립현대미술관 방문', timeAgo: '어제' },
+            { type: 'save', title: '칸딘스키 작품 저장', timeAgo: '3일 전' }
+          ],
+          trendingArtists: [
+            { name: '클로드 모네', change: '↑ 12%' },
+            { name: '빈센트 반 고흐', change: '↑ 8%' },
+            { name: '칸딘스키', change: '—' }
+          ]
+        });
+        setStatsLoading(false);
+        return;
+      }
+      
+      try {
+        setStatsLoading(true);
+        const userId = user?.id || null;
+        const response = await fetch(`/api/dashboard/stats${userId ? `?userId=${userId}` : ''}`);
+        const data = await response.json();
+        
+        if (data.success) {
+          setDashboardStats(data.data);
+          console.log('📊 Dashboard stats loaded:', data.cached ? '(cached)' : '(fresh)');
+        } else {
+          console.warn('Dashboard stats API returned error:', data.error);
+          setDashboardStats(data.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch dashboard stats:', error);
+        setDashboardStats({
+          artworksViewed: 127,
+          artistsDiscovered: 43,
+          exhibitionsVisited: 8,
+          savedArtworks: 24,
+          recentActivities: [
+            { type: 'view', title: '모네의 수련', timeAgo: '2시간 전' },
+            { type: 'visit', title: '국립현대미술관 방문', timeAgo: '어제' },
+            { type: 'save', title: '칸딘스키 작품 저장', timeAgo: '3일 전' }
+          ],
+          trendingArtists: [
+            { name: '클로드 모네', change: '↑ 12%' },
+            { name: '빈센트 반 고흐', change: '↑ 8%' },
+            { name: '칸딘스키', change: '—' }
+          ]
+        });
+      } finally {
+        setStatsLoading(false);
+      }
+    };
+
+    // Only fetch stats when user data is available
+    if (user && !loading) {
+      fetchDashboardStats();
+    }
+  }, [user, loading]);
 
   if (loading) {
     return (
@@ -110,13 +183,14 @@ export default function DashboardPage() {
     });
   }
 
-  const journeyStats = {
+  // Use real stats from API, fallback to defaults if not loaded yet
+  const journeyStats = dashboardStats || {
     artworksViewed: 127,
     artistsDiscovered: 43,
     exhibitionsVisited: 8,
-    daysActive: 15,
     savedArtworks: 24,
-    likedArtworks: 87
+    recentActivities: [],
+    trendingArtists: []
   };
 
   return (
@@ -364,33 +438,36 @@ export default function DashboardPage() {
                 최근 활동
               </h3>
               <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-purple-900/40 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Eye className="w-4 h-4 text-purple-300" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-white font-medium">모네의 수련</p>
-                    <p className="text-xs text-gray-400">2시간 전</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-blue-900/40 rounded-full flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-4 h-4 text-blue-300" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-white font-medium">국립현대미술관 방문</p>
-                    <p className="text-xs text-gray-400">어제</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-pink-900/40 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Heart className="w-4 h-4 text-pink-300" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-white font-medium">칸딘스키 작품 저장</p>
-                    <p className="text-xs text-gray-400">3일 전</p>
-                  </div>
-                </div>
+                {statsLoading ? (
+                  // Loading skeleton
+                  [1,2,3].map(i => (
+                    <div key={i} className="flex items-start gap-3">
+                      <div className="w-8 h-8 bg-white/10 rounded-full animate-pulse"></div>
+                      <div className="flex-1">
+                        <div className="w-24 h-4 bg-white/10 rounded animate-pulse mb-1"></div>
+                        <div className="w-16 h-3 bg-white/10 rounded animate-pulse"></div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  // Actual activities
+                  (journeyStats.recentActivities || []).slice(0, 3).map((activity, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                        activity.type === 'view' ? 'bg-purple-900/40' :
+                        activity.type === 'visit' ? 'bg-blue-900/40' : 'bg-pink-900/40'
+                      }`}>
+                        {activity.type === 'view' ? <Eye className="w-4 h-4 text-purple-300" /> :
+                         activity.type === 'visit' ? <MapPin className="w-4 h-4 text-blue-300" /> :
+                         <Heart className="w-4 h-4 text-pink-300" />}
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm text-white font-medium">{activity.title}</p>
+                        <p className="text-xs text-gray-400">{activity.timeAgo}</p>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
               <button 
                 onClick={() => router.push('/activity')}
@@ -534,18 +611,28 @@ export default function DashboardPage() {
                   인기 아티스트
                 </h3>
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-white">클로드 모네</span>
-                    <span className="text-xs text-green-400">↑ 12%</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-white">빈센트 반 고흐</span>
-                    <span className="text-xs text-green-400">↑ 8%</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-white">칸딘스키</span>
-                    <span className="text-xs text-gray-400">—</span>
-                  </div>
+                  {statsLoading ? (
+                    // Loading skeleton for trending
+                    [1,2,3].map(i => (
+                      <div key={i} className="flex items-center justify-between">
+                        <div className="w-20 h-4 bg-white/10 rounded animate-pulse"></div>
+                        <div className="w-10 h-3 bg-white/10 rounded animate-pulse"></div>
+                      </div>
+                    ))
+                  ) : (
+                    // Actual trending artists
+                    (journeyStats.trendingArtists || []).slice(0, 3).map((artist, index) => (
+                      <div key={index} className="flex items-center justify-between">
+                        <span className="text-sm text-white">{artist.name}</span>
+                        <span className={`text-xs ${
+                          artist.change.includes('↑') ? 'text-green-400' : 
+                          artist.change.includes('↓') ? 'text-red-400' : 'text-gray-400'
+                        }`}>
+                          {artist.change}
+                        </span>
+                      </div>
+                    ))
+                  )}
                 </div>
               </motion.div>
 

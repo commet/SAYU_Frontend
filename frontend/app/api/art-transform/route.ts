@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Route segment config for Vercel
+export const maxDuration = 30;
+
 // 무료로 사용 가능한 Image-to-Image 모델들
 const FREE_MODELS = {
   'style-transfer': 'ghoskno/Comics-Lora-image-to-image',

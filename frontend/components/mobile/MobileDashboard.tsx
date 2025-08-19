@@ -18,6 +18,8 @@ export default function MobileDashboard() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [artworks, setArtworks] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState<'overview' | 'activity' | 'recommendations'>('overview');
+  const [dashboardStats, setDashboardStats] = useState<any>(null);
+  const [statsLoading, setStatsLoading] = useState(true);
 
   useEffect(() => {
     if (loading) return;
@@ -35,7 +37,7 @@ export default function MobileDashboard() {
   useEffect(() => {
     const fetchArtworks = async () => {
       try {
-        const response = await fetch('/data/artworks.json');
+        const response = await fetch('/api/artworks');
         const data = await response.json();
         setArtworks(data.artworks || []);
       } catch (error) {
@@ -44,6 +46,41 @@ export default function MobileDashboard() {
     };
     fetchArtworks();
   }, []);
+
+  // Fetch dashboard stats
+  useEffect(() => {
+    const fetchDashboardStats = async () => {
+      try {
+        setStatsLoading(true);
+        const userId = user?.id || null;
+        const response = await fetch(`/api/dashboard/stats${userId ? `?userId=${userId}` : ''}`);
+        const data = await response.json();
+        
+        if (data.success) {
+          setDashboardStats(data.data);
+          console.log('📊 Mobile dashboard stats loaded:', data.cached ? '(cached)' : '(fresh)');
+        } else {
+          setDashboardStats(data.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch mobile dashboard stats:', error);
+        setDashboardStats({
+          artworksViewed: 127,
+          artistsDiscovered: 43,
+          exhibitionsVisited: 8,
+          savedArtworks: 24,
+          newExhibitions: 3,
+          communityUpdates: 5
+        });
+      } finally {
+        setStatsLoading(false);
+      }
+    };
+
+    if (user && !loading) {
+      fetchDashboardStats();
+    }
+  }, [user, loading]);
 
   if (loading) {
     return (
@@ -63,7 +100,7 @@ export default function MobileDashboard() {
   const greeting = currentTime.getHours() < 12 ? '좋은 아침이에요' : 
                   currentTime.getHours() < 18 ? '좋은 오후에요' : '좋은 저녁이에요';
 
-  // Mock data - 실제로는 API에서 가져올 데이터
+  // User quiz completion status
   const hasCompletedQuiz = false;
   const personalityType = null;
   
@@ -93,16 +130,18 @@ export default function MobileDashboard() {
     });
   }
 
-  const journeyStats = {
+  const journeyStats = dashboardStats || {
     artworksViewed: 127,
     artistsDiscovered: 43,
     exhibitionsVisited: 8,
     daysActive: 15,
     savedArtworks: 24,
     likedArtworks: 87,
-    newExhibitions: 3,  // 새로운 전시 개수
-    communityUpdates: 5  // 커뮤니티 새 글 개수
+    newExhibitions: 3,
+    communityUpdates: 5
   };
+  
+  const showStatsLoading = statsLoading && !dashboardStats;
 
   return (
     <div className="min-h-screen bg-cover bg-center bg-fixed relative pb-20"
