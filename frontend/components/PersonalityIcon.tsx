@@ -1,12 +1,32 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface PersonalityIconProps {
   type: string;
   size?: 'small' | 'medium' | 'large';
   animated?: boolean;
 }
+
+const animalMappings: Record<string, { animal: string; emoji: string }> = {
+  LAEF: { animal: 'fox', emoji: '🦊' },
+  LAEC: { animal: 'cat', emoji: '🐱' },
+  LAMF: { animal: 'owl', emoji: '🦉' },
+  LAMC: { animal: 'turtle', emoji: '🐢' },
+  LREF: { animal: 'chameleon', emoji: '🦎' },
+  LREC: { animal: 'hedgehog', emoji: '🦔' },
+  LRMF: { animal: 'octopus', emoji: '🐙' },
+  LRMC: { animal: 'beaver', emoji: '🦫' },
+  SAEF: { animal: 'butterfly', emoji: '🦋' },
+  SAEC: { animal: 'penguin', emoji: '🐧' },
+  SAMF: { animal: 'parrot', emoji: '🦜' },
+  SAMC: { animal: 'deer', emoji: '🦌' },
+  SREF: { animal: 'dog', emoji: '🐕' },
+  SREC: { animal: 'duck', emoji: '🦆' },
+  SRMF: { animal: 'elephant', emoji: '🐘' },
+  SRMC: { animal: 'eagle', emoji: '🦅' }
+};
 
 const iconMappings: Record<string, { colors: string[]; shapes: string[]; symbol: string }> = {
   // L-A-E-F: The Dreaming Wanderer
@@ -109,6 +129,7 @@ const iconMappings: Record<string, { colors: string[]; shapes: string[]; symbol:
 
 export default function PersonalityIcon({ type, size = 'medium', animated = true }: PersonalityIconProps) {
   const iconData = iconMappings[type] || iconMappings.LAEF;
+  const animalData = animalMappings[type];
   
   const sizeClasses = {
     small: 'w-16 h-16',
@@ -116,6 +137,59 @@ export default function PersonalityIcon({ type, size = 'medium', animated = true
     large: 'w-32 h-32'
   };
   
+  const imageSizes = {
+    small: 64,
+    medium: 96,
+    large: 128
+  };
+
+  // Use actual animal image if available
+  if (animalData) {
+    const imagePath = `/images/personality-animals/main/${animalData.animal}-${type.toLowerCase()}.png`;
+    
+    return (
+      <motion.div
+        initial={animated ? { scale: 0, rotate: -180 } : {}}
+        animate={animated ? { scale: 1, rotate: 0 } : {}}
+        transition={{ duration: 0.6, type: "spring", stiffness: 200 }}
+        className={`${sizeClasses[size]} relative`}
+      >
+        {/* Background gradient glow */}
+        <div
+          className="absolute inset-0 rounded-full"
+          style={{
+            background: `linear-gradient(135deg, ${iconData.colors.join(', ')})`,
+            filter: 'blur(12px)',
+            opacity: 0.5
+          }}
+        />
+        
+        {/* Animal image */}
+        <div className="relative w-full h-full rounded-full overflow-hidden bg-white/10 backdrop-blur-sm border-2 border-white/20">
+          <Image
+            src={imagePath}
+            alt={`${animalData.animal} - ${type}`}
+            width={imageSizes[size]}
+            height={imageSizes[size]}
+            className="object-cover w-full h-full"
+            priority
+          />
+        </div>
+        
+        {/* Type label */}
+        <motion.div
+          initial={animated ? { opacity: 0, y: 10 } : {}}
+          animate={animated ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.5 }}
+          className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-white/90 text-gray-800 px-3 py-1 rounded-full text-xs font-bold shadow-lg"
+        >
+          {type}
+        </motion.div>
+      </motion.div>
+    );
+  }
+
+  // Fallback to emoji version if no animal mapping
   const fontSize = {
     small: 'text-2xl',
     medium: 'text-4xl',
