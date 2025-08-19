@@ -80,7 +80,7 @@ export default function CommunityPage() {
     const fetchExhibitions = async () => {
       try {
         setLoadingExhibitions(true);
-        const response = await fetch('http://localhost:3002/api/exhibitions?limit=100');
+        const response = await fetch('/api/exhibitions?limit=100');
         
         if (response.ok) {
           const data = await response.json();
@@ -2568,7 +2568,7 @@ export default function CommunityPage() {
                       <motion.div
                         key={match.id}
                         whileHover={{ scale: 1.02 }}
-                        className="bg-gradient-to-br from-black/60 to-black/50 backdrop-blur-md rounded-2xl p-3 border border-white/40 hover:from-black/70 hover:to-black/60 hover:border-white/60 transition-all duration-300 shadow-lg hover:shadow-xl"
+                        className="bg-gradient-to-br from-black/75 to-black/65 backdrop-blur-md rounded-2xl p-3 border border-white/40 hover:from-black/80 hover:to-black/70 hover:border-white/60 transition-all duration-300 shadow-lg hover:shadow-xl"
                       >
                       <div className="flex items-center gap-3 cursor-pointer" onClick={() => setSelectedMatch(match)}>
                         <div className="relative">
@@ -3084,7 +3084,7 @@ export default function CommunityPage() {
                 ) : (
                   <div className="bg-black/25 backdrop-blur-sm rounded-2xl p-6 border border-white/30 text-center">
                     <Users className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-300">
+                    <p className="text-purple-300">
                       {language === 'ko' 
                         ? '동행자를 선택하여 자세한 케미스트리를 확인하세요'
                         : 'Select a companion to see detailed chemistry'}
