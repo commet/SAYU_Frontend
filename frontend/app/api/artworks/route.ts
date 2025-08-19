@@ -4,6 +4,22 @@ import { ArtworkRecommendationEngine } from '@/lib/museums/recommendation-engine
 import path from 'path';
 import { promises as fs } from 'fs';
 
+// Route segment config for Vercel
+export const maxDuration = 30;
+export const runtime = 'nodejs';
+
+// Handle OPTIONS request for CORS
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    },
+  });
+}
+
 export async function GET(request: Request) {
   try {
     // Add CORS headers to prevent 403 issues
