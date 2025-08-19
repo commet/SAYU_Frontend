@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, memo } from 'react';
-import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
 interface OptimizedImageProps {
@@ -18,6 +17,7 @@ interface OptimizedImageProps {
   blurDataURL?: string;
   onLoad?: () => void;
   onError?: () => void;
+  isPersonalityAnimal?: boolean;
 }
 
 export const OptimizedImage = memo(function OptimizedImage({
@@ -34,6 +34,7 @@ export const OptimizedImage = memo(function OptimizedImage({
   blurDataURL,
   onLoad,
   onError,
+  isPersonalityAnimal = false,
 }: OptimizedImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -44,7 +45,7 @@ export const OptimizedImage = memo(function OptimizedImage({
   };
 
   const handleError = (error?: any) => {
-    console.warn('Image load failed:', { src, error });
+    console.error('Image failed to load:', src);
     setIsLoading(false);
     setHasError(true);
     onError?.();
@@ -64,52 +65,27 @@ export const OptimizedImage = memo(function OptimizedImage({
     );
   }
 
-  const imageProps = {
-    src,
-    alt,
-    className: cn(
-      'transition-opacity duration-300',
-      isLoading ? 'opacity-0' : 'opacity-100',
-      className
-    ),
-    quality,
-    priority,
-    onLoad: handleLoad,
-    onError: handleError,
-    ...(placeholder === 'blur' && {
-      placeholder: 'blur' as const,
-      blurDataURL: blurDataURL || defaultBlurDataURL,
-    }),
-  };
-
-  if (fill) {
-    return (
-      <>
-        <Image
-          {...imageProps}
-          fill
-          sizes={sizes}
-        />
-        {isLoading && (
-          <div className={cn(
-            'absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse',
-            className
-          )}>
-            <div className="w-8 h-8 bg-gray-300 rounded animate-pulse" />
-          </div>
-        )}
-      </>
-    );
-  }
-
-  if (width && height) {
+  // 동물 캐릭터 이미지의 경우 일반 img 태그 사용
+  // Next.js Image 컴포넌트의 최적화 API가 프로덕션에서 400 에러를 발생시킴
+  if (isPersonalityAnimal || src.includes('personality-animals')) {
     return (
       <div className="relative">
-        <Image
-          {...imageProps}
-          width={width}
-          height={height}
-          sizes={sizes}
+        <img
+          src={src}
+          alt={alt}
+          className={cn(
+            'transition-opacity duration-300',
+            isLoading ? 'opacity-0' : 'opacity-100',
+            className
+          )}
+          onLoad={handleLoad}
+          onError={handleError}
+          loading={priority ? 'eager' : 'lazy'}
+          style={{
+            width: width ? `${width}px` : '100%',
+            height: height ? `${height}px` : 'auto',
+            objectFit: fill ? 'cover' : 'contain'
+          }}
         />
         {isLoading && (
           <div className={cn(
@@ -123,13 +99,25 @@ export const OptimizedImage = memo(function OptimizedImage({
     );
   }
 
-  // Fallback to fill if no dimensions provided
+  // 일반 이미지도 img 태그 사용 (프로덕션 이슈 해결)
   return (
-    <div className="relative w-full h-full">
-      <Image
-        {...imageProps}
-        fill
-        sizes={sizes}
+    <div className="relative">
+      <img
+        src={src}
+        alt={alt}
+        className={cn(
+          'transition-opacity duration-300',
+          isLoading ? 'opacity-0' : 'opacity-100',
+          className
+        )}
+        onLoad={handleLoad}
+        onError={handleError}
+        loading={priority ? 'eager' : 'lazy'}
+        style={{
+          width: width ? `${width}px` : '100%',
+          height: height ? `${height}px` : 'auto',
+          objectFit: fill ? 'cover' : 'contain'
+        }}
       />
       {isLoading && (
         <div className={cn(

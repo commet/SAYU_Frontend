@@ -4,7 +4,13 @@
   "installCommand": "cd frontend && npm install",
   "env": {
     "NEXT_PUBLIC_API_URL": "",
-    "SKIP_ENV_VALIDATION": "true"
+    "SKIP_ENV_VALIDATION": "true",
+    "NEXT_PUBLIC_BASE_URL": "https://www.sayu.my"
+  },
+  "functions": {
+    "frontend/app/api/artworks/route.ts": {
+      "maxDuration": 30
+    }
   },
   "headers": [
     {

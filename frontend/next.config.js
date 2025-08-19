@@ -49,6 +49,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    unoptimized: true,  // 이미지 최적화 비활성화 - 프로덕션 400 에러 해결
+    domains: ['www.sayu.my', 'sayu.my', 'localhost'],
+  },
   
   // Custom headers for static files
   async headers() {

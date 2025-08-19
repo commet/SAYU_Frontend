@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { PersonalityAnimal } from '@/data/personality-animals';
 
 interface PersonalityAnimalImageProps {
@@ -54,14 +53,13 @@ export function PersonalityAnimalImage({
     
     return (
       <div className={`relative overflow-hidden rounded-lg shadow-sm ${className}`} style={{ width, height }}>
-        <OptimizedImage
+        <img
           src={fallbackSrc}
           alt="Animal character"
           width={width}
           height={height}
-          className="object-contain rounded-lg"
-          priority={false}
-          quality={70}
+          className="object-contain rounded-lg w-full h-full"
+          loading="lazy"
         />
       </div>
     );
@@ -69,16 +67,13 @@ export function PersonalityAnimalImage({
 
   return (
     <div className={`relative overflow-hidden rounded-lg shadow-sm ${className}`} style={{ width, height }}>
-      <OptimizedImage
+      <img
         src={imagePath}
         alt={`${animal.animal_ko} 캐릭터`}
         width={width}
         height={height}
-        className="object-contain rounded-lg transition-all duration-300"
-        priority={size === 'xl' || size === 'lg'} // 큰 이미지는 우선 로딩
-        isPersonalityAnimal={true}
-        quality={size === 'sm' ? 70 : 85} // 작은 이미지는 품질 낮춤
-        placeholder="blur"
+        className="object-contain rounded-lg transition-all duration-300 w-full h-full"
+        loading={size === 'xl' || size === 'lg' ? 'eager' : 'lazy'}
         onError={() => {
           console.error('Image failed to load:', imagePath);
           setImageError(true);
