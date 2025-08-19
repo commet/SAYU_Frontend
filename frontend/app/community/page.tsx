@@ -2607,7 +2607,7 @@ export default function CommunityPage() {
                                 {language === 'ko' ? '나를 좋아해요' : 'Likes you'} 💖
                               </span>
                             )}
-                            <span className="text-xs text-gray-300 drop-shadow-sm">· {match.lastActive}</span>
+                            <span className="text-xs text-white drop-shadow-sm">· {match.lastActive}</span>
                           </div>
                           <p className="text-sm text-gray-100 mb-2 leading-relaxed drop-shadow-md">
                             {matchAnimal?.animal_ko}({match.personalityType})
@@ -2618,10 +2618,10 @@ export default function CommunityPage() {
                              ` - ${language === 'ko' ? '새로운 관점' : 'New Perspectives'}`}
                           </p>
                           <div className="flex gap-3 text-xs text-white drop-shadow-sm">
-                            {match.age && <span>{match.age}{language === 'ko' ? '세' : ' years'}</span>}
-                            {match.distance && <span>{match.distance}km</span>}
-                            <span>{language === 'ko' ? `전시 ${match.exhibitions}회` : `${match.exhibitions} exhibitions`}</span>
-                            <span>{language === 'ko' ? `작품 ${match.artworks}개` : `${match.artworks} artworks`}</span>
+                            {match.age && <span className="text-white">{match.age}{language === 'ko' ? '세' : ' years'}</span>}
+                            {match.distance && <span className="text-white">{match.distance}km</span>}
+                            <span className="text-white">{language === 'ko' ? `전시 ${match.exhibitions}회` : `${match.exhibitions} exhibitions`}</span>
+                            <span className="text-white">{language === 'ko' ? `작품 ${match.artworks}개` : `${match.artworks} artworks`}</span>
                           </div>
                         </div>
                       </div>
