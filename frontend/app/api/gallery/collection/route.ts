@@ -32,6 +32,11 @@ export async function GET(request: NextRequest) {
           image_url,
           medium,
           style,
+          description,
+          museum,
+          department,
+          is_public_domain,
+          license,
           emotion_tags,
           tags
         )
@@ -59,6 +64,12 @@ export async function GET(request: NextRequest) {
       imageUrl: item.artworks?.image_url || '',
       medium: item.artworks?.medium || 'Mixed Media',
       style: item.artworks?.style || '',
+      museum: item.artworks?.museum || '',
+      department: item.artworks?.department || '',
+      description: item.artworks?.description || '',
+      isPublicDomain: item.artworks?.is_public_domain || true,
+      license: item.artworks?.license || 'CC0',
+      curatorNote: item.artworks?.description || '',
       emotionTags: item.artworks?.emotion_tags || [],
       tags: item.artworks?.tags || [],
       savedAt: item.created_at
@@ -84,9 +95,12 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { userId, artworkId, action } = body;
+    const { userId, artworkId, action, artworkData } = body;
+
+    console.log('POST /api/gallery/collection - Request:', { userId, artworkId, action, hasArtworkData: !!artworkData });
 
     if (!userId || !artworkId || !['save', 'remove'].includes(action)) {
+      console.error('Invalid parameters:', { userId, artworkId, action });
       return NextResponse.json({
         success: false,
         error: 'Invalid request parameters'
@@ -96,23 +110,98 @@ export async function POST(request: NextRequest) {
     const supabase = await createClient();
 
     if (action === 'save') {
+      // First check if artwork exists in artworks table
+      const { data: existingArtwork, error: checkError } = await supabase
+        .from('artworks')
+        .select('id')
+        .eq('id', artworkId)
+        .single();
+
+      console.log('Checking artwork exists:', { artworkId, exists: !!existingArtwork, checkError });
+
+      // If artwork doesn't exist and we have artwork data, create it first
+      if (!existingArtwork && artworkData) {
+        console.log('Creating new artwork in database:', artworkData);
+        
+        const { error: insertArtworkError } = await supabase
+          .from('artworks')
+          .insert({
+            id: artworkId,
+            title: artworkData.title || 'Untitled',
+            artist: artworkData.artist || 'Unknown Artist',
+            year_created: artworkData.year || '',
+            image_url: artworkData.imageUrl || '',
+            medium: artworkData.medium || 'Mixed Media',
+            style: artworkData.style || artworkData.medium || '',
+            description: artworkData.description || artworkData.curatorNote || '',
+            museum: artworkData.museum || '',
+            department: artworkData.department || '',
+            is_public_domain: artworkData.isPublicDomain || true,
+            license: artworkData.license || 'CC0'
+          });
+
+        if (insertArtworkError) {
+          console.error('Failed to insert artwork:', insertArtworkError);
+          return NextResponse.json({
+            success: false,
+            error: `Failed to create artwork: ${insertArtworkError.message}`
+          }, { status: 500 });
+        }
+        
+        console.log('Successfully created artwork in database');
+      } else if (!existingArtwork && !artworkData) {
+        console.error('Artwork not found and no artwork data provided');
+        return NextResponse.json({
+          success: false,
+          error: 'Artwork not found in database and no artwork data provided'
+        }, { status: 400 });
+      }
+
+      // Check if already saved
+      const { data: existing } = await supabase
+        .from('artwork_interactions')
+        .select('id')
+        .eq('user_id', userId)
+        .eq('artwork_id', artworkId)
+        .eq('interaction_type', 'save')
+        .single();
+
+      if (existing) {
+        console.log('Artwork already saved by user');
+        return NextResponse.json({
+          success: true,
+          action,
+          message: 'Already saved',
+          newCount: 0
+        });
+      }
+
       // Add to collection
-      const { error: insertError } = await supabase
+      const { error: insertError, data: insertData } = await supabase
         .from('artwork_interactions')
         .insert({
           user_id: userId,
           artwork_id: artworkId,
           interaction_type: 'save',
           created_at: new Date().toISOString()
-        });
+        })
+        .select();
 
       if (insertError) {
-        console.error('Insert error:', insertError);
+        console.error('Insert error details:', {
+          error: insertError,
+          message: insertError.message,
+          details: insertError.details,
+          hint: insertError.hint,
+          code: insertError.code
+        });
         return NextResponse.json({
           success: false,
-          error: 'Failed to save artwork'
+          error: `Failed to save artwork: ${insertError.message}`
         }, { status: 500 });
       }
+
+      console.log('Successfully saved artwork:', insertData);
 
     } else if (action === 'remove') {
       // Remove from collection

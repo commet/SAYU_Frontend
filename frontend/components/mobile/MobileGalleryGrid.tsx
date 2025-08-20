@@ -45,8 +45,8 @@ export default function MobileGalleryGrid({
     estimateSize: useCallback((index: number) => {
       const artwork = artworks[index];
       const aspectRatio = artwork.aspectRatio || 1;
-      // Base height for mobile + dynamic height based on aspect ratio
-      return 200 + (aspectRatio < 1 ? 100 : aspectRatio > 1.5 ? -50 : 0);
+      // Increased base height for better visibility
+      return 280 + (aspectRatio < 1 ? 100 : aspectRatio > 1.5 ? -50 : 0);
     }, [artworks]),
     overscan: 5,
   });
@@ -101,7 +101,7 @@ export default function MobileGalleryGrid({
               <img
                 src={artwork.imageUrl}
                 alt={artwork.title}
-                className="w-full h-32 object-cover transition-transform duration-300 hover:scale-105"
+                className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
                 loading="lazy"
                 onLoad={() => onView?.(artwork.id)}
                 onError={(e) => {
@@ -109,7 +109,7 @@ export default function MobileGalleryGrid({
                 }}
               />
             ) : (
-              <div className="w-full h-32 bg-gray-200 dark:bg-gray-700 animate-pulse" />
+              <div className="w-full h-48 bg-gray-200 dark:bg-gray-700 animate-pulse" />
             )}
             
             {/* Mobile Action Buttons - Always visible on mobile */}
