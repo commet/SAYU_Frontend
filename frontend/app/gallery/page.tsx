@@ -204,7 +204,29 @@ function GalleryContent() {
       setLikedArtworks(new Set(guestData.savedArtworks));
       setViewedArtworks(new Set(guestData.viewedArtworks));
     } else {
-      // For logged-in users, load from localStorage
+      // For logged-in users, load from database and localStorage
+      try {
+        // Load saved artworks from database
+        const response = await fetch(`/api/gallery/collection?userId=${user.id}`);
+        const result = await response.json();
+        
+        if (result.success && result.items) {
+          console.log('✅ Loaded saved artworks from database:', result.count);
+          
+          // Set saved artworks state
+          const savedIds = result.items.map(item => item.id);
+          setSavedArtworks(new Set(savedIds));
+          setSavedArtworksData(result.items);
+          
+          console.log('📊 savedArtworksData updated with', result.items.length, 'items');
+        } else {
+          console.warn('Failed to load saved artworks from database:', result.error);
+        }
+      } catch (error) {
+        console.error('Error loading saved artworks:', error);
+      }
+      
+      // Load other preferences from localStorage (liked, viewed)
       const liked = localStorage.getItem('likedArtworks');
       const viewed = localStorage.getItem('viewedArtworks');
       if (liked) setLikedArtworks(new Set(JSON.parse(liked)));
@@ -427,10 +449,7 @@ function GalleryContent() {
     const newSaved = new Set(savedArtworks);
     const isSaving = !newSaved.has(artworkId);
     
-    console.log('🔧 handleSave called:', { artworkId, isSaving, isMobile });
-    console.log('📱 Current savedArtworksData length:', savedArtworksData.length);
-    console.log('🎨 recommendedArtworks:', recommendedArtworks.length);
-    console.log('🖼️ galleryArtworks:', galleryArtworks.length);
+    console.log('🔧 handleSave called:', { artworkId, isSaving, user: !!user, isGuestMode });
     
     if (isSaving) {
       newSaved.add(artworkId);
@@ -463,8 +482,6 @@ function GalleryContent() {
         }
       }
       
-      console.log('Found savedArtwork:', savedArtwork);
-      
       if (savedArtwork) {
         // savedArtworksData에 작품 추가 (맨 앞에)
         setSavedArtworksData(prev => {
@@ -486,15 +503,10 @@ function GalleryContent() {
               description: savedArtwork.description
             };
             console.log('✅ Adding newArtwork to savedArtworksData:', newArtwork);
-            console.log('📊 Previous savedArtworksData length:', prev.length);
-            const newData = [newArtwork, ...prev]; // 맨 앞에 추가 (왼쪽에 새로 추가)
-            console.log('📊 New savedArtworksData length will be:', newData.length);
-            return newData;
+            return [newArtwork, ...prev]; // 맨 앞에 추가
           }
           return prev;
         });
-      } else {
-        console.log('savedArtwork not found');
       }
     } else {
       newSaved.delete(artworkId);
@@ -504,7 +516,7 @@ function GalleryContent() {
     
     setSavedArtworks(newSaved);
     
-    // Save to storage
+    // Save to storage and database
     const guestMode = !user || isGuestMode;
     if (guestMode) {
       const { GuestStorage } = await import('@/lib/guest-storage');
@@ -513,7 +525,49 @@ function GalleryContent() {
       } else {
         GuestStorage.removeSavedArtwork(artworkId);
       }
+      
+      // Show prompt after first save
+      if (isSaving && GuestStorage.getData().savedArtworks.length === 1) {
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('guest-milestone', { 
+            detail: { milestone: 'first_save' }
+          }));
+        }, 1000);
+      }
     } else {
+      // 로그인한 사용자 - 데이터베이스에 저장
+      try {
+        const response = await fetch('/api/gallery/collection', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: user.id,
+            artworkId: artworkId,
+            action: isSaving ? 'save' : 'remove'
+          })
+        });
+        
+        const result = await response.json();
+        if (!result.success) {
+          console.error('Failed to save to database:', result.error);
+          // 실패 시 로컬 상태를 원래대로 되돌리기
+          if (isSaving) {
+            newSaved.delete(artworkId);
+            setSavedArtworksData(prev => prev.filter(artwork => artwork.id !== artworkId));
+          } else {
+            newSaved.add(artworkId);
+          }
+          setSavedArtworks(newSaved);
+          toast.error('저장에 실패했습니다. 다시 시도해주세요.');
+        } else {
+          console.log('✅ Successfully saved to database. New count:', result.newCount);
+        }
+      } catch (error) {
+        console.error('Database save error:', error);
+        toast.error('저장에 실패했습니다. 다시 시도해주세요.');
+      }
+      
+      // localStorage도 업데이트 (백업용)
       saveUserPreferences();
     }
   };

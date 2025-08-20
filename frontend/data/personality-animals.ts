@@ -41,7 +41,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '우연한 발견의 전문가',
       '추상 속 감정을 번역하는'
     ],
-    image: '/images/personality-animals/main/fox-laef.png',
+    image: '/images/animals/laef.png',
     avatar: '/images/personality-animals/avatars/fox-laef-avatar.png',
     illustration: '/images/personality-animals/illustrations/fox-laef-full.png'
   }),
@@ -58,7 +58,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '감정을 정제하는 연금술사',
       '완벽주의적 큐레이터'
     ],
-    image: '/images/personality-animals/main/cat-laec.png',
+    image: '/images/animals/laec.png',
     avatar: '/images/personality-animals/avatars/cat-laec-avatar.png',
     illustration: '/images/personality-animals/illustrations/cat-laec-full.png'
   }),
@@ -75,7 +75,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '상징과 은유의 해석자',
       '깊이 있는 의미 탐구자'
     ],
-    image: '/images/personality-animals/main/owl-lamf.png',
+    image: '/images/animals/lamf.png',
     avatar: '/images/personality-animals/avatars/owl-lamf-avatar.png',
     illustration: '/images/personality-animals/illustrations/owl-lamf-full.png'
   }),
@@ -92,7 +92,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '체계적 지식 건축가',
       '문화유산의 기록자'
     ],
-    image: '/images/personality-animals/main/turtle-lamc.png',
+    image: '/images/animals/lamc.png',
     avatar: '/images/personality-animals/avatars/turtle-lamc-avatar.png',
     illustration: '/images/personality-animals/illustrations/turtle-lamc-full.png'
   }),
@@ -109,7 +109,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '미묘한 변화를 감지하는',
       '환경에 녹아드는'
     ],
-    image: '/images/personality-animals/main/chameleon-lref.png',
+    image: '/images/animals/lref.png',
     avatar: '/images/personality-animals/avatars/chameleon-lref-avatar.png',
     illustration: '/images/personality-animals/illustrations/chameleon-lref-full.png'
   }),
@@ -126,7 +126,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '감정의 보호막을 지닌',
       '섬세한 감상의 기록자'
     ],
-    image: '/images/personality-animals/main/hedgehog-lrec.png',
+    image: '/images/animals/lrec.png',
     avatar: '/images/personality-animals/avatars/hedgehog-lrec-avatar.png',
     illustration: '/images/personality-animals/illustrations/hedgehog-lrec-full.png'
   }),
@@ -143,7 +143,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '바닥까지 내려가는 분석가',
       '유연한 사고의 마술사'
     ],
-    image: '/images/personality-animals/main/octopus-lrmf.png',
+    image: '/images/animals/lrmf.png',
     avatar: '/images/personality-animals/avatars/octopus-lrmf-avatar.png',
     illustration: '/images/personality-animals/illustrations/octopus-lrmf-full.png'
   }),
@@ -160,7 +160,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '논리적 창조의 전문가',
       '체계적 사고의 설계자'
     ],
-    image: '/images/personality-animals/main/beaver-lrmc.png',
+    image: '/images/animals/lrmc.png',
     avatar: '/images/personality-animals/avatars/beaver-lrmc-avatar.png',
     illustration: '/images/personality-animals/illustrations/beaver-lrmc-full.png'
   }),
@@ -177,7 +177,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '순간의 아름다움을 포착하는',
       '변화와 성장의 상징'
     ],
-    image: '/images/personality-animals/main/butterfly-saef.png',
+    image: '/images/animals/saef.png',
     avatar: '/images/personality-animals/avatars/butterfly-saef-avatar.png',
     illustration: '/images/personality-animals/illustrations/butterfly-saef-full.png'
   }),
@@ -194,7 +194,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '집단 창의성의 오케스트레이터',
       '질서 속의 시너지 창조자'
     ],
-    image: '/images/personality-animals/main/penguin-saec.png',
+    image: '/images/animals/saec.png',
     avatar: '/images/personality-animals/avatars/penguin-saec-avatar.png',
     illustration: '/images/personality-animals/illustrations/penguin-saec-full.png'
   }),
@@ -211,7 +211,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '상징과 의미의 통역사',
       '집단 지성의 촉매제'
     ],
-    image: '/images/personality-animals/main/parrot-samf.png',
+    image: '/images/animals/samf.png',
     avatar: '/images/personality-animals/avatars/parrot-samf-avatar.png',
     illustration: '/images/personality-animals/illustrations/parrot-samf-full.png'
   }),
@@ -228,7 +228,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '전통과 혁신의 가교',
       '사회적 의미의 건축가'
     ],
-    image: '/images/personality-animals/main/deer-samc.png',
+    image: '/images/animals/samc.png',
     avatar: '/images/personality-animals/avatars/deer-samc-avatar.png',
     illustration: '/images/personality-animals/illustrations/deer-samc-full.png'
   }),
@@ -245,7 +245,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '직관적 연결의 매개자',
       '기쁨의 증폭기'
     ],
-    image: '/images/personality-animals/main/dog-sref.png',
+    image: '/images/animals/sref.png',
     avatar: '/images/personality-animals/avatars/dog-sref-avatar.png',
     illustration: '/images/personality-animals/illustrations/dog-sref-full.png'
   }),
@@ -262,7 +262,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '조화로운 범람성의 책임자',
       '포용적 환경의 조성자'
     ],
-    image: '/images/personality-animals/main/duck-srec.png',
+    image: '/images/animals/srec.png',
     avatar: '/images/personality-animals/avatars/duck-srec-avatar.png',
     illustration: '/images/personality-animals/illustrations/duck-srec-full.png'
   }),
@@ -279,7 +279,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '문화적 맥락의 통역사',
       '생생한 역사의 전달자'
     ],
-    image: '/images/personality-animals/main/elephant-srmf.png',
+    image: '/images/animals/srmf.png',
     avatar: '/images/personality-animals/avatars/elephant-srmf-avatar.png',
     illustration: '/images/personality-animals/illustrations/elephant-srmf-full.png'
   }),
@@ -296,7 +296,7 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '교육적 내러티브의 창조자',
       '객관적 분석의 전문가'
     ],
-    image: '/images/personality-animals/main/eagle-srmc.png',
+    image: '/images/animals/srmc.png',
     avatar: '/images/personality-animals/avatars/eagle-srmc-avatar.png',
     illustration: '/images/personality-animals/illustrations/eagle-srmc-full.png'
   })

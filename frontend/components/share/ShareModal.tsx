@@ -341,10 +341,10 @@ Discover your art personality too!`;
                         <>
                           {/* Feed & Card format - horizontal layout */}
                           <div className="flex items-start gap-2 mb-1">
-                            {/* Animal on the far left and higher */}
+                            {/* Animal on the far left and higher - further reduced size for feed */}
                             <div className="-ml-2 -mt-1">
                               {animal?.image ? (
-                                <div className={shareFormat === 'feed' ? 'w-8 h-8' : 'w-9 h-9'}>
+                                <div className={shareFormat === 'feed' ? 'w-5 h-5' : 'w-9 h-9'}>
                                   <PersonalityAnimalImage
                                     animal={animal}
                                     variant="avatar"
@@ -355,15 +355,15 @@ Discover your art personality too!`;
                                 </div>
                               ) : (
                                 <div className={`flex items-center justify-center ${
-                                  shareFormat === 'feed' ? 'w-8 h-8 text-xl' : 'w-9 h-9 text-2xl'
+                                  shareFormat === 'feed' ? 'w-5 h-5 text-base' : 'w-9 h-9 text-2xl'
                                 }`}>
                                   <span className="drop-shadow-xl">{animal?.emoji || '🎨'}</span>
                                 </div>
                               )}
                             </div>
                             
-                            {/* Type and title aligned to the right */}
-                            <div className="text-left ml-8">
+                            {/* Type and title aligned to the right - moved more to the right */}
+                            <div className="text-left ml-10">
                               <div className={`font-black tracking-wider ${
                                 shareFormat === 'feed' ? 'text-sm' : 'text-base'
                               }`} style={{ 
@@ -494,12 +494,16 @@ Discover your art personality too!`;
                     
                     {/* Bottom Section - Minimal branding */}
                     <div className="text-center mt-2">
-                      {/* Masterpiece title and artist - smaller and tighter */}
+                      {/* Masterpiece title and artist - single line format */}
                       <div className={`opacity-50 mb-0.5 ${
                         shareFormat === 'feed' ? 'text-[6px]' : shareFormat === 'story' ? 'text-[7px]' : 'text-[6px]'
                       }`} style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)', lineHeight: '1.2' }}>
-                        <div className="italic">{language === 'ko' ? masterpiece.title_ko : masterpiece.title}</div>
-                        <div className="opacity-80">{language === 'ko' ? masterpiece.artist_ko : masterpiece.artist}</div>
+                        <div className="italic">
+                          {language === 'ko' 
+                            ? `${masterpiece.title_ko} - ${masterpiece.artist_ko}`
+                            : `${masterpiece.title} - ${masterpiece.artist}`
+                          }
+                        </div>
                       </div>
                       
                       <div className="pt-1.5" style={{ borderTop: '1px solid rgba(255,255,255,0.2)' }}>

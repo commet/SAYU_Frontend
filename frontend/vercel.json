@@ -27,5 +27,6 @@
       "source": "/images/personality-animals/:path*",
       "destination": "/images/personality-animals/:path*"
     }
-  ]
-}# Force rebuild 20250820203431
+  ],
+  "buildTimestamp": "20250820203431"
+}

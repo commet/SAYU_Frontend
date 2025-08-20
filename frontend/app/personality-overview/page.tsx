@@ -84,18 +84,18 @@ function PersonalityOverviewContent() {
       </div>
       {/* 헤더 */}
       <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-gray-700">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="container mx-auto px-3 sm:px-4 h-16 flex items-center justify-between">
           <Link 
             href={userType ? `/results?type=${userType}` : "/results"}
-            className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
+            className="flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-white transition-colors"
           >
-            <ArrowLeft className="w-5 h-5" />
-            <span>결과로 돌아가기</span>
+            <ArrowLeft className="w-4 sm:w-5 h-4 sm:h-5" />
+            <span className="text-sm sm:text-base">결과로 돌아가기</span>
           </Link>
           
-          <h1 className="text-lg font-semibold text-white">16가지 예술 감상 유형</h1>
+          <h1 className="text-sm sm:text-lg font-semibold text-white">16가지 예술 감상 유형</h1>
           
-          <div className="w-24" /> {/* 균형을 위한 공간 */}
+          <div className="w-20 sm:w-24" /> {/* 균형을 위한 공간 */}
         </div>
       </header>
 
@@ -107,10 +107,10 @@ function PersonalityOverviewContent() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
             모든 SAYU 성격 유형
           </h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto">
             각 유형마다 고유한 예술 감상 스타일이 있습니다.<br />
             당신의 유형과 다른 유형들의 특징을 비교해보세요.
           </p>
@@ -147,7 +147,7 @@ function PersonalityOverviewContent() {
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setSelectedType(typeCode)}
-                        className="relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-4 
+                        className="relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-3 sm:p-4 
                                  hover:shadow-md transition-all duration-200 group"
                       >
                         {/* 배경 그라데이션 */}
@@ -159,8 +159,8 @@ function PersonalityOverviewContent() {
                           {/* 타입 코드 */}
                           <div className="text-xs font-mono text-gray-500 mb-2">{typeCode}</div>
                           
-                          {/* 동물 이미지/이모지 */}
-                          <div className="w-20 h-20 mx-auto mb-3 relative">
+                          {/* 동물 이미지/이모지 - 모바일에서 더 작게 */}
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-2 sm:mb-3 relative">
                             {animal.image ? (
                               <Image
                                 src={animal.image}
@@ -169,15 +169,15 @@ function PersonalityOverviewContent() {
                                 className="object-contain"
                               />
                             ) : (
-                              <div className="flex items-center justify-center w-full h-full text-4xl">
+                              <div className="flex items-center justify-center w-full h-full text-3xl sm:text-4xl">
                                 {type.emoji}
                               </div>
                             )}
                           </div>
                           
                           {/* 이름 */}
-                          <h4 className="font-semibold text-sm mb-1 text-gray-900">{type.name}</h4>
-                          <p className="text-xs text-gray-600">{type.animal}</p>
+                          <h4 className="font-semibold text-xs sm:text-sm mb-1 text-gray-900">{type.name}</h4>
+                          <p className="text-[10px] sm:text-xs text-gray-600">{type.animal}</p>
                         </div>
                       </motion.button>
                     )

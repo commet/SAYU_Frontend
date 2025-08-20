@@ -113,7 +113,7 @@ export function MobileNav() {
   return (
     <>
       {/* Bottom Navigation Bar */}
-      <nav className="mobile-nav fixed bottom-0 left-0 right-0 z-40 lg:hidden p-4">
+      <nav className="mobile-nav fixed bottom-0 left-0 right-0 z-40 lg:hidden px-4 pb-4 safe-area-bottom">
         <div className="sayu-bottom-nav mx-auto max-w-sm">
           <div className="flex items-center justify-around px-4 py-3">
             {navigationItems.slice(0, 4).map((item) => {

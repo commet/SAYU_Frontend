@@ -14,6 +14,8 @@ import StyleSelector from './StyleSelector';
 import ArtProfileResultComponent from './ArtProfileResult';
 import APIKeyGuide from './APIKeyGuide';
 import { generateAIArt, generateDemoArt, AI_ART_STYLES } from '@/lib/huggingface-api';
+import { aiArtService } from '@/lib/ai-art-service';
+import { openAIArtService } from '@/lib/openai-art-service';
 
 export default function ArtProfileGenerator() {
   const { language } = useLanguage();
@@ -87,25 +89,53 @@ export default function ArtProfileGenerator() {
       setIsUsingRealAI(hasValidApiKey);
       
       let transformedImage: string;
+      let modelUsed = 'Canvas Effect';
       
-      if (hasValidApiKey) {
-        // 실제 Hugging Face AI 모델 사용
-        toast.success(language === 'ko' ? 'AI 모델로 생성 중...' : 'Generating with AI model...');
+      // Try OpenAI DALL-E first (best quality)
+      const openAIKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+      if (openAIKey) {
+        try {
+          toast.success(language === 'ko' ? 'OpenAI DALL-E로 생성 중... (최고 품질)' : 'Generating with OpenAI DALL-E... (Best Quality)');
+          transformedImage = await openAIArtService.generateArt(
+            selectedImage,
+            selectedStyle.id,
+            (progress) => setGenerationProgress(progress)
+          );
+          setIsUsingRealAI(true);
+          modelUsed = 'OpenAI DALL-E 3 (HD)';
+        } catch (openAIError) {
+          console.warn('OpenAI DALL-E failed:', openAIError);
+          // Fall through to try other services
+        }
+      }
+      
+      // If DALL-E didn't work, try other AI services
+      if (!transformedImage!) {
+        toast.info(language === 'ko' ? 'AI 서비스로 생성 시도 중...' : 'Trying AI services...');
         
-        transformedImage = await generateAIArt(
-          selectedImage,
-          selectedStyle.id,
-          (progress) => setGenerationProgress(progress)
-        );
-      } else {
-        // 데모 모드 (Canvas 효과)
-        toast.info(language === 'ko' ? '데모 모드로 생성 중...' : 'Generating in demo mode...');
-        
-        transformedImage = await generateDemoArt(
-          selectedImage,
-          selectedStyle.id,
-          (progress) => setGenerationProgress(progress)
-        );
+        try {
+          // Try multiple AI services (Stability AI, Hugging Face, Replicate)
+          transformedImage = await aiArtService.generateArt(
+            selectedImage,
+            selectedStyle.id,
+            (progress) => setGenerationProgress(progress)
+          );
+          setIsUsingRealAI(true);
+          modelUsed = 'Multi-Service AI';
+        } catch (aiError) {
+          console.warn('All AI services failed, falling back to canvas:', aiError);
+          
+          // Final fallback to Canvas effects
+          toast.info(language === 'ko' ? '향상된 아트 효과로 생성 중...' : 'Generating with enhanced art effects...');
+          
+          transformedImage = await generateDemoArt(
+            selectedImage,
+            selectedStyle.id,
+            (progress) => setGenerationProgress(progress)
+          );
+          setIsUsingRealAI(false);
+          modelUsed = 'Enhanced Canvas Effect';
+        }
       }
 
       const processingTime = Date.now() - startTime;
@@ -119,17 +149,17 @@ export default function ArtProfileGenerator() {
         style: selectedStyle.name,
         processingTime,
         createdAt: new Date(),
-        isAIGenerated: hasValidApiKey,
-        modelUsed: hasValidApiKey ? AI_ART_STYLES[selectedStyle.id]?.model : 'Canvas Effect'
+        isAIGenerated: isUsingRealAI,
+        modelUsed: modelUsed
       };
       
       setGeneratedResult(result);
       setStep('result');
       setUserCredits(prev => Math.max(0, prev - 1));
       
-      const successMessage = hasValidApiKey 
-        ? (language === 'ko' ? 'AI 아트 프로필이 생성되었습니다!' : 'AI art profile created!')
-        : (language === 'ko' ? '데모 아트 프로필이 생성되었습니다!' : 'Demo art profile created!');
+      const successMessage = isUsingRealAI 
+        ? (language === 'ko' ? '고급 AI 아트 프로필이 생성되었습니다!' : 'Advanced AI art profile created!')
+        : (language === 'ko' ? '향상된 아트 프로필이 생성되었습니다!' : 'Enhanced art profile created!');
       
       toast.success(successMessage);
 

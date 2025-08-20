@@ -685,7 +685,14 @@ function ResultsContent() {
           {/* 더보기 & 전시회 추천 버튼 */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-2">
             <button
-              onClick={() => router.push('/collections')}
+              onClick={() => {
+                // 로그인 상태 확인 후 이동
+                if (user) {
+                  router.push('/collections');
+                } else {
+                  router.push('/login?redirect=/collections');
+                }
+              }}
               className="flex items-center justify-center gap-2 px-6 py-3 text-purple-600 hover:text-purple-700 font-medium transition-colors"
             >
               {language === 'ko' ? '더 많은 작품 탐색하기' : 'Explore More Artworks'}

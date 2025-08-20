@@ -164,26 +164,70 @@ async function fetchUserStats(supabase: SupabaseClient, userId?: string | null) 
     };
   }
   
-  // Get user-specific stats
-  const [interactionsResult, likesResult, totalUsersResult] = await Promise.allSettled([
+  // Get user-specific stats with parallel queries
+  const [
+    viewInteractionsResult, 
+    savedInteractionsResult,
+    likesResult, 
+    exhibitionViewsResult,
+    totalUsersResult,
+    artistsResult
+  ] = await Promise.allSettled([
+    // Count artwork views
     supabase
       .from('artwork_interactions')
       .select('id', { count: 'exact' })
-      .eq('user_id', userId),
+      .eq('user_id', userId)
+      .eq('interaction_type', 'view'),
+    
+    // Count saved artworks (실제 컬렉션 아이템 수)
+    supabase
+      .from('artwork_interactions')
+      .select('id', { count: 'exact' })
+      .eq('user_id', userId)
+      .eq('interaction_type', 'save'),
+    
+    // Count exhibition likes
     supabase
       .from('exhibition_likes')
       .select('id', { count: 'exact' })
       .eq('user_id', userId),
+    
+    // Count exhibition visits
+    supabase
+      .from('exhibition_views')
+      .select('id', { count: 'exact' })
+      .eq('user_id', userId),
+    
+    // Total users count
     supabase
       .from('users')
-      .select('id', { count: 'exact' })
+      .select('id', { count: 'exact' }),
+    
+    // Count unique artists discovered
+    supabase
+      .from('artwork_interactions')
+      .select('artworks(artist)')
+      .eq('user_id', userId)
+      .not('artworks.artist', 'is', null)
   ]);
   
+  // Calculate unique artists discovered
+  let uniqueArtists = 43; // fallback
+  if (artistsResult.status === 'fulfilled' && artistsResult.value.data) {
+    const artists = new Set(
+      artistsResult.value.data
+        .map(item => item.artworks?.artist)
+        .filter(artist => artist)
+    );
+    uniqueArtists = artists.size;
+  }
+  
   return {
-    artworksViewed: interactionsResult.status === 'fulfilled' ? (interactionsResult.value.count || 0) : 127,
-    artistsDiscovered: 43, // This would need a more complex query
-    exhibitionsVisited: likesResult.status === 'fulfilled' ? (likesResult.value.count || 0) : 8,
-    savedArtworks: 24, // This would need artwork saves tracking
+    artworksViewed: viewInteractionsResult.status === 'fulfilled' ? (viewInteractionsResult.value.count || 0) : 127,
+    savedArtworks: savedInteractionsResult.status === 'fulfilled' ? (savedInteractionsResult.value.count || 0) : 0, // 실제 컬렉션 수
+    artistsDiscovered: uniqueArtists,
+    exhibitionsVisited: exhibitionViewsResult.status === 'fulfilled' ? (exhibitionViewsResult.value.count || 0) : (likesResult.status === 'fulfilled' ? (likesResult.value.count || 0) : 8),
     totalUsers: totalUsersResult.status === 'fulfilled' ? (totalUsersResult.value.count || 0) : 1250
   };
 }

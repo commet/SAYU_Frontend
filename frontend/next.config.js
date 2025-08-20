@@ -49,10 +49,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  images: {
-    unoptimized: true,  // 이미지 최적화 비활성화 - 프로덕션 400 에러 해결
-    domains: ['www.sayu.my', 'sayu.my', 'localhost'],
-  },
   
   // Custom headers for static files
   async headers() {
@@ -101,8 +97,10 @@ const nextConfig = {
     return config;
   },
   
-  // 이미지 최적화 강화
+  // 이미지 최적화 설정
   images: {
+    unoptimized: true,  // 이미지 최적화 비활성화 - 프로덕션 404 에러 해결
+    domains: ['www.sayu.my', 'sayu.my', 'localhost'],
     // 우선순위별 도메인 정렬 (자주 사용되는 순서)
     remotePatterns: [
       // 1순위: 자체 CDN

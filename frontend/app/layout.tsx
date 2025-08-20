@@ -127,7 +127,7 @@ export default function RootLayout({
           <div className="lg:hidden">
             <MobileNav />
           </div>
-          <main className="pb-20 lg:pt-4 lg:pb-4 bg-gray-900">
+          <main className="pb-20 safe-area-bottom lg:pt-4 lg:pb-4 bg-gray-900">
             {children}
           </main>
           <ProgressivePrompt />

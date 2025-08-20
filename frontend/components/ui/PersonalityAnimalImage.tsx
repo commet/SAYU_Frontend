@@ -48,28 +48,35 @@ export function PersonalityAnimalImage({
     // showFallback이 false면 아무것도 표시하지 않음
     if (!showFallback) return null;
     
-    // fallback: main 폴더의 기본 이미지 사용
-    const animalName = animal?.animal?.toLowerCase() || 'fox';
+    // fallback: 단순화된 경로 사용 (타입 코드만)
     const typeCode = animal?.type?.toLowerCase() || 'laef';
-    const fallbackSrc = `/images/personality-animals/main/${animalName}-${typeCode}.png`;
+    const fallbackPaths = [
+      `/images/animals/${typeCode}.png`,  // 새로운 단순 경로 우선 시도
+      `/images/personality-animals/main/${animal?.animal?.toLowerCase() || 'fox'}-${typeCode}.png`  // 기존 경로 폴백
+    ];
     
     return (
       <div className={`relative overflow-hidden rounded-lg shadow-sm ${className}`} style={{ width, height }}>
         <img
-          src={fallbackSrc}
+          src={fallbackPaths[0]}
           alt={`${animal?.animal_ko || 'Animal'} character`}
           width={width}
           height={height}
           className="object-contain rounded-lg w-full h-full"
           loading="lazy"
           onError={(e) => {
-            // main 이미지도 실패하면 emoji 표시
             const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
-            const emojiDiv = document.createElement('div');
-            emojiDiv.className = 'w-full h-full flex items-center justify-center text-6xl bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg';
-            emojiDiv.textContent = animal?.emoji || '🎨';
-            target.parentElement?.appendChild(emojiDiv);
+            // 첫 번째 경로 실패시 두 번째 경로 시도
+            if (target.src.includes('/animals/')) {
+              target.src = fallbackPaths[1];
+            } else {
+              // 모든 이미지 로드 실패시 emoji 표시
+              target.style.display = 'none';
+              const emojiDiv = document.createElement('div');
+              emojiDiv.className = 'w-full h-full flex items-center justify-center text-6xl bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg';
+              emojiDiv.textContent = animal?.emoji || '🎨';
+              target.parentElement?.appendChild(emojiDiv);
+            }
           }}
         />
       </div>
