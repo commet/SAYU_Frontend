@@ -274,17 +274,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signUp = async (email: string, password: string, metadata?: any) => {
-    const { error } = await supabase.auth.signUp({
+    console.log('🔑 Starting signUp process...');
+    console.log('📧 Email:', email);
+    
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: metadata,
+        emailRedirectTo: `${window.location.origin}/login`,
       },
     });
 
     if (error) {
+      console.error('🔴 Sign up error:', error);
       throw error;
     }
+    
+    console.log('✅ Sign up successful:', data);
+    
+    // Return success even if email confirmation is required
+    return data;
   };
 
   const signOut = async () => {

@@ -75,7 +75,9 @@ function RegisterContent() {
     setLoading(true);
     
     try {
-      await signUp(email, password, { full_name: name });
+      const result = await signUp(email, password, { full_name: name });
+      
+      console.log('Registration result:', result);
       
       // Migrate guest data if exists
       if (typeof window !== 'undefined') {
@@ -98,26 +100,38 @@ function RegisterContent() {
         }
       }
       
-      toast.success(language === 'ko' ? '회원가입 성공! 로그인해주세요.' : 'Registration successful! Please login.');
+      // Check if email confirmation is required
+      if (result?.user && !result?.session) {
+        toast.success(
+          language === 'ko' 
+            ? '회원가입 성공! 이메일을 확인하여 계정을 활성화해주세요.' 
+            : 'Registration successful! Please check your email to confirm your account.'
+        );
+      } else {
+        toast.success(language === 'ko' ? '회원가입 성공! 로그인해주세요.' : 'Registration successful! Please login.');
+      }
       
       // Redirect to login page after successful registration
       setTimeout(() => {
         router.push('/login');
-      }, 1000);
+        setLoading(false);
+      }, 2000);
     } catch (error: any) {
       console.error('Registration error:', error);
+      setLoading(false);
       
       // Check if user already exists
       if (error?.message?.includes('User already registered') || 
           error?.message?.includes('already registered') ||
-          error?.code === 'user_already_exists') {
+          error?.code === 'user_already_exists' ||
+          error?.message?.includes('duplicate key')) {
         toast.error(language === 'ko' ? '이미 가입된 이메일입니다' : 'This email is already registered');
+      } else if (error?.message?.includes('valid') || error?.message?.includes('Invalid')) {
+        toast.error(language === 'ko' ? '올바른 이메일 주소를 입력해주세요' : 'Please enter a valid email address');
       } else {
         const errorMessage = error?.message || (language === 'ko' ? '회원가입에 실패했습니다' : 'Registration failed');
         toast.error(errorMessage);
       }
-    } finally {
-      setLoading(false);
     }
   };
 
