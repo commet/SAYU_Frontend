@@ -68,6 +68,17 @@ export default function CommunityPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [exhibitionMatches, setExhibitionMatches] = useState<ExhibitionMatch[]>([]);
   const [loadingExhibitions, setLoadingExhibitions] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 모바일 체크
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -167,7 +178,7 @@ export default function CommunityPage() {
       LAEF: [
         {
           id: '1',
-          nickname: 'sohee.moment',
+          nickname: 'sj.moment',
           personalityType: 'SAEF',
           compatibility: 'perfect',
           compatibilityScore: 95,
@@ -2568,7 +2579,7 @@ export default function CommunityPage() {
                       <motion.div
                         key={match.id}
                         whileHover={{ scale: 1.02 }}
-                        className="bg-gradient-to-br from-black/75 to-black/65 backdrop-blur-md rounded-2xl p-3 border border-white/40 hover:from-black/80 hover:to-black/70 hover:border-white/60 transition-all duration-300 shadow-lg hover:shadow-xl"
+                        className="bg-gradient-to-br from-black/85 md:from-black/75 to-black/75 md:to-black/65 backdrop-blur-md rounded-2xl p-3 border border-white/40 hover:from-black/90 md:hover:from-black/80 hover:to-black/80 md:hover:to-black/70 hover:border-white/60 transition-all duration-300 shadow-lg hover:shadow-xl"
                       >
                       <div className="flex items-center gap-3 cursor-pointer" onClick={() => setSelectedMatch(match)}>
                         <div className="relative">
@@ -2603,13 +2614,13 @@ export default function CommunityPage() {
                               </span>
                             )}
                             {!isMutualLike && match.hasLikedMe && (
-                              <span className="text-xs bg-pink-600/80 text-white px-2 py-1 rounded-full border border-pink-400/50 backdrop-blur-sm drop-shadow-lg">
-                                {language === 'ko' ? '나를 좋아해요' : 'Likes you'} 💖
+                              <span className="text-[10px] bg-pink-600/80 text-white px-1.5 py-0.5 rounded-full border border-pink-400/50 backdrop-blur-sm drop-shadow-lg">
+                                {language === 'ko' ? '동행하고 싶어요' : 'Wants to join'} 💖
                               </span>
                             )}
-                            <span className="text-xs text-white drop-shadow-sm">· {match.lastActive}</span>
+                            <span style={{ color: isMobile ? '#FFFFFF' : '#E5E7EB', fontSize: '11px', fontWeight: '600' }}>· {match.lastActive}</span>
                           </div>
-                          <p className="text-sm text-gray-100 mb-2 leading-relaxed drop-shadow-md">
+                          <p style={{ color: isMobile ? '#FFFFFF' : '#F3F4F6', fontSize: '14px', marginBottom: '8px', fontWeight: '500' }}>
                             {matchAnimal?.animal_ko}({match.personalityType})
                             {chemistry ? ` - ${language === 'ko' ? chemistry.title_ko : chemistry.title}` : 
                              match.compatibility === 'perfect' ? ` - ${language === 'ko' ? '환상의 케미스트리' : 'Perfect Chemistry'}` :
@@ -2617,11 +2628,11 @@ export default function CommunityPage() {
                              match.compatibility === 'challenging' ? ` - ${language === 'ko' ? '흥미로운 대조' : 'Interesting Contrast'}` :
                              ` - ${language === 'ko' ? '새로운 관점' : 'New Perspectives'}`}
                           </p>
-                          <div className="flex gap-3 text-xs text-white drop-shadow-sm">
-                            {match.age && <span className="text-white">{match.age}{language === 'ko' ? '세' : ' years'}</span>}
-                            {match.distance && <span className="text-white">{match.distance}km</span>}
-                            <span className="text-white">{language === 'ko' ? `전시 ${match.exhibitions}회` : `${match.exhibitions} exhibitions`}</span>
-                            <span className="text-white">{language === 'ko' ? `작품 ${match.artworks}개` : `${match.artworks} artworks`}</span>
+                          <div className="flex gap-3" style={{ fontSize: '11px' }}>
+                            {match.age && <span style={{ color: isMobile ? '#FFFFFF' : '#E5E7EB', fontWeight: '600' }}>{match.age}{language === 'ko' ? '세' : ' years'}</span>}
+                            {match.distance && <span style={{ color: isMobile ? '#FFFFFF' : '#E5E7EB', fontWeight: '600' }}>{match.distance}km</span>}
+                            <span style={{ color: isMobile ? '#FFFFFF' : '#E5E7EB', fontWeight: '600' }}>{language === 'ko' ? `전시 ${match.exhibitions}회` : `${match.exhibitions} exhibitions`}</span>
+                            <span style={{ color: isMobile ? '#FFFFFF' : '#E5E7EB', fontWeight: '600' }}>{language === 'ko' ? `작품 ${match.artworks}개` : `${match.artworks} artworks`}</span>
                           </div>
                         </div>
                       </div>
@@ -3243,6 +3254,12 @@ export default function CommunityPage() {
   // Return both components with CSS-based hiding
   return (
     <>
+      <style jsx>{`
+        .force-white-text,
+        .force-white-text * {
+          color: #FFFFFF !important;
+        }
+      `}</style>
       <div className="block lg:hidden">
         <MobileCommunity />
       </div>

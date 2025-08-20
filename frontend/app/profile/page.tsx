@@ -514,15 +514,17 @@ export default function ProfilePage() {
                   const button = e.currentTarget;
                   button.style.opacity = '0.5';
                   
-                  router.push('/profile/art-profile').then(() => {
-                    console.log('✅ Navigation completed successfully');
-                  }).catch((error) => {
+                  // router.push doesn't return a promise in Next.js App Router
+                  try {
+                    router.push('/profile/art-profile');
+                    console.log('✅ Navigation initiated');
+                  } catch (error) {
                     console.error('❌ Navigation error:', error);
                     button.style.opacity = '1';
                     // Fallback to window.location
                     console.log('🔄 Trying fallback navigation...');
                     window.location.href = '/profile/art-profile';
-                  });
+                  }
                 }}
                 title={language === 'ko' ? 'AI 아트 프로필' : 'AI Art Profile'}
               >
@@ -625,10 +627,10 @@ export default function ProfilePage() {
           {activeTab === 'records' && (
             <div className="space-y-4">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">
+                <h2 className="text-xl font-bold text-white">
                   {language === 'ko' ? '전시 기록' : 'Exhibition Records'}
                 </h2>
-                <span className="text-sm opacity-70">
+                <span className="text-sm text-gray-300">
                   {mockVisits.length} {language === 'ko' ? '개의 기록' : 'records'}
                 </span>
               </div>

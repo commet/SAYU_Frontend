@@ -64,10 +64,10 @@ export default function BadgeSystem({ badges, userStats, onBadgeClick }: BadgeSy
       >
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-2xl font-bold">
+            <h2 className="text-2xl font-bold text-white">
               {language === 'ko' ? '레벨' : 'Level'} {userStats.level}
             </h2>
-            <p className="text-sm opacity-70">
+            <p className="text-sm text-gray-300">
               {userStats.totalPoints.toLocaleString()} {language === 'ko' ? '포인트' : 'points'}
             </p>
           </div>
@@ -83,7 +83,7 @@ export default function BadgeSystem({ badges, userStats, onBadgeClick }: BadgeSy
 
         {/* Level Progress */}
         <div className="mb-6">
-          <div className="flex justify-between text-sm mb-2">
+          <div className="flex justify-between text-sm mb-2 text-gray-200">
             <span>{language === 'ko' ? '경험치' : 'Experience'}</span>
             <span>{userStats.currentExp} / {userStats.nextLevelExp}</span>
           </div>
@@ -103,8 +103,8 @@ export default function BadgeSystem({ badges, userStats, onBadgeClick }: BadgeSy
             <div className="flex items-center justify-center mb-1">
               <Zap className="w-5 h-5 text-yellow-500" />
             </div>
-            <div className="text-lg font-bold">{userStats.visitStreak}</div>
-            <div className="text-xs opacity-70">
+            <div className="text-lg font-bold text-white">{userStats.visitStreak}</div>
+            <div className="text-xs text-gray-300">
               {language === 'ko' ? '연속 방문' : 'Day Streak'}
             </div>
           </div>
@@ -113,8 +113,8 @@ export default function BadgeSystem({ badges, userStats, onBadgeClick }: BadgeSy
             <div className="flex items-center justify-center mb-1">
               <MapPin className="w-5 h-5 text-green-500" />
             </div>
-            <div className="text-lg font-bold">{userStats.totalVisits}</div>
-            <div className="text-xs opacity-70">
+            <div className="text-lg font-bold text-white">{userStats.totalVisits}</div>
+            <div className="text-xs text-gray-300">
               {language === 'ko' ? '총 방문' : 'Total Visits'}
             </div>
           </div>
@@ -123,8 +123,8 @@ export default function BadgeSystem({ badges, userStats, onBadgeClick }: BadgeSy
             <div className="flex items-center justify-center mb-1">
               <Heart className="w-5 h-5 text-red-500" />
             </div>
-            <div className="text-lg font-bold">{userStats.totalArtworks}</div>
-            <div className="text-xs opacity-70">
+            <div className="text-lg font-bold text-white">{userStats.totalArtworks}</div>
+            <div className="text-xs text-gray-300">
               {language === 'ko' ? '좋아한 작품' : 'Liked Art'}
             </div>
           </div>
@@ -133,8 +133,8 @@ export default function BadgeSystem({ badges, userStats, onBadgeClick }: BadgeSy
             <div className="flex items-center justify-center mb-1">
               <Camera className="w-5 h-5 text-blue-500" />
             </div>
-            <div className="text-lg font-bold">{userStats.totalPhotos}</div>
-            <div className="text-xs opacity-70">
+            <div className="text-lg font-bold text-white">{userStats.totalPhotos}</div>
+            <div className="text-xs text-gray-300">
               {language === 'ko' ? '사진' : 'Photos'}
             </div>
           </div>
@@ -194,7 +194,7 @@ export default function BadgeSystem({ badges, userStats, onBadgeClick }: BadgeSy
             </div>
 
             {/* Badge Name */}
-            <h4 className="text-sm font-bold text-center mb-1">
+            <h4 className="text-sm font-bold text-center mb-1 text-white">
               {badge.name[language]}
             </h4>
 
@@ -207,7 +207,7 @@ export default function BadgeSystem({ badges, userStats, onBadgeClick }: BadgeSy
                     style={{ width: `${(badge.progress || 0) / badge.maxProgress * 100}%` }}
                   />
                 </div>
-                <p className="text-xs text-center mt-1 opacity-70">
+                <p className="text-xs text-center mt-1 text-gray-300">
                   {badge.progress || 0} / {badge.maxProgress}
                 </p>
               </div>
@@ -215,7 +215,7 @@ export default function BadgeSystem({ badges, userStats, onBadgeClick }: BadgeSy
 
             {/* Unlocked Date */}
             {badge.unlocked && badge.unlockedAt && (
-              <p className="text-xs text-center opacity-60 mt-1">
+              <p className="text-xs text-center text-gray-400 mt-1">
                 {new Date(badge.unlockedAt).toLocaleDateString(
                   language === 'ko' ? 'ko-KR' : 'en-US'
                 )}

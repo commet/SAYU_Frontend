@@ -217,8 +217,8 @@ export default function ArtProfileGenerator() {
             }
           </p>
           
-          {/* Credits Display and API Key Status */}
-          <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+          {/* Credits Display */}
+          <div className="mt-4 flex items-center justify-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 backdrop-blur-sm rounded-full border border-white/20">
               <Sparkles className="w-4 h-4 text-purple-400" />
               <span className="text-sm text-white">
@@ -228,28 +228,6 @@ export default function ArtProfileGenerator() {
                 }
               </span>
             </div>
-            
-            {/* AI Model Status */}
-            <button
-              onClick={() => setShowAPIGuide(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 backdrop-blur-sm rounded-full border border-yellow-500/30 transition-colors"
-            >
-              {process.env.NEXT_PUBLIC_HUGGINGFACE_API_KEY === 'hf_temporary_demo_key_replace_with_real_key' || !process.env.NEXT_PUBLIC_HUGGINGFACE_API_KEY ? (
-                <>
-                  <span className="w-2 h-2 bg-yellow-400 rounded-full"></span>
-                  <span className="text-sm text-yellow-200">
-                    {language === 'ko' ? '🔧 AI 모델 설정' : '🔧 Setup AI Models'}
-                  </span>
-                </>
-              ) : (
-                <>
-                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                  <span className="text-sm text-green-200">
-                    {language === 'ko' ? '✨ AI 모델 활성화됨' : '✨ AI Models Enabled'}
-                  </span>
-                </>
-              )}
-            </button>
           </div>
         </motion.div>
 

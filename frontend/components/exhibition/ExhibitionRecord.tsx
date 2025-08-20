@@ -63,8 +63,8 @@ export default function ExhibitionRecord({ visit, onEdit, onShare }: ExhibitionR
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <div className="flex-1">
-          <h3 className="text-xl font-bold mb-1">{visit.exhibitionTitle}</h3>
-          <p className="text-sm opacity-70 flex items-center gap-2">
+          <h3 className="text-xl font-bold mb-1 text-white">{visit.exhibitionTitle}</h3>
+          <p className="text-sm text-gray-300 flex items-center gap-2">
             <MapPin className="w-4 h-4" />
             {visit.museum}
           </p>
@@ -86,16 +86,16 @@ export default function ExhibitionRecord({ visit, onEdit, onShare }: ExhibitionR
 
       {/* Visit Info */}
       <div className="flex flex-wrap gap-4 mb-4 text-sm">
-        <div className="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full">
+        <div className="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-gray-200">
           <Calendar className="w-4 h-4" />
           {formatDate(visit.visitDate)}
         </div>
-        <div className="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full">
+        <div className="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-gray-200">
           <Clock className="w-4 h-4" />
           {formatDuration(visit.duration)}
         </div>
         {visit.photos && visit.photos.length > 0 && (
-          <div className="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full">
+          <div className="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-gray-200">
             <Camera className="w-4 h-4" />
             {visit.photos.length} {language === 'ko' ? '사진' : 'photos'}
           </div>
@@ -106,7 +106,7 @@ export default function ExhibitionRecord({ visit, onEdit, onShare }: ExhibitionR
       <div className="mb-4">
         <div className="flex items-center gap-2 mb-2">
           <Heart className="w-4 h-4 text-pink-500" />
-          <span className="text-sm font-medium">
+          <span className="text-sm font-medium text-gray-200">
             {language === 'ko' ? '좋아한 작품' : 'Liked Artworks'} 
             ({visit.artworks.filter(a => a.liked).length})
           </span>
@@ -118,12 +118,12 @@ export default function ExhibitionRecord({ visit, onEdit, onShare }: ExhibitionR
               className="flex-shrink-0 bg-white/10 px-3 py-2 rounded-lg text-xs"
               whileHover={{ scale: 1.05 }}
             >
-              <div className="font-medium truncate max-w-[150px]">{artwork.title}</div>
-              <div className="opacity-70">{artwork.artist}</div>
+              <div className="font-medium truncate max-w-[150px] text-white">{artwork.title}</div>
+              <div className="text-gray-300">{artwork.artist}</div>
             </motion.div>
           ))}
           {visit.artworks.filter(a => a.liked).length > 3 && (
-            <div className="flex-shrink-0 bg-white/10 px-3 py-2 rounded-lg text-xs flex items-center">
+            <div className="flex-shrink-0 bg-white/10 px-3 py-2 rounded-lg text-xs flex items-center text-gray-200">
               +{visit.artworks.filter(a => a.liked).length - 3} more
             </div>
           )}
@@ -189,10 +189,10 @@ export default function ExhibitionRecord({ visit, onEdit, onShare }: ExhibitionR
       >
         {visit.notes && (
           <div className="mt-4 p-4 bg-white/5 rounded-lg">
-            <h4 className="text-sm font-medium mb-2">
+            <h4 className="text-sm font-medium mb-2 text-gray-200">
               {language === 'ko' ? '메모' : 'Notes'}
             </h4>
-            <p className="text-sm opacity-80">{visit.notes}</p>
+            <p className="text-sm text-gray-300">{visit.notes}</p>
           </div>
         )}
       </motion.div>

@@ -537,13 +537,42 @@ function GalleryContent() {
     } else {
       // 로그인한 사용자 - 데이터베이스에 저장
       try {
+        // Get artwork data to send with the request
+        let artworkData = null;
+        if (isSaving) {
+          // Find artwork data from either recommended or gallery artworks
+          const foundArtwork = recommendedArtworks.find(artwork => artwork.id === artworkId) ||
+                              galleryArtworks.find(artwork => artwork.id === artworkId);
+          
+          if (foundArtwork) {
+            artworkData = {
+              title: foundArtwork.title,
+              artist: foundArtwork.artist,
+              year: foundArtwork.year,
+              imageUrl: foundArtwork.imageUrl || foundArtwork.image,
+              museum: foundArtwork.museum,
+              medium: foundArtwork.medium,
+              department: foundArtwork.department,
+              description: foundArtwork.description || foundArtwork.curatorNote,
+              curatorNote: foundArtwork.curatorNote,
+              matchPercent: foundArtwork.matchPercent,
+              isPublicDomain: foundArtwork.isPublicDomain,
+              license: foundArtwork.license,
+              style: foundArtwork.style,
+              fallbackUrl: foundArtwork.fallbackUrl
+            };
+            console.log('📊 Sending artwork data with save request:', artworkData);
+          }
+        }
+
         const response = await fetch('/api/gallery/collection', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             userId: user.id,
             artworkId: artworkId,
-            action: isSaving ? 'save' : 'remove'
+            action: isSaving ? 'save' : 'remove',
+            artworkData: artworkData
           })
         });
         

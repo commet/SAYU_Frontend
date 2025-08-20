@@ -25,9 +25,11 @@
     "@playwright/mcp": "^0.0.32",
     "@supabase/supabase-js": "^2.55.0",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
     "express": "^4.18.2",
     "express-rate-limit": "^7.1.0",
-    "pm2": "^6.0.6"
+    "pm2": "^6.0.6",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@railway/cli": "^4.5.3",

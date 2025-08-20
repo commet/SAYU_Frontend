@@ -80,7 +80,7 @@ export default function PersonalArtMap({ museums, userLocation, onMuseumClick }:
 
       {/* Layer Controls */}
       <div className="absolute top-4 left-4 z-20 sayu-liquid-glass rounded-xl p-3">
-        <h3 className="text-sm font-medium mb-2">
+        <h3 className="text-sm font-medium mb-2 text-white">
           {language === 'ko' ? '레이어' : 'Layers'}
         </h3>
         <div className="space-y-2">
@@ -92,7 +92,7 @@ export default function PersonalArtMap({ museums, userLocation, onMuseumClick }:
                 onChange={(e) => setShowLayers({ ...showLayers, [key]: e.target.checked })}
                 className="rounded"
               />
-              <span className="text-xs">
+              <span className="text-xs text-gray-200">
                 {key === 'visited' && (language === 'ko' ? '방문한 곳' : 'Visited')}
                 {key === 'wishlist' && (language === 'ko' ? '가고 싶은 곳' : 'Wishlist')}
                 {key === 'nearby' && (language === 'ko' ? '주변 미술관' : 'Nearby')}

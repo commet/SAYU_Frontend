@@ -962,3 +962,14 @@ html {
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
 }
+
+/* FORCE WHITE TEXT - Community Page Fix */
+.force-white-text,
+.force-white-text *,
+.force-white-text span,
+.force-white-text div,
+[data-white-text="true"],
+[data-white-text="true"] * {
+  color: #FFFFFF !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important;
+}
