@@ -12,12 +12,14 @@ const MobileProfile = dynamic(() => import('@/components/mobile/MobileProfile'),
   ssr: false
 });
 import { followAPI } from '@/lib/follow-api';
+import { profileApi } from '@/lib/profile-api';
 import { getPioneerProfile } from '@/lib/api/pioneer';
 import { PioneerBadge } from '@/components/ui/PioneerBadge';
 import PersonalArtMap from '@/components/artmap/PersonalArtMap';
 import ExhibitionRecord from '@/components/exhibition/ExhibitionRecord';
+import ExhibitionArchiveForm from '@/components/exhibition/ExhibitionArchiveForm';
 import BadgeSystem from '@/components/gamification/BadgeSystem';
-import { Trophy, MapPin, BookOpen, Settings, LogIn, Palette, Share2, Sparkles, User } from 'lucide-react';
+import { Trophy, MapPin, BookOpen, Settings, LogIn, Palette, Share2, Sparkles, User, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -31,6 +33,7 @@ import SocialLoginModal from '@/components/SocialLoginModal';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
 import { JourneySection } from '@/components/profile/JourneySection';
 import ShareModal from '@/components/share/ShareModal';
+import ProfileCompletion from '@/components/dashboard/ProfileCompletion';
 // import { useGamificationDashboard } from '@/hooks/useGamification';
 
 // Mock data - in real app, would fetch from API
@@ -177,6 +180,8 @@ export default function ProfilePage() {
   const [followStats, setFollowStats] = useState({ followerCount: 0, followingCount: 0 });
   const [artProfile, setArtProfile] = useState<any>(null);
   const [loadingArtProfile, setLoadingArtProfile] = useState(true);
+  const [showProfileCompletion, setShowProfileCompletion] = useState(false);
+  const [showArchiveForm, setShowArchiveForm] = useState(false);
   
   // Temporarily disabled due to API issues
   // const { dashboard } = useGamificationDashboard();
@@ -189,6 +194,44 @@ export default function ProfilePage() {
     setIsClient(true);
     setRenderMobile(isMobile);
   }, [isMobile]);
+  
+  // Check if profile is completed
+  useEffect(() => {
+    console.log('=== Profile Completion Check ===');
+    console.log('User:', user);
+    console.log('isMobile:', isMobile);
+    console.log('profile_completed_at:', user?.profile?.profile_completed_at);
+    console.log('localStorage profile_completed:', localStorage.getItem('profile_completed'));
+    console.log('localStorage profile_skipped:', localStorage.getItem('profile_skipped'));
+    
+    if (user) {  // Show on both desktop and mobile
+      const profileCompletedAt = user?.profile?.profile_completed_at;
+      const hasCompletedProfile = profileCompletedAt || localStorage.getItem('profile_completed') || localStorage.getItem('profile_skipped');
+      
+      console.log('hasCompletedProfile:', hasCompletedProfile);
+      
+      if (!hasCompletedProfile) {
+        console.log('>>> Showing ProfileCompletion');
+        setShowProfileCompletion(true);
+      } else {
+        console.log('>>> Not showing ProfileCompletion (already completed/skipped)');
+      }
+    } else {
+      console.log('>>> Not showing ProfileCompletion (no user)');
+    }
+  }, [user, isMobile]);
+  
+  // ESC key to close modal
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && showProfileCompletion) {
+        setShowProfileCompletion(false);
+      }
+    };
+    
+    document.addEventListener('keydown', handleEscKey);
+    return () => document.removeEventListener('keydown', handleEscKey);
+  }, [showProfileCompletion]);
   
   // Load quiz results from localStorage
   // 프로필 완성 모달 표시 로직 - All hooks must be declared before conditional returns
@@ -233,31 +276,46 @@ export default function ProfilePage() {
       console.log('New user with APT:', aptFromUrl);
       setUserPersonalityType(aptFromUrl);
       
-      // Save to localStorage for persistence
+      // Save to DB via API
       const quizData = {
         personalityType: aptFromUrl,
         scores: {},
         responses: [],
         completedAt: new Date().toISOString()
       };
-      localStorage.setItem('quizResults', JSON.stringify(quizData));
       
       // Clean up URL
       window.history.replaceState({}, '', '/profile');
       
-      // Optionally sync to backend
+      // Sync to backend
       import('@/lib/quiz-api').then(({ saveQuizResultsWithSync }) => {
         saveQuizResultsWithSync(quizData).catch(console.error);
       });
+    } else if (user?.personalityType) {
+      // Use personality type from user object (loaded from DB)
+      console.log('Profile - Using personality type from DB:', user.personalityType);
+      setUserPersonalityType(user.personalityType);
     } else {
-      // Check localStorage for existing quiz results
+      // Fallback to localStorage for backward compatibility
       const quizResults = localStorage.getItem('quizResults');
       if (quizResults) {
-        const results = JSON.parse(quizResults);
-        setUserPersonalityType(results.personalityType);
+        try {
+          const results = JSON.parse(quizResults);
+          setUserPersonalityType(results.personalityType);
+          console.log('Profile - Using personality type from localStorage:', results.personalityType);
+          
+          // Migrate to DB if user is logged in
+          if (user?.id) {
+            import('@/lib/quiz-api').then(({ saveQuizResultsWithSync }) => {
+              saveQuizResultsWithSync(results).catch(console.error);
+            });
+          }
+        } catch (e) {
+          console.error('Error parsing quiz results:', e);
+        }
       }
     }
-  }, []);
+  }, [user]);
 
   // Load pioneer profile if user is authenticated
   useEffect(() => {
@@ -411,6 +469,30 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen sayu-gradient-bg p-4">
       <div className="max-w-7xl mx-auto">
+        {/* Profile Completion Modal */}
+        {showProfileCompletion && (
+          <div 
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setShowProfileCompletion(false)}
+          >
+            <div 
+              className="bg-gray-900/95 backdrop-blur-md rounded-2xl border border-gray-700 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ProfileCompletion
+                onComplete={() => {
+                  setShowProfileCompletion(false);
+                  localStorage.setItem('profile_completed', 'true');
+                }}
+                onSkip={() => {
+                  setShowProfileCompletion(false);
+                  localStorage.setItem('profile_skipped', 'true');
+                }}
+              />
+            </div>
+          </div>
+        )}
+        
         {/* Profile Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -449,24 +531,25 @@ export default function ProfilePage() {
                   <h1 className="text-2xl font-bold text-white">{user?.nickname || user?.auth?.email || 'Anonymous'}</h1>
                   
                   {/* Personality Type Badge - Inline with name */}
-                  {userPersonalityType && personalityDescriptions[userPersonalityType] && (
+                  {userPersonalityType && (
                     <motion.div
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                      className="inline-flex"
+                      className="inline-flex ml-0 sm:ml-2 mt-2 sm:mt-0"
                     >
                       <div 
-                        className="px-3 py-1 rounded-full text-sm font-bold inline-flex items-center gap-1.5 shadow-lg"
+                        className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-sm sm:text-base font-bold inline-flex items-center gap-1.5 sm:gap-2 shadow-xl transform hover:scale-105 transition-transform"
                         style={{ 
-                          background: getGradientStyle(userPersonalityType as keyof typeof personalityGradients),
+                          background: getGradientStyle(userPersonalityType as keyof typeof personalityGradients) || 
+                                     'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                           color: 'white',
-                          textShadow: '0 1px 2px rgba(0,0,0,0.2)',
-                          boxShadow: '0 2px 10px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)'
+                          textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                          boxShadow: '0 4px 20px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.3)'
                         }}
                       >
-                        <Palette className="w-3.5 h-3.5" />
-                        {userPersonalityType}
+                        <Palette className="w-4 h-4" />
+                        <span className="tracking-wider">{userPersonalityType}</span>
                       </div>
                     </motion.div>
                   )}
@@ -482,10 +565,14 @@ export default function ProfilePage() {
                 </div>
                 
                 {/* Personality Description - Subtitle */}
-                {userPersonalityType && personalityDescriptions[userPersonalityType] && (
-                  <div className="mt-2 flex items-center gap-2 flex-wrap">
-                    <span className="text-sm text-gray-300">
-                      {personalityGradients[userPersonalityType as keyof typeof personalityGradients]?.name || personalityDescriptions[userPersonalityType].title}
+                {userPersonalityType && (
+                  <div className="mt-3 flex items-center gap-2 flex-wrap">
+                    <span 
+                      className="text-base font-medium bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+                    >
+                      {personalityGradients[userPersonalityType as keyof typeof personalityGradients]?.name || 
+                       personalityDescriptions[userPersonalityType]?.title || 
+                       '창의적인 예술 탐험가'}
                     </span>
                     {artProfile?.style && (
                       <>
@@ -626,13 +713,24 @@ export default function ProfilePage() {
 
           {activeTab === 'records' && (
             <div className="space-y-4">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-white">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6">
+                <h2 className="text-lg sm:text-xl font-bold text-white">
                   {language === 'ko' ? '전시 기록' : 'Exhibition Records'}
                 </h2>
-                <span className="text-sm text-gray-300">
-                  {mockVisits.length} {language === 'ko' ? '개의 기록' : 'records'}
-                </span>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+                  <span className="text-sm text-gray-300 text-center sm:text-left">
+                    {mockVisits.length} {language === 'ko' ? '개의 기록' : 'records'}
+                  </span>
+                  <motion.button
+                    onClick={() => setShowArchiveForm(true)}
+                    className="flex items-center justify-center gap-2 px-4 py-3 sm:py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-xl text-white font-medium transition-all shadow-lg"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Plus className="w-4 h-4" />
+                    {language === 'ko' ? '새 기록 작성' : 'Create New Record'}
+                  </motion.button>
+                </div>
               </div>
               
               {mockVisits.map((visit) => (
@@ -754,6 +852,44 @@ export default function ProfilePage() {
           }}
         />
       )}
+
+      {/* Exhibition Archive Form Modal */}
+      <ExhibitionArchiveForm
+        isOpen={showArchiveForm}
+        onClose={() => setShowArchiveForm(false)}
+        onSave={async (data) => {
+          try {
+            // Convert data to match API interface
+            const exhibitionData = {
+              exhibitionId: Date.now().toString(), // Generate temporary ID
+              exhibitionTitle: data.exhibitionTitle,
+              museum: data.museum,
+              visitDate: data.visitDate,
+              duration: data.duration,
+              rating: data.rating,
+              notes: data.notes,
+              artworks: data.artworks,
+              points: Math.floor(data.duration / 10) + (data.rating * 20), // Calculate points based on duration and rating
+              badges: [], // Will be calculated by backend
+              photos: data.photos > 0 ? [`photo_${Date.now()}_${Math.random()}`] : [] // Mock photo IDs
+            };
+
+            console.log('Saving exhibition record:', exhibitionData);
+            
+            // Save to backend
+            await profileApi.createExhibitionVisit(exhibitionData);
+            
+            // TODO: Refresh the visit list
+            console.log('Exhibition record saved successfully!');
+            
+            setShowArchiveForm(false);
+          } catch (error) {
+            console.error('Failed to save exhibition record:', error);
+            // TODO: Show user-friendly error message
+            alert(language === 'ko' ? '저장에 실패했습니다. 다시 시도해주세요.' : 'Failed to save. Please try again.');
+          }
+        }}
+      />
 
       {/* Fixed Feedback Button */}
       <FeedbackButton

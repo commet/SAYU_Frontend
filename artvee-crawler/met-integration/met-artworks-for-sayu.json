@@ -1,0 +1,86 @@
+{
+  "integrationDate": "2025-08-21T18:05:16.677Z",
+  "totalArtworks": 2,
+  "artworks": [
+    {
+      "id": "met-chicago-205641",
+      "title": "Scapin",
+      "artist": "Bow Porcelain Factory",
+      "year": 1750,
+      "medium": "Soft-paste porcelain",
+      "dimensions": "Height: 4 3/4 in. (12.1 cm)",
+      "description": "Scapin",
+      "source": "Metropolitan Museum of Art",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/205641",
+      "isPublicDomain": true,
+      "full": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752840033/sayu/met-artworks/met-chicago-205641.jpg",
+        "width": null,
+        "height": null
+      },
+      "sayuType": "SAEF",
+      "suggestedAptTypes": [
+        "SAEF",
+        "SREF",
+        "LAEF"
+      ],
+      "metObjectId": 205641,
+      "department": "European Sculpture and Decorative Arts",
+      "classification": "Ceramics-Porcelain",
+      "culture": "",
+      "period": "",
+      "creditLine": "Bequest of Irwin Untermyer, 1973",
+      "accessionNumber": "1974.28.138",
+      "tags": [
+        "Masks",
+        "Men"
+      ],
+      "fileSize": "0.18MB",
+      "createdAt": "2025-08-21T18:05:16.675Z",
+      "updatedAt": "2025-08-21T18:05:16.676Z",
+      "isActive": true
+    },
+    {
+      "id": "met-chicago-57854",
+      "title": "The Mrawing manual: The Evergreens (Ehon Tokiwagusa) 絵本常盤草",
+      "artist": "Nishikawa Sukenobu 西川祐信",
+      "year": 1731,
+      "medium": "One volume, black and white, twenty-five double-page sheets; ink on paper",
+      "dimensions": "Overall: 10 1/4 x 6 1/2in. (26 x 16.5cm)",
+      "description": "The Mrawing manual: The Evergreens (Ehon Tokiwagusa) 絵本常盤草",
+      "source": "Metropolitan Museum of Art",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/57854",
+      "isPublicDomain": true,
+      "full": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1752840033/sayu/met-artworks/met-chicago-57854.jpg",
+        "width": null,
+        "height": null
+      },
+      "sayuType": "SAEF",
+      "suggestedAptTypes": [
+        "SAEF",
+        "LAEF",
+        "SREF"
+      ],
+      "metObjectId": 57854,
+      "department": "Asian Art",
+      "classification": "Illustrated Books",
+      "culture": "Japan",
+      "period": "Edo period (1615–1868)",
+      "creditLine": "Gift of Mrs. Henry J. Bernheim, 1945",
+      "accessionNumber": "JIB163",
+      "tags": [
+        "Women"
+      ],
+      "fileSize": "0.20MB",
+      "createdAt": "2025-08-21T18:05:16.676Z",
+      "updatedAt": "2025-08-21T18:05:16.676Z",
+      "isActive": true
+    }
+  ],
+  "sourceInfo": {
+    "discoveryMethod": "User-suggested IDs + systematic scanning",
+    "cloudinaryPattern": "met-chicago-{objectId}.jpg",
+    "metApiSource": "https://collectionapi.metmuseum.org/public/collection/v1/objects/{objectId}"
+  }
+}

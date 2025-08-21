@@ -28,4 +28,8 @@ export interface AuthUser {
   typeCode: string | null;
   archetypeName: string | null;
   token?: string;  // JWT token for API authentication
+  // 퀴즈 관련 필드
+  personalityType?: string;  // APT 성격 유형 (예: LAEF, SREF)
+  quizCompleted?: boolean;   // 퀴즈 완료 여부
+  aptType?: string;          // APT 타입 (personalityType과 동일, 호환성용)
 }

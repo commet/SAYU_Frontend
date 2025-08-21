@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -58,6 +58,18 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
     viewingStyles: [] as string[]
   });
 
+  console.log('=== ProfileCompletion Component Rendered ===');
+  console.log('User in ProfileCompletion:', user);
+  console.log('FormData:', formData);
+  
+  // Add visual indicator for debugging
+  useEffect(() => {
+    console.log('🎨 ProfileCompletion MOUNTED - Component is visible!');
+    return () => {
+      console.log('🎨 ProfileCompletion UNMOUNTED');
+    };
+  }, []);
+
   const handleViewingStyleChange = (styleId: string, checked: boolean) => {
     setFormData(prev => ({
       ...prev,
@@ -68,6 +80,9 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
   };
 
   const handleSubmit = async () => {
+    console.log('=== Profile Completion Submit ===');
+    console.log('FormData at submit:', formData);
+    
     setLoading(true);
     try {
       const completionData = {
@@ -79,25 +94,38 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
         profile_completion_version: 1
       };
       
+      console.log('CompletionData to save:', completionData);
+      
       // Try to use new columns first, fallback to bio field
       try {
-        await updateProfile({
+        console.log('🔄 Attempting to save with new columns...');
+        const profileUpdate = {
           gender: completionData.gender,
           age_group: completionData.age_group,
           region: completionData.region,
           viewing_styles: completionData.viewing_styles,
           profile_completed_at: completionData.profile_completed_at,
           profile_completion_version: completionData.profile_completion_version
-        });
+        };
+        console.log('Profile update data:', profileUpdate);
+        
+        await updateProfile(profileUpdate);
+        console.log('✅ Successfully saved with new columns');
       } catch (dbError: any) {
+        console.log('❌ Error with new columns:', dbError.message);
         // If new columns don't exist, store in bio field temporarily
         if (dbError.message?.includes('column') || dbError.message?.includes('does not exist')) {
-          console.log('New columns not available, storing in bio field');
-          await updateProfile({
+          console.log('🔄 Falling back to bio field storage...');
+          const bioUpdate = {
             bio: JSON.stringify(completionData),
             updated_at: new Date().toISOString()
-          });
+          };
+          console.log('Bio update data:', bioUpdate);
+          
+          await updateProfile(bioUpdate);
+          console.log('✅ Successfully saved to bio field');
         } else {
+          console.error('❌ Unexpected error:', dbError);
           throw dbError;
         }
       }
@@ -116,19 +144,24 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="mb-8"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="relative"
     >
-      <Card className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-200 dark:border-purple-800">
+      {/* Debug indicator - remove in production */}
+      <div className="absolute -top-2 -left-2 bg-red-500 text-white text-xs px-2 py-1 rounded z-50 animate-pulse">
+        ProfileCompletion Active
+      </div>
+      
+      <Card className="bg-transparent border-0 shadow-none">
         <CardHeader className="pb-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
                 <User className="w-5 h-5 text-white" />
               </div>
               <div>
-                <CardTitle className="text-lg">
+                <CardTitle className="text-base sm:text-lg">
                   {personalityType ? `${animalType} 성향` : '당신'}에게 맞는 프로필 완성하기
                 </CardTitle>
                 <p className="text-sm text-muted-foreground">
@@ -147,37 +180,36 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
           </div>
         </CardHeader>
 
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-4 sm:space-y-6">
           {/* Benefits Section */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="flex items-center gap-2 text-sm">
-              <MapPin className="w-4 h-4 text-purple-500" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
+            <div className="flex items-center gap-2 text-xs sm:text-sm">
+              <MapPin className="w-4 h-4 text-purple-500 flex-shrink-0" />
               <span>지역 맞춤 전시 추천</span>
             </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Users className="w-4 h-4 text-pink-500" />
+            <div className="flex items-center gap-2 text-xs sm:text-sm">
+              <Users className="w-4 h-4 text-pink-500 flex-shrink-0" />
               <span>취향 맞는 사용자 매칭</span>
             </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Sparkles className="w-4 h-4 text-yellow-500" />
+            <div className="flex items-center gap-2 text-xs sm:text-sm col-span-1 sm:col-span-2 md:col-span-1">
+              <Sparkles className="w-4 h-4 text-white flex-shrink-0" />
               <span>AI 개인화 추천 강화</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {/* Required: Gender */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium flex items-center gap-1">
+              <Label className="text-sm font-medium flex items-center gap-1 text-white">
                 성별 <span className="text-red-500">*</span>
               </Label>
               <Select value={formData.gender} onValueChange={(value) => setFormData(prev => ({ ...prev, gender: value }))}>
-                <SelectTrigger>
+                <SelectTrigger className="text-black">
                   <SelectValue placeholder="성별을 선택해주세요" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="male">남성</SelectItem>
                   <SelectItem value="female">여성</SelectItem>
-                  <SelectItem value="non_binary">논바이너리</SelectItem>
                   <SelectItem value="prefer_not_to_say">선택하지 않음</SelectItem>
                 </SelectContent>
               </Select>
@@ -185,9 +217,9 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
 
             {/* Optional: Age Group */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium">연령대 (선택)</Label>
+              <Label className="text-sm font-medium text-white">연령대 (선택)</Label>
               <Select value={formData.ageGroup} onValueChange={(value) => setFormData(prev => ({ ...prev, ageGroup: value }))}>
-                <SelectTrigger>
+                <SelectTrigger className="text-black">
                   <SelectValue placeholder="연령대를 선택해주세요" />
                 </SelectTrigger>
                 <SelectContent>
@@ -204,9 +236,9 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
 
             {/* Optional: Region */}
             <div className="space-y-2 md:col-span-2">
-              <Label className="text-sm font-medium">지역 (선택)</Label>
+              <Label className="text-sm font-medium text-white">지역 (선택)</Label>
               <Select value={formData.region} onValueChange={(value) => setFormData(prev => ({ ...prev, region: value }))}>
-                <SelectTrigger>
+                <SelectTrigger className="text-black">
                   <SelectValue placeholder="거주 지역을 선택해주세요" />
                 </SelectTrigger>
                 <SelectContent>
@@ -222,7 +254,7 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
 
           {/* Optional: Viewing Styles */}
           <div className="space-y-3">
-            <Label className="text-sm font-medium">나의 감상 스타일 (선택)</Label>
+            <Label className="text-sm font-medium text-white">나의 감상 스타일 (선택)</Label>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {VIEWING_STYLES.map(style => (
                 <div key={style.id} className="flex items-start space-x-3">
@@ -233,7 +265,7 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
                     className="mt-1"
                   />
                   <div className="flex-1">
-                    <Label htmlFor={style.id} className="text-sm font-medium cursor-pointer">
+                    <Label htmlFor={style.id} className="text-sm font-medium cursor-pointer text-white">
                       {style.label}
                     </Label>
                     <p className="text-xs text-muted-foreground">{style.description}</p>
@@ -244,24 +276,25 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-between pt-4 border-t">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="flex flex-col sm:flex-row items-center justify-between pt-4 border-t gap-4 sm:gap-0">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
               <Clock className="w-4 h-4" />
               <span>약 30초 소요</span>
             </div>
             
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 w-full sm:w-auto">
               <Button 
                 variant="outline" 
                 onClick={onSkip}
                 disabled={loading}
+                className="flex-1 sm:flex-none text-white border-gray-600 hover:border-gray-500 hover:text-white"
               >
                 나중에 하기
               </Button>
               <Button 
                 onClick={handleSubmit}
                 disabled={!formData.gender || loading}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 flex-1 sm:flex-none text-white"
               >
                 {loading ? (
                   <motion.div

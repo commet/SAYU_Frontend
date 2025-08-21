@@ -74,20 +74,12 @@ export default function DashboardPage() {
       if (!useRealTimeStats) {
         console.log('🎯 Using mock dashboard data (feature flag disabled)');
         setDashboardStats({
-          artworksViewed: 127,
-          artistsDiscovered: 43,
-          exhibitionsVisited: 8,
-          savedArtworks: 24,
-          recentActivities: [
-            { type: 'view', title: '모네의 수련', timeAgo: '2시간 전' },
-            { type: 'visit', title: '국립현대미술관 방문', timeAgo: '어제' },
-            { type: 'save', title: '칸딘스키 작품 저장', timeAgo: '3일 전' }
-          ],
-          trendingArtists: [
-            { name: '클로드 모네', change: '↑ 12%' },
-            { name: '빈센트 반 고흐', change: '↑ 8%' },
-            { name: '칸딘스키', change: '—' }
-          ]
+          artworksViewed: 0,
+          artistsDiscovered: 0,
+          exhibitionsVisited: 0,
+          savedArtworks: 0,
+          recentActivities: [],
+          trendingArtists: []
         });
         setStatsLoading(false);
         return;
@@ -109,20 +101,12 @@ export default function DashboardPage() {
       } catch (error) {
         console.error('Failed to fetch dashboard stats:', error);
         setDashboardStats({
-          artworksViewed: 127,
-          artistsDiscovered: 43,
-          exhibitionsVisited: 8,
-          savedArtworks: 24,
-          recentActivities: [
-            { type: 'view', title: '모네의 수련', timeAgo: '2시간 전' },
-            { type: 'visit', title: '국립현대미술관 방문', timeAgo: '어제' },
-            { type: 'save', title: '칸딘스키 작품 저장', timeAgo: '3일 전' }
-          ],
-          trendingArtists: [
-            { name: '클로드 모네', change: '↑ 12%' },
-            { name: '빈센트 반 고흐', change: '↑ 8%' },
-            { name: '칸딘스키', change: '—' }
-          ]
+          artworksViewed: 0,
+          artistsDiscovered: 0,
+          exhibitionsVisited: 0,
+          savedArtworks: 0,
+          recentActivities: [],
+          trendingArtists: []
         });
       } finally {
         setStatsLoading(false);
@@ -153,9 +137,9 @@ export default function DashboardPage() {
   const greeting = currentTime.getHours() < 12 ? '좋은 아침이에요' : 
                   currentTime.getHours() < 18 ? '좋은 오후에요' : '좋은 저녁이에요';
 
-  // Mock data - 실제로는 API에서 가져올 데이터
-  const hasCompletedQuiz = false; // user.profile?.personality_type
-  const personalityType = null; // user.profile?.personality_type
+  // Get quiz status and personality type from user object (DB)
+  const hasCompletedQuiz = user?.quizCompleted || !!user?.personalityType;
+  const personalityType = user?.personalityType || user?.aptType;
   
   // Get random artworks for recommendations
   const randomArtworks = artworks.length > 0 
@@ -185,10 +169,10 @@ export default function DashboardPage() {
 
   // Use real stats from API, fallback to defaults if not loaded yet
   const journeyStats = dashboardStats || {
-    artworksViewed: 127,
-    artistsDiscovered: 43,
-    exhibitionsVisited: 8,
-    savedArtworks: 24,
+    artworksViewed: 0,
+    artistsDiscovered: 0,
+    exhibitionsVisited: 0,
+    savedArtworks: 0,
     recentActivities: [],
     trendingArtists: []
   };

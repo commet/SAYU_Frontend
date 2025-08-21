@@ -1,0 +1,45 @@
+{
+  "testDate": "2025-08-21T17:51:07.355Z",
+  "totalTested": 79,
+  "successCount": 0,
+  "successRate": 0,
+  "discoveredArtworks": [],
+  "knownMetadata": {
+    "205639": {
+      "title": "Covered vase (one of a pair)",
+      "artist": "Worcester factory",
+      "department": "European Sculpture and Decorative Arts",
+      "classification": "Ceramics-Porcelain",
+      "date": "ca. 1765"
+    },
+    "205640": {
+      "title": "An urn overflowing with fruit and flowers",
+      "artist": "Derby Porcelain Manufactory",
+      "department": "European Sculpture and Decorative Arts",
+      "classification": "Ceramics-Porcelain",
+      "date": "ca. 1825"
+    },
+    "205641": {
+      "title": "Scapin",
+      "artist": "Bow Porcelain Factory",
+      "department": "European Sculpture and Decorative Arts",
+      "classification": "Ceramics-Porcelain",
+      "date": "1750–55"
+    },
+    "205642": {
+      "title": "Virgin and Child",
+      "artist": "Chelsea Porcelain Manufactory",
+      "department": "European Sculpture and Decorative Arts",
+      "classification": "Ceramics-Porcelain",
+      "date": "ca. 1755"
+    },
+    "205643": {
+      "title": "William Augustus, Duke of Cumberland",
+      "artist": "Chelsea Porcelain Manufactory",
+      "department": "European Sculpture and Decorative Arts",
+      "classification": "Ceramics-Porcelain",
+      "date": "ca. 1749–52"
+    }
+  },
+  "patterns": []
+}

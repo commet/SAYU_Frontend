@@ -1,0 +1,32 @@
+{
+  "deploymentDate": "2025-08-21T17:21:02.361Z",
+  "totalArtworks": 773,
+  "qualityRate": "100%",
+  "resolvedIssues": [
+    "LRMF image loading",
+    "Broken URLs",
+    "Invalid artworks"
+  ],
+  "aptTypeDistribution": {
+    "LAEF": 78,
+    "LAEC": 70,
+    "LAMF": 36,
+    "LAMC": 46,
+    "LREF": 70,
+    "LREC": 60,
+    "LRMF": 46,
+    "LRMC": 55,
+    "SAEF": 40,
+    "SAEC": 52,
+    "SAMF": 30,
+    "SREF": 47,
+    "SREC": 40,
+    "SRMF": 55,
+    "SRMC": 48
+  },
+  "nextSteps": [
+    "Add MET collection (3,715 artworks)",
+    "Add artvee-complete collection (874 artworks)",
+    "Improve APT type recommendations"
+  ]
+}

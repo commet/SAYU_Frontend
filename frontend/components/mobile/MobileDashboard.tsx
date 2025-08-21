@@ -65,12 +65,12 @@ export default function MobileDashboard() {
       } catch (error) {
         console.error('Failed to fetch mobile dashboard stats:', error);
         setDashboardStats({
-          artworksViewed: 127,
-          artistsDiscovered: 43,
-          exhibitionsVisited: 8,
-          savedArtworks: 24,
-          newExhibitions: 3,
-          communityUpdates: 5
+          artworksViewed: 0,
+          artistsDiscovered: 0,
+          exhibitionsVisited: 0,
+          savedArtworks: 0,
+          newExhibitions: 0,
+          communityUpdates: 0
         });
       } finally {
         setStatsLoading(false);
@@ -131,14 +131,14 @@ export default function MobileDashboard() {
   }
 
   const journeyStats = dashboardStats || {
-    artworksViewed: 127,
-    artistsDiscovered: 43,
-    exhibitionsVisited: 8,
-    daysActive: 15,
-    savedArtworks: 24,
-    likedArtworks: 87,
-    newExhibitions: 3,
-    communityUpdates: 5
+    artworksViewed: 0,
+    artistsDiscovered: 0,
+    exhibitionsVisited: 0,
+    daysActive: 0,
+    savedArtworks: 0,
+    likedArtworks: 0,
+    newExhibitions: 0,
+    communityUpdates: 0
   };
   
   const showStatsLoading = statsLoading && !dashboardStats;

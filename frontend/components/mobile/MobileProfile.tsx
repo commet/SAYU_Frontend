@@ -8,11 +8,13 @@ import { useRouter } from 'next/navigation';
 import { 
   Trophy, MapPin, BookOpen, Settings, LogIn, Palette, Share2, Sparkles, 
   User, Heart, Eye, Camera, Calendar, Clock, TrendingUp, Award, ChevronRight,
-  Grid, List, MoreVertical, Edit, LogOut
+  Grid, List, MoreVertical, Edit, LogOut, Plus
 } from 'lucide-react';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { personalityGradients, getGradientStyle } from '@/constants/personality-gradients';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
+import ExhibitionArchiveForm from '@/components/exhibition/ExhibitionArchiveForm';
+import { profileApi } from '@/lib/profile-api';
 import Image from 'next/image';
 import { JourneySection } from '@/components/profile/JourneySection';
 
@@ -127,6 +129,7 @@ export default function MobileProfile() {
   const [activeTab, setActiveTab] = useState<'overview' | 'journey' | 'badges'>('overview');
   const [userPersonalityType, setUserPersonalityType] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [showArchiveForm, setShowArchiveForm] = useState(false);
   const [artProfile, setArtProfile] = useState<any>({
     imageUrl: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=400&h=400&fit=crop',
     style: 'Digital Art Portrait'
@@ -505,22 +508,31 @@ export default function MobileProfile() {
               exit={{ opacity: 0, x: 20 }}
               className="space-y-4"
             >
-              {/* View Mode Toggle */}
+              {/* Header with Add Button */}
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-white">전시 기록</h3>
-                <div className="flex gap-1 bg-black/20 rounded-lg p-1">
+                <div className="flex items-center gap-2">
                   <button
-                    onClick={() => setViewMode('grid')}
-                    className={`p-1.5 rounded ${viewMode === 'grid' ? 'bg-white/20' : ''}`}
+                    onClick={() => setShowArchiveForm(true)}
+                    className="flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg text-white text-xs font-medium"
                   >
-                    <Grid className="w-4 h-4 text-white" />
+                    <Plus className="w-3 h-3" />
+                    기록
                   </button>
-                  <button
-                    onClick={() => setViewMode('list')}
-                    className={`p-1.5 rounded ${viewMode === 'list' ? 'bg-white/20' : ''}`}
-                  >
-                    <List className="w-4 h-4 text-white" />
-                  </button>
+                  <div className="flex gap-1 bg-black/20 rounded-lg p-1">
+                    <button
+                      onClick={() => setViewMode('grid')}
+                      className={`p-1.5 rounded ${viewMode === 'grid' ? 'bg-white/20' : ''}`}
+                    >
+                      <Grid className="w-4 h-4 text-white" />
+                    </button>
+                    <button
+                      onClick={() => setViewMode('list')}
+                      className={`p-1.5 rounded ${viewMode === 'list' ? 'bg-white/20' : ''}`}
+                    >
+                      <List className="w-4 h-4 text-white" />
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -667,6 +679,41 @@ export default function MobileProfile() {
       <div className="mt-6 px-4 pb-20">
         <JourneySection />
       </div>
+
+      {/* Exhibition Archive Form Modal */}
+      <ExhibitionArchiveForm
+        isOpen={showArchiveForm}
+        onClose={() => setShowArchiveForm(false)}
+        onSave={async (data) => {
+          try {
+            // Convert data to match API interface
+            const exhibitionData = {
+              exhibitionId: Date.now().toString(),
+              exhibitionTitle: data.exhibitionTitle,
+              museum: data.museum,
+              visitDate: data.visitDate,
+              duration: data.duration,
+              rating: data.rating,
+              notes: data.notes,
+              artworks: data.artworks,
+              points: Math.floor(data.duration / 10) + (data.rating * 20),
+              badges: [],
+              photos: data.photos > 0 ? [`photo_${Date.now()}_${Math.random()}`] : []
+            };
+
+            console.log('Saving exhibition record (mobile):', exhibitionData);
+            
+            // Save to backend
+            await profileApi.createExhibitionVisit(exhibitionData);
+            
+            console.log('Exhibition record saved successfully!');
+            setShowArchiveForm(false);
+          } catch (error) {
+            console.error('Failed to save exhibition record:', error);
+            alert(language === 'ko' ? '저장에 실패했습니다. 다시 시도해주세요.' : 'Failed to save. Please try again.');
+          }
+        }}
+      />
 
       {/* Feedback Button */}
       <FeedbackButton

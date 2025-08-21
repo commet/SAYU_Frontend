@@ -137,6 +137,10 @@ export const personalityGradients: Record<SAYUTypeCode, {
 // 그라데이션 CSS 생성 헬퍼
 export const getGradientStyle = (type: SAYUTypeCode, angle = 135) => {
   const gradient = personalityGradients[type];
+  if (!gradient || !gradient.colors) {
+    // Fallback gradient if type is not found
+    return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+  }
   return `linear-gradient(${angle}deg, ${gradient.colors.join(', ')})`;
 };
 

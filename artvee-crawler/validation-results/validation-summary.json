@@ -1,0 +1,69 @@
+{
+  "validationDate": "2025-08-21T17:19:51.560Z",
+  "totalArtworks": 906,
+  "validArtworks": 773,
+  "invalidArtworks": 133,
+  "successRate": 85,
+  "invalidSamples": [
+    {
+      "key": "bonneville-savoy",
+      "url": "N/A",
+      "urlType": "missing",
+      "response": "No valid URL found"
+    },
+    {
+      "key": "fluelen-from-the-lake-of-lucerne",
+      "url": "N/A",
+      "urlType": "missing",
+      "response": "No valid URL found"
+    },
+    {
+      "key": "the-annunciation-100",
+      "url": "N/A",
+      "urlType": "missing",
+      "response": "No valid URL found"
+    },
+    {
+      "key": "judith-beheading-holofernes-2",
+      "url": "N/A",
+      "urlType": "missing",
+      "response": "No valid URL found"
+    },
+    {
+      "key": "rest-on-the-flight-into-egypt-16",
+      "url": "N/A",
+      "urlType": "missing",
+      "response": "No valid URL found"
+    },
+    {
+      "key": "saint-catherine-of-alexandria-8",
+      "url": "N/A",
+      "urlType": "missing",
+      "response": "No valid URL found"
+    },
+    {
+      "key": "madonna-surrounded-by-saint-george-saint-donatianus-of-reims-and-the-donor-canon-van-der-paele",
+      "url": "N/A",
+      "urlType": "missing",
+      "response": "No valid URL found"
+    },
+    {
+      "key": "madonna-at-the-fountain",
+      "url": "N/A",
+      "urlType": "missing",
+      "response": "No valid URL found"
+    },
+    {
+      "key": "holy-hermits-and-holy-pilgrims",
+      "url": "N/A",
+      "urlType": "missing",
+      "response": "No valid URL found"
+    },
+    {
+      "key": "the-first-mourning",
+      "url": "N/A",
+      "urlType": "missing",
+      "response": "No valid URL found"
+    }
+  ]
+}

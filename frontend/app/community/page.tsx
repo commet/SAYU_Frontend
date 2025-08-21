@@ -98,50 +98,165 @@ export default function CommunityPage() {
           const data = await response.json();
           const exhibitions = data.data || data.exhibitions || [];
           
-          // Find specific exhibitions: 리움 이불전 and 르누아르전
+          console.log('Found exhibitions:', exhibitions.length);
+          
+          // Find specific exhibitions
           const targetExhibitions: ExhibitionMatch[] = [];
           
-          // Look for 리움 이불 전시
-          const leebulExhibition = exhibitions.find((ex: any) => 
-            (ex.title?.includes('이불') || ex.title?.includes('LEE BUL')) && 
-            (ex.venue_name?.includes('리움') || ex.venue?.includes('리움'))
-          );
+          // 1. 리움미술관 이불전
+          const leebulExhibition = exhibitions.find((ex: any) => {
+            const title = ex.title || '';
+            const venue = ex.venue || '';
+            return (title.includes('이불') || title.includes('LEE BUL') || title.includes('Lee Bul')) && 
+                   (venue.includes('리움') || venue.includes('Leeum'));
+          });
           
           if (leebulExhibition) {
+            console.log('Found Lee Bul exhibition:', leebulExhibition);
             targetExhibitions.push({
-              id: leebulExhibition.id || '1',
+              id: leebulExhibition.id,
               title: leebulExhibition.title || '이불: 시작',
-              museum: leebulExhibition.venue_name || '리움미술관',
-              image: leebulExhibition.image_url || 'https://images.unsplash.com/photo-1578662996442-48f60103fc31?w=400',
-              matchingUsers: 18,
-              endDate: '2025.05.25'
+              museum: leebulExhibition.venue || '리움미술관',
+              image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Leeum%2C_Samsung_Museum_of_Art.jpg/800px-Leeum%2C_Samsung_Museum_of_Art.jpg',
+              matchingUsers: Math.floor(Math.random() * 20) + 15,
+              endDate: leebulExhibition.endDate || '2026.01.04'
             });
           }
           
-          // Look for 르누아르 전시
-          const renoirExhibition = exhibitions.find((ex: any) => 
-            (ex.title?.includes('르누아르') || ex.title?.includes('Renoir')) && 
-            (ex.venue_name?.includes('한가람') || ex.venue?.includes('한가람'))
-          );
+          // 2. 예술의전당 오르세미술관전
+          const orsayExhibition = exhibitions.find((ex: any) => {
+            const title = ex.title || '';
+            const venue = ex.venue || '';
+            return (title.includes('오르세') || title.includes('Orsay') || 
+                    title.includes('고흐') || title.includes('세잔')) && 
+                   (venue.includes('예술의전당') || venue.includes('한가람'));
+          });
           
-          if (renoirExhibition) {
+          if (orsayExhibition) {
+            console.log('Found Orsay exhibition:', orsayExhibition);
             targetExhibitions.push({
-              id: renoirExhibition.id || '2',
-              title: renoirExhibition.title || '르누아르: 여인의 향기',
-              museum: renoirExhibition.venue_name || '예술의전당 한가람미술관',
-              image: renoirExhibition.image_url || 'https://images.unsplash.com/photo-1577720643272-265f09367456?w=400',
-              matchingUsers: 24,
-              endDate: '2025.04.20'
+              id: orsayExhibition.id,
+              title: orsayExhibition.title || '오르세미술관전: 고흐에서 세잔까지',
+              museum: orsayExhibition.venue || '예술의전당 한가람미술관',
+              image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Pierre-Auguste_Renoir_-_Bal_du_moulin_de_la_Galette.jpg/800px-Pierre-Auguste_Renoir_-_Bal_du_moulin_de_la_Galette.jpg',
+              matchingUsers: Math.floor(Math.random() * 30) + 25,
+              endDate: orsayExhibition.endDate || '2026.01.25'
             });
           }
           
-          // Set the found exhibitions
+          // 3. 국립현대미술관 김창열전
+          const kimChangYeolExhibition = exhibitions.find((ex: any) => {
+            const title = ex.title || '';
+            const venue = ex.venue || '';
+            return (title.includes('김창열') || title.includes('Kim Tschang-Yeul') || 
+                    title.includes('물방울')) && 
+                   (venue.includes('국립현대') || venue.includes('MMCA'));
+          });
+          
+          if (kimChangYeolExhibition) {
+            console.log('Found Kim Chang-Yeol exhibition:', kimChangYeolExhibition);
+            targetExhibitions.push({
+              id: kimChangYeolExhibition.id,
+              title: kimChangYeolExhibition.title || '김창열: 물방울',
+              museum: kimChangYeolExhibition.venue || '국립현대미술관 서울',
+              image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/National_Museum_of_Modern_and_Contemporary_Art%2C_Korea_%28Seoul%29.jpg/800px-National_Museum_of_Modern_and_Contemporary_Art%2C_Korea_%28Seoul%29.jpg',
+              matchingUsers: Math.floor(Math.random() * 15) + 10,
+              endDate: kimChangYeolExhibition.endDate || '2025.12.21'
+            });
+          }
+          
+          // Fallback: 전시를 못 찾은 경우 하드코딩된 데이터 사용
+          if (targetExhibitions.length === 0) {
+            console.log('No exhibitions found, using fallback data');
+            targetExhibitions.push(
+              {
+                id: 'leebul-2025',
+                title: '이불: 시작',
+                museum: '리움미술관',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Leeum%2C_Samsung_Museum_of_Art.jpg/800px-Leeum%2C_Samsung_Museum_of_Art.jpg',
+                matchingUsers: 18,
+                endDate: '2026.01.04'  // 9월 4일 시작
+              },
+              {
+                id: 'orsay-2025',
+                title: '오르세미술관전: 고흐에서 세잔까지',
+                museum: '예술의전당 한가람미술관',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Pierre-Auguste_Renoir_-_Bal_du_moulin_de_la_Galette.jpg/800px-Pierre-Auguste_Renoir_-_Bal_du_moulin_de_la_Galette.jpg',
+                matchingUsers: 32,
+                endDate: '2026.01.25'  // 9월 20일 시작
+              },
+              {
+                id: 'kim-2025',
+                title: '김창열: 물방울',
+                museum: '국립현대미술관 서울',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/National_Museum_of_Modern_and_Contemporary_Art%2C_Korea_%28Seoul%29.jpg/800px-National_Museum_of_Modern_and_Contemporary_Art%2C_Korea_%28Seoul%29.jpg',
+                matchingUsers: 15,
+                endDate: '2025.12.21'  // 8월 22일 시작 (현재 진행중)
+              }
+            );
+          }
+          
+          console.log('Setting exhibitions:', targetExhibitions);
           setExhibitionMatches(targetExhibitions);
         } else {
           console.error('Failed to fetch exhibitions');
+          // Use fallback data when API fails
+          setExhibitionMatches([
+            {
+              id: 'leebul-2025',
+              title: '이불 개인전',
+              museum: '리움미술관',
+              image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Leeum%2C_Samsung_Museum_of_Art.jpg/800px-Leeum%2C_Samsung_Museum_of_Art.jpg',
+              matchingUsers: 18,
+              endDate: '2026.01.04'  // 9월 4일 시작
+            },
+            {
+              id: 'orsay-2025',
+              title: '오랑주리 - 오르세미술관 특별전: 세잔, 르누아르',
+              museum: '한가람디자인미술관',
+              image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Pierre-Auguste_Renoir_-_Bal_du_moulin_de_la_Galette.jpg/800px-Pierre-Auguste_Renoir_-_Bal_du_moulin_de_la_Galette.jpg',
+              matchingUsers: 32,
+              endDate: '2026.01.25'  // 9월 20일 시작
+            },
+            {
+              id: 'kim-2025',
+              title: '김창열',
+              museum: '국립현대미술관 서울',
+              image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/National_Museum_of_Modern_and_Contemporary_Art%2C_Korea_%28Seoul%29.jpg/800px-National_Museum_of_Modern_and_Contemporary_Art%2C_Korea_%28Seoul%29.jpg',
+              matchingUsers: 15,
+              endDate: '2025.12.21'  // 8월 22일 시작 (현재 진행중)
+            }
+          ]);
         }
       } catch (error) {
         console.error('Error fetching exhibitions:', error);
+        // Use fallback data when error occurs
+        setExhibitionMatches([
+          {
+            id: 'leebul-2025',
+            title: '이불: 시작',
+            museum: '리움미술관',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Leeum%2C_Samsung_Museum_of_Art.jpg/800px-Leeum%2C_Samsung_Museum_of_Art.jpg',
+            matchingUsers: 18,
+            endDate: '2025.07.07'
+          },
+          {
+            id: 'orsay-2025',
+            title: '오르세미술관전: 고흐에서 세잔까지',
+            museum: '예술의전당 한가람미술관',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Pierre-Auguste_Renoir_-_Bal_du_moulin_de_la_Galette.jpg/800px-Pierre-Auguste_Renoir_-_Bal_du_moulin_de_la_Galette.jpg',
+            matchingUsers: 32,
+            endDate: '2025.03.09'
+          },
+          {
+            id: 'kim-2025',
+            title: '김창열: 물방울',
+            museum: '국립현대미술관 서울',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/National_Museum_of_Modern_and_Contemporary_Art%2C_Korea_%28Seoul%29.jpg/800px-National_Museum_of_Modern_and_Contemporary_Art%2C_Korea_%28Seoul%29.jpg',
+            matchingUsers: 15,
+            endDate: '2025.07.20'
+          }
+        ]);
       } finally {
         setLoadingExhibitions(false);
       }
@@ -167,8 +282,8 @@ export default function CommunityPage() {
     return null;
   }
 
-  // Mock data for user personality type (should come from user profile)
-  const userPersonalityType = user.personalityType || 'LAEF';
+  // Get user personality type from DB (via useAuth)
+  const userPersonalityType = user?.personalityType || user?.aptType || 'LAEF';
   const userAnimal = getAnimalByType(userPersonalityType);
 
   // Find compatible users based on chemistry data

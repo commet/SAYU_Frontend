@@ -8,7 +8,7 @@ interface QuizResults {
   completedAt: string;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 // Get current auth token from Supabase
 async function getAuthToken(): Promise<string | null> {

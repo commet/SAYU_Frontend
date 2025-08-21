@@ -90,58 +90,63 @@ export default function MobileGalleryGrid({
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: index * 0.05 }}
-          className="relative bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg"
-          onClick={() => setSelectedArtwork(artwork.id)}
+          className="relative bg-slate-800 rounded-xl overflow-hidden shadow-lg border border-slate-700"
+          onClick={() => {
+            console.log('📱 Mobile artwork clicked:', artwork.title);
+            onView?.(artwork);
+          }}
         >
-          {/* Image Container */}
-          <div className="relative overflow-hidden">
-            {isVisible ? (
-              <img
-                src={artwork.imageUrl}
-                alt={artwork.title}
-                className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
-                loading="lazy"
-                onLoad={() => onView?.(artwork.id)}
-                onError={(e) => {
-                  e.currentTarget.src = '/images/placeholder-artwork.svg';
-                }}
-              />
-            ) : (
-              <div className="w-full h-48 bg-gray-200 dark:bg-gray-700 animate-pulse" />
-            )}
+          {/* Image Container - Fixed aspect ratio */}
+          <div className="aspect-square relative overflow-hidden bg-slate-700">
+            <img
+              src={artwork.imageUrl}
+              alt={artwork.title}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+              loading={index < 4 ? 'eager' : 'lazy'}
+              crossOrigin="anonymous"
+              onLoad={() => {
+                console.log('📱 Mobile image loaded:', artwork.title);
+                // Don't call onView here - only on click
+              }}
+              onError={(e) => {
+                console.error('📱 Mobile image failed:', artwork.title, artwork.imageUrl);
+                const target = e.currentTarget;
+                target.src = '/images/placeholder-artwork.jpg';
+              }}
+            />
             
-            {/* Mobile Action Buttons - Always visible on mobile */}
-            <div className="absolute top-1 right-1 flex flex-col gap-1">
+            {/* Mobile Action Buttons - Always visible */}
+            <div className="absolute top-2 right-2 flex flex-col gap-1">
               <motion.button
                 whileTap={{ scale: 0.9 }}
-                className="p-2 bg-black/60 backdrop-blur-sm rounded-full border border-white/20 shadow-lg touch-manipulation"
+                className="p-1.5 bg-black/70 backdrop-blur-sm rounded-full border border-white/20 shadow-lg touch-manipulation flex items-center justify-center"
                 onClick={(e) => handleAction('like', e)}
-                style={{ minHeight: '36px', minWidth: '36px' }} // Smaller touch target
+                style={{ minHeight: '32px', minWidth: '32px' }}
               >
                 <Heart 
-                  className={`w-4 h-4 ${likedItems.has(artwork.id) ? 'text-red-400 fill-red-400' : 'text-white'}`} 
+                  className={`w-3 h-3 ${likedItems.has(artwork.id) ? 'text-red-400 fill-red-400' : 'text-white'}`} 
                 />
               </motion.button>
               
               <motion.button
                 whileTap={{ scale: 0.9 }}
-                className="p-2 bg-black/60 backdrop-blur-sm rounded-full border border-white/20 shadow-lg touch-manipulation"
+                className="p-1.5 bg-black/70 backdrop-blur-sm rounded-full border border-white/20 shadow-lg touch-manipulation flex items-center justify-center"
                 onClick={(e) => handleAction('save', e)}
-                style={{ minHeight: '36px', minWidth: '36px' }} // Smaller touch target
+                style={{ minHeight: '32px', minWidth: '32px' }}
               >
                 <Bookmark 
-                  className={`w-4 h-4 ${savedItems.has(artwork.id) ? 'text-green-400 fill-green-400' : 'text-white'}`} 
+                  className={`w-3 h-3 ${savedItems.has(artwork.id) ? 'text-green-400 fill-green-400' : 'text-white'}`} 
                 />
               </motion.button>
             </div>
 
-            {/* Quick View Indicator */}
-            {likedItems.has(artwork.id) && (
+            {/* Saved indicator */}
+            {savedItems.has(artwork.id) && (
               <div className="absolute top-2 left-2">
-                <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
-                  <Heart className="w-3 h-3 text-white fill-white" />
+                <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                  <Bookmark className="w-2.5 h-2.5 text-white fill-white" />
                 </div>
               </div>
             )}
@@ -149,31 +154,25 @@ export default function MobileGalleryGrid({
 
           {/* Content */}
           <div className="p-3">
-            <h3 className="font-semibold text-gray-900 dark:text-white text-xs line-clamp-1">
+            <h3 className="font-semibold text-white text-sm line-clamp-1">
               {artwork.title}
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 text-[10px] mt-0.5">
+            <p className="text-slate-400 text-xs mt-1">
               {artwork.artist} • {artwork.year}
             </p>
             
-            {/* Mobile-specific quick actions */}
-            <div className="flex items-center justify-between mt-2">
-              <div className="flex gap-1">
-                {likedItems.has(artwork.id) && (
-                  <span className="px-1.5 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full text-[10px]">
-                    Liked
-                  </span>
-                )}
-                {savedItems.has(artwork.id) && (
-                  <span className="px-1.5 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full text-[10px]">
-                    Saved
-                  </span>
-                )}
-              </div>
-              
-              <button className="p-0.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                <MoreVertical className="w-3 h-3" />
-              </button>
+            {/* Status badges */}
+            <div className="flex gap-1 mt-2">
+              {likedItems.has(artwork.id) && (
+                <span className="px-2 py-0.5 bg-red-500/20 text-red-400 rounded-full text-xs">
+                  ❤️
+                </span>
+              )}
+              {savedItems.has(artwork.id) && (
+                <span className="px-2 py-0.5 bg-green-500/20 text-green-400 rounded-full text-xs">
+                  📌
+                </span>
+              )}
             </div>
           </div>
         </motion.div>
@@ -198,76 +197,12 @@ export default function MobileGalleryGrid({
   }
 
   return (
-    <div className="h-full">
-      {/* Layout Toggle */}
-      <div className="flex justify-end p-4 pb-2">
-        <div className="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
-          <button
-            onClick={() => setLayout('grid')}
-            className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
-              layout === 'grid' 
-                ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow' 
-                : 'text-gray-600 dark:text-gray-400'
-            }`}
-          >
-            Grid
-          </button>
-          <button
-            onClick={() => setLayout('masonry')}
-            className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
-              layout === 'masonry' 
-                ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow' 
-                : 'text-gray-600 dark:text-gray-400'
-            }`}
-          >
-            Masonry
-          </button>
-        </div>
-      </div>
-
-      {/* Virtual Scrolling Container */}
-      <div
-        ref={parentRef}
-        className="h-full overflow-auto"
-        style={{ contain: 'strict' }}
-      >
-        <div
-          style={{
-            height: `${virtualizer.getTotalSize()}px`,
-            width: '100%',
-            position: 'relative',
-          }}
-        >
-          {layout === 'grid' ? (
-            // Grid Layout (2 columns on mobile)
-            <div className="grid grid-cols-2 gap-4 p-4">
-              {virtualizer.getVirtualItems().map((virtualItem) => {
-                const artwork = artworks[virtualItem.index];
-                return (
-                  <div
-                    key={virtualItem.key}
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      transform: `translateY(${virtualItem.start}px)`,
-                    }}
-                  >
-                    <ArtworkItem artwork={artwork} index={virtualItem.index} />
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            // Masonry Layout (staggered heights)
-            <div className="columns-2 gap-4 p-4">
-              {artworks.map((artwork, index) => (
-                <ArtworkItem key={artwork.id} artwork={artwork} index={index} />
-              ))}
-            </div>
-          )}
-        </div>
+    <div className="w-full">
+      {/* Simplified Mobile Grid - No virtual scrolling complexity */}
+      <div className="grid grid-cols-2 gap-3 p-4">
+        {artworks.map((artwork, index) => (
+          <ArtworkItem key={artwork.id} artwork={artwork} index={index} />
+        ))}
       </div>
 
       {/* Pull to Refresh Indicator */}

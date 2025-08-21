@@ -1,0 +1,74 @@
+{
+  "scanDate": "2025-08-21T17:18:12.999Z",
+  "currentAssets": 906,
+  "discoveredAssets": {
+    "met": 3715,
+    "complete": 874
+  },
+  "totalPotential": 5495,
+  "increasePotential": 507,
+  "integrationPlan": {
+    "phase1": {
+      "title": "MET 컬렉션 통합 (우선순위 최고)",
+      "description": "3,715개 메트로폴리탄 미술관 작품 통합",
+      "impact": "410% 작품 증가",
+      "timeline": "즉시 시작",
+      "steps": [
+        "1. MET 폴더 구조 분석",
+        "2. 메타데이터 추출 (작가, 제목, 시대)",
+        "3. APT 유형별 자동 분류",
+        "4. 통합 JSON 생성"
+      ]
+    },
+    "phase2": {
+      "title": "artvee-complete 컬렉션 통합",
+      "description": "874개 추가 작품 검증 후 통합",
+      "impact": "96% 추가 증가",
+      "timeline": "Phase 1 완료 후",
+      "steps": [
+        "1. 기존 작품과 중복 제거",
+        "2. 유효한 신규 작품만 추출",
+        "3. 메타데이터 보강",
+        "4. 최종 통합"
+      ]
+    },
+    "phase3": {
+      "title": "APT 추천 시스템 대폭 개선",
+      "description": "4,000+개 작품 기반 정교한 추천",
+      "impact": "추천 품질 혁신적 향상",
+      "timeline": "통합 완료 후",
+      "steps": [
+        "1. 16가지 APT 유형별 작품 재분류",
+        "2. 벡터 기반 유사도 시스템 도입",
+        "3. 사용자 선호도 학습 개선",
+        "4. 실시간 추천 최적화"
+      ]
+    }
+  },
+  "actionItems": [
+    {
+      "priority": "URGENT",
+      "action": "MET 컬렉션 첫 100개 작품 테스트",
+      "command": "node scripts/test-met-sample.js",
+      "timeToComplete": "10분"
+    },
+    {
+      "priority": "HIGH",
+      "action": "MET 작품 메타데이터 구조 분석",
+      "command": "node scripts/analyze-met-structure.js",
+      "timeToComplete": "30분"
+    },
+    {
+      "priority": "HIGH",
+      "action": "artvee-complete 중복 작품 제거",
+      "command": "node scripts/dedupe-complete-collection.js",
+      "timeToComplete": "20분"
+    },
+    {
+      "priority": "MEDIUM",
+      "action": "통합 JSON 생성 및 검증",
+      "command": "node scripts/generate-ultimate-collection.js",
+      "timeToComplete": "1시간"
+    }
+  ]
+}

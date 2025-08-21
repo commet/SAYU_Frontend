@@ -62,12 +62,29 @@ function PersonalizedToaster() {
       position="bottom-center"
       toastOptions={{
         style: {
-          background: 'var(--color-surface)',
-          color: 'var(--color-text)',
-          border: '1px solid var(--color-border)',
-          boxShadow: 'var(--shadow-md)',
+          background: '#1f2937',
+          color: '#f3f4f6', 
+          border: '1px solid #374151',
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+          fontSize: '14px',
+          fontWeight: '500',
+          borderRadius: '8px'
         },
-        duration: 4000,
+        duration: 3000,
+        success: {
+          style: {
+            background: '#065f46',
+            color: '#ecfdf5',
+            border: '1px solid #047857'
+          }
+        },
+        error: {
+          style: {
+            background: '#7f1d1d',
+            color: '#fef2f2', 
+            border: '1px solid #dc2626'
+          }
+        }
       }}
     />
   );

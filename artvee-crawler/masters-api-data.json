@@ -1,0 +1,453 @@
+{
+  "integration_info": {
+    "date": "2025-08-21T19:18:38.956Z",
+    "total_count": 13,
+    "collection_expansion": "773 → 786 artworks",
+    "category": "Masters",
+    "optimization": "Cloudinary w_1200,q_80,f_auto"
+  },
+  "artworks": [
+    {
+      "id": "portrait-after-a-costume-ball-portrait-of-madame-dietz-monnin",
+      "title": "Portrait After A Costume Ball Portrait Of Madame Dietz Monnin",
+      "artist": "Masters Collection",
+      "year": "Classical Period",
+      "medium": "Oil on Canvas",
+      "dimensions": "Various",
+      "description": "Masterpiece from the Artvee Masters Collection featuring classical artistic techniques and themes.",
+      "image_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/portrait-after-a-costume-ball-portrait-of-madame-dietz-monnin.jpg",
+      "thumbnail_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/portrait-after-a-costume-ball-portrait-of-madame-dietz-monnin.jpg",
+      "source": "Artvee Masters",
+      "source_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/portrait-after-a-costume-ball-portrait-of-madame-dietz-monnin.jpg",
+      "tags": [
+        "masters",
+        "classical",
+        "fine-art",
+        "painting"
+      ],
+      "color_palette": [
+        "classical",
+        "warm-tones",
+        "traditional"
+      ],
+      "style_period": "Classical",
+      "genre": "Classical Art",
+      "location": "Masters Collection",
+      "sayu_type": "INFP",
+      "category": "Masters",
+      "optimization": {
+        "original_size_mb": "2.72",
+        "optimized_size_mb": "~0.3MB",
+        "transformation": "w_1200,q_80,f_auto"
+      }
+    },
+    {
+      "id": "roses-5",
+      "title": "Roses 5",
+      "artist": "Masters Collection",
+      "year": "Classical Period",
+      "medium": "Oil on Canvas",
+      "dimensions": "Various",
+      "description": "Masterpiece from the Artvee Masters Collection featuring classical artistic techniques and themes.",
+      "image_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/roses-5.jpg",
+      "thumbnail_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/roses-5.jpg",
+      "source": "Artvee Masters",
+      "source_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/roses-5.jpg",
+      "tags": [
+        "masters",
+        "classical",
+        "fine-art",
+        "painting"
+      ],
+      "color_palette": [
+        "classical",
+        "warm-tones",
+        "traditional"
+      ],
+      "style_period": "Classical",
+      "genre": "Classical Art",
+      "location": "Masters Collection",
+      "sayu_type": "ISFP",
+      "category": "Masters",
+      "optimization": {
+        "original_size_mb": "3.18",
+        "optimized_size_mb": "~0.3MB",
+        "transformation": "w_1200,q_80,f_auto"
+      }
+    },
+    {
+      "id": "charing-cross-bridge",
+      "title": "Charing Cross Bridge",
+      "artist": "Masters Collection",
+      "year": "Classical Period",
+      "medium": "Oil on Canvas",
+      "dimensions": "Various",
+      "description": "Masterpiece from the Artvee Masters Collection featuring classical artistic techniques and themes.",
+      "image_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/charing-cross-bridge.jpg",
+      "thumbnail_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/charing-cross-bridge.jpg",
+      "source": "Artvee Masters",
+      "source_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/charing-cross-bridge.jpg",
+      "tags": [
+        "masters",
+        "classical",
+        "fine-art",
+        "painting"
+      ],
+      "color_palette": [
+        "classical",
+        "warm-tones",
+        "traditional"
+      ],
+      "style_period": "Classical",
+      "genre": "Classical Art",
+      "location": "Masters Collection",
+      "sayu_type": "INFJ",
+      "category": "Masters",
+      "optimization": {
+        "original_size_mb": "8.01",
+        "optimized_size_mb": "~0.3MB",
+        "transformation": "w_1200,q_80,f_auto"
+      }
+    },
+    {
+      "id": "on-the-stage",
+      "title": "On The Stage",
+      "artist": "Masters Collection",
+      "year": "Classical Period",
+      "medium": "Oil on Canvas",
+      "dimensions": "Various",
+      "description": "Masterpiece from the Artvee Masters Collection featuring classical artistic techniques and themes.",
+      "image_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/on-the-stage.jpg",
+      "thumbnail_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/on-the-stage.jpg",
+      "source": "Artvee Masters",
+      "source_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/on-the-stage.jpg",
+      "tags": [
+        "masters",
+        "classical",
+        "fine-art",
+        "painting"
+      ],
+      "color_palette": [
+        "classical",
+        "warm-tones",
+        "traditional"
+      ],
+      "style_period": "Classical",
+      "genre": "Classical Art",
+      "location": "Masters Collection",
+      "sayu_type": "ISFJ",
+      "category": "Masters",
+      "optimization": {
+        "original_size_mb": "2.64",
+        "optimized_size_mb": "~0.3MB",
+        "transformation": "w_1200,q_80,f_auto"
+      }
+    },
+    {
+      "id": "grapes-lemons-pears-and-apples",
+      "title": "Grapes Lemons Pears And Apples",
+      "artist": "Masters Collection",
+      "year": "Classical Period",
+      "medium": "Oil on Canvas",
+      "dimensions": "Various",
+      "description": "Masterpiece from the Artvee Masters Collection featuring classical artistic techniques and themes.",
+      "image_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/grapes-lemons-pears-and-apples.jpg",
+      "thumbnail_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/grapes-lemons-pears-and-apples.jpg",
+      "source": "Artvee Masters",
+      "source_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/grapes-lemons-pears-and-apples.jpg",
+      "tags": [
+        "masters",
+        "classical",
+        "fine-art",
+        "painting"
+      ],
+      "color_palette": [
+        "classical",
+        "warm-tones",
+        "traditional"
+      ],
+      "style_period": "Classical",
+      "genre": "Classical Art",
+      "location": "Masters Collection",
+      "sayu_type": "ENFP",
+      "category": "Masters",
+      "optimization": {
+        "original_size_mb": "3.08",
+        "optimized_size_mb": "~0.3MB",
+        "transformation": "w_1200,q_80,f_auto"
+      }
+    },
+    {
+      "id": "wheat-field-with-cypresses",
+      "title": "Wheat Field With Cypresses",
+      "artist": "Masters Collection",
+      "year": "Classical Period",
+      "medium": "Oil on Canvas",
+      "dimensions": "Various",
+      "description": "Masterpiece from the Artvee Masters Collection featuring classical artistic techniques and themes.",
+      "image_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/wheat-field-with-cypresses.jpg",
+      "thumbnail_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/wheat-field-with-cypresses.jpg",
+      "source": "Artvee Masters",
+      "source_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/wheat-field-with-cypresses.jpg",
+      "tags": [
+        "masters",
+        "classical",
+        "fine-art",
+        "painting"
+      ],
+      "color_palette": [
+        "classical",
+        "warm-tones",
+        "traditional"
+      ],
+      "style_period": "Classical",
+      "genre": "Classical Art",
+      "location": "Masters Collection",
+      "sayu_type": "ESFP",
+      "category": "Masters",
+      "optimization": {
+        "original_size_mb": "4.62",
+        "optimized_size_mb": "~0.3MB",
+        "transformation": "w_1200,q_80,f_auto"
+      }
+    },
+    {
+      "id": "mademoiselle-malo",
+      "title": "Mademoiselle Malo",
+      "artist": "Masters Collection",
+      "year": "Classical Period",
+      "medium": "Oil on Canvas",
+      "dimensions": "Various",
+      "description": "Masterpiece from the Artvee Masters Collection featuring classical artistic techniques and themes.",
+      "image_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/mademoiselle-malo.jpg",
+      "thumbnail_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/mademoiselle-malo.jpg",
+      "source": "Artvee Masters",
+      "source_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/mademoiselle-malo.jpg",
+      "tags": [
+        "masters",
+        "classical",
+        "fine-art",
+        "painting"
+      ],
+      "color_palette": [
+        "classical",
+        "warm-tones",
+        "traditional"
+      ],
+      "style_period": "Classical",
+      "genre": "Classical Art",
+      "location": "Masters Collection",
+      "sayu_type": "ENFJ",
+      "category": "Masters",
+      "optimization": {
+        "original_size_mb": "2.36",
+        "optimized_size_mb": "~0.3MB",
+        "transformation": "w_1200,q_80,f_auto"
+      }
+    },
+    {
+      "id": "madame-rene-de-gas",
+      "title": "Madame Rene De Gas",
+      "artist": "Masters Collection",
+      "year": "Classical Period",
+      "medium": "Oil on Canvas",
+      "dimensions": "Various",
+      "description": "Masterpiece from the Artvee Masters Collection featuring classical artistic techniques and themes.",
+      "image_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/madame-rene-de-gas.jpg",
+      "thumbnail_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/madame-rene-de-gas.jpg",
+      "source": "Artvee Masters",
+      "source_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/madame-rene-de-gas.jpg",
+      "tags": [
+        "masters",
+        "classical",
+        "fine-art",
+        "painting"
+      ],
+      "color_palette": [
+        "classical",
+        "warm-tones",
+        "traditional"
+      ],
+      "style_period": "Classical",
+      "genre": "Classical Art",
+      "location": "Masters Collection",
+      "sayu_type": "ESFJ",
+      "category": "Masters",
+      "optimization": {
+        "original_size_mb": "2.50",
+        "optimized_size_mb": "~0.3MB",
+        "transformation": "w_1200,q_80,f_auto"
+      }
+    },
+    {
+      "id": "vineyards-at-auvers",
+      "title": "Vineyards At Auvers",
+      "artist": "Masters Collection",
+      "year": "Classical Period",
+      "medium": "Oil on Canvas",
+      "dimensions": "Various",
+      "description": "Masterpiece from the Artvee Masters Collection featuring classical artistic techniques and themes.",
+      "image_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/vineyards-at-auvers.jpg",
+      "thumbnail_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/vineyards-at-auvers.jpg",
+      "source": "Artvee Masters",
+      "source_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/vineyards-at-auvers.jpg",
+      "tags": [
+        "masters",
+        "classical",
+        "fine-art",
+        "painting"
+      ],
+      "color_palette": [
+        "classical",
+        "warm-tones",
+        "traditional"
+      ],
+      "style_period": "Classical",
+      "genre": "Classical Art",
+      "location": "Masters Collection",
+      "sayu_type": "INFP",
+      "category": "Masters",
+      "optimization": {
+        "original_size_mb": "8.37",
+        "optimized_size_mb": "~0.3MB",
+        "transformation": "w_1200,q_80,f_auto"
+      }
+    },
+    {
+      "id": "madame-camus",
+      "title": "Madame Camus",
+      "artist": "Masters Collection",
+      "year": "Classical Period",
+      "medium": "Oil on Canvas",
+      "dimensions": "Various",
+      "description": "Masterpiece from the Artvee Masters Collection featuring classical artistic techniques and themes.",
+      "image_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/madame-camus.jpg",
+      "thumbnail_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/madame-camus.jpg",
+      "source": "Artvee Masters",
+      "source_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/madame-camus.jpg",
+      "tags": [
+        "masters",
+        "classical",
+        "fine-art",
+        "painting"
+      ],
+      "color_palette": [
+        "classical",
+        "warm-tones",
+        "traditional"
+      ],
+      "style_period": "Classical",
+      "genre": "Classical Art",
+      "location": "Masters Collection",
+      "sayu_type": "ISFP",
+      "category": "Masters",
+      "optimization": {
+        "original_size_mb": "2.18",
+        "optimized_size_mb": "~0.3MB",
+        "transformation": "w_1200,q_80,f_auto"
+      }
+    },
+    {
+      "id": "the-terrace-at-saint-germain-spring",
+      "title": "The Terrace At Saint Germain Spring",
+      "artist": "Masters Collection",
+      "year": "Classical Period",
+      "medium": "Oil on Canvas",
+      "dimensions": "Various",
+      "description": "Masterpiece from the Artvee Masters Collection featuring classical artistic techniques and themes.",
+      "image_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/the-terrace-at-saint-germain-spring.jpg",
+      "thumbnail_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/the-terrace-at-saint-germain-spring.jpg",
+      "source": "Artvee Masters",
+      "source_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/the-terrace-at-saint-germain-spring.jpg",
+      "tags": [
+        "masters",
+        "classical",
+        "fine-art",
+        "painting"
+      ],
+      "color_palette": [
+        "classical",
+        "warm-tones",
+        "traditional"
+      ],
+      "style_period": "Classical",
+      "genre": "Classical Art",
+      "location": "Masters Collection",
+      "sayu_type": "INFJ",
+      "category": "Masters",
+      "optimization": {
+        "original_size_mb": "2.02",
+        "optimized_size_mb": "~0.3MB",
+        "transformation": "w_1200,q_80,f_auto"
+      }
+    },
+    {
+      "id": "harlequin",
+      "title": "Harlequin",
+      "artist": "Masters Collection",
+      "year": "Classical Period",
+      "medium": "Oil on Canvas",
+      "dimensions": "Various",
+      "description": "Masterpiece from the Artvee Masters Collection featuring classical artistic techniques and themes.",
+      "image_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/harlequin.jpg",
+      "thumbnail_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/harlequin.jpg",
+      "source": "Artvee Masters",
+      "source_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/harlequin.jpg",
+      "tags": [
+        "masters",
+        "classical",
+        "fine-art",
+        "painting"
+      ],
+      "color_palette": [
+        "classical",
+        "warm-tones",
+        "traditional"
+      ],
+      "style_period": "Classical",
+      "genre": "Classical Art",
+      "location": "Masters Collection",
+      "sayu_type": "ISFJ",
+      "category": "Masters",
+      "optimization": {
+        "original_size_mb": "3.37",
+        "optimized_size_mb": "~0.3MB",
+        "transformation": "w_1200,q_80,f_auto"
+      }
+    },
+    {
+      "id": "girl-in-red",
+      "title": "Girl In Red",
+      "artist": "Masters Collection",
+      "year": "Classical Period",
+      "medium": "Oil on Canvas",
+      "dimensions": "Various",
+      "description": "Masterpiece from the Artvee Masters Collection featuring classical artistic techniques and themes.",
+      "image_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/girl-in-red.jpg",
+      "thumbnail_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/girl-in-red.jpg",
+      "source": "Artvee Masters",
+      "source_url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/girl-in-red.jpg",
+      "tags": [
+        "masters",
+        "classical",
+        "fine-art",
+        "painting"
+      ],
+      "color_palette": [
+        "classical",
+        "warm-tones",
+        "traditional"
+      ],
+      "style_period": "Classical",
+      "genre": "Classical Art",
+      "location": "Masters Collection",
+      "sayu_type": "ENFP",
+      "category": "Masters",
+      "optimization": {
+        "original_size_mb": "2.38",
+        "optimized_size_mb": "~0.3MB",
+        "transformation": "w_1200,q_80,f_auto"
+      }
+    }
+  ]
+}

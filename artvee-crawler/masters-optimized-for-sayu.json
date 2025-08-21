@@ -1,0 +1,357 @@
+{
+  "addedDate": "2025-08-21T19:17:30.703Z",
+  "source": "Masters Collection",
+  "totalCount": 13,
+  "optimization": {
+    "applied": 13,
+    "method": "Cloudinary Transformation",
+    "parameters": "w_1200,q_80,f_auto"
+  },
+  "artworks": [
+    {
+      "id": "portrait-after-a-costume-ball-portrait-of-madame-dietz-monnin",
+      "title": "Portrait After A Costume Ball Portrait Of Madame Dietz Monnin",
+      "artist": "Masters Collection",
+      "source": "Artvee Masters Collection",
+      "category": "Masters",
+      "original": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/portrait-after-a-costume-ball-portrait-of-madame-dietz-monnin.jpg",
+        "sizeMB": "2.72",
+        "resolution": "High"
+      },
+      "optimized": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/portrait-after-a-costume-ball-portrait-of-madame-dietz-monnin.jpg",
+        "estimatedSizeMB": "1.09",
+        "transformation": "w_1200,q_80,f_auto"
+      },
+      "recommended": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/portrait-after-a-costume-ball-portrait-of-madame-dietz-monnin.jpg",
+      "sayuType": "AUTO",
+      "priority": "High"
+    },
+    {
+      "id": "roses-5",
+      "title": "Roses 5",
+      "artist": "Masters Collection",
+      "source": "Artvee Masters Collection",
+      "category": "Masters",
+      "original": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/roses-5.jpg",
+        "sizeMB": "3.18",
+        "resolution": "High"
+      },
+      "optimized": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/roses-5.jpg",
+        "estimatedSizeMB": "1.27",
+        "transformation": "w_1200,q_80,f_auto"
+      },
+      "recommended": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/roses-5.jpg",
+      "sayuType": "AUTO",
+      "priority": "High"
+    },
+    {
+      "id": "charing-cross-bridge",
+      "title": "Charing Cross Bridge",
+      "artist": "Masters Collection",
+      "source": "Artvee Masters Collection",
+      "category": "Masters",
+      "original": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/charing-cross-bridge.jpg",
+        "sizeMB": "8.01",
+        "resolution": "High"
+      },
+      "optimized": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/charing-cross-bridge.jpg",
+        "estimatedSizeMB": "3.20",
+        "transformation": "w_1200,q_80,f_auto"
+      },
+      "recommended": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/charing-cross-bridge.jpg",
+      "sayuType": "AUTO",
+      "priority": "High"
+    },
+    {
+      "id": "on-the-stage",
+      "title": "On The Stage",
+      "artist": "Masters Collection",
+      "source": "Artvee Masters Collection",
+      "category": "Masters",
+      "original": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/on-the-stage.jpg",
+        "sizeMB": "2.64",
+        "resolution": "High"
+      },
+      "optimized": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/on-the-stage.jpg",
+        "estimatedSizeMB": "1.06",
+        "transformation": "w_1200,q_80,f_auto"
+      },
+      "recommended": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/on-the-stage.jpg",
+      "sayuType": "AUTO",
+      "priority": "High"
+    },
+    {
+      "id": "grapes-lemons-pears-and-apples",
+      "title": "Grapes Lemons Pears And Apples",
+      "artist": "Masters Collection",
+      "source": "Artvee Masters Collection",
+      "category": "Masters",
+      "original": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/grapes-lemons-pears-and-apples.jpg",
+        "sizeMB": "3.08",
+        "resolution": "High"
+      },
+      "optimized": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/grapes-lemons-pears-and-apples.jpg",
+        "estimatedSizeMB": "1.23",
+        "transformation": "w_1200,q_80,f_auto"
+      },
+      "recommended": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/grapes-lemons-pears-and-apples.jpg",
+      "sayuType": "AUTO",
+      "priority": "High"
+    },
+    {
+      "id": "wheat-field-with-cypresses",
+      "title": "Wheat Field With Cypresses",
+      "artist": "Masters Collection",
+      "source": "Artvee Masters Collection",
+      "category": "Masters",
+      "original": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/wheat-field-with-cypresses.jpg",
+        "sizeMB": "4.62",
+        "resolution": "High"
+      },
+      "optimized": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/wheat-field-with-cypresses.jpg",
+        "estimatedSizeMB": "1.85",
+        "transformation": "w_1200,q_80,f_auto"
+      },
+      "recommended": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/wheat-field-with-cypresses.jpg",
+      "sayuType": "AUTO",
+      "priority": "High"
+    },
+    {
+      "id": "mademoiselle-malo",
+      "title": "Mademoiselle Malo",
+      "artist": "Masters Collection",
+      "source": "Artvee Masters Collection",
+      "category": "Masters",
+      "original": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/mademoiselle-malo.jpg",
+        "sizeMB": "2.36",
+        "resolution": "High"
+      },
+      "optimized": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/mademoiselle-malo.jpg",
+        "estimatedSizeMB": "0.94",
+        "transformation": "w_1200,q_80,f_auto"
+      },
+      "recommended": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/mademoiselle-malo.jpg",
+      "sayuType": "AUTO",
+      "priority": "High"
+    },
+    {
+      "id": "madame-rene-de-gas",
+      "title": "Madame Rene De Gas",
+      "artist": "Masters Collection",
+      "source": "Artvee Masters Collection",
+      "category": "Masters",
+      "original": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/madame-rene-de-gas.jpg",
+        "sizeMB": "2.50",
+        "resolution": "High"
+      },
+      "optimized": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/madame-rene-de-gas.jpg",
+        "estimatedSizeMB": "1.00",
+        "transformation": "w_1200,q_80,f_auto"
+      },
+      "recommended": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/madame-rene-de-gas.jpg",
+      "sayuType": "AUTO",
+      "priority": "High"
+    },
+    {
+      "id": "vineyards-at-auvers",
+      "title": "Vineyards At Auvers",
+      "artist": "Masters Collection",
+      "source": "Artvee Masters Collection",
+      "category": "Masters",
+      "original": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/vineyards-at-auvers.jpg",
+        "sizeMB": "8.37",
+        "resolution": "High"
+      },
+      "optimized": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/vineyards-at-auvers.jpg",
+        "estimatedSizeMB": "3.35",
+        "transformation": "w_1200,q_80,f_auto"
+      },
+      "recommended": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/vineyards-at-auvers.jpg",
+      "sayuType": "AUTO",
+      "priority": "High"
+    },
+    {
+      "id": "madame-camus",
+      "title": "Madame Camus",
+      "artist": "Masters Collection",
+      "source": "Artvee Masters Collection",
+      "category": "Masters",
+      "original": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/madame-camus.jpg",
+        "sizeMB": "2.18",
+        "resolution": "High"
+      },
+      "optimized": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/madame-camus.jpg",
+        "estimatedSizeMB": "0.87",
+        "transformation": "w_1200,q_80,f_auto"
+      },
+      "recommended": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/madame-camus.jpg",
+      "sayuType": "AUTO",
+      "priority": "High"
+    },
+    {
+      "id": "the-terrace-at-saint-germain-spring",
+      "title": "The Terrace At Saint Germain Spring",
+      "artist": "Masters Collection",
+      "source": "Artvee Masters Collection",
+      "category": "Masters",
+      "original": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/the-terrace-at-saint-germain-spring.jpg",
+        "sizeMB": "2.02",
+        "resolution": "High"
+      },
+      "optimized": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/the-terrace-at-saint-germain-spring.jpg",
+        "estimatedSizeMB": "0.81",
+        "transformation": "w_1200,q_80,f_auto"
+      },
+      "recommended": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/the-terrace-at-saint-germain-spring.jpg",
+      "sayuType": "AUTO",
+      "priority": "High"
+    },
+    {
+      "id": "harlequin",
+      "title": "Harlequin",
+      "artist": "Masters Collection",
+      "source": "Artvee Masters Collection",
+      "category": "Masters",
+      "original": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/harlequin.jpg",
+        "sizeMB": "3.37",
+        "resolution": "High"
+      },
+      "optimized": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/harlequin.jpg",
+        "estimatedSizeMB": "1.35",
+        "transformation": "w_1200,q_80,f_auto"
+      },
+      "recommended": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/harlequin.jpg",
+      "sayuType": "AUTO",
+      "priority": "High"
+    },
+    {
+      "id": "girl-in-red",
+      "title": "Girl In Red",
+      "artist": "Masters Collection",
+      "source": "Artvee Masters Collection",
+      "category": "Masters",
+      "original": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/v1753790141/sayu/artvee/masters/sayu/artvee/masters/girl-in-red.jpg",
+        "sizeMB": "2.38",
+        "resolution": "High"
+      },
+      "optimized": {
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/girl-in-red.jpg",
+        "estimatedSizeMB": "0.95",
+        "transformation": "w_1200,q_80,f_auto"
+      },
+      "recommended": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/girl-in-red.jpg",
+      "sayuType": "AUTO",
+      "priority": "High"
+    }
+  ],
+  "integration": {
+    "beforeCount": 773,
+    "afterCount": 786,
+    "addedCategory": "Masters",
+    "recommendedUrls": [
+      {
+        "id": "portrait-after-a-costume-ball-portrait-of-madame-dietz-monnin",
+        "title": "Portrait After A Costume Ball Portrait Of Madame Dietz Monnin",
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/portrait-after-a-costume-ball-portrait-of-madame-dietz-monnin.jpg",
+        "category": "Masters"
+      },
+      {
+        "id": "roses-5",
+        "title": "Roses 5",
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/roses-5.jpg",
+        "category": "Masters"
+      },
+      {
+        "id": "charing-cross-bridge",
+        "title": "Charing Cross Bridge",
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/charing-cross-bridge.jpg",
+        "category": "Masters"
+      },
+      {
+        "id": "on-the-stage",
+        "title": "On The Stage",
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/on-the-stage.jpg",
+        "category": "Masters"
+      },
+      {
+        "id": "grapes-lemons-pears-and-apples",
+        "title": "Grapes Lemons Pears And Apples",
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/grapes-lemons-pears-and-apples.jpg",
+        "category": "Masters"
+      },
+      {
+        "id": "wheat-field-with-cypresses",
+        "title": "Wheat Field With Cypresses",
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/wheat-field-with-cypresses.jpg",
+        "category": "Masters"
+      },
+      {
+        "id": "mademoiselle-malo",
+        "title": "Mademoiselle Malo",
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/mademoiselle-malo.jpg",
+        "category": "Masters"
+      },
+      {
+        "id": "madame-rene-de-gas",
+        "title": "Madame Rene De Gas",
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/madame-rene-de-gas.jpg",
+        "category": "Masters"
+      },
+      {
+        "id": "vineyards-at-auvers",
+        "title": "Vineyards At Auvers",
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/vineyards-at-auvers.jpg",
+        "category": "Masters"
+      },
+      {
+        "id": "madame-camus",
+        "title": "Madame Camus",
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/madame-camus.jpg",
+        "category": "Masters"
+      },
+      {
+        "id": "the-terrace-at-saint-germain-spring",
+        "title": "The Terrace At Saint Germain Spring",
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/the-terrace-at-saint-germain-spring.jpg",
+        "category": "Masters"
+      },
+      {
+        "id": "harlequin",
+        "title": "Harlequin",
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/harlequin.jpg",
+        "category": "Masters"
+      },
+      {
+        "id": "girl-in-red",
+        "title": "Girl In Red",
+        "url": "https://res.cloudinary.com/dkdzgpj3n/image/upload/w_1200,q_80,f_auto/v1753790141/sayu/artvee/masters/sayu/artvee/masters/girl-in-red.jpg",
+        "category": "Masters"
+      }
+    ]
+  }
+}

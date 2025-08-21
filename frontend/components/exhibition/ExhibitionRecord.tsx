@@ -57,8 +57,9 @@ export default function ExhibitionRecord({ visit, onEdit, onShare }: ExhibitionR
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="sayu-card mb-4"
-      whileHover={{ scale: 1.01 }}
+      className="bg-white/10 backdrop-blur-md rounded-2xl p-6 mb-6 border border-white/20 shadow-xl"
+      whileHover={{ scale: 1.01, backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
+      transition={{ duration: 0.2 }}
     >
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
@@ -112,19 +113,19 @@ export default function ExhibitionRecord({ visit, onEdit, onShare }: ExhibitionR
           </span>
         </div>
         <div className="flex gap-2 overflow-x-auto pb-2">
-          {visit.artworks.filter(a => a.liked).slice(0, 3).map((artwork) => (
+          {visit.artworks.filter(a => a.liked).slice(0, 4).map((artwork) => (
             <motion.div
               key={artwork.id}
-              className="flex-shrink-0 bg-white/10 px-3 py-2 rounded-lg text-xs"
-              whileHover={{ scale: 1.05 }}
+              className="flex-shrink-0 bg-white/10 px-3 py-2 rounded-lg text-sm border border-white/20"
+              whileHover={{ scale: 1.05, backgroundColor: 'rgba(255, 255, 255, 0.2)' }}
             >
-              <div className="font-medium truncate max-w-[150px] text-white">{artwork.title}</div>
-              <div className="text-gray-300">{artwork.artist}</div>
+              <div className="font-medium truncate max-w-[140px] text-white">{artwork.title}</div>
+              <div className="text-gray-300 text-xs">{artwork.artist}</div>
             </motion.div>
           ))}
-          {visit.artworks.filter(a => a.liked).length > 3 && (
+          {visit.artworks.filter(a => a.liked).length > 4 && (
             <div className="flex-shrink-0 bg-white/10 px-3 py-2 rounded-lg text-xs flex items-center text-gray-200">
-              +{visit.artworks.filter(a => a.liked).length - 3} more
+              +{visit.artworks.filter(a => a.liked).length - 4} more
             </div>
           )}
         </div>
@@ -188,11 +189,46 @@ export default function ExhibitionRecord({ visit, onEdit, onShare }: ExhibitionR
         className="overflow-hidden"
       >
         {visit.notes && (
-          <div className="mt-4 p-4 bg-white/5 rounded-lg">
-            <h4 className="text-sm font-medium mb-2 text-gray-200">
-              {language === 'ko' ? '메모' : 'Notes'}
+          <div className="mt-6 p-4 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-xl border border-white/10">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-2 h-2 rounded-full bg-purple-400"></div>
+              <h4 className="text-sm font-semibold text-white">
+                {language === 'ko' ? '관람 소감' : 'Visit Notes'}
+              </h4>
+            </div>
+            <p className="text-sm text-gray-200 leading-relaxed italic">"{visit.notes}"</p>
+          </div>
+        )}
+        
+        {/* All Artworks when expanded */}
+        {showDetails && visit.artworks.length > 0 && (
+          <div className="mt-6 p-4 bg-white/5 rounded-xl border border-white/10">
+            <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+              <Heart className="w-4 h-4 text-pink-400" />
+              {language === 'ko' ? '전체 작품 목록' : 'All Artworks'}
             </h4>
-            <p className="text-sm text-gray-300">{visit.notes}</p>
+            <div className="grid grid-cols-1 gap-2">
+              {visit.artworks.map((artwork) => (
+                <div 
+                  key={artwork.id} 
+                  className={`flex items-center justify-between p-3 rounded-lg ${
+                    artwork.liked 
+                      ? 'bg-pink-500/20 border border-pink-500/30' 
+                      : 'bg-white/5 border border-white/10'
+                  }`}
+                >
+                  <div className="flex-1 min-w-0">
+                    <div className={`text-sm font-medium truncate ${artwork.liked ? 'text-white' : 'text-gray-300'}`}>
+                      {artwork.title}
+                    </div>
+                    <div className="text-xs text-gray-400">{artwork.artist}</div>
+                  </div>
+                  {artwork.liked && (
+                    <Heart className="w-4 h-4 text-pink-400 fill-current flex-shrink-0 ml-2" />
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </motion.div>

@@ -1,0 +1,178 @@
+{
+  "analysisDate": "2025-08-21T17:28:34.014Z",
+  "currentCollection": {
+    "total": 773,
+    "folderDistribution": {
+      "full": 773
+    },
+    "duplicates": 0
+  },
+  "qualityAnalysis": {
+    "completeness": {
+      "title": 1,
+      "artist": 1,
+      "sayuType": 1
+    },
+    "sayuTypeDistribution": {
+      "LAEF": 78,
+      "LAEC": 70,
+      "LAMF": 36,
+      "LAMC": 46,
+      "LREF": 70,
+      "LREC": 60,
+      "LRMF": 46,
+      "LRMC": 55,
+      "SAEF": 40,
+      "SAEC": 52,
+      "SAMF": 30,
+      "SREF": 47,
+      "SREC": 40,
+      "SRMF": 55,
+      "SRMC": 48
+    },
+    "topArtists": [
+      [
+        "Vincent van Gogh",
+        10
+      ],
+      [
+        "Caspar David Friedrich",
+        10
+      ],
+      [
+        "Odilon Redon",
+        10
+      ],
+      [
+        "Gustave Moreau",
+        10
+      ],
+      [
+        "William Blake",
+        10
+      ],
+      [
+        "Edvard Munch",
+        10
+      ],
+      [
+        "Paul Gauguin",
+        10
+      ],
+      [
+        "Claude Monet",
+        10
+      ],
+      [
+        "Edgar Degas",
+        10
+      ],
+      [
+        "Mary Cassatt",
+        10
+      ]
+    ]
+  },
+  "overlapEstimates": {
+    "enhanced_vs_full": {
+      "description": "Enhanced vs Full 폴더",
+      "estimatedOverlap": "80-90%",
+      "priority": "Enhanced 우선 (더 고화질)"
+    },
+    "masters_vs_full": {
+      "description": "Masters vs Full 폴더",
+      "estimatedOverlap": "50-70%",
+      "priority": "Masters 우선 (큐레이션됨)"
+    },
+    "artvee_vs_complete": {
+      "description": "Artvee vs Artvee-Complete",
+      "estimatedOverlap": "60-80%",
+      "priority": "Complete 우선 (더 포괄적)"
+    },
+    "artvee_vs_met": {
+      "description": "Artvee vs MET 컬렉션",
+      "estimatedOverlap": "5-15%",
+      "priority": "MET 우선 (더 신뢰할만한 메타데이터)"
+    }
+  },
+  "integrationStrategy": {
+    "phase1": {
+      "title": "현재 컬렉션 최적화",
+      "description": "773개 검증된 작품 품질 향상",
+      "actions": [
+        "메타데이터 보강 (누락된 제목, 작가 정보)",
+        "SAYU 타입 자동 분류 정확도 개선",
+        "고화질 버전으로 업그레이드 (Enhanced 폴더 활용)"
+      ],
+      "timeframe": "1주일"
+    },
+    "phase2": {
+      "title": "스마트 중복 제거",
+      "description": "Artvee 계열 폴더들 통합",
+      "actions": [
+        "Enhanced/Full/Masters 폴더 중복 분석",
+        "품질 우선순위로 최상위 버전 선택",
+        "Artvee-Complete 컬렉션과 병합",
+        "중복 제거 후 고유 작품 1,000-1,200개 예상"
+      ],
+      "timeframe": "2주일"
+    },
+    "phase3": {
+      "title": "MET 컬렉션 통합",
+      "description": "3,715개 메트로폴리탄 작품 추가",
+      "actions": [
+        "MET 작품 메타데이터 구조 분석",
+        "Artvee와 중복 제거 (예상 5-15%)",
+        "APT 유형 자동 분류",
+        "최종 4,000-4,500개 고유 작품 달성"
+      ],
+      "timeframe": "3주일"
+    },
+    "phase4": {
+      "title": "품질 보장 및 최적화",
+      "description": "세계급 컬렉션 완성",
+      "actions": [
+        "모든 이미지 URL 유효성 재검증",
+        "APT별 균형 조정 (각 타입당 최소 200개)",
+        "추천 알고리즘 정교화",
+        "A/B 테스트로 사용자 만족도 확인"
+      ],
+      "timeframe": "2주일"
+    }
+  },
+  "nextSteps": [
+    {
+      "priority": "URGENT",
+      "task": "Cloudinary Media Library에서 실제 파일명 확인",
+      "description": "MET 폴더의 실제 구조와 파일명 패턴 파악",
+      "command": "직접 웹 인터페이스 접속",
+      "impact": "MET 3,715개 작품 활용 가능성 확정"
+    },
+    {
+      "priority": "HIGH",
+      "task": "Enhanced 폴더 샘플 비교",
+      "description": "같은 작품의 Full vs Enhanced 화질 차이 확인",
+      "command": "node scripts/compare-image-quality.js",
+      "impact": "고화질 업그레이드로 사용자 경험 개선"
+    },
+    {
+      "priority": "HIGH",
+      "task": "Artvee-Complete 폴더 구조 분석",
+      "description": "874개 작품의 실제 내용과 중복 여부",
+      "command": "node scripts/analyze-complete-collection.js",
+      "impact": "200-400개 추가 작품 확보 가능"
+    },
+    {
+      "priority": "MEDIUM",
+      "task": "메타데이터 보강 도구 개발",
+      "description": "누락된 작가/제목 정보 자동 추출",
+      "command": "node scripts/enhance-metadata.js",
+      "impact": "추천 정확도 20-30% 향상"
+    }
+  ],
+  "projectedOutcome": {
+    "finalCollectionSize": "4,000-4,500 unique artworks",
+    "qualityImprovement": "20-30%",
+    "userExperienceBoost": "Significant"
+  }
+}
