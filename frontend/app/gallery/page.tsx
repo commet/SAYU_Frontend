@@ -30,6 +30,8 @@ import { SayuGalleryGrid } from '@/components/ui/sayu-gallery-grid';
 import { ChevronRight, LayoutGrid, List } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { aptRecommendations } from './sayu-recommendations';
+import { useCloudinaryArtworks, usePersonalizedArtworks } from '@/hooks/useCloudinaryArtworks';
+import { useGuestTracking } from '@/hooks/useGuestTracking';
 
 interface UserProfile {
   id: string;
@@ -93,24 +95,50 @@ function GalleryContent() {
   const [recommendedArtworks, setRecommendedArtworks] = useState<any[]>([]);
   const [showAllRecommendations, setShowAllRecommendations] = useState(!isMobile); // 모바일에서는 기본으로 접기
   const [layout, setLayout] = useState<'masonry' | 'grid' | 'list'>('masonry');
+  const [userPreferenceScore, setUserPreferenceScore] = useState<number>(0); // 취향 분석 정확도
   
   // 작품 상세 모달 상태
   const [selectedArtwork, setSelectedArtwork] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Guest tracking for progressive engagement
+  const { trackInteraction, shouldShowSignupPrompt } = useGuestTracking();
+  
+  // Cloudinary artworks hook - 1000+ artworks from your database
+  const userTypeForArtworks = userProfile?.typeCode || userProfile?.personalityType || user?.aptType || 'SREF';
+  const { 
+    artworks: cloudinaryArtworks, 
+    loading: loadingCloudinary,
+    error: cloudinaryError,
+    refresh: refreshArtworks,
+    loadMore: loadMoreArtworks,
+    hasMore: hasMoreArtworks
+  } = useCloudinaryArtworks({
+    userType: userTypeForArtworks,
+    limit: 30,  // 초기에는 30개만 로드하여 성능 개선
+    random: true,
+    autoLoad: true
+  });
 
   // Load user profile and preferences
   useEffect(() => {
-    // Try to get APT type from localStorage first
-    const quizResults = localStorage.getItem('quizResults');
-    let aptType = 'SREF';
-    if (quizResults) {
-      try {
-        const parsed = JSON.parse(quizResults);
-        aptType = parsed.personalityType || 'SREF';
-      } catch (e) {
-        console.error('Error parsing quiz results:', e);
+    // Get APT type from user object (loaded from DB) or localStorage as fallback
+    let aptType = user?.personalityType || user?.aptType || 'SREF';
+    
+    // Fallback to localStorage for backward compatibility
+    if (!aptType || aptType === 'SREF') {
+      const quizResults = localStorage.getItem('quizResults');
+      if (quizResults) {
+        try {
+          const parsed = JSON.parse(quizResults);
+          aptType = parsed.personalityType || 'SREF';
+        } catch (e) {
+          console.error('Error parsing quiz results:', e);
+        }
       }
     }
+    
+    console.log('Gallery - Using APT type:', aptType, 'from:', user?.personalityType ? 'DB' : 'localStorage/default');
     
     if (user && !isGuestMode) {
       fetchUserProfile();
@@ -137,10 +165,21 @@ function GalleryContent() {
     fetchArtworks(selectedCategory);
   }, [selectedCategory]);
 
-  // Load recommended artworks
+  // Load recommended artworks from Cloudinary hook
   useEffect(() => {
-    loadRecommendedArtworks();
-  }, [userProfile, selectedCategory]);
+    if (cloudinaryArtworks && cloudinaryArtworks.length > 0) {
+      // Take first 20 artworks for recommendations
+      const recommendations = cloudinaryArtworks.slice(0, 20).map((artwork) => ({
+        ...artwork,
+        description: artwork.description || artwork.curatorNote,
+        curatorNote: artwork.curatorNote || `${userTypeForArtworks} 유형의 감성과 완벽하게 어울리는 ${artwork.artist}의 작품입니다.`,
+        href: '#'
+      }));
+      
+      setRecommendedArtworks(recommendations);
+      console.log('✅ Loaded', recommendations.length, 'Cloudinary artworks for recommendations');
+    }
+  }, [cloudinaryArtworks, userTypeForArtworks]);
   
   // Get user APT type for display
   const userAptType = userProfile?.typeCode || userProfile?.personalityType || user?.aptType || 'SREF';
@@ -156,27 +195,39 @@ function GalleryContent() {
 
   const fetchUserProfile = async () => {
     try {
-      // Try to get APT type from localStorage first
-      const quizResults = localStorage.getItem('quizResults');
-      let aptType = 'SREF';
-      if (quizResults) {
-        try {
-          const parsed = JSON.parse(quizResults);
-          aptType = parsed.personalityType || 'SREF';
-        } catch (e) {
-          console.error('Error parsing quiz results:', e);
+      // Get APT type from user object (DB) first
+      let aptType = user?.personalityType || user?.aptType || 'SREF';
+      
+      // Fallback to localStorage if not in DB
+      if (!aptType || aptType === 'SREF') {
+        const quizResults = localStorage.getItem('quizResults');
+        if (quizResults) {
+          try {
+            const parsed = JSON.parse(quizResults);
+            aptType = parsed.personalityType || 'SREF';
+            
+            // Migrate to DB if user is logged in
+            if (user?.id && parsed.personalityType) {
+              import('@/lib/quiz-api').then(({ saveQuizResultsWithSync }) => {
+                saveQuizResultsWithSync(parsed).catch(console.error);
+              });
+            }
+          } catch (e) {
+            console.error('Error parsing quiz results:', e);
+          }
         }
       }
       
       if (user) {
         setUserProfile({
           id: user.id,
-          sayuType: user.personalityType || aptType,
+          sayuType: aptType,
           email: user.auth?.email || '',
           name: user.nickname || '',
-          personalityType: user.personalityType || aptType,
-          typeCode: user.typeCode || user.personalityType || aptType
+          personalityType: aptType,
+          typeCode: aptType
         });
+        console.log('Gallery - Profile set with APT type:', aptType);
       }
     } catch (error) {
       console.error('Error fetching profile:', error);
@@ -239,36 +290,6 @@ function GalleryContent() {
     localStorage.setItem('viewedArtworks', JSON.stringify([...viewedArtworks]));
   };
 
-  const loadRecommendedArtworks = async () => {
-    // Get user type
-    const userType = userProfile?.typeCode || userProfile?.personalityType || user?.aptType || 'SREF';
-    console.log('🎨 Loading artworks for user type:', userType);
-    
-    // Import Cloudinary artworks with fallback
-    const { CLOUDINARY_FAMOUS_ARTWORKS, getArtworksForUserType, WIKIPEDIA_FALLBACK_URLS } = await import('@/data/cloudinary-artworks');
-    
-    // Get user type specific artworks
-    const artworks = getArtworksForUserType(userType);
-    
-    // Format recommendations with user type and fallback URLs
-    const formattedRecommendations = artworks.map((artwork, i) => ({
-      id: artwork.id,
-      title: artwork.title,
-      artist: artwork.artist,
-      year: artwork.year,
-      description: `${userType} 유형을 위한 특별 큐레이션`,
-      href: '#',
-      imageUrl: artwork.imageUrl,
-      fallbackUrl: WIKIPEDIA_FALLBACK_URLS[artwork.id] || artwork.imageUrl,
-      matchPercent: 95 - (i * 2),
-      curatorNote: `${userType} 유형의 감성과 완벽하게 어울리는 ${artwork.artist}의 작품입니다.`,
-      style: artwork.style,
-      museum: artwork.museum
-    }));
-    
-    console.log('✅ Loaded Cloudinary artworks:', formattedRecommendations.length);
-    setRecommendedArtworks(formattedRecommendations);
-  };
 
   const fetchArtworks = async (category: string) => {
     console.log('🎨 fetchArtworks started for category:', category);
@@ -291,45 +312,55 @@ function GalleryContent() {
       }
       */
       
-      // API 데이터가 없으면 Cloudinary 작품 사용
-      const getPersonalizedArtworks = async () => {
+      // Use Cloudinary artworks from hook
+      const getPersonalizedArtworks = () => {
         try {
-          // Use Cloudinary artworks as fallback
-          const { CLOUDINARY_FAMOUS_ARTWORKS, getArtworksForUserType } = await import('@/data/cloudinary-artworks');
-          const userType = user?.aptType || userProfile?.typeCode || 'SREF';
-          const cloudinaryArtworks = getArtworksForUserType(userType);
+          // Use the cloudinaryArtworks from our hook (1000+ images)
+          if (!cloudinaryArtworks || cloudinaryArtworks.length === 0) {
+            console.log('No Cloudinary artworks available yet');
+            return [];
+          }
           
           // Filter by category if needed
-          let filteredArtworks = cloudinaryArtworks;
+          let filteredArtworks = [...cloudinaryArtworks];
           if (category !== 'all') {
             filteredArtworks = cloudinaryArtworks.filter(artwork => {
-              const style = artwork.style?.toLowerCase() || '';
-              if (category === 'paintings' && (style.includes('impression') || style.includes('renaissance'))) return true;
-              if (category === 'asian-art' && style.includes('ukiyo')) return true;
-              if (category === 'modern' && (style.includes('nouveau') || style.includes('modern'))) return true;
+              const style = (artwork.style?.toLowerCase() || '');
+              const title = (artwork.title?.toLowerCase() || '');
+              const artist = (artwork.artist?.toLowerCase() || '');
+              
+              if (category === 'paintings' && (style.includes('impression') || style.includes('post-impression') || style.includes('fauvism'))) return true;
+              if (category === 'sculpture' && (title.includes('sculpture') || style.includes('sculpture'))) return true;
+              if (category === 'photography' && (title.includes('photo') || style.includes('photo'))) return true;
+              if (category === 'asian-art' && (artist.includes('hokusai') || artist.includes('hiroshige') || style.includes('ukiyo'))) return true;
+              if (category === 'modern' && (style.includes('abstract') || style.includes('modern') || style.includes('contemporary'))) return true;
               return false;
             });
             
-            // If no matches for category, use all artworks
+            // If no matches for category, use random selection from all
             if (filteredArtworks.length === 0) {
-              filteredArtworks = cloudinaryArtworks;
+              console.log('No matches for category', category, ', using random selection');
+              filteredArtworks = cloudinaryArtworks.slice(0, 50);
             }
           }
           
-          return filteredArtworks.map((artwork, i) => ({
-            id: artwork.id || `cloudinary-${i}`,
+          // Limit to reasonable number for display
+          const displayArtworks = filteredArtworks.slice(0, 50);
+          
+          return displayArtworks.map((artwork, i) => ({
+            id: artwork.id,
             title: artwork.title,
             artist: artwork.artist,
             year: artwork.year,
-            imageUrl: artwork.imageUrl,
+            imageUrl: artwork.imageUrl || artwork.thumbnail,
             museum: artwork.museum || 'SAYU Curated Collection',
             medium: artwork.style || 'Mixed Media',
             department: category,
             isPublicDomain: true,
             license: 'CC0',
-            matchPercent: 95 - (i * 2),
-            curatorNote: `${userType} 유형에 특별히 선별된 ${artwork.artist}의 작품입니다.`,
-            description: `${artwork.style} 시대의 대표작품`
+            matchPercent: artwork.matchPercent || (95 - (i * 2)),
+            curatorNote: artwork.curatorNote || `${userTypeForArtworks} 유형에 특별히 선별된 ${artwork.artist}의 작품입니다.`,
+            description: artwork.description || `${artwork.style || 'Modern Art'} 시대의 대표작품`
           }));
         } catch (error) {
           console.error('Error getting personalized artworks:', error);
@@ -338,7 +369,7 @@ function GalleryContent() {
       };
       
       // Get personalized artworks based on user type and category
-      const personalizedArtworks = await getPersonalizedArtworks();
+      const personalizedArtworks = getPersonalizedArtworks();
       
       // If we have personalized artworks, use them
       // Otherwise, get from recommendation system
@@ -411,23 +442,62 @@ function GalleryContent() {
     
     if (isLiking) {
       newLiked.add(artworkId);
-      toast.success('❤️ Added to favorites!');
-      console.log('✅ Added to favorites');
+      // 좋아요 카운트 기반 메시지
+      const likeCount = newLiked.size;
+      const messages = [
+        `❤️ AI가 당신의 취향을 학습했습니다! (${likeCount}개 학습)`,
+        `❤️ 취향 분석 중... ${likeCount}개의 작품으로 패턴 발견!`,
+        `❤️ ${userAptType} 유형 취향 데이터 수집 완료!`,
+        `❤️ 당신만의 예술 DNA를 구축 중입니다 (${likeCount}/20)`,
+        `❤️ 이 선택으로 추천이 ${Math.min(likeCount * 5, 95)}% 정확해집니다!`
+      ];
+      
+      // 좋아요 개수에 따라 다른 메시지
+      let message;
+      if (likeCount === 1) {
+        message = '❤️ 첫 번째 취향 데이터! AI가 학습을 시작합니다';
+      } else if (likeCount === 5) {
+        message = '❤️ 5개 달성! 이제 기본 취향 패턴을 파악했습니다';
+      } else if (likeCount === 10) {
+        message = '❤️ 10개 달성! 당신의 예술 취향이 명확해지고 있습니다';
+      } else if (likeCount === 20) {
+        message = '❤️ 20개 달성! 완벽한 맞춤 추천이 가능합니다! 🎯';
+      } else {
+        message = messages[Math.floor(Math.random() * messages.length)];
+      }
+      
+      toast.success(message, {
+        duration: 4000,
+        style: {
+          background: '#1f2937',
+          color: '#f3f4f6',
+          border: '1px solid #7c3aed'
+        }
+      });
+      console.log('✅ Added to favorites, total:', likeCount);
     } else {
       newLiked.delete(artworkId);
-      toast.success('💔 Removed from favorites');
+      toast.success('💔 취향 데이터에서 제외되었습니다', {
+        duration: 2000,
+        style: {
+          background: '#1f2937',
+          color: '#f3f4f6'
+        }
+      });
       console.log('❌ Removed from favorites');
     }
     
     setLikedArtworks(newLiked);
     console.log('New liked artworks:', [...newLiked]);
     
-    // Save to guest storage if in guest mode
+    // Save to storage
     const guestMode = !user || isGuestMode;
     if (guestMode) {
       const { GuestStorage } = await import('@/lib/guest-storage');
       if (isLiking) {
         GuestStorage.addSavedArtwork(artworkId);
+        // Track guest interaction
+        trackInteraction('like', { artworkId });
       } else {
         GuestStorage.removeSavedArtwork(artworkId);
       }
@@ -441,6 +511,39 @@ function GalleryContent() {
         }, 1000);
       }
     } else {
+      // 로그인 사용자 - DB에 좋아요 저장
+      try {
+        // 작품 정보 찾기
+        const artwork = recommendedArtworks.find(a => a.id === artworkId) || 
+                       galleryArtworks.find(a => a.id === artworkId) ||
+                       savedArtworksData.find(a => a.id === artworkId);
+        
+        const response = await fetch('/api/gallery/preferences', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            artworkId,
+            interactionType: 'like',
+            remove: !isLiking,
+            userAptType,
+            artworkData: artwork ? {
+              title: artwork.title,
+              artist: artwork.artist,
+              year: artwork.year,
+              style: artwork.style || artwork.medium,
+              sayuType: artwork.sayuType
+            } : null
+          })
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+          console.log('✅ Like preference saved to DB:', result);
+        }
+      } catch (error) {
+        console.error('Failed to save like preference:', error);
+      }
+      
       saveUserPreferences();
     }
   };
@@ -522,6 +625,8 @@ function GalleryContent() {
       const { GuestStorage } = await import('@/lib/guest-storage');
       if (isSaving) {
         GuestStorage.addSavedArtwork(artworkId);
+        // Track guest interaction
+        trackInteraction('save', { artworkId });
       } else {
         GuestStorage.removeSavedArtwork(artworkId);
       }
@@ -611,12 +716,17 @@ function GalleryContent() {
   };
 
   const shuffleArtworks = () => {
-    const shuffled = [...galleryArtworks].sort(() => Math.random() - 0.5);
-    setGalleryArtworks(shuffled);
-    toast.success('Gallery shuffled!');
+    // Refresh cloudinary artworks with new random selection
+    refreshArtworks();
+    toast.success('🎨 새로운 작품들을 불러왔습니다!');
   };
 
   const handleArtworkClick = (artwork: any) => {
+    // Track guest interaction
+    if (!user || isGuestMode) {
+      trackInteraction('artwork_click', { artworkId: artwork.id, category: selectedCategory });
+    }
+    
     setSelectedArtwork(artwork);
     setIsModalOpen(true);
     handleView(artwork.id);
@@ -678,8 +788,8 @@ function GalleryContent() {
                 </h1>
                 <p className="text-xs text-slate-400">
                   {isGuestMode 
-                    ? `놀라운 작품들을 발견하세요`
-                    : `${userAptType} 님을 위한 맞춤 큐레이션`
+                    ? `1,000+ 작품 발견하기`
+                    : `${userAptType} 맞춤 1,000+ 작품`
                   }
                 </p>
               </div>
@@ -738,8 +848,8 @@ function GalleryContent() {
                   </h1>
                   <p className="text-sm text-slate-400 mt-1">
                     {isGuestMode 
-                      ? `놀라운 작품들을 발견하세요`
-                      : `${userAptType} 님을 위한 맞춤 큐레이션`
+                      ? `1,000+ 작품 중에서 놀라운 작품들을 발견하세요`
+                      : `${userAptType} 님을 위한 1,000+ 작품 맞춤 큐레이션`
                     }
                   </p>
                 </div>
@@ -785,7 +895,13 @@ function GalleryContent() {
               {ART_CATEGORIES.map((category) => (
                 <button
                   key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
+                  onClick={() => {
+                    setSelectedCategory(category.id);
+                    // Track guest interaction
+                    if (!user || isGuestMode) {
+                      trackInteraction('category_change', { category: category.id });
+                    }
+                  }}
                   className={cn(
                     "rounded-full font-medium whitespace-nowrap transition-all",
                     isMobile ? "px-3 py-1 text-xs" : "px-4 py-2 text-sm",
@@ -840,6 +956,7 @@ function GalleryContent() {
             </div>
           </div>
         </motion.div>
+
 
         {/* 추천 섹션 - Show for both logged-in and SREF guest users */}
         {recommendedArtworks.length > 0 && (
@@ -1125,7 +1242,12 @@ function GalleryContent() {
                   : 'View all the artworks you\'ve collected'}
               </p>
             </div>
-            <Button variant="ghost" size="sm" className="rounded-full text-slate-400 hover:text-white hover:bg-slate-800">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="rounded-full text-slate-400 hover:text-white hover:bg-slate-800"
+              onClick={() => router.push('/gallery/collection')}
+            >
               {language === 'ko' ? 'View All' : 'View All'} <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
@@ -1198,7 +1320,7 @@ function GalleryContent() {
                             console.log('❤️ Heart button clicked for:', artwork.id);
                             handleLike(artwork.id);
                           }}
-                          className="p-2 rounded-full bg-slate-700/50 hover:bg-slate-600 transition-all hover:scale-110"
+                          className="p-2 rounded-full bg-slate-700/50 hover:bg-slate-600 transition-all hover:scale-110 flex items-center justify-center"
                           title="좋아요"
                         >
                           <Heart className={`w-4 h-4 transition-colors ${likedArtworks.has(artwork.id) ? 'text-red-500 fill-red-500' : 'text-slate-300 hover:text-red-400'}`} />
@@ -1210,7 +1332,7 @@ function GalleryContent() {
                             console.log('👁️ View button clicked for:', artwork.id);
                             handleView(artwork.id);
                           }}
-                          className="p-2 rounded-full bg-slate-700/50 hover:bg-slate-600 transition-all hover:scale-110"
+                          className="p-2 rounded-full bg-slate-700/50 hover:bg-slate-600 transition-all hover:scale-110 flex items-center justify-center"
                           title="보기"
                         >
                           <Eye className={`w-4 h-4 transition-colors ${viewedArtworks.has(artwork.id) ? 'text-blue-400' : 'text-slate-300 hover:text-blue-400'}`} />
@@ -1222,7 +1344,7 @@ function GalleryContent() {
                             console.log('📌 Save button clicked for:', artwork.id);
                             handleSave(artwork.id);
                           }}
-                          className="p-2 rounded-full bg-slate-700/50 hover:bg-slate-600 transition-all hover:scale-110"
+                          className="p-2 rounded-full bg-slate-700/50 hover:bg-slate-600 transition-all hover:scale-110 flex items-center justify-center"
                           title="저장"
                         >
                           <Bookmark className={`w-4 h-4 transition-colors ${savedArtworks.has(artwork.id) ? 'text-green-500 fill-green-500' : 'text-slate-300 hover:text-green-400'}`} />

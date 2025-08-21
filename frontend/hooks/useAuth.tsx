@@ -28,7 +28,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const supabase = useMemo(() => createClient(), []);
 
   // Helper function to create AuthUser from Supabase User and UserProfile
-  const createAuthUser = (supabaseUser: User, userProfile: UserProfile | null): AuthUser => {
+  const createAuthUser = (supabaseUser: User, userProfile: UserProfile | null, quizData?: any): AuthUser => {
     // Get display name from various sources in priority order:
     // 1. Profile username (if user set a custom nickname)
     // 2. OAuth provider name (Instagram, Facebook, etc.)
@@ -47,16 +47,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       displayName = supabaseUser.email.split('@')[0];
     }
     
+    // Get personality type from quiz data or profile
+    const personalityType = quizData?.personality_type || userProfile?.personality_type || null;
+    
     return {
       id: supabaseUser.id,
       auth: supabaseUser,
       profile: userProfile,
       nickname: displayName,
-      agencyLevel: userProfile?.personality_type || 'novice',
+      agencyLevel: personalityType || 'novice',
       journeyStage: userProfile ? 'active' : 'onboarding',
       hasProfile: !!userProfile,
-      typeCode: userProfile?.personality_type || null,
-      archetypeName: userProfile?.personality_type || null,
+      typeCode: personalityType,
+      archetypeName: personalityType,
+      personalityType: personalityType,
+      quizCompleted: !!quizData,
+      aptType: personalityType,
     };
   };
 
@@ -77,6 +83,50 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return data;
     } catch (error) {
       console.error('Profile fetch error:', error);
+      return null;
+    }
+  };
+
+  // Fetch quiz results from database
+  const fetchQuizResults = async (userId: string) => {
+    try {
+      // First find the user in users table
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('id, personality_type, quiz_completed')
+        .eq('auth_id', userId)
+        .single();
+
+      if (userError && userError.code !== 'PGRST116') {
+        console.error('Error fetching user data:', userError);
+        return null;
+      }
+
+      if (!userData) {
+        console.log('No user data found for auth_id:', userId);
+        return null;
+      }
+
+      // Then fetch quiz results
+      const { data, error } = await supabase
+        .from('quiz_results')
+        .select('*')
+        .eq('user_id', userData.id)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error fetching quiz results:', error);
+        // If no quiz results, return user data which might have personality_type
+        return userData.personality_type ? {
+          personality_type: userData.personality_type,
+          quiz_completed: userData.quiz_completed
+        } : null;
+      }
+
+      console.log('Quiz results fetched from DB:', data?.personality_type);
+      return data;
+    } catch (error) {
+      console.error('Quiz fetch error:', error);
       return null;
     }
   };
@@ -123,12 +173,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     let mounted = true;
+    let authInitialized = false;
     
     const initializeAuth = async () => {
       try {
         // Get initial session
         console.log('useAuth - Getting initial session...');
         console.log('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
+        
+        // Add small delay to ensure DOM is ready
+        await new Promise(resolve => setTimeout(resolve, 100));
         
         // Get session
         const { data: { session }, error } = await supabase.auth.getSession();
@@ -138,6 +192,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           console.error('useAuth - Session error:', error);
           if (mounted) {
             setLoading(false);
+            authInitialized = true;
           }
           return;
         }
@@ -152,6 +207,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           console.log('useAuth - Session user found:', session.user.id);
           try {
             const profile = await fetchProfile(session.user.id);
+            const quizResults = await fetchQuizResults(session.user.id);
             
             if (!mounted) return;
             
@@ -160,13 +216,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               const newProfile = await createProfile(session.user);
               if (mounted) {
                 setProfile(newProfile);
-                setUser(createAuthUser(session.user, newProfile));
+                setUser(createAuthUser(session.user, newProfile, quizResults));
               }
             } else {
               console.log('useAuth - Profile found:', profile);
+              console.log('useAuth - Quiz results:', quizResults?.personality_type);
               if (mounted) {
                 setProfile(profile);
-                setUser(createAuthUser(session.user, profile));
+                setUser(createAuthUser(session.user, profile, quizResults));
               }
             }
           } catch (error) {
@@ -180,11 +237,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
         
         if (mounted) {
+          authInitialized = true;
           setLoading(false);
         }
       } catch (error) {
         console.error('useAuth - Initialization error:', error);
         if (mounted) {
+          authInitialized = true;
           setLoading(false);
         }
       }
@@ -196,33 +255,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('Auth event:', event, 'Session:', !!session, 'User:', session?.user?.email);
+      
+      // Wait for initial auth to complete before processing auth changes
+      if (!authInitialized && event !== 'INITIAL_SESSION') {
+        console.log('Auth not initialized yet, waiting...');
+        return;
+      }
+      
       setSession(session);
       
       if (session?.user) {
+        console.log('Processing auth change with user:', session.user.id);
         let userProfile = await fetchProfile(session.user.id);
+        const quizResults = await fetchQuizResults(session.user.id);
         
         if (!userProfile) {
+          console.log('Creating profile for auth change user');
           userProfile = await createProfile(session.user);
         }
         
         setProfile(userProfile);
-        setUser(createAuthUser(session.user, userProfile));
+        setUser(createAuthUser(session.user, userProfile, quizResults));
+        
+        // For OAuth login success, add small delay to ensure state is set
+        if (event === 'SIGNED_IN') {
+          setTimeout(() => {
+            setLoading(false);
+          }, 200);
+        } else {
+          setLoading(false);
+        }
       } else {
         setProfile(null);
         setUser(null);
+        setLoading(false);
       }
-      
-      setLoading(false);
-
-      // Handle auth events
-      console.log('Auth event:', event, 'Session:', !!session, 'User:', session?.user?.email);
       
       // Only redirect on explicit sign out, not on session refresh or token refresh
       if (event === 'SIGNED_OUT') {
         console.log('User signed out, redirecting to home');
         router.push('/');
       }
-      // Remove automatic redirect on SIGNED_IN to prevent conflicts with callback redirect
     });
 
     return () => {
@@ -258,13 +332,43 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.log('👤 User:', data.user?.email);
       console.log('🎫 Session:', !!data.session);
       
-      // Migrate localStorage quiz results to backend after successful login
+      // Migrate localStorage quiz results and guest data to backend after successful login
       try {
         const { migrateLocalQuizResults } = await import('@/lib/quiz-api');
         await migrateLocalQuizResults();
         console.log('Quiz results migrated successfully');
+        
+        // Also migrate guest collection data
+        const { GuestStorage } = await import('@/lib/guest-storage');
+        const guestData = GuestStorage.getData();
+        
+        if (guestData.savedArtworks.length > 0) {
+          console.log(`Migrating ${guestData.savedArtworks.length} guest artworks to user account`);
+          
+          // Save guest collection to user's account
+          try {
+            const response = await fetch('/api/gallery/collection/migrate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                userId: data.user.id,
+                guestData: GuestStorage.exportForUser()
+              })
+            });
+            
+            if (response.ok) {
+              console.log('Guest collection migrated successfully');
+              // Clear guest data after successful migration
+              GuestStorage.clearData();
+            } else {
+              console.error('Failed to migrate guest collection');
+            }
+          } catch (migrationError) {
+            console.error('Guest data migration error:', migrationError);
+          }
+        }
       } catch (error) {
-        console.error('Failed to migrate quiz results:', error);
+        console.error('Failed to migrate user data:', error);
         // Don't throw - login was successful
       }
     } catch (error) {
@@ -292,6 +396,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     
     console.log('✅ Sign up successful:', data);
+    
+    // If user is immediately available (no email confirmation required), migrate guest data
+    if (data.user && data.session) {
+      try {
+        // Migrate guest data for immediate signups
+        const { GuestStorage } = await import('@/lib/guest-storage');
+        const guestData = GuestStorage.getData();
+        
+        if (guestData.savedArtworks.length > 0 || guestData.quizResults) {
+          console.log('Migrating guest data after signup');
+          
+          const response = await fetch('/api/gallery/collection/migrate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              userId: data.user.id,
+              guestData: GuestStorage.exportForUser()
+            })
+          });
+          
+          if (response.ok) {
+            console.log('Guest data migrated after signup');
+            GuestStorage.clearData();
+          }
+        }
+      } catch (error) {
+        console.error('Failed to migrate guest data after signup:', error);
+        // Don't throw - signup was successful
+      }
+    }
     
     // Return success even if email confirmation is required
     return data;
@@ -371,13 +505,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       console.log('refreshUser: Refreshing user data for:', session.user.id);
       
-      // Fetch updated profile
+      // Fetch updated profile and quiz results
       const profile = await fetchProfile(session.user.id);
+      const quizResults = await fetchQuizResults(session.user.id);
       
       if (profile) {
         console.log('refreshUser: Updated profile fetched:', profile);
+        console.log('refreshUser: Quiz results:', quizResults?.personality_type);
         setProfile(profile);
-        setUser(createAuthUser(session.user, profile));
+        setUser(createAuthUser(session.user, profile, quizResults));
       } else {
         console.log('refreshUser: No profile found');
       }
