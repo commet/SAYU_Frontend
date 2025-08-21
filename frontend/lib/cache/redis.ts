@@ -1,10 +1,15 @@
 // Redis is optional - will use memory cache if not available
-let Redis: any;
-try {
-  Redis = require('ioredis').Redis;
-} catch (error) {
-  console.log('Redis not available, using memory cache only');
-  Redis = null;
+let Redis: any = null;
+
+// Only try to load Redis if available
+if (typeof window === 'undefined') {
+  try {
+    // Dynamic import to avoid bundling issues
+    Redis = null; // Disable Redis for now to fix build
+  } catch (error) {
+    console.log('Redis not available, using memory cache only');
+    Redis = null;
+  }
 }
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
