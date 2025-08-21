@@ -1,0 +1,29 @@
+/* Mobile Fix for Community Page */
+/* Force white text */
+.force-white-text,
+.force-white-text * {
+  color: #FFFFFF !important;
+}
+
+.community-stats,
+.community-stats * {
+  color: #FFFFFF !important;
+}
+
+.match-time,
+.match-distance, 
+.match-exhibitions,
+.match-artworks {
+  color: #FFFFFF !important;
+}
+
+/* Specific mobile override */
+@media screen and (max-width: 768px) {
+  .community-stats span {
+    color: #FFFFFF !important;
+  }
+  
+  .force-white-text span {
+    color: #FFFFFF !important;
+  }
+}
