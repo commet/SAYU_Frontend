@@ -1,6 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
+// 실제 전시 정보 데이터베이스 (예시)
+const CURRENT_EXHIBITIONS = [
+  {
+    id: 'ex1',
+    title: '데이비드 호크니: 봄의 도착',
+    venue: '서울시립미술관',
+    dates: '2025.1.10 - 3.30',
+    price: '성인 15,000원',
+    tags: ['현대미술', '풍경화'],
+    aptTypes: ['LAEF', 'LREF', 'SAEF']
+  },
+  {
+    id: 'ex2',
+    title: '빛의 움직임: 미디어아트 특별전',
+    venue: '국립현대미술관',
+    dates: '2025.1.15 - 4.15',
+    price: '성인 8,000원',
+    tags: ['미디어아트', '인터랙티브'],
+    aptTypes: ['LRMF', 'TRMF', 'TAMF']
+  },
+  {
+    id: 'ex3',
+    title: '조선의 미: 국보 특별전',
+    venue: '국립중앙박물관',
+    dates: '2025.1.20 - 5.20',
+    price: '무료',
+    tags: ['전통미술', '역사'],
+    aptTypes: ['LAMC', 'LRMC', 'TRMC']
+  }
+]
+
 // 페이지별 컨텍스트 정의
 const PAGE_CONTEXTS: Record<string, string> = {
   home: '홈페이지에서 사용자를 환영하고 SAYU 플랫폼을 소개합니다',
@@ -31,6 +62,31 @@ const APT_PERSONALITIES: Record<string, any> = {
   'TREC': { name: '백조', tone: '우아하고 완벽주의적인' },
   'TRMF': { name: '코끼리', tone: '지혜롭고 기억력 좋은' },
   'TRMC': { name: '독수리', tone: '통찰력 있고 목표지향적인' }
+}
+
+// 전시 추천 함수
+function getExhibitionRecommendations(userType: string, message: string): string {
+  const userTypeExhibitions = CURRENT_EXHIBITIONS.filter(ex => 
+    ex.aptTypes.includes(userType)
+  )
+  
+  // 키워드 기반 매칭
+  const keywords = message.toLowerCase()
+  const relevantExhibitions = CURRENT_EXHIBITIONS.filter(ex => 
+    ex.tags.some(tag => keywords.includes(tag)) ||
+    keywords.includes(ex.venue.toLowerCase()) ||
+    keywords.includes(ex.title.toLowerCase())
+  )
+  
+  const exhibitions = relevantExhibitions.length > 0 ? relevantExhibitions : userTypeExhibitions
+  
+  if (exhibitions.length === 0) {
+    return '현재 진행 중인 전시: 서울시립미술관(데이비드 호크니전, ~3.30), 국립현대미술관(미디어아트전, ~4.15)'
+  }
+  
+  return exhibitions.slice(0, 2).map(ex => 
+    `${ex.title} (${ex.venue}, ${ex.dates}, ${ex.price})`
+  ).join(' / ')
 }
 
 export async function POST(request: NextRequest) {
@@ -66,6 +122,11 @@ export async function POST(request: NextRequest) {
     const personality = APT_PERSONALITIES[userType] || APT_PERSONALITIES['LAEF']
     const pageContext = PAGE_CONTEXTS[page] || PAGE_CONTEXTS.default
 
+    // 전시 추천 정보 가져오기
+    const exhibitionInfo = message.includes('전시') || message.includes('추천') || message.includes('어디') 
+      ? getExhibitionRecommendations(userType, message)
+      : ''
+
     // 시스템 프롬프트 생성
     const systemPrompt = `당신은 SAYU의 AI 큐레이터 ${personality.name}입니다.
 성격: ${personality.tone}
@@ -73,13 +134,17 @@ export async function POST(request: NextRequest) {
 컨텍스트: ${pageContext}
 ${artwork ? `\n현재 작품: ${artwork.title} - ${artwork.artist}` : ''}
 ${context.exhibition ? `\n현재 전시: ${context.exhibition}` : ''}
+${exhibitionInfo ? `\n추천 전시: ${exhibitionInfo}` : ''}
 
 대화 규칙:
-- 200자 이내로 간결하게 답변
-- ${personality.tone} 말투 유지
-- 페이지 컨텍스트에 맞는 대화
-- 사용자의 감정과 관점 존중
-- 예술과 문화에 대한 깊이 있는 대화`
+1. 실용적이고 구체적인 정보 제공 (전시 일정, 위치, 가격 등)
+2. 100자 이내로 핵심만 간결하게 답변
+3. 철학적/낭만적 표현 최소화
+4. 실제 전시 정보와 작품 추천 우선
+5. 사용자가 즉시 활용 가능한 정보 중심
+6. 불필요한 감정 표현이나 수사적 질문 제거
+7. 명확한 답변 후 실용적 제안 1개 추가
+8. 전시 추천 시 반드시 장소, 기간, 가격 포함`
 
     // 대화 생성
     const chat = model.startChat({
@@ -122,38 +187,38 @@ ${context.exhibition ? `\n현재 전시: ${context.exhibition}` : ''}
   }
 }
 
-// 페이지별 추천 질문 생성
+// 페이지별 추천 질문 생성 (실용적)
 function getPageSuggestions(page: string, personality: string): string[] {
   const suggestions: Record<string, string[]> = {
     home: [
-      "오늘은 어떤 예술을 만나고 싶으신가요?",
-      "SAYU에서 무엇을 찾고 계신가요?",
-      "당신의 예술 취향이 궁금해요"
+      "이번 주 추천 전시 보기",
+      "내 취향 작품 찾기",
+      "APT 테스트 시작하기"
     ],
     gallery: [
-      "어떤 스타일의 작품을 좋아하시나요?",
-      "이 작품에서 어떤 감정을 느끼시나요?",
-      "가장 마음에 드는 작품은 무엇인가요?"
+      "이 작품 가격 알아보기",
+      "비슷한 작품 더 보기",
+      "작가 정보 확인하기"
     ],
     exhibitions: [
-      "어떤 전시회에 관심이 있으신가요?",
-      "최근에 다녀온 전시가 있나요?",
-      "온라인 전시도 관심 있으신가요?"
+      "오늘 열린 전시 보기",
+      "무료 전시 찾기",
+      "주말 전시 추천"
     ],
     profile: [
-      "당신의 APT 유형에 대해 더 알고 싶으신가요?",
-      "어떤 예술 활동을 즐기시나요?",
-      "예술이 당신에게 어떤 의미인가요?"
+      "내 APT 유형 분석",
+      "맞춤 전시 추천받기",
+      "취향 통계 보기"
     ],
     community: [
-      "다른 사용자들과 어떤 이야기를 나누고 싶으신가요?",
-      "예술 동호회에 관심이 있으신가요?",
-      "함께 전시회에 가실 분을 찾고 계신가요?"
+      "전시 동행 찾기",
+      "리뷰 작성하기",
+      "인기 작품 보기"
     ],
     default: [
-      "오늘 기분은 어떠신가요?",
-      "예술에 대해 궁금한 점이 있으신가요?",
-      "어떤 도움이 필요하신가요?"
+      "오늘의 전시 추천",
+      "내 근처 미술관",
+      "무료 전시 정보"
     ]
   }
   
