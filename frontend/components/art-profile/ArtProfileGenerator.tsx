@@ -82,6 +82,14 @@ export default function ArtProfileGenerator() {
     const startTime = Date.now();
 
     try {
+      // 디버그 로그: 사용 가능한 API 키 확인
+      console.log('=== AI Art Generation Debug ===');
+      console.log('Available API Keys:');
+      console.log('- HuggingFace:', !!process.env.NEXT_PUBLIC_HUGGINGFACE_API_KEY);
+      console.log('- OpenAI:', !!process.env.NEXT_PUBLIC_OPENAI_API_KEY);
+      console.log('- Replicate:', !!process.env.NEXT_PUBLIC_REPLICATE_API_KEY);
+      console.log('- Stability AI:', !!process.env.NEXT_PUBLIC_STABILITY_API_KEY);
+      
       // API 키 확인
       const apiKey = process.env.NEXT_PUBLIC_HUGGINGFACE_API_KEY;
       const hasValidApiKey = apiKey && apiKey !== 'hf_temporary_demo_key_replace_with_real_key';
@@ -91,51 +99,43 @@ export default function ArtProfileGenerator() {
       let transformedImage: string;
       let modelUsed = 'Canvas Effect';
       
-      // Try OpenAI DALL-E first (best quality)
-      const openAIKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
-      if (openAIKey) {
-        try {
-          toast.success(language === 'ko' ? 'OpenAI DALL-E로 생성 중... (최고 품질)' : 'Generating with OpenAI DALL-E... (Best Quality)');
-          transformedImage = await openAIArtService.generateArt(
-            selectedImage,
-            selectedStyle.id,
-            (progress) => setGenerationProgress(progress)
-          );
-          setIsUsingRealAI(true);
-          modelUsed = 'OpenAI DALL-E 3 (HD)';
-        } catch (openAIError) {
-          console.warn('OpenAI DALL-E failed:', openAIError);
-          // Fall through to try other services
-        }
-      }
+      // OpenAI DALL-E는 image-to-image 불가능하므로 제거
+      // Replicate와 HuggingFace의 image-to-image 모델 사용
       
-      // If DALL-E didn't work, try other AI services
-      if (!transformedImage!) {
-        toast.info(language === 'ko' ? 'AI 서비스로 생성 시도 중...' : 'Trying AI services...');
+      console.log('Starting AI art generation with image-to-image models...');
+      toast(language === 'ko' ? '🎨 AI 아트 생성 시작...' : '🎨 Starting AI art generation...', {
+        icon: '🎨',
+        duration: 3000
+      });
+      
+      try {
+        // Try multiple AI services (Replicate, HuggingFace, Stability AI)
+        console.log('Attempting multi-service AI generation (Replicate -> HuggingFace -> Stability)...');
+        transformedImage = await aiArtService.generateArt(
+          selectedImage,
+          selectedStyle.id,
+          (progress) => setGenerationProgress(progress)
+        );
+        setIsUsingRealAI(true);
+        modelUsed = 'AI Image-to-Image';
+        console.log('✅ AI generation successful');
+      } catch (aiError) {
+        console.error('❌ All AI services failed:', aiError);
         
-        try {
-          // Try multiple AI services (Stability AI, Hugging Face, Replicate)
-          transformedImage = await aiArtService.generateArt(
-            selectedImage,
-            selectedStyle.id,
-            (progress) => setGenerationProgress(progress)
-          );
-          setIsUsingRealAI(true);
-          modelUsed = 'Multi-Service AI';
-        } catch (aiError) {
-          console.warn('All AI services failed, falling back to canvas:', aiError);
-          
-          // Final fallback to Canvas effects
-          toast.info(language === 'ko' ? '향상된 아트 효과로 생성 중...' : 'Generating with enhanced art effects...');
-          
-          transformedImage = await generateDemoArt(
-            selectedImage,
-            selectedStyle.id,
-            (progress) => setGenerationProgress(progress)
-          );
-          setIsUsingRealAI(false);
-          modelUsed = 'Enhanced Canvas Effect';
-        }
+        // Final fallback to Canvas effects
+        console.log('Falling back to Canvas effects...');
+        toast(language === 'ko' ? '⚡ 향상된 아트 효과로 생성 중...' : '⚡ Generating with enhanced art effects...', {
+          duration: 3000
+        });
+        
+        transformedImage = await generateDemoArt(
+          selectedImage,
+          selectedStyle.id,
+          (progress) => setGenerationProgress(progress)
+        );
+        setIsUsingRealAI(false);
+        modelUsed = 'Enhanced Canvas Effect';
+        console.log('✅ Canvas effect generation completed');
       }
 
       const processingTime = Date.now() - startTime;

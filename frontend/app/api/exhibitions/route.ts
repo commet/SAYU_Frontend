@@ -156,7 +156,8 @@ export async function GET(request: NextRequest) {
     // Transform data to match frontend interface
     const transformedData = (exhibitions || []).map((ex: any) => ({
       id: ex.id,
-      title: extractTitle(ex.description, ex.venue_name || ex.venue),
+      title: ex.title_local || ex.title_en || ex.title || extractTitle(ex.description, ex.venue_name || ex.venue),
+      title_local: ex.title_local,  // 원본 제목도 포함
       venue: ex.venue_name || ex.venue,
       location: ex.venue_city || ex.location || '서울',
       startDate: ex.start_date,
@@ -177,14 +178,29 @@ export async function GET(request: NextRequest) {
       contact: ex.contact
     }));
 
-    console.log('🎯 Returning', transformedData.length, 'exhibitions');
-    console.log('📋 Sample exhibition:', transformedData[0]);
+    // 중복 제거 로직 추가
+    const uniqueExhibitions = transformedData.reduce((acc: any[], curr: any) => {
+      // 같은 제목과 장소를 가진 전시가 이미 있는지 확인
+      const isDuplicate = acc.some(ex => 
+        ex.title === curr.title && 
+        ex.venue === curr.venue &&
+        ex.startDate === curr.startDate
+      );
+      
+      if (!isDuplicate) {
+        acc.push(curr);
+      }
+      return acc;
+    }, []);
+    
+    console.log('🎯 Returning', uniqueExhibitions.length, 'exhibitions (중복 제거: ', transformedData.length - uniqueExhibitions.length, '개)');
+    console.log('📋 Sample exhibition:', uniqueExhibitions[0]);
     
     const response = {
       success: true,
-      data: transformedData,
-      exhibitions: transformedData, // Also include in exhibitions key for compatibility
-      total: transformedData.length,
+      data: uniqueExhibitions,
+      exhibitions: uniqueExhibitions, // Also include in exhibitions key for compatibility
+      total: uniqueExhibitions.length,
       timestamp: new Date().toISOString()
     };
     

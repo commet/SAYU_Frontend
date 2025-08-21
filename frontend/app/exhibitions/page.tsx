@@ -33,7 +33,9 @@ import Image from 'next/image';
 
 interface Exhibition {
   id: string;
-  title: string;
+  title?: string;
+  title_local?: string;
+  title_en?: string;
   venue_name?: string;
   venue_city?: string;
   start_date: string;
@@ -154,10 +156,10 @@ export default function ExhibitionsPage() {
         throw new Error(`Supabase error: ${supabaseError.message}`);
       }
 
-      // Transform data
+      // Transform data - use actual title from database
       const transformedData = (rawExhibitions || []).map((ex: Exhibition): TransformedExhibition => ({
         id: ex.id,
-        title: extractTitle(ex.description || '', ex.venue_name || '미지의 장소', ex.id),
+        title: ex.title_local || ex.title_en || ex.title || extractTitle(ex.description || '', ex.venue_name || '미지의 장소', ex.id),
         venue: ex.venue_name || '미지의 장소',
         location: ex.venue_city || '서울',
         startDate: ex.start_date,
@@ -172,10 +174,24 @@ export default function ExhibitionsPage() {
         featured: ex.featured || false
       }));
 
-      console.log('✅ Successfully loaded', transformedData.length, 'exhibitions');
+      // Remove duplicates based on title, venue, and start date
+      const uniqueExhibitions = transformedData.reduce((acc: TransformedExhibition[], curr: TransformedExhibition) => {
+        const isDuplicate = acc.some(ex => 
+          ex.title === curr.title && 
+          ex.venue === curr.venue &&
+          ex.startDate === curr.startDate
+        );
+        
+        if (!isDuplicate) {
+          acc.push(curr);
+        }
+        return acc;
+      }, []);
+
+      console.log('✅ Successfully loaded', uniqueExhibitions.length, 'exhibitions (duplicates removed:', transformedData.length - uniqueExhibitions.length, ')');
       
-      setExhibitions(transformedData);
-      setFilteredExhibitions(transformedData);
+      setExhibitions(uniqueExhibitions);
+      setFilteredExhibitions(uniqueExhibitions);
 
     } catch (err) {
       console.error('❌ Error fetching exhibitions:', err);

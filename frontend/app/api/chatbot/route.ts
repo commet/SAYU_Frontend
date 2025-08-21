@@ -1,36 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
+import { createClient } from '@/lib/supabase/server'
 
-// 실제 전시 정보 데이터베이스 (예시)
-const CURRENT_EXHIBITIONS = [
-  {
-    id: 'ex1',
-    title: '데이비드 호크니: 봄의 도착',
-    venue: '서울시립미술관',
-    dates: '2025.1.10 - 3.30',
-    price: '성인 15,000원',
-    tags: ['현대미술', '풍경화'],
-    aptTypes: ['LAEF', 'LREF', 'SAEF']
-  },
-  {
-    id: 'ex2',
-    title: '빛의 움직임: 미디어아트 특별전',
-    venue: '국립현대미술관',
-    dates: '2025.1.15 - 4.15',
-    price: '성인 8,000원',
-    tags: ['미디어아트', '인터랙티브'],
-    aptTypes: ['LRMF', 'TRMF', 'TAMF']
-  },
-  {
-    id: 'ex3',
-    title: '조선의 미: 국보 특별전',
-    venue: '국립중앙박물관',
-    dates: '2025.1.20 - 5.20',
-    price: '무료',
-    tags: ['전통미술', '역사'],
-    aptTypes: ['LAMC', 'LRMC', 'TRMC']
-  }
-]
+// APT 유형별 전시 선호도 매칭 로직
+const APT_EXHIBITION_PREFERENCES: Record<string, string[]> = {
+  'LAEF': ['회화', '인상주의', '추상', '감성적', '몽환적'],
+  'LAEC': ['전통', '고전', '우아한', '정교한'],
+  'LAMF': ['실험적', '개념미술', '철학적', '직관적'],
+  'LAMC': ['역사', '학술적', '전통미술', '차분한'],
+  'LREF': ['세밀한', '사실주의', '풍경화', '자연'],
+  'LREC': ['정밀한', '기하학적', '건축', '도면'],
+  'LRMF': ['미디어아트', '디지털', '혁신적', '실험적'],
+  'LRMC': ['체계적', '과학적', '구조적', '분석적'],
+  'TAEF': ['대중적', '활발한', '컬러풀', '감성적'],
+  'TAEC': ['사교적', '우아한', '클래식', '품격'],
+  'TAMF': ['인터랙티브', '체험형', '재미있는', '호기심'],
+  'TAMC': ['리더십', '전략적', '대규모', '영향력'],
+  'TREF': ['다채로운', '표현적', '생동감', '화려한'],
+  'TREC': ['완벽주의', '정교한', '섬세한', '우아한'],
+  'TRMF': ['지혜로운', '통찰력', '깊이있는', '사색적'],
+  'TRMC': ['목표지향', '체계적', '전문적', '분석적']
+}
 
 // 페이지별 컨텍스트 정의
 const PAGE_CONTEXTS: Record<string, string> = {
@@ -64,29 +54,99 @@ const APT_PERSONALITIES: Record<string, any> = {
   'TRMC': { name: '독수리', tone: '통찰력 있고 목표지향적인' }
 }
 
-// 전시 추천 함수
-function getExhibitionRecommendations(userType: string, message: string): string {
-  const userTypeExhibitions = CURRENT_EXHIBITIONS.filter(ex => 
-    ex.aptTypes.includes(userType)
-  )
+// Supabase에서 실시간 전시 데이터 가져오기
+async function fetchCurrentExhibitions() {
+  try {
+    const supabase = await createClient()
+    const today = new Date().toISOString().split('T')[0]
+    const pastDate = new Date()
+    pastDate.setMonth(pastDate.getMonth() - 3) // 3개월 전부터
+    const futureDate = new Date()
+    futureDate.setMonth(futureDate.getMonth() + 6) // 6개월 후까지
+    const pastDateStr = pastDate.toISOString().split('T')[0]
+    const futureDateStr = futureDate.toISOString().split('T')[0]
+    
+    // 최근 시작했거나 곧 시작할 전시 가져오기 (3개월 전 ~ 6개월 후)
+    const { data: exhibitions, error } = await supabase
+      .from('exhibitions')
+      .select('id, title_local, venue_name, start_date, end_date, admission_fee, tags, description')
+      .gte('end_date', today)    // 종료일이 오늘 이후 (아직 안 끝남)
+      .gte('start_date', pastDateStr)  // 3개월 전 이후에 시작
+      .lte('start_date', futureDateStr) // 6개월 이내에 시작
+      .order('start_date', { ascending: false })
+      .limit(150)
+    
+    if (error) {
+      console.error('전시 데이터 가져오기 실패:', error)
+      return []
+    }
+    
+    return exhibitions || []
+  } catch (error) {
+    console.error('Supabase 연결 실패:', error)
+    return []
+  }
+}
+
+// APT 유형에 맞는 전시 매칭 점수 계산
+function calculateMatchScore(exhibition: any, userType: string): number {
+  const preferences = APT_EXHIBITION_PREFERENCES[userType] || []
+  let score = 0
   
-  // 키워드 기반 매칭
-  const keywords = message.toLowerCase()
-  const relevantExhibitions = CURRENT_EXHIBITIONS.filter(ex => 
-    ex.tags.some(tag => keywords.includes(tag)) ||
-    keywords.includes(ex.venue.toLowerCase()) ||
-    keywords.includes(ex.title.toLowerCase())
-  )
+  // 태그와 설명에서 선호도 키워드 매칭
+  const exhibitionText = `${exhibition.tags || ''} ${exhibition.description || ''} ${exhibition.title_local || ''}`.toLowerCase()
   
-  const exhibitions = relevantExhibitions.length > 0 ? relevantExhibitions : userTypeExhibitions
+  preferences.forEach(pref => {
+    if (exhibitionText.includes(pref.toLowerCase())) {
+      score += 1
+    }
+  })
   
-  if (exhibitions.length === 0) {
-    return '현재 진행 중인 전시: 서울시립미술관(데이비드 호크니전, ~3.30), 국립현대미술관(미디어아트전, ~4.15)'
+  return score
+}
+
+// 전시 추천 함수 (실시간 데이터 기반)
+async function getExhibitionRecommendations(userType: string, message: string): Promise<string> {
+  // Supabase에서 실시간 전시 데이터 가져오기
+  const allExhibitions = await fetchCurrentExhibitions()
+  
+  if (allExhibitions.length === 0) {
+    return '현재 전시 정보를 불러올 수 없습니다. 잠시 후 다시 시도해주세요.'
   }
   
-  return exhibitions.slice(0, 2).map(ex => 
-    `${ex.title} (${ex.venue}, ${ex.dates}, ${ex.price})`
-  ).join(' / ')
+  // APT 유형별 매칭 점수 계산
+  const scoredExhibitions = allExhibitions.map(ex => ({
+    ...ex,
+    matchScore: calculateMatchScore(ex, userType)
+  }))
+  
+  // 메시지 키워드 기반 추가 필터링
+  const keywords = message.toLowerCase()
+  const keywordMatches = scoredExhibitions.filter(ex => {
+    const exhibitionText = `${ex.title_local || ''} ${ex.venue_name || ''} ${ex.tags || ''} ${ex.description || ''}`.toLowerCase()
+    return keywords.split(' ').some(keyword => 
+      keyword.length > 1 && exhibitionText.includes(keyword)
+    )
+  })
+  
+  // 최종 추천 전시 선택 (키워드 매칭 우선, 없으면 APT 매칭 점수 순)
+  const recommendedExhibitions = keywordMatches.length > 0 
+    ? keywordMatches.sort((a, b) => b.matchScore - a.matchScore).slice(0, 3)
+    : scoredExhibitions.sort((a, b) => b.matchScore - a.matchScore).slice(0, 3)
+  
+  if (recommendedExhibitions.length === 0) {
+    return '추천할 전시를 찾을 수 없습니다.'
+  }
+  
+  // 전시 정보 포맷팅
+  return recommendedExhibitions.map(ex => {
+    const startDate = ex.start_date ? new Date(ex.start_date).toLocaleDateString('ko-KR') : ''
+    const endDate = ex.end_date ? new Date(ex.end_date).toLocaleDateString('ko-KR') : ''
+    const dates = startDate && endDate ? `${startDate} ~ ${endDate}` : '날짜 미정'
+    const price = ex.admission_fee || '가격 정보 없음'
+    
+    return `${ex.title_local} (${ex.venue_name}, ${dates}, ${price})`
+  }).join(' / ')
 }
 
 export async function POST(request: NextRequest) {
@@ -122,9 +182,9 @@ export async function POST(request: NextRequest) {
     const personality = APT_PERSONALITIES[userType] || APT_PERSONALITIES['LAEF']
     const pageContext = PAGE_CONTEXTS[page] || PAGE_CONTEXTS.default
 
-    // 전시 추천 정보 가져오기
-    const exhibitionInfo = message.includes('전시') || message.includes('추천') || message.includes('어디') 
-      ? getExhibitionRecommendations(userType, message)
+    // 전시 추천 정보 가져오기 (비동기)
+    const exhibitionInfo = (message.includes('전시') || message.includes('추천') || message.includes('어디') || message.includes('갤러리') || message.includes('미술관'))
+      ? await getExhibitionRecommendations(userType, message)
       : ''
 
     // 시스템 프롬프트 생성

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import './mobile-fix.css';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { ForumList } from '@/components/community/ForumList';
@@ -2380,12 +2381,12 @@ export default function CommunityPage() {
                   ? `${userAnimal?.animal_ko} (${userPersonalityType}) - ${personalityDescriptions[userPersonalityType]?.title_ko}`
                   : `${userAnimal?.animal} (${userPersonalityType}) - ${personalityDescriptions[userPersonalityType]?.title}`}
               </p>
-              <div className="flex gap-4 mt-2 text-sm text-gray-300">
-                <span className="flex items-center gap-1">
+              <div className="flex gap-4 mt-2 text-sm" style={{ color: '#FFFFFF !important' }}>
+                <span className="flex items-center gap-1" style={{ color: '#FFFFFF !important' }}>
                   <Eye className="w-4 h-4" />
                   {language === 'ko' ? '관람 23회' : '23 visits'}
                 </span>
-                <span className="flex items-center gap-1">
+                <span className="flex items-center gap-1" style={{ color: '#FFFFFF !important' }}>
                   <Heart className="w-4 h-4" />
                   {language === 'ko' ? '작품 87개' : '87 artworks'}
                 </span>
@@ -2618,9 +2619,9 @@ export default function CommunityPage() {
                                 {language === 'ko' ? '동행하고 싶어요' : 'Wants to join'} 💖
                               </span>
                             )}
-                            <span style={{ color: isMobile ? '#FFFFFF' : '#E5E7EB', fontSize: '11px', fontWeight: '600' }}>· {match.lastActive}</span>
+                            <span style={{ color: '#FFFFFF', fontSize: '11px', fontWeight: 600 }}>· {match.lastActive}</span>
                           </div>
-                          <p style={{ color: isMobile ? '#FFFFFF' : '#F3F4F6', fontSize: '14px', marginBottom: '8px', fontWeight: '500' }}>
+                          <p style={{ color: '#FFFFFF', fontSize: '14px', marginBottom: '8px', fontWeight: 500 }}>
                             {matchAnimal?.animal_ko}({match.personalityType})
                             {chemistry ? ` - ${language === 'ko' ? chemistry.title_ko : chemistry.title}` : 
                              match.compatibility === 'perfect' ? ` - ${language === 'ko' ? '환상의 케미스트리' : 'Perfect Chemistry'}` :
@@ -2628,11 +2629,11 @@ export default function CommunityPage() {
                              match.compatibility === 'challenging' ? ` - ${language === 'ko' ? '흥미로운 대조' : 'Interesting Contrast'}` :
                              ` - ${language === 'ko' ? '새로운 관점' : 'New Perspectives'}`}
                           </p>
-                          <div className="flex gap-3" style={{ fontSize: '11px' }}>
-                            {match.age && <span style={{ color: isMobile ? '#FFFFFF' : '#E5E7EB', fontWeight: '600' }}>{match.age}{language === 'ko' ? '세' : ' years'}</span>}
-                            {match.distance && <span style={{ color: isMobile ? '#FFFFFF' : '#E5E7EB', fontWeight: '600' }}>{match.distance}km</span>}
-                            <span style={{ color: isMobile ? '#FFFFFF' : '#E5E7EB', fontWeight: '600' }}>{language === 'ko' ? `전시 ${match.exhibitions}회` : `${match.exhibitions} exhibitions`}</span>
-                            <span style={{ color: isMobile ? '#FFFFFF' : '#E5E7EB', fontWeight: '600' }}>{language === 'ko' ? `작품 ${match.artworks}개` : `${match.artworks} artworks`}</span>
+                          <div className="flex gap-3 force-white-text community-stats" style={{ fontSize: '11px' }}>
+                            {match.age && <span className="match-time force-white-text">{match.age}{language === 'ko' ? '세' : ' years'}</span>}
+                            {match.distance && <span className="match-distance force-white-text">{match.distance}km</span>}
+                            <span className="match-exhibitions force-white-text">{language === 'ko' ? `전시 ${match.exhibitions}회` : `${match.exhibitions} exhibitions`}</span>
+                            <span className="match-artworks force-white-text">{language === 'ko' ? `작품 ${match.artworks}개` : `${match.artworks} artworks`}</span>
                           </div>
                         </div>
                       </div>

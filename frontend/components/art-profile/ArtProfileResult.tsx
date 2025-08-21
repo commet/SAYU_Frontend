@@ -149,10 +149,10 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
             )}
           </div>
           
-          {/* 모델 정보 (AI 생성인 경우만) */}
-          {result.isAIGenerated && result.modelUsed && (
+          {/* 모델 정보 */}
+          {result.modelUsed && (
             <p className="text-center text-xs text-gray-300 mb-4">
-              {language === 'ko' ? '사용된 모델: ' : 'Model used: '}{result.modelUsed}
+              {language === 'ko' ? '생성 방식: ' : 'Generated with: '}{result.modelUsed}
             </p>
           )}
           

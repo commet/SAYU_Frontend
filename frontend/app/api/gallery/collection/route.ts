@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
         created_at,
         artworks:artwork_id (
           id,
+          external_id,
           title,
           artist,
           year_created,
@@ -55,9 +56,9 @@ export async function GET(request: NextRequest) {
       }, { status: 500 });
     }
 
-    // Format the response
+    // Format the response - use external_id if available, otherwise internal id
     const formattedItems = (savedArtworks || []).map(item => ({
-      id: item.artwork_id,
+      id: item.artworks?.external_id || item.artwork_id,  // Use external_id for client
       title: item.artworks?.title || 'Untitled',
       artist: item.artworks?.artist || 'Unknown Artist',
       year: item.artworks?.year_created || '',
@@ -110,23 +111,25 @@ export async function POST(request: NextRequest) {
     const supabase = await createClient();
 
     if (action === 'save') {
-      // First check if artwork exists in artworks table
+      // First check if artwork exists in artworks table by external_id
       const { data: existingArtwork, error: checkError } = await supabase
         .from('artworks')
         .select('id')
-        .eq('id', artworkId)
+        .eq('external_id', artworkId)
         .single();
 
-      console.log('Checking artwork exists:', { artworkId, exists: !!existingArtwork, checkError });
+      console.log('Checking artwork exists by external_id:', { artworkId, exists: !!existingArtwork, checkError });
+
+      let internalArtworkId: string;
 
       // If artwork doesn't exist and we have artwork data, create it first
       if (!existingArtwork && artworkData) {
-        console.log('Creating new artwork in database:', artworkData);
+        console.log('Creating new artwork in database with external_id:', artworkId);
         
-        const { error: insertArtworkError } = await supabase
+        const { data: newArtwork, error: insertArtworkError } = await supabase
           .from('artworks')
           .insert({
-            id: artworkId,
+            external_id: artworkId,  // Store the original ID
             title: artworkData.title || 'Untitled',
             artist: artworkData.artist || 'Unknown Artist',
             year_created: artworkData.year || '',
@@ -138,7 +141,9 @@ export async function POST(request: NextRequest) {
             department: artworkData.department || '',
             is_public_domain: artworkData.isPublicDomain || true,
             license: artworkData.license || 'CC0'
-          });
+          })
+          .select()
+          .single();
 
         if (insertArtworkError) {
           console.error('Failed to insert artwork:', insertArtworkError);
@@ -148,8 +153,12 @@ export async function POST(request: NextRequest) {
           }, { status: 500 });
         }
         
-        console.log('Successfully created artwork in database');
-      } else if (!existingArtwork && !artworkData) {
+        console.log('Successfully created artwork in database:', newArtwork);
+        internalArtworkId = newArtwork.id;
+      } else if (existingArtwork) {
+        // Use existing artwork's internal UUID
+        internalArtworkId = existingArtwork.id;
+      } else {
         console.error('Artwork not found and no artwork data provided');
         return NextResponse.json({
           success: false,
@@ -157,12 +166,12 @@ export async function POST(request: NextRequest) {
         }, { status: 400 });
       }
 
-      // Check if already saved
+      // Check if already saved (using internal UUID)
       const { data: existing } = await supabase
         .from('artwork_interactions')
         .select('id')
         .eq('user_id', userId)
-        .eq('artwork_id', artworkId)
+        .eq('artwork_id', internalArtworkId)
         .eq('interaction_type', 'save')
         .single();
 
@@ -176,12 +185,12 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      // Add to collection
+      // Add to collection (using internal UUID)
       const { error: insertError, data: insertData } = await supabase
         .from('artwork_interactions')
         .insert({
           user_id: userId,
-          artwork_id: artworkId,
+          artwork_id: internalArtworkId,
           interaction_type: 'save',
           created_at: new Date().toISOString()
         })
@@ -204,20 +213,29 @@ export async function POST(request: NextRequest) {
       console.log('Successfully saved artwork:', insertData);
 
     } else if (action === 'remove') {
-      // Remove from collection
-      const { error: deleteError } = await supabase
-        .from('artwork_interactions')
-        .delete()
-        .eq('user_id', userId)
-        .eq('artwork_id', artworkId)
-        .eq('interaction_type', 'save');
+      // First find the artwork by external_id to get internal id
+      const { data: artwork } = await supabase
+        .from('artworks')
+        .select('id')
+        .eq('external_id', artworkId)
+        .single();
 
-      if (deleteError) {
-        console.error('Delete error:', deleteError);
-        return NextResponse.json({
-          success: false,
-          error: 'Failed to remove artwork'
-        }, { status: 500 });
+      if (artwork) {
+        // Remove from collection using internal UUID
+        const { error: deleteError } = await supabase
+          .from('artwork_interactions')
+          .delete()
+          .eq('user_id', userId)
+          .eq('artwork_id', artwork.id)
+          .eq('interaction_type', 'save');
+
+        if (deleteError) {
+          console.error('Delete error:', deleteError);
+          return NextResponse.json({
+            success: false,
+            error: 'Failed to remove artwork'
+          }, { status: 500 });
+        }
       }
     }
 

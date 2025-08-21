@@ -28,28 +28,34 @@ export class AIArtService {
     styleId: string,
     onProgress?: (progress: number) => void
   ): Promise<string> {
+    console.log('=== AIArtService.generateArt Debug ===');
+    console.log('Starting multi-service generation attempt...');
+    console.log('Style ID:', styleId);
     onProgress?.(5);
     
-    // Try different AI services in order of preference
+    // Replicate 우선, image-to-image 가능한 서비스들만
     const services = [
-      () => this.generateWithStabilityAI(imageFile, styleId, onProgress),
-      () => this.generateWithHuggingFace(imageFile, styleId, onProgress),
-      () => this.generateWithReplicateAI(imageFile, styleId, onProgress),
-      () => this.generateWithEnhancedCanvas(imageFile, styleId, onProgress)
+      { name: 'Replicate', fn: () => this.generateWithReplicateAI(imageFile, styleId, onProgress) },
+      { name: 'HuggingFace', fn: () => this.generateWithHuggingFace(imageFile, styleId, onProgress) },
+      { name: 'Stability AI', fn: () => this.generateWithStabilityAI(imageFile, styleId, onProgress) },
+      { name: 'Enhanced Canvas', fn: () => this.generateWithEnhancedCanvas(imageFile, styleId, onProgress) }
     ];
     
     for (const service of services) {
       try {
-        const result = await service();
+        console.log(`Trying ${service.name}...`);
+        const result = await service.fn();
         if (result) {
+          console.log(`✅ ${service.name} succeeded!`);
           return result;
         }
       } catch (error) {
-        console.warn('Service failed, trying next:', error);
+        console.warn(`❌ ${service.name} failed:`, error);
       }
     }
     
     // If all services fail, use the enhanced canvas fallback
+    console.log('All services failed, using final canvas fallback...');
     return this.generateWithEnhancedCanvas(imageFile, styleId, onProgress);
   }
 
@@ -175,7 +181,7 @@ export class AIArtService {
     return dataUrl;
   }
 
-  // Replicate AI - Alternative service
+  // Replicate AI - 최적화된 image-to-image 모델 선택
   private async generateWithReplicateAI(
     imageFile: File,
     styleId: string,
@@ -186,12 +192,17 @@ export class AIArtService {
       throw new Error('Replicate API key not configured');
     }
 
+    console.log('Replicate: Processing with style:', styleId);
     onProgress?.(10);
     
     const base64 = await this.fileToBase64(imageFile);
     const dataUrl = `data:${imageFile.type};base64,${base64}`;
     
     onProgress?.(20);
+    
+    // 스타일별 최적 모델 선택
+    const modelConfig = this.getReplicateModelForStyle(styleId);
+    console.log('Using Replicate model:', modelConfig.name);
     
     // Start prediction
     const response = await fetch('https://api.replicate.com/v1/predictions', {
@@ -201,14 +212,14 @@ export class AIArtService {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        version: '435061a1b5a4c1e26740464bf786efdfa9cb3a3ac488595a2de23e143fdb0117', // instruct-pix2pix
+        version: modelConfig.version,
         input: {
+          ...modelConfig.baseInput,
           image: dataUrl,
           prompt: this.getPromptForStyle(styleId),
-          negative_prompt: this.getNegativePromptForStyle(styleId),
-          num_inference_steps: 30,
-          guidance_scale: 7.5,
-          image_guidance_scale: 1.5
+          ...(modelConfig.supportNegativePrompt && {
+            negative_prompt: this.getNegativePromptForStyle(styleId)
+          })
         }
       })
     });
@@ -653,6 +664,125 @@ export class AIArtService {
     };
     
     return presets[styleId] || 'enhance';
+  }
+
+  // Replicate 모델 설정 - 스타일별 최적 모델 선택
+  private getReplicateModelForStyle(styleId: string): any {
+    const models = {
+      // SDXL-Lightning - 빠르고 품질 좋은 일반 스타일 변환
+      'default': {
+        name: 'SDXL-Lightning Image-to-Image',
+        version: '527d2a6296facb8e47ba1eaf17f142c240c19a30894f437feee9b91cc29d8e4f',
+        supportNegativePrompt: true,
+        baseInput: {
+          num_inference_steps: 4,
+          guidance_scale: 1.5,
+          strength: 0.8,
+          scheduler: 'K_EULER'
+        }
+      },
+      
+      // 예술적 스타일
+      'vangogh-postimpressionism': {
+        name: 'Stable Diffusion Img2Img',
+        version: '15a3689ee13b0d2616e98820eca31d4c3abcd36672df6afce5cb6feb1d66087d',
+        supportNegativePrompt: true,
+        baseInput: {
+          num_inference_steps: 50,
+          guidance_scale: 7.5,
+          prompt_strength: 0.8,
+          scheduler: 'DPMSolverMultistep'
+        }
+      },
+      
+      'monet-impressionism': {
+        name: 'SDXL Img2Img',
+        version: '39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b',
+        supportNegativePrompt: true,
+        baseInput: {
+          num_inference_steps: 30,
+          guidance_scale: 6,
+          strength: 0.75,
+          refine: 'expert_ensemble_refiner'
+        }
+      },
+      
+      'picasso-cubism': {
+        name: 'ControlNet SDXL',
+        version: 'f9b9e5bdd896922a8ef17377801e93c9867216b40f95bbc12eff20e20265d665',
+        supportNegativePrompt: true,
+        baseInput: {
+          num_inference_steps: 40,
+          guidance_scale: 8,
+          controlnet_conditioning_scale: 0.5,
+          strength: 0.85
+        }
+      },
+      
+      'warhol-popart': {
+        name: 'SDXL-Lightning Fast',
+        version: '527d2a6296facb8e47ba1eaf17f142c240c19a30894f437feee9b91cc29d8e4f',
+        supportNegativePrompt: true,
+        baseInput: {
+          num_inference_steps: 4,
+          guidance_scale: 2,
+          strength: 0.9,
+          scheduler: 'K_EULER'
+        }
+      },
+      
+      'klimt-artnouveau': {
+        name: 'Stable Diffusion XL',
+        version: '39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b',
+        supportNegativePrompt: true,
+        baseInput: {
+          num_inference_steps: 50,
+          guidance_scale: 7,
+          strength: 0.8,
+          refine: 'expert_ensemble_refiner',
+          high_noise_frac: 0.8
+        }
+      },
+      
+      // 디지털 아트 스타일
+      'anime-style': {
+        name: 'Anything V5 (Anime)',
+        version: '42a996d39a96aedc57b2e0aa8105dea39c9c89d9d266caf6bb4327a1c191b061',
+        supportNegativePrompt: true,
+        baseInput: {
+          num_inference_steps: 25,
+          guidance_scale: 7,
+          strength: 0.7,
+          scheduler: 'K_EULER_ANCESTRAL'
+        }
+      },
+      
+      'cyberpunk-digital': {
+        name: 'SDXL CyberRealistic',
+        version: '39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b',
+        supportNegativePrompt: true,
+        baseInput: {
+          num_inference_steps: 30,
+          guidance_scale: 9,
+          strength: 0.85,
+          refine: 'expert_ensemble_refiner'
+        }
+      },
+      
+      'pixelart-digital': {
+        name: 'Pixel Art Style',
+        version: '527d2a6296facb8e47ba1eaf17f142c240c19a30894f437feee9b91cc29d8e4f',
+        supportNegativePrompt: true,
+        baseInput: {
+          num_inference_steps: 8,
+          guidance_scale: 3,
+          strength: 0.95,
+          scheduler: 'K_EULER'
+        }
+      }
+    };
+    
+    return models[styleId] || models['default'];
   }
 }
 
