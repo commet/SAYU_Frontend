@@ -1,5 +1,5 @@
 {
-  "buildCommand": "rm -rf .next node_modules/.cache && npm run build",
+  "buildCommand": "echo 'Cache bust v2' && rm -rf .next node_modules/.cache && npm run build",
   "outputDirectory": ".next",
   "framework": "nextjs",
   "installCommand": "npm install --force --legacy-peer-deps",
