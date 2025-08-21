@@ -553,15 +553,15 @@ export default function MobileCommunity() {
                             <div className="flex items-center gap-2">
                               <p className="text-white font-semibold">{match.nickname}</p>
                               {match.hasLikedMe && (
-                                <span className="text-xs bg-pink-500/30 text-pink-300 px-2 py-0.5 rounded-full">
-                                  ❤️ 나를 좋아함
+                                <span className="text-xs bg-pink-500/30 text-white px-2 py-0.5 rounded-full">
+                                  🎨 전시 동행 원함
                                 </span>
                               )}
                             </div>
                             <p className="text-xs text-gray-300">
                               {match.personalityType} · {matchAnimal?.name_ko}
                             </p>
-                            <p className="text-xs text-gray-400">{match.lastActive}</p>
+                            <p className="text-xs text-white">{match.lastActive}</p>
                           </div>
                         </div>
                         <button
@@ -590,7 +590,7 @@ export default function MobileCommunity() {
                           <p className="text-xs text-gray-300 line-clamp-2">
                             {language === 'ko' ? synergy.description_ko : synergy.description}
                           </p>
-                          <p className="text-xs text-purple-300 mt-1 flex items-center gap-1">
+                          <p className="text-xs text-purple-200 mt-1 flex items-center gap-1">
                             <Eye className="w-3 h-3" />
                             탭해서 자세한 케미스트리 보기
                           </p>
@@ -598,7 +598,7 @@ export default function MobileCommunity() {
                       )}
 
                       {/* Stats */}
-                      <div className="flex items-center gap-4 text-xs text-gray-400 mb-3">
+                      <div className="flex items-center gap-4 text-xs text-white mb-3">
                         <span className="flex items-center gap-1">
                           <MapPin className="w-3 h-3" />
                           {match.distance}km

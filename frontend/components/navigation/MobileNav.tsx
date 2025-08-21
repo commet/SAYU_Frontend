@@ -155,7 +155,7 @@ export default function MobileNav() {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="fixed left-0 top-0 h-full w-80 max-w-[85vw] bg-white dark:bg-gray-900 z-[9999] shadow-2xl lg:hidden overflow-y-auto"
+              className="fixed left-0 top-0 h-full w-80 max-w-[85vw] bg-gray-900 z-[9999] shadow-2xl lg:hidden overflow-y-auto"
             >
               {/* 드로어 헤더 */}
               <div className="p-6 border-b border-gray-200 dark:border-gray-800">
@@ -269,7 +269,7 @@ export default function MobileNav() {
       </AnimatePresence>
 
       {/* 하단 탭 바 */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 z-40" 
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-40" 
            style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
         <div className="flex items-center justify-around">
           {bottomTabItems.map((item, index) => {
