@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "cross-env SKIP_ENV_VALIDATION=true next build",
     "build:railway": "cross-env NODE_ENV=production SKIP_ENV_VALIDATION=true next build",
-    "build:vercel": "rm -rf .next && next build",
+    "build:vercel": "rm -rf .next node_modules/.cache && next build",
     "vercel-build": "rm -rf .next && next build",
     "start": "next start",
     "start:standalone": "node .next/standalone/server.js",
