@@ -7,7 +7,7 @@ import { ArtworkCard } from '@/components/emotional/EmotionalCard';
 import { Heart, Sparkles, Map, Share2, Palette, User, Zap, Target, Sprout, ArrowRight } from 'lucide-react';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { getAnimalByType } from '@/data/personality-animals';
-import { PersonalityAnimalImageRobust } from '@/components/ui/PersonalityAnimalImageRobust';
+import PersonalityIconFixed from '@/components/PersonalityIconFixed';
 import { getSAYUType, isValidSAYUType, type SAYUType } from '@/types/sayu-shared';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAnimalCursor } from '@/contexts/AnimalCursorContext';
@@ -230,18 +230,17 @@ function ResultsContent() {
           className="text-center"
         >
           {/* 동물 캐릭터 */}
-          {animalCharacter ? (
+          {results?.personalityType ? (
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
               className="mb-4"
             >
-              <PersonalityAnimalImageRobust 
-                animal={animalCharacter}
-                variant="image"
-                size="lg"
-                className="mx-auto"
+              <PersonalityIconFixed 
+                type={results.personalityType}
+                size="large"
+                animated={true}
               />
             </motion.div>
           ) : (

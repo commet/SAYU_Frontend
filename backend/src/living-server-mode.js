@@ -23,7 +23,9 @@ app.use(cors({
       'https://sayu-*.vercel.app',
       'https://*.vercel.app',
       'https://sayu-production.up.railway.app',
-      'https://*.railway.app'
+      'https://*.railway.app',
+      'https://www.sayu.my',
+      'https://sayu.my'
     ];
     
     // origin이 허용된 패턴과 일치하는지 확인

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getArtworkRecommendations } from '@/lib/artworkRecommendations';
-import PersonalityIcon from '@/components/PersonalityIcon';
+import PersonalityIconFixed from '@/components/PersonalityIconFixed';
 
 export default function DebugPage() {
   const [testType] = useState('LAEF');
@@ -53,9 +53,9 @@ export default function DebugPage() {
         <section className="bg-white/10 p-6 rounded-lg">
           <h2 className="text-xl font-bold mb-4">1. Personality Icon Test</h2>
           <div className="flex gap-4 items-center">
-            <PersonalityIcon type={testType} size="small" />
-            <PersonalityIcon type={testType} size="medium" />
-            <PersonalityIcon type={testType} size="large" />
+            <PersonalityIconFixed type={testType} size="small" />
+            <PersonalityIconFixed type={testType} size="medium" />
+            <PersonalityIconFixed type={testType} size="large" />
           </div>
           <p className="mt-2 text-sm">Testing type: {testType}</p>
         </section>

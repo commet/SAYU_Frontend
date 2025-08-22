@@ -251,6 +251,13 @@ export default function DashboardPage() {
                   <Palette className="w-4 h-4" />
                   아티스트 포털
                 </button>
+                <button 
+                  onClick={() => router.push('/exhibition-portal')}
+                  className="text-gray-300 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <Calendar className="w-4 h-4" />
+                  전시 포털
+                </button>
               </div>
             </div>
             <div className="flex items-center space-x-4">

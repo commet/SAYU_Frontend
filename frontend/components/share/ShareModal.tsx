@@ -8,7 +8,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { personalityAnimals } from '@/data/personality-animals';
 import { personalityGradients, getGradientStyle } from '@/constants/personality-gradients';
-import { PersonalityAnimalImageRobust } from '@/components/ui/PersonalityAnimalImageRobust';
+import PersonalityIconFixed from '@/components/PersonalityIconFixed';
 import { getMasterpieceForAnyPersonality } from '@/data/personality-masterpieces';
 import { completeChemistryMatrix } from '@/data/chemistry-matrix';
 import { realExhibitionRecommendations } from '@/data/real-exhibition-recommendations';
@@ -306,25 +306,15 @@ Discover your art personality too!`;
                       {shareFormat === 'story' ? (
                         <>
                           {/* Story format - vertical layout */}
-                          <div className="mb-3 -mt-1 flex justify-center items-center">
-                            {animal?.image ? (
-                              <div className="-ml-5 w-12 h-12">
-                                <PersonalityAnimalImageRobust
-                                  animal={animal}
-                                  variant="avatar"
-                                  size="sm"
-                                  className="w-full h-full object-contain"
-                                  showFallback={true}
-                                />
-                              </div>
-                            ) : (
-                              <div className="flex items-center justify-center -ml-5 w-12 h-12 text-3xl">
-                                <span className="drop-shadow-xl">{animal?.emoji || '🎨'}</span>
-                              </div>
-                            )}
+                          <div className="mb-1 -mt-1 flex justify-center items-center">
+                            <PersonalityIconFixed
+                              type={personalityType}
+                              size="small"
+                              animated={false}
+                            />
                           </div>
                           
-                          <div className="font-black tracking-wider text-2xl mb-1" style={{ 
+                          <div className="font-black tracking-wider text-2xl mb-0" style={{ 
                             textShadow: '2px 2px 4px rgba(0,0,0,0.9)',
                             letterSpacing: '2px'
                           }}>
@@ -335,37 +325,25 @@ Discover your art personality too!`;
                             {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
                           </div>
                           
-                          <div className="italic opacity-90 px-3 text-[7px] mt-1" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
+                          <div className="italic opacity-90 px-3 text-[7px] mt-0.5" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
                             "{language === 'ko' ? (personality?.subtitle_ko || personality?.subtitle || '') : (personality?.subtitle || '')}"
                           </div>
                         </>
                       ) : (
                         <>
                           {/* Feed & Card format - horizontal layout */}
-                          <div className="flex items-start gap-2 mb-1">
-                            {/* Animal on the far left and higher - further reduced size for feed */}
-                            <div className="-ml-2 -mt-1">
-                              {animal?.image ? (
-                                <div className={shareFormat === 'feed' ? 'w-5 h-5' : 'w-9 h-9'}>
-                                  <PersonalityAnimalImageRobust
-                                    animal={animal}
-                                    variant="avatar"
-                                    size="sm"
-                                    className="w-full h-full object-contain"
-                                    showFallback={true}
-                                  />
-                                </div>
-                              ) : (
-                                <div className={`flex items-center justify-center ${
-                                  shareFormat === 'feed' ? 'w-5 h-5 text-base' : 'w-9 h-9 text-2xl'
-                                }`}>
-                                  <span className="drop-shadow-xl">{animal?.emoji || '🎨'}</span>
-                                </div>
-                              )}
+                          <div className="flex items-start gap-1 mb-0">
+                            {/* Animal on the far left */}
+                            <div className="mt-1">
+                              <PersonalityIconFixed
+                                type={personalityType}
+                                size="small"
+                                animated={false}
+                              />
                             </div>
                             
-                            {/* Type and title aligned to the right - moved more to the right */}
-                            <div className={`text-left ${shareFormat === 'feed' ? 'md:ml-8 ml-12' : 'md:ml-6 ml-10'}`}>
+                            {/* Type and title next to animal */}
+                            <div className="text-left mt-2">
                               <div className={`font-black tracking-wider ${
                                 shareFormat === 'feed' ? 'text-sm' : 'text-base'
                               }`} style={{ 
@@ -381,7 +359,7 @@ Discover your art personality too!`;
                                 {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
                               </div>
                               
-                              {/* Subtitle moved inside to align with other text */}
+                              {/* Subtitle */}
                               <div className={`italic opacity-90 mt-0.5 ${
                                 shareFormat === 'feed' ? 'text-[5px]' : 'text-[5px]'
                               }`} style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
@@ -394,7 +372,7 @@ Discover your art personality too!`;
                     </div>
                     
                     {/* Middle Section - Enhanced with compatibility info */}
-                    <div className="text-center flex-1 flex flex-col justify-center mt-1">
+                    <div className="text-center flex-1 flex flex-col justify-center mt-0">
                       {shareFormat === 'story' && (
                         <div>
                           {/* Recommended exhibition - moved to top */}
@@ -430,26 +408,26 @@ Discover your art personality too!`;
                         </div>
                       )}
                       {shareFormat === 'feed' && (
-                        <div>
-                          {/* Recommended exhibition - compact */}
-                          <div className="bg-white/10 backdrop-blur-sm rounded px-1.5 py-0.5">
+                        <div className="flex gap-1">
+                          {/* Recommended exhibition - left side */}
+                          <div className="bg-white/10 backdrop-blur-sm rounded px-1.5 py-0.5 flex-1">
                             <div className={`text-[8px] font-semibold opacity-90`} style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
                               {language === 'ko' ? '✨ 추천' : '✨ Rec'}
                             </div>
-                            <div className="text-[7px] leading-tight opacity-80 truncate" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
+                            <div className="text-[6px] leading-tight opacity-80 truncate" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
                               {exhibitionRec}
                             </div>
                           </div>
                           
-                          {/* Good matches - very compact with names */}
-                          <div className="bg-white/10 backdrop-blur-sm rounded px-1.5 py-0.5 mt-0.5">
+                          {/* Good matches - right side */}
+                          <div className="bg-white/10 backdrop-blur-sm rounded px-1.5 py-0.5 flex-1">
                             <div className="text-[8px] font-semibold opacity-90" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
                               {language === 'ko' ? '🤝 함께' : '🤝 With'}
                             </div>
                             <div className="flex justify-center gap-1">
-                              {goodMatches.slice(0, 3).map((match, idx) => (
+                              {goodMatches.slice(0, 2).map((match, idx) => (
                                 <div key={idx} className="text-center">
-                                  <div className="text-xs">{match.emoji}</div>
+                                  <div className="text-[10px]">{match.emoji}</div>
                                   <div className="text-[5px] opacity-70" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
                                     {match.type}
                                   </div>
@@ -508,10 +486,10 @@ Discover your art personality too!`;
                         </div>
                       </div>
                       
-                      <div className="pt-1.5" style={{ borderTop: '1px solid rgba(255,255,255,0.2)' }}>
+                      <div className="pt-1" style={{ borderTop: '1px solid rgba(255,255,255,0.2)' }}>
                         {/* Clean call-to-action */}
-                        <div className={`font-semibold px-1 mb-0.5 ${
-                          shareFormat === 'feed' ? 'text-[10px]' : shareFormat === 'story' ? 'text-xs' : 'text-[11px]'
+                        <div className={`font-semibold px-1 mb-0 ${
+                          shareFormat === 'feed' ? 'text-[10px]' : shareFormat === 'story' ? 'text-[11px]' : 'text-[11px]'
                         }`} style={{ 
                           textShadow: '2px 2px 4px rgba(0,0,0,0.9)',
                           letterSpacing: '0.5px'
@@ -521,7 +499,7 @@ Discover your art personality too!`;
                         
                         {/* Brand mark */}
                         <div className={`${
-                          shareFormat === 'feed' ? 'text-[10px]' : shareFormat === 'story' ? 'text-xs' : 'text-[10px]'
+                          shareFormat === 'feed' ? 'text-[10px]' : shareFormat === 'story' ? 'text-[11px]' : 'text-[10px]'
                         }`} style={{ 
                           fontFamily: 'var(--font-cormorant), Georgia, serif',
                           fontWeight: 300,

@@ -30,9 +30,11 @@ import {
   Navigation,
   SlidersHorizontal,
   Info,
-  X
+  X,
+  Upload
 } from 'lucide-react';
 import Image from 'next/image';
+import FeedbackButton from '@/components/feedback/FeedbackButton';
 
 interface Exhibition {
   id: string;
@@ -409,6 +411,15 @@ export default function ExhibitionsPage() {
             <div className="flex items-center justify-between mb-3">
               <h1 className="text-xl font-bold text-white">전시회</h1>
               <div className="flex items-center gap-2">
+                {/* 전시 등록 버튼 */}
+                <motion.button
+                  onClick={() => router.push('/exhibition-portal')}
+                  className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg"
+                  whileTap={{ scale: 0.95 }}
+                  title="전시 등록"
+                >
+                  <Upload className="w-5 h-5 text-white" />
+                </motion.button>
                 {/* 내 관심 전시 버튼 */}
                 <button
                   onClick={() => router.push('/exhibitions/saved')}
@@ -714,7 +725,7 @@ export default function ExhibitionsPage() {
           transition={{ delay: 0.1 }}
           className="mb-6 space-y-3"
         >
-          {/* Search Bar */}
+          {/* Search Bar with Add Exhibition Button */}
           <div className="flex gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-300" />
@@ -727,6 +738,17 @@ export default function ExhibitionsPage() {
               />
             </div>
             <div className="flex gap-2">
+              {/* Add Exhibition Button */}
+              <motion.button
+                onClick={() => router.push('/exhibition-portal')}
+                className="px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-medium transition-all flex items-center gap-2"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Upload className="w-5 h-5" />
+                <span className="hidden sm:inline">전시 등록</span>
+              </motion.button>
+              
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-3 rounded-lg transition-colors ${
@@ -902,6 +924,9 @@ export default function ExhibitionsPage() {
           </motion.div>
         )}
       </div>
+      
+      {/* Feedback Button */}
+      <FeedbackButton />
     </div>
   );
 }

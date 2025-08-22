@@ -69,20 +69,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Fetch user profile
   const fetchProfile = async (userId: string) => {
     try {
+      console.log('Fetching profile for user:', userId);
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .single();
 
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error fetching profile:', error);
+      if (error) {
+        if (error.code === 'PGRST116') {
+          // No profile found - this is expected for new users
+          console.log('No profile found for user:', userId);
+          return null;
+        }
+        
+        console.error('Error fetching profile:', {
+          message: error.message,
+          code: error.code,
+          details: error.details,
+          hint: error.hint,
+          statusCode: error.status,
+          userId: userId
+        });
         return null;
       }
 
+      console.log('Profile fetched successfully:', data);
       return data;
     } catch (error) {
-      console.error('Profile fetch error:', error);
+      console.error('Profile fetch error:', error instanceof Error ? error.message : error);
       return null;
     }
   };
@@ -107,24 +122,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return null;
       }
 
-      // Then fetch quiz results
-      const { data, error } = await supabase
-        .from('quiz_results')
-        .select('*')
-        .eq('user_id', userData.id)
-        .single();
+      // Then fetch quiz results - skip if table doesn't exist or RLS blocks it
+      try {
+        const { data, error } = await supabase
+          .from('quiz_results')
+          .select('*')
+          .eq('user_id', userData.id)
+          .single();
 
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error fetching quiz results:', error);
-        // If no quiz results, return user data which might have personality_type
+        if (error) {
+          // 406 = RLS policy issue, PGRST116 = no rows found - both are ok
+          if (error.status !== 406 && error.code !== 'PGRST116') {
+            console.error('Error fetching quiz results:', {
+              message: error.message,
+              code: error.code,
+              details: error.details,
+              hint: error.hint,
+              statusCode: error.status
+            });
+          }
+          // If no quiz results, return user data which might have personality_type
+          return userData.personality_type ? {
+            personality_type: userData.personality_type,
+            quiz_completed: userData.quiz_completed
+          } : null;
+        }
+        
+        console.log('Quiz results fetched from DB:', data?.personality_type);
+        return data;
+      } catch (err) {
+        // Silently handle quiz_results table access issues
         return userData.personality_type ? {
           personality_type: userData.personality_type,
           quiz_completed: userData.quiz_completed
         } : null;
       }
-
-      console.log('Quiz results fetched from DB:', data?.personality_type);
-      return data;
     } catch (error) {
       console.error('Quiz fetch error:', error);
       return null;
@@ -166,7 +198,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.log('Profile created successfully:', data);
       return data;
     } catch (error) {
-      console.error('Profile creation error:', error);
+      console.error('Profile creation error:', error instanceof Error ? error.message : error);
       return null;
     }
   };
@@ -205,6 +237,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         if (session?.user) {
           console.log('useAuth - Session user found:', session.user.id);
+          console.log('useAuth - User email:', session.user.email);
           try {
             const profile = await fetchProfile(session.user.id);
             const quizResults = await fetchQuizResults(session.user.id);
@@ -212,7 +245,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             if (!mounted) return;
             
             if (!profile && session.user) {
-              console.log('useAuth - No profile found, creating new profile');
+              console.log('useAuth - No profile found, creating new profile for:', session.user.email);
               const newProfile = await createProfile(session.user);
               if (mounted) {
                 setProfile(newProfile);

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useState } from 'react';
 
 interface PersonalityIconProps {
   type: string;
@@ -128,6 +129,7 @@ const iconMappings: Record<string, { colors: string[]; shapes: string[]; symbol:
 };
 
 export default function PersonalityIcon({ type, size = 'medium', animated = true }: PersonalityIconProps) {
+  const [imageError, setImageError] = useState(false);
   const iconData = iconMappings[type] || iconMappings.LAEF;
   const animalData = animalMappings[type];
   
@@ -144,8 +146,14 @@ export default function PersonalityIcon({ type, size = 'medium', animated = true
   };
 
   // Use actual animal image if available
-  if (animalData) {
+  if (animalData && !imageError) {
     const imagePath = `/images/personality-animals/main/${animalData.animal}-${type.toLowerCase()}.png`;
+    console.log('PersonalityIcon - Attempting to load image:', {
+      type,
+      animal: animalData.animal,
+      imagePath,
+      fullPath: `${typeof window !== 'undefined' ? window.location.origin : ''}${imagePath}`
+    });
     
     return (
       <motion.div
@@ -173,6 +181,18 @@ export default function PersonalityIcon({ type, size = 'medium', animated = true
             height={imageSizes[size]}
             className="object-cover w-full h-full"
             priority
+            onError={(e) => {
+              console.error('PersonalityIcon - Image failed to load:', {
+                src: imagePath,
+                type,
+                animal: animalData.animal,
+                error: e
+              });
+              setImageError(true);
+            }}
+            onLoad={() => {
+              console.log('PersonalityIcon - Image loaded successfully:', imagePath);
+            }}
           />
         </div>
         
