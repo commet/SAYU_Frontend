@@ -18,7 +18,6 @@ import FeedbackButton from '@/components/feedback/FeedbackButton';
 import { useArtworksByArtist } from '@/lib/artvee-api';
 import { getBestAvailableArtists, PERSONALITY_ART_STYLES, type AvailableArtist } from '@/data/available-artists-2025';
 import { FormattedEssence } from '@/components/ui/FormattedEssence';
-import { PersonalityAxes } from '@/components/results/PersonalityAxes';
 
 interface QuizResults {
   personalityType: string;

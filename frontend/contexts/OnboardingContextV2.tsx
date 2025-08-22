@@ -34,6 +34,7 @@ interface OnboardingProgress {
   startedAt: Date;
   lastActiveAt: Date;
   completedDays: number[];
+  unlockedDays: number; // Day 해금 상태 추가
   
   // 핵심 마일스톤
   hasCompletedQuiz: boolean;
@@ -310,6 +311,7 @@ export function OnboardingProviderV2({ children }: { children: ReactNode }) {
     startedAt: new Date(),
     lastActiveAt: new Date(),
     completedDays: [],
+    unlockedDays: 0, // 초기값 추가
     hasCompletedQuiz: false,
     hasViewedGallery: false,
     hasExploredExhibitions: false,
@@ -332,6 +334,20 @@ export function OnboardingProviderV2({ children }: { children: ReactNode }) {
       
       if (savedProgress) {
         const parsed = JSON.parse(savedProgress);
+        
+        // 기존 데이터에 unlockedDays가 없으면 추가
+        if (parsed.unlockedDays === undefined) {
+          // 퀴즈 완료 여부로 unlockedDays 설정
+          const hasQuiz = user.personalityType || user.aptType || parsed.hasCompletedQuiz;
+          parsed.unlockedDays = hasQuiz ? 1 : 0;
+          
+          // Day 0이 완료되었는지 체크
+          if (hasQuiz && !parsed.completedDays.includes(0)) {
+            parsed.completedDays.push(0);
+            parsed.currentDay = 1;
+          }
+        }
+        
         setProgress(parsed);
         setIsNewUser(false);
       } else {
@@ -345,10 +361,19 @@ export function OnboardingProviderV2({ children }: { children: ReactNode }) {
         if (userIsNew) {
           // WelcomeModal 자동 표시 비활성화 - 사용자가 JourneySection에서 수동으로 열 수 있음
           // setShowWelcomeModal(true);
+          
+          // 퀴즈 완료 여부 체크
+          const hasQuiz = user.personalityType || user.aptType;
+          
           const initialProgress: OnboardingProgress = {
             ...progress,
             startedAt: new Date(),
-            userAPTType: user.aptType as APTTypeKey
+            userAPTType: user.aptType as APTTypeKey,
+            hasCompletedQuiz: !!hasQuiz,
+            // 퀴즈를 완료했으면 Day 0 자동 완료, Day 1 해금
+            currentDay: hasQuiz ? 1 : 0,
+            unlockedDays: hasQuiz ? 1 : 0,
+            completedDays: hasQuiz ? [0] : []
           };
           setProgress(initialProgress);
           localStorage.setItem(`onboarding_v2_${user.id}`, JSON.stringify(initialProgress));
@@ -510,6 +535,7 @@ export function OnboardingProviderV2({ children }: { children: ReactNode }) {
       startedAt: new Date(),
       lastActiveAt: new Date(),
       completedDays: [],
+      unlockedDays: 0,
       hasCompletedQuiz: false,
       hasViewedGallery: false,
       hasExploredExhibitions: false,

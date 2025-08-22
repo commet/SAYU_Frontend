@@ -326,9 +326,9 @@ export default function ArtistPortalPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="text-center mt-16"
+          className={`text-center ${isMobile ? 'mt-8' : 'mt-16'}`}
         >
-          <h2 className="text-3xl font-bold text-white mb-6">지금 시작해보세요</h2>
+          <h2 className={`${isMobile ? 'text-2xl' : 'text-3xl'} font-bold text-white ${isMobile ? 'mb-4' : 'mb-6'}`}>지금 시작해보세요</h2>
           <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
             여러분의 제보가 SAYU를 더욱 풍성하게 만듭니다. 
             작가명만으로도 시작할 수 있어요!

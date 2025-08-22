@@ -7,6 +7,8 @@ import { promises as fs } from 'fs';
 // Route segment config for Vercel
 export const maxDuration = 30;
 export const runtime = 'nodejs';
+export const dynamic = 'force-static';
+export const revalidate = 3600; // Revalidate every hour
 
 // Handle OPTIONS request for CORS
 export async function OPTIONS() {
@@ -16,6 +18,7 @@ export async function OPTIONS() {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Access-Control-Max-Age': '86400',
     },
   });
 }
@@ -37,22 +40,38 @@ export async function GET(request: Request) {
     // Handle static data requests first (no action means return all artworks)
     if (!action) {
       try {
-        // Import the JSON directly (works with Vercel)
-        const artworksData = await import('../../../public/data/artworks.json').then(module => module.default || module).catch(() => null);
+        // Try static import first (required for Vercel Edge runtime)
+        let artworksData = null;
         
-        if (artworksData) {
-          console.log('Successfully loaded artworks via import, count:', artworksData.artworks?.length || 0);
+        try {
+          // Use require for JSON (more reliable in production)
+          artworksData = require('../../../public/data/artworks.json');
+        } catch (importError) {
+          console.log('Direct require failed, trying dynamic import');
+          // Fallback to dynamic import
+          const module = await import('../../../public/data/artworks.json');
+          artworksData = module.default || module;
+        }
+        
+        if (artworksData && artworksData.artworks) {
+          console.log('Successfully loaded artworks, count:', artworksData.artworks?.length || 0);
           return NextResponse.json(artworksData, { headers });
         }
         
-        // Fallback to file system read (for local development)
-        const jsonPath = path.join(process.cwd(), 'public', 'data', 'artworks.json');
-        console.log('Attempting to read artworks from:', jsonPath);
-        const jsonData = await fs.readFile(jsonPath, 'utf8');
-        const data = JSON.parse(jsonData);
-        console.log('Successfully loaded artworks, count:', data.artworks?.length || 0);
+        // If imports fail, try file system (only works in Node.js runtime)
+        if (runtime === 'nodejs') {
+          const jsonPath = path.join(process.cwd(), 'public', 'data', 'artworks.json');
+          console.log('Attempting filesystem read from:', jsonPath);
+          const jsonData = await fs.readFile(jsonPath, 'utf8');
+          const data = JSON.parse(jsonData);
+          
+          if (data && data.artworks) {
+            console.log('Successfully loaded artworks from filesystem, count:', data.artworks?.length || 0);
+            return NextResponse.json(data, { headers });
+          }
+        }
         
-        return NextResponse.json(data, { headers });
+        throw new Error('No artworks data available');
       } catch (error) {
         console.error('Failed to load artworks:', error);
         // Return empty data structure for graceful degradation
@@ -61,7 +80,7 @@ export async function GET(request: Request) {
             metadata: { 
               total: 0, 
               source: 'fallback',
-              message: 'Artworks data temporarily unavailable' 
+              message: 'Using fallback data' 
             }, 
             artworks: [] 
           },
@@ -69,7 +88,7 @@ export async function GET(request: Request) {
             status: 200,
             headers: {
               ...headers,
-              'Cache-Control': 'no-store',
+              'Cache-Control': 'public, max-age=300',
             },
           }
         );
