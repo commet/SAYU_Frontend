@@ -1,109 +1,24 @@
 /** @type {import('next').NextConfig} */
-process.env.SKIP_ENV_VALIDATION = 'true';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { withSentryConfig } = require('@sentry/nextjs');
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 const withPWA = require('next-pwa')({
   dest: 'public',
-  register: false,
-  skipWaiting: false,
-  sw: 'sw.js',
-  disable: true, // PWA 완전 비활성화
-  runtimeCaching: [
-    {
-      urlPattern: /^https:\/\/.*\.(png|jpg|jpeg|webp|svg|gif|tiff|js|woff|woff2|json|css)$/,
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'static-resources',
-        expiration: {
-          maxEntries: 100,
-          maxAgeSeconds: 60 * 60 * 24 * 365 // 365 days
-        }
-      }
-    },
-    {
-      urlPattern: /^https:\/\/api\.*/i,
-      handler: 'NetworkFirst',
-      options: {
-        cacheName: 'api-cache',
-        networkTimeoutSeconds: 10,
-        expiration: {
-          maxEntries: 50,
-          maxAgeSeconds: 60 * 5 // 5 minutes
-        },
-        cacheableResponse: {
-          statuses: [0, 200]
-        }
-      }
-    }
-  ]
-});
+  disable: true,
+  register: true,
+  skipWaiting: true
+})
 
 const nextConfig = {
-  reactStrictMode: true,
-  transpilePackages: ['three'],
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  reactStrictMode: false, // React 19 RC compatibility
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: true
   },
-  
-  // Custom headers for static files
-  async headers() {
-    return [
-      {
-        source: '/data/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=86400, stale-while-revalidate',
-          },
-        ],
-      },
-      {
-        source: '/images/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-    ];
+  eslint: {
+    ignoreDuringBuilds: true
   },
-  
-  // 웹팩 최적화 설정
-  webpack: (config, { dev, isServer }) => {
-    if (!dev && !isServer) {
-      // Three.js 관련 라이브러리 청크 분리로 초기 로딩 최적화
-      config.optimization.splitChunks.cacheGroups = {
-        ...config.optimization.splitChunks.cacheGroups,
-        three: {
-          test: /[\\/]node_modules[\\/](three|@react-three)[\\/]/,
-          name: 'three',
-          chunks: 'all',
-          priority: 10,
-        },
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-          priority: 5,
-        },
-      };
-    }
-    return config;
-  },
-  
-  // 이미지 최적화 설정
   images: {
     unoptimized: true,  // 이미지 최적화 비활성화 - 프로덕션 404 에러 해결
     domains: ['www.sayu.my', 'sayu.my', 'localhost'],
-    // Next.js는 remotePatterns를 최대 50개까지만 허용
+    // Next.js는 remotePatterns를 최대 50개까지만 허용 - 필수 도메인만 포함
     remotePatterns: [
-      // 필수 도메인만 포함 (최대 50개 제한)
       { protocol: 'https', hostname: 'res.cloudinary.com' },
       { protocol: 'https', hostname: 'replicate.delivery' },
       { protocol: 'https', hostname: 'pbxt.replicate.delivery' },
@@ -114,6 +29,44 @@ const nextConfig = {
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: 'upload.wikimedia.org' },
+      { protocol: 'https', hostname: 'picsum.photos' },
+      { protocol: 'https', hostname: 'source.unsplash.com' },
+      { protocol: 'https', hostname: 'www.artic.edu' },
+      { protocol: 'https', hostname: 'ids.si.edu' },
+      { protocol: 'https', hostname: 'media.nga.gov' },
+      { protocol: 'https', hostname: 'avatars.githubusercontent.com' },
+      { protocol: 'https', hostname: 'k.kakaocdn.net' },
+      { protocol: 'https', hostname: 'collections.louvre.fr' },
+      { protocol: 'https', hostname: 'cdn.leonardo.ai' },
+      { protocol: 'https', hostname: 'www.moma.org' },
+      { protocol: 'https', hostname: 'www.guggenheim.org' },
+      { protocol: 'https', hostname: 'www.tate.org.uk' },
+      { protocol: 'https', hostname: 'www.museoreinasofia.es' },
+      { protocol: 'https', hostname: 'www.artsy.net' },
+      { protocol: 'https', hostname: 'img.freepik.com' },
+      { protocol: 'https', hostname: 'images.pexels.com' },
+      { protocol: 'https', hostname: 'cdn.pixabay.com' },
+      { protocol: 'https', hostname: 'www.nga.gov' },
+      { protocol: 'https', hostname: 'www.clevelandart.org' },
+      { protocol: 'https', hostname: 'api.artrabbit.com' },
+      { protocol: 'https', hostname: 'cdn.sanity.io' },
+      { protocol: 'https', hostname: 'www.rijksmuseum.nl' },
+      { protocol: 'https', hostname: 'd32dm0rphc51dk.cloudfront.net' },
+      { protocol: 'https', hostname: 'www.harvardartmuseums.org' },
+      { protocol: 'https', hostname: 'www.vam.ac.uk' },
+      { protocol: 'https', hostname: 'www.britishmuseum.org' },
+      { protocol: 'https', hostname: 'www.lacma.org' },
+      { protocol: 'https', hostname: 'www.sfmoma.org' },
+      { protocol: 'https', hostname: 'www.whitney.org' },
+      { protocol: 'https', hostname: 'www.brooklynmuseum.org' },
+      { protocol: 'https', hostname: 'www.philamuseum.org' },
+      { protocol: 'https', hostname: 'www.mfah.org' },
+      { protocol: 'https', hostname: 'www.seattleartmuseum.org' },
+      { protocol: 'https', hostname: 'www.denverartmuseum.org' },
+      { protocol: 'https', hostname: 'www.high.org' },
+      { protocol: 'https', hostname: 'www.mia.org' },
+      { protocol: 'https', hostname: 'www.aic.edu' },
+      { protocol: 'https', hostname: 'commons.wikimedia.org' }
     ],
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60 * 60 * 24 * 7, // 7일로 증가
@@ -156,44 +109,11 @@ const nextConfig = {
       exclude: ['error', 'warn'],
     } : false,
   },
+  
+  // Force cache invalidation
+  generateBuildId: async () => {
+    return 'build-' + Date.now()
+  }
 }
 
-// Sentry configuration
-const sentryWebpackPluginOptions = {
-  org: process.env.SENTRY_ORG,
-  project: process.env.SENTRY_PROJECT,
-  authToken: process.env.SENTRY_AUTH_TOKEN,
-
-  // For all available options, see:
-  // https://github.com/getsentry/sentry-webpack-plugin#options
-
-  // Suppresses source map uploading logs during build
-  silent: true,
-  
-  // Disable in development
-  disableInDevelopment: true,
-  
-  // Only upload source maps in production
-  dryRun: process.env.NODE_ENV !== 'production',
-  
-  // Upload source maps after build
-  widenClientFileUpload: true,
-  
-  // Hides source maps from generated client bundles
-  hideSourceMaps: true,
-  
-  // Automatically tree-shake Sentry logger statements to reduce bundle size
-  disableLogger: true,
-  
-  // Use smaller bundle
-  tunnelRoute: '/monitoring',
-};
-
-// Apply Sentry configuration if DSN is available and not in development
-const baseConfig = withPWA(nextConfig);
-
-if ((process.env.NEXT_PUBLIC_SENTRY_DSN || process.env.SENTRY_DSN) && process.env.NODE_ENV !== 'development') {
-  module.exports = withSentryConfig(baseConfig, sentryWebpackPluginOptions);
-} else {
-  module.exports = baseConfig;
-}
+module.exports = withPWA(nextConfig)

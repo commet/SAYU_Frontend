@@ -2,11 +2,9 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, Playfair_Display, Cormorant_Garamond, Abril_Fatface } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
-import FloatingNav from '@/components/navigation/FloatingNav'
-import MobileNav from '@/components/navigation/MobileNav'
+
 import { SystemInitializer, PerformanceMonitor, SpatialPreloader } from '@/components/system/SystemInitializer'
-import { ProgressivePrompt } from '@/components/onboarding/ProgressivePrompt'
-import { SmartChatbot } from '@/components/chatbot/SmartChatbot'
+
 import { WelcomeModalV2 } from '@/components/onboarding/WelcomeModalV2'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -116,23 +114,15 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} ${playfair.variable} ${cormorant.variable} ${abril.variable} min-h-screen transition-colors bg-gray-900 dark:bg-gray-900`}>
         <Providers>
-          <SystemInitializer />
+          {/* <SystemInitializer /> */}
           {/* Temporarily disabled for debugging
           <PerformanceMonitor />
           <SpatialPreloader />
           */}
-          {/* 반응형 네비게이션 - 데스크탑은 FloatingNav, 모바일은 MobileNav */}
-          <div className="hidden lg:block">
-            <FloatingNav />
-          </div>
-          <div className="lg:hidden">
-            <MobileNav />
-          </div>
+
           <main className="pb-20 safe-area-bottom lg:pt-4 lg:pb-4 bg-gray-900">
             {children}
           </main>
-          <ProgressivePrompt />
-          <SmartChatbot />
           {/* WelcomeModalV2 제거 - 프로필 페이지의 JourneySection에서 필요시 표시 */}
         </Providers>
       </body>

@@ -1,32 +1,18 @@
 {
+  "buildCommand": "echo 'Cache bust v2' && rm -rf .next node_modules/.cache && npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "installCommand": "npm install --force --legacy-peer-deps",
+  "devCommand": "npm run dev",
+  "env": {
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
   "functions": {
-    "app/api/route.ts": {
-      "maxDuration": 30
+    "app/api/**/*.ts": {
+      "maxDuration": 60
     }
   },
-  "outputDirectory": ".next",
-  "buildCommand": "npm run build",
-  "framework": "nextjs",
-  "public": true,
   "github": {
     "silent": true
-  },
-  "headers": [
-    {
-      "source": "/images/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/images/personality-animals/:path*",
-      "destination": "/images/personality-animals/:path*"
-    }
-  ],
-  "buildTimestamp": "20250820203431"
+  }
 }
