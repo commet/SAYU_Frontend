@@ -8,55 +8,71 @@ class HuggingFaceArtService {
     this.apiKey = process.env.HUGGINGFACE_API_KEY;
     this.baseUrl = 'https://api-inference.huggingface.co/models';
     
-    // 스타일별 최적 모델과 프롬프트
+    // 스타일별 최적 모델과 프롬프트 (고품질 image-to-image 모델 사용)
     this.artStyles = {
       'vangogh-postimpressionism': {
-        model: 'runwayml/stable-diffusion-v1-5',
-        prompt: 'oil painting in the style of Vincent van Gogh, swirling brushstrokes, vibrant colors, expressive texture, post-impressionist masterpiece',
-        negativePrompt: 'photograph, realistic, modern, digital art, cartoon, anime',
-        strength: 0.75
+        model: 'timbrooks/instruct-pix2pix',
+        prompt: 'Transform this into an oil painting in the style of Vincent van Gogh with swirling brushstrokes, vibrant yellows and blues, expressive texture',
+        negativePrompt: 'photograph, realistic, modern, digital art, cartoon, anime, blurry, low quality',
+        strength: 0.75,
+        guidanceScale: 7.5,
+        steps: 30
       },
       'picasso-cubism': {
-        model: 'runwayml/stable-diffusion-v1-5', 
-        prompt: 'cubist painting in the style of Pablo Picasso, geometric shapes, fragmented forms, multiple perspectives, angular faces, abstract portrait',
-        negativePrompt: 'realistic, photograph, smooth, detailed, photorealistic',
-        strength: 0.8
+        model: 'timbrooks/instruct-pix2pix',
+        prompt: 'Transform this into a cubist painting in the style of Pablo Picasso with geometric shapes, fragmented forms, multiple perspectives, angular abstract portrait',
+        negativePrompt: 'realistic, photograph, smooth, detailed, photorealistic, blurry',
+        strength: 0.8,
+        guidanceScale: 8.0,
+        steps: 35
       },
       'monet-impressionism': {
-        model: 'runwayml/stable-diffusion-v1-5',
-        prompt: 'impressionist painting in the style of Claude Monet, soft brushstrokes, pastel colors, light and shadow, dreamy atmosphere, plein air',
-        negativePrompt: 'sharp, detailed, realistic, photograph, digital',
-        strength: 0.7
+        model: 'timbrooks/instruct-pix2pix',
+        prompt: 'Transform this into an impressionist painting in the style of Claude Monet with soft brushstrokes, pastel colors, light and shadow, dreamy atmosphere',
+        negativePrompt: 'sharp, detailed, realistic, photograph, digital, harsh lines',
+        strength: 0.7,
+        guidanceScale: 7.0,
+        steps: 30
       },
       'warhol-popart': {
-        model: 'runwayml/stable-diffusion-v1-5',
-        prompt: 'pop art in the style of Andy Warhol, bright bold colors, high contrast, screen print effect, commercial art style, repetitive patterns',
-        negativePrompt: 'subtle, muted, realistic, photograph, classical',
-        strength: 0.75
+        model: 'stabilityai/stable-diffusion-xl-refiner-1.0',
+        prompt: 'pop art in the style of Andy Warhol, bright bold colors, high contrast, screen print effect, commercial art style, vibrant portrait',
+        negativePrompt: 'subtle, muted, realistic, photograph, classical, dark colors',
+        strength: 0.75,
+        guidanceScale: 8.5,
+        steps: 25
       },
       'klimt-artnouveau': {
-        model: 'runwayml/stable-diffusion-v1-5',
-        prompt: 'art nouveau painting in the style of Gustav Klimt, gold leaf patterns, decorative motifs, ornate details, byzantine influence, symbolist',
-        negativePrompt: 'simple, minimal, modern, photograph, realistic',
-        strength: 0.8
+        model: 'timbrooks/instruct-pix2pix',
+        prompt: 'Transform this into an art nouveau painting in the style of Gustav Klimt with gold leaf patterns, decorative motifs, ornate details, byzantine influence',
+        negativePrompt: 'simple, minimal, modern, photograph, realistic, plain',
+        strength: 0.8,
+        guidanceScale: 7.5,
+        steps: 40
       },
       'ghibli-anime': {
-        model: 'runwayml/stable-diffusion-v1-5',
-        prompt: 'Studio Ghibli anime style, soft watercolor painting, gentle facial features, magical atmosphere, Miyazaki style character design',
-        negativePrompt: 'realistic, photograph, western cartoon, 3d render',
-        strength: 0.85
+        model: 'timbrooks/instruct-pix2pix',
+        prompt: 'Transform this into Studio Ghibli anime style with soft watercolor painting, gentle facial features, magical atmosphere, Miyazaki character design',
+        negativePrompt: 'realistic, photograph, western cartoon, 3d render, harsh lines',
+        strength: 0.85,
+        guidanceScale: 6.5,
+        steps: 25
       },
       'korean-webtoon': {
-        model: 'runwayml/stable-diffusion-v1-5',
-        prompt: 'Korean webtoon style, clean digital art, soft shading, beautiful character design, manhwa illustration, K-beauty aesthetic',
-        negativePrompt: 'realistic, photograph, western style, rough sketch',
-        strength: 0.8
+        model: 'timbrooks/instruct-pix2pix',
+        prompt: 'Transform this into Korean webtoon style with clean digital art, soft shading, beautiful character design, manhwa illustration, K-beauty aesthetic',
+        negativePrompt: 'realistic, photograph, western style, rough sketch, messy',
+        strength: 0.8,
+        guidanceScale: 7.0,
+        steps: 25
       },
       'pixel-art': {
-        model: 'runwayml/stable-diffusion-v1-5',
-        prompt: '8-bit pixel art style, retro video game character, limited color palette, blocky design, nostalgic gaming aesthetic',
-        negativePrompt: 'smooth, high resolution, realistic, photograph',
-        strength: 0.9
+        model: 'timbrooks/instruct-pix2pix',
+        prompt: 'Transform this into 8-bit pixel art style, retro video game character, limited color palette, blocky design, nostalgic gaming aesthetic',
+        negativePrompt: 'smooth, high resolution, realistic, photograph, detailed',
+        strength: 0.9,
+        guidanceScale: 8.0,
+        steps: 20
       }
     };
   }
@@ -87,7 +103,7 @@ class HuggingFaceArtService {
   }
 
   /**
-   * Hugging Face API로 이미지 변환 요청
+   * Hugging Face API로 이미지 변환 요청 (image-to-image)
    */
   async generateArtProfile(imageBuffer, styleId) {
     try {
@@ -99,42 +115,15 @@ class HuggingFaceArtService {
       const modelUrl = `${this.baseUrl}/${style.model}`;
       
       // img2img를 위한 프롬프트 구성
-      const fullPrompt = `${style.prompt}, portrait, high quality, detailed face`;
+      const fullPrompt = `${style.prompt}, high quality, masterpiece`;
       
-      // FormData로 이미지와 파라미터 전송
-      const formData = new FormData();
-      formData.append('inputs', imageBuffer, {
-        filename: 'image.jpg',
-        contentType: 'image/jpeg'
-      });
+      logger.info(`Using HuggingFace model: ${style.model} for style: ${styleId}`);
       
-      // API 요청
-      const response = await axios.post(modelUrl, formData, {
-        headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
-          'Content-Type': 'multipart/form-data',
-          ...formData.getHeaders()
-        },
-        params: {
-          // img2img 파라미터
-          prompt: fullPrompt,
-          negative_prompt: style.negativePrompt,
-          strength: style.strength,
-          guidance_scale: 7.5,
-          num_inference_steps: 30
-        },
-        responseType: 'arraybuffer',
-        timeout: 60000 // 60초 타임아웃
-      });
-
-      // 응답이 이미지인지 확인
-      if (response.headers['content-type']?.includes('image')) {
-        return Buffer.from(response.data);
+      // Instruct-Pix2Pix 모델의 경우 특별한 형식 필요
+      if (style.model === 'timbrooks/instruct-pix2pix') {
+        return await this.generateWithInstructPix2Pix(imageBuffer, style, fullPrompt);
       } else {
-        // 에러 응답 처리
-        const errorText = Buffer.from(response.data).toString();
-        logger.error('HuggingFace API Error:', errorText);
-        throw new Error('Failed to generate image: API returned non-image response');
+        return await this.generateWithStandardModel(imageBuffer, style, fullPrompt, modelUrl);
       }
 
     } catch (error) {
@@ -149,6 +138,88 @@ class HuggingFaceArtService {
       }
       
       throw new Error(error.message || 'Failed to generate art profile');
+    }
+  }
+
+  /**
+   * Instruct-Pix2Pix 모델을 사용한 이미지 생성
+   */
+  async generateWithInstructPix2Pix(imageBuffer, style, prompt) {
+    const modelUrl = `${this.baseUrl}/${style.model}`;
+    
+    // Base64로 인코딩
+    const base64Image = imageBuffer.toString('base64');
+    
+    const payload = {
+      inputs: {
+        image: base64Image,
+        prompt: prompt
+      },
+      parameters: {
+        num_inference_steps: style.steps,
+        guidance_scale: style.guidanceScale,
+        image_guidance_scale: 1.5,
+        negative_prompt: style.negativePrompt
+      },
+      options: {
+        wait_for_model: true,
+        use_cache: false
+      }
+    };
+
+    const response = await axios.post(modelUrl, payload, {
+      headers: {
+        'Authorization': `Bearer ${this.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      responseType: 'arraybuffer',
+      timeout: 120000 // 2분 타임아웃
+    });
+
+    if (response.headers['content-type']?.includes('image')) {
+      return Buffer.from(response.data);
+    } else {
+      const errorText = Buffer.from(response.data).toString();
+      logger.error('Instruct-Pix2Pix API Error:', errorText);
+      throw new Error('Failed to generate image with Instruct-Pix2Pix');
+    }
+  }
+
+  /**
+   * 표준 Stable Diffusion 모델을 사용한 이미지 생성
+   */
+  async generateWithStandardModel(imageBuffer, style, prompt, modelUrl) {
+    // FormData로 이미지와 파라미터 전송
+    const formData = new FormData();
+    formData.append('inputs', imageBuffer, {
+      filename: 'image.jpg',
+      contentType: 'image/jpeg'
+    });
+    
+    // API 요청
+    const response = await axios.post(modelUrl, formData, {
+      headers: {
+        'Authorization': `Bearer ${this.apiKey}`,
+        'Content-Type': 'multipart/form-data',
+        ...formData.getHeaders()
+      },
+      params: {
+        prompt: prompt,
+        negative_prompt: style.negativePrompt,
+        strength: style.strength,
+        guidance_scale: style.guidanceScale,
+        num_inference_steps: style.steps
+      },
+      responseType: 'arraybuffer',
+      timeout: 120000
+    });
+
+    if (response.headers['content-type']?.includes('image')) {
+      return Buffer.from(response.data);
+    } else {
+      const errorText = Buffer.from(response.data).toString();
+      logger.error('Standard Model API Error:', errorText);
+      throw new Error('Failed to generate image with standard model');
     }
   }
 

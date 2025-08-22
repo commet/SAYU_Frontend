@@ -875,7 +875,7 @@ export default function JourneyHomePage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 + i * 0.1 }}
                   >
-                    <p className="text-white text-base mb-6 leading-relaxed">
+                    <p className="text-white text-base md:text-base text-lg mb-6 leading-relaxed">
                       {language === 'ko' ? testimonial.quote : testimonial.quote_en}
                     </p>
                     <div className="flex items-center gap-3">
@@ -895,7 +895,7 @@ export default function JourneyHomePage() {
               
               {/* 첫 동행자 혜택 */}
               <motion.div 
-                className="mt-8 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-lg p-6 border border-white/20 max-w-4xl w-full"
+                className="mt-8 md:mt-8 mt-16 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-lg p-6 border border-white/20 max-w-4xl w-full"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1 }}

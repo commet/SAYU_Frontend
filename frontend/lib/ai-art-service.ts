@@ -12,8 +12,20 @@ export interface ArtGenerationOptions {
 
 export class AIArtService {
   private static instance: AIArtService;
+  private baseUrl: string;
   
-  private constructor() {}
+  private constructor() {
+    // Edge Function 또는 로컬 백엔드 선택
+    if (process.env.NEXT_PUBLIC_USE_EDGE_FUNCTION === 'true') {
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://hgltvdshuyfffskvjmst.supabase.co';
+      this.baseUrl = `${supabaseUrl}/functions/v1`;
+      console.log('AIArtService initialized with Supabase Edge Functions URL:', this.baseUrl);
+    } else {
+      // 로컬 백엔드 사용 (기본값)
+      this.baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3007';
+      console.log('AIArtService initialized with local backend URL:', this.baseUrl);
+    }
+  }
   
   static getInstance(): AIArtService {
     if (!AIArtService.instance) {
@@ -22,41 +34,142 @@ export class AIArtService {
     return AIArtService.instance;
   }
 
-  // Main generation method that tries multiple services
+  // Main generation method using backend API with multi-service fallback
   async generateArt(
     imageFile: File,
     styleId: string,
     onProgress?: (progress: number) => void
   ): Promise<string> {
     console.log('=== AIArtService.generateArt Debug ===');
-    console.log('Starting multi-service generation attempt...');
+    console.log('Using Supabase Edge Function for Replicate image generation');
     console.log('Style ID:', styleId);
+    console.log('Supabase Functions URL:', this.baseUrl);
+    console.log('Full URL:', `${this.baseUrl}/generate-art`);
     onProgress?.(5);
     
-    // Replicate 우선, image-to-image 가능한 서비스들만
-    const services = [
-      { name: 'Replicate', fn: () => this.generateWithReplicateAI(imageFile, styleId, onProgress) },
-      { name: 'HuggingFace', fn: () => this.generateWithHuggingFace(imageFile, styleId, onProgress) },
-      { name: 'Stability AI', fn: () => this.generateWithStabilityAI(imageFile, styleId, onProgress) },
-      { name: 'Enhanced Canvas', fn: () => this.generateWithEnhancedCanvas(imageFile, styleId, onProgress) }
-    ];
+    try {
+      // Convert file to base64
+      const base64Image = await this.fileToBase64(imageFile);
+      onProgress?.(15);
+      
+      // Call Supabase Edge Function (which will use Replicate)
+      const result = await this.generateWithBackendAPI(base64Image, styleId, onProgress);
+      
+      if (result) {
+        console.log('✅ Supabase Edge Function (Replicate) succeeded!');
+        onProgress?.(100);
+        return result;
+      }
+    } catch (error) {
+      console.warn('❌ Supabase Edge Function failed:', error);
+      console.log('Attempting fallback methods...');
+    }
     
-    for (const service of services) {
+    // Try direct Replicate if backend fails (with proper API key)
+    if (process.env.NEXT_PUBLIC_REPLICATE_API_KEY) {
+      console.log('Trying direct Replicate API...');
       try {
-        console.log(`Trying ${service.name}...`);
-        const result = await service.fn();
+        const result = await this.generateWithReplicateAI(imageFile, styleId, onProgress);
         if (result) {
-          console.log(`✅ ${service.name} succeeded!`);
+          console.log('✅ Direct Replicate succeeded!');
           return result;
         }
       } catch (error) {
-        console.warn(`❌ ${service.name} failed:`, error);
+        console.warn('❌ Direct Replicate failed:', error);
       }
     }
     
-    // If all services fail, use the enhanced canvas fallback
-    console.log('All services failed, using final canvas fallback...');
+    // If all AI methods fail, use canvas fallback
+    console.log('All AI methods failed, using enhanced canvas fallback...');
     return this.generateWithEnhancedCanvas(imageFile, styleId, onProgress);
+  }
+
+  // Backend API generation (Supabase Edge Function or Local)
+  private async generateWithBackendAPI(
+    base64Image: string,
+    styleId: string,
+    onProgress?: (progress: number) => void
+  ): Promise<string> {
+    try {
+      onProgress?.(20);
+      
+      const isEdgeFunction = process.env.NEXT_PUBLIC_USE_EDGE_FUNCTION === 'true';
+      let headers: any = { 'Content-Type': 'application/json' };
+      let endpoint = '';
+      
+      if (isEdgeFunction) {
+        // Supabase Edge Function
+        const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnbHR2ZHNodXlmZmZza3ZqbXN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0ODk1MzEsImV4cCI6MjA2ODA2NTUzMX0.PyoZ0e0P5NtWjMimxGimsJQ6nfFNRFmT4i0bRMEjxTk';
+        headers['Authorization'] = `Bearer ${anonKey}`;
+        headers['apikey'] = anonKey;
+        endpoint = `${this.baseUrl}/generate-art`;
+      } else {
+        // Local backend
+        endpoint = `${this.baseUrl}/api/art-profile/generate`;
+      }
+      
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          base64Image,
+          styleId
+        })
+      });
+      
+      onProgress?.(60);
+      
+      if (!response.ok) {
+        let errorMessage = `HTTP error! status: ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+          console.error('Supabase Edge Function error:', errorData);
+        } catch (e) {
+          console.error('Failed to parse error response');
+        }
+        throw new Error(errorMessage);
+      }
+      
+      const data = await response.json();
+      
+      onProgress?.(90);
+      
+      if (data.success && data.data?.transformedImage) {
+        return data.data.transformedImage;
+      } else {
+        throw new Error('Invalid response from Supabase Edge Function');
+      }
+      
+    } catch (error) {
+      console.error('Supabase Edge Function error:', error);
+      throw error;
+    }
+  }
+
+  // Get auth token from localStorage or cookie
+  private getAuthToken(): string {
+    // Try localStorage first
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+      if (token) return token;
+      
+      // Try session storage
+      const sessionToken = sessionStorage.getItem('authToken') || sessionStorage.getItem('token');
+      if (sessionToken) return sessionToken;
+      
+      // Try to get from cookie
+      const cookies = document.cookie.split(';');
+      for (const cookie of cookies) {
+        const [name, value] = cookie.trim().split('=');
+        if (name === 'authToken' || name === 'token') {
+          return value;
+        }
+      }
+    }
+    
+    // Return empty string if no token found (will cause 401 error)
+    return '';
   }
 
   // Stability AI (Stable Diffusion) - High Quality
@@ -604,8 +717,8 @@ export class AIArtService {
       const reader = new FileReader();
       reader.onload = () => {
         const result = reader.result as string;
-        const base64 = result.split(',')[1];
-        resolve(base64);
+        // Return full data URL including header (data:image/jpeg;base64,...)
+        resolve(result);
       };
       reader.onerror = reject;
       reader.readAsDataURL(file);

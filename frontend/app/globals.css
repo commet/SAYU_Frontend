@@ -6,6 +6,10 @@
 /* DO NOT ENABLE - BREAKS HOME PAGE STYLING */
 /* @import url('./fix-colors.css'); */
 
+/* Import SAYU Design System */
+@import url('../styles/sayu-design-system.css');
+@import url('../styles/force-fix.css');
+
 /* Variable Font imports - 2024-2025 Trend */
 @font-face {
   font-family: 'Inter Variable';

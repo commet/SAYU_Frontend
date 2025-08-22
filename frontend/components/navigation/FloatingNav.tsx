@@ -169,9 +169,9 @@ export default function FloatingNav() {
   };
 
   return (
-    <div style={{ position: 'relative' }} className="hidden lg:block">
-      {/* Top Floating Bar */}
-      <div className="fixed top-0 left-0 right-0 z-[1000] px-4 pt-4 bg-gray-900">
+    <div style={{ position: 'relative' }}>
+      {/* Top Floating Bar - Desktop Only */}
+      <div className="hidden lg:block fixed top-0 left-0 right-0 z-[1000] px-4 pt-4 bg-gray-900">
         <motion.div
           initial={{ y: -100 }}
           animate={{ y: 0 }}

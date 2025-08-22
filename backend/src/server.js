@@ -333,6 +333,7 @@ app.use('/api/artist-portal', artistPortalRoutes);
 app.use('/api/museums', museumsRoutes);
 app.use('/api/reservations', reservationsRoutes);
 app.use('/api/gamification', gamificationRoutes);
+app.use('/api/gamification-v2', require('./routes/gamificationV2')); // 새로운 Supabase 기반 게이미피케이션
 app.use('/api/evaluations', evaluationRoutes);
 app.use('/api/art-profile', artProfileRoutes);
 app.use('/api/ai-recommendations', aiRecommendationRoutes);

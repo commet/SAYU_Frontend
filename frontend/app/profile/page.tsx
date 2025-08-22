@@ -19,6 +19,7 @@ import PersonalArtMap from '@/components/artmap/PersonalArtMap';
 import ExhibitionRecord from '@/components/exhibition/ExhibitionRecord';
 import ExhibitionArchiveForm from '@/components/exhibition/ExhibitionArchiveForm';
 import BadgeSystem from '@/components/gamification/BadgeSystem';
+import { useGamificationV2 } from '@/hooks/useGamificationV2';
 import { Trophy, MapPin, BookOpen, Settings, LogIn, Palette, Share2, Sparkles, User, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -167,6 +168,13 @@ export default function ProfilePage() {
   const { isMobile } = useResponsive();
   const [isClient, setIsClient] = useState(false);
   const [renderMobile, setRenderMobile] = useState(false);
+  
+  // Gamification V2 Hook 사용
+  const { 
+    stats: gameStats, 
+    loading: gameLoading,
+    handleCreateExhibitionRecord 
+  } = useGamificationV2();
   
   // All hooks must be declared before any conditional returns
   const [activeTab, setActiveTab] = useState<'journey' | 'map' | 'records' | 'badges' | 'share'>('records');
@@ -655,13 +663,22 @@ export default function ProfilePage() {
           </div>
         </motion.div>
 
-        {/* Compact Stats */}
+        {/* Compact Stats - 실제 데이터 사용 */}
         <div className="mb-6 -mt-3">
           <CompactStats 
             stats={{
-              ...mockUserStats,
-              followerCount: followStats.followerCount,
-              followingCount: followStats.followingCount
+              ...(gameStats ? {
+                level: gameStats.level,
+                currentExp: gameStats.current_exp,
+                nextLevelExp: gameStats.nextLevelExp,
+                totalPoints: gameStats.total_points,
+                visitStreak: 0, // TODO: 연속 방문 구현
+                totalVisits: 0, // TODO: 전시 방문 수 구현
+                totalArtworks: 0, // TODO: 작품 수 구현
+                totalPhotos: 0, // TODO: 사진 수 구현
+              } : mockUserStats),
+              followerCount: gameStats?.followerCount || followStats.followerCount,
+              followingCount: gameStats?.followingCount || followStats.followingCount
             }} 
           />
         </div>
@@ -747,7 +764,16 @@ export default function ProfilePage() {
           {activeTab === 'badges' && (
             <BadgeSystem
               badges={mockBadges}
-              userStats={mockUserStats}
+              userStats={gameStats ? {
+                level: gameStats.level,
+                currentExp: gameStats.current_exp,
+                nextLevelExp: gameStats.nextLevelExp,
+                totalPoints: gameStats.total_points,
+                visitStreak: 0,
+                totalVisits: 0,
+                totalArtworks: 0,
+                totalPhotos: 0
+              } : mockUserStats}
               onBadgeClick={(badge) => console.log('Badge clicked:', badge)}
             />
           )}

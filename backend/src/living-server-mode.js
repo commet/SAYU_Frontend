@@ -7,10 +7,46 @@ const app = express();
 const PORT = process.env.PORT || 3005;
 
 // 기본 미들웨어
-app.use(express.json({ limit: '1mb' }));
+app.use(express.json({ limit: '50mb' }));  // 이미지 base64를 위해 크기 증가
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'https://*.railway.app', 'https://*.vercel.app'],
-  credentials: true
+  origin: function(origin, callback) {
+    // 개발 환경에서는 모든 origin 허용
+    if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1')) {
+      return callback(null, true);
+    }
+    
+    // 프로덕션 환경 - 구체적인 도메인 허용
+    const allowedOrigins = [
+      'https://sayu.vercel.app',
+      'https://sayu-git-main.vercel.app',
+      'https://sayu-*.vercel.app',
+      'https://*.vercel.app',
+      'https://sayu-production.up.railway.app',
+      'https://*.railway.app'
+    ];
+    
+    // origin이 허용된 패턴과 일치하는지 확인
+    const isAllowed = allowedOrigins.some(pattern => {
+      if (pattern.includes('*')) {
+        const regex = new RegExp('^' + pattern.replace(/\*/g, '.*') + '$');
+        return regex.test(origin);
+      }
+      return pattern === origin;
+    });
+    
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      console.log(`CORS blocked origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'), false);
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  exposedHeaders: ['Content-Length', 'Content-Type'],
+  maxAge: 86400 // 24시간 캐시
 }));
 
 // 전역 rate limiting
@@ -66,6 +102,14 @@ app.get('/api/personality-types', (req, res) => {
     ]
   });
 });
+
+// Art Profile Routes
+const artProfileRouter = require('../routes/art-profile');
+app.use('/api/art-profile', artProfileRouter);
+
+// Gamification V2 Routes (Supabase 기반)
+const gamificationV2Routes = require('./routes/gamificationV2');
+app.use('/api/gamification-v2', gamificationV2Routes);
 
 // ===========================================
 // QUIZ RESULTS API ENDPOINTS

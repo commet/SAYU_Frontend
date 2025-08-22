@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import FloatingNav from '@/components/navigation/FloatingNav';
+import MobileNav from '@/components/navigation/MobileNav';
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -17,7 +18,16 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
   return (
     <>
-      {!shouldHideNav && <FloatingNav />}
+      {!shouldHideNav && (
+        <>
+          <div className="hidden lg:block">
+            <FloatingNav />
+          </div>
+          <div className="lg:hidden">
+            <MobileNav />
+          </div>
+        </>
+      )}
       <main className={!shouldHideNav ? 'pt-20 pb-24' : ''}>
         {children}
       </main>

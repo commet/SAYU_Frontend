@@ -10,11 +10,25 @@ router.use(authMiddleware);
 
 /**
  * POST /api/art-profile/generate
- * AI 아트 프로필 생성
+ * AI 아트 프로필 생성 (multi-service fallback)
  */
 router.post('/generate',
   [
-    body('imageUrl').notEmpty().withMessage('Image is required'),
+    body('base64Image').notEmpty().withMessage('Base64 image is required'),
+    body('styleId').notEmpty().withMessage('Style ID is required'),
+    body('customSettings').optional().isObject()
+  ],
+  validateRequest,
+  artProfileController.generateArtProfileWithFallback
+);
+
+/**
+ * POST /api/art-profile/generate-url
+ * URL 기반 AI 아트 프로필 생성 (기존 호환성)
+ */
+router.post('/generate-url',
+  [
+    body('imageUrl').notEmpty().withMessage('Image URL is required'),
     body('styleId').notEmpty().withMessage('Style ID is required'),
     body('customSettings').optional().isObject()
   ],

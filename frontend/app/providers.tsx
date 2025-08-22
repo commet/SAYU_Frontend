@@ -12,6 +12,7 @@ import { DarkModeProvider } from '@/contexts/DarkModeContext';
 import { ArtworkViewingProvider } from '@/contexts/ArtworkViewingContext';
 import { PWAProvider } from '@/components/pwa/PWAProvider';
 import ClientLayout from '@/components/layouts/ClientLayout';
+import { SmartChatbot } from '@/components/chatbot/SmartChatbot';
 import { Toaster } from 'react-hot-toast';
 import { useState } from 'react';
 
@@ -41,6 +42,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                             {children}
                           </ClientLayout>
                           <PersonalizedToaster />
+                          <SmartChatbot />
                         </ArtworkViewingProvider>
                       </EasterEggProvider>
                     </AnimalCursorProvider>

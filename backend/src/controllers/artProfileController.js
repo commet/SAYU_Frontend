@@ -6,7 +6,131 @@ const db = require('../config/database');
 
 class ArtProfileController {
   /**
-   * AI 아트 프로필 생성
+   * AI 아트 프로필 생성 (멀티 서비스 폴백)
+   */
+  async generateArtProfileWithFallback(req, res) {
+    try {
+      const { userId } = req;
+      const { base64Image, styleId, customSettings = {} } = req.body;
+
+      // 입력 검증
+      if (!base64Image || !styleId) {
+        return res.status(400).json({
+          success: false,
+          message: 'Base64 image and style are required'
+        });
+      }
+
+      // 크레딧 확인
+      const credits = await artProfileService.checkUserCredits(userId);
+      if (credits.remaining <= 0) {
+        return res.status(403).json({
+          success: false,
+          message: 'No credits remaining this month',
+          credits: {
+            used: credits.used,
+            limit: credits.limit,
+            remaining: 0
+          }
+        });
+      }
+
+      logger.info(`Starting AI art generation with fallback for user: ${userId}, style: ${styleId}`);
+
+      let result = null;
+      let usedService = null;
+      let errors = [];
+
+      // 서비스 우선순위: HuggingFace > Replicate > Free/Cloudinary
+      const services = [
+        {
+          name: 'HuggingFace',
+          fn: async () => {
+            const imageBuffer = await huggingFaceArtService.processInputImage(base64Image);
+            const resultBuffer = await huggingFaceArtService.generateArtProfile(imageBuffer, styleId);
+            
+            // Cloudinary에 업로드
+            const uploadResult = await this.uploadBufferToCloudinary(resultBuffer, 'huggingface');
+            
+            return {
+              originalImage: null, // 원본은 클라이언트에 있음
+              transformedImage: uploadResult.secure_url,
+              style: huggingFaceArtService.getStyleDisplayName(styleId),
+              aiProvider: 'huggingface',
+              processingTime: 0,
+              createdAt: new Date()
+            };
+          }
+        },
+        {
+          name: 'Replicate',
+          fn: async () => {
+            return await artProfileService.generateArtProfile(userId, base64Image, styleId, customSettings);
+          }
+        },
+        {
+          name: 'Cloudinary',
+          fn: async () => {
+            const imageBuffer = await freeArtService.processInputImage(base64Image);
+            return await freeArtService.createArtProfile(userId, imageBuffer, styleId);
+          }
+        }
+      ];
+
+      // 각 서비스를 순서대로 시도
+      for (const service of services) {
+        try {
+          logger.info(`Trying ${service.name} for art generation...`);
+          result = await service.fn();
+          usedService = service.name;
+          logger.info(`✅ ${service.name} succeeded!`);
+          break;
+        } catch (error) {
+          logger.warn(`❌ ${service.name} failed: ${error.message}`);
+          errors.push({
+            service: service.name,
+            error: error.message
+          });
+        }
+      }
+
+      if (!result) {
+        logger.error('All AI services failed', { errors });
+        return res.status(500).json({
+          success: false,
+          message: 'All AI services are currently unavailable. Please try again later.',
+          serviceErrors: errors
+        });
+      }
+
+      // 성공한 경우 DB에 저장 (Cloudinary는 이미 저장됨)
+      if (usedService !== 'Cloudinary') {
+        await this.saveArtProfileToDB(userId, result, styleId, usedService);
+      }
+
+      res.json({
+        success: true,
+        data: {
+          ...result,
+          usedService
+        },
+        credits: {
+          used: credits.used + 1,
+          limit: credits.limit,
+          remaining: credits.remaining - 1
+        }
+      });
+    } catch (error) {
+      logger.error('Error in generateArtProfileWithFallback:', error);
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Failed to generate art profile'
+      });
+    }
+  }
+
+  /**
+   * AI 아트 프로필 생성 (기존 URL 방식)
    */
   async generateArtProfile(req, res) {
     try {
@@ -54,6 +178,67 @@ class ArtProfileController {
         success: false,
         message: error.message || 'Failed to generate art profile'
       });
+    }
+  }
+
+  /**
+   * Buffer를 Cloudinary에 업로드하는 헬퍼 메서드
+   */
+  async uploadBufferToCloudinary(buffer, folder) {
+    const cloudinary = require('cloudinary').v2;
+    
+    return new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: `art-profiles/${folder}`,
+          resource_type: 'image',
+          format: 'jpg',
+          transformation: {
+            width: 1024,
+            height: 1024,
+            crop: 'fill',
+            quality: 'auto:good'
+          }
+        },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+      uploadStream.end(buffer);
+    });
+  }
+
+  /**
+   * 아트 프로필을 DB에 저장하는 헬퍼 메서드
+   */
+  async saveArtProfileToDB(userId, result, styleId, aiProvider) {
+    try {
+      const insertQuery = `
+        INSERT INTO art_profiles (
+          id, user_id, original_image, transformed_image, 
+          style_id, ai_provider, created_at, is_public
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        RETURNING *
+      `;
+      
+      const { v4: uuidv4 } = require('uuid');
+      const values = [
+        uuidv4(),
+        userId,
+        result.originalImage || null,
+        result.transformedImage,
+        styleId,
+        aiProvider,
+        new Date(),
+        true // 기본적으로 공개
+      ];
+
+      await db.query(insertQuery, values);
+      logger.info(`Saved art profile to DB for user: ${userId}, provider: ${aiProvider}`);
+    } catch (error) {
+      logger.error('Failed to save art profile to DB:', error);
+      // DB 저장 실패해도 생성 결과는 반환
     }
   }
 
