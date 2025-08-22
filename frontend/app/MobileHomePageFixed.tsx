@@ -97,7 +97,7 @@ const testimonials = [
     name_en: "James",
     aptType: "SREC",
     emoji: "🦆",
-    quote: <><strong className="text-lime-300 font-bold">전시 동행 매칭</strong>으로 만난 친구와 매주 미술관을 가요.{"\n"}혼자서는 발견하지 못했을 작품들을 함께 감상하니 더 풍부해져요.</>,
+    quote: <><strong className="text-lime-300 font-bold">전시 동행 매칭</strong>으로 만난 친구와 매주 미술관을 가요.{"\n"}혼자서는 못 봤을 작품들을 함께 감상하니 더 풍부해져요.</>,
     quote_en: "Weekly museum visits with my exhibition companion opened my eyes to artworks I'd never have discovered alone."
   },
   {
@@ -105,7 +105,7 @@ const testimonials = [
     name_en: "Sarah",
     aptType: "LAMF",
     emoji: "🦉",
-    quote: <><strong className="text-lime-300 font-bold">AI 상담사와 대화</strong>하면서 제가 왜 특정 작품에 끌리는지 알게 되었어요.{"\n"}예술이 제 마음의 거울이 되어주고 있어요.</>,
+    quote: <><strong className="text-lime-300 font-bold">AI 상담사와 대화</strong>하면서 제가 왜 특정 작품에 끌리는지{"\n"}알게 되었어요. 예술이 제 마음의 거울이 되어주고 있어요.</>,
     quote_en: "Through conversations with the AI counselor, I learned why I'm drawn to certain artworks. Art has become a mirror to my heart."
   }
 ];
@@ -555,7 +555,7 @@ export default function MobileHomePageFixed() {
                   <div className="mb-0.5">
                     <span className="text-lg">{testimonial.emoji}</span>
                   </div>
-                  <p className="text-white/90 text-xs mb-1 leading-snug whitespace-pre-line italic">
+                  <p className="text-white/90 text-sm mb-1 leading-relaxed whitespace-pre-line italic">
                     {language === 'ko' ? testimonial.quote : testimonial.quote_en}
                   </p>
                   <div className="flex items-center justify-center gap-2">
@@ -569,9 +569,9 @@ export default function MobileHomePageFixed() {
               ))}
             </div>
             
-            {/* 첫 동행자 혜택 */}
+            {/* 첫 동행자 혜택 - testimonials와 간격 추가 */}
             <motion.div 
-              className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-lg p-3 border border-white/20"
+              className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-lg p-3 border border-white/20 mt-8"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.6 }}

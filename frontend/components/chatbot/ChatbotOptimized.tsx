@@ -3,7 +3,7 @@
 import { memo, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { MessageSquare, Sparkles } from 'lucide-react';
-import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
+import { PersonalityAnimalImageRobust } from '@/components/ui/PersonalityAnimalImageRobust';
 import type { PersonalityAnimal } from '@/data/personality-animals';
 
 // 동물 캐릭터 플로팅 버튼 - 최적화 버전

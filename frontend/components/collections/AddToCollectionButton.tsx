@@ -23,6 +23,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { collectionsApi, collectionItemsApi } from '@/lib/api/collections';
 import { useToast } from '@/hooks/use-toast';
+import { useActivityTracker } from '@/hooks/useActivityTracker';
 import { CreateCollectionModal } from './CreateCollectionModal';
 import type { ArtworkData, ArtCollection } from '@/types/collection';
 import { EMOTION_TAGS } from '@/types/collection';
@@ -50,6 +51,7 @@ export function AddToCollectionButton({
   const [selectedEmotions, setSelectedEmotions] = useState<string[]>([]);
   const [personalNote, setPersonalNote] = useState('');
   const { toast } = useToast();
+  const { trackCollectionSave } = useActivityTracker();
 
   // 컬렉션 목록 불러오기
   useEffect(() => {
@@ -105,6 +107,13 @@ export function AddToCollectionButton({
       toast({
         title: '작품이 저장되었습니다',
         description: `"${selectedCollection.title}" 컬렉션에 추가되었습니다`
+      });
+
+      // Track collection save activity
+      trackCollectionSave({
+        id: selectedCollection.id,
+        name: selectedCollection.title,
+        artworkCount: (selectedCollection.artwork_count || 0) + 1
       });
 
       setSavedCollections(new Set([...savedCollections, selectedCollection.id]));

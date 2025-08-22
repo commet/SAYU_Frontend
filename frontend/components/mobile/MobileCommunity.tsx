@@ -12,7 +12,7 @@ import {
 import { useLanguage } from '@/contexts/LanguageContext';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { getAnimalByType } from '@/data/personality-animals';
-import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
+import { PersonalityAnimalImageRobustRobust } from '@/components/ui/PersonalityAnimalImageRobustRobust';
 import { synergyTable, getSynergyKey } from '@/data/personality-synergy-table';
 import { chemistryData, ChemistryData } from '@/data/personality-chemistry';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
@@ -86,14 +86,14 @@ export default function MobileCommunity() {
   const mockUsers: UserMatch[] = [
     {
       id: '1',
-      nickname: 'sohee.moment',
+      nickname: 'sj.moment',
       personalityType: 'SAEF',
       compatibility: 'perfect',
       compatibilityScore: 95,
       lastActive: '2시간 전',
       exhibitions: 42,
       artworks: 156,
-      avatar: '🦋',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face',
       gender: 'female',
       hasLikedMe: true,
       age: 28,
@@ -108,7 +108,7 @@ export default function MobileCommunity() {
       lastActive: '30분 전',
       exhibitions: 38,
       artworks: 142,
-      avatar: '🦎',
+      avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&h=150&fit=crop&crop=face',
       gender: 'male',
       hasLikedMe: true,
       age: 32,
@@ -123,7 +123,7 @@ export default function MobileCommunity() {
       lastActive: '1일 전',
       exhibitions: 28,
       artworks: 89,
-      avatar: '🦉',
+      avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face',
       age: 25,
       distance: 15.7
     },
@@ -136,7 +136,7 @@ export default function MobileCommunity() {
       lastActive: '3시간 전',
       exhibitions: 67,
       artworks: 234,
-      avatar: '🦅',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face',
       gender: 'male',
       age: 29,
       distance: 12.1
@@ -179,23 +179,31 @@ export default function MobileCommunity() {
     });
   };
 
-  // Mock exhibition data
+  // 실제 전시 데이터 (Supabase exhibitions 테이블 기반)
   const exhibitionMatches: ExhibitionMatch[] = [
     {
-      id: '1',
-      title: '이불: 시작',
+      id: '061303bc-7f17-476c-8449-07f6e9952b35', // 이불 개인전 실제 ID
+      title: '이불: 1998년 이후',
       museum: '리움미술관',
       image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc31?w=400',
-      matchingUsers: 18,
+      matchingUsers: 42,
+      endDate: '2026.01.04'
+    },
+    {
+      id: '224f89e3-c53c-4cbf-b727-a50a7fb81383', // 오랑주리 전시 실제 ID
+      title: '오랑주리 미술관 특별전',
+      museum: '예술의전당 한가람미술관',
+      image: 'https://images.unsplash.com/photo-1577720643272-265f09367456?w=400',
+      matchingUsers: 67,
       endDate: '2025.05.25'
     },
     {
-      id: '2',
-      title: '르누아르: 여인의 향기',
-      museum: '예술의전당',
-      image: 'https://images.unsplash.com/photo-1577720643272-265f09367456?w=400',
-      matchingUsers: 24,
-      endDate: '2025.04.20'
+      id: '92e15c7e-2a0e-42f8-b660-c3fb6361199b', // 김창열전 실제 ID
+      title: '김창열: 물방울',
+      museum: '국립현대미술관 서울관',
+      image: 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=400',
+      matchingUsers: 31,
+      endDate: '2025.04.27'
     }
   ];
 
@@ -534,20 +542,20 @@ export default function MobileCommunity() {
                     <div className="p-4">
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex items-center gap-3">
-                          <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                            <span className="text-2xl">
-                              {match.avatar?.startsWith('http') ? (
-                                <Image
-                                  src={match.avatar}
-                                  alt={match.nickname}
-                                  width={56}
-                                  height={56}
-                                  className="rounded-full"
-                                />
-                              ) : (
-                                match.avatar || matchAnimal?.emoji || '🎨'
-                              )}
-                            </span>
+                          <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center overflow-hidden">
+                            {match.avatar?.startsWith('http') ? (
+                              <Image
+                                src={match.avatar}
+                                alt={match.nickname}
+                                width={56}
+                                height={56}
+                                className="rounded-full object-cover"
+                              />
+                            ) : (
+                              <span className="text-2xl">
+                                {match.avatar || matchAnimal?.emoji || '🎨'}
+                              </span>
+                            )}
                           </div>
                           <div>
                             <div className="flex items-center gap-2">
@@ -686,7 +694,7 @@ export default function MobileCommunity() {
                       </span>
                     </div>
                     <button
-                      onClick={() => router.push(`/exhibitions/${exhibition.id}`)}
+                      onClick={() => router.push(`/exhibitions?id=${exhibition.id}`)}
                       className="w-full py-2 bg-purple-500/30 rounded-lg text-white font-medium text-sm"
                     >
                       동행자 찾기
@@ -825,12 +833,31 @@ export default function MobileCommunity() {
                 <div className="sticky top-0 bg-gray-900 z-10 p-4 border-b border-gray-700">
                   <div className="w-12 h-1 bg-gray-600 rounded-full mx-auto mb-4" />
                   
+                  {/* Close button in top-right corner */}
+                  <button
+                    onClick={() => setShowChemistryModal(null)}
+                    className="absolute top-4 right-4 p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors"
+                    aria-label="Close"
+                  >
+                    <X className="w-5 h-5 text-white" />
+                  </button>
+                  
                   {/* Header */}
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                      <span className="text-2xl">{matchAnimal?.emoji || '🎨'}</span>
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center overflow-hidden">
+                      {showChemistryModal.avatar?.startsWith('http') ? (
+                        <Image
+                          src={showChemistryModal.avatar}
+                          alt={showChemistryModal.nickname}
+                          width={48}
+                          height={48}
+                          className="rounded-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-2xl">{matchAnimal?.emoji || '🎨'}</span>
+                      )}
                     </div>
-                    <div>
+                    <div className="pr-12">
                       <h2 className="text-white font-bold text-lg">{showChemistryModal.nickname}</h2>
                       <p className="text-sm text-gray-300">
                         {showChemistryModal.personalityType} · {matchAnimal?.name_ko}

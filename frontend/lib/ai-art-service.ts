@@ -736,17 +736,17 @@ export class AIArtService {
 
   private getPromptForStyle(styleId: string): string {
     const prompts: Record<string, string> = {
-      'vangogh-postimpressionism': 'Transform into Van Gogh style painting with swirling brushstrokes, vibrant yellows and blues, thick impasto texture, post-impressionist masterpiece',
-      'monet-impressionism': 'Transform into Claude Monet impressionist painting, soft brushstrokes, water lilies style, natural lighting, beautiful color harmony',
-      'picasso-cubism': 'Transform into Pablo Picasso cubist painting, geometric fragmentation, multiple perspectives, bold angular shapes, abstract forms',
-      'warhol-popart': 'Transform into Andy Warhol pop art style, bright vivid colors, screen printing effect, commercial art aesthetic, bold contrast',
-      'klimt-artnouveau': 'Transform into Gustav Klimt art nouveau style, golden decorative patterns, ornamental elements, byzantine influence',
-      'anime-style': 'Transform into beautiful anime art style, cel-shading, vibrant colors, studio ghibli quality, detailed character design',
-      'cyberpunk-digital': 'Transform into cyberpunk digital art, neon colors, futuristic aesthetic, holographic effects, blade runner style',
-      'pixelart-digital': 'Transform into 16-bit pixel art style, retro gaming aesthetic, crisp pixels, limited color palette'
+      'vangogh-postimpressionism': 'Style transfer: Apply Van Gogh painting style to this image, swirling brushstrokes, vibrant yellows and blues, thick impasto texture, post-impressionist style, keep original composition and subject',
+      'monet-impressionism': 'Style transfer: Apply Claude Monet impressionist style to this image, soft brushstrokes, water lilies painting technique, natural lighting, impressionist color harmony, maintain original scene',
+      'picasso-cubism': 'Style transfer: Apply Pablo Picasso cubist style to this image, geometric fragmentation, multiple perspectives, angular shapes, cubist art style, preserve main subject',
+      'warhol-popart': 'Style transfer: Apply Andy Warhol pop art style to this image, bright vivid colors, screen printing effect, pop art aesthetic, bold contrast, keep original portrait',
+      'klimt-artnouveau': 'Style transfer: Apply Gustav Klimt art nouveau style to this image, golden decorative patterns, ornamental elements, byzantine mosaic style, maintain original pose',
+      'anime-style': 'Style transfer: Convert this photo to anime art style, cel-shading technique, vibrant colors, studio ghibli quality, maintain facial features and composition',
+      'cyberpunk-digital': 'Style transfer: Apply cyberpunk digital art style to this image, neon colors overlay, futuristic aesthetic, holographic effects, blade runner atmosphere, keep original scene',
+      'pixelart-digital': 'Style transfer: Convert to 16-bit pixel art style, retro gaming aesthetic, crisp pixel blocks, limited color palette, maintain original composition'
     };
     
-    return prompts[styleId] || 'Transform into artistic painting with enhanced colors and creative style';
+    return prompts[styleId] || 'Style transfer: Apply artistic painting style to this image while preserving original composition';
   }
 
   private getNegativePromptForStyle(styleId: string): string {
@@ -789,8 +789,8 @@ export class AIArtService {
         supportNegativePrompt: true,
         baseInput: {
           num_inference_steps: 4,
-          guidance_scale: 1.5,
-          strength: 0.8,
+          guidance_scale: 1.2,
+          strength: 0.15, // 매우 미세한 스타일 변환만
           scheduler: 'K_EULER'
         }
       },
@@ -802,8 +802,8 @@ export class AIArtService {
         supportNegativePrompt: true,
         baseInput: {
           num_inference_steps: 50,
-          guidance_scale: 7.5,
-          prompt_strength: 0.8,
+          guidance_scale: 5,
+          prompt_strength: 0.2, // 스타일만 살짝 적용
           scheduler: 'DPMSolverMultistep'
         }
       },
@@ -814,8 +814,8 @@ export class AIArtService {
         supportNegativePrompt: true,
         baseInput: {
           num_inference_steps: 30,
-          guidance_scale: 6,
-          strength: 0.75,
+          guidance_scale: 4,
+          strength: 0.15, // 미세한 인상주의 터치만
           refine: 'expert_ensemble_refiner'
         }
       },
@@ -826,9 +826,9 @@ export class AIArtService {
         supportNegativePrompt: true,
         baseInput: {
           num_inference_steps: 40,
-          guidance_scale: 8,
-          controlnet_conditioning_scale: 0.5,
-          strength: 0.85
+          guidance_scale: 5,
+          controlnet_conditioning_scale: 0.3,
+          strength: 0.25 // 큐비즘도 최소한으로
         }
       },
       
@@ -838,8 +838,8 @@ export class AIArtService {
         supportNegativePrompt: true,
         baseInput: {
           num_inference_steps: 4,
-          guidance_scale: 2,
-          strength: 0.9,
+          guidance_scale: 1.5,
+          strength: 0.2, // 색상만 팝아트화
           scheduler: 'K_EULER'
         }
       },
@@ -850,8 +850,8 @@ export class AIArtService {
         supportNegativePrompt: true,
         baseInput: {
           num_inference_steps: 50,
-          guidance_scale: 7,
-          strength: 0.8,
+          guidance_scale: 5,
+          strength: 0.2, // 미세한 장식 효과만
           refine: 'expert_ensemble_refiner',
           high_noise_frac: 0.8
         }
@@ -864,8 +864,8 @@ export class AIArtService {
         supportNegativePrompt: true,
         baseInput: {
           num_inference_steps: 25,
-          guidance_scale: 7,
-          strength: 0.7,
+          guidance_scale: 5,
+          strength: 0.15, // 매우 미세한 애니메이션화
           scheduler: 'K_EULER_ANCESTRAL'
         }
       },
@@ -876,8 +876,8 @@ export class AIArtService {
         supportNegativePrompt: true,
         baseInput: {
           num_inference_steps: 30,
-          guidance_scale: 9,
-          strength: 0.85,
+          guidance_scale: 6,
+          strength: 0.2, // 네온 효과만 살짝
           refine: 'expert_ensemble_refiner'
         }
       },
@@ -888,8 +888,8 @@ export class AIArtService {
         supportNegativePrompt: true,
         baseInput: {
           num_inference_steps: 8,
-          guidance_scale: 3,
-          strength: 0.95,
+          guidance_scale: 2,
+          strength: 0.25, // 픽셀 스타일만 적용
           scheduler: 'K_EULER'
         }
       }

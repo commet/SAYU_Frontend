@@ -122,9 +122,15 @@ const mockUserStats = {
   followingCount: 8
 };
 
-export default function MobileProfile() {
+interface MobileProfileProps {
+  gameStats?: any;
+  user?: any;
+}
+
+export default function MobileProfile({ gameStats: propsGameStats, user: propsUser }: MobileProfileProps) {
   const { language } = useLanguage();
-  const { user } = useAuth();
+  const { user: authUser } = useAuth();
+  const user = propsUser || authUser;
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'overview' | 'journey' | 'badges'>('overview');
   const [userPersonalityType, setUserPersonalityType] = useState<string | null>(null);
@@ -323,9 +329,9 @@ export default function MobileProfile() {
                 {/* Level & Points */}
                 <div className="mt-2">
                   <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <span>Lv.{mockUserStats.level}</span>
+                    <span>Lv.{propsGameStats?.level || 1}</span>
                     <span>•</span>
-                    <span>{mockUserStats.totalPoints}P</span>
+                    <span>{propsGameStats?.total_points || 0}P</span>
                   </div>
                   <p className="text-xs text-purple-300 mt-1 opacity-90">
                     {language === 'ko' 
@@ -339,15 +345,15 @@ export default function MobileProfile() {
             {/* Stats Grid */}
             <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-white/10">
               <button className="text-center">
-                <p className="text-lg font-bold text-white">{mockUserStats.followerCount}</p>
+                <p className="text-lg font-bold text-white">{propsGameStats?.followerCount || 0}</p>
                 <p className="text-xs text-gray-300">팔로워</p>
               </button>
               <button className="text-center">
-                <p className="text-lg font-bold text-white">{mockUserStats.followingCount}</p>
+                <p className="text-lg font-bold text-white">{propsGameStats?.followingCount || 0}</p>
                 <p className="text-xs text-gray-300">팔로잉</p>
               </button>
               <button className="text-center">
-                <p className="text-lg font-bold text-white">{mockUserStats.totalVisits}</p>
+                <p className="text-lg font-bold text-white">{propsGameStats?.totalVisits || 0}</p>
                 <p className="text-xs text-gray-300">방문</p>
               </button>
             </div>
@@ -401,7 +407,7 @@ export default function MobileProfile() {
                 : 'text-gray-300'
             }`}
           >
-            여정
+            기록
           </button>
           <button
             onClick={() => setActiveTab('badges')}
@@ -435,28 +441,28 @@ export default function MobileProfile() {
                   <div className="bg-black/20 rounded-lg p-3">
                     <div className="flex items-center justify-between">
                       <Eye className="w-4 h-4 text-purple-400" />
-                      <span className="text-lg font-bold text-white">{mockUserStats.totalArtworks}</span>
+                      <span className="text-lg font-bold text-white">{propsGameStats?.totalArtworks || 0}</span>
                     </div>
                     <p className="text-xs text-gray-300 mt-1">감상한 작품</p>
                   </div>
                   <div className="bg-black/20 rounded-lg p-3">
                     <div className="flex items-center justify-between">
                       <Camera className="w-4 h-4 text-pink-400" />
-                      <span className="text-lg font-bold text-white">{mockUserStats.totalPhotos}</span>
+                      <span className="text-lg font-bold text-white">{propsGameStats?.totalPhotos || 0}</span>
                     </div>
                     <p className="text-xs text-gray-300 mt-1">촬영한 사진</p>
                   </div>
                   <div className="bg-black/20 rounded-lg p-3">
                     <div className="flex items-center justify-between">
                       <Calendar className="w-4 h-4 text-blue-400" />
-                      <span className="text-lg font-bold text-white">{mockUserStats.visitStreak}</span>
+                      <span className="text-lg font-bold text-white">{propsGameStats?.visitStreak || 0}</span>
                     </div>
                     <p className="text-xs text-gray-300 mt-1">연속 방문</p>
                   </div>
                   <div className="bg-black/20 rounded-lg p-3">
                     <div className="flex items-center justify-between">
                       <TrendingUp className="w-4 h-4 text-green-400" />
-                      <span className="text-lg font-bold text-white">{mockUserStats.level}</span>
+                      <span className="text-lg font-bold text-white">{propsGameStats?.level || 1}</span>
                     </div>
                     <p className="text-xs text-gray-300 mt-1">현재 레벨</p>
                   </div>
@@ -491,7 +497,7 @@ export default function MobileProfile() {
               {/* Favorite Art Style */}
               <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-md rounded-xl p-4 border border-purple-500/30">
                 <h3 className="text-sm font-semibold text-white mb-2">선호 예술 스타일</h3>
-                <p className="text-lg font-bold text-white">{mockUserStats.favoriteArtStyle}</p>
+                <p className="text-lg font-bold text-white">{propsGameStats?.favoriteArtStyle || '분석 중'}</p>
                 <p className="text-xs text-gray-300 mt-1">
                   당신의 성향과 가장 잘 맞는 스타일입니다
                 </p>
@@ -514,10 +520,10 @@ export default function MobileProfile() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setShowArchiveForm(true)}
-                    className="flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg text-white text-xs font-medium"
+                    className="flex items-center gap-1.5 px-3.5 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg text-white text-sm font-semibold shadow-lg shadow-purple-500/25 border border-white/20 hover:shadow-xl hover:shadow-purple-500/30 transition-all"
                   >
-                    <Plus className="w-3 h-3" />
-                    기록
+                    <Plus className="w-4 h-4" />
+                    전시 기록
                   </button>
                   <div className="flex gap-1 bg-black/20 rounded-lg p-1">
                     <button

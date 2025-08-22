@@ -28,7 +28,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
           </div>
         </>
       )}
-      <main className={!shouldHideNav ? 'pt-20 pb-24' : ''}>
+      <main className={!shouldHideNav ? 'pt-20 pb-24 lg:pb-0 has-mobile-nav' : ''}>
         {children}
       </main>
     </>

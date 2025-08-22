@@ -142,16 +142,16 @@ export default function StyleSelector({
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
-        className="sayu-liquid-glass rounded-2xl p-4 sticky top-4 max-w-sm"
+        className="sayu-liquid-glass rounded-2xl p-4 md:sticky md:top-4 max-w-sm"
       >
         <Button
           variant="ghost"
           size="sm"
           onClick={onBack}
-          className="mb-4"
+          className="mb-4 text-white hover:text-white"
         >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          {language === 'ko' ? '다시 선택' : 'Choose another'}
+          <ArrowLeft className="w-4 h-4 mr-2 text-white" />
+          <span className="text-white">{language === 'ko' ? '다시 선택' : 'Choose another'}</span>
         </Button>
 
         <div className="relative overflow-hidden rounded-xl">
@@ -188,11 +188,11 @@ export default function StyleSelector({
           >
             <Button
               onClick={onGenerate}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
               size="lg"
             >
-              <Sparkles className="w-5 h-5 mr-2" />
-              {language === 'ko' ? '아트 프로필 만들기' : 'Create Art Profile'}
+              <Sparkles className="w-5 h-5 mr-2 text-white" />
+              <span className="text-white">{language === 'ko' ? '아트 프로필 만들기' : 'Create Art Profile'}</span>
             </Button>
           </motion.div>
         )}
@@ -256,11 +256,15 @@ export default function StyleSelector({
                       language === 'ko' ? 'AI 맞춤 추천' : 'AI Recommendations'
                     )}
                   </h4>
-                  {personalityType && personalityStyleMapping[personalityType] && (
-                    <p className="text-sm text-gray-600 leading-relaxed">
-                      {personalityStyleMapping[personalityType].reason[language]}
-                    </p>
-                  )}
+                  <p className="text-sm text-gray-600 leading-relaxed mt-2">
+                    {personalityType && personalityStyleMapping[personalityType] ? (
+                      personalityStyleMapping[personalityType].reason[language]
+                    ) : (
+                      language === 'ko' 
+                        ? '당신의 성격 유형과 예술적 취향을 분석하여 가장 어울리는 스타일을 추천해드립니다.'
+                        : 'We recommend styles that best match your personality type and artistic preferences.'
+                    )}
+                  </p>
                 </div>
               </div>
             </motion.div>
@@ -286,14 +290,9 @@ export default function StyleSelector({
                     {/* 스타일 프리뷰 */}
                     <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
                       <img 
-                        src={imagePreview} 
+                        src={style.exampleImage || `/images/art-styles/${style.id}.jpg`} 
                         alt={style.name}
                         className="w-full h-full object-cover transition-all duration-300"
-                        style={{
-                          filter: hoveredStyle === style.id || selectedStyle?.id === style.id 
-                            ? getStyleFilter(style.id) 
-                            : 'none'
-                        }}
                       />
                     </div>
                     

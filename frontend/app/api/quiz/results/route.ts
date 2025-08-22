@@ -91,6 +91,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Database error', details: error.message }, { status: 500 });
     }
 
+    // Track quiz completion activity
+    try {
+      await supabase.rpc('track_activity', {
+        p_activity_type: 'complete_quiz',
+        p_target_type: 'quiz',
+        p_target_title: `APT 성격 유형 테스트`,
+        p_metadata: { 
+          result: personalityType,
+          completion_date: completedAt || new Date().toISOString()
+        }
+      });
+    } catch (activityError) {
+      console.error('Failed to track quiz completion activity:', activityError);
+      // Don't fail the whole request if activity tracking fails
+    }
+
     return NextResponse.json({ 
       success: true, 
       data: data[0],

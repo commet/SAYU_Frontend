@@ -52,9 +52,9 @@ export default function QuizIntroPage() {
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0.9, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.390, 0.575, 0.565, 1.000] }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="relative z-10 max-w-4xl mx-auto px-4 py-4"
       >
         <GlassCard variant="heavy" className="p-4 md:p-6">

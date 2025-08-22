@@ -16,7 +16,7 @@ import { ChatbotFloatingButton } from './ChatbotOptimized';
 import { ArtCuratorChatbot } from './ArtCuratorChatbot';
 import { MessageCircle, X } from 'lucide-react';
 import { getAnimalByType } from '@/data/personality-animals';
-import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
+import { PersonalityAnimalImageRobust } from '@/components/ui/PersonalityAnimalImageRobust';
 
 export const SmartChatbot = () => {
   const pathname = usePathname();
@@ -114,7 +114,7 @@ export const SmartChatbot = () => {
     <>
       {/* 플로팅 버튼 - 개인화된 또는 미스터리 캐릭터 */}
       <motion.div
-        className="fixed bottom-4 right-4 sm:bottom-24 sm:right-6 z-50"
+        className="fixed bottom-8 right-4 sm:bottom-8 sm:right-6 z-50"
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3, ease: "easeOut" }}

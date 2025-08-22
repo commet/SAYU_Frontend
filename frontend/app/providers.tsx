@@ -14,7 +14,8 @@ import { PWAProvider } from '@/components/pwa/PWAProvider';
 import ClientLayout from '@/components/layouts/ClientLayout';
 import { SmartChatbot } from '@/components/chatbot/SmartChatbot';
 import { Toaster } from 'react-hot-toast';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { initializePerformance } from '@/lib/performance-config';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
@@ -25,6 +26,24 @@ export function Providers({ children }: { children: React.ReactNode }) {
       },
     },
   }));
+
+  useEffect(() => {
+    initializePerformance();
+    
+    // Handle font loading
+    if ('fonts' in document) {
+      document.fonts.ready.then(() => {
+        document.documentElement.classList.remove('fonts-loading');
+        document.documentElement.classList.add('fonts-loaded');
+      });
+    } else {
+      // Fallback for browsers that don't support Font Loading API
+      setTimeout(() => {
+        document.documentElement.classList.remove('fonts-loading');
+        document.documentElement.classList.add('fonts-loaded');
+      }, 1000);
+    }
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

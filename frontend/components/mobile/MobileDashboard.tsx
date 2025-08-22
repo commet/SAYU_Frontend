@@ -330,11 +330,11 @@ export default function MobileDashboard() {
                     className="w-full p-2.5 bg-white/5 rounded-lg flex items-center justify-between text-white active:bg-white/10"
                   >
                     <span className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-blue-300" />
-                      <span className="text-sm">주변 전시</span>
+                      <Heart className="w-4 h-4 text-pink-300" />
+                      <span className="text-sm">관심 전시</span>
                     </span>
                     {journeyStats.newExhibitions > 0 && (
-                      <span className="text-xs bg-blue-600/30 px-2 py-0.5 rounded font-medium text-blue-200">
+                      <span className="text-xs bg-pink-600/30 px-2 py-0.5 rounded font-medium text-pink-200">
                         {journeyStats.newExhibitions}
                       </span>
                     )}

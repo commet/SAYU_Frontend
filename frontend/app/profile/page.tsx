@@ -419,7 +419,10 @@ export default function ProfilePage() {
   
   // Render mobile component for mobile devices
   if (renderMobile) {
-    return <MobileProfile />;
+    return <MobileProfile 
+      gameStats={gameStats}
+      user={user}
+    />;
   }
 
 
@@ -676,7 +679,19 @@ export default function ProfilePage() {
                 totalVisits: 0, // TODO: 전시 방문 수 구현
                 totalArtworks: 0, // TODO: 작품 수 구현
                 totalPhotos: 0, // TODO: 사진 수 구현
-              } : mockUserStats),
+              } : {
+                level: 1,
+                currentExp: 0,
+                nextLevelExp: 1000,
+                totalPoints: 0,
+                visitStreak: 0,
+                totalVisits: 0,
+                totalArtworks: 0,
+                totalPhotos: 0,
+                averageVisitDuration: 0,
+                favoriteArtStyle: '',
+                lastVisitDate: ''
+              }),
               followerCount: gameStats?.followerCount || followStats.followerCount,
               followingCount: gameStats?.followingCount || followStats.followingCount
             }} 
@@ -773,7 +788,16 @@ export default function ProfilePage() {
                 totalVisits: 0,
                 totalArtworks: 0,
                 totalPhotos: 0
-              } : mockUserStats}
+              } : {
+                level: 1,
+                currentExp: 0,
+                nextLevelExp: 1000,
+                totalPoints: 0,
+                visitStreak: 0,
+                totalVisits: 0,
+                totalArtworks: 0,
+                totalPhotos: 0
+              }}
               onBadgeClick={(badge) => console.log('Badge clicked:', badge)}
             />
           )}
@@ -821,10 +845,10 @@ export default function ProfilePage() {
         <ProfileIDCard
           personalityType={userPersonalityType}
           userName={user?.nickname || user?.auth?.email || 'SAYU Explorer'}
-          userLevel={userStats?.level || mockUserStats.level}
-          userPoints={userPoints || mockUserStats.totalPoints}
+          userLevel={gameStats?.level || 1}
+          userPoints={gameStats?.total_points || 0}
           stats={{
-            exhibitionsVisited: userStats?.totalExhibitions || mockUserStats.totalVisits,
+            exhibitionsVisited: userStats?.totalExhibitions || 0,
             achievementsUnlocked: userStats?.achievements?.filter((a: any) => a.unlockedAt).length || mockBadges.filter(b => b.unlocked).length,
             companionsMetCount: 0 // This would come from evaluation system
           }}
@@ -924,7 +948,7 @@ export default function ProfilePage() {
         contextData={{
           page: 'profile',
           personalityType: userPersonalityType,
-          userLevel: userStats?.level || mockUserStats.level
+          userLevel: gameStats?.level || 1
         }}
       />
 

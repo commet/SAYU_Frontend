@@ -220,14 +220,14 @@ export const NarrativeQuiz: React.FC = () => {
 
       {/* Main Content - Clean and focused */}
       <div className="flex items-center justify-center min-h-screen pt-20 pb-xl">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync">
           {!isTransitioning && (
             <motion.div
               key={currentQuestion}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0.8, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
+              exit={{ opacity: 0.8, y: -10 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               className="max-w-3xl w-full px-lg"
             >
               {/* Narrative Setup */}
@@ -257,9 +257,10 @@ export const NarrativeQuiz: React.FC = () => {
                 {question.options.map((option, index) => (
                   <motion.div
                     key={option.id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0.7, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 + index * 0.1 }}
+                    transition={{ delay: 0.1 + index * 0.05, duration: 0.3 }}
+                    className="quiz-option-container"
                   >
                     <button
                       onClick={() => handleChoice(option.id)}

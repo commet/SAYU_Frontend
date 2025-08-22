@@ -1,0 +1,173 @@
+/* Anti-Flicker Styles for SAYU */
+/* Prevents layout shifts and flickering during initial load */
+
+/* Prevent FOUC (Flash of Unstyled Content) */
+html {
+  visibility: visible !important;
+  opacity: 1 !important;
+  background: #111827 !important;
+}
+
+/* Smooth transitions for all elements */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Prevent layout shift from loading images */
+img, 
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: attr(width) / attr(height);
+}
+
+/* Skeleton loading states */
+.skeleton {
+  animation: skeleton-loading 1.5s infinite ease-in-out;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Prevent Framer Motion initial flicker */
+[data-framer-appear-id] {
+  opacity: 1 !important;
+}
+
+/* Prevent Framer Motion layout shift */
+[data-projection-id] {
+  will-change: auto !important;
+}
+
+/* Initial state for Framer Motion components */
+[style*="opacity: 0"] {
+  opacity: 0.95 !important;
+}
+
+[style*="transform"] {
+  will-change: transform;
+}
+
+/* Smooth page transitions */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+.page-transition-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+
+/* Prevent quiz option flicker */
+.quiz-option-container {
+  min-height: 80px;
+  transition: all 0.3s ease;
+}
+
+/* Prevent mobile navigation flicker */
+.mobile-nav-container {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Image loading placeholder */
+.image-loading {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.1) 0%,
+    rgba(236, 72, 153, 0.1) 100%
+  );
+}
+
+/* Prevent text reflow */
+.text-stable {
+  font-synthesis: none;
+  font-variant-ligatures: no-common-ligatures;
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Prevent background image flicker */
+.bg-image-stable {
+  background-attachment: fixed;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Prevent button hover flicker */
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Stable container heights */
+.container-stable {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Prevent content jump on load */
+body {
+  background: #111827 !important;
+  min-height: 100vh;
+}
+
+/* Initial loading state */
+body:not(.fonts-loaded) * {
+  transition: none !important;
+}
+
+/* After fonts load */
+body.fonts-loaded * {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Prevent modal/dialog flicker */
+.modal-stable {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}

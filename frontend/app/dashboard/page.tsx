@@ -11,6 +11,7 @@ import FeedbackButton from '@/components/feedback/FeedbackButton';
 import { useResponsive } from '@/lib/responsive';
 import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
+import { useRecentActivities } from '@/hooks/useActivityTracker';
 
 // Lazy load mobile component
 const MobileDashboard = dynamic(() => import('@/components/mobile/MobileDashboard'), {
@@ -30,6 +31,10 @@ export default function DashboardPage() {
   const [artworks, setArtworks] = useState<any[]>([]);
   const [dashboardStats, setDashboardStats] = useState<any>(null);
   const [statsLoading, setStatsLoading] = useState(true);
+  const [savedExhibitionsCount, setSavedExhibitionsCount] = useState(0);
+  
+  // Fetch real recent activities
+  const { activities, isLoading: activitiesLoading, refresh: refreshActivities } = useRecentActivities(10);
 
   console.log('Dashboard - Loading:', loading, 'User:', user);
 
@@ -64,6 +69,24 @@ export default function DashboardPage() {
     };
     fetchArtworks();
   }, []);
+
+  // Fetch saved exhibitions count
+  useEffect(() => {
+    const fetchSavedExhibitions = async () => {
+      if (!user) return;
+      
+      try {
+        const response = await fetch('/api/exhibitions/save');
+        if (response.ok) {
+          const { data } = await response.json();
+          setSavedExhibitionsCount(data?.length || 0);
+        }
+      } catch (error) {
+        console.error('Failed to fetch saved exhibitions:', error);
+      }
+    };
+    fetchSavedExhibitions();
+  }, [user]);
 
   // Fetch dashboard stats
   useEffect(() => {
@@ -422,7 +445,7 @@ export default function DashboardPage() {
                 최근 활동
               </h3>
               <div className="space-y-4">
-                {statsLoading ? (
+                {activitiesLoading ? (
                   // Loading skeleton
                   [1,2,3].map(i => (
                     <div key={i} className="flex items-start gap-3">
@@ -433,24 +456,42 @@ export default function DashboardPage() {
                       </div>
                     </div>
                   ))
-                ) : (
-                  // Actual activities
-                  (journeyStats.recentActivities || []).slice(0, 3).map((activity, index) => (
-                    <div key={index} className="flex items-start gap-3">
+                ) : activities.length > 0 ? (
+                  // Real activities from database
+                  activities.slice(0, 5).map((activity) => (
+                    <div key={activity.id} className="flex items-start gap-3">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        activity.type === 'view' ? 'bg-purple-900/40' :
-                        activity.type === 'visit' ? 'bg-blue-900/40' : 'bg-pink-900/40'
+                        activity.type?.includes('artwork') ? 'bg-purple-900/40' :
+                        activity.type?.includes('exhibition') ? 'bg-blue-900/40' : 
+                        activity.type?.includes('collection') ? 'bg-green-900/40' : 
+                        activity.type?.includes('quiz') ? 'bg-yellow-900/40' : 'bg-pink-900/40'
                       }`}>
-                        {activity.type === 'view' ? <Eye className="w-4 h-4 text-purple-300" /> :
-                         activity.type === 'visit' ? <MapPin className="w-4 h-4 text-blue-300" /> :
-                         <Heart className="w-4 h-4 text-pink-300" />}
+                        <span className="text-sm">{activity.icon || '📍'}</span>
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm text-white font-medium">{activity.title}</p>
-                        <p className="text-xs text-gray-400">{activity.timeAgo}</p>
+                        <p className="text-sm text-white font-medium line-clamp-1">
+                          {activity.title || '활동'}
+                        </p>
+                        {activity.subtitle && (
+                          <p className="text-xs text-gray-400 line-clamp-1">{activity.subtitle}</p>
+                        )}
+                        <p className="text-xs text-gray-500">{activity.formattedTime || '방금 전'}</p>
                       </div>
+                      {activity.image && (
+                        <img 
+                          src={activity.image} 
+                          alt=""
+                          className="w-10 h-10 rounded object-cover"
+                        />
+                      )}
                     </div>
                   ))
+                ) : (
+                  // Empty state
+                  <div className="text-center py-4">
+                    <p className="text-sm text-gray-400">아직 활동 기록이 없습니다</p>
+                    <p className="text-xs text-gray-500 mt-1">갤러리를 둘러보며 시작해보세요!</p>
+                  </div>
                 )}
               </div>
               <button 
@@ -485,10 +526,10 @@ export default function DashboardPage() {
                   className="w-full p-3 bg-white/5 hover:bg-white/10 rounded-lg flex items-center justify-between text-white transition-colors"
                 >
                   <span className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-blue-300" />
-                    <span className="text-sm">주변 전시</span>
+                    <Heart className="w-4 h-4 text-pink-300" />
+                    <span className="text-sm">관심 전시</span>
                   </span>
-                  <ArrowRight className="w-4 h-4 text-gray-400" />
+                  <span className="text-xs bg-pink-600/30 px-2 py-1 rounded">{savedExhibitionsCount}</span>
                 </button>
                 <button 
                   onClick={() => router.push('/community')}

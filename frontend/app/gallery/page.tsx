@@ -32,6 +32,7 @@ import { cn } from '@/lib/utils';
 import { aptRecommendations } from './sayu-recommendations';
 import { useCloudinaryArtworks, usePersonalizedArtworks } from '@/hooks/useCloudinaryArtworks';
 import { useGuestTracking } from '@/hooks/useGuestTracking';
+import { useActivityTracker } from '@/hooks/useActivityTracker';
 
 interface UserProfile {
   id: string;
@@ -103,6 +104,9 @@ function GalleryContent() {
   
   // Guest tracking for progressive engagement
   const { trackInteraction, shouldShowSignupPrompt } = useGuestTracking();
+  
+  // Activity tracking for logged-in users
+  const { trackArtworkView } = useActivityTracker();
   
   // Cloudinary artworks hook - 1000+ artworks from your database
   const userTypeForArtworks = userProfile?.typeCode || userProfile?.personalityType || user?.aptType || 'SREF';
@@ -725,6 +729,14 @@ function GalleryContent() {
     // Track guest interaction
     if (!user || isGuestMode) {
       trackInteraction('artwork_click', { artworkId: artwork.id, category: selectedCategory });
+    } else {
+      // Track activity for logged-in users
+      trackArtworkView({
+        id: artwork.id,
+        title: artwork.title || artwork.name || 'Untitled',
+        artist: artwork.artist || artwork.artist_name || 'Unknown Artist',
+        image: artwork.image_url || artwork.imageUrl
+      });
     }
     
     setSelectedArtwork(artwork);
@@ -936,12 +948,13 @@ function GalleryContent() {
                     <span className="text-xs bg-amber-500/20 px-2 py-0.5 rounded-full text-amber-200">Coming Soon</span>
                   </h3>
                   <p className="text-xs text-gray-200 mt-0.5">
-                    8월 말 KIAF & Frieze Seoul 2025를 위한 특별 기능이 준비중입니다
+                    <span className="block">8월 말 Frieze & KIAF Seoul 2025를 위한</span>
+                    <span className="block">특별 기능이 준비중입니다.</span>
                   </p>
                 </div>
               </div>
               <button 
-                className="px-3 py-1.5 bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 rounded-lg text-xs font-medium transition-all duration-200 border border-amber-500/30 hover:border-amber-500/50"
+                className="px-2 py-1.5 bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 rounded-lg text-xs font-medium transition-all duration-200 border border-amber-500/30 hover:border-amber-500/50 min-w-[50px]"
                 onClick={() => toast('🎨 아트 페어 모드는 8월 말에 만나요!', { 
                   icon: '🎪',
                   style: {
@@ -951,7 +964,8 @@ function GalleryContent() {
                   }
                 })}
               >
-                알림 받기
+                <span className="block">알림</span>
+                <span className="block">받기</span>
               </button>
             </div>
           </div>

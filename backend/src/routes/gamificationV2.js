@@ -9,6 +9,8 @@ const gamificationService = getSupabaseGamificationService();
 router.get('/profile', authenticateUser, async (req, res) => {
   try {
     const userId = req.user.id;
+    log.info(`Getting game profile for user: ${userId}`);
+    
     const stats = await gamificationService.getUserStats(userId);
     
     res.json({
@@ -16,10 +18,15 @@ router.get('/profile', authenticateUser, async (req, res) => {
       data: stats
     });
   } catch (error) {
-    log.error('Failed to get user game profile:', error);
+    log.error('Failed to get user game profile:', {
+      userId: req.user?.id,
+      error: error.message,
+      stack: error.stack
+    });
     res.status(500).json({
       success: false,
-      error: 'Failed to get game profile'
+      error: 'Failed to get game profile',
+      details: error.message
     });
   }
 });

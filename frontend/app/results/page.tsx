@@ -7,7 +7,7 @@ import { ArtworkCard } from '@/components/emotional/EmotionalCard';
 import { Heart, Sparkles, Map, Share2, Palette, User, Zap, Target, Sprout, ArrowRight } from 'lucide-react';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { getAnimalByType } from '@/data/personality-animals';
-import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
+import { PersonalityAnimalImageRobust } from '@/components/ui/PersonalityAnimalImageRobust';
 import { getSAYUType, isValidSAYUType, type SAYUType } from '@/types/sayu-shared';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAnimalCursor } from '@/contexts/AnimalCursorContext';
@@ -237,7 +237,7 @@ function ResultsContent() {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="mb-4"
             >
-              <PersonalityAnimalImage 
+              <PersonalityAnimalImageRobust 
                 animal={animalCharacter}
                 variant="image"
                 size="lg"
@@ -389,7 +389,7 @@ function ResultsContent() {
           </button>
           
           <button
-            onClick={() => router.push('/profile/art-profile')}
+            onClick={() => router.push('/profile/art-profile?from=quiz')}
             className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all font-medium flex-1 sm:flex-none"
           >
             <Sparkles size={16} className="sm:w-[18px] sm:h-[18px]" />

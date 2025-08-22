@@ -90,15 +90,21 @@ class SupabaseGamificationService {
   // 사용자 통계 조회
   async getUserStats(userId) {
     try {
+      log.info(`Getting stats for user: ${userId}`);
+      
       // 게임 프로필 조회
       const profile = await this.getUserGameProfile(userId);
+      log.info(`Got game profile:`, JSON.stringify(profile, null, 2));
       
       // RPC 함수로 상세 통계 조회
       const { data: stats, error } = await this.supabase.rpc('get_user_game_stats', {
         p_user_id: userId
       });
 
-      if (error) throw error;
+      if (error) {
+        log.error('RPC get_user_game_stats error:', error);
+        throw error;
+      }
 
       const userStats = stats[0] || {};
 

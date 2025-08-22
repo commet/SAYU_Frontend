@@ -8,6 +8,9 @@ const withPWA = require('next-pwa')({
 
 const nextConfig = {
   reactStrictMode: false, // React 19 RC compatibility
+  poweredByHeader: false, // X-Powered-By 헤더 제거
+  compress: true, // gzip 압축 활성화
+  productionBrowserSourceMaps: false, // 프로덕션 소스맵 비활성화
   typescript: {
     ignoreBuildErrors: true
   },
@@ -85,8 +88,11 @@ const nextConfig = {
       '@radix-ui/react-icons', 
       'lucide-react',
       '@react-three/drei',
-      'framer-motion'
+      'framer-motion',
+      '@tanstack/react-query',
+      'react-hot-toast'
     ],
+    scrollRestoration: true, // 스크롤 위치 복원
   },
   
   // Next.js 15 설정

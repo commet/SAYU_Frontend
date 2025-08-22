@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import gamificationV2API, { UserGameStats, PointResult, WeeklyProgress, LeaderboardEntry } from '@/lib/gamification-v2-api';
+import { gamificationV2API, UserGameStats, PointResult, WeeklyProgress, LeaderboardEntry } from '@/lib/gamification-v2-api';
 
 export function useGamificationV2() {
   const { user } = useAuth();
@@ -20,25 +20,16 @@ export function useGamificationV2() {
       const userStats = await gamificationV2API.getUserStats();
       setStats(userStats);
       setError(null);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to fetch user stats:', err);
-      setError('Failed to load game stats');
-      // Mock 데이터 설정 (개발용)
-      setStats({
-        id: 'mock',
-        user_id: user.auth.id,
-        level: 3,
-        current_exp: 450,
-        total_points: 2450,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        nextLevelExp: 3000,
-        levelProgress: 15,
-        todayActivities: [],
-        recentTransactions: [],
-        followerCount: 0,
-        followingCount: 0
-      });
+      setError(err.message || 'Failed to load game stats');
+      
+      // 개발 환경에서만 mock 데이터 사용 (실제 에러 확인용)
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('API Error - NOT using mock data to debug issue:', err);
+        // Mock 데이터를 사용하지 않고 null로 설정하여 실제 문제를 확인
+        setStats(null);
+      }
     } finally {
       setLoading(false);
     }

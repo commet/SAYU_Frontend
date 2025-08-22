@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, Playfair_Display, Cormorant_Garamond, Abril_Fatface } from 'next/font/google'
 import './globals.css'
+import '@/styles/anti-flicker.css'
 import { Providers } from './providers'
 
 import { SystemInitializer, PerformanceMonitor, SpatialPreloader } from '@/components/system/SystemInitializer'
@@ -94,25 +95,47 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
+        {/* Preload critical fonts */}
+        <link
+          rel="preload"
+          href="https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa2JL7SUc.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="https://fonts.gstatic.com/s/playfairdisplay/v37/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtXK-F2qC0s.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        
+        {/* Critical CSS inline */}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              html{visibility:visible!important;background:#111827}body{margin:0;padding:0;background:#111827;color:#f3f4f6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}*{box-sizing:border-box}html.dark{color-scheme:dark}.skeleton-placeholder{background:linear-gradient(90deg,#1f2937 0%,#374151 50%,#1f2937 100%);background-size:200% 100%;animation:skeleton-loading 1.5s infinite ease-in-out;border-radius:.5rem}@keyframes skeleton-loading{0%{background-position:200% 0}100%{background-position:-200% 0}}.container-stable{min-height:100vh;position:relative}.text-stable{opacity:1!important;visibility:visible!important}.mobile-nav-container{transform:translateZ(0);backface-visibility:hidden;position:fixed;bottom:0;left:0;right:0;z-index:50}img{display:block;max-width:100%;height:auto}button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}*{transition-property:none}*::after,*::before{transition-property:none}[data-framer-appear-id]{opacity:1!important}.quiz-option-container{min-height:80px;opacity:1}.glass{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}@media(prefers-color-scheme:dark){html{background:#111827}body{background:#111827}}
+            `,
+          }}
+        />
+        
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              try {
-                const darkMode = localStorage.getItem('darkMode');
-                // 기본값을 다크 모드로 설정 (lightMode가 명시적으로 true가 아닌 이상 다크 모드)
-                if (darkMode === 'false') {
-                  document.documentElement.classList.remove('dark');
-                } else {
+              (function() {
+                try {
+                  // Always use dark mode for consistency
                   document.documentElement.classList.add('dark');
-                }
-              } catch (e) {
-                document.documentElement.classList.add('dark');
-              }
+                  // Mark fonts as loading
+                  document.documentElement.classList.add('fonts-loading');
+                } catch (e) {}
+              })();
             `,
           }}
         />
       </head>
-      <body className={`${inter.className} ${playfair.variable} ${cormorant.variable} ${abril.variable} min-h-screen transition-colors bg-gray-900 dark:bg-gray-900`}>
+      <body className={`${inter.className} ${playfair.variable} ${cormorant.variable} ${abril.variable} min-h-screen bg-gray-900 dark:bg-gray-900 container-stable`}>
         <Providers>
           {/* <SystemInitializer /> */}
           {/* Temporarily disabled for debugging

@@ -8,7 +8,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { personalityAnimals } from '@/data/personality-animals';
 import { personalityGradients, getGradientStyle } from '@/constants/personality-gradients';
-import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
+import { PersonalityAnimalImageRobust } from '@/components/ui/PersonalityAnimalImageRobust';
 import { getMasterpieceForAnyPersonality } from '@/data/personality-masterpieces';
 import { completeChemistryMatrix } from '@/data/chemistry-matrix';
 import { realExhibitionRecommendations } from '@/data/real-exhibition-recommendations';
@@ -237,7 +237,7 @@ Discover your art personality too!`;
               onClick={onClose}
               className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
             >
-              <X className="w-4 h-4" />
+              <X className="w-4 h-4 text-gray-700" />
             </button>
           </div>
 
@@ -258,7 +258,9 @@ Discover your art personality too!`;
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
-                    <div className="text-xs font-medium capitalize">
+                    <div className={`text-xs font-medium capitalize ${
+                      shareFormat === format ? 'text-blue-700' : 'text-gray-700'
+                    }`}>
                       {format === 'story' ? (language === 'ko' ? '스토리' : 'Story') :
                        format === 'feed' ? (language === 'ko' ? '피드' : 'Feed') :
                        (language === 'ko' ? '카드' : 'Card')}
@@ -307,7 +309,7 @@ Discover your art personality too!`;
                           <div className="mb-3 -mt-1 flex justify-center items-center">
                             {animal?.image ? (
                               <div className="-ml-5 w-12 h-12">
-                                <PersonalityAnimalImage
+                                <PersonalityAnimalImageRobust
                                   animal={animal}
                                   variant="avatar"
                                   size="sm"
@@ -345,7 +347,7 @@ Discover your art personality too!`;
                             <div className="-ml-2 -mt-1">
                               {animal?.image ? (
                                 <div className={shareFormat === 'feed' ? 'w-5 h-5' : 'w-9 h-9'}>
-                                  <PersonalityAnimalImage
+                                  <PersonalityAnimalImageRobust
                                     animal={animal}
                                     variant="avatar"
                                     size="sm"
@@ -363,7 +365,7 @@ Discover your art personality too!`;
                             </div>
                             
                             {/* Type and title aligned to the right - moved more to the right */}
-                            <div className="text-left ml-10">
+                            <div className={`text-left ${shareFormat === 'feed' ? 'md:ml-8 ml-12' : 'md:ml-6 ml-10'}`}>
                               <div className={`font-black tracking-wider ${
                                 shareFormat === 'feed' ? 'text-sm' : 'text-base'
                               }`} style={{ 
@@ -496,8 +498,8 @@ Discover your art personality too!`;
                     <div className="text-center mt-2">
                       {/* Masterpiece title and artist - single line format */}
                       <div className={`opacity-50 mb-0.5 ${
-                        shareFormat === 'feed' ? 'text-[6px]' : shareFormat === 'story' ? 'text-[7px]' : 'text-[6px]'
-                      }`} style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)', lineHeight: '1.2' }}>
+                        shareFormat === 'feed' ? 'text-[5px]' : shareFormat === 'story' ? 'text-[6px]' : 'text-[5px]'
+                      }`} style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)', lineHeight: '1.1' }}>
                         <div className="italic">
                           {language === 'ko' 
                             ? `${masterpiece.title_ko} - ${masterpiece.artist_ko}`

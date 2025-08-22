@@ -13,7 +13,6 @@ import {
   GalleryVerticalEnd,
   Calendar,
   LayoutDashboard,
-  Settings,
   LogOut,
   ChevronRight
 } from 'lucide-react';
@@ -64,7 +63,6 @@ const drawerMenuItems = [
     title: { en: 'Account', ko: '계정' },
     items: [
       { icon: User, label: { en: 'Profile', ko: '프로필' }, path: '/profile', requiresAuth: true },
-      { icon: Settings, label: { en: 'Settings', ko: '설정' }, path: '/settings', requiresAuth: true },
     ]
   }
 ];
@@ -269,8 +267,15 @@ export default function MobileNav() {
       </AnimatePresence>
 
       {/* 하단 탭 바 */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-40" 
-           style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+      <div className="lg:hidden fixed-bottom-nav fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-[100]" 
+           style={{ 
+             paddingBottom: 'env(safe-area-inset-bottom)',
+             position: 'fixed',
+             WebkitBackfaceVisibility: 'hidden',
+             backfaceVisibility: 'hidden',
+             transform: 'translateZ(0)',
+             willChange: 'transform'
+           }}>
         <div className="flex items-center justify-around">
           {bottomTabItems.map((item, index) => {
             const Icon = item.icon;

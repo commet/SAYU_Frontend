@@ -4,6 +4,9 @@ import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
+import { useActivityTracker } from '@/hooks/useActivityTracker';
+import toast from 'react-hot-toast';
 import { 
   Calendar, 
   MapPin, 
@@ -69,6 +72,8 @@ interface TransformedExhibition {
 
 export default function ExhibitionsPage() {
   const router = useRouter();
+  const { user } = useAuth();
+  const { trackExhibitionView } = useActivityTracker();
   const [exhibitions, setExhibitions] = useState<TransformedExhibition[]>([]);
   const [filteredExhibitions, setFilteredExhibitions] = useState<TransformedExhibition[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<'all' | 'ongoing' | 'upcoming' | 'ended'>('all');
@@ -81,7 +86,7 @@ export default function ExhibitionsPage() {
   const [retrying, setRetrying] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
-  const [likedExhibitions, setLikedExhibitions] = useState<Set<string>>(new Set());
+  const [savedExhibitions, setSavedExhibitions] = useState<Set<string>>(new Set());
 
   // Helper function to determine exhibition status
   const determineStatus = (startDate: string, endDate: string): 'ongoing' | 'upcoming' | 'ended' => {
@@ -118,6 +123,19 @@ export default function ExhibitionsPage() {
     }
     
     return `${venue} 전시`;
+  };
+
+  // Handle exhibition click with activity tracking
+  const handleExhibitionClick = (exhibition: TransformedExhibition) => {
+    if (user) {
+      trackExhibitionView({
+        id: exhibition.id,
+        title: exhibition.title,
+        venue: exhibition.venue,
+        image: exhibition.image
+      });
+    }
+    router.push(`/exhibitions/${exhibition.id}`);
   };
 
   // Detect mobile device
@@ -205,9 +223,29 @@ export default function ExhibitionsPage() {
   };
 
 
+  // 저장된 전시 목록 가져오기
+  const fetchSavedExhibitions = async () => {
+    if (!user) return;
+    
+    try {
+      const response = await fetch('/api/exhibitions/save');
+      if (response.ok) {
+        const { data } = await response.json();
+        const savedIds = new Set(data.map((item: any) => item.exhibition_id));
+        setSavedExhibitions(savedIds);
+      }
+    } catch (error) {
+      console.error('Failed to fetch saved exhibitions:', error);
+    }
+  };
+
   useEffect(() => {
     fetchExhibitions();
   }, []);
+
+  useEffect(() => {
+    fetchSavedExhibitions();
+  }, [user]);
 
   // Filter exhibitions
   const applyFilters = useMemo(() => {
@@ -259,10 +297,20 @@ export default function ExhibitionsPage() {
     setFilteredExhibitions(applyFilters);
   }, [applyFilters]);
 
-  const handleLikeToggle = (exhibitionId: string) => {
-    setLikedExhibitions(prev => {
+  const handleSaveToggle = async (exhibitionId: string) => {
+    if (!user) {
+      toast.error('로그인이 필요합니다');
+      router.push('/login');
+      return;
+    }
+
+    const isSaved = savedExhibitions.has(exhibitionId);
+    const action = isSaved ? 'unsave' : 'save';
+
+    // Optimistic update
+    setSavedExhibitions(prev => {
       const newSet = new Set(prev);
-      if (newSet.has(exhibitionId)) {
+      if (isSaved) {
         newSet.delete(exhibitionId);
       } else {
         newSet.add(exhibitionId);
@@ -273,6 +321,33 @@ export default function ExhibitionsPage() {
       }
       return newSet;
     });
+
+    try {
+      const response = await fetch('/api/exhibitions/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ exhibitionId, action })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save exhibition');
+      }
+
+      toast.success(isSaved ? '저장 취소됨' : '전시가 저장되었습니다');
+    } catch (error) {
+      console.error('Save toggle error:', error);
+      // Revert on error
+      setSavedExhibitions(prev => {
+        const newSet = new Set(prev);
+        if (isSaved) {
+          newSet.add(exhibitionId);
+        } else {
+          newSet.delete(exhibitionId);
+        }
+        return newSet;
+      });
+      toast.error('저장 실패. 다시 시도해주세요.');
+    }
   };
 
   const getStatusBadge = (status: string) => {
@@ -334,6 +409,19 @@ export default function ExhibitionsPage() {
             <div className="flex items-center justify-between mb-3">
               <h1 className="text-xl font-bold text-white">전시회</h1>
               <div className="flex items-center gap-2">
+                {/* 내 관심 전시 버튼 */}
+                <button
+                  onClick={() => router.push('/exhibitions/saved')}
+                  className="p-2 bg-white/10 rounded-lg relative"
+                  title="내 관심 전시"
+                >
+                  <Heart className="w-5 h-5 text-pink-300" />
+                  {savedExhibitions.size > 0 && (
+                    <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-pink-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
+                      {savedExhibitions.size}
+                    </span>
+                  )}
+                </button>
                 <button
                   onClick={() => setShowFilters(!showFilters)}
                   className="p-2 bg-white/10 rounded-lg relative"
@@ -459,7 +547,7 @@ export default function ExhibitionsPage() {
           {/* Mobile Exhibition Grid */}
           <div className="grid grid-cols-2 gap-3">
             {filteredExhibitions.map((exhibition) => {
-              const isLiked = likedExhibitions.has(exhibition.id);
+              const isSaved = savedExhibitions.has(exhibition.id);
               
               return (
                 <motion.div
@@ -467,7 +555,7 @@ export default function ExhibitionsPage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="bg-white/10 backdrop-blur-md rounded-xl overflow-hidden border border-white/20"
-                  onClick={() => router.push(`/exhibitions/${exhibition.id}`)}
+                  onClick={() => handleExhibitionClick(exhibition)}
                 >
                   <div className="aspect-[4/3] relative">
                     {exhibition.image ? (
@@ -489,15 +577,15 @@ export default function ExhibitionsPage() {
                       {getStatusBadge(exhibition.status)}
                     </div>
 
-                    {/* Like Button */}
+                    {/* Save Button */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleLikeToggle(exhibition.id);
+                        handleSaveToggle(exhibition.id);
                       }}
                       className="absolute top-2 left-2 p-1.5 bg-black/50 rounded-full"
                     >
-                      <Heart className={`w-3.5 h-3.5 ${isLiked ? 'fill-pink-500 text-pink-500' : 'text-white'}`} />
+                      <Heart className={`w-3.5 h-3.5 ${isSaved ? 'fill-pink-500 text-pink-500' : 'text-white'}`} />
                     </button>
                   </div>
 
@@ -738,7 +826,7 @@ export default function ExhibitionsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
               className="bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700 hover:border-purple-500 transition-all duration-300 cursor-pointer group"
-              onClick={() => router.push(`/exhibitions/${exhibition.id}`)}
+              onClick={() => handleExhibitionClick(exhibition)}
             >
               <div className="h-32 bg-gradient-to-br from-slate-700/60 to-slate-800/60 relative overflow-hidden">
                 {exhibition.image ? (

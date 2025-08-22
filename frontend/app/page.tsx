@@ -12,8 +12,14 @@ import dynamic from 'next/dynamic';
 const MobileHomePage = dynamic(() => import('./MobileHomePageFixed'), {
   ssr: false,
   loading: () => (
-    <div className="min-h-screen bg-gradient-to-b from-purple-900 to-indigo-600 flex items-center justify-center">
-      <div className="text-white animate-pulse">Loading...</div>
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="text-center">
+        <div className="relative w-16 h-16 mx-auto mb-4">
+          <div className="absolute inset-0 border-4 border-purple-500/20 rounded-full" />
+          <div className="absolute inset-0 border-4 border-purple-500 rounded-full border-t-transparent animate-spin" />
+        </div>
+        <p className="text-white text-sm font-medium animate-pulse">SAYU</p>
+      </div>
     </div>
   ),
 });
@@ -222,14 +228,11 @@ export default function JourneyHomePage() {
 
   // SSR 중이거나 데스크탑일 때는 기본 페이지 렌더링
   return (
-    <div ref={containerRef} className="relative h-[200vh] home-page-preserve">
-      {/* Fixed viewport container */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+    <div ref={containerRef} className="relative home-page-preserve">
         
         {/* Scene 1: 미로 입구 */}
         <motion.div 
-          className="absolute inset-0 flex items-center justify-center"
-          style={{ opacity: mazeOpacity }}
+          className="relative h-screen flex items-center justify-center"
         >
           <div className="relative w-full h-full overflow-hidden">
             {/* 부드러운 미로 배경 - 감성적인 어둠 */}
@@ -346,9 +349,9 @@ export default function JourneyHomePage() {
               }}
             />
             
-            {/* 미로 속 숨겨진 작품들 - 더 부드럽게 */}
+            {/* 미로 속 숨겨진 작품들 - 추상적인 박스 형태 */}
             <div className="absolute inset-0">
-              {famousArtworks.slice(0, 3).map((artwork, i) => {
+              {[0, 1, 2].map((i) => {
                 const positions = [
                   { x: '20%', y: '30%' },
                   { x: '70%', y: '25%' },
@@ -356,8 +359,8 @@ export default function JourneyHomePage() {
                 ];
                 return (
                   <motion.div
-                    key={artwork.id}
-                    className="absolute w-28 h-36"
+                    key={`art-box-${i}`}
+                    className="absolute w-24 h-32"
                     style={{
                       left: positions[i].x,
                       top: positions[i].y,
@@ -365,7 +368,7 @@ export default function JourneyHomePage() {
                     }}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ 
-                      opacity: [0, 0.2, 0.15, 0.2],
+                      opacity: [0, 0.1, 0.08, 0.1],
                       scale: [0.8, 1, 0.95, 1],
                       y: [0, -10, 0, -5, 0]
                     }}
@@ -376,32 +379,22 @@ export default function JourneyHomePage() {
                       ease: "easeInOut"
                     }}
                   >
-                    <div className="relative w-full h-full group">
-                      <img
-                        src={artwork.url}
-                        alt={artwork.title}
-                        className="w-full h-full object-cover rounded-xl"
+                    <div className="relative w-full h-full">
+                      {/* 추상적인 박스 형태 */}
+                      <div 
+                        className="w-full h-full rounded-lg"
                         style={{
-                          filter: 'blur(6px) brightness(0.3) saturate(0.5)',
+                          background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%)',
+                          border: '1px solid rgba(255, 255, 255, 0.05)',
+                          backdropFilter: 'blur(2px)',
                         }}
                       />
                       {/* 부드러운 글로우 효과 */}
-                      <div className="absolute inset-0 rounded-xl shadow-2xl bg-gradient-to-t from-black/50 to-transparent" />
-                      
-                      <motion.div
-                        className="absolute inset-0 flex items-center justify-center rounded-xl"
-                        whileHover={{ opacity: 1 }}
-                        initial={{ opacity: 0 }}
-                      >
-                        <div className="bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2">
-                          <p className="text-white/90 text-xs text-center font-light">
-                            {artwork.title}
-                          </p>
-                          <p className="text-white/70 text-xs text-center">
-                            {artwork.artist}
-                          </p>
-                        </div>
-                      </motion.div>
+                      <div className="absolute inset-0 rounded-lg shadow-xl" 
+                        style={{
+                          background: 'radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%)',
+                        }}
+                      />
                     </div>
                   </motion.div>
                 );
@@ -579,8 +572,7 @@ export default function JourneyHomePage() {
 
         {/* Scene 2: 미로 속 작품들 */}
         <motion.div 
-          className="absolute inset-0"
-          style={{ opacity: artworksOpacity }}
+          className="relative h-screen"
         >
           <div className="relative w-full h-full">
             {/* 배경 - 좀 더 밝아진 미로 */}
@@ -812,8 +804,7 @@ export default function JourneyHomePage() {
         
         {/* Scene 3: 다른 사람들과의 만남 */}
         <motion.div 
-          className="absolute inset-0"
-          style={{ opacity: peopleOpacity }}
+          className="relative h-screen"
         >
           <div className="relative w-full h-full">
             {/* 배경 - 더 밝아진 공간 */}
@@ -947,8 +938,7 @@ export default function JourneyHomePage() {
 
         {/* Scene 4: 밝은 정원 */}
         <motion.div 
-          className="absolute inset-0"
-          style={{ opacity: gardenOpacity }}
+          className="relative h-screen"
         >
           <div className="relative w-full h-full overflow-hidden">
             {/* 밝은 배경 */}
@@ -1208,7 +1198,6 @@ export default function JourneyHomePage() {
             background: 'radial-gradient(circle at center, transparent 0%, rgba(255,255,255,0.1) 100%)'
           }}
         />
-      </div>
 
       <style jsx>{`        
         .bg-gradient-radial {

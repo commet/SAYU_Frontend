@@ -116,7 +116,7 @@ export default function PersonalityTypeGrid({
                   transition={{ duration: 0.8, delay: 0.5 + index * 0.1 }}
                 />
                 
-                <div className="absolute inset-0 flex justify-between items-center px-1.5 text-[9px]">
+                <div className="absolute inset-0 flex justify-between items-center px-1.5 text-[9px] md:text-xs">
                   <span className={`font-medium whitespace-nowrap overflow-hidden text-ellipsis ${typePositions[index] === 'left' ? 'text-white' : 'text-white/60'}`}>
                     {dimension.left.label[language]}
                   </span>

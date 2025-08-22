@@ -1,3 +1,5 @@
+import { createClient } from './supabase/client';
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3007';
 
 export interface UserGameProfile {
@@ -83,8 +85,11 @@ export interface DailyLimitInfo {
 }
 
 class GamificationV2API {
-  private getAuthHeaders(): HeadersInit {
-    const token = localStorage.getItem('supabase-auth-token');
+  private async getAuthHeaders(): Promise<HeadersInit> {
+    const supabase = createClient();
+    const { data: { session } } = await supabase.auth.getSession();
+    const token = session?.access_token;
+    
     return {
       'Content-Type': 'application/json',
       ...(token && { 'Authorization': `Bearer ${token}` })
@@ -94,7 +99,7 @@ class GamificationV2API {
   // 사용자 게임 프로필 및 통계 조회
   async getUserStats(): Promise<UserGameStats> {
     const response = await fetch(`${API_URL}/api/gamification-v2/profile`, {
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
     });
 
     if (!response.ok) {
@@ -109,7 +114,7 @@ class GamificationV2API {
   async addPoints(actionType: string, metadata?: any): Promise<PointResult> {
     const response = await fetch(`${API_URL}/api/gamification-v2/points/add`, {
       method: 'POST',
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
       body: JSON.stringify({ actionType, metadata }),
     });
 
@@ -124,7 +129,7 @@ class GamificationV2API {
   async dailyLogin(): Promise<PointResult> {
     const response = await fetch(`${API_URL}/api/gamification-v2/daily-login`, {
       method: 'POST',
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
     });
 
     if (!response.ok) {
@@ -138,7 +143,7 @@ class GamificationV2API {
   async aptTestComplete(): Promise<PointResult> {
     const response = await fetch(`${API_URL}/api/gamification-v2/apt-test-complete`, {
       method: 'POST',
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
     });
 
     if (!response.ok) {
@@ -152,7 +157,7 @@ class GamificationV2API {
   async aiProfileCreate(): Promise<PointResult> {
     const response = await fetch(`${API_URL}/api/gamification-v2/ai-profile-create`, {
       method: 'POST',
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
     });
 
     if (!response.ok) {
@@ -166,7 +171,7 @@ class GamificationV2API {
   async profileComplete(): Promise<PointResult> {
     const response = await fetch(`${API_URL}/api/gamification-v2/profile-complete`, {
       method: 'POST',
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
     });
 
     if (!response.ok) {
@@ -180,7 +185,7 @@ class GamificationV2API {
   async likeArtwork(artworkId: string): Promise<PointResult> {
     const response = await fetch(`${API_URL}/api/gamification-v2/like-artwork`, {
       method: 'POST',
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
       body: JSON.stringify({ artworkId }),
     });
 
@@ -195,7 +200,7 @@ class GamificationV2API {
   async saveArtwork(artworkId: string): Promise<PointResult> {
     const response = await fetch(`${API_URL}/api/gamification-v2/save-artwork`, {
       method: 'POST',
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
       body: JSON.stringify({ artworkId }),
     });
 
@@ -210,7 +215,7 @@ class GamificationV2API {
   async createExhibitionRecord(exhibitionId: string): Promise<PointResult> {
     const response = await fetch(`${API_URL}/api/gamification-v2/exhibition-record`, {
       method: 'POST',
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
       body: JSON.stringify({ exhibitionId }),
     });
 
@@ -225,7 +230,7 @@ class GamificationV2API {
   async writeDetailedReview(reviewId: string, reviewLength: number): Promise<PointResult> {
     const response = await fetch(`${API_URL}/api/gamification-v2/detailed-review`, {
       method: 'POST',
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
       body: JSON.stringify({ reviewId, reviewLength }),
     });
 
@@ -240,7 +245,7 @@ class GamificationV2API {
   async uploadExhibitionPhoto(photoId: string): Promise<PointResult> {
     const response = await fetch(`${API_URL}/api/gamification-v2/upload-photo`, {
       method: 'POST',
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
       body: JSON.stringify({ photoId }),
     });
 
@@ -255,7 +260,7 @@ class GamificationV2API {
   async rateExhibition(exhibitionId: string, rating: number): Promise<PointResult> {
     const response = await fetch(`${API_URL}/api/gamification-v2/rate-exhibition`, {
       method: 'POST',
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
       body: JSON.stringify({ exhibitionId, rating }),
     });
 
@@ -270,7 +275,7 @@ class GamificationV2API {
   async followUser(followedUserId: string): Promise<PointResult> {
     const response = await fetch(`${API_URL}/api/gamification-v2/follow-user`, {
       method: 'POST',
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
       body: JSON.stringify({ followedUserId }),
     });
 
@@ -285,7 +290,7 @@ class GamificationV2API {
   async shareProfile(): Promise<PointResult> {
     const response = await fetch(`${API_URL}/api/gamification-v2/share-profile`, {
       method: 'POST',
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
     });
 
     if (!response.ok) {
@@ -298,7 +303,7 @@ class GamificationV2API {
   // 리더보드 조회
   async getLeaderboard(type: 'weekly' | 'monthly' | 'all-time' = 'weekly', limit = 50): Promise<LeaderboardEntry[]> {
     const response = await fetch(`${API_URL}/api/gamification-v2/leaderboard?type=${type}&limit=${limit}`, {
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
     });
 
     if (!response.ok) {
@@ -312,7 +317,7 @@ class GamificationV2API {
   // 포인트 히스토리 조회
   async getPointHistory(limit = 20): Promise<PointTransaction[]> {
     const response = await fetch(`${API_URL}/api/gamification-v2/point-history?limit=${limit}`, {
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
     });
 
     if (!response.ok) {
@@ -326,7 +331,7 @@ class GamificationV2API {
   // 주간 진행도 조회
   async getWeeklyProgress(): Promise<WeeklyProgress> {
     const response = await fetch(`${API_URL}/api/gamification-v2/weekly-progress`, {
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
     });
 
     if (!response.ok) {
@@ -340,7 +345,7 @@ class GamificationV2API {
   // 일일 활동 제한 확인
   async checkDailyLimit(activityType: string): Promise<DailyLimitInfo> {
     const response = await fetch(`${API_URL}/api/gamification-v2/daily-limit/${activityType}`, {
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
     });
 
     if (!response.ok) {
@@ -354,7 +359,7 @@ class GamificationV2API {
   // 모든 레벨 정보 조회
   async getAllLevels(): Promise<any[]> {
     const response = await fetch(`${API_URL}/api/gamification-v2/levels`, {
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
     });
 
     if (!response.ok) {
@@ -368,7 +373,7 @@ class GamificationV2API {
   // 포인트 규칙 조회
   async getPointRules(): Promise<any[]> {
     const response = await fetch(`${API_URL}/api/gamification-v2/point-rules`, {
-      headers: this.getAuthHeaders(),
+      headers: await this.getAuthHeaders(),
     });
 
     if (!response.ok) {
@@ -382,6 +387,4 @@ class GamificationV2API {
 
 // 싱글톤 인스턴스
 export const gamificationV2API = new GamificationV2API();
-
-// 훅으로 사용할 수 있도록 export
 export default gamificationV2API;

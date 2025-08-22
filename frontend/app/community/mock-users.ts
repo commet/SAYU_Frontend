@@ -2,7 +2,7 @@
 export const MODERN_NICKNAMES = {
   // LAEF 유형을 위한 매칭
   LAEF: [
-    'sohee.moment',    // female
+    'sj.moment',       // female
     'wooj1n',          // male  
     'ur.fav.muse',     // neutral
     'dahyun_00'        // female

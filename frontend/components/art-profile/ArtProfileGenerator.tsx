@@ -2,9 +2,10 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Upload, Sparkles, Share2, Download, X } from 'lucide-react';
+import { Camera, Upload, Sparkles, Share2, Download, X, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { artProfileAPI } from '@/lib/art-profile-api';
 import { ArtStyle } from '@/types/art-profile';
 import { predefinedStyles } from '@/data/art-styles';
@@ -20,8 +21,13 @@ import { openAIArtService } from '@/lib/openai-art-service';
 export default function ArtProfileGenerator() {
   const { language } = useLanguage();
   const { user } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // 어디서 진입했는지 확인 (quiz result 또는 profile)
+  const fromPage = searchParams.get('from') || 'profile';
   
   const [step, setStep] = useState<'upload' | 'style' | 'generating' | 'result'>('upload');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -200,6 +206,29 @@ export default function ArtProfileGenerator() {
       
       {/* Content */}
       <div className="relative z-10 min-h-screen p-4 pt-20">
+        {/* Back Button */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="absolute top-4 left-4 z-20"
+        >
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              if (fromPage === 'quiz') {
+                router.push('/quiz/result');
+              } else {
+                router.push('/profile');
+              }
+            }}
+            className="text-white hover:text-white hover:bg-white/20"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            {language === 'ko' ? '뒤로' : 'Back'}
+          </Button>
+        </motion.div>
+        
         <div className="max-w-2xl mx-auto">
           {/* Header */}
           <motion.div
@@ -375,23 +404,7 @@ export default function ArtProfileGenerator() {
                 }
               </p>
               
-              {isUsingRealAI && (
-                <p className="text-sm text-purple-300 mb-6">
-                  {language === 'ko' 
-                    ? '🎨 Hugging Face AI 모델 사용 중' 
-                    : '🎨 Using Hugging Face AI model'
-                  }
-                </p>
-              )}
               
-              {!isUsingRealAI && (
-                <p className="text-sm text-yellow-300 mb-6">
-                  {language === 'ko' 
-                    ? '⚠️ 데모 모드 - API 키를 설정하면 실제 AI 모델을 사용할 수 있습니다' 
-                    : '⚠️ Demo mode - Set API key to use real AI models'
-                  }
-                </p>
-              )}
               
               {generationError && (
                 <p className="text-sm text-red-300 mb-6">

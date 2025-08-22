@@ -10,7 +10,7 @@ import { Users, MessageSquare, Sparkles, Heart, Palette, Eye, Calendar, MapPin, 
 import { useLanguage } from '@/contexts/LanguageContext';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { getAnimalByType } from '@/data/personality-animals';
-import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
+import { PersonalityAnimalImageRobust } from '@/components/ui/PersonalityAnimalImageRobust';
 import { chemistryData, ChemistryData } from '@/data/personality-chemistry';
 import { getArtworkRecommendations } from '@/lib/artworkRecommendations';
 import { getExhibitionRecommendation } from '@/lib/exhibitionRecommendations';
@@ -301,7 +301,7 @@ export default function CommunityPage() {
           lastActive: '2시간 전',
           exhibitions: 42,
           artworks: 156,
-          avatar: '🦋',
+          avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face',
           gender: 'female',
           hasLikedMe: true,
           age: 28,
@@ -316,7 +316,7 @@ export default function CommunityPage() {
           lastActive: '30분 전',
           exhibitions: 38,
           artworks: 142,
-          avatar: '🦎',
+          avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&h=150&fit=crop&crop=face',
           gender: 'male',
           hasLikedMe: true,
           age: 32,
@@ -331,7 +331,7 @@ export default function CommunityPage() {
           lastActive: '1일 전',
           exhibitions: 28,
           artworks: 89,
-          avatar: '🦉',
+          avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face',
           age: 25,
           distance: 15.7
         },
@@ -344,7 +344,7 @@ export default function CommunityPage() {
           lastActive: '방금 전',
           exhibitions: 156,
           artworks: 480,
-          avatar: 'https://i.pravatar.cc/150?img=12',
+          avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop&crop=face',
           gender: 'female',
           age: 41,
           distance: 22.3
@@ -361,7 +361,7 @@ export default function CommunityPage() {
           lastActive: '1시간 전',
           exhibitions: 35,
           artworks: 128,
-          avatar: '🦊',
+          avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
           hasLikedMe: true,
           age: 30,
           distance: 5.1
@@ -375,7 +375,7 @@ export default function CommunityPage() {
           lastActive: '3시간 전',
           exhibitions: 89,
           artworks: 312,
-          avatar: '🐢',
+          avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150&h=150&fit=crop&crop=face',
           age: 45,
           distance: 12.8
         },
@@ -524,7 +524,7 @@ export default function CommunityPage() {
           lastActive: '1시간 전',
           exhibitions: 45,
           artworks: 178,
-          avatar: '🦌'
+          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face'
         },
         {
           id: '3',
@@ -571,7 +571,7 @@ export default function CommunityPage() {
           lastActive: '2시간 전',
           exhibitions: 34,
           artworks: 129,
-          avatar: '🦌'
+          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face'
         },
         {
           id: '3',
@@ -594,7 +594,7 @@ export default function CommunityPage() {
           lastActive: '30분 전',
           exhibitions: 89,
           artworks: 334,
-          avatar: '🦅'
+          avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&h=150&fit=crop&crop=face'
         }
       ],
       // 사슴(LREC) 사용자를 위한 매칭
@@ -832,7 +832,7 @@ export default function CommunityPage() {
           lastActive: '2일 전',
           exhibitions: 23,
           artworks: 89,
-          avatar: '🦌'
+          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face'
         }
       ],
       // 벌(SAMC) 사용자를 위한 매칭
@@ -846,7 +846,7 @@ export default function CommunityPage() {
           lastActive: '2시간 전',
           exhibitions: 178,
           artworks: 667,
-          avatar: '🦅'
+          avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&h=150&fit=crop&crop=face'
         },
         {
           id: '2',
@@ -1035,7 +1035,7 @@ export default function CommunityPage() {
           lastActive: '1시간 전',
           exhibitions: 234,
           artworks: 890,
-          avatar: '🐝'
+          avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face'
         },
         {
           id: '2',
@@ -1046,7 +1046,7 @@ export default function CommunityPage() {
           lastActive: '4시간 전',
           exhibitions: 267,
           artworks: 1023,
-          avatar: '🦅'
+          avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&h=150&fit=crop&crop=face'
         },
         {
           id: '3',
@@ -2700,10 +2700,10 @@ export default function CommunityPage() {
                       <div className="flex items-center gap-3 cursor-pointer" onClick={() => setSelectedMatch(match)}>
                         <div className="relative">
                           <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-xl overflow-hidden">
-                            {match.avatar && match.avatar.startsWith('/') ? (
+                            {match.avatar && match.avatar.startsWith('http') ? (
                               <img src={match.avatar} alt={match.nickname} className="w-full h-full object-cover" />
                             ) : (
-                              match.avatar || matchAnimal?.emoji || '🎨'
+                              <span>{match.avatar || matchAnimal?.emoji || '🎨'}</span>
                             )}
                           </div>
                           <div className={`absolute -bottom-1 -right-1 flex items-center justify-center ${
@@ -2852,10 +2852,10 @@ export default function CommunityPage() {
                               <div className="text-3xl">💫</div>
                               <div className="text-center">
                                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-green-500 flex items-center justify-center text-2xl mb-1 overflow-hidden">
-                                  {selectedMatch.avatar && selectedMatch.avatar.startsWith('/') ? (
+                                  {selectedMatch.avatar && selectedMatch.avatar.startsWith('http') ? (
                                     <img src={selectedMatch.avatar} alt={selectedMatch.nickname} className="w-full h-full object-cover" />
                                   ) : (
-                                    selectedMatch.avatar || matchAnimal?.emoji || '🎨'
+                                    <span>{selectedMatch.avatar || matchAnimal?.emoji || '🎨'}</span>
                                   )}
                                 </div>
                                 <p className="text-sm text-white font-medium drop-shadow-lg">{selectedMatch.nickname}</p>

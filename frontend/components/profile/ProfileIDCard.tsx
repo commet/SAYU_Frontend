@@ -7,7 +7,7 @@ import { RotateCcw, Download, Share2, Trophy, MapPin, Palette, Zap, X } from 'lu
 import { useLanguage } from '@/contexts/LanguageContext';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { personalityAnimals } from '@/data/personality-animals';
-import { PersonalityAnimalImage } from '@/components/ui/PersonalityAnimalImage';
+import { PersonalityAnimalImageRobust } from '@/components/ui/PersonalityAnimalImageRobust';
 import { personalityGradients, getGradientStyle } from '@/constants/personality-gradients';
 import '@/styles/profile-card.css';
 
@@ -165,7 +165,7 @@ export default function ProfileIDCard({
                 <div className="text-center mb-6">
                   {animal ? (
                     <div className="mb-3">
-                      <PersonalityAnimalImage 
+                      <PersonalityAnimalImageRobust 
                         animal={animal}
                         variant="avatar"
                         size="lg"
