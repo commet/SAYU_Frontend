@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Palette, CheckCircle, Clock, MessageSquare, ArrowRight, Sparkles } from 'lucide-react';
 import { ArtistSubmissionForm } from '@/components/artist-portal/ArtistSubmissionForm';
@@ -11,6 +11,17 @@ export default function ArtistPortalPage() {
   const [showForm, setShowForm] = useState(false);
   const [showImageDemo, setShowImageDemo] = useState(false);
   const [showArtworkForm, setShowArtworkForm] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   if (showForm) {
     return (
@@ -122,8 +133,13 @@ export default function ArtistPortalPage() {
           </div>
         </motion.div>
 
+        {/* Divider for mobile */}
+        {isMobile && (
+          <div className="w-full h-px bg-white/20 my-6" />
+        )}
+
         {/* Feature Cards - Compressed */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+        <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${isMobile ? 'mb-6' : 'mb-12'}`}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -160,46 +176,84 @@ export default function ArtistPortalPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="bg-white/5 backdrop-blur-lg rounded-lg border border-white/10 p-6 mb-10"
+          className={`bg-white/5 backdrop-blur-lg rounded-lg border border-white/10 ${isMobile ? 'p-4 mb-6' : 'p-6 mb-10'}`}
         >
-          <h2 className="text-2xl font-bold text-white text-center mb-6">제출 과정</h2>
+          <h2 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-bold text-white text-center ${isMobile ? 'mb-4' : 'mb-6'}`}>제출 과정</h2>
           
-          <div className="flex flex-col md:flex-row items-center justify-between gap-2 max-w-4xl mx-auto">
-            <div className="flex items-center gap-3 text-center md:text-left">
-              <div className="bg-blue-500 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">1</div>
-              <div>
-                <h3 className="text-sm font-semibold text-white">기본 정보</h3>
-                <p className="text-xs text-gray-400">작가명 입력</p>
+          {isMobile ? (
+            // Mobile: 2x2 Grid Layout
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex items-center gap-2">
+                <div className="bg-blue-500 rounded-full w-7 h-7 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">1</div>
+                <div>
+                  <h3 className="text-xs font-semibold text-white">기본 정보</h3>
+                  <p className="text-[10px] text-gray-400">작가명 입력</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <div className="bg-purple-500 rounded-full w-7 h-7 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">2</div>
+                <div>
+                  <h3 className="text-xs font-semibold text-white">연락처</h3>
+                  <p className="text-[10px] text-gray-400">소셜미디어 등</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <div className="bg-pink-500 rounded-full w-7 h-7 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">3</div>
+                <div>
+                  <h3 className="text-xs font-semibold text-white">예술 정보</h3>
+                  <p className="text-[10px] text-gray-400">대표작품 등</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <div className="bg-green-500 rounded-full w-7 h-7 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">4</div>
+                <div>
+                  <h3 className="text-xs font-semibold text-white">제출 완료</h3>
+                  <p className="text-[10px] text-gray-400">검토 후 승인</p>
+                </div>
               </div>
             </div>
-            <ArrowRight className="w-4 h-4 text-gray-500 hidden md:block" />
-            
-            <div className="flex items-center gap-3 text-center md:text-left">
-              <div className="bg-purple-500 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">2</div>
-              <div>
-                <h3 className="text-sm font-semibold text-white">연락처</h3>
-                <p className="text-xs text-gray-400">소셜미디어 등</p>
+          ) : (
+            // Desktop: Original Layout
+            <div className="flex flex-col md:flex-row items-center justify-between gap-2 max-w-4xl mx-auto">
+              <div className="flex items-center gap-3 text-center md:text-left">
+                <div className="bg-blue-500 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">1</div>
+                <div>
+                  <h3 className="text-sm font-semibold text-white">기본 정보</h3>
+                  <p className="text-xs text-gray-400">작가명 입력</p>
+                </div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-gray-500 hidden md:block" />
+              
+              <div className="flex items-center gap-3 text-center md:text-left">
+                <div className="bg-purple-500 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">2</div>
+                <div>
+                  <h3 className="text-sm font-semibold text-white">연락처</h3>
+                  <p className="text-xs text-gray-400">소셜미디어 등</p>
+                </div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-gray-500 hidden md:block" />
+              
+              <div className="flex items-center gap-3 text-center md:text-left">
+                <div className="bg-pink-500 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">3</div>
+                <div>
+                  <h3 className="text-sm font-semibold text-white">예술 정보</h3>
+                  <p className="text-xs text-gray-400">대표작품 등</p>
+                </div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-gray-500 hidden md:block" />
+              
+              <div className="flex items-center gap-3 text-center md:text-left">
+                <div className="bg-green-500 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">4</div>
+                <div>
+                  <h3 className="text-sm font-semibold text-white">제출 완료</h3>
+                  <p className="text-xs text-gray-400">검토 후 승인</p>
+                </div>
               </div>
             </div>
-            <ArrowRight className="w-4 h-4 text-gray-500 hidden md:block" />
-            
-            <div className="flex items-center gap-3 text-center md:text-left">
-              <div className="bg-pink-500 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">3</div>
-              <div>
-                <h3 className="text-sm font-semibold text-white">예술 정보</h3>
-                <p className="text-xs text-gray-400">대표작품 등</p>
-              </div>
-            </div>
-            <ArrowRight className="w-4 h-4 text-gray-500 hidden md:block" />
-            
-            <div className="flex items-center gap-3 text-center md:text-left">
-              <div className="bg-green-500 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">4</div>
-              <div>
-                <h3 className="text-sm font-semibold text-white">제출 완료</h3>
-                <p className="text-xs text-gray-400">검토 후 승인</p>
-              </div>
-            </div>
-          </div>
+          )}
         </motion.div>
 
         {/* Submission Scenarios - Compressed */}
@@ -236,9 +290,9 @@ export default function ArtistPortalPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="bg-white/5 backdrop-blur-lg rounded-lg border border-white/10 p-5"
+          className={`bg-white/5 backdrop-blur-lg rounded-lg border border-white/10 ${isMobile ? 'p-4' : 'p-5'}`}
         >
-          <h2 className="text-xl font-bold text-white text-center mb-4">제출 후 과정</h2>
+          <h2 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold text-white text-center ${isMobile ? 'mb-3' : 'mb-4'}`}>제출 후 과정</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div className="flex items-center gap-3">

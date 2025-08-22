@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { artProfileAPI } from '@/lib/art-profile-api';
 import { useAuth } from '@/hooks/useAuth';
 import { personalityStyleMapping, stylePersonalityTraits } from '@/data/personality-style-mapping';
-import StylePreviewGrid from './StylePreviewGrid';
+import StylePreviewGridFixed from './StylePreviewGridFixed';
 import { styleFilters } from '@/data/style-filters';
 
 interface StyleSelectorProps {
@@ -366,7 +366,7 @@ export default function StyleSelector({
               </span>
             </div>
             
-            <StylePreviewGrid
+            <StylePreviewGridFixed
               selectedStyle={selectedStyle}
               onStyleSelect={handleStyleSelect}
               styles={predefinedStyles}
