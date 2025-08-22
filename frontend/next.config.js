@@ -101,29 +101,19 @@ const nextConfig = {
   images: {
     unoptimized: true,  // 이미지 최적화 비활성화 - 프로덕션 404 에러 해결
     domains: ['www.sayu.my', 'sayu.my', 'localhost'],
-    // 우선순위별 도메인 정렬 (자주 사용되는 순서)
+    // Next.js는 remotePatterns를 최대 50개까지만 허용
     remotePatterns: [
-      // 1순위: 자체 CDN
+      // 필수 도메인만 포함 (최대 50개 제한)
       { protocol: 'https', hostname: 'res.cloudinary.com' },
-      // 2순위: AI 생성 이미지
       { protocol: 'https', hostname: 'replicate.delivery' },
       { protocol: 'https', hostname: 'pbxt.replicate.delivery' },
       { protocol: 'https', hostname: 'api.replicate.com' },
-      // 3순위: 주요 미술관
       { protocol: 'https', hostname: 'images.metmuseum.org' },
       { protocol: 'https', hostname: 'openaccess-cdn.clevelandart.org' },
       { protocol: 'https', hostname: 'api.artic.edu' },
-      // 4순위: 기타 미술관 및 서비스
-      { protocol: 'https', hostname: 'harvardartmuseums.org' },
-      { protocol: 'https', hostname: 'collections.vam.ac.uk' },
-      { protocol: 'https', hostname: 'media.nga.gov' },
-      { protocol: 'https', hostname: 'images.collection.cooperhewitt.org' },
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
-      { protocol: 'https', hostname: 'ui-avatars.com' },
-      { protocol: 'https', hostname: 'artvee.com' },
       { protocol: 'https', hostname: 'upload.wikimedia.org' },
-      { protocol: 'https', hostname: 'picsum.photos' },
     ],
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60 * 60 * 24 * 7, // 7일로 증가

@@ -29,6 +29,7 @@ const abril = Abril_Fatface({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NODE_ENV === 'production' ? 'https://sayu.art' : 'http://localhost:3000'),
   title: 'SAYU - 당신의 감정과 예술이 만나는 곳',
   description: '인공지능이 당신의 감정을 이해하고 맞춤형 예술 작품을 추천합니다. 16가지 예술 성향 테스트를 통해 나만의 미술관을 만들어보세요.',
   keywords: ['예술', '감정', 'AI', '성격테스트', '미술관', '전시', '큐레이션', 'SAYU', '아트테크'],
