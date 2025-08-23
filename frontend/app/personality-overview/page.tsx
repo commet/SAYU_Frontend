@@ -226,7 +226,7 @@ function PersonalityOverviewContent() {
               onClick={() => setSelectedType(null)}
               className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5 text-gray-600" />
             </button>
 
             {/* 타입 정보 */}
@@ -248,13 +248,13 @@ function PersonalityOverviewContent() {
               </div>
 
               {/* 타입 정보 */}
-              <h3 className="text-2xl font-bold mb-2">
+              <h3 className="text-2xl font-bold mb-2 text-gray-900">
                 {SAYU_TYPES[selectedType].name}
               </h3>
               <p className="text-lg text-gray-600 mb-1">
                 {SAYU_TYPES[selectedType].animal} ({SAYU_TYPES[selectedType].animalEn})
               </p>
-              <div className="inline-block px-3 py-1 bg-gray-100 rounded-full text-sm font-mono mb-4">
+              <div className="inline-block px-3 py-1 bg-gray-100 rounded-full text-sm font-mono mb-4 text-gray-700">
                 {selectedType}
               </div>
 
@@ -266,7 +266,7 @@ function PersonalityOverviewContent() {
               {/* 특성 */}
               <div className="space-y-4">
                 <div>
-                  <h4 className="font-semibold mb-2">주요 특성</h4>
+                  <h4 className="font-semibold mb-2 text-gray-900">주요 특성</h4>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {SAYU_TYPES[selectedType].strengths.slice(0, 4).map((strength, i) => (
                       <span key={i} className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
@@ -277,7 +277,7 @@ function PersonalityOverviewContent() {
                 </div>
 
                 <div>
-                  <h4 className="font-semibold mb-2">예술을 즐기는 이유</h4>
+                  <h4 className="font-semibold mb-2 text-gray-900">예술을 즐기는 이유</h4>
                   <div className="text-sm text-gray-600 space-y-1">
                     {SAYU_TYPES[selectedType].artPreferences.motivations.slice(0, 4).map((motivation, i) => (
                       <p key={i}>• {motivation}</p>
