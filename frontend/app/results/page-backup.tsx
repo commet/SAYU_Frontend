@@ -228,6 +228,18 @@ function ResultsContent() {
 
   // APT 결과 공개 애니메이션을 먼저 보여줌
   if (showAPTReveal) {
+    // aptScores가 있으면 사용, 없으면 scores에서 변환
+    const aptScores = results.aptScores || (results.scores ? {
+      L: results.scores.L || 0,  // Lone
+      S: results.scores.S || 0,  // Social  
+      A: results.scores.A || 0,  // Abstract
+      R: results.scores.R || 0,  // Representational
+      E: results.scores.E || 0,  // Emotional
+      M: results.scores.M || 0,  // Meaning-driven
+      F: results.scores.F || 0,  // Flow
+      C: results.scores.C || 0   // Constructive
+    } : undefined);
+
     return (
       <APTResultReveal
         aptCode={results.personalityType}
@@ -236,6 +248,7 @@ function ResultsContent() {
         description={language === 'ko' ? personality.description_ko : personality.description}
         artStyle={language === 'ko' ? personality.artStyle_ko : personality.artStyle}
         color={animalCharacter.color || '#6B5B95'}
+        scores={aptScores}
         onComplete={() => setShowAPTReveal(false)}
       />
     );

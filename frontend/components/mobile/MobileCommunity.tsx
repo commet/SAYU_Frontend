@@ -717,14 +717,14 @@ export default function MobileCommunity() {
               <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-white font-semibold">인기 토픽</h3>
-                  <span className="text-xs text-gray-400 bg-white/10 px-2 py-1 rounded-full">Coming Soon</span>
+                  <span className="text-xs text-white bg-purple-600 px-3 py-1 rounded-full font-semibold">Coming Soon</span>
                 </div>
                 <div className="space-y-3 opacity-50">
                   <button className="w-full text-left cursor-not-allowed" disabled>
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm text-white">이번 주 전시 추천</p>
-                        <p className="text-xs text-gray-400">준비 중</p>
+                        <p className="text-xs text-white/70">준비 중</p>
                       </div>
                       <ChevronRight className="w-4 h-4 text-gray-400" />
                     </div>
@@ -733,7 +733,7 @@ export default function MobileCommunity() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm text-white">APT별 작품 해석</p>
-                        <p className="text-xs text-gray-400">준비 중</p>
+                        <p className="text-xs text-white/70">준비 중</p>
                       </div>
                       <ChevronRight className="w-4 h-4 text-gray-400" />
                     </div>
@@ -742,15 +742,16 @@ export default function MobileCommunity() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm text-white">미술관 데이트 팁</p>
-                        <p className="text-xs text-gray-400">준비 중</p>
+                        <p className="text-xs text-white/70">준비 중</p>
                       </div>
                       <ChevronRight className="w-4 h-4 text-gray-400" />
                     </div>
                   </button>
                 </div>
-                <p className="text-xs text-center text-gray-500 mt-3">
-                  포럼 기능은 곧 오픈 예정입니다
-                </p>
+                <div className="text-center mt-4">
+                  <p className="text-lg font-bold text-white mb-2">포럼 기능은 곧 오픈 예정입니다! 🚀</p>
+                  <p className="text-white/80 text-sm">COMING SOON</p>
+                </div>
               </div>
             </motion.div>
           )}

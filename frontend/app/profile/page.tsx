@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
 import { useResponsive } from '@/lib/responsive';
+import { useActivityTracker } from '@/hooks/useActivityTracker';
 import dynamic from 'next/dynamic';
 
 // Lazy load mobile component
@@ -166,6 +167,7 @@ export default function ProfilePage() {
   const { user } = useAuth();
   const router = useRouter();
   const { isMobile } = useResponsive();
+  const { trackProfileView } = useActivityTracker();
   const [isClient, setIsClient] = useState(false);
   const [renderMobile, setRenderMobile] = useState(false);
   
@@ -190,6 +192,7 @@ export default function ProfilePage() {
   const [loadingArtProfile, setLoadingArtProfile] = useState(true);
   const [showProfileCompletion, setShowProfileCompletion] = useState(false);
   const [showArchiveForm, setShowArchiveForm] = useState(false);
+  const [profileVisitCount, setProfileVisitCount] = useState(1);
   
   // Temporarily disabled due to API issues
   // const { dashboard } = useGamificationDashboard();
@@ -202,6 +205,44 @@ export default function ProfilePage() {
     setIsClient(true);
     setRenderMobile(isMobile);
   }, [isMobile]);
+
+  // Track profile page visit and update visit count
+  useEffect(() => {
+    if (user && isClient) {
+      console.log('📊 Profile page visit tracking:');
+      console.log('User ID:', user.id);
+      console.log('isClient:', isClient);
+      
+      // Skip API tracking due to errors, just update localStorage
+      // trackProfileView();
+      
+      // Update visit count in localStorage
+      const storageKey = `profile_visits_${user.id}`;
+      const currentVisits = parseInt(localStorage.getItem(storageKey) || '0');
+      const newVisitCount = currentVisits === 0 ? 1 : currentVisits + 1;  // 첫 방문이면 1, 아니면 +1
+      localStorage.setItem(storageKey, newVisitCount.toString());
+      setProfileVisitCount(newVisitCount);
+      
+      console.log('📈 Profile visit count details:');
+      console.log('Storage key:', storageKey);
+      console.log('Previous visits:', currentVisits);
+      console.log('New visit count:', newVisitCount);
+      console.log('State updated to:', newVisitCount);
+    }
+  }, [user, isClient]); // Removed trackProfileView dependency to avoid API errors
+
+  // Load visit count on component mount
+  useEffect(() => {
+    if (user && isClient) {
+      const storageKey = `profile_visits_${user.id}`;
+      const savedVisits = parseInt(localStorage.getItem(storageKey) || '1');  // 기본값을 1로 변경
+      setProfileVisitCount(savedVisits);
+      
+      console.log('🔄 Loading saved visit count:');
+      console.log('Storage key:', storageKey);
+      console.log('Saved visits:', savedVisits);
+    }
+  }, [user, isClient]);
   
   // Check if profile is completed
   useEffect(() => {
@@ -668,6 +709,7 @@ export default function ProfilePage() {
 
         {/* Compact Stats - 실제 데이터 사용 */}
         <div className="mb-6 -mt-3">
+          {console.log('🎯 Before passing to CompactStats - profileVisitCount:', profileVisitCount)}
           <CompactStats 
             stats={{
               ...(gameStats ? {
@@ -676,7 +718,7 @@ export default function ProfilePage() {
                 nextLevelExp: gameStats.nextLevelExp,
                 totalPoints: gameStats.total_points,
                 visitStreak: 0, // TODO: 연속 방문 구현
-                totalVisits: 0, // TODO: 전시 방문 수 구현
+                totalVisits: profileVisitCount, // 프로필 방문 수
                 totalArtworks: 0, // TODO: 작품 수 구현
                 totalPhotos: 0, // TODO: 사진 수 구현
               } : {
@@ -685,7 +727,7 @@ export default function ProfilePage() {
                 nextLevelExp: 1000,
                 totalPoints: 0,
                 visitStreak: 0,
-                totalVisits: 0,
+                totalVisits: profileVisitCount,
                 totalArtworks: 0,
                 totalPhotos: 0,
                 averageVisitDuration: 0,
@@ -794,7 +836,7 @@ export default function ProfilePage() {
                 nextLevelExp: 1000,
                 totalPoints: 0,
                 visitStreak: 0,
-                totalVisits: 0,
+                totalVisits: profileVisitCount,
                 totalArtworks: 0,
                 totalPhotos: 0
               }}

@@ -138,10 +138,23 @@ export const AudioGuideQuiz: React.FC = () => {
       finalScores.F > finalScores.C ? 'F' : 'C'
     ].join('');
 
-    // Prepare results
+    // APT 축별 scores 계산 (각 축의 비율을 0-100으로 정규화)
+    const aptAxisScores = {
+      L: Math.round((finalScores.L / (finalScores.L + finalScores.S)) * 100) || 50,  // Lone
+      S: Math.round((finalScores.S / (finalScores.S + finalScores.L)) * 100) || 50,  // Social
+      A: Math.round((finalScores.A / (finalScores.A + finalScores.R)) * 100) || 50,  // Abstract
+      R: Math.round((finalScores.R / (finalScores.R + finalScores.A)) * 100) || 50,  // Representational
+      E: Math.round((finalScores.E / (finalScores.E + finalScores.M)) * 100) || 50,  // Emotional
+      M: Math.round((finalScores.M / (finalScores.M + finalScores.E)) * 100) || 50,  // Meaning-driven
+      F: Math.round((finalScores.F / (finalScores.F + finalScores.C)) * 100) || 50,  // Flow
+      C: Math.round((finalScores.C / (finalScores.C + finalScores.F)) * 100) || 50   // Constructive
+    };
+
+    // Prepare results with both raw scores and APT axis scores
     const quizResults = {
       personalityType: type,
       scores: finalScores,
+      aptScores: aptAxisScores,  // 추가: APT 축별 비율 점수
       responses: allResponses,
       completedAt: new Date().toISOString()
     };

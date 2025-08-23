@@ -210,22 +210,26 @@ export default function StyleSelector({
             onClick={() => setActiveTab('recommended')}
             className={`flex-1 py-2 px-4 rounded-md transition-colors ${
               activeTab === 'recommended' 
-                ? 'bg-white shadow-sm font-medium' 
-                : 'text-gray-600'
+                ? 'bg-purple-600 shadow-sm font-medium text-white' 
+                : 'text-gray-600 hover:text-gray-800'
             }`}
           >
-            <Sparkles className="w-4 h-4 inline mr-2" />
+            <Sparkles className={`w-4 h-4 inline mr-2 ${
+              activeTab === 'recommended' ? 'text-white' : 'text-gray-600'
+            }`} />
             {language === 'ko' ? 'AI 추천' : 'AI Picks'}
           </button>
           <button
             onClick={() => setActiveTab('all')}
             className={`flex-1 py-2 px-4 rounded-md transition-colors ${
               activeTab === 'all' 
-                ? 'bg-white shadow-sm font-medium' 
-                : 'text-gray-600'
+                ? 'bg-purple-600 shadow-sm font-medium text-white' 
+                : 'text-gray-600 hover:text-gray-800'
             }`}
           >
-            <Palette className="w-4 h-4 inline mr-2" />
+            <Palette className={`w-4 h-4 inline mr-2 ${
+              activeTab === 'all' ? 'text-white' : 'text-gray-600'
+            }`} />
             {language === 'ko' ? '모든 스타일' : 'All Styles'}
           </button>
         </div>

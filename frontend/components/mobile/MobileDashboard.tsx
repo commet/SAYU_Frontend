@@ -355,13 +355,13 @@ export default function MobileDashboard() {
                   </button>
                   <button 
                     onClick={() => router.push('/artist-portal')}
-                    className="w-full p-2.5 bg-white/5 rounded-lg flex items-center justify-between text-white active:bg-white/10"
+                    className="w-full p-2.5 bg-amber-400/10 rounded-lg flex items-center justify-between text-white active:bg-amber-400/20 border border-amber-500/20"
                   >
                     <span className="flex items-center gap-2">
                       <Palette className="w-4 h-4 text-amber-300" />
                       <span className="text-sm">아티스트 포털</span>
                     </span>
-                    <ChevronRight className="w-4 h-4 text-gray-400" />
+                    <ChevronRight className="w-4 h-4 text-amber-300" />
                   </button>
                 </div>
               </div>

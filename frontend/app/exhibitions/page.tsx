@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth, getFreshSession } from '@/hooks/useAuth';
 import { useActivityTracker } from '@/hooks/useActivityTracker';
 import toast from 'react-hot-toast';
 import { 
@@ -162,17 +162,53 @@ export default function ExhibitionsPage() {
       const startTime = Date.now();
       
       const supabase = createClient();
-      const { data: rawExhibitions, error: supabaseError } = await supabase
+      
+      // Add timeout promise
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error('Request timeout after 10 seconds')), 10000);
+      });
+
+      // Check and refresh session if needed
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError || !session) {
+        console.log('🔄 Session expired or not found, attempting to refresh...');
+        const { data: { session: newSession }, error: refreshError } = await supabase.auth.refreshSession();
+        if (refreshError || !newSession) {
+          console.error('❌ Failed to refresh session:', refreshError);
+          // If refresh fails, try to get exhibitions anyway (public access might work)
+        } else {
+          console.log('✅ Session refreshed successfully');
+        }
+      }
+      
+      // Race between actual query and timeout
+      const queryPromise = supabase
         .from('exhibitions')
         .select('*')
         .order('created_at', { ascending: false })
         .limit(200);
+
+      const { data: rawExhibitions, error: supabaseError } = await Promise.race([
+        queryPromise,
+        timeoutPromise
+      ]);
 
       const duration = Date.now() - startTime;
       console.log(`⏱️ Supabase query took ${duration}ms`);
 
       if (supabaseError) {
         console.error('❌ Supabase error details:', supabaseError);
+        
+        // If JWT expired, try to refresh and retry once
+        if (supabaseError.message?.includes('JWT') && !isRetry) {
+          console.log('🔄 JWT expired, refreshing session and retrying...');
+          const { error: refreshError } = await supabase.auth.refreshSession();
+          if (!refreshError) {
+            // Retry the fetch with new session
+            return fetchExhibitions(true);
+          }
+        }
+        
         throw new Error(`Supabase error: ${supabaseError.message}`);
       }
 
@@ -215,9 +251,65 @@ export default function ExhibitionsPage() {
 
     } catch (err) {
       console.error('❌ Error fetching exhibitions:', err);
-      setError(err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다');
-      setExhibitions([]);
-      setFilteredExhibitions([]);
+      const errorMessage = err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다';
+      setError(errorMessage);
+      
+      // Load fallback data when API fails
+      console.log('🔄 Loading fallback exhibitions data...');
+      const fallbackExhibitions: TransformedExhibition[] = [
+        {
+          id: 'fallback-1',
+          title: '이불: 1998년 이후',
+          venue: '리움미술관',
+          location: '서울',
+          startDate: '2025-09-04',
+          endDate: '2026-01-04',
+          description: '한국 현대미술을 대표하는 이불 작가의 대규모 회고전',
+          image: 'https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=800&h=600&fit=crop',
+          category: '현대미술',
+          price: '성인 20,000원',
+          status: 'upcoming',
+          viewCount: 156,
+          likeCount: 42,
+          featured: true
+        },
+        {
+          id: 'fallback-2',
+          title: '오랑주리 미술관 특별전: 세잔, 르누아르',
+          venue: '예술의전당 한가람미술관',
+          location: '서울',
+          startDate: '2025-03-01',
+          endDate: '2025-05-25',
+          description: '인상주의 거장들의 걸작을 만나는 특별한 기회',
+          image: 'https://images.unsplash.com/photo-1577720643272-265f09367456?w=400',
+          category: '회화',
+          price: '성인 25,000원',
+          status: 'ongoing',
+          viewCount: 234,
+          likeCount: 67,
+          featured: true
+        },
+        {
+          id: 'fallback-3',
+          title: '김창열: 물방울',
+          venue: '국립현대미술관 서울관',
+          location: '서울',
+          startDate: '2025-01-15',
+          endDate: '2025-04-27',
+          description: '물방울 화가 김창열의 대표작품 전시',
+          image: 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=400',
+          category: '현대미술',
+          price: '무료',
+          status: 'ongoing',
+          viewCount: 89,
+          likeCount: 31,
+          featured: false
+        }
+      ];
+      
+      setExhibitions(fallbackExhibitions);
+      setFilteredExhibitions(fallbackExhibitions);
+      console.log('✅ Fallback data loaded:', fallbackExhibitions.length, 'exhibitions');
     } finally {
       setLoading(false);
       if (isRetry) setRetrying(false);
@@ -230,11 +322,25 @@ export default function ExhibitionsPage() {
     if (!user) return;
     
     try {
-      const response = await fetch('/api/exhibitions/save');
+      // Ensure we have a fresh session before making the request
+      const freshSession = await getFreshSession();
+      if (!freshSession) {
+        console.log('No valid session for fetching saved exhibitions');
+        return;
+      }
+      
+      const response = await fetch('/api/exhibitions/save', {
+        headers: {
+          'Authorization': `Bearer ${freshSession.access_token}`
+        }
+      });
+      
       if (response.ok) {
         const { data } = await response.json();
         const savedIds = new Set(data.map((item: any) => item.exhibition_id));
         setSavedExhibitions(savedIds);
+      } else if (response.status === 401) {
+        console.error('Still unauthorized after session refresh');
       }
     } catch (error) {
       console.error('Failed to fetch saved exhibitions:', error);
@@ -243,7 +349,56 @@ export default function ExhibitionsPage() {
 
   useEffect(() => {
     fetchExhibitions();
-  }, []);
+    
+    // Emergency timeout - if still loading after 15 seconds, force fallback
+    const emergencyTimeout = setTimeout(() => {
+      if (loading) {
+        console.log('🚨 Emergency timeout triggered - forcing fallback data');
+        setLoading(false);
+        setError('네트워크 연결이 불안정합니다. 기본 전시 정보를 표시합니다.');
+        
+        const fallbackExhibitions: TransformedExhibition[] = [
+          {
+            id: 'emergency-1',
+            title: '이불: 1998년 이후',
+            venue: '리움미술관',
+            location: '서울',
+            startDate: '2025-09-04',
+            endDate: '2026-01-04',
+            description: '한국 현대미술을 대표하는 이불 작가의 대규모 회고전',
+            image: 'https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=800&h=600&fit=crop',
+            category: '현대미술',
+            price: '성인 20,000원',
+            status: 'upcoming',
+            viewCount: 156,
+            likeCount: 42,
+            featured: true
+          },
+          {
+            id: 'emergency-2',
+            title: '오랑주리 미술관 특별전',
+            venue: '예술의전당 한가람미술관',
+            location: '서울',
+            startDate: '2025-03-01',
+            endDate: '2025-05-25',
+            description: '인상주의 거장들의 걸작을 만나는 특별한 기회',
+            image: 'https://images.unsplash.com/photo-1577720643272-265f09367456?w=400',
+            category: '회화',
+            price: '성인 25,000원',
+            status: 'ongoing',
+            viewCount: 234,
+            likeCount: 67,
+            featured: true
+          }
+        ];
+        
+        setExhibitions(fallbackExhibitions);
+        setFilteredExhibitions(fallbackExhibitions);
+      }
+    }, 15000);
+
+    return () => clearTimeout(emergencyTimeout);
+  }, [loading]);
 
   useEffect(() => {
     fetchSavedExhibitions();
@@ -325,9 +480,20 @@ export default function ExhibitionsPage() {
     });
 
     try {
+      // Get fresh session before making the request
+      const freshSession = await getFreshSession();
+      if (!freshSession) {
+        toast.error('세션이 만료되었습니다. 다시 로그인해주세요.');
+        router.push('/login');
+        return;
+      }
+      
       const response = await fetch('/api/exhibitions/save', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${freshSession.access_token}`
+        },
         body: JSON.stringify({ exhibitionId, action })
       });
 

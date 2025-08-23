@@ -275,7 +275,7 @@ function ResultsContent() {
         </motion.div>
       </section>
 
-      {/* 섹션 2: APT 4축 설명 (moved to top) */}
+      {/* 섹션 2: APT 4축 설명 with Bar Charts */}
       <section className="max-w-4xl mx-auto px-4 pt-2 pb-2">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -283,7 +283,7 @@ function ResultsContent() {
           transition={{ delay: 0.8 }}
           className="bg-gray-100 dark:bg-slate-800 rounded-2xl p-6"
         >
-          <div className="text-center mb-3">
+          <div className="text-center mb-6">
             <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
               {language === 'ko' ? 'Art Persona Type 코드' : 'Art Persona Type Code'}
             </h2>
@@ -292,81 +292,12 @@ function ResultsContent() {
             </p>
           </div>
           
-          <div className="grid grid-cols-4 gap-4">
-            {/* L/S */}
-            <div className="text-center">
-              <div className="w-12 h-12 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-1 shadow-sm">
-                <span className="font-mono font-bold text-xl text-purple-600">{results.personalityType[0]}</span>
-              </div>
-              <p className="text-base font-medium text-gray-900 dark:text-white">
-                {results.personalityType[0] === 'L' ? 'Lone' : 'Social'}
-              </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 whitespace-pre-line">
-                {results.personalityType[0] === 'L' 
-                  ? (language === 'ko' ? '혼자\n조용히' : 'Quiet & Solo') 
-                  : (language === 'ko' ? '함께\n나누며' : 'Share & Connect')}
-              </p>
-            </div>
-            
-            {/* A/R */}
-            <div className="text-center">
-              <div className="w-12 h-12 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-1 shadow-sm">
-                <span className="font-mono font-bold text-xl text-blue-600">{results.personalityType[1]}</span>
-              </div>
-              <div className="px-1">
-                {results.personalityType[1] === 'A' ? (
-                  <p className="text-base font-medium text-gray-900 dark:text-white text-center">
-                    Abstract
-                  </p>
-                ) : (
-                  <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white tracking-tighter" style={{ textAlign: 'left', marginLeft: '-12px', marginTop: '7px' }}>
-                    Representational
-                  </p>
-                )}
-                <p className="text-sm text-gray-500 dark:text-gray-400 whitespace-pre-line text-center mt-1">
-                  {results.personalityType[1] === 'A' 
-                    ? (language === 'ko' ? '추상과\n감정' : 'Form & Feeling') 
-                    : (language === 'ko' ? '현실과\n기법' : 'Real & Technique')}
-                </p>
-              </div>
-            </div>
-            
-            {/* E/M */}
-            <div className="text-center">
-              <div className="w-12 h-12 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-1 shadow-sm">
-                <span className="font-mono font-bold text-xl text-pink-600">{results.personalityType[2]}</span>
-              </div>
-              <p className="text-base font-medium text-gray-900 dark:text-white">
-                {results.personalityType[2] === 'E' ? 'Emotional' : 'Meaning-driven'}
-              </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 whitespace-pre-line">
-                {results.personalityType[2] === 'E' 
-                  ? (language === 'ko' ? '즉각적\n감동' : 'Instant Impact') 
-                  : (language === 'ko' ? '의미와\n맥락' : 'Context & Meaning')}
-              </p>
-            </div>
-            
-            {/* F/C */}
-            <div className="text-center">
-              <div className="w-12 h-12 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-1 shadow-sm">
-                <span className="font-mono font-bold text-xl text-green-600">{results.personalityType[3]}</span>
-              </div>
-              {results.personalityType[3] === 'F' ? (
-                <p className="text-base font-medium text-gray-900 dark:text-white">
-                  Flow
-                </p>
-              ) : (
-                <p className="text-base font-medium text-gray-900 dark:text-white tracking-tighter">
-                  Constructive
-                </p>
-              )}
-              <p className="text-sm text-gray-500 dark:text-gray-400 whitespace-pre-line">
-                {results.personalityType[3] === 'F' 
-                  ? (language === 'ko' ? '자유로운\n탐험' : 'Free Explore') 
-                  : (language === 'ko' ? '체계적\n접근' : 'Systematic Way')}
-              </p>
-            </div>
-          </div>
+          {/* APT 성향 분석 바 차트 */}
+          <PersonalityAxes 
+            personalityType={results.personalityType} 
+            scores={results.aptScores || results.scores}
+          />
+          
         </motion.div>
       </section>
 

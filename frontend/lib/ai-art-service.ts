@@ -15,16 +15,13 @@ export class AIArtService {
   private baseUrl: string;
   
   private constructor() {
-    // Edge Function 또는 로컬 백엔드 선택
-    if (process.env.NEXT_PUBLIC_USE_EDGE_FUNCTION === 'true') {
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://hgltvdshuyfffskvjmst.supabase.co';
-      this.baseUrl = `${supabaseUrl}/functions/v1`;
-      console.log('AIArtService initialized with Supabase Edge Functions URL:', this.baseUrl);
+    // 현재 도메인 사용 (Next.js API Route 우선)
+    if (typeof window !== 'undefined') {
+      this.baseUrl = window.location.origin;
     } else {
-      // 로컬 백엔드 사용 (기본값)
-      this.baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3007';
-      console.log('AIArtService initialized with local backend URL:', this.baseUrl);
+      this.baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002';
     }
+    console.log('AIArtService initialized with Next.js API Routes URL:', this.baseUrl);
   }
   
   static getInstance(): AIArtService {
@@ -34,54 +31,32 @@ export class AIArtService {
     return AIArtService.instance;
   }
 
-  // Main generation method using backend API with multi-service fallback
+  // Main generation method using Next.js API Route with canvas fallback
   async generateArt(
     imageFile: File,
     styleId: string,
     onProgress?: (progress: number) => void
   ): Promise<string> {
     console.log('=== AIArtService.generateArt Debug ===');
-    console.log('Using Supabase Edge Function for Replicate image generation');
+    console.log('Using Next.js API Route for Replicate image generation');
     console.log('Style ID:', styleId);
-    console.log('Supabase Functions URL:', this.baseUrl);
-    console.log('Full URL:', `${this.baseUrl}/generate-art`);
+    console.log('API URL:', this.baseUrl);
     onProgress?.(5);
     
+    // Try Next.js API Route first (no CORS issues)
+    console.log('Trying Next.js API Route...');
     try {
-      // Convert file to base64
-      const base64Image = await this.fileToBase64(imageFile);
-      onProgress?.(15);
-      
-      // Call Supabase Edge Function (which will use Replicate)
-      const result = await this.generateWithBackendAPI(base64Image, styleId, onProgress);
-      
+      const result = await this.generateWithNextjsAPI(imageFile, styleId, onProgress);
       if (result) {
-        console.log('✅ Supabase Edge Function (Replicate) succeeded!');
-        onProgress?.(100);
+        console.log('✅ Next.js API Route succeeded!');
         return result;
       }
     } catch (error) {
-      console.warn('❌ Supabase Edge Function failed:', error);
-      console.log('Attempting fallback methods...');
+      console.warn('❌ Next.js API Route failed:', error);
+      throw new Error(`AI generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
     
-    // Try direct Replicate if backend fails (with proper API key)
-    if (process.env.NEXT_PUBLIC_REPLICATE_API_KEY) {
-      console.log('Trying direct Replicate API...');
-      try {
-        const result = await this.generateWithReplicateAI(imageFile, styleId, onProgress);
-        if (result) {
-          console.log('✅ Direct Replicate succeeded!');
-          return result;
-        }
-      } catch (error) {
-        console.warn('❌ Direct Replicate failed:', error);
-      }
-    }
-    
-    // If all AI methods fail, use canvas fallback
-    console.log('All AI methods failed, using enhanced canvas fallback...');
-    return this.generateWithEnhancedCanvas(imageFile, styleId, onProgress);
+    throw new Error('AI generation failed: No result returned');
   }
 
   // Backend API generation (Supabase Edge Function or Local)
@@ -191,9 +166,9 @@ export class AIArtService {
     formData.append('text_prompts[0][weight]', '1');
     formData.append('text_prompts[1][text]', this.getNegativePromptForStyle(styleId));
     formData.append('text_prompts[1][weight]', '-1');
-    formData.append('cfg_scale', '7');
+    formData.append('cfg_scale', '12'); // Increased for stronger style adherence
     formData.append('samples', '1');
-    formData.append('steps', '30');
+    formData.append('steps', '50'); // Increased for better quality
     formData.append('style_preset', this.getStabilityStylePreset(styleId));
     
     onProgress?.(30);
@@ -294,7 +269,72 @@ export class AIArtService {
     return dataUrl;
   }
 
-  // Replicate AI - 최적화된 image-to-image 모델 선택
+  // Next.js API Route - CORS 우회를 위한 서버사이드 Replicate 호출
+  private async generateWithNextjsAPI(
+    imageFile: File,
+    styleId: string,
+    onProgress?: (progress: number) => void
+  ): Promise<string> {
+    console.log('Next.js API Route: Processing with style:', styleId);
+    onProgress?.(10);
+    
+    const base64 = await this.fileToBase64(imageFile);
+    onProgress?.(20);
+    
+    // 진행률 시뮬레이션을 위한 인터벌
+    let currentProgress = 20;
+    const progressInterval = setInterval(() => {
+      currentProgress = Math.min(currentProgress + 2, 85);
+      onProgress?.(currentProgress);
+    }, 1000); // 1초마다 2%씩 증가
+    
+    try {
+      // 상대 경로 사용 (Same-Origin)
+      const apiUrl = '/api/generate-art';
+      console.log('🎯 API URL:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          base64Image: base64,
+          styleId
+        })
+      });
+      
+      // 진행률 시뮬레이션 중단
+      clearInterval(progressInterval);
+      onProgress?.(90);
+      
+      if (!response.ok) {
+        let errorMessage = `API Route error: ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch (e) {
+          console.error('Failed to parse API Route error response');
+        }
+        throw new Error(errorMessage);
+      }
+      
+      const data = await response.json();
+      onProgress?.(95);
+      
+      if (data.success && data.data?.transformedImage) {
+        onProgress?.(100);
+        return data.data.transformedImage;
+      } else {
+        throw new Error('Invalid response from Next.js API Route');
+      }
+    } catch (error) {
+      clearInterval(progressInterval);
+      throw error;
+    }
+  }
+
+  // [DEPRECATED] Direct Replicate AI - CORS 오류로 사용 불가
   private async generateWithReplicateAI(
     imageFile: File,
     styleId: string,
@@ -383,30 +423,44 @@ export class AIArtService {
       const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
       const img = new Image();
 
+      // 진행률 시뮬레이션
+      let currentProgress = 20;
+      const progressInterval = setInterval(() => {
+        currentProgress = Math.min(currentProgress + 3, 85);
+        onProgress?.(currentProgress);
+      }, 200); // 200ms마다 3%씩 증가
+
       img.onload = () => {
         canvas.width = 1024;
         canvas.height = 1024;
         
-        onProgress?.(20);
-        
         // Draw and apply advanced filters
         ctx.drawImage(img, 0, 0, 1024, 1024);
         
-        onProgress?.(40);
-        
-        // Apply style-specific transformations
-        this.applyAdvancedStyleEffect(ctx, styleId);
-        
-        onProgress?.(80);
-        
-        // Get result
-        const result = canvas.toDataURL('image/jpeg', 0.95);
-        
-        onProgress?.(100);
-        resolve(result);
+        // Apply style-specific transformations with progress updates
+        setTimeout(() => {
+          clearInterval(progressInterval);
+          onProgress?.(90);
+          
+          this.applyAdvancedStyleEffect(ctx, styleId);
+          
+          onProgress?.(95);
+          
+          // Get result
+          const result = canvas.toDataURL('image/jpeg', 0.95);
+          
+          onProgress?.(100);
+          resolve(result);
+        }, 100);
+      };
+
+      img.onerror = () => {
+        clearInterval(progressInterval);
+        resolve(''); // 빈 결과 반환
       };
 
       img.src = URL.createObjectURL(imageFile);
+      onProgress?.(10);
     });
   }
 
@@ -736,32 +790,32 @@ export class AIArtService {
 
   private getPromptForStyle(styleId: string): string {
     const prompts: Record<string, string> = {
-      'vangogh-postimpressionism': 'Style transfer: Apply Van Gogh painting style to this image, swirling brushstrokes, vibrant yellows and blues, thick impasto texture, post-impressionist style, keep original composition and subject',
-      'monet-impressionism': 'Style transfer: Apply Claude Monet impressionist style to this image, soft brushstrokes, water lilies painting technique, natural lighting, impressionist color harmony, maintain original scene',
-      'picasso-cubism': 'Style transfer: Apply Pablo Picasso cubist style to this image, geometric fragmentation, multiple perspectives, angular shapes, cubist art style, preserve main subject',
-      'warhol-popart': 'Style transfer: Apply Andy Warhol pop art style to this image, bright vivid colors, screen printing effect, pop art aesthetic, bold contrast, keep original portrait',
-      'klimt-artnouveau': 'Style transfer: Apply Gustav Klimt art nouveau style to this image, golden decorative patterns, ornamental elements, byzantine mosaic style, maintain original pose',
-      'anime-style': 'Style transfer: Convert this photo to anime art style, cel-shading technique, vibrant colors, studio ghibli quality, maintain facial features and composition',
-      'cyberpunk-digital': 'Style transfer: Apply cyberpunk digital art style to this image, neon colors overlay, futuristic aesthetic, holographic effects, blade runner atmosphere, keep original scene',
-      'pixelart-digital': 'Style transfer: Convert to 16-bit pixel art style, retro gaming aesthetic, crisp pixel blocks, limited color palette, maintain original composition'
+      'vangogh-postimpressionism': 'Van Gogh painting style, swirling brushstrokes, thick paint texture, keep original composition and pose',
+      'monet-impressionism': 'Monet impressionist style, soft brushwork, light and shadow, maintain original subject and layout',
+      'picasso-cubism': 'Picasso cubist style, geometric shapes, angular forms, preserve original figure and pose',
+      'warhol-popart': 'Andy Warhol pop art style, bright colors, high contrast, keep original portrait composition',
+      'klimt-artnouveau': 'Gustav Klimt art nouveau style, golden patterns, decorative elements, maintain original pose and figure',
+      'anime-style': 'Anime art style, cel shading, clean lines, preserve original facial features and pose',
+      'cyberpunk-digital': 'Cyberpunk style, neon lighting effects, futuristic colors, keep original composition',
+      'pixelart-digital': 'Pixel art style, 16-bit aesthetic, pixelated effect, maintain original figure'
     };
     
-    return prompts[styleId] || 'Style transfer: Apply artistic painting style to this image while preserving original composition';
+    return prompts[styleId] || 'Apply artistic style while keeping original composition and pose';
   }
 
   private getNegativePromptForStyle(styleId: string): string {
     const negativePrompts: Record<string, string> = {
-      'vangogh-postimpressionism': 'photographic, smooth, digital, modern, minimalist',
-      'monet-impressionism': 'sharp edges, digital art, photography, geometric',
-      'picasso-cubism': 'realistic, photographic, smooth, traditional',
-      'warhol-popart': 'muted colors, traditional painting, realistic, dark',
-      'klimt-artnouveau': 'modern, minimalist, plain, simple',
-      'anime-style': 'realistic, photographic, western style, 3D render',
-      'cyberpunk-digital': 'vintage, classical, natural, traditional',
-      'pixelart-digital': 'smooth, high resolution, photorealistic, blurry'
+      'vangogh-postimpressionism': 'different person, different pose, different composition, new scene, different background, extra people',
+      'monet-impressionism': 'different person, different pose, different composition, new scene, different background, extra people',
+      'picasso-cubism': 'different person, different pose, different composition, new scene, different background, extra people',
+      'warhol-popart': 'different person, different pose, different composition, new scene, different background, extra people',
+      'klimt-artnouveau': 'different person, different pose, different composition, new scene, different background, extra people',
+      'anime-style': 'different person, different pose, different composition, new scene, different background, extra people',
+      'cyberpunk-digital': 'different person, different pose, different composition, new scene, different background, extra people',
+      'pixelart-digital': 'different person, different pose, different composition, new scene, different background, extra people'
     };
     
-    return negativePrompts[styleId] || 'low quality, blurry, distorted, amateur';
+    return negativePrompts[styleId] || 'different person, different pose, different composition, new scene, low quality';
   }
 
   private getStabilityStylePreset(styleId: string): string {
@@ -788,9 +842,9 @@ export class AIArtService {
         version: '527d2a6296facb8e47ba1eaf17f142c240c19a30894f437feee9b91cc29d8e4f',
         supportNegativePrompt: true,
         baseInput: {
-          num_inference_steps: 4,
-          guidance_scale: 1.2,
-          strength: 0.15, // 매우 미세한 스타일 변환만
+          num_inference_steps: 8,
+          guidance_scale: 7.5,
+          strength: 0.65, // 명확한 스타일 변환
           scheduler: 'K_EULER'
         }
       },
@@ -802,8 +856,8 @@ export class AIArtService {
         supportNegativePrompt: true,
         baseInput: {
           num_inference_steps: 50,
-          guidance_scale: 5,
-          prompt_strength: 0.2, // 스타일만 살짝 적용
+          guidance_scale: 12,
+          prompt_strength: 0.75, // 강한 반 고흐 스타일 적용
           scheduler: 'DPMSolverMultistep'
         }
       },
@@ -813,9 +867,9 @@ export class AIArtService {
         version: '39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b',
         supportNegativePrompt: true,
         baseInput: {
-          num_inference_steps: 30,
-          guidance_scale: 4,
-          strength: 0.15, // 미세한 인상주의 터치만
+          num_inference_steps: 40,
+          guidance_scale: 10,
+          strength: 0.6, // 인상주의 붓터치 명확히
           refine: 'expert_ensemble_refiner'
         }
       },
@@ -825,10 +879,10 @@ export class AIArtService {
         version: 'f9b9e5bdd896922a8ef17377801e93c9867216b40f95bbc12eff20e20265d665',
         supportNegativePrompt: true,
         baseInput: {
-          num_inference_steps: 40,
-          guidance_scale: 5,
-          controlnet_conditioning_scale: 0.3,
-          strength: 0.25 // 큐비즘도 최소한으로
+          num_inference_steps: 50,
+          guidance_scale: 11,
+          controlnet_conditioning_scale: 0.7,
+          strength: 0.7 // 큐비즘 특징 강화
         }
       },
       
@@ -837,9 +891,9 @@ export class AIArtService {
         version: '527d2a6296facb8e47ba1eaf17f142c240c19a30894f437feee9b91cc29d8e4f',
         supportNegativePrompt: true,
         baseInput: {
-          num_inference_steps: 4,
-          guidance_scale: 1.5,
-          strength: 0.2, // 색상만 팝아트화
+          num_inference_steps: 8,
+          guidance_scale: 9,
+          strength: 0.65, // 팝아트 대비 강화
           scheduler: 'K_EULER'
         }
       },
@@ -849,9 +903,9 @@ export class AIArtService {
         version: '39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b',
         supportNegativePrompt: true,
         baseInput: {
-          num_inference_steps: 50,
-          guidance_scale: 5,
-          strength: 0.2, // 미세한 장식 효과만
+          num_inference_steps: 60,
+          guidance_scale: 11,
+          strength: 0.65, // 황금빛 장식 패턴 강화
           refine: 'expert_ensemble_refiner',
           high_noise_frac: 0.8
         }
@@ -863,9 +917,9 @@ export class AIArtService {
         version: '42a996d39a96aedc57b2e0aa8105dea39c9c89d9d266caf6bb4327a1c191b061',
         supportNegativePrompt: true,
         baseInput: {
-          num_inference_steps: 25,
-          guidance_scale: 5,
-          strength: 0.15, // 매우 미세한 애니메이션화
+          num_inference_steps: 35,
+          guidance_scale: 10,
+          strength: 0.55, // 명확한 애니메이션 스타일
           scheduler: 'K_EULER_ANCESTRAL'
         }
       },
@@ -875,9 +929,9 @@ export class AIArtService {
         version: '39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b',
         supportNegativePrompt: true,
         baseInput: {
-          num_inference_steps: 30,
-          guidance_scale: 6,
-          strength: 0.2, // 네온 효과만 살짝
+          num_inference_steps: 40,
+          guidance_scale: 12,
+          strength: 0.6, // 강한 사이버펑크 분위기
           refine: 'expert_ensemble_refiner'
         }
       },
@@ -887,9 +941,9 @@ export class AIArtService {
         version: '527d2a6296facb8e47ba1eaf17f142c240c19a30894f437feee9b91cc29d8e4f',
         supportNegativePrompt: true,
         baseInput: {
-          num_inference_steps: 8,
-          guidance_scale: 2,
-          strength: 0.25, // 픽셀 스타일만 적용
+          num_inference_steps: 12,
+          guidance_scale: 8,
+          strength: 0.7, // 명확한 픽셀아트 변환
           scheduler: 'K_EULER'
         }
       }

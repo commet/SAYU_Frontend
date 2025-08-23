@@ -3,19 +3,6 @@
 import { motion } from 'framer-motion';
 import { Users, Eye, Brain, Compass } from 'lucide-react';
 
-interface AxisData {
-  dimension: string;
-  leftCode: string;
-  leftLabel: string;
-  leftDesc: string;
-  rightCode: string;
-  rightLabel: string;
-  rightDesc: string;
-  userSide: 'left' | 'right';
-  percentage: number;
-  icon: React.ReactNode;
-}
-
 interface PersonalityAxesProps {
   personalityType: string;
   scores?: Record<string, number>;
@@ -25,166 +12,186 @@ export function PersonalityAxes({ personalityType, scores = {} }: PersonalityAxe
   // Parse personality type (e.g., "SAMF" -> S, A, M, F)
   const types = personalityType.split('');
   
-  const axes: AxisData[] = [
+  // Calculate percentages for each axis
+  const calculatePercentages = (leftScore: number, rightScore: number) => {
+    const total = leftScore + rightScore;
+    if (total === 0) return { left: 50, right: 50 };
+    return {
+      left: Math.round((leftScore / total) * 100),
+      right: Math.round((rightScore / total) * 100)
+    };
+  };
+  
+  // Get scores from aptScores if available, otherwise from raw scores
+  const lsPercent = scores.L && scores.S 
+    ? calculatePercentages(scores.L, scores.S)
+    : { left: types[0] === 'L' ? 65 : 35, right: types[0] === 'S' ? 65 : 35 };
+    
+  const arPercent = scores.A && scores.R
+    ? calculatePercentages(scores.A, scores.R)
+    : { left: types[1] === 'A' ? 65 : 35, right: types[1] === 'R' ? 65 : 35 };
+    
+  const emPercent = scores.E && scores.M
+    ? calculatePercentages(scores.E, scores.M)
+    : { left: types[2] === 'E' ? 65 : 35, right: types[2] === 'M' ? 65 : 35 };
+    
+  const fcPercent = scores.F && scores.C
+    ? calculatePercentages(scores.F, scores.C)
+    : { left: types[3] === 'F' ? 65 : 35, right: types[3] === 'C' ? 65 : 35 };
+
+  const axes = [
     {
-      dimension: '관람 선호도',
-      leftCode: 'L',
-      leftLabel: '고독한',
-      leftDesc: '개별적, 내성적',
-      rightCode: 'S',
-      rightLabel: '사교적',
-      rightDesc: '상호작용, 협력적',
-      userSide: types[0] === 'L' ? 'left' : 'right',
-      percentage: types[0] === 'L' ? (scores.L || 30) : (scores.S || 70),
-      icon: <Users className="w-5 h-5" />
+      leftLabel: 'Lone',
+      leftLabelKo: '독립적',
+      rightLabel: 'Social',
+      rightLabelKo: '사회적',
+      leftPercent: lsPercent.left,
+      rightPercent: lsPercent.right,
+      leftDesc: 'Individual, introspective',
+      leftDescKo: '혼자 작품 감상, 내적 성찰',
+      rightDesc: 'Interactive, collaborative',
+      rightDescKo: '함께 토론, 경험 공유',
+      userSide: types[0],
+      barColor: '#3B82F6' // 파란색 계열로 통일
     },
     {
-      dimension: '인식 스타일',
-      leftCode: 'A',
-      leftLabel: '추상',
-      leftDesc: '분위기적, 상징적',
-      rightCode: 'R',
-      rightLabel: '구상',
-      rightDesc: '현실적, 구체적',
-      userSide: types[1] === 'A' ? 'left' : 'right',
-      percentage: types[1] === 'A' ? (scores.A || 30) : (scores.R || 70),
-      icon: <Eye className="w-5 h-5" />
+      leftLabel: 'Abstract',
+      leftLabelKo: '추상적',
+      rightLabel: 'Representational',
+      rightLabelKo: '재현적',
+      leftPercent: arPercent.left,
+      rightPercent: arPercent.right,
+      leftDesc: 'Atmospheric, symbolic',
+      leftDescKo: '분위기와 감정, 상징적',
+      rightDesc: 'Realistic, concrete',
+      rightDescKo: '사실적 묘사, 기법 중시',
+      userSide: types[1],
+      barColor: '#10B981' // 초록색 계열로 통일
     },
     {
-      dimension: '성찰 유형',
-      leftCode: 'E',
-      leftLabel: '감정적',
-      leftDesc: '정서적, 감정기반',
-      rightCode: 'M',
-      rightLabel: '의미추구',
-      rightDesc: '분석적, 이성적',
-      userSide: types[2] === 'E' ? 'left' : 'right',
-      percentage: types[2] === 'E' ? (scores.E || 30) : (scores.M || 70),
-      icon: <Brain className="w-5 h-5" />
+      leftLabel: 'Emotional',
+      leftLabelKo: '감정적',
+      rightLabel: 'Meaning-driven',
+      rightLabelKo: '의미중심',
+      leftPercent: emPercent.left,
+      rightPercent: emPercent.right,
+      leftDesc: 'Affective, feeling-based',
+      leftDescKo: '직감적 감상, 감정 우선',
+      rightDesc: 'Analytical, rational',
+      rightDescKo: '작품 해석, 의미 탐구',
+      userSide: types[2],
+      barColor: '#F59E0B' // 주황색 계열로 통일
     },
     {
-      dimension: '탐색 스타일',
-      leftCode: 'F',
-      leftLabel: '흐름',
-      leftDesc: '유동적, 자발적',
-      rightCode: 'C',
-      rightLabel: '구조적',
-      rightDesc: '체계적, 조직적',
-      userSide: types[3] === 'F' ? 'left' : 'right',
-      percentage: types[3] === 'F' ? (scores.F || 30) : (scores.C || 70),
-      icon: <Compass className="w-5 h-5" />
+      leftLabel: 'Flow',
+      leftLabelKo: '유동적',
+      rightLabel: 'Constructive',
+      rightLabelKo: '구조적',
+      leftPercent: fcPercent.left,
+      rightPercent: fcPercent.right,
+      leftDesc: 'Fluid, spontaneous',
+      leftDescKo: '자유로운 탐험, 즉흥적',
+      rightDesc: 'Structured, systematic',
+      rightDescKo: '계획적 관람, 체계적',
+      userSide: types[3],
+      barColor: '#8B5CF6' // 보라색 계열로 통일
     }
   ];
 
   return (
-    <div className="space-y-6">
-      {axes.map((axis, index) => (
+    <div className="space-y-3 mb-4 mt-2">
+      {/* Section Title */}
+      <div className="text-center mb-2">
+        <h3 className="text-lg font-bold text-white mb-0.5">각 축의 세부 설명</h3>
+        <p className="text-gray-300 text-xs">당신의 예술 페르소나를 4개 축으로 분석한 결과입니다</p>
+      </div>
+      
+      <div className="space-y-3">
+        {axes.map((axis, index) => (
         <motion.div
-          key={axis.dimension}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
+          key={index}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
-          className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10"
+          className="space-y-1"
         >
-          {/* Dimension Title */}
-          <div className="flex items-center gap-2 mb-4">
-            <div className="text-purple-400">{axis.icon}</div>
-            <h3 className="text-lg font-semibold text-white">{axis.dimension}</h3>
-          </div>
-
-          {/* Axis Bar */}
-          <div className="relative mb-3">
-            {/* Background Bar */}
-            <div className="h-12 bg-gradient-to-r from-blue-900/50 via-gray-800/50 to-orange-900/50 rounded-full overflow-hidden">
-              {/* Position Indicator */}
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${axis.percentage}%` }}
-                transition={{ duration: 1, delay: index * 0.1 + 0.3 }}
-                className="h-full relative"
-              >
-                <div className={`absolute inset-0 ${
-                  axis.userSide === 'left' 
-                    ? 'bg-gradient-to-r from-blue-600 to-blue-500' 
-                    : 'bg-gradient-to-r from-orange-500 to-orange-600'
-                }`} />
-                
-                {/* Marker */}
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-6 h-6 bg-white rounded-full shadow-lg flex items-center justify-center">
-                  <div className={`w-4 h-4 rounded-full ${
-                    axis.userSide === 'left' ? 'bg-blue-500' : 'bg-orange-500'
-                  }`} />
-                </div>
-              </motion.div>
+          {/* Labels */}
+          <div className="flex justify-between items-center text-sm">
+            <div className="flex items-center gap-2">
+              <span className={`font-semibold ${
+                axis.userSide === axis.leftLabel[0] ? 'text-white' : 'text-gray-300'
+              }`}>
+                {axis.leftLabel}
+              </span>
+              <span className={`text-sm font-medium ${
+                axis.userSide === axis.leftLabel[0] ? 'text-white' : 'text-gray-400'
+              }`}>
+                {axis.leftPercent}%
+              </span>
             </div>
-
-            {/* Labels */}
-            <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
-              <div className={`text-sm font-medium ${
-                axis.userSide === 'left' ? 'text-white' : 'text-gray-400'
+            <div className="flex items-center gap-2">
+              <span className={`text-sm font-medium ${
+                axis.userSide === axis.rightLabel[0] ? 'text-white' : 'text-gray-400'
               }`}>
-                {axis.leftCode}
-              </div>
-              <div className={`text-sm font-medium ${
-                axis.userSide === 'right' ? 'text-white' : 'text-gray-400'
+                {axis.rightPercent}%
+              </span>
+              <span className={`font-semibold ${
+                axis.userSide === axis.rightLabel[0] ? 'text-white' : 'text-gray-300'
               }`}>
-                {axis.rightCode}
-              </div>
+                {axis.rightLabel}
+              </span>
             </div>
           </div>
-
+          
+          {/* Bar Chart */}
+          <div className="relative h-4 bg-gray-800/30 rounded-full overflow-hidden border border-gray-700/50">
+            {/* Single unified bar with gradient based on dominant side */}
+            <motion.div
+              className="absolute left-0 top-0 h-full rounded-full"
+              style={{ 
+                background: `linear-gradient(to right, ${axis.barColor}20 0%, ${axis.barColor} 50%, ${axis.barColor}20 100%)`,
+                width: '100%'
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: index * 0.1 }}
+            />
+            
+            {/* Dominant side highlight */}
+            <motion.div
+              className="absolute top-0 h-full rounded-full"
+              style={{ 
+                backgroundColor: axis.barColor,
+                left: axis.userSide === axis.leftLabel[0] ? '0%' : `${axis.leftPercent}%`,
+                width: `${axis.userSide === axis.leftLabel[0] ? axis.leftPercent : axis.rightPercent}%`
+              }}
+              initial={{ width: 0 }}
+              animate={{ 
+                width: `${axis.userSide === axis.leftLabel[0] ? axis.leftPercent : axis.rightPercent}%`
+              }}
+              transition={{ duration: 1.2, ease: "easeOut", delay: index * 0.1 + 0.3 }}
+            />
+            
+            {/* Center divider line */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gray-600/50 -translate-x-1/2" />
+          </div>
+          
           {/* Descriptions */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className={`${
-              axis.userSide === 'left' 
-                ? 'bg-blue-500/10 border-blue-500/30' 
-                : 'bg-white/5 border-white/10'
-            } rounded-lg p-3 border transition-all`}>
-              <div className="flex items-center justify-between mb-1">
-                <span className={`font-semibold ${
-                  axis.userSide === 'left' ? 'text-blue-300' : 'text-gray-300'
-                }`}>
-                  {axis.leftLabel}
-                </span>
-                {axis.userSide === 'left' && (
-                  <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full">
-                    당신의 성향
-                  </span>
-                )}
-              </div>
-              <p className={`text-xs ${
-                axis.userSide === 'left' ? 'text-blue-200' : 'text-gray-400'
-              }`}>
-                {axis.leftDesc}
-              </p>
-            </div>
-
-            <div className={`${
-              axis.userSide === 'right' 
-                ? 'bg-orange-500/10 border-orange-500/30' 
-                : 'bg-white/5 border-white/10'
-            } rounded-lg p-3 border transition-all`}>
-              <div className="flex items-center justify-between mb-1">
-                <span className={`font-semibold ${
-                  axis.userSide === 'right' ? 'text-orange-300' : 'text-gray-300'
-                }`}>
-                  {axis.rightLabel}
-                </span>
-                {axis.userSide === 'right' && (
-                  <span className="text-xs bg-orange-500/20 text-orange-300 px-2 py-1 rounded-full">
-                    당신의 성향
-                  </span>
-                )}
-              </div>
-              <p className={`text-xs ${
-                axis.userSide === 'right' ? 'text-orange-200' : 'text-gray-400'
-              }`}>
-                {axis.rightDesc}
-              </p>
-            </div>
+          <div className="flex justify-between text-xs">
+            <span className={`max-w-[45%] ${
+              axis.userSide === axis.leftLabel[0] ? 'text-white' : 'text-gray-400'
+            }`}>
+              {axis.leftDescKo}
+            </span>
+            <span className={`max-w-[45%] text-right ${
+              axis.userSide === axis.rightLabel[0] ? 'text-white' : 'text-gray-400'
+            }`}>
+              {axis.rightDescKo}
+            </span>
           </div>
-        </motion.div>
-      ))}
+          </motion.div>
+        ))}
+      </div>
     </div>
   );
 }

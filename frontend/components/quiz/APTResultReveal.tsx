@@ -52,6 +52,101 @@ interface APTResultRevealProps {
   onComplete?: () => void
   onShare?: () => void
   imageUrl?: string // 동물 캐릭터 이미지
+  scores?: {
+    L: number // Lone (0-100) - 독립적, 내성적
+    S: number // Social (0-100) - 사회적, 협력적
+    A: number // Abstract (0-100) - 추상적, 상징적
+    R: number // Representational (0-100) - 재현적, 구체적
+    E: number // Emotional (0-100) - 감정적, 느낌 기반
+    M: number // Meaning-driven (0-100) - 의미중심적, 분석적
+    F: number // Flow (0-100) - 유동적, 자발적
+    C: number // Constructive (0-100) - 구조적, 체계적
+  }
+}
+
+// APT 축 바 차트 컴포넌트
+const APTAxisBar = ({ 
+  leftLabel, 
+  rightLabel, 
+  leftValue, 
+  rightValue,
+  leftColor = '#6B5B95',
+  rightColor = '#8B7BAB',
+  leftDescription,
+  rightDescription
+}: {
+  leftLabel: string
+  rightLabel: string
+  leftValue: number
+  rightValue: number
+  leftColor?: string
+  rightColor?: string
+  leftDescription?: string
+  rightDescription?: string
+}) => {
+  const { language } = useLanguage()
+  const totalValue = leftValue + rightValue
+  const leftPercentage = (leftValue / totalValue) * 100
+  const rightPercentage = (rightValue / totalValue) * 100
+  
+  return (
+    <div className="space-y-2">
+      <div className="flex justify-between items-center text-sm font-medium">
+        <div className="flex items-center gap-2">
+          <span className="text-gray-700">{leftLabel}</span>
+          <span className="text-gray-500 text-xs">({Math.round(leftPercentage)}%)</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-gray-500 text-xs">({Math.round(rightPercentage)}%)</span>
+          <span className="text-gray-700">{rightLabel}</span>
+        </div>
+      </div>
+      
+      <div className="relative h-8 bg-gray-100 rounded-full overflow-hidden">
+        <motion.div
+          className="absolute left-0 top-0 h-full rounded-l-full"
+          style={{ 
+            backgroundColor: leftColor,
+            width: `${leftPercentage}%`
+          }}
+          initial={{ width: 0 }}
+          animate={{ width: `${leftPercentage}%` }}
+          transition={{ duration: 1, ease: "easeOut" }}
+        />
+        <motion.div
+          className="absolute right-0 top-0 h-full rounded-r-full"
+          style={{ 
+            backgroundColor: rightColor,
+            width: `${rightPercentage}%`
+          }}
+          initial={{ width: 0 }}
+          animate={{ width: `${rightPercentage}%` }}
+          transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+        />
+        
+        {/* 중앙선 */}
+        <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-white/50 -translate-x-1/2" />
+        
+        {/* 값 표시 */}
+        <div className="absolute inset-0 flex items-center justify-between px-3">
+          <span className="text-xs font-bold text-white drop-shadow-md">
+            {leftValue}
+          </span>
+          <span className="text-xs font-bold text-white drop-shadow-md">
+            {rightValue}
+          </span>
+        </div>
+      </div>
+      
+      {/* 설명 텍스트 */}
+      {(leftDescription || rightDescription) && (
+        <div className="flex justify-between text-xs text-gray-500">
+          <span className="max-w-[45%]">{leftDescription}</span>
+          <span className="max-w-[45%] text-right">{rightDescription}</span>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default function APTResultReveal({
@@ -65,7 +160,13 @@ export default function APTResultReveal({
   color,
   onComplete,
   onShare,
-  imageUrl
+  imageUrl,
+  scores = {
+    L: 45, S: 55,  // Lone vs Social
+    A: 65, R: 35,  // Abstract vs Representational
+    E: 70, M: 30,  // Emotional vs Meaning-driven
+    F: 60, C: 40   // Flow vs Constructive
+  }
 }: APTResultRevealProps) {
   const { language } = useLanguage()
   const [stage, setStage] = useState<'intro' | 'reveal' | 'complete'>('intro')
@@ -408,11 +509,85 @@ export default function APTResultReveal({
                   </div>
                 </motion.div>
 
+                {/* APT 성향 분석 차트 */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200"
+                >
+                  <h4 className="font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#6B5B95] to-[#8B7BAB] flex items-center justify-center">
+                      <Zap className="w-4 h-4 text-white" />
+                    </div>
+                    {language === 'ko' ? 'APT 성향 분석' : 'APT Type Analysis'}
+                  </h4>
+                  
+                  <div className="space-y-6">
+                    {/* Lone vs Social */}
+                    <APTAxisBar
+                      leftLabel={language === 'ko' ? '독립적 (Lone)' : 'Lone'}
+                      rightLabel={language === 'ko' ? '사회적 (Social)' : 'Social'}
+                      leftValue={scores.L}
+                      rightValue={scores.S}
+                      leftColor="#845EC2"
+                      rightColor="#FFC75F"
+                      leftDescription={language === 'ko' ? '개인적, 내성적 감상' : 'Individual, introspective'}
+                      rightDescription={language === 'ko' ? '상호작용, 협력적 경험' : 'Interactive, collaborative'}
+                    />
+                    
+                    {/* Abstract vs Representational */}
+                    <APTAxisBar
+                      leftLabel={language === 'ko' ? '추상적 (Abstract)' : 'Abstract'}
+                      rightLabel={language === 'ko' ? '재현적 (Representational)' : 'Representational'}
+                      leftValue={scores.A}
+                      rightValue={scores.R}
+                      leftColor="#FF6B6B"
+                      rightColor="#4ECDC4"
+                      leftDescription={language === 'ko' ? '분위기적, 상징적' : 'Atmospheric, symbolic'}
+                      rightDescription={language === 'ko' ? '사실적, 구체적' : 'Realistic, concrete'}
+                    />
+                    
+                    {/* Emotional vs Meaning-driven */}
+                    <APTAxisBar
+                      leftLabel={language === 'ko' ? '감정적 (Emotional)' : 'Emotional'}
+                      rightLabel={language === 'ko' ? '의미중심 (Meaning-driven)' : 'Meaning-driven'}
+                      leftValue={scores.E}
+                      rightValue={scores.M}
+                      leftColor="#FF9671"
+                      rightColor="#00C9A7"
+                      leftDescription={language === 'ko' ? '정서적, 느낌 기반' : 'Affective, feeling-based'}
+                      rightDescription={language === 'ko' ? '분석적, 이성적' : 'Analytical, rational'}
+                    />
+                    
+                    {/* Flow vs Constructive */}
+                    <APTAxisBar
+                      leftLabel={language === 'ko' ? '유동적 (Flow)' : 'Flow'}
+                      rightLabel={language === 'ko' ? '구조적 (Constructive)' : 'Constructive'}
+                      leftValue={scores.F}
+                      rightValue={scores.C}
+                      leftColor="#C34A36"
+                      rightColor="#008F7A"
+                      leftDescription={language === 'ko' ? '유연한, 자발적' : 'Fluid, spontaneous'}
+                      rightDescription={language === 'ko' ? '체계적, 조직적' : 'Structured, systematic'}
+                    />
+                  </div>
+                  
+                  {/* 종합 설명 */}
+                  <div className="mt-6 p-4 bg-gradient-to-r from-[#6B5B95]/5 to-[#8B7BAB]/5 rounded-xl">
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {language === 'ko' 
+                        ? `당신의 APT 유형 ${aptCode}는 예술을 대하는 독특한 관점을 보여줍니다. 각 축의 균형은 당신만의 예술 감상 스타일을 형성합니다.`
+                        : `Your APT type ${aptCode} reveals your unique perspective on art. The balance of each axis forms your personal art appreciation style.`}
+                    </p>
+                  </div>
+                </motion.div>
+
                 {/* 더보기 섹션 */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
+                  transition={{ delay: 0.6 }}
                 >
                   <button
                     onClick={() => setShowDetails(!showDetails)}

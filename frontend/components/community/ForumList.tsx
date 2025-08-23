@@ -146,9 +146,10 @@ export function ForumList({ className = '' }: ForumListProps) {
       
       {forums.length === 0 && (
         <div className="text-center py-12">
-          <MessageSquare className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-400 mb-2">No Forums Available</h3>
-          <p className="text-gray-500">Community forums will appear here once they're created.</p>
+          <MessageSquare className="w-20 h-20 text-white/60 mx-auto mb-6" />
+          <h3 className="text-2xl font-bold text-white mb-4">포럼 기능은 곧 오픈 예정입니다! 🚀</h3>
+          <p className="text-white/80 text-lg">COMING SOON</p>
+          <p className="text-gray-300 mt-2">커뮤니티 포럼이 곧 시작됩니다.</p>
         </div>
       )}
     </div>

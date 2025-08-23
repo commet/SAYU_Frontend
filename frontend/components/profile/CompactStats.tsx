@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { TrendingUp, Eye, Calendar, Clock, Users } from 'lucide-react';
+import { TrendingUp, Eye, Calendar, Clock, Users, MapPin } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 interface CompactStatsProps {
@@ -11,6 +11,7 @@ interface CompactStatsProps {
     nextLevelExp: number;
     totalPoints: number;
     visitStreak: number;
+    totalVisits: number;
     totalArtworks: number;
     averageVisitDuration?: number;
     followerCount?: number;
@@ -20,6 +21,9 @@ interface CompactStatsProps {
 
 export default function CompactStats({ stats }: CompactStatsProps) {
   const { language } = useLanguage();
+  
+  console.log('📊 CompactStats rendering with stats:', stats);
+  console.log('Total visits in stats:', stats.totalVisits);
   
   const progressPercentage = (stats.currentExp / stats.nextLevelExp) * 100;
   
@@ -32,6 +36,11 @@ export default function CompactStats({ stats }: CompactStatsProps) {
       showProgress: true
     },
     {
+      icon: <MapPin className="w-4 h-4" />,
+      label: language === 'ko' ? '방문' : 'Visits',
+      value: stats.totalVisits.toLocaleString()
+    },
+    {
       icon: <Eye className="w-4 h-4" />,
       label: language === 'ko' ? '작품' : 'Artworks',
       value: stats.totalArtworks.toLocaleString()
@@ -40,11 +49,6 @@ export default function CompactStats({ stats }: CompactStatsProps) {
       icon: <Calendar className="w-4 h-4" />,
       label: language === 'ko' ? '연속' : 'Streak',
       value: `${stats.visitStreak}${language === 'ko' ? '일' : 'd'}`
-    },
-    {
-      icon: <Clock className="w-4 h-4" />,
-      label: language === 'ko' ? '평균' : 'Avg',
-      value: `${stats.averageVisitDuration || 90}${language === 'ko' ? '분' : 'm'}`
     }
   ];
   

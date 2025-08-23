@@ -978,7 +978,7 @@ function GalleryContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mb-8"
+            className="mb-3"
           >
             <div className={`${isMobile ? 'space-y-3' : 'flex items-center justify-between'} mb-4`}>
               <div className="w-full">
@@ -1216,28 +1216,25 @@ function GalleryContent() {
         )}
 
 
-        {/* APT 유형별 맞춤 추천 배너 */}
+        {/* APT 유형별 맞춤 추천 배너 - 크기 축소 */}
         {user?.aptType && selectedCategory === 'all' && galleryArtworks.some(a => a.matchPercent) && (
-          <div className="mb-6 p-4 bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-xl border border-purple-500/30">
-            <div className="flex items-start gap-3">
-              <div className="p-2 bg-purple-600/20 rounded-lg">
-                <Sparkles className="w-5 h-5 text-yellow-400" />
+          <div className="mb-2 mt-1 p-2.5 bg-gradient-to-r from-purple-600/10 to-blue-600/10 rounded-lg border border-purple-500/20">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 bg-purple-600/15 rounded-md flex-shrink-0">
+                <Sparkles className="w-4 h-4 text-yellow-400" />
               </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-white mb-1">
-                  {user.aptType} 유형 맞춤 추천 🎨
-                </h3>
-                <p className="text-sm text-slate-300 mb-2">
-                  당신의 성격 유형에 특별히 선별된 작품들입니다. 각 작품은 당신의 감상 성향과 얼마나 잘 맞는지 매치 퍼센트로 표시됩니다.
-                </p>
-                <div className="flex items-center gap-2 text-xs">
-                  <span className="px-2 py-1 bg-yellow-400/20 text-yellow-400 rounded-full">
-                    개인화된 추천
-                  </span>
-                  <span className="text-slate-400">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h3 className="font-medium text-white text-sm">
+                    {user.aptType} 유형 맞춤 추천
+                  </h3>
+                  <span className="px-2 py-0.5 bg-yellow-400/15 text-yellow-400 rounded-full text-xs">
                     {galleryArtworks.filter(a => a.matchPercent).length}개 작품
                   </span>
                 </div>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  성격 유형 기반 AI 큐레이션 • 매치율 표시
+                </p>
               </div>
             </div>
           </div>

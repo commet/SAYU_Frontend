@@ -82,6 +82,19 @@ export function useActivityTracker() {
     tracker.trackQuizComplete(quizType, result);
   }, [tracker, user]);
 
+  const trackProfileView = useCallback(() => {
+    if (!user) return;
+    trackActivity('page_view', {
+      id: 'profile',
+      type: 'profile',
+      title: 'Profile Page',
+      subtitle: user.nickname || user.email || 'User Profile'
+    }, { 
+      page: 'profile',
+      userId: user.id 
+    }, { immediate: true });
+  }, [trackActivity, user]);
+
   // Flush on unmount
   useEffect(() => {
     return () => {
@@ -97,6 +110,7 @@ export function useActivityTracker() {
     trackExhibitionView,
     trackCollectionSave,
     trackQuizComplete,
+    trackProfileView,
     // Expose queue size for debugging
     getQueueSize: () => tracker?.getQueueSize() || 0
   };

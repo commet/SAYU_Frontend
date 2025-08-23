@@ -81,8 +81,9 @@ export function SocialLoginButton({ provider, mode = 'login' }: SocialLoginButto
         // Instagram uses Facebook OAuth
         await signInWithInstagram();
       } else if (provider === 'kakao') {
-        // Use custom Kakao OAuth (without email)
-        await signInWithKakaoCustom();
+        // Kakao login temporarily disabled - show coming soon message
+        toast.error('카카오 로그인 연결 준비중입니다 🚧');
+        return;
       } else if (provider === 'google' || provider === 'discord') {
         // Supported providers
         await signInWithProvider(provider);

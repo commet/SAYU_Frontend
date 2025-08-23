@@ -117,7 +117,7 @@ export default function CommunityPage() {
               id: leebulExhibition.id,
               title: leebulExhibition.title || '이불: 시작',
               museum: leebulExhibition.venue || '리움미술관',
-              image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Leeum%2C_Samsung_Museum_of_Art.jpg/800px-Leeum%2C_Samsung_Museum_of_Art.jpg',
+              image: 'https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=800&h=600&fit=crop',
               matchingUsers: Math.floor(Math.random() * 20) + 15,
               endDate: leebulExhibition.endDate || '2026.01.04'
             });
@@ -173,7 +173,7 @@ export default function CommunityPage() {
                 id: 'leebul-2025',
                 title: '이불: 시작',
                 museum: '리움미술관',
-                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Leeum%2C_Samsung_Museum_of_Art.jpg/800px-Leeum%2C_Samsung_Museum_of_Art.jpg',
+                image: 'https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=800&h=600&fit=crop',
                 matchingUsers: 18,
                 endDate: '2026.01.04'  // 9월 4일 시작
               },
@@ -206,7 +206,7 @@ export default function CommunityPage() {
               id: 'leebul-2025',
               title: '이불 개인전',
               museum: '리움미술관',
-              image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Leeum%2C_Samsung_Museum_of_Art.jpg/800px-Leeum%2C_Samsung_Museum_of_Art.jpg',
+              image: 'https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=800&h=600&fit=crop',
               matchingUsers: 18,
               endDate: '2026.01.04'  // 9월 4일 시작
             },
@@ -236,7 +236,7 @@ export default function CommunityPage() {
             id: 'leebul-2025',
             title: '이불: 시작',
             museum: '리움미술관',
-            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Leeum%2C_Samsung_Museum_of_Art.jpg/800px-Leeum%2C_Samsung_Museum_of_Art.jpg',
+            image: 'https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=800&h=600&fit=crop',
             matchingUsers: 18,
             endDate: '2025.07.07'
           },

@@ -6,16 +6,8 @@ import { ArtStyle } from '@/types/art-profile';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { styleFilters } from '@/data/style-filters';
 
-// Static imports for all preview images
-import basePortrait from '/public/samples/base-portrait.png';
-import previewMonet from '/public/samples/preview-monet.png';
-import previewPicasso from '/public/samples/preview-picasso.png';
-import previewVangogh from '/public/samples/preview-vangogh.png';
-import previewWarhol from '/public/samples/preview-warhol.png';
-import previewPixel from '/public/samples/preview-pixel.png';
-import previewMinhwa from '/public/samples/preview-minhwa.png';
-import previewKlimt from '/public/samples/preview-klimt.png';
-import previewMondrian from '/public/samples/preview-mondrian.jpg';
+// Use public URL paths directly - no import needed for public folder files
+const basePortrait = '/samples/base-portrait.png';
 
 interface StylePreviewGridProps {
   selectedStyle: ArtStyle | null;
@@ -23,16 +15,16 @@ interface StylePreviewGridProps {
   styles: ArtStyle[];
 }
 
-// Map style IDs to imported images
-const STYLE_PREVIEWS: Record<string, any> = {
-  'monet-impressionism': previewMonet,
-  'picasso-cubism': previewPicasso,
-  'vangogh-postimpressionism': previewVangogh,
-  'warhol-popart': previewWarhol,
-  'pixel-art': previewPixel,
-  'korean-minhwa': previewMinhwa,
-  'klimt-artnouveau': previewKlimt,
-  'mondrian-neoplasticism': previewMondrian
+// Map style IDs to public URLs
+const STYLE_PREVIEWS: Record<string, string> = {
+  'monet-impressionism': '/samples/preview-monet.png',
+  'picasso-cubism': '/samples/preview-picasso.png',
+  'vangogh-postimpressionism': '/samples/preview-vangogh.png',
+  'warhol-popart': '/samples/preview-warhol.png',
+  'pixel-art': '/samples/preview-pixel.png',
+  'korean-minhwa': '/samples/preview-minhwa.png',
+  'klimt-artnouveau': '/samples/preview-klimt.png',
+  'mondrian-neoplasticism': '/samples/preview-mondrian.jpg'
 };
 
 // Fallback placeholder images
@@ -63,30 +55,10 @@ export default function StylePreviewGridFixed({ selectedStyle, onStyleSelect, st
   };
 
   return (
-    <div className="space-y-6">
-      {/* Original Photo */}
-      <div className="text-center">
-        <p className="text-sm text-gray-600 mb-3">
-          {language === 'ko' ? '원본 사진' : 'Original Photo'}
-        </p>
-        <div className="w-32 h-32 mx-auto rounded-lg overflow-hidden border-2 border-gray-200">
-          <img 
-            src={basePortrait.src || basePortrait} 
-            alt="Base portrait"
-            className="w-full h-full object-cover transition-all duration-300"
-            style={{
-              filter: hoveredStyle ? getStyleFilter(hoveredStyle) : 'none'
-            }}
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = PLACEHOLDER_BASE;
-            }}
-          />
-        </div>
-      </div>
-
+    <div className="space-y-4">
       {/* Style Previews Grid */}
       <div>
-        <p className="text-sm text-gray-600 mb-3">
+        <p className="text-sm text-gray-800 font-medium mb-4">
           {language === 'ko' ? '스타일 변환 예시' : 'Style Transformation Examples'}
         </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -136,7 +108,7 @@ export default function StylePreviewGridFixed({ selectedStyle, onStyleSelect, st
                   )}
                 </div>
                 <div className="p-2 bg-white">
-                  <p className="text-xs font-medium text-center">
+                  <p className="text-xs font-medium text-center text-gray-800">
                     {language === 'ko' ? style.nameKo : style.name}
                   </p>
                 </div>
@@ -153,10 +125,10 @@ export default function StylePreviewGridFixed({ selectedStyle, onStyleSelect, st
           animate={{ opacity: 1, y: 0 }}
           className="bg-purple-50 rounded-lg p-4 text-sm"
         >
-          <h4 className="font-medium mb-1">
+          <h4 className="font-medium mb-1 text-gray-900">
             {language === 'ko' ? selectedStyle.nameKo : selectedStyle.name}
           </h4>
-          <p className="text-gray-600">
+          <p className="text-gray-700">
             {language === 'ko' ? selectedStyle.descriptionKo : selectedStyle.description}
           </p>
         </motion.div>
