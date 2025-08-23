@@ -3,6 +3,60 @@
 // 중앙 정의 파일 import
 import { SAYU_TYPES, getSAYUType, isValidSAYUType } from '@/types/sayu-shared';
 
+// Static imports for all animal images
+import foxLaef from '/public/images/personality-animals/main/fox-laef.png';
+import catLaec from '/public/images/personality-animals/main/cat-laec.png';
+import owlLamf from '/public/images/personality-animals/main/owl-lamf.png';
+import turtleLamc from '/public/images/personality-animals/main/turtle-lamc.png';
+import chameleonLref from '/public/images/personality-animals/main/chameleon-lref.png';
+import hedgehogLrec from '/public/images/personality-animals/main/hedgehog-lrec.png';
+import octopusLrmf from '/public/images/personality-animals/main/octopus-lrmf.png';
+import beaverLrmc from '/public/images/personality-animals/main/beaver-lrmc.png';
+import butterflySaef from '/public/images/personality-animals/main/butterfly-saef.png';
+import penguinSaec from '/public/images/personality-animals/main/penguin-saec.png';
+import parrotSamf from '/public/images/personality-animals/main/parrot-samf.png';
+import deerSamc from '/public/images/personality-animals/main/deer-samc.png';
+import dogSref from '/public/images/personality-animals/main/dog-sref.png';
+import duckSrec from '/public/images/personality-animals/main/duck-srec.png';
+import elephantSrmf from '/public/images/personality-animals/main/elephant-srmf.png';
+import eagleSrmc from '/public/images/personality-animals/main/eagle-srmc.png';
+
+// Avatar images
+import foxLaefAvatar from '/public/images/personality-animals/avatars/fox-laef-avatar.png';
+import catLaecAvatar from '/public/images/personality-animals/avatars/cat-laec-avatar.png';
+import owlLamfAvatar from '/public/images/personality-animals/avatars/owl-lamf-avatar.png';
+import turtleLamcAvatar from '/public/images/personality-animals/avatars/turtle-lamc-avatar.png';
+import chameleonLrefAvatar from '/public/images/personality-animals/avatars/chameleon-lref-avatar.png';
+import hedgehogLrecAvatar from '/public/images/personality-animals/avatars/hedgehog-lrec-avatar.png';
+import octopusLrmfAvatar from '/public/images/personality-animals/avatars/octopus-lrmf-avatar.png';
+import beaverLrmcAvatar from '/public/images/personality-animals/avatars/beaver-lrmc-avatar.png';
+import butterflySaefAvatar from '/public/images/personality-animals/avatars/butterfly-saef-avatar.png';
+import penguinSaecAvatar from '/public/images/personality-animals/avatars/penguin-saec-avatar.png';
+import parrotSamfAvatar from '/public/images/personality-animals/avatars/parrot-samf-avatar.png';
+import deerSamcAvatar from '/public/images/personality-animals/avatars/deer-samc-avatar.png';
+import dogSrefAvatar from '/public/images/personality-animals/avatars/dog-sref-avatar.png';
+import duckSrecAvatar from '/public/images/personality-animals/avatars/duck-srec-avatar.png';
+import elephantSrmfAvatar from '/public/images/personality-animals/avatars/elephant-srmf-avatar.png';
+import eagleSrmcAvatar from '/public/images/personality-animals/avatars/eagle-srmc-avatar.png';
+
+// Illustration images
+import foxLaefIllustration from '/public/images/personality-animals/illustrations/fox-laef-full.png';
+import catLaecIllustration from '/public/images/personality-animals/illustrations/cat-laec-full.png';
+import owlLamfIllustration from '/public/images/personality-animals/illustrations/owl-lamf-full.png';
+import turtleLamcIllustration from '/public/images/personality-animals/illustrations/turtle-lamc-full.png';
+import chameleonLrefIllustration from '/public/images/personality-animals/illustrations/chameleon-lref-full.png';
+import hedgehogLrecIllustration from '/public/images/personality-animals/illustrations/hedgehog-lrec-full.png';
+import octopusLrmfIllustration from '/public/images/personality-animals/illustrations/octopus-lrmf-full.png';
+import beaverLrmcIllustration from '/public/images/personality-animals/illustrations/beaver-lrmc-full.png';
+import butterflySaefIllustration from '/public/images/personality-animals/illustrations/butterfly-saef-full.png';
+import penguinSaecIllustration from '/public/images/personality-animals/illustrations/penguin-saec-full.png';
+import parrotSamfIllustration from '/public/images/personality-animals/illustrations/parrot-samf-full.png';
+import deerSamcIllustration from '/public/images/personality-animals/illustrations/deer-samc-full.png';
+import dogSrefIllustration from '/public/images/personality-animals/illustrations/dog-sref-full.png';
+import duckSrecIllustration from '/public/images/personality-animals/illustrations/duck-srec-full.png';
+import elephantSrmfIllustration from '/public/images/personality-animals/illustrations/elephant-srmf-full.png';
+import eagleSrmcIllustration from '/public/images/personality-animals/illustrations/eagle-srmc-full.png';
+
 export interface PersonalityAnimal {
   type: string;
   animal: string;
@@ -10,9 +64,9 @@ export interface PersonalityAnimal {
   emoji: string;
   characteristics: string[];
   characteristics_ko: string[];
-  image?: string;          // 캐릭터 이미지 경로
-  avatar?: string;         // 작은 아바타 이미지
-  illustration?: string;   // 상세 일러스트
+  image?: any;          // 캐릭터 이미지 (static import)
+  avatar?: any;         // 작은 아바타 이미지 (static import)
+  illustration?: any;   // 상세 일러스트 (static import)
 }
 
 // 중앙 정의에서 가져온 타입들을 사용하여 PersonalityAnimal 생성
@@ -41,9 +95,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '우연한 발견의 전문가',
       '추상 속 감정을 번역하는'
     ],
-    image: '/images/animals/laef.png',
-    avatar: '/images/personality-animals/avatars/fox-laef-avatar.png',
-    illustration: '/images/personality-animals/illustrations/fox-laef-full.png'
+    image: foxLaef,
+    avatar: foxLaefAvatar,
+    illustration: foxLaefIllustration
   }),
   LAEC: createPersonalityAnimal('LAEC', {
     characteristics: [
@@ -58,9 +112,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '감정을 정제하는 연금술사',
       '완벽주의적 큐레이터'
     ],
-    image: '/images/animals/laec.png',
-    avatar: '/images/personality-animals/avatars/cat-laec-avatar.png',
-    illustration: '/images/personality-animals/illustrations/cat-laec-full.png'
+    image: catLaec,
+    avatar: catLaecAvatar,
+    illustration: catLaecIllustration
   }),
   LAMF: createPersonalityAnimal('LAMF', {
     characteristics: [
@@ -75,9 +129,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '상징과 은유의 해석자',
       '깊이 있는 의미 탐구자'
     ],
-    image: '/images/animals/lamf.png',
-    avatar: '/images/personality-animals/avatars/owl-lamf-avatar.png',
-    illustration: '/images/personality-animals/illustrations/owl-lamf-full.png'
+    image: owlLamf,
+    avatar: owlLamfAvatar,
+    illustration: owlLamfIllustration
   }),
   LAMC: createPersonalityAnimal('LAMC', {
     characteristics: [
@@ -92,9 +146,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '체계적 지식 건축가',
       '문화유산의 기록자'
     ],
-    image: '/images/animals/lamc.png',
-    avatar: '/images/personality-animals/avatars/turtle-lamc-avatar.png',
-    illustration: '/images/personality-animals/illustrations/turtle-lamc-full.png'
+    image: turtleLamc,
+    avatar: turtleLamcAvatar,
+    illustration: turtleLamcIllustration
   }),
   LREF: createPersonalityAnimal('LREF', {
     characteristics: [
@@ -109,9 +163,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '미묘한 변화를 감지하는',
       '환경에 녹아드는'
     ],
-    image: '/images/animals/lref.png',
-    avatar: '/images/personality-animals/avatars/chameleon-lref-avatar.png',
-    illustration: '/images/personality-animals/illustrations/chameleon-lref-full.png'
+    image: chameleonLref,
+    avatar: chameleonLrefAvatar,
+    illustration: chameleonLrefIllustration
   }),
   LREC: createPersonalityAnimal('LREC', {
     characteristics: [
@@ -126,9 +180,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '감정의 보호막을 지닌',
       '섬세한 감상의 기록자'
     ],
-    image: '/images/animals/lrec.png',
-    avatar: '/images/personality-animals/avatars/hedgehog-lrec-avatar.png',
-    illustration: '/images/personality-animals/illustrations/hedgehog-lrec-full.png'
+    image: hedgehogLrec,
+    avatar: hedgehogLrecAvatar,
+    illustration: hedgehogLrecIllustration
   }),
   LRMF: createPersonalityAnimal('LRMF', {
     characteristics: [
@@ -143,9 +197,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '바닥까지 내려가는 분석가',
       '유연한 사고의 마술사'
     ],
-    image: '/images/animals/lrmf.png',
-    avatar: '/images/personality-animals/avatars/octopus-lrmf-avatar.png',
-    illustration: '/images/personality-animals/illustrations/octopus-lrmf-full.png'
+    image: octopusLrmf,
+    avatar: octopusLrmfAvatar,
+    illustration: octopusLrmfIllustration
   }),
   LRMC: createPersonalityAnimal('LRMC', {
     characteristics: [
@@ -160,9 +214,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '논리적 창조의 전문가',
       '체계적 사고의 설계자'
     ],
-    image: '/images/animals/lrmc.png',
-    avatar: '/images/personality-animals/avatars/beaver-lrmc-avatar.png',
-    illustration: '/images/personality-animals/illustrations/beaver-lrmc-full.png'
+    image: beaverLrmc,
+    avatar: beaverLrmcAvatar,
+    illustration: beaverLrmcIllustration
   }),
   SAEF: createPersonalityAnimal('SAEF', {
     characteristics: [
@@ -177,9 +231,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '순간의 아름다움을 포착하는',
       '변화와 성장의 상징'
     ],
-    image: '/images/animals/saef.png',
-    avatar: '/images/personality-animals/avatars/butterfly-saef-avatar.png',
-    illustration: '/images/personality-animals/illustrations/butterfly-saef-full.png'
+    image: butterflySaef,
+    avatar: butterflySaefAvatar,
+    illustration: butterflySaefIllustration
   }),
   SAEC: createPersonalityAnimal('SAEC', {
     characteristics: [
@@ -194,9 +248,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '집단 창의성의 오케스트레이터',
       '질서 속의 시너지 창조자'
     ],
-    image: '/images/animals/saec.png',
-    avatar: '/images/personality-animals/avatars/penguin-saec-avatar.png',
-    illustration: '/images/personality-animals/illustrations/penguin-saec-full.png'
+    image: penguinSaec,
+    avatar: penguinSaecAvatar,
+    illustration: penguinSaecIllustration
   }),
   SAMF: createPersonalityAnimal('SAMF', {
     characteristics: [
@@ -211,9 +265,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '상징과 의미의 통역사',
       '집단 지성의 촉매제'
     ],
-    image: '/images/animals/samf.png',
-    avatar: '/images/personality-animals/avatars/parrot-samf-avatar.png',
-    illustration: '/images/personality-animals/illustrations/parrot-samf-full.png'
+    image: parrotSamf,
+    avatar: parrotSamfAvatar,
+    illustration: parrotSamfIllustration
   }),
   SAMC: createPersonalityAnimal('SAMC', {
     characteristics: [
@@ -228,9 +282,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '전통과 혁신의 가교',
       '사회적 의미의 건축가'
     ],
-    image: '/images/animals/samc.png',
-    avatar: '/images/personality-animals/avatars/deer-samc-avatar.png',
-    illustration: '/images/personality-animals/illustrations/deer-samc-full.png'
+    image: deerSamc,
+    avatar: deerSamcAvatar,
+    illustration: deerSamcIllustration
   }),
   SREF: createPersonalityAnimal('SREF', {
     characteristics: [
@@ -245,9 +299,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '직관적 연결의 매개자',
       '기쁨의 증폭기'
     ],
-    image: '/images/animals/sref.png',
-    avatar: '/images/personality-animals/avatars/dog-sref-avatar.png',
-    illustration: '/images/personality-animals/illustrations/dog-sref-full.png'
+    image: dogSref,
+    avatar: dogSrefAvatar,
+    illustration: dogSrefIllustration
   }),
   SREC: createPersonalityAnimal('SREC', {
     characteristics: [
@@ -262,9 +316,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '조화로운 범람성의 책임자',
       '포용적 환경의 조성자'
     ],
-    image: '/images/animals/srec.png',
-    avatar: '/images/personality-animals/avatars/duck-srec-avatar.png',
-    illustration: '/images/personality-animals/illustrations/duck-srec-full.png'
+    image: duckSrec,
+    avatar: duckSrecAvatar,
+    illustration: duckSrecIllustration
   }),
   SRMF: createPersonalityAnimal('SRMF', {
     characteristics: [
@@ -279,9 +333,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '문화적 맥락의 통역사',
       '생생한 역사의 전달자'
     ],
-    image: '/images/animals/srmf.png',
-    avatar: '/images/personality-animals/avatars/elephant-srmf-avatar.png',
-    illustration: '/images/personality-animals/illustrations/elephant-srmf-full.png'
+    image: elephantSrmf,
+    avatar: elephantSrmfAvatar,
+    illustration: elephantSrmfIllustration
   }),
   SRMC: createPersonalityAnimal('SRMC', {
     characteristics: [
@@ -296,9 +350,9 @@ export const personalityAnimals: Record<string, PersonalityAnimal> = {
       '교육적 내러티브의 창조자',
       '객관적 분석의 전문가'
     ],
-    image: '/images/animals/srmc.png',
-    avatar: '/images/personality-animals/avatars/eagle-srmc-avatar.png',
-    illustration: '/images/personality-animals/illustrations/eagle-srmc-full.png'
+    image: eagleSrmc,
+    avatar: eagleSrmcAvatar,
+    illustration: eagleSrmcIllustration
   })
 };
 
