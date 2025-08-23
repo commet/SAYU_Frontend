@@ -360,16 +360,6 @@ export default function StyleSelector({
         {/* All Styles */}
         {activeTab === 'all' && (
           <div className="space-y-4">
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <Palette className="w-4 h-4 text-purple-500" />
-              <span>
-                {language === 'ko' 
-                  ? '모든 스타일 보기' 
-                  : 'All available styles'
-                }
-              </span>
-            </div>
-            
             <StylePreviewGridFixed
               selectedStyle={selectedStyle}
               onStyleSelect={handleStyleSelect}
