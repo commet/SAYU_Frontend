@@ -11,6 +11,7 @@ import {
   EXPOSURE_STRATEGY,
   UNIDENTIFIED_USER_MESSAGES 
 } from '@/lib/chatbot-context';
+import { contextTracker } from '@/lib/chatbot-context-v2';
 import { MysteryCharacter } from './MysteryCharacter';
 import { ChatbotFloatingButton } from './ChatbotOptimized';
 import { ArtCuratorChatbot } from './ArtCuratorChatbot';
@@ -93,19 +94,46 @@ export const SmartChatbot = () => {
     };
   }, [pageLoadTime, hasInteracted, personalityType, pageContext, showHint]);
   
-  // 상호작용 처리
+  // 상호작용 처리 및 컨텍스트 업데이트
   const handleInteraction = () => {
     setHasInteracted(true);
     setIsOpen(true);
     setShowHint(false);
+    
+    // Log interaction for context tracking
+    if (contextTracker) {
+      const context = contextTracker.getCurrentContext();
+      console.log('💬 Chatbot opened with context:', {
+        engagementLevel: context.userBehavior.engagementLevel,
+        currentMood: context.userBehavior.currentMood,
+        timeOnPage: context.userBehavior.timeOnPage,
+        scrollDepth: context.userBehavior.scrollDepth,
+        contextualDescription: contextTracker.getContextualDescription(),
+        actionableRecommendations: contextTracker.getActionableRecommendations()
+      });
+    }
   };
   
-  // 페이지 변경시 리셋
+  // 페이지 변경시 리셋 및 contextTracker 업데이트
   useEffect(() => {
     setHasInteracted(false);
     setShowHint(false);
     setCurrentPhase('subtle');
-  }, [pathname]);
+    
+    // Update context tracker with new page
+    if (contextTracker) {
+      const additionalData = currentArtwork ? { artwork: currentArtwork } : {};
+      contextTracker.updatePageContext(pathname, additionalData);
+      
+      // Log context change for debugging
+      const context = contextTracker.getCurrentContext();
+      console.log('📄 Page changed to:', pathname, {
+        engagementLevel: context.userBehavior.engagementLevel,
+        currentMood: context.userBehavior.currentMood,
+        timeOfDay: context.realTimeContext.timeOfDay
+      });
+    }
+  }, [pathname, currentArtwork]);
   
   // 애니메이션 변형 (제거 - 가만히 있도록)
   const animationVariants = {};

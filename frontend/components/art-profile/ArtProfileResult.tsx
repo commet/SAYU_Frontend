@@ -132,19 +132,48 @@ export default function ArtProfileResult({ result, onReset, onShare }: ArtProfil
           
           {/* AI 생성 정보 */}
           <div className="text-center mb-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/20 border border-green-500/30 rounded-full">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-              <span className="text-sm text-green-200">
-                {language === 'ko' ? '🎨 AI로 생성됨' : '🎨 AI Generated'}
+            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${
+              result.isAIGenerated 
+                ? 'bg-green-500/20 border-green-500/30' 
+                : 'bg-orange-500/20 border-orange-500/30'
+            } border`}>
+              <span className={`w-2 h-2 rounded-full animate-pulse ${
+                result.isAIGenerated ? 'bg-green-400' : 'bg-orange-400'
+              }`}></span>
+              <span className={`text-sm ${
+                result.isAIGenerated ? 'text-green-200' : 'text-orange-200'
+              }`}>
+                {result.isAIGenerated 
+                  ? (language === 'ko' ? '🎨 AI로 생성됨' : '🎨 AI Generated')
+                  : (language === 'ko' ? '🔧 임시 생성 (AI 보강 중)' : '🔧 Temporary (AI Enhancing)')
+                }
               </span>
             </div>
           </div>
           
-          {/* 모델 정보 */}
+          {/* 모델 정보 및 AI 보강 안내 */}
           {result.modelUsed && (
-            <p className="text-center text-xs text-gray-300 mb-4">
-              {language === 'ko' ? '생성 방식: ' : 'Generated with: '}{result.modelUsed}
-            </p>
+            <div className="text-center mb-4">
+              <p className="text-xs text-gray-300 mb-2">
+                {language === 'ko' ? '생성 방식: ' : 'Generated with: '}{result.modelUsed}
+              </p>
+              {!result.isAIGenerated && (
+                <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-3 text-sm text-orange-200">
+                  <div className="flex items-center justify-center gap-2 mb-1">
+                    <span>🚧</span>
+                    <span className="font-semibold">
+                      {language === 'ko' ? 'AI 모델 업데이트 중' : 'AI Model Update in Progress'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-orange-300">
+                    {language === 'ko' 
+                      ? '더 향상된 AI 아트 생성을 위해 모델을 보강하고 있습니다. 곧 더 나은 품질의 결과를 제공할 예정입니다!'
+                      : 'We are enhancing our AI models for better art generation. Higher quality results coming soon!'
+                    }
+                  </p>
+                </div>
+              )}
+            </div>
           )}
           
           {/* 변환된 이미지 */}

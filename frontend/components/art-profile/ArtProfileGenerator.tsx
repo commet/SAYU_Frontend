@@ -130,8 +130,8 @@ export default function ArtProfileGenerator() {
         
         // Final fallback to Canvas effects
         console.log('Falling back to Canvas effects...');
-        toast(language === 'ko' ? '⚡ 향상된 아트 효과로 생성 중...' : '⚡ Generating with enhanced art effects...', {
-          duration: 3000
+        toast(language === 'ko' ? '🔧 AI 모델 보강 중입니다. 임시 아트 효과로 생성 중...' : '🔧 AI model under enhancement. Generating with temporary art effects...', {
+          duration: 4000
         });
         
         transformedImage = await generateDemoArt(
@@ -140,7 +140,7 @@ export default function ArtProfileGenerator() {
           (progress) => setGenerationProgress(progress)
         );
         setIsUsingRealAI(false);
-        modelUsed = 'Enhanced Canvas Effect';
+        modelUsed = 'Temporary Art Effect (AI Model Enhancement in Progress)';
         console.log('✅ Canvas effect generation completed');
       }
 
@@ -165,7 +165,7 @@ export default function ArtProfileGenerator() {
       
       const successMessage = isUsingRealAI 
         ? (language === 'ko' ? '고급 AI 아트 프로필이 생성되었습니다!' : 'Advanced AI art profile created!')
-        : (language === 'ko' ? '향상된 아트 프로필이 생성되었습니다!' : 'Enhanced art profile created!');
+        : (language === 'ko' ? '임시 아트 프로필이 생성되었습니다. 곧 더 향상된 AI 모델을 제공할 예정입니다!' : 'Temporary art profile created. Enhanced AI model coming soon!');
       
       toast.success(successMessage);
 

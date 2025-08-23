@@ -12,6 +12,7 @@ import { Send, X, ThumbsUp, ThumbsDown, RefreshCw, MessageSquare, HelpCircle } f
 import { usePathname } from 'next/navigation';
 import { detectPageType, getContextualMessage, UNIDENTIFIED_USER_MESSAGES } from '@/lib/chatbot-context';
 import { useEasterEgg } from '@/contexts/EasterEggContext';
+import { contextTracker } from '@/lib/chatbot-context-v2';
 // Toast functionality removed for demo
 
 interface ArtCuratorChatbotProps {
@@ -181,37 +182,77 @@ export const ArtCuratorChatbot = ({
     setIsTyping(true);
     
     try {
-      const response = await chatbotAPI.sendMessage(
-        message, 
-        currentArtwork?.id || 'general', 
-        currentArtwork || {
-          id: 'general',
-          title: '일반 상담',
-          artist: 'SAYU',
-          year: new Date().getFullYear(),
-          imageUrl: '',
-          medium: 'digital',
-          description: `${pageContext.type} 페이지에서의 대화`
-        },
-        {
-          pageContext,
-          personalityType
-        }
-      );
+      console.log('🚀 Sending advanced chatbot request...');
       
-      if (response.success && response.data) {
+      // Update context tracker with current page and artwork
+      if (contextTracker && currentArtwork) {
+        contextTracker.updatePageContext(pathname, { artwork: currentArtwork });
+      }
+      
+      // Get current context from tracker
+      const currentContext = contextTracker?.getCurrentContext();
+      const behaviorData = currentContext?.userBehavior;
+      
+      console.log('📊 User behavior data:', {
+        engagementLevel: behaviorData?.engagementLevel,
+        currentMood: behaviorData?.currentMood,
+        timeOnPage: behaviorData?.timeOnPage
+      });
+      
+      // Prepare conversation history (last 10 messages)
+      const conversationHistory = messages.slice(-10).map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
+      
+      // Send to advanced API directly
+      const response = await fetch('/api/chatbot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message,
+          userId: 'anonymous', // TODO: 실제 userId 사용
+          artwork: currentArtwork || {
+            id: 'general',
+            title: '일반 상담',
+            artist: 'SAYU',
+            year: new Date().getFullYear()
+          },
+          userType: personalityType || 'LAEF',
+          page: pathname,
+          context: { exhibition: null },
+          userBehavior: behaviorData || {},
+          conversationHistory
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      
+      const result = await response.json();
+      
+      console.log('✨ Received advanced response:', result);
+      
+      if (result.success && result.data) {
         const assistantMessage: ChatMessage = { 
           role: 'assistant', 
-          content: response.data.response 
+          content: result.data.response 
         };
         setMessages(prev => [...prev, assistantMessage]);
         
-        if (response.data.suggestions) {
-          setSuggestions(response.data.suggestions);
+        // Update suggestions with dynamic ones
+        if (result.data.suggestions) {
+          setSuggestions(result.data.suggestions);
         }
         
-        if (response.data.sessionId) {
-          setSessionId(response.data.sessionId);
+        if (result.data.sessionId) {
+          setSessionId(result.data.sessionId);
+        }
+        
+        // Log context analysis for debugging
+        if (result.data.contextAnalysis) {
+          console.log('🧠 Context Analysis:', result.data.contextAnalysis);
         }
         
         setCompanionMood('happy');
@@ -222,10 +263,33 @@ export const ArtCuratorChatbot = ({
         throw new Error(response.message);
       }
     } catch (error) {
-      console.error('Chat error:', error);
+      console.error('🔴 Advanced chat error:', error);
+      
+      // APT별 개성있는 오류 메시지
+      const personalityErrorMessages = {
+        'LAEF': '마음이 복잡해졌어요... 다시 한번 말씀해주시겠어요? 🦊',
+        'SAEF': '어머! 잠깐 버퍼링이에요. 다시 시도해볼까요? 🦋',  
+        'LAEC': '음... 지금은 좀 집중이 안 되네요. 다시 말씀해주세요.',
+        'LAMC': '시스템 오류입니다. 차근차근 다시 시도해보시겠어요? 🐢',
+        'LAMF': '깊은 사색에 빠져있었어요. 다시 한번 질문해주세요.',
+        'LREF': '관찰이 흐려졌네요. 다시 한번 시도해볼까요?',
+        'LREC': '균형을 잃었습니다. 차분히 다시 접근해보시죠.',
+        'LRMF': '실험 중 오류가 발생했어요. 새로운 방법을 시도해볼까요?',
+        'LRMC': '데이터 분석 중 문제가 생겼습니다. 재시도하겠습니다.',
+        'TAEF': '감정이 너무 복잡해졌어요! 다시 이야기해볼까요? 🦋',
+        'TAEC': '사교적인 기분이 살짝 다운되었네요. 다시 시도해주세요.',
+        'TAMF': '호기심이 과부하 상태예요! 다시 한번 말씀해주세요.',
+        'TAMC': '전략적 사고에 오류가 생겼습니다. 재정비 후 다시 시도하죠.',
+        'TREF': '표현력이 일시적으로 막혔어요. 다시 대화해볼까요?',
+        'TREC': '완벽하지 못한 답변이 될까봐... 다시 정리해서 말씀해주세요.',
+        'TRMF': '지혜를 정리하는 중이에요. 잠시 후 다시 시도해주세요.',
+        'TRMC': '목표 달성에 차질이 생겼습니다. 재계획 후 진행하겠습니다.'
+      };
+      
       const errorMessage: ChatMessage = {
         role: 'assistant',
-        content: '앗, 잠시 연결이 끊겼어요. 다시 시도해주세요!'
+        content: personalityErrorMessages[personalityType as keyof typeof personalityErrorMessages] || 
+                '앗, 잠시 연결이 끊겼어요. 다시 시도해주세요!'
       };
       setMessages(prev => [...prev, errorMessage]);
       setCompanionMood('idle');
@@ -347,7 +411,7 @@ export const ArtCuratorChatbot = ({
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className={`fixed ${
               position === 'bottom-left' ? 'left-4' : 'right-4'
-            } bottom-4 sm:bottom-24 lg:bottom-20 w-96 max-w-[calc(100vw-2rem)] h-[350px] sm:h-[400px] lg:h-[450px] max-h-[45vh] sm:max-h-[50vh] lg:max-h-[55vh] bg-white rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden`}
+            } bottom-6 sm:bottom-24 lg:bottom-20 w-96 max-w-[calc(100vw-2rem)] h-[480px] sm:h-[450px] lg:h-[500px] max-h-[60vh] sm:max-h-[55vh] lg:max-h-[60vh] bg-white rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden`}
           >
             {/* Header */}
             <div className="p-4 bg-gradient-to-r from-primary/10 to-primary/5 border-b flex items-center justify-between">
@@ -406,7 +470,7 @@ export const ArtCuratorChatbot = ({
                         <div
                           className={`px-4 py-3 rounded-2xl ${
                             message.role === 'user'
-                              ? 'bg-primary text-white rounded-br-sm'
+                              ? 'bg-blue-600 text-white rounded-br-sm'
                               : 'bg-gray-100 text-gray-800 rounded-bl-sm'
                           }`}
                         >
@@ -478,7 +542,7 @@ export const ArtCuratorChatbot = ({
                     <button
                       key={index}
                       onClick={() => sendMessage(suggestion)}
-                      className="flex-shrink-0 px-3 py-1.5 text-xs bg-white hover:bg-gray-100 border border-gray-200 rounded-full transition-colors"
+                      className="flex-shrink-0 px-3 py-1.5 text-xs text-gray-700 bg-white hover:bg-gray-100 border border-gray-200 rounded-full transition-colors"
                     >
                       {suggestion}
                     </button>
@@ -497,7 +561,7 @@ export const ArtCuratorChatbot = ({
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={handleKeyPress}
                   placeholder={getInputPlaceholder()}
-                  className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                  className="flex-1 px-4 py-2.5 text-gray-900 bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all placeholder:text-gray-500"
                   maxLength={500}
                   disabled={isTyping}
                 />

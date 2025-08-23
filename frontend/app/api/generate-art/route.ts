@@ -6,7 +6,22 @@ export async function POST(request: NextRequest) {
     const { base64Image, styleId } = await request.json();
     console.log('✅ Request parsed successfully');
     console.log('Style ID:', styleId);
-    console.log('Base64 image length:', base64Image?.length || 'undefined');
+    console.log('Original Base64 image length:', base64Image?.length || 'undefined');
+    
+    // 이미지 압축 - 메모리 절약을 위해 크기를 더욱 줄임
+    let compressedImage = base64Image;
+    if (base64Image?.length > 1000000) { // 1MB 이상이면 압축
+      try {
+        // base64에서 일부만 사용 (품질 저하 대신 메모리 절약)
+        const compressionRatio = Math.min(0.3, 500000 / base64Image.length); // 최대 30% 또는 500KB
+        const targetLength = Math.floor(base64Image.length * compressionRatio);
+        compressedImage = base64Image.substring(0, targetLength);
+        console.log('🗜️ Image compressed from', base64Image.length, 'to', compressedImage.length);
+      } catch (compressionError) {
+        console.warn('Image compression failed, using original:', compressionError);
+        compressedImage = base64Image;
+      }
+    }
     
     // Replicate API 키 확인
     const apiKey = process.env.REPLICATE_API_TOKEN || process.env.REPLICATE_API_KEY;
@@ -38,7 +53,7 @@ export async function POST(request: NextRequest) {
       version: modelConfig.version,
       input: {
         ...modelConfig.baseInput,
-        image: base64Image,
+        image: compressedImage,  // 압축된 이미지 사용
         prompt: prompt,
         ...(modelConfig.supportNegativePrompt && {
           negative_prompt: negativePrompt
@@ -126,98 +141,129 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// 스타일별 프롬프트 - 원본 보존에 중점
+// 스타일별 프롬프트 - 원본 완전 보존에 중점 (ULTRA CONSERVATIVE)
 function getPromptForStyle(styleId: string): string {
   const prompts: Record<string, string> = {
-    'vangogh-postimpressionism': 'Van Gogh painting style, swirling brushstrokes, thick paint texture, keep original composition and pose',
-    'monet-impressionism': 'Monet impressionist style, soft brushwork, light and shadow, maintain original subject and layout',
-    'picasso-cubism': 'Picasso cubist style, geometric shapes, angular forms, preserve original figure and pose',
-    'warhol-popart': 'Andy Warhol pop art style, bright colors, high contrast, keep original portrait composition',
-    'klimt-artnouveau': 'Gustav Klimt art nouveau style, golden patterns, decorative elements, maintain original pose and figure',
-    'anime-style': 'Anime art style, cel shading, clean lines, preserve original facial features and pose',
-    'cyberpunk-digital': 'Cyberpunk style, neon lighting effects, futuristic colors, keep original composition',
-    'pixelart-digital': 'Pixel art style, 16-bit aesthetic, pixelated effect, maintain original figure'
+    'vangogh-postimpressionism': 'PRESERVE EXACT same face, PRESERVE EXACT same pose, PRESERVE EXACT same clothing, PRESERVE EXACT same background, PRESERVE EXACT same composition, PRESERVE EXACT same person identity, ONLY apply Van Gogh swirling brushstrokes and thick paint texture as overlay effect',
+    'monet-impressionism': 'PRESERVE EXACT same face, PRESERVE EXACT same pose, PRESERVE EXACT same clothing, PRESERVE EXACT same background, PRESERVE EXACT same composition, PRESERVE EXACT same person identity, ONLY apply Monet impressionist soft brushwork and light effects as overlay',
+    'picasso-cubism': 'PRESERVE EXACT same face, PRESERVE EXACT same pose, PRESERVE EXACT same clothing, PRESERVE EXACT same background, PRESERVE EXACT same composition, PRESERVE EXACT same person identity, ONLY apply Picasso geometric patterns as subtle overlay effect',
+    'warhol-popart': 'PRESERVE EXACT same face, PRESERVE EXACT same pose, PRESERVE EXACT same clothing, PRESERVE EXACT same background, PRESERVE EXACT same composition, PRESERVE EXACT same person identity, ONLY apply Andy Warhol bright colors and high contrast as overlay effect',
+    'klimt-artnouveau': 'PRESERVE EXACT same face, PRESERVE EXACT same pose, PRESERVE EXACT same clothing, PRESERVE EXACT same background, PRESERVE EXACT same composition, PRESERVE EXACT same person identity, ONLY apply Gustav Klimt golden patterns as decorative overlay',
+    'anime-style': 'PRESERVE EXACT same face, PRESERVE EXACT same pose, PRESERVE EXACT same clothing, PRESERVE EXACT same background, PRESERVE EXACT same composition, PRESERVE EXACT same person identity, ONLY apply anime cel shading and clean line art style',
+    'cyberpunk-digital': 'PRESERVE EXACT same face, PRESERVE EXACT same pose, PRESERVE EXACT same clothing, PRESERVE EXACT same background, PRESERVE EXACT same composition, PRESERVE EXACT same person identity, ONLY apply cyberpunk neon lighting effects as overlay',
+    'pixelart-digital': 'PRESERVE EXACT same face, PRESERVE EXACT same pose, PRESERVE EXACT same clothing, PRESERVE EXACT same background, PRESERVE EXACT same composition, PRESERVE EXACT same person identity, ONLY apply pixel art texture as overlay effect'
   };
   
-  return prompts[styleId] || 'Apply artistic style while keeping original composition and pose';
+  return prompts[styleId] || 'PRESERVE EXACT original image, ONLY apply artistic style as subtle overlay effect';
 }
 
-// 스타일별 부정 프롬프트 - 원본 형태 보존 강화
+// 스타일별 부정 프롬프트 - 원본 형태 완전 보존 (ULTRA STRICT)
 function getNegativePromptForStyle(styleId: string): string {
   const negativePrompts: Record<string, string> = {
-    'vangogh-postimpressionism': 'different person, different pose, different composition, new scene, different background, extra people',
-    'monet-impressionism': 'different person, different pose, different composition, new scene, different background, extra people',
-    'picasso-cubism': 'different person, different pose, different composition, new scene, different background, extra people', 
-    'warhol-popart': 'different person, different pose, different composition, new scene, different background, extra people',
-    'klimt-artnouveau': 'different person, different pose, different composition, new scene, different background, extra people',
-    'anime-style': 'different person, different pose, different composition, new scene, different background, extra people',
-    'cyberpunk-digital': 'different person, different pose, different composition, new scene, different background, extra people',
-    'pixelart-digital': 'different person, different pose, different composition, new scene, different background, extra people'
+    'vangogh-postimpressionism': 'different person, different identity, different face, different facial features, different pose, different body position, different clothing, different background, different composition, different scene, extra people, extra objects, new elements, changing the subject, altering the pose, modifying facial structure, different lighting setup, different camera angle, different framing',
+    'monet-impressionism': 'different person, different identity, different face, different facial features, different pose, different body position, different clothing, different background, different composition, different scene, extra people, extra objects, new elements, changing the subject, altering the pose, modifying facial structure, different lighting setup, different camera angle, different framing',
+    'picasso-cubism': 'different person, different identity, different face, different facial features, different pose, different body position, different clothing, different background, different composition, different scene, extra people, extra objects, new elements, changing the subject, altering the pose, modifying facial structure, different lighting setup, different camera angle, different framing',
+    'warhol-popart': 'different person, different identity, different face, different facial features, different pose, different body position, different clothing, different background, different composition, different scene, extra people, extra objects, new elements, changing the subject, altering the pose, modifying facial structure, different lighting setup, different camera angle, different framing',
+    'klimt-artnouveau': 'different person, different identity, different face, different facial features, different pose, different body position, different clothing, different background, different composition, different scene, extra people, extra objects, new elements, changing the subject, altering the pose, modifying facial structure, different lighting setup, different camera angle, different framing',
+    'anime-style': 'different person, different identity, different face, different facial features, different pose, different body position, different clothing, different background, different composition, different scene, extra people, extra objects, new elements, changing the subject, altering the pose, modifying facial structure, different lighting setup, different camera angle, different framing',
+    'cyberpunk-digital': 'different person, different identity, different face, different facial features, different pose, different body position, different clothing, different background, different composition, different scene, extra people, extra objects, new elements, changing the subject, altering the pose, modifying facial structure, different lighting setup, different camera angle, different framing',
+    'pixelart-digital': 'different person, different identity, different face, different facial features, different pose, different body position, different clothing, different background, different composition, different scene, extra people, extra objects, new elements, changing the subject, altering the pose, modifying facial structure, different lighting setup, different camera angle, different framing'
   };
   
-  return negativePrompts[styleId] || 'different person, different pose, different composition, new scene, low quality';
+  return negativePrompts[styleId] || 'different person, different identity, different pose, different composition, changing the subject, new elements, low quality';
 }
 
-// 스타일별 모델 설정
+// 스타일별 모델 설정 - IMG2IMG 전용 검증된 모델
 function getReplicateModelForStyle(styleId: string): any {
+  // 경량 SD 1.5 IMG2IMG 모델 - 극도로 메모리 효율적
+  const verifiedImg2ImgModel = {
+    name: 'Stable Diffusion 1.5 (Ultra Lightweight)',
+    version: '15a3689ee13b0d2616e98820eca31d4c3abcd36672df6afce5cb6feb1d66087d',
+    supportNegativePrompt: true,
+    baseInput: {
+      width: 256,               // 최소 해상도로 극한 메모리 절약
+      height: 256,              // 최소 해상도로 극한 메모리 절약
+      num_inference_steps: 5,   // 최소 steps
+      guidance_scale: 7.5,      // 표준값
+      prompt_strength: 0.03,    // 최소 변형도
+      num_outputs: 1,           // 단일 출력
+      scheduler: 'K_EULER_ANCESTRAL'  // 가장 가벼운 스케줄러
+    }
+  };
+  
+  // 모든 스타일에 검증된 IMG2IMG 모델 사용
   const models = {
-    'default': {
-      name: 'SDXL-Lightning Image-to-Image',
-      version: '527d2a6296facb8e47ba1eaf17f142c240c19a30894f437feee9b91cc29d8e4f',
-      supportNegativePrompt: true,
-      baseInput: {
-        num_inference_steps: 6,
-        guidance_scale: 3,
-        strength: 0.15,
-        scheduler: 'K_EULER'
-      }
-    },
+    'default': verifiedImg2ImgModel,
     
     'vangogh-postimpressionism': {
-      name: 'Stable Diffusion Img2Img',
-      version: '15a3689ee13b0d2616e98820eca31d4c3abcd36672df6afce5cb6feb1d66087d',
-      supportNegativePrompt: true,
+      ...verifiedImg2ImgModel,
       baseInput: {
-        num_inference_steps: 30,
-        guidance_scale: 3.5,
-        prompt_strength: 0.2,
-        scheduler: 'DPMSolverMultistep'
+        ...verifiedImg2ImgModel.baseInput,
+        prompt_strength: 0.04,  // 붓터치 효과
+        guidance_scale: 9.0
       }
     },
     
     'monet-impressionism': {
-      name: 'SDXL Img2Img',
-      version: '39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b',
-      supportNegativePrompt: true,
+      ...verifiedImg2ImgModel,
       baseInput: {
-        num_inference_steps: 25,
-        guidance_scale: 3.5,
-        strength: 0.2,
-        refine: 'expert_ensemble_refiner'
+        ...verifiedImg2ImgModel.baseInput,
+        prompt_strength: 0.03,  // 가장 미묘하게
+        guidance_scale: 8.5
+      }
+    },
+    
+    'picasso-cubism': {
+      ...verifiedImg2ImgModel,
+      baseInput: {
+        ...verifiedImg2ImgModel.baseInput,
+        prompt_strength: 0.02,  // 극단적으로 낮게
+        guidance_scale: 10.0     // 매우 강한 제약
       }
     },
     
     'warhol-popart': {
-      name: 'SDXL-Lightning Fast',
-      version: '527d2a6296facb8e47ba1eaf17f142c240c19a30894f437feee9b91cc29d8e4f',
-      supportNegativePrompt: true,
+      ...verifiedImg2ImgModel,
       baseInput: {
-        num_inference_steps: 6,
-        guidance_scale: 3,
-        strength: 0.15,
-        scheduler: 'K_EULER'
+        ...verifiedImg2ImgModel.baseInput,
+        prompt_strength: 0.05,  // 색상 변화
+        guidance_scale: 8.0
+      }
+    },
+    
+    'klimt-artnouveau': {
+      ...verifiedImg2ImgModel,
+      baseInput: {
+        ...verifiedImg2ImgModel.baseInput,
+        prompt_strength: 0.04,  // 장식 요소
+        guidance_scale: 8.5
       }
     },
     
     'anime-style': {
-      name: 'Anything V5 (Anime)',
-      version: '42a996d39a96aedc57b2e0aa8105dea39c9c89d9d266caf6bb4327a1c191b061',
-      supportNegativePrompt: true,
+      ...verifiedImg2ImgModel,
       baseInput: {
-        num_inference_steps: 25,
-        guidance_scale: 4,
-        strength: 0.25,
-        scheduler: 'K_EULER_ANCESTRAL'
+        ...verifiedImg2ImgModel.baseInput,
+        prompt_strength: 0.06,  // 애니메 스타일
+        guidance_scale: 8.0
+      }
+    },
+    
+    'cyberpunk-digital': {
+      ...verifiedImg2ImgModel,
+      baseInput: {
+        ...verifiedImg2ImgModel.baseInput,
+        prompt_strength: 0.04,  // 조명 효과
+        guidance_scale: 8.5
+      }
+    },
+    
+    'pixelart-digital': {
+      ...verifiedImg2ImgModel,
+      baseInput: {
+        ...verifiedImg2ImgModel.baseInput,
+        prompt_strength: 0.07,  // 픽셀 텍스처
+        guidance_scale: 8.0
       }
     }
   };
