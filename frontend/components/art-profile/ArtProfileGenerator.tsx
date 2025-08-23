@@ -18,6 +18,14 @@ import { generateAIArt, generateDemoArt, AI_ART_STYLES } from '@/lib/huggingface
 import { aiArtService } from '@/lib/ai-art-service';
 import { openAIArtService } from '@/lib/openai-art-service';
 
+// Static imports for sample images
+import basePortrait from '/public/samples/base-portrait.png';
+import previewPicasso from '/public/samples/preview-picasso.png';
+import previewMonet from '/public/samples/preview-monet.png';
+import previewVangogh from '/public/samples/preview-vangogh.png';
+import previewWarhol from '/public/samples/preview-warhol.png';
+import previewPixel from '/public/samples/preview-pixel.png';
+
 export default function ArtProfileGenerator() {
   const { language } = useLanguage();
   const { user } = useAuth();
@@ -277,12 +285,12 @@ export default function ArtProfileGenerator() {
                 </h3>
                 <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-2">
                   {[
-                    { src: '/samples/base-portrait.png', label: language === 'ko' ? '원본' : 'Original' },
-                    { src: '/samples/preview-picasso.png', label: 'Picasso' },
-                    { src: '/samples/preview-monet.png', label: 'Monet' },
-                    { src: '/samples/preview-vangogh.png', label: 'Van Gogh' },
-                    { src: '/samples/preview-warhol.png', label: 'Warhol' },
-                    { src: '/samples/preview-pixel.png', label: 'Pixel Art' }
+                    { src: basePortrait, label: language === 'ko' ? '원본' : 'Original' },
+                    { src: previewPicasso, label: 'Picasso' },
+                    { src: previewMonet, label: 'Monet' },
+                    { src: previewVangogh, label: 'Van Gogh' },
+                    { src: previewWarhol, label: 'Warhol' },
+                    { src: previewPixel, label: 'Pixel Art' }
                   ].map((style, index) => (
                     <motion.div
                       key={style.label}
@@ -293,7 +301,7 @@ export default function ArtProfileGenerator() {
                     >
                       <div className="aspect-square rounded-lg overflow-hidden bg-white/5 border border-white/10">
                         <img 
-                          src={style.src} 
+                          src={style.src.src || style.src} 
                           alt={style.label}
                           className="w-full h-full object-cover"
                         />

@@ -6,8 +6,16 @@ import { ArtStyle } from '@/types/art-profile';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { styleFilters } from '@/data/style-filters';
 
-// Use public URL paths directly - no import needed for public folder files
-const basePortrait = '/samples/base-portrait.png';
+// Static imports for sample images
+import basePortrait from '/public/samples/base-portrait.png';
+import previewMonet from '/public/samples/preview-monet.png';
+import previewPicasso from '/public/samples/preview-picasso.png';
+import previewVangogh from '/public/samples/preview-vangogh.png';
+import previewWarhol from '/public/samples/preview-warhol.png';
+import previewPixel from '/public/samples/preview-pixel.png';
+import previewMinhwa from '/public/samples/preview-minhwa.png';
+import previewKlimt from '/public/samples/preview-klimt.png';
+import previewMondrian from '/public/samples/preview-mondrian.jpg';
 
 interface StylePreviewGridProps {
   selectedStyle: ArtStyle | null;
@@ -15,16 +23,16 @@ interface StylePreviewGridProps {
   styles: ArtStyle[];
 }
 
-// Map style IDs to public URLs
-const STYLE_PREVIEWS: Record<string, string> = {
-  'monet-impressionism': '/samples/preview-monet.png',
-  'picasso-cubism': '/samples/preview-picasso.png',
-  'vangogh-postimpressionism': '/samples/preview-vangogh.png',
-  'warhol-popart': '/samples/preview-warhol.png',
-  'pixel-art': '/samples/preview-pixel.png',
-  'korean-minhwa': '/samples/preview-minhwa.png',
-  'klimt-artnouveau': '/samples/preview-klimt.png',
-  'mondrian-neoplasticism': '/samples/preview-mondrian.jpg'
+// Map style IDs to imported images
+const STYLE_PREVIEWS: Record<string, any> = {
+  'monet-impressionism': previewMonet,
+  'picasso-cubism': previewPicasso,
+  'vangogh-postimpressionism': previewVangogh,
+  'warhol-popart': previewWarhol,
+  'pixel-art': previewPixel,
+  'korean-minhwa': previewMinhwa,
+  'klimt-artnouveau': previewKlimt,
+  'mondrian-neoplasticism': previewMondrian
 };
 
 // Fallback placeholder images

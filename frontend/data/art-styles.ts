@@ -1,5 +1,16 @@
 import { ArtStyle } from '@/types/art-profile';
 
+// Static imports for sample images
+import basePortrait from '/public/samples/base-portrait.png';
+import previewMonet from '/public/samples/preview-monet.png';
+import previewPicasso from '/public/samples/preview-picasso.png';
+import previewVangogh from '/public/samples/preview-vangogh.png';
+import previewWarhol from '/public/samples/preview-warhol.png';
+import previewPixel from '/public/samples/preview-pixel.png';
+import previewMinhwa from '/public/samples/preview-minhwa.png';
+import previewKlimt from '/public/samples/preview-klimt.png';
+import previewMondrian from '/public/samples/preview-mondrian.jpg';
+
 export const predefinedStyles: ArtStyle[] = [
   {
     id: 'monet-impressionism',
@@ -8,7 +19,7 @@ export const predefinedStyles: ArtStyle[] = [
     description: 'Soft, dreamy brushstrokes with emphasis on light and color',
     descriptionKo: '빛과 색채를 강조한 부드럽고 몽환적인 붓터치',
     sample: '/samples/impressionist.jpg',
-    exampleImage: '/samples/preview-monet.png',
+    exampleImage: previewMonet,
     tags: ['soft', 'dreamy', 'light', 'color'],
     artist: 'Claude Monet',
     movement: 'Impressionism',
@@ -22,7 +33,7 @@ export const predefinedStyles: ArtStyle[] = [
     description: 'Expressive, swirling brushstrokes with vibrant colors',
     descriptionKo: '생동감 있는 색채와 소용돌이치는 표현적 붓터치',
     sample: '/samples/vangogh.jpg',
-    exampleImage: '/samples/preview-vangogh.png',
+    exampleImage: previewVangogh,
     tags: ['expressive', 'vibrant', 'emotional', 'swirling'],
     artist: 'Vincent van Gogh',
     movement: 'Post-Impressionism',
@@ -36,7 +47,7 @@ export const predefinedStyles: ArtStyle[] = [
     description: 'Geometric shapes and multiple perspectives combined',
     descriptionKo: '기하학적 형태와 다양한 시점의 결합',
     sample: '/samples/cubist.jpg',
-    exampleImage: '/samples/preview-picasso.png',
+    exampleImage: previewPicasso,
     tags: ['geometric', 'angular', 'abstract', 'modern'],
     artist: 'Pablo Picasso',
     movement: 'Cubism',
@@ -50,7 +61,7 @@ export const predefinedStyles: ArtStyle[] = [
     description: 'Decorative patterns with gold accents and symbolic imagery',
     descriptionKo: '금빛 악센트와 상징적 이미지의 장식적 패턴',
     sample: '/samples/klimt.jpg',
-    exampleImage: '/samples/preview-klimt.png',
+    exampleImage: previewKlimt,
     tags: ['decorative', 'golden', 'symbolic', 'ornate'],
     artist: 'Gustav Klimt',
     movement: 'Art Nouveau',
@@ -64,7 +75,7 @@ export const predefinedStyles: ArtStyle[] = [
     description: 'Bold colors and repetitive patterns from popular culture',
     descriptionKo: '대중문화의 대담한 색상과 반복적 패턴',
     sample: '/samples/warhol.jpg',
-    exampleImage: '/samples/preview-warhol.png',
+    exampleImage: previewWarhol,
     tags: ['pop', 'bold', 'repetitive', 'colorful'],
     artist: 'Andy Warhol',
     movement: 'Pop Art',
@@ -78,7 +89,7 @@ export const predefinedStyles: ArtStyle[] = [
     description: 'Primary colors in geometric grid compositions',
     descriptionKo: '기하학적 격자 구성의 원색 조합',
     sample: '/samples/mondrian.jpg',
-    exampleImage: '/samples/preview-mondrian.jpg',
+    exampleImage: previewMondrian,
     tags: ['geometric', 'minimal', 'primary', 'grid'],
     artist: 'Piet Mondrian',
     movement: 'Neoplasticism',
@@ -92,7 +103,7 @@ export const predefinedStyles: ArtStyle[] = [
     description: 'Traditional Korean folk art with symbolic meanings',
     descriptionKo: '상징적 의미를 담은 한국 전통 민화',
     sample: '/samples/minhwa.jpg',
-    exampleImage: '/samples/preview-minhwa.png',
+    exampleImage: previewMinhwa,
     tags: ['traditional', 'symbolic', 'folk', 'korean'],
     artist: 'Traditional',
     movement: 'Korean Folk Art',
@@ -106,7 +117,7 @@ export const predefinedStyles: ArtStyle[] = [
     description: 'Digital art using visible pixel blocks',
     descriptionKo: '보이는 픽셀 블록을 사용한 디지털 아트',
     sample: '/samples/pixel.jpg',
-    exampleImage: '/samples/preview-pixel.png',
+    exampleImage: previewPixel,
     tags: ['digital', 'retro', 'pixelated', 'modern'],
     artist: 'Digital Artists',
     movement: 'Digital Art',

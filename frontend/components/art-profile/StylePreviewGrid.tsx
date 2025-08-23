@@ -7,25 +7,33 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { styleFilters } from '@/data/style-filters';
 
+// Static imports for sample images
+import basePortrait from '/public/samples/base-portrait.png';
+import previewMonet from '/public/samples/preview-monet.png';
+import previewPicasso from '/public/samples/preview-picasso.png';
+import previewVangogh from '/public/samples/preview-vangogh.png';
+import previewWarhol from '/public/samples/preview-warhol.png';
+import previewPixel from '/public/samples/preview-pixel.png';
+import previewMinhwa from '/public/samples/preview-minhwa.png';
+import previewKlimt from '/public/samples/preview-klimt.png';
+import previewMondrian from '/public/samples/preview-mondrian.jpg';
+
 interface StylePreviewGridProps {
   selectedStyle: ArtStyle | null;
   onStyleSelect: (style: ArtStyle) => void;
   styles: ArtStyle[];
 }
 
-// 베이스 이미지 (동일한 인물 사진)
-const BASE_IMAGE_URL = '/samples/base-portrait.png';
-
-// 각 스타일로 변환된 예시 이미지 URL (DALL-E 생성 고품질 이미지)
-const STYLE_PREVIEWS: Record<string, string> = {
-  'monet-impressionism': '/samples/preview-monet.png',
-  'picasso-cubism': '/samples/preview-picasso.png',
-  'vangogh-postimpressionism': '/samples/preview-vangogh.png',
-  'warhol-popart': '/samples/preview-warhol.png',
-  'pixel-art': '/samples/preview-pixel.png',
-  'korean-minhwa': '/samples/preview-minhwa.png',
-  'klimt-artnouveau': '/samples/preview-klimt.png',
-  'mondrian-neoplasticism': '/samples/preview-mondrian.jpg'
+// 각 스타일로 변환된 예시 이미지 (Static imports)
+const STYLE_PREVIEWS: Record<string, any> = {
+  'monet-impressionism': previewMonet,
+  'picasso-cubism': previewPicasso,
+  'vangogh-postimpressionism': previewVangogh,
+  'warhol-popart': previewWarhol,
+  'pixel-art': previewPixel,
+  'korean-minhwa': previewMinhwa,
+  'klimt-artnouveau': previewKlimt,
+  'mondrian-neoplasticism': previewMondrian
 };
 
 // 임시 placeholder 이미지 (실제 이미지가 없을 때 사용)
@@ -59,7 +67,7 @@ export default function StylePreviewGrid({ selectedStyle, onStyleSelect, styles 
         </p>
         <div className="w-32 h-32 mx-auto rounded-lg overflow-hidden border-2 border-gray-200">
           <img 
-            src={BASE_IMAGE_URL} 
+            src={basePortrait.src} 
             alt="Base portrait"
             className="w-full h-full object-cover transition-all duration-300"
             style={{
@@ -96,7 +104,7 @@ export default function StylePreviewGrid({ selectedStyle, onStyleSelect, styles 
             >
               <div className="relative aspect-square bg-gray-100">
                 <img 
-                  src={STYLE_PREVIEWS[style.id] || PLACEHOLDER_IMAGE}
+                  src={STYLE_PREVIEWS[style.id]?.src || PLACEHOLDER_IMAGE}
                   alt={`${style.name} preview`}
                   className="w-full h-full object-cover"
                   onError={(e) => {
