@@ -115,14 +115,143 @@ Discover your art personality too!`;
         height: shareFormat === 'story' ? 1920 : shareFormat === 'feed' ? 1080 : 1350
       });
       
-      // Download the image
-      const url = canvas.toDataURL('image/png');
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `sayu-${personalityType}-${shareFormat}.png`;
-      a.click();
+      // 모바일 체크
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      
+      if (isMobile) {
+        // 모바일에서 처리
+        const blob = await new Promise<Blob>((resolve) => {
+          canvas.toBlob((blob) => resolve(blob!), 'image/png');
+        });
+        
+        // Web Share API를 사용할 수 있는 경우
+        if (navigator.share && navigator.canShare) {
+          const file = new File([blob], `sayu-${personalityType}-${shareFormat}.png`, { type: 'image/png' });
+          
+          if (navigator.canShare({ files: [file] })) {
+            try {
+              await navigator.share({
+                files: [file],
+                title: 'SAYU Art Persona',
+                text: language === 'ko' ? '내 예술 페르소나' : 'My Art Persona'
+              });
+              
+              // 성공 토스트
+              const message = language === 'ko' 
+                ? '이미지가 저장되었습니다! 📸'
+                : 'Image saved successfully! 📸';
+              
+              const toast = document.createElement('div');
+              toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-[200] transition-opacity';
+              toast.textContent = message;
+              document.body.appendChild(toast);
+              
+              setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+              }, 3000);
+              
+              return;
+            } catch (error) {
+              if ((error as Error).name === 'AbortError') {
+                // 사용자가 취소한 경우는 무시
+                return;
+              }
+              console.error('Share failed:', error);
+            }
+          }
+        }
+        
+        // Web Share API를 사용할 수 없는 경우 - blob URL 사용
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = `sayu-${personalityType}-${shareFormat}.png`;
+        
+        // iOS Safari 대응
+        if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+          // iOS에서는 새 창으로 열기
+          window.open(blobUrl, '_blank');
+          
+          // 안내 메시지
+          const message = language === 'ko' 
+            ? '이미지를 길게 눌러 저장하세요 📸'
+            : 'Long press the image to save 📸';
+          
+          const toast = document.createElement('div');
+          toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-[200] transition-opacity';
+          toast.textContent = message;
+          document.body.appendChild(toast);
+          
+          setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+          }, 5000);
+        } else {
+          // Android 등 다른 모바일 브라우저
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          
+          // 성공 메시지
+          const message = language === 'ko' 
+            ? '다운로드 폴더를 확인하세요 📸'
+            : 'Check your downloads folder 📸';
+          
+          const toast = document.createElement('div');
+          toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-[200] transition-opacity';
+          toast.textContent = message;
+          document.body.appendChild(toast);
+          
+          setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+          }, 3000);
+        }
+        
+        // blob URL 정리
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+        
+      } else {
+        // 데스크톱에서 처리 (기존 방식)
+        const url = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `sayu-${personalityType}-${shareFormat}.png`;
+        a.click();
+        
+        // 성공 메시지
+        const message = language === 'ko' 
+          ? '이미지가 저장되었습니다! 📸'
+          : 'Image saved successfully! 📸';
+        
+        const toast = document.createElement('div');
+        toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-[200] transition-opacity';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
     } catch (error) {
       console.error('Error creating image:', error);
+      
+      // 에러 메시지 표시
+      const message = language === 'ko' 
+        ? '이미지 저장에 실패했습니다. 다시 시도해주세요.'
+        : 'Failed to save image. Please try again.';
+      
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-[200] transition-opacity';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
     }
   };
 
@@ -147,66 +276,189 @@ Discover your art personality too!`;
         canvas.toBlob((blob) => resolve(blob!), 'image/png');
       });
 
-      // 모바일에서 Web Share API 사용
-      if (isMobile && navigator.share && navigator.canShare) {
-        const file = new File([blob], 'sayu-art-persona.png', { type: 'image/png' });
-        
-        // 이미지를 공유할 수 있는지 확인
-        if (navigator.canShare({ files: [file] })) {
-          try {
-            await navigator.share({
-              title: 'SAYU Art Persona',
-              text: shareText + '\n\n' + shareUrl,
-              files: [file]
-            });
-            return; // 공유 성공
-          } catch (error) {
-            // 사용자가 취소한 경우는 무시
-            if ((error as Error).name !== 'AbortError') {
+      // 먼저 텍스트를 클립보드에 복사
+      const fullText = shareText + '\n\n' + shareUrl;
+      let textCopied = false;
+      
+      try {
+        await navigator.clipboard.writeText(fullText);
+        textCopied = true;
+      } catch (clipboardError) {
+        console.error('Clipboard write failed:', clipboardError);
+      }
+
+      // 모바일에서 처리
+      if (isMobile) {
+        // Web Share API 시도
+        if (navigator.share && navigator.canShare) {
+          const file = new File([blob], `sayu-${personalityType}-${shareFormat}.png`, { type: 'image/png' });
+          
+          if (navigator.canShare({ files: [file] })) {
+            try {
+              await navigator.share({
+                files: [file],
+                title: 'SAYU Art Persona',
+                text: fullText
+              });
+              
+              // 공유 성공 후 안내 메시지
+              const message = language === 'ko' 
+                ? '인스타그램을 선택해서 공유하세요! 텍스트가 복사되었습니다 📸'
+                : 'Select Instagram to share! Text copied to clipboard 📸';
+              
+              const toast = document.createElement('div');
+              toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg shadow-lg z-[200] transition-opacity';
+              toast.textContent = message;
+              document.body.appendChild(toast);
+              
+              setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+              }, 4000);
+              
+              return;
+            } catch (error) {
+              if ((error as Error).name === 'AbortError') {
+                // 사용자가 취소한 경우
+                return;
+              }
               console.error('Share failed:', error);
             }
           }
         }
-      }
-
-      // 데스크톱 또는 Web Share API를 사용할 수 없는 경우
-      const url = canvas.toDataURL('image/png');
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `sayu-${personalityType}-instagram-${shareFormat}.png`;
-      a.click();
-
-      // 클립보드에 텍스트 복사
-      try {
-        await navigator.clipboard.writeText(shareText + '\n\n' + shareUrl);
         
-        // 토스트 메시지 표시 (alert 대신)
-        const message = language === 'ko' 
-          ? '이미지가 저장되고 텍스트가 복사되었습니다! 인스타그램에 공유해주세요 📸'
-          : 'Image saved and text copied! Share on Instagram 📸';
+        // Web Share API를 사용할 수 없는 경우 - 이미지 저장 후 인스타그램 앱 열기 시도
+        const blobUrl = URL.createObjectURL(blob);
         
-        // 임시 토스트 메시지
-        const toast = document.createElement('div');
-        toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-[200] transition-opacity';
-        toast.textContent = message;
-        document.body.appendChild(toast);
+        // iOS Safari 대응
+        if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+          // iOS에서는 새 창으로 이미지 열기
+          window.open(blobUrl, '_blank');
+          
+          // 인스타그램 앱 열기 시도 (딥링크)
+          setTimeout(() => {
+            window.location.href = 'instagram://';
+          }, 1500);
+          
+          // 안내 메시지
+          const message = language === 'ko' 
+            ? `이미지를 길게 눌러 저장한 후 인스타그램에서 공유하세요!${textCopied ? '\n텍스트가 복사되었습니다 📸' : ''}`
+            : `Long press to save image, then share on Instagram!${textCopied ? '\nText copied 📸' : ''}`;
+          
+          const toast = document.createElement('div');
+          toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-4 rounded-lg shadow-lg z-[200] transition-opacity max-w-[90%] text-center';
+          toast.innerHTML = message.replace('\n', '<br>');
+          document.body.appendChild(toast);
+          
+          setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+          }, 6000);
+        } else {
+          // Android 등 다른 모바일 브라우저
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = `sayu-${personalityType}-instagram-${shareFormat}.png`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          
+          // 인스타그램 앱 열기 시도 (딥링크)
+          setTimeout(() => {
+            window.location.href = 'instagram://';
+          }, 1000);
+          
+          // 성공 메시지
+          const message = language === 'ko' 
+            ? `이미지가 다운로드되었습니다!${textCopied ? '\n텍스트가 복사되었습니다.' : ''}\n인스타그램에서 공유하세요 📸`
+            : `Image downloaded!${textCopied ? '\nText copied.' : ''}\nShare on Instagram 📸`;
+          
+          const toast = document.createElement('div');
+          toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-4 rounded-lg shadow-lg z-[200] transition-opacity max-w-[90%] text-center';
+          toast.innerHTML = message.replace(/\n/g, '<br>');
+          document.body.appendChild(toast);
+          
+          setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+          }, 5000);
+        }
         
-        setTimeout(() => {
-          toast.style.opacity = '0';
-          setTimeout(() => toast.remove(), 300);
-        }, 3000);
+        // blob URL 정리
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
         
-      } catch (clipboardError) {
-        console.error('Clipboard write failed:', clipboardError);
-        alert(
-          language === 'ko' 
-          ? '이미지가 다운로드되었습니다! 다음 텍스트를 복사해서 사용하세요:\n\n' + shareText + '\n\n' + shareUrl
-          : 'Image downloaded! Copy this text:\n\n' + shareText + '\n\n' + shareUrl
-        );
+      } else {
+        // 데스크톱에서 처리
+        const url = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `sayu-${personalityType}-instagram-${shareFormat}.png`;
+        a.click();
+        
+        // 메시지 표시
+        let message: string;
+        if (textCopied) {
+          message = language === 'ko' 
+            ? '이미지가 다운로드되었습니다! 다음 텍스트를 복사해서 사용하세요:\n' + fullText
+            : 'Image downloaded! Copy this text:\n' + fullText;
+        } else {
+          message = language === 'ko' 
+            ? '이미지가 저장되고 텍스트가 복사되었습니다!\n인스타그램에 공유해주세요 📸'
+            : 'Image saved and text copied!\nShare on Instagram 📸';
+        }
+        
+        // 모달 대신 더 나은 UI로 표시
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black/50 backdrop-blur-sm z-[300] flex items-center justify-center p-4';
+        modal.innerHTML = `
+          <div class="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900">${language === 'ko' ? '인스타그램 공유 준비 완료!' : 'Ready to Share on Instagram!'}</h3>
+            </div>
+            <div class="space-y-3">
+              <p class="text-gray-600">${language === 'ko' ? '✅ 이미지가 다운로드되었습니다' : '✅ Image downloaded'}</p>
+              ${textCopied ? `<p class="text-gray-600">${language === 'ko' ? '✅ 텍스트가 클립보드에 복사되었습니다' : '✅ Text copied to clipboard'}</p>` : ''}
+              <div class="bg-gray-50 rounded-lg p-3 max-h-32 overflow-y-auto">
+                <p class="text-sm text-gray-700 whitespace-pre-wrap">${fullText}</p>
+              </div>
+            </div>
+            <button onclick="this.closest('.fixed').remove()" class="mt-4 w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium py-3 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all">
+              ${language === 'ko' ? '확인' : 'Got it'}
+            </button>
+          </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // 클릭하면 모달 닫기
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.remove();
+          }
+        });
       }
       
     } catch (error) {
       console.error('Error creating image:', error);
+      
+      // 에러 메시지
+      const message = language === 'ko' 
+        ? '공유 준비 중 오류가 발생했습니다. 다시 시도해주세요.'
+        : 'Error preparing share. Please try again.';
+      
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-[200] transition-opacity';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
     }
   };
 
