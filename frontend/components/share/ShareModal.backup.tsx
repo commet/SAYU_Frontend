@@ -107,14 +107,12 @@ Discover your art personality too!`;
     try {
       // Dynamic import to reduce initial bundle size
       const { default: html2canvas } = await import('html2canvas');
-      
-      // html2canvas 설정 개선 - width/height 옵션 제거
       const canvas = await html2canvas(shareCardRef.current, {
-        scale: 2, // 적절한 해상도를 위해 2로 설정
-        backgroundColor: '#000000', // 투명 대신 검은색 배경
+        scale: 4,
+        backgroundColor: null,
         useCORS: true,
-        allowTaint: true,
-        logging: false
+        width: shareFormat === 'story' ? 1080 : shareFormat === 'feed' ? 1080 : 1080,
+        height: shareFormat === 'story' ? 1920 : shareFormat === 'feed' ? 1080 : 1350
       });
       
       // 모바일 체크
@@ -164,36 +162,16 @@ Discover your art personality too!`;
           }
         }
         
-        // Web Share API를 사용할 수 없는 경우 - data URL 사용 (모바일)
-        const dataUrl = canvas.toDataURL('image/png');
+        // Web Share API를 사용할 수 없는 경우 - blob URL 사용
+        const blobUrl = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = dataUrl;
+        a.href = blobUrl;
         a.download = `sayu-${personalityType}-${shareFormat}.png`;
         
         // iOS Safari 대응
         if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-          // iOS에서는 새 창으로 열기 (data URL 사용)
-          const newWindow = window.open('', '_blank');
-          if (newWindow) {
-            newWindow.document.write(`
-              <html>
-                <head>
-                  <title>SAYU Art Persona</title>
-                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                  <style>
-                    body { margin: 0; padding: 20px; background: #f3f4f6; display: flex; flex-direction: column; align-items: center; }
-                    img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
-                    p { font-family: system-ui; color: #374151; margin: 20px 0; text-align: center; }
-                  </style>
-                </head>
-                <body>
-                  <p>${language === 'ko' ? '이미지를 길게 눌러 저장하세요 📸' : 'Long press the image to save 📸'}</p>
-                  <img src="${dataUrl}" alt="SAYU Art Persona">
-                </body>
-              </html>
-            `);
-            newWindow.document.close();
-          }
+          // iOS에서는 새 창으로 열기
+          window.open(blobUrl, '_blank');
           
           // 안내 메시지
           const message = language === 'ko' 
@@ -231,7 +209,8 @@ Discover your art personality too!`;
           }, 3000);
         }
         
-        // 정리 작업 없음 (data URL 사용)
+        // blob URL 정리
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
         
       } else {
         // 데스크톱에서 처리 (기존 방식)
@@ -285,14 +264,12 @@ Discover your art personality too!`;
       
       // Dynamic import to reduce initial bundle size
       const { default: html2canvas } = await import('html2canvas');
-      
-      // html2canvas 설정 개선 - width/height 옵션 제거
       const canvas = await html2canvas(shareCardRef.current, {
-        scale: 2, // 적절한 해상도를 위해 2로 설정
-        backgroundColor: '#000000', // 투명 대신 검은색 배경
+        scale: 4,
+        backgroundColor: null,
         useCORS: true,
-        allowTaint: true,
-        logging: false
+        width: shareFormat === 'story' ? 1080 : shareFormat === 'feed' ? 1080 : 1080,
+        height: shareFormat === 'story' ? 1920 : shareFormat === 'feed' ? 1080 : 1350
       });
       
       const blob = await new Promise<Blob>((resolve) => {
@@ -351,37 +328,12 @@ Discover your art personality too!`;
         }
         
         // Web Share API를 사용할 수 없는 경우 - 이미지 저장 후 인스타그램 앱 열기 시도
-        const dataUrl = canvas.toDataURL('image/png');
+        const blobUrl = URL.createObjectURL(blob);
         
         // iOS Safari 대응
         if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-          // iOS에서는 새 창으로 이미지 열기 (data URL 사용)
-          const newWindow = window.open('', '_blank');
-          if (newWindow) {
-            newWindow.document.write(`
-              <html>
-                <head>
-                  <title>SAYU Art Persona - Instagram Share</title>
-                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                  <style>
-                    body { margin: 0; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; flex-direction: column; align-items: center; }
-                    img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
-                    .message { font-family: system-ui; color: white; margin: 20px; text-align: center; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; }
-                  </style>
-                </head>
-                <body>
-                  <div class="message">
-                    ${language === 'ko' 
-                      ? `📸 이미지를 길게 눌러 저장한 후<br>인스타그램에서 공유하세요!${textCopied ? '<br>✅ 텍스트가 복사되었습니다' : ''}`
-                      : `📸 Long press to save image<br>then share on Instagram!${textCopied ? '<br>✅ Text copied' : ''}`
-                    }
-                  </div>
-                  <img src="${dataUrl}" alt="SAYU Art Persona">
-                </body>
-              </html>
-            `);
-            newWindow.document.close();
-          }
+          // iOS에서는 새 창으로 이미지 열기
+          window.open(blobUrl, '_blank');
           
           // 인스타그램 앱 열기 시도 (딥링크)
           setTimeout(() => {
@@ -405,7 +357,7 @@ Discover your art personality too!`;
         } else {
           // Android 등 다른 모바일 브라우저
           const a = document.createElement('a');
-          a.href = dataUrl;
+          a.href = blobUrl;
           a.download = `sayu-${personalityType}-instagram-${shareFormat}.png`;
           document.body.appendChild(a);
           a.click();
@@ -432,7 +384,8 @@ Discover your art personality too!`;
           }, 5000);
         }
         
-        // 정리 작업 없음 (data URL 사용)
+        // blob URL 정리
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
         
       } else {
         // 데스크톱에서 처리
