@@ -30,6 +30,7 @@ export default function ShareModal({
   const [copied, setCopied] = useState(false);
   const [shareFormat, setShareFormat] = useState<'story' | 'feed' | 'card'>('story');
   const shareCardRef = useRef<HTMLDivElement>(null);
+  const fullSizeShareCardRef = useRef<HTMLDivElement>(null);
   
   const personality = personalityDescriptions[personalityType];
   const animal = personalityAnimals[personalityType];
@@ -102,14 +103,16 @@ Discover your art personality too!`;
   };
 
   const handleSaveImage = async () => {
-    if (!shareCardRef.current) return;
+    // Use full-size card for capture
+    const elementToCapture = fullSizeShareCardRef.current || shareCardRef.current;
+    if (!elementToCapture) return;
 
     try {
       // Dynamic import to reduce initial bundle size
       const { default: html2canvas } = await import('html2canvas');
       
       // html2canvas 설정 개선 - width/height 옵션 제거
-      const canvas = await html2canvas(shareCardRef.current, {
+      const canvas = await html2canvas(elementToCapture, {
         scale: 2, // 적절한 해상도를 위해 2로 설정
         backgroundColor: '#000000', // 투명 대신 검은색 배경
         useCORS: true,
@@ -277,7 +280,9 @@ Discover your art personality too!`;
   };
 
   const handleInstagramShare = async () => {
-    if (!shareCardRef.current) return;
+    // Use full-size card for capture
+    const elementToCapture = fullSizeShareCardRef.current || shareCardRef.current;
+    if (!elementToCapture) return;
 
     try {
       // 모바일 체크
@@ -287,7 +292,7 @@ Discover your art personality too!`;
       const { default: html2canvas } = await import('html2canvas');
       
       // html2canvas 설정 개선 - width/height 옵션 제거
-      const canvas = await html2canvas(shareCardRef.current, {
+      const canvas = await html2canvas(elementToCapture, {
         scale: 2, // 적절한 해상도를 위해 2로 설정
         backgroundColor: '#000000', // 투명 대신 검은색 배경
         useCORS: true,
@@ -872,6 +877,241 @@ Discover your art personality too!`;
             </div>
           </div>
         </motion.div>
+        
+        {/* Hidden full-size share cards for actual download */}
+        <div className="absolute -left-[9999px] -top-[9999px] pointer-events-none">
+          <div
+            ref={fullSizeShareCardRef}
+            className={`rounded-2xl overflow-hidden shadow-xl relative ${
+              shareFormat === 'story' ? 'w-[1080px] h-[1920px]' :
+              shareFormat === 'feed' ? 'w-[1080px] h-[1080px]' :
+              'w-[1080px] h-[1350px]'
+            }`}
+            style={{
+              backgroundImage: `url(${masterpiece.imageUrl})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
+            
+            <div className={`relative z-10 h-full text-white flex flex-col justify-between ${
+              shareFormat === 'story' ? 'p-24' : 
+              shareFormat === 'feed' ? 'p-20' : 'p-20'
+            }`}>
+              {/* Top Section - Properly sized for full resolution */}
+              <div className="text-center">
+                {shareFormat === 'story' ? (
+                  <>
+                    {/* Story format - vertical layout with proper spacing */}
+                    <div className="mb-8 flex justify-center items-center">
+                      <div className="scale-[3]">
+                        <PersonalityIconFixed
+                          type={personalityType}
+                          size="small"
+                          animated={false}
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="font-black tracking-wider text-[120px] mb-4" style={{ 
+                      textShadow: '4px 4px 8px rgba(0,0,0,0.9)',
+                      letterSpacing: '8px'
+                    }}>
+                      {personalityType}
+                    </div>
+                    
+                    <div className="font-bold text-7xl mb-6" style={{ textShadow: '3px 3px 6px rgba(0,0,0,0.8)' }}>
+                      {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
+                    </div>
+                    
+                    <div className="italic opacity-90 px-20 text-4xl leading-relaxed" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                      "{language === 'ko' ? (personality?.subtitle_ko || personality?.subtitle || '') : (personality?.subtitle || '')}"
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {/* Feed & Card format - horizontal layout with proper spacing */}
+                    <div className="flex items-start gap-8 justify-center">
+                      {/* Animal on the left */}
+                      <div className="mt-8">
+                        <div className="scale-[3]">
+                          <PersonalityIconFixed
+                            type={personalityType}
+                            size="small"
+                            animated={false}
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Type and title next to animal */}
+                      <div className="text-left mt-8">
+                        <div className={`font-black tracking-wider ${
+                          shareFormat === 'feed' ? 'text-7xl' : 'text-8xl'
+                        } mb-2`} style={{ 
+                          textShadow: '4px 4px 8px rgba(0,0,0,0.9)',
+                          letterSpacing: '4px'
+                        }}>
+                          {personalityType}
+                        </div>
+                        
+                        <div className={`font-bold ${
+                          shareFormat === 'feed' ? 'text-5xl' : 'text-6xl'
+                        } mb-4`} style={{ textShadow: '3px 3px 6px rgba(0,0,0,0.8)' }}>
+                          {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
+                        </div>
+                        
+                        {/* Subtitle */}
+                        <div className={`italic opacity-90 ${
+                          shareFormat === 'feed' ? 'text-3xl' : 'text-3xl'
+                        } leading-relaxed max-w-[600px]`} style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                          "{language === 'ko' ? (personality?.subtitle_ko || personality?.subtitle || '') : (personality?.subtitle || '')}"
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+              
+              {/* Middle Section - Properly sized with fixed positioning */}
+              <div className="text-center flex-1 flex flex-col justify-center">
+                {shareFormat === 'story' && (
+                  <div className="space-y-8">
+                    {/* Recommended exhibition - properly positioned */}
+                    <div className="bg-white/10 backdrop-blur-sm rounded-3xl px-16 py-10 mx-auto max-w-[800px]">
+                      <div className="text-5xl font-semibold mb-4 opacity-90" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                        {language === 'ko' ? '✨ 추천 전시' : '✨ Recommended'}
+                      </div>
+                      <div className="text-4xl leading-relaxed opacity-80" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                        <div className="font-medium">{exhibitionRec}</div>
+                        {exhibitionMuseum && (
+                          <div className="text-3xl opacity-70 mt-2">{exhibitionMuseum}</div>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* Good match types - properly positioned */}
+                    <div className="bg-white/10 backdrop-blur-sm rounded-3xl px-16 py-10 mx-auto max-w-[800px]">
+                      <div className="text-5xl font-semibold mb-6 opacity-90" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                        {language === 'ko' ? '🤝 함께 가면 좋은 유형' : '🤝 Good Match Types'}
+                      </div>
+                      <div className="flex justify-center gap-16">
+                        {goodMatches.map((match, idx) => (
+                          <div key={idx} className="text-center">
+                            <div className="text-8xl mb-2">{match.emoji}</div>
+                            <div className="text-3xl opacity-80" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                              {language === 'ko' ? match.name_ko : match.name}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {shareFormat === 'feed' && (
+                  <div className="flex gap-8 justify-center">
+                    {/* Recommended exhibition - left side */}
+                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-12 py-8 flex-1 max-w-[400px]">
+                      <div className="text-4xl font-semibold mb-3 opacity-90" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                        {language === 'ko' ? '✨ 추천' : '✨ Rec'}
+                      </div>
+                      <div className="text-3xl leading-relaxed opacity-80" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                        {exhibitionRec}
+                      </div>
+                    </div>
+                    
+                    {/* Good matches - right side */}
+                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-12 py-8 flex-1 max-w-[400px]">
+                      <div className="text-4xl font-semibold mb-3 opacity-90" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                        {language === 'ko' ? '🤝 함께' : '🤝 With'}
+                      </div>
+                      <div className="flex justify-center gap-8">
+                        {goodMatches.slice(0, 2).map((match, idx) => (
+                          <div key={idx} className="text-center">
+                            <div className="text-5xl">{match.emoji}</div>
+                            <div className="text-2xl opacity-70 mt-1" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                              {match.type}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {shareFormat === 'card' && (
+                  <div className="space-y-6">
+                    {/* Recommended exhibition - medium size */}
+                    <div className="bg-white/10 backdrop-blur-sm rounded-3xl px-14 py-8 mx-auto max-w-[700px]">
+                      <div className="text-4xl font-semibold mb-3 opacity-90" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                        {language === 'ko' ? '✨ 추천 전시' : '✨ Recommended'}
+                      </div>
+                      <div className="text-3xl leading-relaxed opacity-80" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                        <div className="font-medium">{exhibitionRec}</div>
+                        {exhibitionMuseum && (
+                          <div className="text-2xl opacity-70 mt-2">{exhibitionMuseum}</div>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* Good matches - medium compact */}
+                    <div className="bg-white/10 backdrop-blur-sm rounded-3xl px-14 py-8 mx-auto max-w-[700px]">
+                      <div className="text-4xl font-semibold mb-4 opacity-90" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                        {language === 'ko' ? '🤝 함께 가면 좋은 유형' : '🤝 Good Matches'}
+                      </div>
+                      <div className="flex justify-center gap-12">
+                        {goodMatches.slice(0, 3).map((match, idx) => (
+                          <div key={idx} className="text-center">
+                            <div className="text-6xl mb-2">{match.emoji}</div>
+                            <div className="text-2xl opacity-80" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+                              {language === 'ko' ? match.name_ko : match.name}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              {/* Bottom Section - Properly sized branding */}
+              <div className="text-center">
+                {/* Masterpiece title and artist */}
+                <div className="opacity-50 mb-4 text-2xl" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)', lineHeight: '1.4' }}>
+                  <div className="italic">
+                    {language === 'ko' 
+                      ? `${masterpiece.title_ko} - ${masterpiece.artist_ko}`
+                      : `${masterpiece.title} - ${masterpiece.artist}`
+                    }
+                  </div>
+                </div>
+                
+                <div className="pt-6" style={{ borderTop: '2px solid rgba(255,255,255,0.2)' }}>
+                  {/* Clean call-to-action */}
+                  <div className={`font-semibold px-8 mb-4 ${
+                    shareFormat === 'feed' ? 'text-5xl' : 'text-6xl'
+                  }`} style={{ 
+                    textShadow: '3px 3px 6px rgba(0,0,0,0.9)',
+                    letterSpacing: '2px'
+                  }}>
+                    {language === 'ko' ? '나만의 예술 성격 발견하기' : 'Discover Your Art Personality'}
+                  </div>
+                  
+                  {/* Brand mark */}
+                  <div className="text-5xl" style={{ 
+                    fontFamily: 'var(--font-cormorant), Georgia, serif',
+                    fontWeight: 300,
+                    textShadow: '3px 3px 6px rgba(0,0,0,0.9)',
+                    letterSpacing: '0.2em',
+                    opacity: 0.95
+                  }}>
+                    SAYU.MY
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </AnimatePresence>
   );

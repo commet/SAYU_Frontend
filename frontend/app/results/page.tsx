@@ -212,7 +212,7 @@ function ResultsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-900">
+    <div className="min-h-screen bg-slate-900 dark:bg-slate-900">
       {/* Navigation Header */}
       <header className="bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 py-3 flex justify-center items-center">
