@@ -1,9 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+// EMERGENCY: Gemini API disabled due to unexpected billing spike
+// import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
+// const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 export async function POST(request: NextRequest) {
+  // EMERGENCY: Gemini API disabled to prevent further charges
+  return NextResponse.json({ 
+    success: false, 
+    error: 'Gemini API temporarily disabled due to billing issues. Please use alternative AI services.' 
+  }, { status: 503 });
+  
+  /* DISABLED CODE - DO NOT UNCOMMENT WITHOUT VERIFICATION
   try {
     const { prompt } = await request.json();
     
@@ -25,4 +33,5 @@ export async function POST(request: NextRequest) {
       error: error.message 
     }, { status: 500 });
   }
+  */
 }
