@@ -65,7 +65,7 @@ const ExhibitionSkeleton = () => (
   </div>
 );
 
-export default function ExhibitionsPage() {
+export default function ExhibitionsPageOptimized() {
   const router = useRouter();
   const { user } = useAuth();
   const { trackExhibitionView } = useActivityTracker();
