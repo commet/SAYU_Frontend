@@ -78,6 +78,7 @@
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.11",
+    "groq-sdk": "^0.30.0",
     "gsap": "^3.12.8",
     "html2canvas": "^1.4.1",
     "i18next": "^25.3.0",

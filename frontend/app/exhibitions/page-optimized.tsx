@@ -33,6 +33,7 @@ import {
   Upload,
   Loader2
 } from 'lucide-react';
+import Image from 'next/image';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
 
 interface TransformedExhibition {
@@ -55,19 +56,16 @@ interface TransformedExhibition {
 // Skeleton loader component
 const ExhibitionSkeleton = () => (
   <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md animate-pulse">
-    <div className="p-6 space-y-4">
-      <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
-      <div className="space-y-2">
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2" />
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3" />
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3" />
-      </div>
-      <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-20" />
+    <div className="h-48 bg-gray-200 dark:bg-gray-700" />
+    <div className="p-4 space-y-3">
+      <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
+      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2" />
+      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3" />
     </div>
   </div>
 );
 
-export default function ExhibitionsPage() {
+export default function ExhibitionsPageOptimized() {
   const router = useRouter();
   const { user } = useAuth();
   const { trackExhibitionView } = useActivityTracker();
@@ -88,17 +86,6 @@ export default function ExhibitionsPage() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [totalStats] = useState<{
-    ongoing: number;
-    upcoming: number;
-    ended: number;
-    total: number;
-  }>({
-    ongoing: 87,
-    upcoming: 62,
-    ended: 143,
-    total: 292
-  });
   
   const ITEMS_PER_PAGE = 20;
 
@@ -168,8 +155,6 @@ export default function ExhibitionsPage() {
 
       const newExhibitions = result.data || result.exhibitions || [];
       
-      // Note: Using hardcoded totalStats instead of API data
-      
       if (append) {
         setExhibitions(prev => [...prev, ...newExhibitions]);
         setFilteredExhibitions(prev => [...prev, ...newExhibitions]);
@@ -212,8 +197,6 @@ export default function ExhibitionsPage() {
         ];
         setExhibitions(fallbackData);
         setFilteredExhibitions(fallbackData);
-        
-        // Using hardcoded totalStats
       }
     } finally {
       setLoading(false);
@@ -223,78 +206,26 @@ export default function ExhibitionsPage() {
 
   // Fetch saved exhibitions
   const fetchSavedExhibitions = useCallback(async () => {
-    // Load from localStorage first as immediate feedback
-    const localSaved = localStorage.getItem('savedExhibitions');
-    if (localSaved) {
-      setSavedExhibitions(new Set(JSON.parse(localSaved)));
-    }
-    
     if (!user) return;
     
     try {
       const response = await fetch('/api/exhibitions/save');
       if (response.ok) {
-        const result = await response.json();
-        if (!result.localOnly && result.data) {
-          const savedIds = new Set(result.data.map((item: any) => item.exhibition_id));
-          setSavedExhibitions(savedIds);
-          // Sync to localStorage as backup
-          localStorage.setItem('savedExhibitions', JSON.stringify(Array.from(savedIds)));
-        }
+        const { data } = await response.json();
+        const savedIds = new Set(data.map((item: any) => item.exhibition_id));
+        setSavedExhibitions(savedIds);
       }
     } catch (error) {
       console.error('Failed to fetch saved exhibitions:', error);
     }
   }, [user]);
-  
-  // Handle save/unsave exhibition
-  const handleSaveExhibition = useCallback(async (exhibition: TransformedExhibition) => {
-    const isSaved = savedExhibitions.has(exhibition.id);
-    
-    // Update UI immediately with localStorage
-    if (isSaved) {
-      setSavedExhibitions(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(exhibition.id);
-        // Update localStorage
-        localStorage.setItem('savedExhibitions', JSON.stringify(Array.from(newSet)));
-        return newSet;
-      });
-      toast.success('관심 전시에서 제거되었습니다');
-    } else {
-      setSavedExhibitions(prev => {
-        const newSet = new Set(prev);
-        newSet.add(exhibition.id);
-        // Update localStorage
-        localStorage.setItem('savedExhibitions', JSON.stringify(Array.from(newSet)));
-        return newSet;
-      });
-      toast.success('관심 전시에 추가되었습니다');
-    }
-    
-    // If user is logged in, try to sync to server (but don't block on it)
-    if (user) {
-      try {
-        await fetch('/api/exhibitions/save', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            exhibitionId: exhibition.id,
-            action: isSaved ? 'unsave' : 'save'
-          })
-        });
-      } catch (error) {
-        console.error('Failed to sync to server, but saved locally:', error);
-      }
-    }
-  }, [user, savedExhibitions]);
 
   // Initial load
   useEffect(() => {
     fetchExhibitions(1);
-    fetchSavedExhibitions(); // Always fetch (will use localStorage if no user)
+    if (user) {
+      fetchSavedExhibitions();
+    }
   }, [user]); // Removed fetchExhibitions from dependencies to prevent loops
 
   // Load more on scroll
@@ -362,18 +293,18 @@ export default function ExhibitionsPage() {
     return Array.from(locs);
   }, [exhibitions]);
 
-  // Stats calculation - using hardcoded values
-  const stats = totalStats;
+  // Stats calculation
+  const stats = useMemo(() => ({
+    ongoing: exhibitions.filter(ex => ex.status === 'ongoing').length,
+    upcoming: exhibitions.filter(ex => ex.status === 'upcoming').length,
+    ended: exhibitions.filter(ex => ex.status === 'ended').length,
+    total: exhibitions.length
+  }), [exhibitions]);
 
   return (
-    <div 
-      className="min-h-screen bg-cover bg-center bg-fixed relative"
-      style={{ backgroundImage: "url('/images/backgrounds/family-viewing-corner-gallery-intimate.jpg')" }}
-    >
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
-      <div className="relative z-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm shadow-sm border-b dark:border-gray-700">
+      <div className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
@@ -381,50 +312,31 @@ export default function ExhibitionsPage() {
                 전시회 탐색
               </h1>
               <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                현재 <span className="font-semibold text-purple-600">{stats.ongoing}개</span>의 전시가 진행 중이고, <span className="font-semibold text-blue-600">{stats.upcoming}개</span>가 예정되어 있습니다
+                현재 {stats.ongoing}개의 전시가 진행 중입니다
               </p>
             </div>
             
-            {/* Right side buttons */}
-            <div className="flex items-center gap-4">
-              {/* Saved exhibitions button */}
-              {user && (
-                <button
-                  onClick={() => router.push('/exhibitions/saved')}
-                  className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                >
-                  <Heart className="w-4 h-4" />
-                  <span className="hidden sm:inline">관심 전시</span>
-                  {savedExhibitions.size > 0 && (
-                    <span className="ml-1 px-2 py-0.5 bg-purple-500 rounded-full text-xs">
-                      {savedExhibitions.size}
-                    </span>
-                  )}
-                </button>
-              )}
-              
-              {/* View mode toggle */}
-              <div className="hidden sm:flex items-center space-x-2">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded ${viewMode === 'grid' ? 'bg-purple-100 text-purple-600' : 'text-gray-500'}`}
-                >
-                  <Grid3x3 className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`p-2 rounded ${viewMode === 'list' ? 'bg-purple-100 text-purple-600' : 'text-gray-500'}`}
-                >
-                  <List className="w-5 h-5" />
-                </button>
-              </div>
+            {/* View mode toggle */}
+            <div className="hidden sm:flex items-center space-x-2">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`p-2 rounded ${viewMode === 'grid' ? 'bg-purple-100 text-purple-600' : 'text-gray-500'}`}
+              >
+                <Grid3x3 className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`p-2 rounded ${viewMode === 'list' ? 'bg-purple-100 text-purple-600' : 'text-gray-500'}`}
+              >
+                <List className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-b dark:border-gray-700 sticky top-0 z-20">
+      <div className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row gap-4">
             {/* Search */}
@@ -515,34 +427,25 @@ export default function ExhibitionsPage() {
                   onClick={() => handleExhibitionClick(exhibition)}
                   className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer"
                 >
-                  {/* Exhibition card content - 패딩과 간격 줄임 */}
-                  <div className="p-4">
-                    {/* Header with featured badge and save button - 간격 줄임 */}
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="flex-1">
-                        {exhibition.featured && (
-                          <div className="inline-block bg-yellow-500 text-white px-2 py-0.5 rounded text-xs mb-1">
-                            추천
-                          </div>
-                        )}
-                      </div>
-                      {/* Like/Save button - 패딩 줄임 */}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSaveExhibition(exhibition);
-                        }}
-                        className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors group"
-                      >
-                        <Heart
-                          className={`w-4 h-4 transition-colors ${
-                            savedExhibitions.has(exhibition.id)
-                              ? 'fill-red-500 text-red-500'
-                              : 'text-gray-600 dark:text-gray-400 group-hover:text-red-500'
-                          }`}
-                        />
-                      </button>
+                  {/* Exhibition card content */}
+                  {exhibition.image && (
+                    <div className="relative h-48 bg-gray-200 dark:bg-gray-700">
+                      <Image
+                        src={exhibition.image}
+                        alt={exhibition.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      />
+                      {exhibition.featured && (
+                        <div className="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 rounded text-xs">
+                          추천
+                        </div>
+                      )}
                     </div>
+                  )}
+                  
+                  <div className="p-4">
                     <h3 className="font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
                       {exhibition.title}
                     </h3>
@@ -569,9 +472,9 @@ export default function ExhibitionsPage() {
                       )}
                     </div>
                     
-                    {/* Status badge - 간격 줄임 */}
-                    <div className="mt-2">
-                      <span className={`inline-block px-2 py-0.5 text-xs rounded-full ${
+                    {/* Status badge */}
+                    <div className="mt-3">
+                      <span className={`inline-block px-2 py-1 text-xs rounded-full ${
                         exhibition.status === 'ongoing' 
                           ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
                           : exhibition.status === 'upcoming'
@@ -583,8 +486,8 @@ export default function ExhibitionsPage() {
                       </span>
                     </div>
                     
-                    {/* Stats - 간격 줄임 */}
-                    <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 dark:text-gray-400">
+                    {/* Stats */}
+                    <div className="flex items-center gap-4 mt-3 text-xs text-gray-500 dark:text-gray-400">
                       <div className="flex items-center gap-1">
                         <Eye className="w-3 h-3" />
                         <span>{exhibition.viewCount || 0}</span>
@@ -624,7 +527,6 @@ export default function ExhibitionsPage() {
           feature: 'exhibition-list'
         }}
       />
-      </div>
     </div>
   );
 }

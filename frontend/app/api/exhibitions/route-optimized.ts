@@ -91,43 +91,6 @@ export async function GET(request: NextRequest) {
         error: error.message
       });
     }
-    
-    // Get total statistics for all exhibitions (not just current page)
-    let totalStats = null;
-    if (offset === 0) { // Only fetch stats on first page
-      try {
-        const now = new Date().toISOString();
-        
-        // Get counts for each status
-        const [ongoingResult, upcomingResult, endedResult, totalResult] = await Promise.all([
-          supabase.from('exhibitions').select('*', { count: 'exact', head: true })
-            .lte('start_date', now).gte('end_date', now),
-          supabase.from('exhibitions').select('*', { count: 'exact', head: true })
-            .gt('start_date', now),
-          supabase.from('exhibitions').select('*', { count: 'exact', head: true })
-            .lt('end_date', now),
-          supabase.from('exhibitions').select('*', { count: 'exact', head: true })
-        ]);
-        
-        totalStats = {
-          ongoing: ongoingResult.count || 0,
-          upcoming: upcomingResult.count || 0,
-          ended: endedResult.count || 0,
-          total: totalResult.count || 0
-        };
-        
-        console.log('Total statistics:', totalStats);
-      } catch (statsError) {
-        console.error('Failed to fetch statistics:', statsError);
-        // Use approximate counts as fallback
-        totalStats = {
-          ongoing: count ? Math.floor(count * 0.4) : 50,
-          upcoming: count ? Math.floor(count * 0.3) : 30,
-          ended: count ? Math.floor(count * 0.3) : 30,
-          total: count || 110
-        };
-      }
-    }
 
     // Transform data efficiently
     const transformedData = (exhibitions || []).map((ex: any) => ({
@@ -157,7 +120,6 @@ export async function GET(request: NextRequest) {
       success: true,
       data: transformedData,
       total: count || transformedData.length,
-      totalStats: totalStats,
       timestamp: new Date().toISOString()
     });
     

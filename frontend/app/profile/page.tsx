@@ -253,7 +253,7 @@ export default function ProfilePage() {
     console.log('localStorage profile_completed:', localStorage.getItem('profile_completed'));
     console.log('localStorage profile_skipped:', localStorage.getItem('profile_skipped'));
     
-    if (user) {  // Show on both desktop and mobile
+    if (user && isClient) {  // Show on both desktop and mobile after client is ready
       const profileCompletedAt = user?.profile?.profile_completed_at;
       const hasCompletedProfile = profileCompletedAt || localStorage.getItem('profile_completed') || localStorage.getItem('profile_skipped');
       
@@ -266,9 +266,9 @@ export default function ProfilePage() {
         console.log('>>> Not showing ProfileCompletion (already completed/skipped)');
       }
     } else {
-      console.log('>>> Not showing ProfileCompletion (no user)');
+      console.log('>>> Not showing ProfileCompletion (no user or not client)');
     }
-  }, [user, isMobile]);
+  }, [user, isMobile, isClient]);
   
   // ESC key to close modal
   useEffect(() => {

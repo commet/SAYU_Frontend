@@ -17,6 +17,7 @@ import ExhibitionArchiveForm from '@/components/exhibition/ExhibitionArchiveForm
 import { profileApi } from '@/lib/profile-api';
 import Image from 'next/image';
 import { JourneySection } from '@/components/profile/JourneySection';
+import ProfileCompletion from '@/components/dashboard/ProfileCompletion';
 
 // Mock data
 const mockMuseums = [
@@ -136,6 +137,7 @@ export default function MobileProfile({ gameStats: propsGameStats, user: propsUs
   const [userPersonalityType, setUserPersonalityType] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showArchiveForm, setShowArchiveForm] = useState(false);
+  const [showProfileCompletion, setShowProfileCompletion] = useState(false);
   const [artProfile, setArtProfile] = useState<any>({
     imageUrl: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=400&h=400&fit=crop',
     style: 'Digital Art Portrait'
@@ -150,6 +152,23 @@ export default function MobileProfile({ gameStats: propsGameStats, user: propsUs
       setUserPersonalityType(results.personalityType);
     }
   }, []);
+
+  // Check if profile is completed - for mobile
+  useEffect(() => {
+    console.log('=== Mobile Profile Completion Check ===');
+    console.log('User:', user);
+    console.log('profile_completed_at:', user?.profile?.profile_completed_at);
+    
+    if (user) {
+      const profileCompletedAt = user?.profile?.profile_completed_at;
+      const hasCompletedProfile = profileCompletedAt || localStorage.getItem('profile_completed') || localStorage.getItem('profile_skipped');
+      
+      if (!hasCompletedProfile) {
+        console.log('>>> Showing ProfileCompletion on Mobile');
+        setShowProfileCompletion(true);
+      }
+    }
+  }, [user]);
 
   // Handle profile picture upload
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -245,6 +264,30 @@ export default function MobileProfile({ gameStats: propsGameStats, user: propsUs
 
   return (
     <div className="min-h-screen pb-20 bg-gradient-to-br from-purple-900 via-pink-900 to-orange-900">
+      {/* Profile Completion Modal for Mobile */}
+      {showProfileCompletion && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={() => setShowProfileCompletion(false)}
+        >
+          <div 
+            className="bg-gray-900/95 backdrop-blur-md rounded-2xl border border-gray-700 shadow-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <ProfileCompletion
+              onComplete={() => {
+                setShowProfileCompletion(false);
+                localStorage.setItem('profile_completed', 'true');
+              }}
+              onSkip={() => {
+                setShowProfileCompletion(false);
+                localStorage.setItem('profile_skipped', 'true');
+              }}
+            />
+          </div>
+        </div>
+      )}
+      
       {/* Profile Header */}
       <div className="relative">
         {/* Cover Image - 높이 축소 */}

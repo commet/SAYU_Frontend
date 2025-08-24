@@ -148,10 +148,6 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
       animate={{ opacity: 1, scale: 1 }}
       className="relative"
     >
-      {/* Debug indicator - remove in production */}
-      <div className="absolute -top-2 -left-2 bg-red-500 text-white text-xs px-2 py-1 rounded z-50 animate-pulse">
-        ProfileCompletion Active
-      </div>
       
       <Card className="bg-transparent border-0 shadow-none">
         <CardHeader className="pb-4">
@@ -161,7 +157,7 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
                 <User className="w-5 h-5 text-white" />
               </div>
               <div>
-                <CardTitle className="text-base sm:text-lg">
+                <CardTitle className="text-base sm:text-lg text-white">
                   {personalityType ? `${animalType} 성향` : '당신'}에게 맞는 프로필 완성하기
                 </CardTitle>
                 <p className="text-sm text-muted-foreground">
@@ -183,15 +179,15 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
         <CardContent className="space-y-4 sm:space-y-6">
           {/* Benefits Section */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
-            <div className="flex items-center gap-2 text-xs sm:text-sm">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-white">
               <MapPin className="w-4 h-4 text-purple-500 flex-shrink-0" />
               <span>지역 맞춤 전시 추천</span>
             </div>
-            <div className="flex items-center gap-2 text-xs sm:text-sm">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-white">
               <Users className="w-4 h-4 text-pink-500 flex-shrink-0" />
               <span>취향 맞는 사용자 매칭</span>
             </div>
-            <div className="flex items-center gap-2 text-xs sm:text-sm col-span-1 sm:col-span-2 md:col-span-1">
+            <div className="flex items-center gap-2 text-xs sm:text-sm col-span-1 sm:col-span-2 md:col-span-1 text-white">
               <Sparkles className="w-4 h-4 text-white flex-shrink-0" />
               <span>AI 개인화 추천 강화</span>
             </div>
@@ -204,7 +200,7 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
                 성별 <span className="text-red-500">*</span>
               </Label>
               <Select value={formData.gender} onValueChange={(value) => setFormData(prev => ({ ...prev, gender: value }))}>
-                <SelectTrigger className="text-black">
+                <SelectTrigger className="text-black border-gray-600 focus:ring-0 focus:border-gray-600">
                   <SelectValue placeholder="성별을 선택해주세요" />
                 </SelectTrigger>
                 <SelectContent>
@@ -219,7 +215,7 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
             <div className="space-y-2">
               <Label className="text-sm font-medium text-white">연령대 (선택)</Label>
               <Select value={formData.ageGroup} onValueChange={(value) => setFormData(prev => ({ ...prev, ageGroup: value }))}>
-                <SelectTrigger className="text-black">
+                <SelectTrigger className="text-black border-gray-600 focus:ring-0 focus:border-gray-600">
                   <SelectValue placeholder="연령대를 선택해주세요" />
                 </SelectTrigger>
                 <SelectContent>
@@ -238,7 +234,7 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
             <div className="space-y-2 md:col-span-2">
               <Label className="text-sm font-medium text-white">지역 (선택)</Label>
               <Select value={formData.region} onValueChange={(value) => setFormData(prev => ({ ...prev, region: value }))}>
-                <SelectTrigger className="text-black">
+                <SelectTrigger className="text-black border-gray-600 focus:ring-0 focus:border-gray-600">
                   <SelectValue placeholder="거주 지역을 선택해주세요" />
                 </SelectTrigger>
                 <SelectContent>
@@ -276,7 +272,7 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-between pt-4 border-t gap-4 sm:gap-0">
+          <div className="flex flex-col sm:flex-row items-center justify-between pt-4 border-t border-gray-600 gap-4 sm:gap-0">
             <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
               <Clock className="w-4 h-4" />
               <span>약 30초 소요</span>
@@ -287,7 +283,7 @@ export default function ProfileCompletion({ onComplete, onSkip }: ProfileComplet
                 variant="outline" 
                 onClick={onSkip}
                 disabled={loading}
-                className="flex-1 sm:flex-none text-white border-gray-600 hover:border-gray-500 hover:text-white"
+                className="flex-1 sm:flex-none text-white bg-gray-800 border-gray-600 hover:bg-gray-700 hover:border-gray-500 hover:text-white"
               >
                 나중에 하기
               </Button>
