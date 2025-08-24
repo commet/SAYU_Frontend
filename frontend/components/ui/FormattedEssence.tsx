@@ -31,13 +31,13 @@ export function FormattedEssence({ text, className, preview = false }: Formatted
         // Add subtle visual emphasis to dialog and key moments
         const formattedParagraph = paragraph
           // Highlight direct quotes with subtle styling
-          .replace(/"([^"]+)"/g, '<span class="text-gray-900 dark:text-gray-100 font-medium italic">"$1"</span>')
+          .replace(/"([^"]+)"/g, '<span class="text-gray-100 font-medium italic">"$1"</span>')
           // Emphasize specific time references and concrete details
-          .replace(/(\d+(?:\.\d+)?\s*(?:minutes?|hours?|millimeters?|entries?))/g, '<span class="font-medium text-gray-800 dark:text-gray-200">$1</span>')
+          .replace(/(\d+(?:\.\d+)?\s*(?:minutes?|hours?|millimeters?|entries?))/g, '<span class="font-medium text-gray-200">$1</span>')
           // Highlight emotional moments and key insights
-          .replace(/(twenty-three minutes|forty minutes|two hours|three hours)/g, '<span class="font-medium text-purple-700 dark:text-purple-300">$1</span>')
+          .replace(/(twenty-three minutes|forty minutes|two hours|three hours)/g, '<span class="font-medium text-purple-300">$1</span>')
           // Emphasize art-specific terms
-          .replace(/(cerulean blue|vermillion|Monet|Kandinsky|Jackson Pollock|Rothko|Caravaggio|Vermeer|da Vinci)/g, '<span class="font-medium text-blue-700 dark:text-blue-300">$1</span>');
+          .replace(/(cerulean blue|vermillion|Monet|Kandinsky|Jackson Pollock|Rothko|Caravaggio|Vermeer|da Vinci)/g, '<span class="font-medium text-blue-300">$1</span>');
         
         return (
           <p 
@@ -45,9 +45,9 @@ export function FormattedEssence({ text, className, preview = false }: Formatted
             className={cn(
               "leading-relaxed",
               // First paragraph gets a slightly larger font and subtle emphasis
-              index === 0 && "text-[1.02em] text-gray-800 dark:text-gray-200",
+              index === 0 && "text-[1.02em] text-gray-200",
               // Subsequent paragraphs are slightly more subdued
-              index > 0 && "text-gray-700 dark:text-gray-300"
+              index > 0 && "text-gray-300"
             )}
             dangerouslySetInnerHTML={{ 
               __html: formattedParagraph 

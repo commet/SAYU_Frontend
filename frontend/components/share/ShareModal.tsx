@@ -629,7 +629,7 @@ Discover your art personality too!`;
                             {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
                           </div>
                           
-                          <div className="italic opacity-90 px-3 text-[7px] mt-0.5" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
+                          <div className="italic opacity-90 px-3 text-[7px] mt-0.5 whitespace-nowrap" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
                             "{language === 'ko' ? (personality?.subtitle_ko || personality?.subtitle || '') : (personality?.subtitle || '')}"
                           </div>
                         </>
