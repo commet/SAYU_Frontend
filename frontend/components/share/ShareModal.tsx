@@ -904,8 +904,8 @@ Discover your art personality too!`;
                 <>
                   {/* Story format - 세로 레이아웃 */}
                   <div className="flex flex-col items-center text-center">
-                    {/* 동물 캐릭터 - 적절한 크기와 간격 */}
-                    <div className="mb-6 scale-[5] mt-12">
+                    {/* 동물 캐릭터 - 약간 크기 증가 */}
+                    <div className="mb-8 scale-[6] mt-10">
                       <PersonalityIconFixed
                         type={personalityType}
                         size="small"
@@ -913,23 +913,23 @@ Discover your art personality too!`;
                       />
                     </div>
                     
-                    {/* LRMC - 적절한 크기 */}
-                    <div className="font-black text-[100px] leading-none mb-4 mt-8" style={{ 
+                    {/* LRMC - 위치 아래로 조정 */}
+                    <div className="font-black text-[100px] leading-none mb-6 mt-12" style={{ 
                       textShadow: '4px 4px 10px rgba(0,0,0,0.9)',
                       letterSpacing: '8px'
                     }}>
                       {personalityType}
                     </div>
                     
-                    {/* 체계적 연구자 */}
-                    <div className="font-bold text-6xl mb-6" style={{ 
+                    {/* 체계적 연구자 - 위치 아래로 */}
+                    <div className="font-bold text-6xl mb-8" style={{ 
                       textShadow: '3px 3px 8px rgba(0,0,0,0.8)' 
                     }}>
                       {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
                     </div>
                     
-                    {/* 부제목 - 한 줄로 표시 */}
-                    <div className="italic text-3xl leading-tight px-12 mb-16 opacity-90 whitespace-nowrap" style={{ 
+                    {/* 부제목 - 위치 아래로 */}
+                    <div className="italic text-3xl leading-tight px-12 mb-20 opacity-90 whitespace-nowrap" style={{ 
                       textShadow: '2px 2px 6px rgba(0,0,0,0.8)',
                       maxWidth: '90%',
                       fontSize: 'clamp(1.5rem, 3vw, 3rem)'
@@ -951,11 +951,11 @@ Discover your art personality too!`;
                     
                     {/* 함께 가면 좋은 유형 */}
                     <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-8 w-full max-w-4xl text-center">
-                      <div className="text-4xl mb-6">🤝 {language === 'ko' ? '함께 가면 좋은 유형' : 'Good Matches'}</div>
+                      <div className="text-4xl mb-4">🤝 {language === 'ko' ? '함께 가면 좋은 유형' : 'Good Matches'}</div>
                       <div className="flex justify-center gap-10">
                         {goodMatches.map((match, idx) => (
                           <div key={idx} className="text-center">
-                            <div className="text-6xl mb-2">{match.emoji}</div>
+                            <div className="text-6xl mb-4">{match.emoji}</div>
                             <div className="text-2xl">
                               {language === 'ko' ? match.name_ko : match.name}
                             </div>
@@ -965,20 +965,20 @@ Discover your art personality too!`;
                     </div>
                   </div>
                   
-                  {/* 하단 섹션 - 위치와 크기 조정 */}
-                  <div className="text-center space-y-4 pb-12">
-                    <div className="text-2xl italic opacity-60 mb-6">
+                  {/* 하단 섹션 - 위치 위로, 크기 증가 */}
+                  <div className="text-center space-y-4 pb-10">
+                    <div className="text-2xl italic opacity-60 mb-4 -mt-4">
                       {language === 'ko' 
                         ? `${masterpiece.title_ko} - ${masterpiece.artist_ko}`
                         : `${masterpiece.title} - ${masterpiece.artist}`
                       }
                     </div>
-                    <div className="text-5xl font-bold" style={{ 
+                    <div className="text-6xl font-bold" style={{ 
                       textShadow: '3px 3px 8px rgba(0,0,0,0.9)' 
                     }}>
                       {language === 'ko' ? '나만의 예술 성격 발견하기' : 'Discover Your Art Personality'}
                     </div>
-                    <div className="text-4xl mt-3" style={{ 
+                    <div className="text-5xl mt-3" style={{ 
                       fontFamily: 'var(--font-cormorant), Georgia, serif',
                       letterSpacing: '0.3em',
                       fontWeight: 300
@@ -992,9 +992,13 @@ Discover your art personality too!`;
                   {/* Feed & Card format - 가로 레이아웃 */}
                   <div className="h-full flex flex-col">
                     {/* 상단 - 동물과 텍스트 */}
-                    <div className="flex items-center gap-12 mb-16">
-                      {/* 왼쪽 - 큰 동물 */}
-                      <div className="scale-[6]" style={{ marginLeft: '60px' }}>
+                    <div className="flex items-center gap-8 mb-16">
+                      {/* 왼쪽 - 동물 크기 조절 */}
+                      <div className={`${
+                        shareFormat === 'feed' ? 'scale-[4.5]' : 'scale-[5]'
+                      }`} style={{ 
+                        marginLeft: shareFormat === 'card' ? '100px' : '80px'
+                      }}>
                         <PersonalityIconFixed
                           type={personalityType}
                           size="small"
@@ -1002,21 +1006,30 @@ Discover your art personality too!`;
                         />
                       </div>
                       
-                      {/* 오른쪽 - 텍스트 */}
-                      <div className="flex-1">
-                        <div className="font-black text-8xl mb-4" style={{ 
+                      {/* 오른쪽 - 텍스트 오른쪽으로 이동 */}
+                      <div className="flex-1" style={{ 
+                        marginLeft: shareFormat === 'feed' ? '30px' : '20px'
+                      }}>
+                        <div className={`font-black mb-4 ${
+                          shareFormat === 'feed' ? 'text-7xl' : 'text-8xl'
+                        }`} style={{ 
                           textShadow: '4px 4px 10px rgba(0,0,0,0.9)',
                           letterSpacing: '6px'
                         }}>
                           {personalityType}
                         </div>
-                        <div className="font-bold text-5xl mb-4" style={{ 
+                        <div className={`font-bold mb-4 ${
+                          shareFormat === 'feed' ? 'text-4xl' : 'text-5xl'
+                        }`} style={{ 
                           textShadow: '3px 3px 8px rgba(0,0,0,0.8)' 
                         }}>
                           {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
                         </div>
-                        <div className="italic text-3xl opacity-90" style={{ 
-                          textShadow: '2px 2px 6px rgba(0,0,0,0.8)' 
+                        <div className={`italic opacity-90 ${
+                          shareFormat === 'feed' ? 'text-2xl' : 'text-3xl'
+                        }`} style={{ 
+                          textShadow: '2px 2px 6px rgba(0,0,0,0.8)',
+                          maxWidth: shareFormat === 'feed' ? '500px' : '600px'
                         }}>
                           "{language === 'ko' ? (personality?.subtitle_ko || personality?.subtitle || '') : (personality?.subtitle || '')}"
                         </div>
@@ -1050,20 +1063,24 @@ Discover your art personality too!`;
                       </div>
                     </div>
                     
-                    {/* 하단 */}
-                    <div className="text-center space-y-4 pt-8">
-                      <div className="text-2xl italic opacity-60">
+                    {/* 하단 - 위치 위로, 크기 조정 */}
+                    <div className="text-center space-y-4 pt-4 pb-8">
+                      <div className="text-2xl italic opacity-60 -mt-2">
                         {language === 'ko' 
                           ? `${masterpiece.title_ko} - ${masterpiece.artist_ko}`
                           : `${masterpiece.title} - ${masterpiece.artist}`
                         }
                       </div>
-                      <div className="text-5xl font-bold" style={{ 
+                      <div className={`font-bold ${
+                        shareFormat === 'card' ? 'text-6xl' : 'text-5xl'
+                      }`} style={{ 
                         textShadow: '3px 3px 8px rgba(0,0,0,0.9)' 
                       }}>
                         {language === 'ko' ? '나만의 예술 성격 발견하기' : 'Discover Your Art Personality'}
                       </div>
-                      <div className="text-4xl" style={{ 
+                      <div className={`${
+                        shareFormat === 'card' ? 'text-5xl' : 'text-4xl'
+                      }`} style={{ 
                         fontFamily: 'var(--font-cormorant), Georgia, serif',
                         letterSpacing: '0.3em'
                       }}>

@@ -223,14 +223,24 @@ export default function ExhibitionsPage() {
 
   // Fetch saved exhibitions
   const fetchSavedExhibitions = useCallback(async () => {
+    // Load from localStorage first as immediate feedback
+    const localSaved = localStorage.getItem('savedExhibitions');
+    if (localSaved) {
+      setSavedExhibitions(new Set(JSON.parse(localSaved)));
+    }
+    
     if (!user) return;
     
     try {
       const response = await fetch('/api/exhibitions/save');
       if (response.ok) {
-        const { data } = await response.json();
-        const savedIds = new Set(data.map((item: any) => item.exhibition_id));
-        setSavedExhibitions(savedIds);
+        const result = await response.json();
+        if (!result.localOnly && result.data) {
+          const savedIds = new Set(result.data.map((item: any) => item.exhibition_id));
+          setSavedExhibitions(savedIds);
+          // Sync to localStorage as backup
+          localStorage.setItem('savedExhibitions', JSON.stringify(Array.from(savedIds)));
+        }
       }
     } catch (error) {
       console.error('Failed to fetch saved exhibitions:', error);
@@ -239,53 +249,52 @@ export default function ExhibitionsPage() {
   
   // Handle save/unsave exhibition
   const handleSaveExhibition = useCallback(async (exhibition: TransformedExhibition) => {
-    if (!user) {
-      toast.error('로그인이 필요합니다');
-      router.push('/login');
-      return;
-    }
-    
     const isSaved = savedExhibitions.has(exhibition.id);
     
-    try {
-      const response = await fetch('/api/exhibitions/save', {
-        method: isSaved ? 'DELETE' : 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          exhibition_id: exhibition.id,
-          title: exhibition.title,
-          venue: exhibition.venue,
-          image: exhibition.image
-        })
+    // Update UI immediately with localStorage
+    if (isSaved) {
+      setSavedExhibitions(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(exhibition.id);
+        // Update localStorage
+        localStorage.setItem('savedExhibitions', JSON.stringify(Array.from(newSet)));
+        return newSet;
       });
-      
-      if (response.ok) {
-        if (isSaved) {
-          setSavedExhibitions(prev => {
-            const newSet = new Set(prev);
-            newSet.delete(exhibition.id);
-            return newSet;
-          });
-          toast.success('관심 전시에서 제거되었습니다');
-        } else {
-          setSavedExhibitions(prev => new Set(prev).add(exhibition.id));
-          toast.success('관심 전시에 추가되었습니다');
-        }
-      }
-    } catch (error) {
-      console.error('Failed to save exhibition:', error);
-      toast.error('저장 중 오류가 발생했습니다');
+      toast.success('관심 전시에서 제거되었습니다');
+    } else {
+      setSavedExhibitions(prev => {
+        const newSet = new Set(prev);
+        newSet.add(exhibition.id);
+        // Update localStorage
+        localStorage.setItem('savedExhibitions', JSON.stringify(Array.from(newSet)));
+        return newSet;
+      });
+      toast.success('관심 전시에 추가되었습니다');
     }
-  }, [user, savedExhibitions, router]);
+    
+    // If user is logged in, try to sync to server (but don't block on it)
+    if (user) {
+      try {
+        await fetch('/api/exhibitions/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            exhibitionId: exhibition.id,
+            action: isSaved ? 'unsave' : 'save'
+          })
+        });
+      } catch (error) {
+        console.error('Failed to sync to server, but saved locally:', error);
+      }
+    }
+  }, [user, savedExhibitions]);
 
   // Initial load
   useEffect(() => {
     fetchExhibitions(1);
-    if (user) {
-      fetchSavedExhibitions();
-    }
+    fetchSavedExhibitions(); // Always fetch (will use localStorage if no user)
   }, [user]); // Removed fetchExhibitions from dependencies to prevent loops
 
   // Load more on scroll
@@ -506,27 +515,27 @@ export default function ExhibitionsPage() {
                   onClick={() => handleExhibitionClick(exhibition)}
                   className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer"
                 >
-                  {/* Exhibition card content */}
-                  <div className="p-6">
-                    {/* Header with featured badge and save button */}
-                    <div className="flex justify-between items-start mb-4">
+                  {/* Exhibition card content - 패딩과 간격 줄임 */}
+                  <div className="p-4">
+                    {/* Header with featured badge and save button - 간격 줄임 */}
+                    <div className="flex justify-between items-start mb-2">
                       <div className="flex-1">
                         {exhibition.featured && (
-                          <div className="inline-block bg-yellow-500 text-white px-2 py-1 rounded text-xs mb-2">
+                          <div className="inline-block bg-yellow-500 text-white px-2 py-0.5 rounded text-xs mb-1">
                             추천
                           </div>
                         )}
                       </div>
-                      {/* Like/Save button */}
+                      {/* Like/Save button - 패딩 줄임 */}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           handleSaveExhibition(exhibition);
                         }}
-                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors group"
+                        className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors group"
                       >
                         <Heart
-                          className={`w-5 h-5 transition-colors ${
+                          className={`w-4 h-4 transition-colors ${
                             savedExhibitions.has(exhibition.id)
                               ? 'fill-red-500 text-red-500'
                               : 'text-gray-600 dark:text-gray-400 group-hover:text-red-500'
@@ -560,9 +569,9 @@ export default function ExhibitionsPage() {
                       )}
                     </div>
                     
-                    {/* Status badge */}
-                    <div className="mt-3">
-                      <span className={`inline-block px-2 py-1 text-xs rounded-full ${
+                    {/* Status badge - 간격 줄임 */}
+                    <div className="mt-2">
+                      <span className={`inline-block px-2 py-0.5 text-xs rounded-full ${
                         exhibition.status === 'ongoing' 
                           ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
                           : exhibition.status === 'upcoming'
@@ -574,8 +583,8 @@ export default function ExhibitionsPage() {
                       </span>
                     </div>
                     
-                    {/* Stats */}
-                    <div className="flex items-center gap-4 mt-3 text-xs text-gray-500 dark:text-gray-400">
+                    {/* Stats - 간격 줄임 */}
+                    <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 dark:text-gray-400">
                       <div className="flex items-center gap-1">
                         <Eye className="w-3 h-3" />
                         <span>{exhibition.viewCount || 0}</span>
