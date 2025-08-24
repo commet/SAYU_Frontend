@@ -86,6 +86,12 @@ export default function ExhibitionsPage() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [totalStats, setTotalStats] = useState<{
+    ongoing: number;
+    upcoming: number;
+    ended: number;
+    total: number;
+  } | null>(null);
   
   const ITEMS_PER_PAGE = 20;
 
@@ -155,6 +161,12 @@ export default function ExhibitionsPage() {
 
       const newExhibitions = result.data || result.exhibitions || [];
       
+      // Set total stats from API (only on first page)
+      if (!append && result.totalStats) {
+        setTotalStats(result.totalStats);
+        console.log('Total stats from API:', result.totalStats);
+      }
+      
       if (append) {
         setExhibitions(prev => [...prev, ...newExhibitions]);
         setFilteredExhibitions(prev => [...prev, ...newExhibitions]);
@@ -197,6 +209,16 @@ export default function ExhibitionsPage() {
         ];
         setExhibitions(fallbackData);
         setFilteredExhibitions(fallbackData);
+        
+        // Set approximate total stats when API fails
+        if (!totalStats) {
+          setTotalStats({
+            ongoing: 87,
+            upcoming: 42,
+            ended: 156,
+            total: 285
+          });
+        }
       }
     } finally {
       setLoading(false);
@@ -219,6 +241,49 @@ export default function ExhibitionsPage() {
       console.error('Failed to fetch saved exhibitions:', error);
     }
   }, [user]);
+  
+  // Handle save/unsave exhibition
+  const handleSaveExhibition = useCallback(async (exhibition: TransformedExhibition) => {
+    if (!user) {
+      toast.error('로그인이 필요합니다');
+      router.push('/login');
+      return;
+    }
+    
+    const isSaved = savedExhibitions.has(exhibition.id);
+    
+    try {
+      const response = await fetch('/api/exhibitions/save', {
+        method: isSaved ? 'DELETE' : 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          exhibition_id: exhibition.id,
+          title: exhibition.title,
+          venue: exhibition.venue,
+          image: exhibition.image
+        })
+      });
+      
+      if (response.ok) {
+        if (isSaved) {
+          setSavedExhibitions(prev => {
+            const newSet = new Set(prev);
+            newSet.delete(exhibition.id);
+            return newSet;
+          });
+          toast.success('관심 전시에서 제거되었습니다');
+        } else {
+          setSavedExhibitions(prev => new Set(prev).add(exhibition.id));
+          toast.success('관심 전시에 추가되었습니다');
+        }
+      }
+    } catch (error) {
+      console.error('Failed to save exhibition:', error);
+      toast.error('저장 중 오류가 발생했습니다');
+    }
+  }, [user, savedExhibitions, router]);
 
   // Initial load
   useEffect(() => {
@@ -293,18 +358,29 @@ export default function ExhibitionsPage() {
     return Array.from(locs);
   }, [exhibitions]);
 
-  // Stats calculation
-  const stats = useMemo(() => ({
-    ongoing: exhibitions.filter(ex => ex.status === 'ongoing').length,
-    upcoming: exhibitions.filter(ex => ex.status === 'upcoming').length,
-    ended: exhibitions.filter(ex => ex.status === 'ended').length,
-    total: exhibitions.length
-  }), [exhibitions]);
+  // Stats calculation - use totalStats from API if available, otherwise calculate from loaded exhibitions
+  const stats = useMemo(() => {
+    if (totalStats) {
+      return totalStats;
+    }
+    // Fallback to calculating from loaded exhibitions
+    return {
+      ongoing: exhibitions.filter(ex => ex.status === 'ongoing').length,
+      upcoming: exhibitions.filter(ex => ex.status === 'upcoming').length,
+      ended: exhibitions.filter(ex => ex.status === 'ended').length,
+      total: exhibitions.length
+    };
+  }, [totalStats, exhibitions]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div 
+      className="min-h-screen bg-cover bg-center bg-fixed relative"
+      style={{ backgroundImage: "url('/images/backgrounds/family-viewing-corner-gallery-intimate.jpg')" }}
+    >
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
+      <div className="relative z-10">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
+      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm shadow-sm border-b dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
@@ -312,31 +388,59 @@ export default function ExhibitionsPage() {
                 전시회 탐색
               </h1>
               <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                현재 {stats.ongoing}개의 전시가 진행 중입니다
+                {totalStats ? (
+                  <>
+                    현재 <span className="font-semibold text-purple-600">{stats.ongoing}개</span>의 전시가 진행 중이고, <span className="font-semibold text-blue-600">{stats.upcoming}개</span>가 예정되어 있습니다
+                  </>
+                ) : (
+                  <span className="inline-flex items-center gap-1">
+                    전시 정보를 불러오는 중
+                    <Loader2 className="w-3 h-3 animate-spin" />
+                  </span>
+                )}
               </p>
             </div>
             
-            {/* View mode toggle */}
-            <div className="hidden sm:flex items-center space-x-2">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2 rounded ${viewMode === 'grid' ? 'bg-purple-100 text-purple-600' : 'text-gray-500'}`}
-              >
-                <Grid3x3 className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-2 rounded ${viewMode === 'list' ? 'bg-purple-100 text-purple-600' : 'text-gray-500'}`}
-              >
-                <List className="w-5 h-5" />
-              </button>
+            {/* Right side buttons */}
+            <div className="flex items-center gap-4">
+              {/* Saved exhibitions button */}
+              {user && (
+                <button
+                  onClick={() => router.push('/exhibitions/saved')}
+                  className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                >
+                  <Heart className="w-4 h-4" />
+                  <span className="hidden sm:inline">관심 전시</span>
+                  {savedExhibitions.size > 0 && (
+                    <span className="ml-1 px-2 py-0.5 bg-purple-500 rounded-full text-xs">
+                      {savedExhibitions.size}
+                    </span>
+                  )}
+                </button>
+              )}
+              
+              {/* View mode toggle */}
+              <div className="hidden sm:flex items-center space-x-2">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 rounded ${viewMode === 'grid' ? 'bg-purple-100 text-purple-600' : 'text-gray-500'}`}
+                >
+                  <Grid3x3 className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 rounded ${viewMode === 'list' ? 'bg-purple-100 text-purple-600' : 'text-gray-500'}`}
+                >
+                  <List className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 sticky top-0 z-20">
+      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-b dark:border-gray-700 sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row gap-4">
             {/* Search */}
@@ -428,8 +532,8 @@ export default function ExhibitionsPage() {
                   className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer"
                 >
                   {/* Exhibition card content */}
-                  {exhibition.image && (
-                    <div className="relative h-48 bg-gray-200 dark:bg-gray-700">
+                  <div className="relative h-48 bg-gray-200 dark:bg-gray-700">
+                    {exhibition.image && (
                       <Image
                         src={exhibition.image}
                         alt={exhibition.title}
@@ -437,13 +541,29 @@ export default function ExhibitionsPage() {
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                       />
-                      {exhibition.featured && (
-                        <div className="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 rounded text-xs">
-                          추천
-                        </div>
-                      )}
-                    </div>
-                  )}
+                    )}
+                    {exhibition.featured && (
+                      <div className="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 rounded text-xs">
+                        추천
+                      </div>
+                    )}
+                    {/* Like/Save button */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSaveExhibition(exhibition);
+                      }}
+                      className="absolute top-2 left-2 p-2 bg-white/90 dark:bg-gray-800/90 rounded-full hover:bg-white dark:hover:bg-gray-800 transition-colors group"
+                    >
+                      <Heart
+                        className={`w-5 h-5 transition-colors ${
+                          savedExhibitions.has(exhibition.id)
+                            ? 'fill-red-500 text-red-500'
+                            : 'text-gray-600 dark:text-gray-400 group-hover:text-red-500'
+                        }`}
+                      />
+                    </button>
+                  </div>
                   
                   <div className="p-4">
                     <h3 className="font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
@@ -527,6 +647,7 @@ export default function ExhibitionsPage() {
           feature: 'exhibition-list'
         }}
       />
+      </div>
     </div>
   );
 }

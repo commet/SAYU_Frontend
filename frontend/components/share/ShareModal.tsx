@@ -111,9 +111,9 @@ Discover your art personality too!`;
       // Dynamic import to reduce initial bundle size
       const { default: html2canvas } = await import('html2canvas');
       
-      // html2canvas 설정 개선 - width/height 옵션 제거
+      // html2canvas 설정 개선 - 파일 크기 최적화
       const canvas = await html2canvas(elementToCapture, {
-        scale: 2, // 적절한 해상도를 위해 2로 설정
+        scale: 1.5, // 파일 크기를 줄이기 위해 scale 감소
         backgroundColor: '#000000', // 투명 대신 검은색 배경
         useCORS: true,
         allowTaint: true,
@@ -126,12 +126,12 @@ Discover your art personality too!`;
       if (isMobile) {
         // 모바일에서 처리
         const blob = await new Promise<Blob>((resolve) => {
-          canvas.toBlob((blob) => resolve(blob!), 'image/png');
+          canvas.toBlob((blob) => resolve(blob!), 'image/jpeg', 0.85);
         });
         
         // Web Share API를 사용할 수 있는 경우
         if (navigator.share && navigator.canShare) {
-          const file = new File([blob], `sayu-${personalityType}-${shareFormat}.png`, { type: 'image/png' });
+          const file = new File([blob], `sayu-${personalityType}-${shareFormat}.jpg`, { type: 'image/jpeg' });
           
           if (navigator.canShare({ files: [file] })) {
             try {
@@ -168,10 +168,10 @@ Discover your art personality too!`;
         }
         
         // Web Share API를 사용할 수 없는 경우 - data URL 사용 (모바일)
-        const dataUrl = canvas.toDataURL('image/png');
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
         const a = document.createElement('a');
         a.href = dataUrl;
-        a.download = `sayu-${personalityType}-${shareFormat}.png`;
+        a.download = `sayu-${personalityType}-${shareFormat}.jpg`;
         
         // iOS Safari 대응
         if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
@@ -238,10 +238,10 @@ Discover your art personality too!`;
         
       } else {
         // 데스크톱에서 처리 (기존 방식)
-        const url = canvas.toDataURL('image/png');
+        const url = canvas.toDataURL('image/jpeg', 0.85);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `sayu-${personalityType}-${shareFormat}.png`;
+        a.download = `sayu-${personalityType}-${shareFormat}.jpg`;
         a.click();
         
         // 성공 메시지
@@ -291,9 +291,9 @@ Discover your art personality too!`;
       // Dynamic import to reduce initial bundle size
       const { default: html2canvas } = await import('html2canvas');
       
-      // html2canvas 설정 개선 - width/height 옵션 제거
+      // html2canvas 설정 개선 - 파일 크기 최적화
       const canvas = await html2canvas(elementToCapture, {
-        scale: 2, // 적절한 해상도를 위해 2로 설정
+        scale: 1.5, // 파일 크기를 줄이기 위해 scale 감소
         backgroundColor: '#000000', // 투명 대신 검은색 배경
         useCORS: true,
         allowTaint: true,
@@ -301,7 +301,7 @@ Discover your art personality too!`;
       });
       
       const blob = await new Promise<Blob>((resolve) => {
-        canvas.toBlob((blob) => resolve(blob!), 'image/png');
+        canvas.toBlob((blob) => resolve(blob!), 'image/jpeg', 0.85);
       });
 
       // 먼저 텍스트를 클립보드에 복사
@@ -319,7 +319,7 @@ Discover your art personality too!`;
       if (isMobile) {
         // Web Share API 시도
         if (navigator.share && navigator.canShare) {
-          const file = new File([blob], `sayu-${personalityType}-${shareFormat}.png`, { type: 'image/png' });
+          const file = new File([blob], `sayu-${personalityType}-${shareFormat}.jpg`, { type: 'image/jpeg' });
           
           if (navigator.canShare({ files: [file] })) {
             try {
@@ -356,7 +356,7 @@ Discover your art personality too!`;
         }
         
         // Web Share API를 사용할 수 없는 경우 - 이미지 저장 후 인스타그램 앱 열기 시도
-        const dataUrl = canvas.toDataURL('image/png');
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
         
         // iOS Safari 대응
         if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
@@ -441,7 +441,7 @@ Discover your art personality too!`;
         
       } else {
         // 데스크톱에서 처리
-        const url = canvas.toDataURL('image/png');
+        const url = canvas.toDataURL('image/jpeg', 0.85);
         const a = document.createElement('a');
         a.href = url;
         a.download = `sayu-${personalityType}-instagram-${shareFormat}.png`;
@@ -904,8 +904,8 @@ Discover your art personality too!`;
                 <>
                   {/* Story format - 세로 레이아웃 */}
                   <div className="flex flex-col items-center text-center">
-                    {/* 동물 캐릭터 - 크게 */}
-                    <div className="mb-12 scale-[7]">
+                    {/* 동물 캐릭터 - 적절한 크기와 간격 */}
+                    <div className="mb-6 scale-[5] mt-12">
                       <PersonalityIconFixed
                         type={personalityType}
                         size="small"
@@ -913,48 +913,50 @@ Discover your art personality too!`;
                       />
                     </div>
                     
-                    {/* LRMC - 크고 굵게 */}
-                    <div className="font-black text-[140px] leading-none mb-8" style={{ 
+                    {/* LRMC - 적절한 크기 */}
+                    <div className="font-black text-[100px] leading-none mb-4 mt-8" style={{ 
                       textShadow: '4px 4px 10px rgba(0,0,0,0.9)',
-                      letterSpacing: '12px'
+                      letterSpacing: '8px'
                     }}>
                       {personalityType}
                     </div>
                     
                     {/* 체계적 연구자 */}
-                    <div className="font-bold text-7xl mb-8" style={{ 
+                    <div className="font-bold text-6xl mb-6" style={{ 
                       textShadow: '3px 3px 8px rgba(0,0,0,0.8)' 
                     }}>
                       {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
                     </div>
                     
-                    {/* 부제목 */}
-                    <div className="italic text-4xl leading-relaxed px-16 mb-20 opacity-90" style={{ 
-                      textShadow: '2px 2px 6px rgba(0,0,0,0.8)' 
+                    {/* 부제목 - 한 줄로 표시 */}
+                    <div className="italic text-3xl leading-tight px-12 mb-16 opacity-90 whitespace-nowrap" style={{ 
+                      textShadow: '2px 2px 6px rgba(0,0,0,0.8)',
+                      maxWidth: '90%',
+                      fontSize: 'clamp(1.5rem, 3vw, 3rem)'
                     }}>
                       "{language === 'ko' ? (personality?.subtitle_ko || personality?.subtitle || '') : (personality?.subtitle || '')}"
                     </div>
                   </div>
                   
                   {/* 중간 섹션 - 추천 전시와 함께 갈 유형 */}
-                  <div className="flex-1 flex flex-col justify-center space-y-12">
-                    {/* 추천 전시 */}
-                    <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-10">
-                      <div className="text-5xl mb-4">✨ {language === 'ko' ? '추천 전시' : 'Recommended'}</div>
-                      <div className="text-4xl font-medium">{exhibitionRec}</div>
+                  <div className="flex-1 flex flex-col justify-center items-center space-y-8">
+                    {/* 추천 전시 - 가운데 정렬 */}
+                    <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-8 w-full max-w-4xl text-center">
+                      <div className="text-4xl mb-3">✨ {language === 'ko' ? '추천 전시' : 'Recommended'}</div>
+                      <div className="text-3xl font-medium">{exhibitionRec}</div>
                       {exhibitionMuseum && (
-                        <div className="text-3xl opacity-80 mt-2">{exhibitionMuseum}</div>
+                        <div className="text-2xl opacity-80 mt-2">{exhibitionMuseum}</div>
                       )}
                     </div>
                     
                     {/* 함께 가면 좋은 유형 */}
-                    <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-10">
-                      <div className="text-5xl mb-8">🤝 {language === 'ko' ? '함께 가면 좋은 유형' : 'Good Matches'}</div>
-                      <div className="flex justify-center gap-12">
+                    <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-8 w-full max-w-4xl text-center">
+                      <div className="text-4xl mb-6">🤝 {language === 'ko' ? '함께 가면 좋은 유형' : 'Good Matches'}</div>
+                      <div className="flex justify-center gap-10">
                         {goodMatches.map((match, idx) => (
                           <div key={idx} className="text-center">
-                            <div className="text-7xl mb-3">{match.emoji}</div>
-                            <div className="text-3xl">
+                            <div className="text-6xl mb-2">{match.emoji}</div>
+                            <div className="text-2xl">
                               {language === 'ko' ? match.name_ko : match.name}
                             </div>
                           </div>
@@ -963,22 +965,23 @@ Discover your art personality too!`;
                     </div>
                   </div>
                   
-                  {/* 하단 섹션 */}
-                  <div className="text-center space-y-6">
-                    <div className="text-3xl italic opacity-60">
+                  {/* 하단 섹션 - 위치와 크기 조정 */}
+                  <div className="text-center space-y-4 pb-12">
+                    <div className="text-2xl italic opacity-60 mb-6">
                       {language === 'ko' 
                         ? `${masterpiece.title_ko} - ${masterpiece.artist_ko}`
                         : `${masterpiece.title} - ${masterpiece.artist}`
                       }
                     </div>
-                    <div className="text-6xl font-bold" style={{ 
+                    <div className="text-5xl font-bold" style={{ 
                       textShadow: '3px 3px 8px rgba(0,0,0,0.9)' 
                     }}>
                       {language === 'ko' ? '나만의 예술 성격 발견하기' : 'Discover Your Art Personality'}
                     </div>
-                    <div className="text-5xl" style={{ 
+                    <div className="text-4xl mt-3" style={{ 
                       fontFamily: 'var(--font-cormorant), Georgia, serif',
-                      letterSpacing: '0.3em'
+                      letterSpacing: '0.3em',
+                      fontWeight: 300
                     }}>
                       SAYU.MY
                     </div>
