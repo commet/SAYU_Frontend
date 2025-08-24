@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai'
 import { createClient } from '@/lib/supabase/server'
 import { promptEngine } from '@/lib/advanced-prompt-engine'
 import type { PageContextV2 } from '@/lib/apt-interpreter'
 import { chatbotRateLimiter } from '@/lib/rate-limiter'
-import Groq from 'groq-sdk'
+import { generateWithFreeLLM } from '@/lib/free-llm-client'
 
 // APT 유형별 전시 선호도 매칭 로직
 const APT_EXHIBITION_PREFERENCES: Record<string, string[]> = {
@@ -58,111 +57,7 @@ const APT_PERSONALITIES: Record<string, any> = {
   'TRMC': { name: '독수리', tone: '통찰력 있고 목표지향적인' }
 }
 
-// Groq를 사용한 응답 생성 (메인)
-async function generateWithGroq(
-  message: string,
-  userType: string,
-  context: any,
-  conversationHistory: any[]
-): Promise<string | null> {
-  const groqKey = process.env.GROQ_API_KEY
-  
-  if (!groqKey) {
-    console.log('Groq API key not found')
-    return null
-  }
-  
-  try {
-    const groq = new Groq({ apiKey: groqKey })
-    const personality = APT_PERSONALITIES[userType] || APT_PERSONALITIES['LAEF']
-    
-    const systemPrompt = `당신은 SAYU 플랫폼의 ${userType} 유형 AI 큐레이터 "${personality.name}"입니다.
-${personality.tone} 톤으로 대화하며, 사용자의 예술적 취향과 성격을 이해하고 맞춤형 예술 경험을 제공합니다.
-
-현재 상황:
-- 페이지: ${context.page}
-- 사용자 상태: ${context.userBehavior?.currentMood || 'exploring'}
-- 참여도: ${context.userBehavior?.engagementLevel || 'new'}
-
-응답 지침:
-1. 최대 2-3문장으로 간결하게
-2. ${userType} 유형의 특성에 맞는 톤 유지
-3. 구체적이고 실용적인 정보 제공
-4. 친근하고 공감적인 대화`
-
-    const messages = [
-      { role: 'system' as const, content: systemPrompt },
-      ...conversationHistory.slice(-5).map(msg => ({
-        role: msg.role === 'user' ? 'user' as const : 'assistant' as const,
-        content: msg.content
-      })),
-      { role: 'user' as const, content: message }
-    ]
-    
-    const completion = await groq.chat.completions.create({
-      messages,
-      model: 'llama3-8b-8192', // 무료 고속 모델
-      temperature: 0.7,
-      max_tokens: 400,
-      top_p: 1,
-      stream: false
-    })
-    
-    return completion.choices[0]?.message?.content || null
-    
-  } catch (error) {
-    console.error('Groq API error:', error)
-    return null
-  }
-}
-
-// Gemini를 사용한 응답 생성 (폴백)
-async function generateWithGemini(
-  message: string,
-  userType: string,
-  context: any,
-  conversationHistory: any[]
-): Promise<string | null> {
-  const apiKey = process.env.GOOGLE_AI_API_KEY
-  
-  if (!apiKey) {
-    console.log('Gemini API key not found')
-    return null
-  }
-  
-  try {
-    const genAI = new GoogleGenerativeAI(apiKey)
-    const model = genAI.getGenerativeModel({ 
-      model: 'gemini-1.5-flash-8b',
-      safetySettings: [
-        { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
-        { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
-        { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
-        { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE }
-      ]
-    })
-    
-    const personality = APT_PERSONALITIES[userType] || APT_PERSONALITIES['LAEF']
-    const systemPrompt = `당신은 ${personality.name}입니다. ${personality.tone} 톤으로 대화하세요. 최대 2-3문장으로 답하세요.`
-    
-    const chat = model.startChat({
-      history: [
-        { role: 'user', parts: [{ text: systemPrompt }] },
-        ...conversationHistory.slice(-5).map(msg => ({
-          role: msg.role === 'user' ? 'user' : 'model',
-          parts: [{ text: msg.content }]
-        }))
-      ]
-    })
-    
-    const result = await chat.sendMessage(message)
-    return result.response.text()
-    
-  } catch (error) {
-    console.error('Gemini API error:', error)
-    return null
-  }
-}
+// 모든 개별 LLM 함수 제거 - free-llm-client.ts로 통합
 
 // Supabase에서 실시간 전시 데이터 가져오기
 async function fetchCurrentExhibitions() {
@@ -240,33 +135,36 @@ export async function POST(request: NextRequest) {
       }
     }
     
-    let response: string | null = null
-    let usedProvider = 'none'
+    // 무료 LLM 통합 클라이언트 사용
+    console.log('🌐 Using free LLM client...')
+    const { response, provider: usedProvider } = await generateWithFreeLLM(
+      message,
+      userType,
+      pageContext,
+      conversationHistory
+    )
     
-    // 1. 먼저 Groq 시도 (무료, 빠름)
-    console.log('🟢 Trying Groq...')
-    response = await generateWithGroq(message, userType, pageContext, conversationHistory)
-    
-    if (response) {
-      usedProvider = 'groq'
-      console.log('✅ Groq succeeded')
-    } else {
-      // 2. Groq 실패시 Gemini 폴백
-      console.log('🟡 Falling back to Gemini...')
-      response = await generateWithGemini(message, userType, pageContext, conversationHistory)
-      
-      if (response) {
-        usedProvider = 'gemini'
-        console.log('✅ Gemini succeeded')
-      }
-    }
-    
-    // 3. 모든 API 실패시 기본 응답
     if (!response) {
-      console.log('❌ All APIs failed, using fallback')
+      // 모든 무료 API 실패시 기본 응답
+      console.log('❌ All free APIs failed')
       const personality = APT_PERSONALITIES[userType]
-      response = `안녕하세요! 저는 ${personality.name}입니다. 잠시 연결이 불안정하네요. 다시 한 번 말씀해주시겠어요?`
-      usedProvider = 'fallback'
+      const fallbackResponse = `안녕하세요! 저는 ${personality.name}입니다. 잠시 연결이 불안정하네요. 다시 한 번 말씀해주시겠어요?`
+      
+      return NextResponse.json({
+        success: true,
+        data: {
+          response: fallbackResponse,
+          sessionId: `${userId}-${page}-${Date.now()}`,
+          suggestions: generateDynamicSuggestions(pageContext, userType, artwork),
+          personality: APT_PERSONALITIES[userType]?.name || '큐레이터',
+          contextAnalysis: {
+            engagementLevel: pageContext.userBehavior.engagementLevel,
+            currentMood: pageContext.userBehavior.currentMood,
+            provider: 'fallback'
+          },
+          timestamp: new Date().toISOString()
+        }
+      })
     }
     
     // 응답 길이 제한
