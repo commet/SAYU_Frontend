@@ -8,81 +8,71 @@ export interface KakaoUser {
   };
 }
 
-export const getKakaoAuthUrl = () => {
-  const kakaoClientId = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
-  
-  // 환경에 따른 redirect URI 설정
-  const isProduction = process.env.NODE_ENV === 'production';
-  const baseUrl = isProduction 
-    ? process.env.NEXT_PUBLIC_APP_URL || 'https://www.sayu.my' 
-    : 'http://localhost:3000';
-  
-  const redirectUri = `${baseUrl}/auth/kakao/callback`;
-  
-  if (!kakaoClientId) {
-    throw new Error('Kakao Client ID not found');
+export const getKakaoAuthUrl = async (): Promise<string> => {
+  // 보안상 서버사이드에서 URL 생성
+  try {
+    const response = await fetch('/api/auth/kakao/auth-url', {
+      method: 'GET',
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to get Kakao auth URL');
+    }
+    
+    const data = await response.json();
+    return data.authUrl;
+  } catch (error) {
+    console.error('Error getting Kakao auth URL:', error);
+    throw error;
   }
-
-  const params = new URLSearchParams({
-    client_id: kakaoClientId,
-    redirect_uri: redirectUri,
-    response_type: 'code',
-    scope: 'profile_nickname,profile_image', // Only request nickname and image, NO EMAIL
-  });
-
-  return `https://kauth.kakao.com/oauth/authorize?${params.toString()}`;
 };
 
 export const exchangeKakaoCode = async (code: string): Promise<string> => {
-  const kakaoClientId = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
-  const kakaoClientSecret = process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET;
-  
-  // 환경에 따른 redirect URI 설정 (getKakaoAuthUrl과 동일하게)
-  const isProduction = process.env.NODE_ENV === 'production';
-  const baseUrl = isProduction 
-    ? process.env.NEXT_PUBLIC_APP_URL || 'https://www.sayu.my' 
-    : 'http://localhost:3000';
-  
-  const redirectUri = `${baseUrl}/auth/kakao/callback`;
-
-  if (!kakaoClientId) {
-    throw new Error('Kakao Client ID not found');
+  // 보안상 서버사이드에서 토큰 교환
+  try {
+    const response = await fetch('/api/auth/kakao/exchange-token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ code })
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(`Failed to exchange Kakao code: ${errorData.error || response.statusText}`);
+    }
+    
+    const data = await response.json();
+    return data.accessToken;
+  } catch (error) {
+    console.error('Error exchanging Kakao code:', error);
+    throw error;
   }
-
-  const tokenResponse = await fetch('https://kauth.kakao.com/oauth/token', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({
-      grant_type: 'authorization_code',
-      client_id: kakaoClientId,
-      client_secret: kakaoClientSecret || '',
-      redirect_uri: redirectUri,
-      code: code,
-    }),
-  });
-
-  if (!tokenResponse.ok) {
-    throw new Error('Failed to exchange Kakao code for token');
-  }
-
-  const tokenData = await tokenResponse.json();
-  return tokenData.access_token;
 };
 
 export const getKakaoUser = async (accessToken: string): Promise<KakaoUser> => {
-  const userResponse = await fetch('https://kapi.kakao.com/v2/user/me', {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  if (!userResponse.ok) {
-    throw new Error('Failed to get Kakao user info');
+  // 보안상 서버사이드에서 사용자 정보 조회
+  try {
+    const response = await fetch('/api/auth/kakao/user-info', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ accessToken })
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(`Failed to get Kakao user info: ${errorData.error || response.statusText}`);
+    }
+    
+    const data = await response.json();
+    return data.user;
+  } catch (error) {
+    console.error('Error getting Kakao user info:', error);
+    throw error;
   }
-
-  return await userResponse.json();
 };
 
 // Generate virtual email from Kakao user ID
@@ -92,6 +82,11 @@ export const generateVirtualEmail = (kakaoUserId: number): string => {
 
 // Custom Kakao login function
 export const signInWithKakaoCustom = async () => {
-  const authUrl = getKakaoAuthUrl();
-  window.location.href = authUrl;
+  try {
+    const authUrl = await getKakaoAuthUrl();
+    window.location.href = authUrl;
+  } catch (error) {
+    console.error('Error initiating Kakao login:', error);
+    throw error;
+  }
 };

@@ -150,72 +150,71 @@ export async function generateAIArt(
   styleId: string,
   onProgress?: (progress: number) => void
 ): Promise<string> {
-  const apiKey = process.env.NEXT_PUBLIC_HUGGINGFACE_API_KEY;
-  
-  if (!apiKey || apiKey === 'hf_temporary_demo_key_replace_with_real_key') {
-    // API 키가 없으면 fallback으로 Canvas 효과 사용
+  // 보안상 클라이언트에서 직접 API 키를 사용하지 않고 API Route 사용
+  try {
+    return await generateViaAPIRoute(imageFile, styleId, onProgress);
+  } catch (error) {
+    console.warn('API Route failed, using fallback:', error);
+    // API Route 실패 시 fallback으로 Canvas 효과 사용
     return await fallbackCanvasEffect(imageFile, styleId, onProgress);
   }
 
+}
+
+// API Route를 통한 안전한 생성
+async function generateViaAPIRoute(
+  imageFile: File,
+  styleId: string,
+  onProgress?: (progress: number) => void
+): Promise<string> {
   const style = AI_ART_STYLES[styleId];
   if (!style) {
     throw new Error(`Unknown style: ${styleId}`);
   }
 
   try {
-    // 프로그레스 시작
     onProgress?.(10);
 
-    // 이미지를 적절한 크기로 리사이즈
-    const resizedImage = await resizeImage(imageFile, 512, 512);
+    // 이미지를 Base64로 변환
+    const base64Image = await imageToBase64(imageFile);
     onProgress?.(20);
 
-    // Hugging Face Inference API 호출
-    const response = await fetch(
-      `https://api-inference.huggingface.co/models/${style.model}`,
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          inputs: {
-            prompt: style.prompt,
-            negative_prompt: style.negativePrompt || '',
-            image: await imageToBase64(resizedImage),
-            ...style.params
-          },
-          options: {
-            wait_for_model: true,
-            use_cache: false
-          }
-        })
-      }
-    );
+    // API Route 호출 (서버사이드에서 API 키 사용)
+    const response = await fetch('/api/huggingface/generate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        base64Image,
+        styleId,
+        model: style.model,
+        prompt: style.prompt,
+        negativePrompt: style.negativePrompt || '',
+        params: style.params
+      })
+    });
 
     onProgress?.(70);
 
     if (!response.ok) {
-      throw new Error(`API Error: ${response.status} ${response.statusText}`);
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(`API Route Error: ${response.status} - ${errorData.error || response.statusText}`);
     }
 
-    // 결과를 Blob으로 받기
-    const blob = await response.blob();
+    const data = await response.json();
     onProgress?.(90);
 
-    // Blob을 Data URL로 변환
-    const dataUrl = await blobToDataURL(blob);
-    onProgress?.(100);
-
-    return dataUrl;
+    if (data.success && data.dataUrl) {
+      onProgress?.(100);
+      return data.dataUrl;
+    } else {
+      throw new Error('Invalid response from API Route');
+    }
 
   } catch (error) {
-    console.error('Hugging Face API Error:', error);
-    
-    // API 실패 시 fallback으로 Canvas 효과 사용
-    console.log('Falling back to Canvas effect...');
-    return await fallbackCanvasEffect(imageFile, styleId, onProgress);
+    console.error('API Route Error:', error);
+    throw error;
   }
 }
 

@@ -1,18 +1,11 @@
 // Groq API Client - 무료 고속 LLM
 import Groq from 'groq-sdk';
 
-// Groq 클라이언트 초기화
+// Groq는 이제 API Route를 통해서만 사용 (보안상)
 export function createGroqClient() {
-  const apiKey = process.env.GROQ_API_KEY;
-  
-  if (!apiKey) {
-    console.warn('GROQ_API_KEY not configured');
-    return null;
-  }
-  
-  return new Groq({
-    apiKey: apiKey
-  });
+  // 클라이언트에서는 직접 생성하지 않음
+  console.warn('Groq client should be used via API Routes only');
+  return null;
 }
 
 // APT 유형별 시스템 프롬프트 생성
@@ -32,50 +25,38 @@ export function createSystemPrompt(userType: string, context: any): string {
 4. 사용자의 감정과 선호도를 고려하세요`;
 }
 
-// Groq로 응답 생성
+// API Route를 통한 안전한 Groq 응답 생성
 export async function generateGroqResponse(
   message: string,
   userType: string,
   context: any,
   conversationHistory: any[] = []
 ): Promise<string> {
-  const groq = createGroqClient();
-  
-  if (!groq) {
-    // Fallback 응답
-    return getFallbackResponse(userType);
-  }
-  
   try {
-    const messages = [
-      {
-        role: 'system',
-        content: createSystemPrompt(userType, context)
+    const response = await fetch('/api/groq/generate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-      // 최근 대화 히스토리 (최대 5개)
-      ...conversationHistory.slice(-5).map(msg => ({
-        role: msg.role === 'user' ? 'user' : 'assistant',
-        content: msg.content
-      })),
-      {
-        role: 'user',
-        content: message
-      }
-    ];
-    
-    const completion = await groq.chat.completions.create({
-      messages: messages as any,
-      model: 'llama3-8b-8192', // 빠르고 무료인 Llama 3 8B 모델
-      temperature: 0.7,
-      max_tokens: 500, // 토큰 제한
-      top_p: 1,
-      stream: false
+      body: JSON.stringify({
+        message,
+        userType,
+        context,
+        conversationHistory: conversationHistory.slice(-5) // 최근 5개만
+      })
     });
     
-    return completion.choices[0]?.message?.content || getFallbackResponse(userType);
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error('Groq API Route error:', errorData);
+      return getFallbackResponse(userType);
+    }
+    
+    const data = await response.json();
+    return data.success ? data.response : getFallbackResponse(userType);
     
   } catch (error) {
-    console.error('Groq API error:', error);
+    console.error('Groq API Route request error:', error);
     return getFallbackResponse(userType);
   }
 }
@@ -93,41 +74,39 @@ function getFallbackResponse(userType: string): string {
   return fallbacks[userType] || fallbacks.default;
 }
 
-// 전시 추천용 특화 프롬프트
+// API Route를 통한 전시 추천
 export async function generateExhibitionRecommendation(
   userType: string,
   exhibitions: any[],
   preferences: string
 ): Promise<string> {
-  const groq = createGroqClient();
-  
-  if (!groq || exhibitions.length === 0) {
+  if (exhibitions.length === 0) {
     return "현재 추천할 전시가 없습니다.";
   }
   
-  const prompt = `다음 전시 목록에서 ${userType} 성격 유형과 "${preferences}" 선호도에 맞는 전시 3개를 추천해주세요:
-
-전시 목록:
-${exhibitions.slice(0, 10).map(ex => 
-  `- ${ex.title_local} (${ex.venue_name}, ${ex.tags || ''})`
-).join('\n')}
-
-간단한 추천 이유와 함께 3개만 선택해서 알려주세요.`;
-  
   try {
-    const completion = await groq.chat.completions.create({
-      messages: [
-        { role: 'system', content: '당신은 예술 전시 큐레이터입니다.' },
-        { role: 'user', content: prompt }
-      ],
-      model: 'mixtral-8x7b-32768', // 더 큰 컨텍스트가 필요한 경우
-      temperature: 0.6,
-      max_tokens: 300
+    const response = await fetch('/api/groq/exhibition-recommendation', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userType,
+        exhibitions: exhibitions.slice(0, 10), // 처리 가능한 범위로 제한
+        preferences
+      })
     });
     
-    return completion.choices[0]?.message?.content || "추천을 생성할 수 없습니다.";
+    if (!response.ok) {
+      console.error('Exhibition recommendation API error:', response.status);
+      return "전시 추천을 생성하는 중 문제가 발생했습니다.";
+    }
+    
+    const data = await response.json();
+    return data.success ? data.recommendation : "추천을 생성할 수 없습니다.";
+    
   } catch (error) {
-    console.error('Exhibition recommendation error:', error);
+    console.error('Exhibition recommendation request error:', error);
     return "전시 추천을 생성하는 중 문제가 발생했습니다.";
   }
 }

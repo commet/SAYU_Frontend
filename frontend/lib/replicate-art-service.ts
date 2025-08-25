@@ -89,12 +89,9 @@ export class ReplicateArtService {
   private replicate: Replicate | null = null;
 
   constructor() {
-    const apiToken = process.env.REPLICATE_API_TOKEN;
-    if (apiToken && apiToken !== 'r8_YOUR_TOKEN_HERE') {
-      this.replicate = new Replicate({
-        auth: apiToken,
-      });
-    }
+    // 클라이언트에서는 더 이상 직접 API 키를 사용하지 않음
+    // 대신 API Route를 통해 서버사이드에서 처리
+    this.replicate = null;
   }
 
   async generateArt(
@@ -102,74 +99,53 @@ export class ReplicateArtService {
     styleId: string,
     onProgress?: (progress: number) => void
   ): Promise<string> {
-    if (!this.replicate) {
-      throw new Error('Replicate API token not configured. Please add REPLICATE_API_TOKEN to your .env.local file');
-    }
+    // API Route를 통한 안전한 처리
+    return this.generateViaAPIRoute(imageFile, styleId, onProgress);
+  }
 
-    const styleConfig = STYLE_CONFIGS[styleId as keyof typeof STYLE_CONFIGS] || STYLE_CONFIGS['anime-style'];
-    
+  private async generateViaAPIRoute(
+    imageFile: File,
+    styleId: string,
+    onProgress?: (progress: number) => void
+  ): Promise<string> {
+
     try {
       onProgress?.(10);
 
-      // Convert image to data URL
-      const imageDataUrl = await this.fileToDataUrl(imageFile);
-      
+      // Convert image to base64
+      const base64Image = await this.fileToDataUrl(imageFile);
       onProgress?.(20);
 
-      // Prepare input for Replicate
-      const input: any = {
-        image: imageDataUrl,
-        prompt: `${styleConfig.prompt}, masterpiece, best quality, highly detailed`,
-        negative_prompt: 'lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality',
-        num_inference_steps: 30,
-        guidance_scale: styleConfig.guidance_scale,
-        prompt_strength: styleConfig.strength,
-        num_outputs: 1,
-      };
+      // API Route 호출
+      const response = await fetch('/api/replicate/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          base64Image,
+          styleId
+        })
+      });
 
-      // Special handling for SDXL model
-      if (styleConfig.model.includes('sdxl')) {
-        input.refine = 'expert_ensemble_refiner';
-        input.scheduler = 'K_EULER';
-        input.refine_steps = 10;
+      onProgress?.(50);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(`API Route error: ${response.status} - ${errorData.error || response.statusText}`);
       }
 
-      onProgress?.(30);
+      const data = await response.json();
+      onProgress?.(90);
 
-      console.log('Starting Replicate prediction with model:', styleConfig.model);
-      
-      // Run the model
-      const output = await this.replicate.run(styleConfig.model, { input });
-      
-      onProgress?.(80);
-
-      // Handle output - it can be a string URL or array of URLs
-      let resultUrl: string;
-      if (Array.isArray(output)) {
-        resultUrl = output[0] as string;
+      if (data.success && data.dataUrl) {
+        onProgress?.(100);
+        return data.dataUrl;
       } else {
-        resultUrl = output as string;
+        throw new Error('Invalid response from Replicate API Route');
       }
-
-      // If it's already a URL, fetch and convert to data URL
-      if (resultUrl.startsWith('http')) {
-        const response = await fetch(resultUrl);
-        const blob = await response.blob();
-        resultUrl = await this.blobToDataUrl(blob);
-      }
-
-      onProgress?.(100);
-      
-      return resultUrl;
     } catch (error) {
-      console.error('Replicate error:', error);
-      
-      // Fallback to simpler model if main model fails
-      if (styleId !== 'anime-style') {
-        console.log('Falling back to anime style model...');
-        return this.generateArtWithFallback(imageFile, styleId, onProgress);
-      }
-      
+      console.error('Replicate API Route error:', error);
       throw error;
     }
   }

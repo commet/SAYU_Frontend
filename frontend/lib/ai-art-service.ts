@@ -147,16 +147,13 @@ export class AIArtService {
     return '';
   }
 
-  // Stability AI (Stable Diffusion) - High Quality
+  // [DEPRECATED] Stability AI - 보안상 사용 안함
   private async generateWithStabilityAI(
     imageFile: File,
     styleId: string,
     onProgress?: (progress: number) => void
   ): Promise<string> {
-    const apiKey = process.env.NEXT_PUBLIC_STABILITY_API_KEY;
-    if (!apiKey) {
-      throw new Error('Stability AI API key not configured');
-    }
+    throw new Error('Stability AI direct access deprecated for security. Use API Route instead.');
 
     onProgress?.(10);
     
@@ -205,16 +202,13 @@ export class AIArtService {
     return dataUrl;
   }
 
-  // Hugging Face with better error handling
+  // [DEPRECATED] Hugging Face - 보안상 사용 안함
   private async generateWithHuggingFace(
     imageFile: File,
     styleId: string,
     onProgress?: (progress: number) => void
   ): Promise<string> {
-    const apiKey = process.env.NEXT_PUBLIC_HUGGINGFACE_API_KEY;
-    if (!apiKey) {
-      throw new Error('Hugging Face API key not configured');
-    }
+    throw new Error('HuggingFace direct access deprecated for security. Use API Route instead.');
 
     onProgress?.(10);
     
@@ -334,16 +328,13 @@ export class AIArtService {
     }
   }
 
-  // [DEPRECATED] Direct Replicate AI - CORS 오류로 사용 불가
+  // [DEPRECATED] Direct Replicate AI - 보안상 사용 안함
   private async generateWithReplicateAI(
     imageFile: File,
     styleId: string,
     onProgress?: (progress: number) => void
   ): Promise<string> {
-    const apiKey = process.env.NEXT_PUBLIC_REPLICATE_API_KEY;
-    if (!apiKey) {
-      throw new Error('Replicate API key not configured');
-    }
+    throw new Error('Replicate direct access deprecated for security. Use API Route instead.');
 
     console.log('Replicate: Processing with style:', styleId);
     onProgress?.(10);
