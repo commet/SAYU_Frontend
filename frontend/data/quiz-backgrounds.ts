@@ -20,7 +20,7 @@ export const questionBackgrounds: Record<number, string> = {
   6: '/images/backgrounds/dual-viewing-portraits-synchronized-black.jpg',  // Q6
   7: '/images/backgrounds/modern-gallery-purple-infinity-child.jpg',  // Q7
   8: '/images/backgrounds/neon-corridor-gradient-light-installation.jpg',  // Q8
-  9: '/images/backgrounds/romantic-painting-summer-dress-viewer.jpg',  // Q9
+  9: '/images/backgrounds/back-view-landscape-painting-minimal.jpg',  // Q9
   10: '/images/backgrounds/classical-gallery-floor-sitting-contemplation.jpg',  // Q10
   11: '/images/backgrounds/bright-cafe-paper-lanterns-social-space.jpg',  // Q11 - 카페/샵
   12: '/images/backgrounds/grand-baroque-hall-crowded-tourists.jpg',  // Q12
@@ -63,7 +63,7 @@ export const backgroundProgression: Record<string, BackgroundPhase> = {
     questions: [8, 9, 10],
     backgrounds: [
       '/images/backgrounds/neon-corridor-gradient-light-installation.jpg',
-      '/images/backgrounds/romantic-painting-summer-dress-viewer.jpg',
+      '/images/backgrounds/back-view-landscape-painting-minimal.jpg',
       '/images/backgrounds/classical-gallery-floor-sitting-contemplation.jpg'
     ],
     ambiance: 'revelation',
