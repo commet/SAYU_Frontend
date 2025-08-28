@@ -10,12 +10,30 @@ export interface BackgroundPhase {
   };
 }
 
+// Direct question-to-background mapping (1:1 exact matching)
+export const questionBackgrounds: Record<number, string> = {
+  1: '/images/backgrounds/modern-museum-entrance-stairs-crowded.jpg',  // Q1 - 입구
+  2: '/images/backgrounds/stone-gallery-entrance-solitary-figure.jpg',  // Q2
+  3: '/images/backgrounds/minimal-white-gallery-photography-bright.jpg',  // Q3
+  4: '/images/backgrounds/warm-gallery-abstract-art-casual-viewing.jpg',  // Q4
+  5: '/images/backgrounds/modern-staircase-natural-light-transition.jpg',  // Q5
+  6: '/images/backgrounds/dual-viewing-portraits-synchronized-black.jpg',  // Q6
+  7: '/images/backgrounds/modern-gallery-purple-infinity-child.jpg',  // Q7
+  8: '/images/backgrounds/neon-corridor-gradient-light-installation.jpg',  // Q8
+  9: '/images/backgrounds/romantic-painting-summer-dress-viewer.jpg',  // Q9
+  10: '/images/backgrounds/classical-gallery-floor-sitting-contemplation.jpg',  // Q10
+  11: '/images/backgrounds/bright-cafe-paper-lanterns-social-space.jpg',  // Q11 - 카페/샵
+  12: '/images/backgrounds/grand-baroque-hall-crowded-tourists.jpg',  // Q12
+  13: '/images/backgrounds/home-studio-abstract-art-warm-vintage.jpg',  // Q13 - 개인공간
+  14: '/images/backgrounds/circular-atrium-overhead-view-busy.jpg',  // Q14
+  15: '/images/backgrounds/baroque-gallery-ornate-arches-historical.jpg'  // Q15
+};
+
 export const backgroundProgression: Record<string, BackgroundPhase> = {
   phase1_outside: {
     questions: [1, 2],
     backgrounds: [
-      '/images/backgrounds/museum-entrance-columns-warm-afternoon.jpg',
-      '/images/backgrounds/dual-viewing-portraits-synchronized-black.jpg',
+      '/images/backgrounds/modern-museum-entrance-stairs-crowded.jpg',
       '/images/backgrounds/stone-gallery-entrance-solitary-figure.jpg'
     ],
     ambiance: 'anticipation',
@@ -29,10 +47,10 @@ export const backgroundProgression: Record<string, BackgroundPhase> = {
     questions: [3, 4, 5, 6, 7],
     backgrounds: [
       '/images/backgrounds/minimal-white-gallery-photography-bright.jpg',
-      '/images/backgrounds/dark-gallery-diverse-artworks-contemplative.jpg',
-      '/images/backgrounds/warm-corner-gallery-solitary-contemplation.jpg',
-      '/images/backgrounds/solitary-viewing-minimal-white-meditative.jpg',
-      '/images/backgrounds/outdoor-screening-pink-plaza-community.jpg'
+      '/images/backgrounds/warm-gallery-abstract-art-casual-viewing.jpg',
+      '/images/backgrounds/modern-staircase-natural-light-transition.jpg',
+      '/images/backgrounds/dual-viewing-portraits-synchronized-black.jpg',
+      '/images/backgrounds/modern-gallery-purple-infinity-child.jpg'
     ],
     ambiance: 'exploration',
     overlay: {
@@ -44,10 +62,9 @@ export const backgroundProgression: Record<string, BackgroundPhase> = {
   phase3_deeper: {
     questions: [8, 9, 10],
     backgrounds: [
-      '/images/backgrounds/contemporary-gallery-motion-blur-minimal.jpg',
-      '/images/backgrounds/immersive-lantern-installation-dark-dreamlike.jpg',
-      '/images/backgrounds/monumental-metal-sculpture-industrial-scale.jpg',
-      '/images/backgrounds/neon-corridor-gradient-light-installation.jpg'
+      '/images/backgrounds/neon-corridor-gradient-light-installation.jpg',
+      '/images/backgrounds/romantic-painting-summer-dress-viewer.jpg',
+      '/images/backgrounds/classical-gallery-floor-sitting-contemplation.jpg'
     ],
     ambiance: 'revelation',
     overlay: {
@@ -59,9 +76,8 @@ export const backgroundProgression: Record<string, BackgroundPhase> = {
   phase4_shop: {
     questions: [11, 12],
     backgrounds: [
-      '/images/backgrounds/green-wall-photography-interactive-viewing.jpg',
-      '/images/backgrounds/yellow-gallery-mixed-media-playful.jpg',
-      '/images/backgrounds/hidden-kiosk-ivy-wall-secret-spot.jpg'
+      '/images/backgrounds/bright-cafe-paper-lanterns-social-space.jpg',
+      '/images/backgrounds/grand-baroque-hall-crowded-tourists.jpg'
     ],
     ambiance: 'selection',
     overlay: {
@@ -74,8 +90,8 @@ export const backgroundProgression: Record<string, BackgroundPhase> = {
     questions: [13, 14, 15],
     backgrounds: [
       '/images/backgrounds/home-studio-abstract-art-warm-vintage.jpg',
-      '/images/backgrounds/midcentury-modern-living-green-cozy.jpg',
-      '/images/backgrounds/home-stairway-family-photos-guitar-warm.jpg'
+      '/images/backgrounds/circular-atrium-overhead-view-busy.jpg',
+      '/images/backgrounds/baroque-gallery-ornate-arches-historical.jpg'
     ],
     ambiance: 'integration',
     overlay: {

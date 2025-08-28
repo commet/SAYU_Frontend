@@ -55,9 +55,9 @@ export default function QuizIntroPage() {
         initial={{ opacity: 0.9, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className="relative z-10 max-w-4xl mx-auto px-4 py-4"
+        className="relative z-10 max-w-4xl mx-auto px-4 py-16 md:py-24"
       >
-        <GlassCard variant="heavy" className="p-4 md:p-6">
+        <GlassCard variant="heavy" className="p-4 md:p-6 pb-8">
           {/* Language Toggle removed - now in floating nav */}
 
           <motion.div
@@ -66,62 +66,55 @@ export default function QuizIntroPage() {
             transition={{ delay: 0.3 }}
             className="text-center mb-6"
           >
-            {/* Journey compass icon */}
-            <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 mb-3">
-              <Unlock className="w-6 h-6 text-indigo-600" />
-            </div>
-            
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 leading-tight text-gray-900 dark:text-gray-900 whitespace-pre-line">
+            <h1 className="text-xl sm:text-2xl md:text-3xl mb-3 leading-tight text-gray-900 dark:text-gray-900 whitespace-pre-line font-playfair" style={{
+              fontWeight: 600,
+              letterSpacing: '0.01em'
+            }}>
               {language === 'ko' 
                 ? '당신만의 예술 여정이\n시작됩니다' 
                 : 'Your Personal Art Journey Awaits'
               }
             </h1>
-            
-            <div className="text-base text-gray-700 dark:text-gray-700 leading-relaxed max-w-2xl mx-auto">
-              {language === 'ko' ? (
-                <>
-                  <p className="mb-2 font-medium">16가지 예술 성향 분석으로<br />당신에게 꼭 맞는 전시회를 찾아드립니다</p>
-                  <p className="text-xs text-gray-600 dark:text-gray-600 font-medium italic mb-3">미술관을 거닐며 당신만의 예술 취향을 찾아가는 이야기</p>
-                </>
-              ) : (
-                <>
-                  <p className="mb-2 font-medium">Discover exhibitions perfectly matched to you through 16 art personality types</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-600 font-medium italic mb-3">A story of finding your art taste while strolling through a museum</p>
-                </>
-              )}
-            </div>
 
-            {/* Journey Details - Moved up */}
-            <GlassCard variant="light" className="mt-3 py-0 max-w-lg mx-auto">
+            {/* Journey Details - Moved up right below title */}
+            <GlassCard variant="light" className="mt-3 mb-4 py-0 max-w-lg mx-auto">
               <div className="flex items-center justify-between px-1 md:px-8 py-0.5">
                 <div className="text-center group">
-                  <div className="text-xl md:text-3xl group-hover:scale-110 transition-transform">🖼️</div>
+                  <div className="text-xl md:text-3xl group-hover:scale-110 transition-transform">🏛️</div>
                   <p className="text-[11px] md:text-sm font-medium text-gray-700">
-                    {language === 'ko' ? '15개의 순간' : '15 Moments'}
+                    {language === 'ko' ? '예술 여행' : 'Art Journey'}
                   </p>
                 </div>
                 <div className="text-center group ml-2">
-                  <div className="text-xl md:text-3xl group-hover:scale-110 transition-transform">⏱️</div>
+                  <div className="text-xl md:text-3xl group-hover:scale-110 transition-transform">🎨</div>
                   <p className="text-[11px] md:text-sm font-medium text-gray-700">
-                    {language === 'ko' ? '5-7분' : '5-7 min'}
+                    {language === 'ko' ? '예술 MBTI' : 'Art MBTI'}
                   </p>
                 </div>
                 <div className="text-center group">
-                  <div className="text-xl md:text-3xl group-hover:scale-110 transition-transform">💫</div>
+                  <div className="text-xl md:text-3xl group-hover:scale-110 transition-transform">⏱️</div>
                   <p className="text-[11px] md:text-sm font-medium text-gray-700">
-                    {language === 'ko' ? '깊은 자기 발견' : 'Deep self-discovery'}
+                    {language === 'ko' ? '5-7분 소요' : '5-7 min'}
                   </p>
                 </div>
               </div>
             </GlassCard>
+            
+            {/* Quiz description - more natural and flowing */}
+            <p className="text-sm md:text-base text-gray-700 dark:text-gray-700 mt-4 px-6 whitespace-pre-line leading-relaxed text-center">
+              {language === 'ko' 
+                ? '잠시 미술관을 산책하며\n당신의 마음이 이끄는 대로 작품들을 감상해보세요.\n그 순간의 감정이 당신의 예술 언어가 됩니다.' 
+                : 'Take a stroll through the gallery\nand let your heart guide you through the artworks.\nYour feelings will reveal your artistic language.'
+              }
+            </p>
           </motion.div>
           
+          {/* Increased spacing for section separation */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="space-y-4 mb-6"
+            className="space-y-4 mb-6 mt-12"
           >
             {/* What You'll Discover */}
             <div className="text-center">
@@ -195,7 +188,7 @@ export default function QuizIntroPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
-            className="text-center"
+            className="text-center mt-8 pt-4"
           >
             <button
               onClick={startQuiz}
@@ -204,13 +197,6 @@ export default function QuizIntroPage() {
               <Sparkles className="w-6 h-6 text-white" />
               {language === 'ko' ? '나의 예술 페르소나 알아보기' : 'Discover My Art Persona'}
             </button>
-            
-            <p className="mt-4 text-sm text-gray-600 dark:text-gray-600 whitespace-pre-line">
-              {language === 'ko' 
-                ? '정답은 없습니다.\n오직 당신의 진실한 마음만이 있을 뿐입니다.' 
-                : 'There are no right answers.\nOnly your authentic self.'
-              }
-            </p>
           </motion.div>
         </GlassCard>
       </motion.div>

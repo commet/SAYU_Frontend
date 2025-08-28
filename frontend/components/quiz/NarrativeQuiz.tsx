@@ -8,7 +8,7 @@ import {
   getPersonalizedTransition,
   encouragingFeedback,
   type NarrativeQuestion
-} from '@/data/narrative-quiz-questions';
+} from '@/data/narrative-quiz-questions-enhanced';
 import { 
   getBackgroundForQuestion, 
   getPhaseByQuestion, 
@@ -17,7 +17,7 @@ import {
 import { EmotionalButton, EmotionalToast, GalleryTransition } from '@/components/emotional/EmotionalCard';
 import { ChevronRight, Sparkles, ArrowLeft, Home } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { calculateEnhancedScore } from '@/lib/quiz-scoring-enhanced';
+import { calculateBalancedScore } from '@/lib/quiz-scoring-balanced';
 
 interface QuizResponse {
   questionId: number;
@@ -111,8 +111,8 @@ export const NarrativeQuiz: React.FC = () => {
   };
 
   const completeQuiz = (allResponses: QuizResponse[], finalScores: typeof personalityScores) => {
-    // Use enhanced scoring system for better distribution
-    const type = calculateEnhancedScore(finalScores, allResponses);
+    // Use balanced scoring system for new quiz structure
+    const type = calculateBalancedScore(finalScores);
 
     // Store results
     const quizData = {
@@ -272,7 +272,7 @@ export const NarrativeQuiz: React.FC = () => {
                         "group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                       )}
                     >
-                      <h3 className="font-body font-medium text-lg text-black mb-xs leading-tight">
+                      <h3 className="font-body text-lg text-black mb-xs leading-tight">
                         {option.text}
                       </h3>
                       {option.subtext && (

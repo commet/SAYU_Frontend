@@ -182,16 +182,21 @@ export default function JourneyHomePage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [currentArtwork, setCurrentArtwork] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   // 클라이언트 사이드 마운트 확인
   useEffect(() => {
     setMounted(true);
+    setIsClient(true);
   }, []);
   
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
+  // useScroll을 조건부로 사용
+  const { scrollYProgress } = useScroll(
+    isClient && containerRef.current ? {
+      target: containerRef,
+      offset: ["start start", "end end"]
+    } : {}
+  );
 
   // Mouse tracking
   const mouseX = useMotionValue(0);
@@ -212,172 +217,186 @@ export default function JourneyHomePage() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
-  // Transform values based on scroll - 200vh 기준으로 더 빠른 전환
-  const mazeOpacity = useTransform(scrollYProgress, [0, 0.18, 0.22], [1, 1, 0]);
-  const artworksOpacity = useTransform(scrollYProgress, [0.18, 0.25, 0.45, 0.52], [0, 1, 1, 0]);
-  const peopleOpacity = useTransform(scrollYProgress, [0.48, 0.55, 0.73, 0.8], [0, 1, 1, 0]);
-  const gardenOpacity = useTransform(scrollYProgress, [0.75, 0.82, 1], [0, 1, 1]);
+  // Transform values based on scroll - 클라이언트에서만 생성
+  const mazeOpacity = useTransform(scrollYProgress || useMotionValue(1), [0, 0.18, 0.22], [1, 1, 0]);
+  const artworksOpacity = useTransform(scrollYProgress || useMotionValue(0), [0.18, 0.25, 0.45, 0.52], [0, 1, 1, 0]);
+  const peopleOpacity = useTransform(scrollYProgress || useMotionValue(0), [0.48, 0.55, 0.73, 0.8], [0, 1, 1, 0]);
+  const gardenOpacity = useTransform(scrollYProgress || useMotionValue(0), [0.75, 0.82, 1], [0, 1, 1]);
   
-  const lightIntensity = useTransform(scrollYProgress, [0, 1], [0.2, 1]);
-  const mazeScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.15]);
+  const lightIntensity = useTransform(scrollYProgress || useMotionValue(0.2), [0, 1], [0.2, 1]);
+  const mazeScale = useTransform(scrollYProgress || useMotionValue(1), [0, 0.3], [1, 1.15]);
 
   // 클라이언트 사이드에서만 모바일 체크하고 렌더링
   if (mounted && isMobile) {
     return <MobileHomePage />;
   }
 
-  // SSR 중이거나 데스크탑일 때는 기본 페이지 렌더링
+  // SSR 중에는 기본 로딩 화면 표시
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="relative w-16 h-16 mx-auto mb-4">
+            <div className="absolute inset-0 border-4 border-purple-500/20 rounded-full" />
+            <div className="absolute inset-0 border-4 border-purple-500 rounded-full border-t-transparent animate-spin" />
+          </div>
+          <p className="text-white text-sm font-medium animate-pulse">SAYU</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop page rendering
   return (
-    <div ref={containerRef} className="relative home-page-preserve">
-        
-        {/* Scene 1: 미로 입구 */}
-        <motion.div 
-          className="relative h-screen flex items-center justify-center"
-        >
-          <div className="relative w-full h-full overflow-hidden">
-            {/* 부드러운 미로 배경 - 감성적인 어둠 */}
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-950 to-gray-900" />
-            
-            {/* 부드러운 오버레이 */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30" />
-            
-            {/* 손전등 효과 */}
-            <motion.div
-              className="absolute pointer-events-none"
-              style={{
-                width: '600px',
-                height: '600px',
-                left: smoothMouseX,
-                top: smoothMouseY,
-                x: '-50%',
-                y: '-50%',
-                background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 50%)',
-                filter: 'blur(40px)',
-              }}
-            />
-            
-            {/* 부드러운 미로 안개 효과 */}
-            <div className="absolute inset-0">
-              {[...Array(8)].map((_, i) => {
-                // Use deterministic values based on index
-                const left = ((i * 12.5) + 6.25) % 100;
-                const top = ((i * 25) + 12.5) % 100;
-                const width = 100 + (i * 25);
-                const height = 100 + ((i * 30) % 200);
-                const xOffset = (i % 2 === 0 ? 30 : -30) + (i * 5);
-                const yOffset = (i % 2 === 0 ? -40 : 40) + (i * 3);
-                const duration = 15 + (i * 2.5);
-                
-                return (
-                  <motion.div
-                    key={`mist-${i}`}
-                    className="absolute rounded-full opacity-20"
-                    style={{
-                      left: `${left}%`,
-                      top: `${top}%`,
-                      width: `${width}px`,
-                      height: `${height}px`,
-                      background: `radial-gradient(circle, rgba(100, 100, 120, 0.3) 0%, transparent 70%)`,
-                      filter: 'blur(60px)',
-                    }}
-                    animate={{
-                      x: [0, xOffset, 0],
-                      y: [0, yOffset, 0],
-                      scale: [1, 1.2, 1],
-                    }}
-                    transition={{
-                      duration: duration,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: i * 2,
-                    }}
+    <div className="relative home-page-preserve">
+      {/* Scene 1: Maze Entrance */}
+      <motion.div 
+        className="relative h-screen flex items-center justify-center"
+      >
+        <div className="relative w-full h-full overflow-hidden">
+          {/* 부드러운 미로 배경 - 감성적인 어둠 */}
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-950 to-gray-900" />
+          
+          {/* 부드러운 오버레이 */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30" />
+          
+          {/* 손전등 효과 */}
+          <motion.div
+            className="absolute pointer-events-none"
+            style={{
+              width: '600px',
+              height: '600px',
+              left: smoothMouseX,
+              top: smoothMouseY,
+              x: '-50%',
+              y: '-50%',
+              background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 50%)',
+              filter: 'blur(40px)',
+            }}
+          />
+          
+          {/* 부드러운 미로 안개 효과 */}
+          <div className="absolute inset-0">
+            {[...Array(8)].map((_, i) => {
+              // Use deterministic values based on index
+              const left = ((i * 12.5) + 6.25) % 100;
+              const top = ((i * 25) + 12.5) % 100;
+              const width = 100 + (i * 25);
+              const height = 100 + ((i * 30) % 200);
+              const xOffset = (i % 2 === 0 ? 30 : -30) + (i * 5);
+              const yOffset = (i % 2 === 0 ? -40 : 40) + (i * 3);
+              const duration = 15 + (i * 2.5);
+              
+              return (
+                <motion.div
+                  key={`mist-${i}`}
+                  className="absolute rounded-full opacity-20"
+                  style={{
+                    left: `${left}%`,
+                    top: `${top}%`,
+                    width: `${width}px`,
+                    height: `${height}px`,
+                    background: `radial-gradient(circle, rgba(100, 100, 120, 0.3) 0%, transparent 70%)`,
+                    filter: 'blur(60px)',
+                  }}
+                  animate={{
+                    x: [0, xOffset, 0],
+                    y: [0, yOffset, 0],
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{
+                    duration: duration,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 2,
+                  }}
                   />
                 );
-              })}
-            </div>
-            
-            {/* 은은한 미로 패턴 - 중앙에서 퍼지는 미로 */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <svg className="w-full h-full max-w-6xl max-h-screen opacity-15" viewBox="0 0 1200 800">
-                <defs>
-                  <filter id="soft-glow">
-                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                    <feMerge> 
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                  <radialGradient id="fade-out">
-                    <stop offset="0%" stopColor="white" stopOpacity="0.6"/>
-                    <stop offset="70%" stopColor="white" stopOpacity="0.3"/>
-                    <stop offset="100%" stopColor="white" stopOpacity="0"/>
-                  </radialGradient>
-                </defs>
+            })}
+          </div>
+          
+          {/* 은은한 미로 패턴 - 중앙에서 퍼지는 미로 */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <svg className="w-full h-full max-w-6xl max-h-screen opacity-15" viewBox="0 0 1200 800">
+              <defs>
+                <filter id="soft-glow">
+                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                  <feMerge> 
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+                <radialGradient id="fade-out">
+                  <stop offset="0%" stopColor="white" stopOpacity="0.6"/>
+                  <stop offset="70%" stopColor="white" stopOpacity="0.3"/>
+                  <stop offset="100%" stopColor="white" stopOpacity="0"/>
+                </radialGradient>
+              </defs>
+              
+              <g mask="url(#fade-mask)">
+                {/* 중앙에서 방사형으로 퍼지는 미로 경로들 */}
+                <circle cx="600" cy="400" r="80" fill="none" stroke="rgba(150, 150, 200, 0.5)" strokeWidth="1" filter="url(#soft-glow)" />
+                <circle cx="600" cy="400" r="160" fill="none" stroke="rgba(140, 140, 190, 0.4)" strokeWidth="1" strokeDasharray="20 10" filter="url(#soft-glow)" />
+                <circle cx="600" cy="400" r="240" fill="none" stroke="rgba(130, 130, 180, 0.3)" strokeWidth="1" strokeDasharray="30 15" filter="url(#soft-glow)" />
+                <circle cx="600" cy="400" r="320" fill="none" stroke="rgba(120, 120, 170, 0.2)" strokeWidth="1" strokeDasharray="40 20" filter="url(#soft-glow)" />
                 
-                <g mask="url(#fade-mask)">
-                  {/* 중앙에서 방사형으로 퍼지는 미로 경로들 */}
-                  <circle cx="600" cy="400" r="80" fill="none" stroke="rgba(150, 150, 200, 0.5)" strokeWidth="1" filter="url(#soft-glow)" />
-                  <circle cx="600" cy="400" r="160" fill="none" stroke="rgba(140, 140, 190, 0.4)" strokeWidth="1" strokeDasharray="20 10" filter="url(#soft-glow)" />
-                  <circle cx="600" cy="400" r="240" fill="none" stroke="rgba(130, 130, 180, 0.3)" strokeWidth="1" strokeDasharray="30 15" filter="url(#soft-glow)" />
-                  <circle cx="600" cy="400" r="320" fill="none" stroke="rgba(120, 120, 170, 0.2)" strokeWidth="1" strokeDasharray="40 20" filter="url(#soft-glow)" />
-                  
-                  {/* 연결 경로들 */}
-                  <path d="M600,320 Q680,360 600,400 T520,440" fill="none" stroke="rgba(140, 140, 190, 0.3)" strokeWidth="1" filter="url(#soft-glow)" />
-                  <path d="M520,400 Q560,320 600,400 T640,480" fill="none" stroke="rgba(130, 130, 180, 0.3)" strokeWidth="1" filter="url(#soft-glow)" />
-                  <path d="M680,400 Q640,480 600,400 T560,320" fill="none" stroke="rgba(150, 150, 200, 0.3)" strokeWidth="1" filter="url(#soft-glow)" />
-                  <path d="M600,480 Q520,440 600,400 T680,360" fill="none" stroke="rgba(140, 140, 190, 0.3)" strokeWidth="1" filter="url(#soft-glow)" />
-                  
-                  {/* 작은 노드들 */}
-                  <circle cx="600" cy="320" r="4" fill="rgba(160, 160, 210, 0.4)" filter="url(#soft-glow)" />
-                  <circle cx="680" cy="400" r="4" fill="rgba(150, 150, 200, 0.4)" filter="url(#soft-glow)" />
-                  <circle cx="600" cy="480" r="4" fill="rgba(140, 140, 190, 0.4)" filter="url(#soft-glow)" />
-                  <circle cx="520" cy="400" r="4" fill="rgba(130, 130, 180, 0.4)" filter="url(#soft-glow)" />
-                </g>
+                {/* 연결 경로들 */}
+                <path d="M600,320 Q680,360 600,400 T520,440" fill="none" stroke="rgba(140, 140, 190, 0.3)" strokeWidth="1" filter="url(#soft-glow)" />
+                <path d="M520,400 Q560,320 600,400 T640,480" fill="none" stroke="rgba(130, 130, 180, 0.3)" strokeWidth="1" filter="url(#soft-glow)" />
+                <path d="M680,400 Q640,480 600,400 T560,320" fill="none" stroke="rgba(150, 150, 200, 0.3)" strokeWidth="1" filter="url(#soft-glow)" />
+                <path d="M600,480 Q520,440 600,400 T680,360" fill="none" stroke="rgba(140, 140, 190, 0.3)" strokeWidth="1" filter="url(#soft-glow)" />
                 
-                <mask id="fade-mask">
-                  <rect width="1200" height="800" fill="url(#fade-out)" />
-                </mask>
-              </svg>
-            </div>
-            
-            {/* 부드러운 바닥 효과 */}
-            <motion.div 
-              className="absolute bottom-0 left-0 right-0 h-32"
-              style={{
-                background: 'linear-gradient(to top, rgba(0,0,0,0.4), transparent)',
-                scale: mazeScale,
-              }}
-            />
-            
-            {/* 미로 속 숨겨진 작품들 - 추상적인 박스 형태 */}
-            <div className="absolute inset-0">
-              {[0, 1, 2].map((i) => {
-                const positions = [
-                  { x: '20%', y: '30%' },
-                  { x: '70%', y: '25%' },
-                  { x: '25%', y: '70%' }
-                ];
-                return (
-                  <motion.div
-                    key={`art-box-${i}`}
-                    className="absolute w-24 h-32"
-                    style={{
-                      left: positions[i].x,
-                      top: positions[i].y,
-                      transform: 'translate(-50%, -50%)',
-                    }}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ 
-                      opacity: [0, 0.1, 0.08, 0.1],
-                      scale: [0.8, 1, 0.95, 1],
-                      y: [0, -10, 0, -5, 0]
-                    }}
-                    transition={{ 
-                      delay: i * 0.5 + 2,
-                      duration: 8,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
+                {/* 작은 노드들 */}
+                <circle cx="600" cy="320" r="4" fill="rgba(160, 160, 210, 0.4)" filter="url(#soft-glow)" />
+                <circle cx="680" cy="400" r="4" fill="rgba(150, 150, 200, 0.4)" filter="url(#soft-glow)" />
+                <circle cx="600" cy="480" r="4" fill="rgba(140, 140, 190, 0.4)" filter="url(#soft-glow)" />
+                <circle cx="520" cy="400" r="4" fill="rgba(130, 130, 180, 0.4)" filter="url(#soft-glow)" />
+              </g>
+              
+              <mask id="fade-mask">
+                <rect width="1200" height="800" fill="url(#fade-out)" />
+              </mask>
+            </svg>
+          </div>
+          
+          {/* 부드러운 바닥 효과 */}
+          <motion.div 
+            className="absolute bottom-0 left-0 right-0 h-32"
+            style={{
+              background: 'linear-gradient(to top, rgba(0,0,0,0.4), transparent)',
+              scale: mazeScale,
+            }}
+          />
+          
+          {/* 미로 속 숨겨진 작품들 - 추상적인 박스 형태 */}
+          <div className="absolute inset-0">
+            {[0, 1, 2].map((i) => {
+              const positions = [
+                { x: '20%', y: '30%' },
+                { x: '70%', y: '25%' },
+                { x: '25%', y: '70%' }
+              ];
+              return (
+                <motion.div
+                  key={`art-box-${i}`}
+                  className="absolute w-24 h-32"
+                  style={{
+                    left: positions[i].x,
+                    top: positions[i].y,
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ 
+                    opacity: [0, 0.1, 0.08, 0.1],
+                    scale: [0.8, 1, 0.95, 1],
+                    y: [0, -10, 0, -5, 0]
+                  }}
+                  transition={{ 
+                    delay: i * 0.5 + 2,
+                    duration: 8,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
                   >
                     <div className="relative w-full h-full">
                       {/* 추상적인 박스 형태 */}
@@ -403,7 +422,7 @@ export default function JourneyHomePage() {
             
             <div className="relative z-10 flex flex-col items-center justify-center h-full pt-24">
               <motion.h1 
-                className={`font-bold text-white/90 mb-4 text-center ${
+                className={`font-bold text-white/90 mb-6 text-center ${
                   language === 'ko' ? 'text-5xl' : 'text-[3.25rem]'
                 }`}
                 initial={{ opacity: 0, y: 20 }}
@@ -411,66 +430,74 @@ export default function JourneyHomePage() {
                 transition={{ duration: 1 }}
               >
                 {language === 'ko' 
-                  ? '하루에도 몇 번씩 바뀌는 마음,'
-                  : 'Your feelings shift like the tides,'}
+                  ? '예술과 함께 진정한 나를 발견하는 여정'
+                  : 'Discover Your True Self Through Art'}
               </motion.h1>
               <motion.p 
-                className="text-xl text-white/70 mb-4 text-center"
+                className="text-2xl text-white/80 mb-10 text-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.5 }}
               >
                 {language === 'ko'
-                  ? '어떤 게 진짜 나인지 헷갈리시나요?'
-                  : 'Wondering which one is the real you?'}
-              </motion.p>
-              <motion.p 
-                className="text-lg text-white/60 mb-8 text-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 0.8 }}
-              >
-                {language === 'ko'
-                  ? '예술과 함께 진정한 나를 발견하는 여정을 시작하세요'
-                  : "Begin your artistic journey to discover your true self"}
+                  ? '예술에도 MBTI가 존재한다는 것, 아셨나요?'
+                  : 'Did you know art has its own MBTI?'}
               </motion.p>
               
-              {/* 서비스 가치 명확화 */}
+              {/* Hooking 포인트 - 세로 Bento Box 스타일 */}
               <motion.div 
-                className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 md:p-6 mb-12 max-w-2xl mx-auto"
+                className="flex flex-col gap-4 mb-12 max-w-xl mx-auto w-full"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 1 }}
+                transition={{ duration: 1, delay: 0.8 }}
               >
-                <div className="grid grid-cols-3 gap-2 md:gap-4 text-center">
-                  <div className="flex flex-col items-center">
-                    <span className="text-lg md:text-2xl mb-1 md:mb-2">✨</span>
-                    <p className="text-white/90 text-[10px] md:text-sm font-medium leading-tight">
-                      {language === 'ko' ? '5분 만에 발견하는' : 'Discover in 5 minutes'}
-                    </p>
-                    <p className="text-white/70 text-[9px] md:text-sm mt-0.5">
-                      {language === 'ko' ? '나의 예술 성향' : 'Your art personality'}
-                    </p>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <span className="text-lg md:text-2xl mb-1 md:mb-2">🤝</span>
-                    <p className="text-white/90 text-[10px] md:text-sm font-medium leading-tight">
-                      {language === 'ko' ? '나와 취향이 딱 맞는' : 'Find perfect match'}
-                    </p>
-                    <p className="text-white/70 text-[9px] md:text-sm mt-0.5">
-                      {language === 'ko' ? '전시 동행 찾기' : 'Exhibition companions'}
+                {/* 5분만에 예술 성향 파악 */}
+                <motion.div 
+                  className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30 flex items-center gap-6 hover:scale-[1.02] transition-transform"
+                  whileHover={{ x: 10 }}
+                >
+                  <div className="text-6xl animate-pulse">✨</div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-white mb-1">
+                      {language === 'ko' ? '5분만에 예술 성향 파악' : 'Discover Your Art Type in 5 Minutes'}
+                    </h3>
+                    <p className="text-white/70 text-sm">
+                      {language === 'ko' ? '간단한 질문으로 나만의 예술 MBTI 발견' : 'Find your unique Art MBTI with simple questions'}
                     </p>
                   </div>
-                  <div className="flex flex-col items-center">
-                    <span className="text-lg md:text-2xl mb-1 md:mb-2">🎨</span>
-                    <p className="text-white/90 text-[10px] md:text-sm font-medium leading-tight">
-                      {language === 'ko' ? 'AI가 맞춤형으로' : 'AI-powered'}
-                    </p>
-                    <p className="text-white/70 text-[9px] md:text-sm mt-0.5">
-                      {language === 'ko' ? '추천하는 작품과 전시' : 'Art recommendations'}
+                </motion.div>
+                
+                {/* 전시 동행 상호 매칭 */}
+                <motion.div 
+                  className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30 flex items-center gap-6 hover:scale-[1.02] transition-transform"
+                  whileHover={{ x: 10 }}
+                >
+                  <div className="text-6xl animate-bounce">💑</div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-white mb-1">
+                      {language === 'ko' ? '전시 동행 상호 매칭' : 'Exhibition Companion Matching'}
+                    </h3>
+                    <p className="text-white/70 text-sm">
+                      {language === 'ko' ? '나와 잘 맞는 예술 동반자 찾기' : 'Find your perfect art companion'}
                     </p>
                   </div>
-                </div>
+                </motion.div>
+                
+                {/* 유형별 AI 추천 맞춤 전시 */}
+                <motion.div 
+                  className="bg-gradient-to-r from-green-500/20 to-teal-500/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30 flex items-center gap-6 hover:scale-[1.02] transition-transform"
+                  whileHover={{ x: 10 }}
+                >
+                  <div className="text-6xl animate-spin-slow">🖼️</div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-white mb-1">
+                      {language === 'ko' ? '유형별 AI 추천 맞춤 전시' : 'AI-Curated Exhibitions for You'}
+                    </h3>
+                    <p className="text-white/70 text-sm">
+                      {language === 'ko' ? '당신의 성향에 딱 맞는 전시 추천' : 'Personalized exhibition recommendations'}
+                    </p>
+                  </div>
+                </motion.div>
               </motion.div>
               
               {/* 시작점으로의 초대 */}
@@ -524,11 +551,11 @@ export default function JourneyHomePage() {
                         ease: "easeInOut"
                       }}
                     >
-                      <p className="text-white/90 font-bold text-2xl mb-3 whitespace-nowrap">
-                        {language === 'ko' ? '당신의 시작점' : 'Begin Here'}
+                      <p className="text-white/90 font-bold text-xl mb-3 whitespace-nowrap">
+                        {language === 'ko' ? '나만의 예술 여정' : 'My Art Journey'}
                       </p>
-                      <p className="text-white/80 text-lg mb-4 whitespace-nowrap">
-                        {language === 'ko' ? '모든 나를 만나는 여정' : 'Discover Your Many Selves'}
+                      <p className="text-white/80 text-base mb-4 whitespace-nowrap">
+                        {language === 'ko' ? '시작하기' : 'Begin Now'}
                       </p>
                       <div className="bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 border border-white/20">
                         <p className="text-white/90 text-sm font-medium whitespace-nowrap">
@@ -802,7 +829,7 @@ export default function JourneyHomePage() {
           </div>
         </motion.div>
         
-        {/* Scene 3: 다른 사람들과의 만남 */}
+        {/* Scene 3: 서로 다른 시선, 완벽한 만남 */}
         <motion.div 
           className="relative h-screen"
         >
@@ -810,128 +837,161 @@ export default function JourneyHomePage() {
             {/* 배경 - 더 밝아진 공간 */}
             <div className="absolute inset-0 bg-gradient-to-b from-green-800 to-green-900" />
             
-            {/* 베타 유저 testimonial */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center px-8" style={{ paddingTop: '80px' }}>
+            {/* 메인 컨텐츠 - 아래로 이동 */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center px-8 pt-32">
               <motion.h2 
-                className="text-5xl font-bold text-white mb-3"
+                className="text-5xl font-bold text-white mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                {language === 'ko' ? '혼자가 아닙니다' : 'You Are Not Alone'}
+                {language === 'ko' ? '서로 다른 시선, 완벽한 만남' : 'Different Perspectives, Perfect Connection'}
               </motion.h2>
               <motion.p 
-                className="text-white/80 text-xl mb-12"
+                className="text-white/80 text-xl mb-16"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
                 {language === 'ko' 
-                  ? '이미 많은 사람들이 SAYU와 함께하고 있어요'
-                  : 'Many people are already joining the SAYU journey'}
+                  ? 'SAYU에서 만난 두 사람의 특별한 이야버'
+                  : 'A special story of two people who met through SAYU'}
               </motion.p>
               
-              {/* 실제 사용자 후기들 */}
-              <div className="grid grid-cols-3 gap-6 max-w-6xl w-full">
-                {[
-                  {
-                    name: "민지",
-                    name_en: "Emily",
-                    aptType: "LAEF",
-                    emoji: "🦊",
-                    quote: <>매일 아침 <strong className="text-lime-300">감정에 맞는 작품</strong>을 보며 하루를 시작해요. 예전엔 몰랐던 제 감정의 깊이를 이해하게 되었어요.</>,
-                    quote_en: "I start each day by viewing artworks that match my emotions. I've come to understand the depth of my feelings that I never knew before."
-                  },
-                  {
-                    name: "준호",
-                    name_en: "James",
-                    aptType: "SREC",
-                    emoji: "🦆",
-                    quote: <><strong className="text-lime-300">전시 동행 매칭</strong>으로 만난 친구와 매주 미술관을 가요. 혼자서는 발견하지 못했을 작품들을 함께 감상하니 더 풍부해져요.</>,
-                    quote_en: "Weekly museum visits with my exhibition companion opened my eyes to artworks I'd never have discovered alone."
-                  },
-                  {
-                    name: "서연",
-                    name_en: "Sarah",
-                    aptType: "LAMF",
-                    emoji: "🦉",
-                    quote: <><strong className="text-lime-300">AI 상담사와 대화</strong>하면서 제가 왜 특정 작품에 끌리는지 알게 되었어요. 예술이 제 마음의 거울이 되어주고 있어요.</>,
-                    quote_en: "Through conversations with the AI counselor, I learned why I'm drawn to certain artworks. Art has become a mirror to my heart."
-                  }
-                ].map((testimonial, i) => (
-                  <motion.div
-                    key={i}
-                    className="bg-white/15 backdrop-blur-md rounded-xl p-6 border border-white/30"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 + i * 0.1 }}
-                  >
-                    <p className="text-white text-base md:text-base text-lg mb-6 leading-relaxed">
-                      {language === 'ko' ? testimonial.quote : testimonial.quote_en}
-                    </p>
-                    <div className="flex items-center gap-3">
-                      <div className="text-3xl">{testimonial.emoji}</div>
-                      <div>
-                        <p className="text-white/90 font-medium">
-                          {language === 'ko' ? testimonial.name : testimonial.name_en}
-                        </p>
-                        <p className="text-white/60 text-sm">
-                          예술 성향: {testimonial.aptType}
-                        </p>
+              {/* 두 사람의 스토리 카드들 - 좌우 배치 */}
+              <div className="flex items-center gap-12 max-w-7xl w-full mb-8">
+                {/* 서연 (감성적 몽상가) */}
+                <motion.div
+                  className="flex-1 bg-gradient-to-r from-orange-500/20 to-pink-500/20 backdrop-blur-md rounded-2xl p-8 border border-white/30"
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="text-4xl">🦊</div>
+                    <div className="flex-1">
+                      <h3 className="text-white font-bold text-xl mb-3">
+                        {language === 'ko' ? '서연 - 감성적 몽상가' : 'Seoyeon - Emotional Dreamer'}
+                      </h3>
+                      <p className="text-white/90 text-base mb-4 leading-relaxed">
+                        {language === 'ko' 
+                          ? '"색채와 감정에 끌려서 전시를 보러 갔는데, 준호님 덕분에 작품의 기법과 역사적 맥락도 알게 되었어요. 완전히 새로운 세계가 열렸네요!"'
+                          : '"I went to see the exhibition drawn by colors and emotions, but thanks to Junho, I learned about techniques and historical context. A whole new world opened up!"'}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="bg-white/20 px-3 py-1 rounded-full text-white/80 text-sm">
+                          {language === 'ko' ? '선호 작품 5개 일치' : '5 Artworks Match'}
+                        </span>
+                        <span className="bg-white/20 px-3 py-1 rounded-full text-white/80 text-sm">
+                          {language === 'ko' ? '예술 페르소나 궁합 89%' : '89% Art Persona Match'}
+                        </span>
                       </div>
                     </div>
+                  </div>
+                </motion.div>
+                
+                {/* 사유의 연결 시각화 */}
+                <motion.div 
+                  className="flex flex-col items-center gap-4"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.8 }}
+                >
+                  <motion.div
+                    className="relative flex items-center justify-center w-32 h-32"
+                    animate={{ 
+                      rotate: [0, 360],
+                    }}
+                    transition={{
+                      duration: 20,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                  >
+                    {/* 원형 연결 */}
+                    <div className="absolute inset-0 border-2 border-dashed border-white/40 rounded-full"></div>
+                    <motion.div 
+                      className="absolute inset-4 border border-white/60 rounded-full"
+                      animate={{
+                        scale: [1, 1.1, 1]
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+                    
+                    {/* 중앙 아이콘 */}
+                    <motion.div 
+                      className="relative z-10 bg-white/20 backdrop-blur-sm rounded-full w-16 h-16 flex items-center justify-center border border-white/30"
+                      animate={{
+                        y: [-2, 2, -2]
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    >
+                      <span className="text-2xl">💭</span>
+                    </motion.div>
+                    
+                    {/* 상하 연결선 */}
+                    <motion.div
+                      className="absolute left-1/2 transform -translate-x-1/2 w-px h-40 bg-gradient-to-b from-orange-400 via-white/60 to-blue-400"
+                      initial={{ scaleY: 0 }}
+                      animate={{ scaleY: 1 }}
+                      transition={{ delay: 1, duration: 0.8 }}
+                    ></motion.div>
                   </motion.div>
-                ))}
+                  
+                  <motion.p 
+                    className="text-white/80 text-lg font-medium"
+                    animate={{
+                      opacity: [0.6, 1, 0.6]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    {language === 'ko' ? '사유를 나눴다' : 'Sharing Thoughts'}
+                  </motion.p>
+                </motion.div>
+                
+                {/* 준호 (분석적 탐구자) */}
+                <motion.div
+                  className="flex-1 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-md rounded-2xl p-8 border border-white/30"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="text-4xl">🦉</div>
+                    <div className="flex-1">
+                      <h3 className="text-white font-bold text-xl mb-3">
+                        {language === 'ko' ? '준호 - 분석적 탐구자' : 'Junho - Analytical Explorer'}
+                      </h3>
+                      <p className="text-white/90 text-base mb-4 leading-relaxed">
+                        {language === 'ko' 
+                          ? '"항상 기법과 구조에만 집중했는데, 서연님이 작품에서 느끼는 감정을 들으니 예술이 훨씬 살아있게 다가와요. 이제 머리와 마음으로 함께 봐요."'
+                          : '"I always focused on techniques and structure, but hearing Seoyeon\'s emotional responses makes art come alive. Now I see with both mind and heart."'}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="bg-white/20 px-3 py-1 rounded-full text-white/80 text-sm">
+                          {language === 'ko' ? '함께 본 전시 3회' : '3 Exhibitions Together'}
+                        </span>
+                        <span className="bg-white/20 px-3 py-1 rounded-full text-white/80 text-sm">
+                          {language === 'ko' ? '서로를 보완하는 시선' : 'Complementary Perspectives'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
               
-              {/* 첫 동행자 혜택 */}
-              <motion.div 
-                className="mt-8 md:mt-8 mt-16 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-lg p-6 border border-white/20 max-w-4xl w-full"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1 }}
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-2xl font-bold text-white">
-                    {language === 'ko' ? '첫 동행자를 위한 특별 혜택' : 'Special Benefits for Early Companions'}
-                  </h3>
-                  <span className="text-4xl">🎁</span>
-                </div>
-                <p className="text-white/80 text-center mb-4 text-sm">
-                  {language === 'ko' 
-                    ? 'SAYU의 첫 100명과 함께 특별한 여정을 시작하세요'
-                    : 'Start a special journey with the first 100 members of SAYU'}
-                </p>
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="text-center">
-                    <div className="text-3xl mb-2">🌱</div>
-                    <p className="text-white/90 font-medium">
-                      {language === 'ko' ? '신규 기능 우선 공개' : 'Early Access to New Features'}
-                    </p>
-                    <p className="text-white/60 text-sm">
-                      {language === 'ko' ? '개발 중인 기능 미리 체험' : 'Preview features in development'}
-                    </p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl mb-2">🎖️</div>
-                    <p className="text-white/90 font-medium">
-                      {language === 'ko' ? '창립 멤버 배지' : 'Founding Member Badge'}
-                    </p>
-                    <p className="text-white/60 text-sm">
-                      {language === 'ko' ? '프로필에 영구 표시' : 'Permanent display on profile'}
-                    </p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl mb-2">🗣️</div>
-                    <p className="text-white/90 font-medium">
-                      {language === 'ko' ? '함께 만드는 서비스' : 'Co-create the Service'}
-                    </p>
-                    <p className="text-white/60 text-sm">
-                      {language === 'ko' ? '당신의 아이디어가 현실로' : 'Your ideas become reality'}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
             </div>
           </div>
         </motion.div>

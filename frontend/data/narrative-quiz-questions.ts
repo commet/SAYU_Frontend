@@ -109,7 +109,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "공간의 분위기에 빠져듭니다",
         subtext: "Colors and light create a unique energy",
         subtext_ko: "색과 빛이 만드는 특별한 기운",
-        weight: { A: 3, E: 1 },
+        weight: { A: 3, E: 1, L: 1 },
         narrative: "You breathe deeply, letting the space's energy fill your lungs and lift your spirit.",
         emotional: "absorbed"
       },
@@ -119,7 +119,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "한 작품의 세부에 이끌립니다",
         subtext: "You notice techniques and textures others might miss",
         subtext_ko: "남들이 놓칠 법한 기법과 질감을 발견합니다",
-        weight: { R: 3, M: 1 },
+        weight: { R: 3, M: 1, S: 1 },
         narrative: "Your eyes trace each deliberate stroke, marveling at the artist's technical mastery.",
         emotional: "focused"
       }
@@ -144,7 +144,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "눈시울이 뜨거워집니다 - 마음 깊은 곳을 건드렸어요",
         subtext: "The artwork speaks directly to your heart",
         subtext_ko: "작품이 당신의 마음에 직접 말을 겁니다",
-        weight: { E: 3, A: 1 },
+        weight: { E: 3, A: 1, L: 2 },
         narrative: "You stand transfixed, feeling seen by something that has no eyes.",
         emotional: "moved"
       },
@@ -154,7 +154,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "작품 속 이야기와 메시지를 찾아봅니다",
         subtext: "Every brushstroke has intention to decode",
         subtext_ko: "모든 붓터치에는 해독할 의도가 담겨 있습니다",
-        weight: { M: 3, R: 1 },
+        weight: { M: 3, R: 1, S: 2 },
         narrative: "Your mind becomes a key, unlocking layers of intentional meaning.",
         emotional: "enlightened"
       }
@@ -177,7 +177,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "직감 따라 자유롭게",
         subtext: "Each artwork calls to the next in an organic flow",
         subtext_ko: "작품들이 자연스럽게 다음을 향해 이끕니다",
-        weight: { F: 3, A: 1 },
+        weight: { F: 3, A: 1, L: 1 },
         narrative: "You become a leaf on an artistic stream, trusting the current completely.",
         emotional: "surrendered"
       },
@@ -187,7 +187,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "전시실을 차례대로\n꼼꼼히 둘러봅니다",
         subtext: "Ensuring no masterpiece goes unseen",
         subtext_ko: "어떤 작품도 놓치지 않도록 합니다",
-        weight: { C: 3, R: 1 },
+        weight: { C: 3, R: 1, S: 1 },
         narrative: "Your careful progression reveals the curator's hidden narrative arc.",
         emotional: "complete"
       }
@@ -243,7 +243,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "감각적 경험에 온전히 몸을 맡깁니다",
         subtext: "Let it wash over you without trying to understand",
         subtext_ko: "이해하려 애쓰지 않고 받아들입니다",
-        weight: { A: 3, F: 1 },
+        weight: { A: 3, F: 1, L: 2 },
         narrative: "You become part of the artwork, your presence completing its purpose.",
         emotional: "transformed"
       },
@@ -253,7 +253,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "천천히 돌며 작품의\n구조를 파악합니다",
         subtext: "Appreciating the artist's technical achievement",
         subtext_ko: "작가의 기술적 성취를 음미합니다",
-        weight: { R: 3, C: 1 },
+        weight: { R: 3, C: 1, S: 2 },
         narrative: "Each angle reveals new insights into the artist's methodical genius.",
         emotional: "impressed"
       }
@@ -278,7 +278,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "소용돌이치는 색과 감정",
         subtext: "Pure feeling and energy",
         subtext_ko: "순수한 느낌과 에너지",
-        weight: { A: 4, E: 2 },
+        weight: { A: 4, E: 2, L: 2 },
         narrative: "The mirror shows your inner landscape - beautiful, complex, ever-changing.",
         emotional: "recognized"
       },
@@ -288,7 +288,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
         text_ko: "정확한 패턴과 명확한 형태",
         subtext: "Your reflection reveals structure and clarity",
         subtext_ko: "구조와 명료함이 드러납니다",
-        weight: { R: 3, M: 2 },
+        weight: { R: 3, M: 2, S: 2 },
         narrative: "The mirror reflects your mind's architecture - organized, purposeful, strong.",
         emotional: "understood"
       }

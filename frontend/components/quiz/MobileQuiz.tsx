@@ -11,8 +11,8 @@ import {
   encouragingFeedback,
   encouragingFeedback_ko,
   type NarrativeQuestion
-} from '@/data/narrative-quiz-questions';
-import { getBackgroundForQuestion } from '@/data/quiz-backgrounds';
+} from '@/data/narrative-quiz-questions-enhanced';
+import { getBackgroundForQuestion, questionBackgrounds } from '@/data/quiz-backgrounds';
 import { ChevronLeft, ChevronRight, Home, Volume2 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
@@ -181,9 +181,8 @@ export const MobileQuiz: React.FC = () => {
   };
 
   const backgroundData = getBackgroundForQuestion(currentQuestion + 1);
-  const currentBackground = backgroundData.backgrounds && backgroundData.backgrounds.length > 0
-    ? backgroundData.backgrounds[currentQuestion % backgroundData.backgrounds.length]
-    : null;
+  // Use direct question-to-background mapping for exact 1:1 matching
+  const currentBackground = questionBackgrounds[currentQuestion + 1] || null;
 
   return (
     <div 
@@ -219,8 +218,16 @@ export const MobileQuiz: React.FC = () => {
           </button>
           
           <div className="flex-1 mx-4">
-            <div className="text-center text-white/80 text-sm mb-1">
-              {currentQuestion + 1} / {narrativeQuestions.length}
+            <div className="text-center text-white/90 text-base font-medium mb-1">
+              {currentQuestion + 1}/{narrativeQuestions.length} {currentQuestion >= 10 && currentQuestion <= 11
+                ? (language === 'ko' ? '아트샵' : 'Shop')
+                : currentQuestion >= 12 && currentQuestion <= 14
+                ? (language === 'ko' ? '일상' : 'Daily')
+                : currentQuestion >= 6 && currentQuestion <= 9
+                ? (language === 'ko' ? '갤러리' : 'Gallery')
+                : currentQuestion >= 3 && currentQuestion <= 5
+                ? (language === 'ko' ? '탐색' : 'Explore')
+                : (language === 'ko' ? '입구홀' : 'Entrance')}
             </div>
             <div className="w-full bg-white/20 rounded-full h-2 overflow-hidden">
               <motion.div
@@ -262,27 +269,6 @@ export const MobileQuiz: React.FC = () => {
             transition={{ duration: 0.3 }}
             className="mx-auto max-w-md relative"
           >
-            {/* Gallery Room Indicator */}
-            <motion.div 
-              className="absolute -top-12 right-0 bg-black/50 backdrop-blur-md px-4 py-2 rounded-lg"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              <h3 className="text-sm font-medium text-white">
-                {currentQuestion >= 10 && currentQuestion <= 11
-                  ? (language === 'ko' ? '아트샵' : 'Museum Shop')
-                  : currentQuestion >= 12 && currentQuestion <= 14
-                  ? (language === 'ko' ? '일상 속에서' : 'In Daily Life')
-                  : {
-                      'curiosity': language === 'ko' ? '입구 홀' : 'Entrance Hall',
-                      'exploration': language === 'ko' ? '메인 갤러리' : 'Main Gallery',
-                      'revelation': language === 'ko' ? '성찰의 방' : 'Reflection Room'
-                    }[question.act] || (language === 'ko' ? '입구 홀' : 'Entrance Hall')}
-              </h3>
-              <p className="text-xs opacity-70 text-white">Stop {currentQuestion + 1} of {narrativeQuestions.length}</p>
-            </motion.div>
-
             {/* Narrative Setup Box */}
             {question.narrative && (question.narrative.setup || question.narrative.transition || question.narrative.setup_ko || question.narrative.transition_ko) && (
               <motion.div
@@ -299,8 +285,8 @@ export const MobileQuiz: React.FC = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
               >
-                <p className="text-sm leading-relaxed font-light text-white/90 italic text-center"
-                   style={{ letterSpacing: '-0.01em', lineHeight: '1.5', textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
+                <p className="text-base leading-relaxed font-light text-white/90 italic text-center"
+                   style={{ letterSpacing: '-0.01em', lineHeight: '1.6', textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
                   {(language === 'ko' 
                     ? (question.narrative.setup_ko || question.narrative.transition_ko)
                     : (question.narrative.setup || question.narrative.transition))
@@ -400,11 +386,11 @@ export const MobileQuiz: React.FC = () => {
                           {index === 0 ? 'A' : 'B'}
                         </span>
                         <div className="flex-1">
-                          <h4 className="text-lg font-semibold mb-1 text-gray-900 leading-snug whitespace-pre-line" style={{ letterSpacing: '-0.01em' }}>
+                          <h4 className="text-[16px] font-normal mb-1 text-gray-800 leading-snug whitespace-pre-line" style={{ letterSpacing: '-0.025em' }}>
                             {language === 'ko' && option.text_ko ? option.text_ko : option.text}
                           </h4>
                           {option.subtext && (
-                            <p className="text-gray-700 text-sm leading-snug whitespace-pre-line">
+                            <p className="text-gray-600 text-sm leading-snug whitespace-pre-line">
                               {language === 'ko' && option.subtext_ko ? option.subtext_ko : option.subtext}
                             </p>
                           )}

@@ -273,110 +273,115 @@ export default function MobileHomePageFixed() {
           </div>
           
           {/* 메인 텍스트 - 위치를 위로 이동 */}
-          <div className="relative z-10 flex flex-col items-center px-6 pt-28">
+          <div className="relative z-10 flex flex-col items-center px-6 pt-24">
             <motion.h1 
-              className={`font-bold text-white/90 text-center ${language === 'ko' ? 'whitespace-nowrap' : 'whitespace-pre-line'}`}
+              className="font-bold text-white/90 text-center"
               style={{
-                fontSize: mobileClamp(23, 27, 31),
-                lineHeight: '1.25',
-                marginBottom: scale.spacing.lg,
+                fontSize: mobileClamp(24, 28, 32),
+                lineHeight: '1.3',
+                marginBottom: scale.spacing.md,
                 letterSpacing: language === 'ko' ? '-0.03em' : 'normal'
               }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
             >
-              {language === 'ko' 
-                ? '하루에도 몇 번씩 바뀌는 마음,'
-                : 'Your feelings\nshift like the tides,'}
+              {language === 'ko' ? (
+                <>
+                  예술과 함께<br/>
+                  진정한 나를 발견하는 여정
+                </>
+              ) : (
+                <>
+                  Discover Your True Self<br/>
+                  Through Art
+                </>
+              )}
             </motion.h1>
             
             <motion.p 
-              className="text-white/70 text-center"
+              className="text-white/80 text-center font-medium"
               style={{
                 fontSize: scale.fontSize.lg,
-                marginBottom: scale.spacing.lg
+                marginBottom: scale.spacing.xl,
+                lineHeight: '1.4'
               }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
             >
-              {language === 'ko'
-                ? '어떤 게 진짜 나인지 헷갈리시나요?'
-                : 'Wondering which one is the real you?'}
-            </motion.p>
-            
-            {/* 구분 요소 - 작은 점 3개 */}
-            <motion.div 
-              className="flex justify-center gap-3"
-              style={{
-                marginTop: scale.spacing.xl,
-                marginBottom: scale.spacing.xl
-              }}
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 0.4, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.7 }}
-            >
-              <div className="w-1 h-1 bg-white/40 rounded-full"></div>
-              <div className="w-1 h-1 bg-white/60 rounded-full"></div>
-              <div className="w-1 h-1 bg-white/40 rounded-full"></div>
-            </motion.div>
-            
-            <motion.p 
-              className="text-white/60 text-center px-4 italic"
-              style={{
-                fontSize: scale.fontSize.base,
-                marginBottom: scale.spacing.md
-              }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.8 }}
-            >
-              {language === 'ko'
-                ? '예술과 함께 진정한 나를 발견하는 여정'
-                : "Begin your artistic journey"}
+              {language === 'ko' ? (
+                <>
+                  예술에도 MBTI가 존재한다는 것,<br/>
+                  혹시 아셨나요?
+                </>
+              ) : (
+                <>
+                  Did you know art has<br/>
+                  its own MBTI?
+                </>
+              )}
             </motion.p>
 
-            {/* 서비스 가치 명확화 - 모바일 최적화 */}
+            {/* Hooking 포인트 - 세로 Bento Box 스타일 (모바일) */}
             <motion.div 
-              className="bg-white/10 backdrop-blur-sm rounded-xl mx-2 w-full max-w-sm"
+              className="flex flex-col gap-2 w-full max-w-sm mx-auto"
               style={{
-                padding: `${scale.spacing.sm}px ${scale.spacing.md}px`,
-                marginBottom: scale.spacing.lg
+                marginBottom: scale.spacing.lg,
+                paddingLeft: scale.spacing.sm,
+                paddingRight: scale.spacing.sm
               }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 1 }}
+              transition={{ duration: 1, delay: 0.8 }}
             >
-              <div className="grid grid-cols-3 gap-3 text-center">
-                <div className="flex flex-col items-center">
-                  <span className="text-base mb-1">✨</span>
-                  <p className="text-white/90 text-[9px] font-medium leading-tight">
-                    {language === 'ko' ? '5분 만에' : 'Discover in'}
-                  </p>
-                  <p className="text-white/70 text-[8px] leading-tight">
-                    {language === 'ko' ? '예술 성향' : '5 minutes'}
-                  </p>
-                </div>
-                <div className="flex flex-col items-center">
-                  <span className="text-base mb-1">🤝</span>
-                  <p className="text-white/90 text-[9px] font-medium leading-tight">
-                    {language === 'ko' ? '완벽한 매칭' : 'Perfect match'}
-                  </p>
-                  <p className="text-white/70 text-[8px] leading-tight">
-                    {language === 'ko' ? '전시 동행' : 'Companions'}
+              {/* 5분만에 예술 성향 파악 */}
+              <motion.div 
+                className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-xl p-3 border border-white/30 flex items-center gap-3"
+                whileTap={{ scale: 0.98 }}
+              >
+                <div className="text-2xl animate-pulse">✨</div>
+                <div className="flex-1">
+                  <h3 className="text-white font-bold text-sm mb-0.5">
+                    {language === 'ko' ? '5분만에 예술 성향 파악' : 'Discover in 5 Minutes'}
+                  </h3>
+                  <p className="text-white/70 text-xs leading-tight">
+                    {language === 'ko' ? '간단한 질문으로 나만의 예술 페르소나 발견' : 'Find your unique Art Persona'}
                   </p>
                 </div>
-                <div className="flex flex-col items-center">
-                  <span className="text-base mb-1">🎨</span>
-                  <p className="text-white/90 text-[9px] font-medium leading-tight">
-                    {language === 'ko' ? 'AI 추천' : 'AI-powered'}
-                  </p>
-                  <p className="text-white/70 text-[8px] leading-tight">
-                    {language === 'ko' ? '맞춤 전시' : 'Art recs'}
+              </motion.div>
+              
+              {/* 전시 동행 상호 매칭 */}
+              <motion.div 
+                className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-sm rounded-xl p-3 border border-white/30 flex items-center gap-3"
+                whileTap={{ scale: 0.98 }}
+              >
+                <div className="text-2xl">💑</div>
+                <div className="flex-1">
+                  <h3 className="text-white font-bold text-sm mb-0.5">
+                    {language === 'ko' ? '전시 동행 상호 매칭' : 'Exhibition Matching'}
+                  </h3>
+                  <p className="text-white/70 text-xs leading-tight">
+                    {language === 'ko' ? '나와 잘 맞는 예술 동반자 찾기' : 'Find your art companion'}
                   </p>
                 </div>
-              </div>
+              </motion.div>
+              
+              {/* 유형별 AI 추천 맞춤 전시 */}
+              <motion.div 
+                className="bg-gradient-to-r from-green-500/20 to-teal-500/20 backdrop-blur-sm rounded-xl p-3 border border-white/30 flex items-center gap-3"
+                whileTap={{ scale: 0.98 }}
+              >
+                <div className="text-2xl">🖼️</div>
+                <div className="flex-1">
+                  <h3 className="text-white font-bold text-sm mb-0.5">
+                    {language === 'ko' ? '유형별 AI 추천 맞춤 전시' : 'AI-Curated for You'}
+                  </h3>
+                  <p className="text-white/70 text-xs leading-tight">
+                    {language === 'ko' ? '당신의 성향에 딱 맞는 전시' : 'Personalized exhibitions'}
+                  </p>
+                </div>
+              </motion.div>
             </motion.div>
             
             <motion.button
@@ -394,7 +399,7 @@ export default function MobileHomePageFixed() {
               onClick={() => router.push('/quiz')}
             >
               <span className="text-white/90 font-medium" style={{ fontSize: scale.fontSize.lg }}>
-                {language === 'ko' ? '나의 예술 여정 시작하기' : 'Begin My Art Journey'}
+                {language === 'ko' ? '나만의 예술 여정 시작하기' : 'Begin My Art Journey'}
               </span>
             </motion.button>
             
@@ -456,7 +461,7 @@ export default function MobileHomePageFixed() {
             </div>
             
             {/* 인디케이터 */}
-            <div className="flex justify-center gap-1 mb-2">
+            <div className="flex justify-center gap-1 mb-4">
               {famousArtworks.map((_, i) => (
                 <button
                   key={i}
@@ -468,151 +473,217 @@ export default function MobileHomePageFixed() {
               ))}
             </div>
             
-            {/* 6개 감상 포인트 - 높이 통일 */}
-            <div className="grid grid-cols-3 gap-1 mb-4">
-              {(language === 'ko' 
-                ? famousArtworks[currentArtwork].perceptions 
-                : famousArtworks[currentArtwork].perceptions_en
-              ).map((perception, i) => (
-                <motion.div
-                  key={i}
-                  className="bg-white/20 backdrop-blur-sm rounded-full px-2 py-2 text-center flex items-center justify-center border border-white/30"
-                  style={{ minHeight: '32px', height: '32px' }}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: i * 0.05 }}
-                >
-                  <p className="text-white text-[11px] font-medium leading-tight whitespace-nowrap" style={{ letterSpacing: '-0.02em' }}>
-                    {perception}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-            
-            {/* 3개 기능 카드 - 높이 줄이기 */}
-            <div className="flex flex-col gap-1.5 mt-2">
-              {[
-                { icon: '👁️', title: language === 'ko' ? '시선 공유' : 'Share Perspectives', 
-                  desc: language === 'ko' ? '나만의 해석을 공유하고 다른 시선 발견' : 'Share your unique interpretation' },
-                { icon: '🤝', title: language === 'ko' ? '전시 동행 매칭' : 'Exhibition Companions',
-                  desc: language === 'ko' ? '나와 맞는 Art Persona와 전시 관람' : 'Meet Art Personas like you' },
-                { icon: '🤖', title: language === 'ko' ? 'AI 아트 큐레이터' : 'AI Art Curator',
-                  desc: language === 'ko' ? '시시각각 변하는 당신을 위한 매일 새로운 큐레이션' : 'Daily curation for the ever-changing you' }
-              ].map((item, i) => (
+            {/* 다른 예술 페르소나 시선 */}
+            <div className="mb-3">
+              <p className="text-white/80 text-center text-base font-medium mb-3">
+                {language === 'ko' ? '다른 예술 페르소나는 이렇게 봐요' : 'How other Art Personas see it'}
+              </p>
+              <div className="flex flex-col gap-2">
+                {/* 감성적 몽상가 */}
                 <motion.div 
-                  key={i}
-                  className="bg-gradient-to-r from-emerald-600/30 to-teal-600/30 backdrop-blur-sm rounded-lg px-3 py-2 border border-emerald-400/40 flex items-center gap-2"
-                  style={{ minHeight: '48px' }}
+                  className="bg-white/15 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 + i * 0.1 }}
+                  transition={{ delay: 0.3 }}
                 >
-                  <div className="text-lg">{item.icon}</div>
-                  <div className="flex-1">
-                    <h3 className="text-white font-bold text-xs">
-                      {item.title}
-                    </h3>
-                    <p className="text-white/80 text-[10px]" style={{ lineHeight: '1.3' }}>
-                      {item.desc}
-                    </p>
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🦊</span>
+                    <div className="flex-1">
+                      <h3 className="text-white font-bold text-base mb-0.5">
+                        {language === 'ko' ? '감성적 몽상가' : 'Emotional Dreamer'}
+                      </h3>
+                      <p className="text-white/70 text-sm italic">
+                        {language === 'ko' 
+                          ? '"색채 속에 숨겨진 감정의 떨림을 느껴요"'
+                          : '"I feel the emotional tremors hidden in colors"'}
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
-              ))}
+                
+                {/* 분석적 탐구자 */}
+                <motion.div 
+                  className="bg-white/15 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🦉</span>
+                    <div className="flex-1">
+                      <h3 className="text-white font-bold text-base mb-0.5">
+                        {language === 'ko' ? '분석적 탐구자' : 'Analytical Explorer'}
+                      </h3>
+                      <p className="text-white/70 text-sm italic">
+                        {language === 'ko' 
+                          ? '"구도와 기법 속 작가의 의도를 찾아요"'
+                          : '"I search for the artist\'s intent in composition"'}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+                
+                {/* 직관적 감상자 */}
+                <motion.div 
+                  className="bg-white/15 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🐱</span>
+                    <div className="flex-1">
+                      <h3 className="text-white font-bold text-base mb-0.5">
+                        {language === 'ko' ? '직관적 감상자' : 'Intuitive Observer'}
+                      </h3>
+                      <p className="text-white/70 text-sm italic">
+                        {language === 'ko' 
+                          ? '"첫눈에 와닿는 그 느낌을 믿어요"'
+                          : '"I trust the feeling that strikes at first sight"'}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Scene 3: 다른 사람들과의 만남 - 100vh with 3 testimonials */}
+      {/* Scene 3: 서로 다른 시선, 완벽한 만남 - 100vh */}
       <section className="h-screen w-full snap-start snap-always overflow-hidden">
         <div className="relative w-full h-full bg-gradient-to-b from-green-800 to-green-900">
-          <div className="h-full flex flex-col p-4 pt-12">
+          <div className="h-full flex flex-col p-4 pt-20">
             {/* 타이틀 */}
-            <div className="text-center mb-3">
+            <div className="text-center mb-6">
               <h2 className="text-white font-bold" style={{ fontSize: mobileClamp(20, 24, 28) }}>
-                {language === 'ko' ? '혼자가 아닙니다' : 'You Are Not Alone'}
+                {language === 'ko' ? '서로 다른 시선, 완벽한 만남' : 'Different Perspectives, Perfect Connection'}
               </h2>
               <p className="text-white/80" style={{ 
                 fontSize: scale.fontSize.sm,
                 letterSpacing: language === 'en' ? '-0.02em' : 'normal'
               }}>
                 {language === 'ko' 
-                  ? '이미 많은 사람들이 SAYU와 함께하고 있어요'
-                  : 'Many people are already joining the SAYU journey'}
+                  ? 'SAYU에서 만난 두 사람의 특별한 이야기'
+                  : 'A special story of two people who met through SAYU'}
               </p>
             </div>
             
-            {/* 3명의 testimonials */}
-            <div className="flex flex-col gap-1.5 mb-2">
-              {testimonials.map((testimonial, i) => (
-                <motion.div
-                  key={i}
-                  className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-center py-1.5 px-2"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 + i * 0.1 }}
-                >
-                  <div className="mb-0.5">
-                    <span className="text-lg">{testimonial.emoji}</span>
-                  </div>
-                  <p className="text-white/90 text-sm mb-1 leading-relaxed whitespace-pre-line italic">
-                    {language === 'ko' ? testimonial.quote : testimonial.quote_en}
-                  </p>
-                  <div className="flex items-center justify-center gap-2">
-                    <p className="text-white/80 font-medium text-xs">
-                      {language === 'ko' ? testimonial.name : testimonial.name_en}
+            {/* 두 사람의 스토리 카드들 */}
+            <div className="flex flex-col gap-4 mb-4">
+              {/* 첫 번째 카드: 서연 (🦊 감성적 몽상가) */}
+              <motion.div
+                className="bg-gradient-to-r from-orange-500/20 to-pink-500/20 backdrop-blur-md rounded-xl border border-white/20 p-4"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="text-2xl">🦊</div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h3 className="text-white font-bold text-base">
+                        {language === 'ko' ? '서연 (감성적 몽상가)' : 'Seoyeon (Emotional Dreamer)'}
+                      </h3>
+                    </div>
+                    <p className="text-white/90 text-sm mb-3 leading-relaxed">
+                      {language === 'ko' 
+                        ? '"색채와 감정에 끌려서 전시를 보러 갔는데, 준호님 덕분에 작품의 기법과 역사적 맥락도 알게 되었어요. 완전히 새로운 세계가 열렸네요!"'
+                        : '"I went to see the exhibition drawn by colors and emotions, but thanks to Junho, I learned about techniques and historical context. A whole new world opened up!"'}
                     </p>
-                    <span className="text-white/60 text-xs">•</span>
-                    <p className="text-white/70 text-xs">{testimonial.aptType}</p>
+                    <div className="flex items-center gap-2 text-xs">
+                      <span className="bg-white/20 px-2 py-1 rounded-full text-white/80">
+                        {language === 'ko' ? '선호 작품 5개 일치' : '5 Artworks Match'}
+                      </span>
+                      <span className="bg-white/20 px-2 py-1 rounded-full text-white/80">
+                        {language === 'ko' ? '예술 페르소나 궁합 89%' : '89% Art Persona Match'}
+                      </span>
+                    </div>
                   </div>
-                </motion.div>
-              ))}
+                </div>
+              </motion.div>
+              
+              {/* 생각을 나누는 연결 시각화 */}
+              <motion.div 
+                className="flex justify-center py-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                <div className="relative">
+                  <motion.div
+                    className="flex items-center gap-2"
+                    animate={{ 
+                      scale: [1, 1.05, 1],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <div className="w-2 h-2 bg-orange-400 rounded-full opacity-80"></div>
+                    <motion.div 
+                      className="text-white/70 text-sm font-medium"
+                      animate={{
+                        opacity: [0.5, 1, 0.5]
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    >
+                      {language === 'ko' ? '💭 사유를 나눴다 💭' : '💭 Shared Thoughts 💭'}
+                    </motion.div>
+                    <div className="w-2 h-2 bg-blue-400 rounded-full opacity-80"></div>
+                  </motion.div>
+                  
+                  {/* 연결선 애니메이션 */}
+                  <motion.div
+                    className="absolute inset-0 flex justify-center items-center"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ delay: 0.6, duration: 0.8 }}
+                  >
+                    <div className="w-full h-px bg-gradient-to-r from-orange-400 via-white/60 to-blue-400 opacity-60"></div>
+                  </motion.div>
+                </div>
+              </motion.div>
+              
+              {/* 두 번째 카드: 준호 (🦉 분석적 탐구자) */}
+              <motion.div
+                className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-md rounded-xl border border-white/20 p-4"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.7 }}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="text-2xl">🦉</div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h3 className="text-white font-bold text-base">
+                        {language === 'ko' ? '준호 (분석적 탐구자)' : 'Junho (Analytical Explorer)'}
+                      </h3>
+                    </div>
+                    <p className="text-white/90 text-sm mb-3 leading-relaxed">
+                      {language === 'ko' 
+                        ? '"항상 기법과 구조에만 집중했는데, 서연님이 작품에서 느끼는 감정을 들으니 예술이 훨씬 살아있게 다가와요. 이제 머리와 마음으로 함께 봐요."'
+                        : '"I always focused on techniques and structure, but hearing Seoyeon\'s emotional responses makes art come alive. Now I see with both mind and heart."'}
+                    </p>
+                    <div className="flex items-center gap-2 text-xs">
+                      <span className="bg-white/20 px-2 py-1 rounded-full text-white/80">
+                        {language === 'ko' ? '함께 본 전시 3회' : '3 Exhibitions Together'}
+                      </span>
+                      <span className="bg-white/20 px-2 py-1 rounded-full text-white/80">
+                        {language === 'ko' ? '서로를 보완하는 시선' : 'Complementary Views'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
             
-            {/* 첫 동행자 혜택 - testimonials와 간격 추가 */}
-            <motion.div 
-              className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-lg p-3 border border-white/20 mt-8"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.6 }}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <h3 className="text-white font-bold" style={{ 
-                  fontSize: language === 'en' ? scale.fontSize.sm : scale.fontSize.base 
-                }}>
-                  {language === 'ko' ? '첫 동행자를 위한 특별 혜택' : 'Special Benefits for Early Companions'}
-                </h3>
-                <span className="text-xl">🎁</span>
-              </div>
-              <p className="text-white/80 text-center mb-1" style={{ 
-                fontSize: language === 'en' ? '11px' : scale.fontSize.xs,
-                letterSpacing: language === 'en' ? '-0.01em' : 'normal'
-              }}>
-                {language === 'ko' 
-                  ? 'SAYU의 첫 100명과 함께 특별한 여정을 시작하세요'
-                  : 'Start a special journey with the first 100 members of SAYU'}
-              </p>
-              <div className="grid grid-cols-3 gap-2">
-                <div className="text-center">
-                  <div className="text-lg mb-1">🌱</div>
-                  <p className="text-white/90 text-[10px] font-medium">
-                    {language === 'ko' ? '신규 기능 우선 공개' : 'Early Access'}
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg mb-1">🎖️</div>
-                  <p className="text-white/90 text-[10px] font-medium">
-                    {language === 'ko' ? '창립 멤버 배지' : 'Founding Badge'}
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg mb-1">🗣️</div>
-                  <p className="text-white/90 text-[10px] font-medium">
-                    {language === 'ko' ? '함께 만드는 서비스' : 'Co-create'}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
           </div>
         </div>
       </section>

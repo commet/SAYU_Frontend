@@ -10,7 +10,7 @@ import {
   encouragingFeedback,
   encouragingFeedback_ko,
   type NarrativeQuestion
-} from '@/data/narrative-quiz-questions';
+} from '@/data/narrative-quiz-questions-enhanced';
 import { 
   getBackgroundForQuestion, 
   getPhaseByQuestion, 

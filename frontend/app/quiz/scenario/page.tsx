@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { narrativeQuestions } from '@/data/narrative-quiz-questions';
+import { narrativeQuestions } from '@/data/narrative-quiz-questions-enhanced';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Playfair_Display, Cormorant_Garamond, Abril_Fatface } from 'next/font/google'
+import { Inter, Playfair_Display, Cormorant_Garamond, Abril_Fatface, Dancing_Script, Gamja_Flower } from 'next/font/google'
 import './globals.css'
 import '@/styles/anti-flicker.css'
 import { Providers } from './providers'
@@ -23,6 +23,17 @@ const cormorant = Cormorant_Garamond({
 const abril = Abril_Fatface({ 
   subsets: ['latin'],
   variable: '--font-abril',
+  weight: '400',
+  display: 'swap'
+})
+const dancing = Dancing_Script({ 
+  subsets: ['latin'],
+  variable: '--font-dancing',
+  display: 'swap'
+})
+const gamja = Gamja_Flower({ 
+  subsets: ['latin'],
+  variable: '--font-gamja',
   weight: '400',
   display: 'swap'
 })
@@ -135,7 +146,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} ${playfair.variable} ${cormorant.variable} ${abril.variable} min-h-screen bg-gray-900 dark:bg-gray-900 container-stable`}>
+      <body className={`${inter.className} ${playfair.variable} ${cormorant.variable} ${abril.variable} ${dancing.variable} ${gamja.variable} min-h-screen bg-gray-900 dark:bg-gray-900 container-stable`}>
         <Providers>
           {/* <SystemInitializer /> */}
           {/* Temporarily disabled for debugging

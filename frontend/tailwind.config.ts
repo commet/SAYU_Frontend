@@ -192,6 +192,10 @@ const config: Config = {
           "0%": { transform: "translateY(-50%)" },
           "100%": { transform: "translateY(0)" },
         },
+        "spin-slow": {
+          "from": { transform: "rotate(0deg)" },
+          "to": { transform: "rotate(360deg)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -204,6 +208,7 @@ const config: Config = {
         "blob": "blob 7s infinite",
         "aurora": "aurora 60s linear infinite",
         "grid": "grid 15s linear infinite",
+        "spin-slow": "spin-slow 8s linear infinite",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
