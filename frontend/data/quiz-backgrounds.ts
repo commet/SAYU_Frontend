@@ -12,7 +12,7 @@ export interface BackgroundPhase {
 
 // Direct question-to-background mapping (1:1 exact matching)
 export const questionBackgrounds: Record<number, string> = {
-  1: '/images/backgrounds/odern-museum-entrance-stairs-crowded.jpg',  // Q1 - 입구
+  1: '/images/backgrounds/modern-museum-entrance-stairs-crowded.jpg',  // Q1 - 입구
   2: '/images/backgrounds/stone-gallery-entrance-solitary-figure.jpg',  // Q2
   3: '/images/backgrounds/minimal-white-gallery-photography-bright.jpg',  // Q3
   4: '/images/backgrounds/warm-gallery-abstract-art-casual-viewing.jpg',  // Q4

@@ -262,18 +262,16 @@ export const MobileQuiz: React.FC = () => {
     >
       {/* Hidden Preload Images - Force browser to cache all backgrounds */}
       <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-        {Object.values(questionBackgrounds).map((bgData, idx) => 
-          Array.isArray(bgData.backgrounds) && bgData.backgrounds.map((url, bgIdx) => (
-            <img 
-              key={`preload-${idx}-${bgIdx}`}
-              src={url} 
-              alt=""
-              loading="eager"
-              fetchPriority={idx === 0 && bgIdx < 2 ? "high" : "auto"}
-              style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px' }}
-            />
-          ))
-        )}
+        {Object.values(questionBackgrounds).map((url, idx) => (
+          <img 
+            key={`preload-${idx}`}
+            src={url} 
+            alt=""
+            loading="eager"
+            fetchPriority={idx < 3 ? "high" : "auto"}
+            style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px' }}
+          />
+        ))}
       </div>
 
       {/* 배경 오버레이 - 데스크톱과 동일 */}
