@@ -1,0 +1,210 @@
+/* Safe CSS Animations for Quiz Components */
+
+/* Performance optimizations */
+.gallery-room-experience {
+  will-change: transform;
+  contain: layout style paint;
+  transform: translateZ(0); /* Enable GPU acceleration */
+}
+
+.gallery-room-experience::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: auto;
+}
+
+/* Wrapper pattern for safe animations */
+.animation-wrapper {
+  position: relative;
+  will-change: opacity, transform;
+}
+
+.content-container {
+  position: relative;
+  contain: layout;
+}
+
+/* Staggered fade animations */
+@keyframes safeFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes safeFadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes safeScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animation classes with safety */
+.fade-in-safe {
+  animation: safeFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-fill-mode: both;
+}
+
+.fade-slide-up-safe {
+  animation: safeFadeSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-fill-mode: both;
+}
+
+.scale-in-safe {
+  animation: safeScaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-fill-mode: both;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .fade-in-safe,
+  .fade-slide-up-safe,
+  .scale-in-safe {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  .gallery-room-experience {
+    /* Disable complex transforms on mobile */
+    transform: none;
+    will-change: auto;
+  }
+  
+  /* Simpler animations for mobile */
+  @keyframes mobileFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .fade-slide-up-safe {
+    animation: mobileFadeIn 0.3s ease-out forwards;
+  }
+  
+  .scale-in-safe {
+    animation: mobileFadeIn 0.3s ease-out forwards;
+  }
+}
+
+/* Image loading states */
+.image-loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-loading::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Skeleton screen for loading */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Dark mode skeleton */
+.dark .skeleton {
+  background: linear-gradient(
+    90deg,
+    #2a2a2a 25%,
+    #3a3a3a 50%,
+    #2a2a2a 75%
+  );
+  background-size: 200% 100%;
+}
+
+/* Prevent layout shift */
+.quiz-content-wrapper {
+  min-height: 70vh;
+  position: relative;
+}
+
+.question-artwork-frame {
+  min-height: 300px;
+  position: relative;
+}
+
+.choice-card-fixed {
+  min-height: 120px;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth background transitions */
+.background-transition {
+  transition: opacity 0.6s ease-out;
+}
+
+.background-blur-placeholder {
+  filter: blur(20px);
+  transform: scale(1.1);
+  transition: filter 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.background-loaded {
+  filter: blur(0);
+  transform: scale(1);
+}
