@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { 
@@ -27,7 +27,9 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useResponsive } from '@/lib/responsive';
 import { MobileQuiz } from './MobileQuiz';
 import LanguageToggle from '@/components/ui/LanguageToggle';
+import { useImagePreloader, useImageBatchPreloader } from '@/hooks/useImagePreloader';
 import '@/styles/audio-guide.css';
+import '@/styles/quiz-animations.css';
 
 interface QuizResponse {
   questionId: number;
@@ -52,6 +54,11 @@ export const AudioGuideQuiz: React.FC = () => {
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [showGalleryMap, setShowGalleryMap] = useState(false);
   const [showAPTTransition, setShowAPTTransition] = useState(false);
+  const [componentVisibility, setComponentVisibility] = useState({
+    setup: false,
+    question: false,
+    choices: false
+  });
 
   const question = narrativeQuestions[currentQuestion];
   const progress = ((currentQuestion + 1) / narrativeQuestions.length) * 100;
@@ -134,7 +141,7 @@ export const AudioGuideQuiz: React.FC = () => {
     const type = [
       finalScores.L > finalScores.S ? 'L' : 'S',
       finalScores.A > finalScores.R ? 'A' : 'R',
-      finalScores.E > finalScores.M ? 'E' : 'M',
+      finalScores.M > finalScores.E ? 'M' : 'E',
       finalScores.F > finalScores.C ? 'F' : 'C'
     ].join('');
 
@@ -203,9 +210,58 @@ export const AudioGuideQuiz: React.FC = () => {
   const phase = getPhaseByQuestion(currentQuestion + 1);
   const backgroundData = getBackgroundForQuestion(currentQuestion + 1);
   
-  console.log('Current question:', currentQuestion + 1);
-  console.log('Phase:', phase);
-  console.log('Background data:', backgroundData);
+  // Preload current and next background images
+  const currentBackgroundUrl = useMemo(() => {
+    if (backgroundData.backgrounds && backgroundData.backgrounds.length > 0) {
+      return backgroundData.backgrounds[currentQuestion % backgroundData.backgrounds.length];
+    }
+    return null;
+  }, [backgroundData, currentQuestion]);
+
+  const { isLoaded: bgLoaded, currentSrc: bgSrc } = useImagePreloader(currentBackgroundUrl, {
+    priority: true,
+    blur: true
+  });
+
+  // Preload next 3 background images
+  const nextBackgroundUrls = useMemo(() => {
+    const urls: string[] = [];
+    for (let i = 1; i <= 3; i++) {
+      const nextQ = currentQuestion + i;
+      if (nextQ < narrativeQuestions.length) {
+        const nextBgData = getBackgroundForQuestion(nextQ + 1);
+        if (nextBgData.backgrounds && nextBgData.backgrounds.length > 0) {
+          urls.push(nextBgData.backgrounds[nextQ % nextBgData.backgrounds.length]);
+        }
+      }
+    }
+    return urls;
+  }, [currentQuestion]);
+
+  const { loadedImages: preloadedImages } = useImageBatchPreloader(nextBackgroundUrls);
+
+  // Staggered component appearance
+  useEffect(() => {
+    // Reset visibility
+    setComponentVisibility({ setup: false, question: false, choices: false });
+    
+    // Stagger animations with more noticeable delays
+    const timers: NodeJS.Timeout[] = [];
+    
+    timers.push(setTimeout(() => {
+      setComponentVisibility(prev => ({ ...prev, setup: true }));
+    }, 200)); // (a) 상황 설명 - 0.2초 후
+    
+    timers.push(setTimeout(() => {
+      setComponentVisibility(prev => ({ ...prev, question: true }));
+    }, 700)); // (b) 질문 - 0.7초 후 (0.5초 간격)
+    
+    timers.push(setTimeout(() => {
+      setComponentVisibility(prev => ({ ...prev, choices: true }));
+    }, 1200)); // (c) 선택지 - 1.2초 후 (0.5초 간격)
+    
+    return () => timers.forEach(clearTimeout);
+  }, [currentQuestion]);
   
   return (
     <div className="audio-guide-quiz-container">
@@ -305,18 +361,34 @@ export const AudioGuideQuiz: React.FC = () => {
       </motion.div>
 
       {/* Gallery Room Experience */}
-      <div 
-        className="gallery-room-experience"
-        style={{
-          backgroundImage: backgroundData.backgrounds && backgroundData.backgrounds.length > 0
-            ? `url(${backgroundData.backgrounds[currentQuestion % backgroundData.backgrounds.length]})`
-            : 'linear-gradient(135deg, #4a5568 0%, #2d3748 50%, #1a202c 100%)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          minHeight: '100vh',
-          position: 'relative'
-        }}>
+      <div className="gallery-room-experience relative min-h-screen overflow-hidden">
+        {/* Background with smooth loading */}
+        <div className="absolute inset-0">
+          {/* Blur placeholder while loading */}
+          {!bgLoaded && (
+            <div 
+              className="absolute inset-0 animate-pulse"
+              style={{
+                background: backgroundData.overlay.gradient || 
+                  'linear-gradient(135deg, #4a5568 0%, #2d3748 50%, #1a202c 100%)'
+              }}
+            />
+          )}
+          
+          {/* Actual background image with fade-in */}
+          <motion.div
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: bgLoaded ? 1 : 0 }}
+            transition={{ duration: 0.6 }}
+            style={{
+              backgroundImage: bgSrc ? `url(${bgSrc})` : undefined,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
+          />
+        </div>
         {/* Gradient Overlay - Reduced opacity in dark mode */}
         <div className={cn(
           "gallery-overlay bg-gradient-to-br",
@@ -352,8 +424,13 @@ export const AudioGuideQuiz: React.FC = () => {
                     <motion.div
                       className="narrative-setup-box mb-6"
                       initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.4 }}
+                      animate={{ 
+                        opacity: componentVisibility.setup ? 1 : 0
+                      }}
+                      transition={{ 
+                        duration: 0.5,
+                        ease: "easeOut"
+                      }}
                     >
                       <p className="text-lg leading-relaxed font-medium text-gray-900">
                         {getTransitionText()}
@@ -364,9 +441,15 @@ export const AudioGuideQuiz: React.FC = () => {
                   {/* Question */}
                   <motion.h2
                     className="question-title text-2xl md:text-3xl font-bold text-center mb-4 leading-tight text-gray-900"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ 
+                      opacity: componentVisibility.question ? 1 : 0,
+                      y: componentVisibility.question ? 0 : 10
+                    }}
+                    transition={{ 
+                      duration: 0.5,
+                      ease: "easeOut"
+                    }}
                   >
                     {(language === 'ko' && question.question_ko ? question.question_ko : question.question)
                       .split('\n')
@@ -382,16 +465,29 @@ export const AudioGuideQuiz: React.FC = () => {
                 {/* Choice Cards */}
                 <motion.div 
                   className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ 
+                    opacity: componentVisibility.choices ? 1 : 0,
+                    scale: componentVisibility.choices ? 1 : 0.95
+                  }}
+                  transition={{ 
+                    duration: 0.4,
+                    ease: [0.4, 0, 0.2, 1]
+                  }}
                 >
                   {question.options.map((option, index) => (
                     <motion.div
                       key={option.id}
                       initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.7 + index * 0.1 }}
+                      animate={{ 
+                        opacity: componentVisibility.choices ? 1 : 0, 
+                        y: componentVisibility.choices ? 0 : 20 
+                      }}
+                      transition={{ 
+                        delay: componentVisibility.choices ? index * 0.2 : 0, // 각 선택지 간 0.2초 간격
+                        duration: 0.4,
+                        ease: "easeOut"
+                      }}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >

@@ -30,7 +30,7 @@ export function calculateEnhancedScore(
   const type = 
     (lsEnhanced.L > lsEnhanced.S ? 'L' : 'S') +
     (normalized.A > normalized.R ? 'A' : 'R') +
-    (normalized.E > normalized.M ? 'E' : 'M') +
+    (normalized.M > normalized.E ? 'M' : 'E') +
     (normalized.F > normalized.C ? 'F' : 'C');
     
   return type;
@@ -100,7 +100,7 @@ export function analyzeScoreDistribution(
   const rawType = 
     (rawScores.L > rawScores.S ? 'L' : 'S') +
     (rawScores.A > rawScores.R ? 'A' : 'R') +
-    (rawScores.E > rawScores.M ? 'E' : 'M') +
+    (rawScores.M > rawScores.E ? 'M' : 'E') +
     (rawScores.F > rawScores.C ? 'F' : 'C');
     
   // 개선된 방식으로 타입 결정

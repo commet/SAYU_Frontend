@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback, Fragment } from 'react';
+import React, { useState, useCallback, Fragment, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useSwipeable } from 'react-swipeable';
@@ -16,7 +16,9 @@ import { getBackgroundForQuestion, questionBackgrounds } from '@/data/quiz-backg
 import { ChevronLeft, ChevronRight, Home, Volume2 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
+import { useImagePreloader, useImageBatchPreloader } from '@/hooks/useImagePreloader';
 import '@/styles/audio-guide.css';
+import '@/styles/quiz-animations.css';
 
 interface QuizResponse {
   questionId: number;
@@ -38,9 +40,35 @@ export const MobileQuiz: React.FC = () => {
   });
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showAPTTransition, setShowAPTTransition] = useState(false);
+  const [componentVisibility, setComponentVisibility] = useState({
+    setup: false,
+    question: false,
+    choices: false
+  });
 
   const question = narrativeQuestions[currentQuestion];
   const progress = ((currentQuestion + 1) / narrativeQuestions.length) * 100;
+
+  // 컴포넌트 단계적 등장
+  useEffect(() => {
+    setComponentVisibility({ setup: false, question: false, choices: false });
+    
+    const timers: NodeJS.Timeout[] = [];
+    
+    timers.push(setTimeout(() => {
+      setComponentVisibility(prev => ({ ...prev, setup: true }));
+    }, 150)); // (a) 상황 설명 - 0.15초 후
+    
+    timers.push(setTimeout(() => {
+      setComponentVisibility(prev => ({ ...prev, question: true }));
+    }, 500)); // (b) 질문 - 0.5초 후 (0.35초 간격)
+    
+    timers.push(setTimeout(() => {
+      setComponentVisibility(prev => ({ ...prev, choices: true }));
+    }, 850)); // (c) 선택지 - 0.85초 후 (0.35초 간격)
+    
+    return () => timers.forEach(clearTimeout);
+  }, [currentQuestion]);
 
   // 햅틱 피드백
   const triggerHaptic = useCallback((intensity: 'light' | 'medium' | 'heavy' = 'light') => {
@@ -150,7 +178,7 @@ export const MobileQuiz: React.FC = () => {
     const type = [
       finalScores.L > finalScores.S ? 'L' : 'S',
       finalScores.A > finalScores.R ? 'A' : 'R',
-      finalScores.E > finalScores.M ? 'E' : 'M',
+      finalScores.M > finalScores.E ? 'M' : 'E',
       finalScores.F > finalScores.C ? 'F' : 'C'
     ].join('');
 
@@ -282,8 +310,13 @@ export const MobileQuiz: React.FC = () => {
                   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'
                 }}
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
+                animate={{ 
+                  opacity: componentVisibility.setup ? 1 : 0
+                }}
+                transition={{ 
+                  duration: 0.5,
+                  ease: "easeOut"
+                }}
               >
                 <p className="text-base leading-relaxed font-light text-white/90 italic text-center"
                    style={{ letterSpacing: '-0.01em', lineHeight: '1.6', textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
@@ -323,8 +356,14 @@ export const MobileQuiz: React.FC = () => {
                 filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.4))'
               }}
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
+              animate={{ 
+                opacity: componentVisibility.question ? 1 : 0,
+                y: componentVisibility.question ? 0 : 20
+              }}
+              transition={{ 
+                duration: 0.5,
+                ease: "easeOut"
+              }}
             >
               {(language === 'ko' && question.question_ko ? question.question_ko : question.question)
                 .split('\n')
@@ -339,16 +378,29 @@ export const MobileQuiz: React.FC = () => {
             {/* Choice Cards */}
             <motion.div 
               className="space-y-4 px-6"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ 
+                opacity: componentVisibility.choices ? 1 : 0,
+                scale: componentVisibility.choices ? 1 : 0.95
+              }}
+              transition={{ 
+                duration: 0.4,
+                ease: [0.4, 0, 0.2, 1]
+              }}
             >
               {question.options.map((option, index) => (
                 <motion.div
                   key={option.id}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 + index * 0.1 }}
+                  animate={{ 
+                    opacity: componentVisibility.choices ? 1 : 0,
+                    y: componentVisibility.choices ? 0 : 20
+                  }}
+                  transition={{ 
+                    delay: componentVisibility.choices ? index * 0.15 : 0,
+                    duration: 0.3,
+                    ease: "easeOut"
+                  }}
                   whileTap={{ scale: 0.98 }}
                 >
                   <div

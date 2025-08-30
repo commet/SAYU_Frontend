@@ -97,7 +97,7 @@ export function determinePersonalityType(adjustedScores: DimensionScore): string
   const type = 
     (adjustedScores.L > adjustedScores.S ? 'L' : 'S') +
     (adjustedScores.A > adjustedScores.R ? 'A' : 'R') +
-    (adjustedScores.E > adjustedScores.M ? 'E' : 'M') +
+    (adjustedScores.M > adjustedScores.E ? 'M' : 'E') +
     (adjustedScores.F > adjustedScores.C ? 'F' : 'C');
   
   return type;

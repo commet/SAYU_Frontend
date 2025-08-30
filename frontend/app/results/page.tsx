@@ -147,10 +147,31 @@ function ResultsContent() {
       console.log('Personality Data:', personalityData);
       
       if (personalityData) {
-        // Mock results with URL type
+        // Mock results with URL type and estimated scores
+        // Generate realistic scores based on personality type with some variance
+        const generateScoresFromType = (type: string) => {
+          const scores = { L: 0, S: 0, A: 0, R: 0, E: 0, M: 0, F: 0, C: 0 };
+          // Add random base scores (3-7) and bonus for dominant traits (8-15)
+          const randomBase = () => Math.floor(Math.random() * 5) + 3;
+          const randomBonus = () => Math.floor(Math.random() * 8) + 8;
+          
+          // Set base scores for all
+          Object.keys(scores).forEach(key => {
+            scores[key as keyof typeof scores] = randomBase();
+          });
+          
+          // Add bonus to dominant traits
+          if (type[0] === 'L') scores.L = randomBonus(); else scores.S = randomBonus();
+          if (type[1] === 'A') scores.A = randomBonus(); else scores.R = randomBonus();
+          if (type[2] === 'M') scores.M = randomBonus(); else scores.E = randomBonus();
+          if (type[3] === 'F') scores.F = randomBonus(); else scores.C = randomBonus();
+          
+          return scores;
+        };
+        
         const mockResults = {
           personalityType: urlType,
-          scores: {},
+          scores: generateScoresFromType(urlType),
           responses: [],
           completedAt: new Date().toISOString()
         };

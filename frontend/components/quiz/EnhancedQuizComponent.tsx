@@ -569,7 +569,7 @@ export const EnhancedQuizComponent: React.FC<QuizProps> = ({ onComplete }) => {
     const type = 
       (dimensions.L > dimensions.S ? 'L' : 'S') +
       (dimensions.A > dimensions.R ? 'A' : 'R') +
-      (dimensions.E > dimensions.M ? 'E' : 'M') +
+      (dimensions.M > dimensions.E ? 'M' : 'E') +
       (dimensions.F > dimensions.C ? 'F' : 'C');
     
     const finalType = personalityTypes[type];
@@ -614,6 +614,7 @@ export const EnhancedQuizComponent: React.FC<QuizProps> = ({ onComplete }) => {
               key={option.id}
               initial={{ opacity: 0, x: index === 0 ? -30 : 30 }}
               animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.3 }}
               whileHover={{ scale: 1.03, y: -5 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => handleAnswer(question.id, option)}
@@ -760,7 +761,7 @@ export const EnhancedQuizComponent: React.FC<QuizProps> = ({ onComplete }) => {
                 key={option.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: index * 0.3 }}
                 whileHover={{ scale: 1.02 }}
                 onClick={() => handleOptionClick(option)}
                 className="w-full p-4 bg-white/5 hover:bg-white/10 rounded-xl border border-white/20 hover:border-indigo-400/50 transition-all duration-300 text-left"

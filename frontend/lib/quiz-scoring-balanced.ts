@@ -28,7 +28,7 @@ export function calculateBalancedScore(
   const type = 
     (rawScores.L > rawScores.S ? 'L' : 'S') +
     (rawScores.A > rawScores.R ? 'A' : 'R') +
-    (rawScores.E > rawScores.M ? 'E' : 'M') +
+    (rawScores.M > rawScores.E ? 'M' : 'E') +
     (rawScores.F > rawScores.C ? 'F' : 'C');
     
   return type;

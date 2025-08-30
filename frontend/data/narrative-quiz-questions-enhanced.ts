@@ -41,7 +41,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'solitary',
         text: "Perfect, it's quiet. I can enjoy everything at my own pace",
-        text_ko: "한산한 시간이라 다행이야. 조용히 나만의 페이스로 볼 수 있겠어",
+        text_ko: "한산한 시간이라 다행이야.\n조용히 나만의 페이스로 볼 수 있겠어",
         weight: { L: 3 },
         narrative: "You breathe deeply, savoring the peaceful atmosphere that allows for undisturbed contemplation.",
         emotional: "peaceful"
@@ -188,7 +188,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'preserve-moment',
         text: "(...I thought so too. Let me continue my quiet appreciation)",
-        text_ko: "(...나도 그렇게 생각했는데. 조용히 내 감상을 이어가자)",
+        text_ko: "(...나도 그렇게 생각했는데,\n조용히 내 감상을 이어가자)",
         weight: { L: 2, E: 1 },
         narrative: "You hold your experience close, like a personal treasure.",
         emotional: "private"
@@ -196,7 +196,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'share-moment',
         text: "It really is amazing, right? Especially this part...",
-        text_ko: "정말 대단하죠? 특히 이 부분이...",
+        text_ko: "(미소를 보내며) 정말 대단하죠? 특히 이 부분이...",
         weight: { S: 2, M: 1 },
         narrative: "Sharing perspectives enriches the moment for both of you.",
         emotional: "connected"
@@ -217,7 +217,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'sensory-immersion',
         text: "This feeling of being surrounded by light and sound... like being inside the art",
-        text_ko: "빛과 소리에 둘러싸인 이 느낌... 작품 속에 있는 것 같아",
+        text_ko: "빛과 소리에 둘러싸인 이 느낌...\n작품 속에 있는 것 같아",
         weight: { A: 3, F: 1 },
         narrative: "You surrender to the sensory experience, letting it wash over you.",
         emotional: "immersed"
@@ -225,7 +225,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'technical-curiosity',
         text: "So this is another way to express art. How did they make this?",
-        text_ko: "이렇게 표현할 수도 있구나. 어떻게 만들었을까?",
+        text_ko: "이렇게 표현할 수도 있구나.\n어떻게 만들었을까?",
         weight: { R: 3, C: 1 },
         narrative: "You appreciate the innovative techniques and planning behind the installation.",
         emotional: "analytical"
@@ -254,7 +254,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'understand-concept',
         text: "Ah, so viewers become part of the work's structure",
-        text_ko: "아, 관람객도 작품의 일부가 되는 구조구나",
+        text_ko: "아, 관람객도 작품의 일부가\n되는 구조구나",
         weight: { R: 2, M: 1 },
         narrative: "You grasp the artist's clever conceptual framework.",
         emotional: "enlightened"
@@ -304,7 +304,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'private-reflection',
         text: "I should quietly record this in my personal notes",
-        text_ko: "나만의 비밀 노트에 조용히 기록해둬야지",
+        text_ko: "나만의 수집 노트에\n조용히 기록해둬야지",
         weight: { L: 3, E: 1 },
         narrative: "Some experiences are too precious to share immediately.",
         emotional: "introspective"
@@ -343,7 +343,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'technique-history',
         text: "How did this technique develop over time?",
-        text_ko: "이 기법은 어떻게 발전해온 걸까",
+        text_ko: "이 미술 기법은 이름이 뭐고, 어떻게 발전해온 걸까",
         weight: { M: 2, R: 1 },
         narrative: "You appreciate art as an evolving language of expression.",
         emotional: "studious"
@@ -355,7 +355,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     act: 'revelation',
     narrative: {
       setup: "Exhibition catalogs from past and upcoming shows are displayed. Each promises a different artistic journey.",
-      setup_ko: "과거와 예정 전시 도록들이 진열되어 있습니다. 각각 다른 예술적 여정을 약속합니다.",
+      setup_ko: "과거와 예정 전시 도록들이 진열되어 있습니다.\n각각 다른 예술적 여정을 약속합니다.",
       atmosphere: "preference"
     },
     question: "The pamphlet shows other exhibitions. What draws you more?",
@@ -384,7 +384,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
     act: 'revelation',
     narrative: {
       setup: "Looking at art prints for sale, you imagine your own living space with art.",
-      setup_ko: "판매 중인 아트 프린트를 보며 예술과 함께하는 내 공간을 상상합니다.",
+      setup_ko: "판매 중인 아트 프린트를 보며\n예술과 함께하는 내 공간을 상상합니다.",
       atmosphere: "personal"
     },
     question: "If I could have one artwork...",
@@ -401,7 +401,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'narrative-landscape',
         text: "A landscape with a story I'd love to display",
-        text_ko: "이야기가 있는 풍경화를 걸어두고 싶어",
+        text_ko: "이야기가 있는 구체적인 풍경화나 인물화를 걸어두고 싶어",
         weight: { R: 2, C: 1 },
         narrative: "You want art that grounds you in narrative and place.",
         emotional: "grounded"
@@ -422,7 +422,7 @@ export const narrativeQuestions: NarrativeQuestion[] = [
       {
         id: 'private-sanctuary',
         text: "It provides my own secret sanctuary",
-        text_ko: "혼자만의 은밀한 피난처를 제공해주니까",
+        text_ko: "나만의 은밀하지만 자유로운 위로가 되어주니까",
         weight: { L: 2, F: 1 },
         narrative: "Art is your personal escape from the ordinary world.",
         emotional: "protected"
