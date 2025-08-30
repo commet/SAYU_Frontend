@@ -14,7 +14,8 @@ import {
 import { 
   getBackgroundForQuestion, 
   getPhaseByQuestion, 
-  fallbackGradients 
+  fallbackGradients,
+  questionBackgrounds 
 } from '@/data/quiz-backgrounds';
 import { GlassCard, GlassButton, GlassIconButton } from '@/components/ui/glass';
 import { EmotionalButton, EmotionalToast } from '@/components/emotional/EmotionalCard';
