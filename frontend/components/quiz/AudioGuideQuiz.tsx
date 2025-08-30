@@ -265,6 +265,22 @@ export const AudioGuideQuiz: React.FC = () => {
   
   return (
     <div className="audio-guide-quiz-container">
+      {/* Hidden Preload Images - Force browser to cache all backgrounds */}
+      <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+        {Object.values(questionBackgrounds).map((bgData, idx) => 
+          Array.isArray(bgData.backgrounds) && bgData.backgrounds.map((url, bgIdx) => (
+            <img 
+              key={`preload-${idx}-${bgIdx}`}
+              src={url} 
+              alt=""
+              loading="eager"
+              fetchPriority={idx === 0 && bgIdx < 2 ? "high" : "auto"}
+              style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px' }}
+            />
+          ))
+        )}
+      </div>
+
       {/* Language Toggle */}
       <div className="absolute top-4 right-4 z-50">
         <LanguageToggle variant="glass" />

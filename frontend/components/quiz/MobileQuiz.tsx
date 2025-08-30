@@ -49,6 +49,42 @@ export const MobileQuiz: React.FC = () => {
   const question = narrativeQuestions[currentQuestion];
   const progress = ((currentQuestion + 1) / narrativeQuestions.length) * 100;
 
+  // Preload ALL quiz backgrounds immediately on mount
+  useEffect(() => {
+    // Collect all background URLs
+    const allBackgroundUrls: string[] = [];
+    Object.values(questionBackgrounds).forEach(bgData => {
+      if (Array.isArray(bgData.backgrounds)) {
+        allBackgroundUrls.push(...bgData.backgrounds);
+      }
+    });
+    
+    // Preload all images immediately with high priority
+    allBackgroundUrls.forEach((url, index) => {
+      const img = new Image();
+      // First 5 images get highest priority
+      img.fetchPriority = index < 5 ? 'high' : 'low';
+      img.decoding = 'async';
+      img.src = url;
+    });
+  }, []); // Only run once on mount
+
+  // Preload next 3 questions' backgrounds
+  const nextBackgroundUrls = useMemo(() => {
+    const urls: string[] = [];
+    for (let i = 1; i <= 3; i++) {
+      const nextIndex = currentQuestion + i;
+      if (nextIndex < narrativeQuestions.length) {
+        const bg = getBackgroundForQuestion(nextIndex + 1);
+        if (bg) urls.push(bg);
+      }
+    }
+    return urls;
+  }, [currentQuestion]);
+
+  // Use the batch preloader for next backgrounds
+  const { loadedImages: preloadedImages } = useImageBatchPreloader(nextBackgroundUrls);
+
   // 컴포넌트 단계적 등장
   useEffect(() => {
     setComponentVisibility({ setup: false, question: false, choices: false });
@@ -224,6 +260,22 @@ export const MobileQuiz: React.FC = () => {
       }}
       {...handlers}
     >
+      {/* Hidden Preload Images - Force browser to cache all backgrounds */}
+      <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+        {Object.values(questionBackgrounds).map((bgData, idx) => 
+          Array.isArray(bgData.backgrounds) && bgData.backgrounds.map((url, bgIdx) => (
+            <img 
+              key={`preload-${idx}-${bgIdx}`}
+              src={url} 
+              alt=""
+              loading="eager"
+              fetchPriority={idx === 0 && bgIdx < 2 ? "high" : "auto"}
+              style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px' }}
+            />
+          ))
+        )}
+      </div>
+
       {/* 배경 오버레이 - 데스크톱과 동일 */}
       {currentBackground && (
         <div 
