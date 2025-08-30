@@ -85,8 +85,8 @@ export function useImagePreloader(src: string | undefined, options: ImagePreload
   };
 }
 
-// Batch preloader for multiple images
-export function useImageBatchPreloader(urls: string[]) {
+// Batch preloader for multiple images with priority loading
+export function useImageBatchPreloader(urls: string[], priority: 'sequential' | 'parallel' = 'parallel') {
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   const [progress, setProgress] = useState(0);
 
@@ -96,18 +96,47 @@ export function useImageBatchPreloader(urls: string[]) {
     const images: HTMLImageElement[] = [];
     let loadedCount = 0;
 
-    urls.forEach(url => {
-      const img = new Image();
-      img.src = url;
+    // Preload first 3 images immediately for faster initial load
+    const preloadImages = async () => {
+      // High priority for first 3 images
+      const highPriorityUrls = urls.slice(0, 3);
+      const lowPriorityUrls = urls.slice(3);
       
-      img.addEventListener('load', () => {
-        loadedCount++;
-        setLoadedImages(prev => new Set(prev).add(url));
-        setProgress((loadedCount / urls.length) * 100);
+      // Load high priority images first
+      highPriorityUrls.forEach(url => {
+        const img = new Image();
+        img.fetchPriority = 'high';
+        img.decoding = 'async';
+        img.src = url;
+        images.push(img);
+        
+        img.onload = () => {
+          loadedCount++;
+          setLoadedImages(prev => new Set(prev).add(url));
+          setProgress((loadedCount / urls.length) * 100);
+        };
       });
+      
+      // Load remaining images with lower priority
+      setTimeout(() => {
+        lowPriorityUrls.forEach(url => {
+          const img = new Image();
+          img.fetchPriority = 'low';
+          img.decoding = 'async';
+          img.src = url;
+          
+          img.addEventListener('load', () => {
+            loadedCount++;
+            setLoadedImages(prev => new Set(prev).add(url));
+            setProgress((loadedCount / urls.length) * 100);
+          });
 
-      images.push(img);
-    });
+          images.push(img);
+        });
+      }, 100); // Small delay for low priority images
+    };
+
+    preloadImages();
 
     return () => {
       images.forEach(img => {

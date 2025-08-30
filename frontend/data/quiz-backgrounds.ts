@@ -33,7 +33,7 @@ export const backgroundProgression: Record<string, BackgroundPhase> = {
   phase1_outside: {
     questions: [1, 2],
     backgrounds: [
-      '/images/backgrounds/odern-museum-entrance-stairs-crowded.jpg',
+      '/images/backgrounds/modern-museum-entrance-stairs-crowded.jpg',
       '/images/backgrounds/stone-gallery-entrance-solitary-figure.jpg'
     ],
     ambiance: 'anticipation',
