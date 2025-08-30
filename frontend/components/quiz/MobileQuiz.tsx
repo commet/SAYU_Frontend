@@ -246,7 +246,7 @@ export const MobileQuiz: React.FC = () => {
 
   const backgroundData = getBackgroundForQuestion(currentQuestion + 1);
   // Use direct question-to-background mapping for exact 1:1 matching
-  const currentBackground = questionBackgrounds[currentQuestion + 1] || null;
+  const currentBackground = questionBackgrounds[currentQuestion + 1] || '';
 
   return (
     <div 
