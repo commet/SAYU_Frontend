@@ -4,6 +4,7 @@ import { promptEngine } from '@/lib/advanced-prompt-engine'
 import type { PageContextV2 } from '@/lib/apt-interpreter'
 import { chatbotRateLimiter } from '@/lib/rate-limiter'
 import { generateWithFreeLLM } from '@/lib/free-llm-client'
+import { loadPageContext, contextCache } from '@/lib/chatbot-context-provider'
 
 // APT 유형별 전시 선호도 매칭 로직
 const APT_EXHIBITION_PREFERENCES: Record<string, string[]> = {
@@ -118,11 +119,24 @@ export async function POST(request: NextRequest) {
       provider: 'groq-primary'
     })
     
-    // 페이지 컨텍스트 구성
+    // 동적 데이터 로드 (캐시 활용 - 5분)
+    const cacheKey = `${page}-${userId || 'anonymous'}-${userType}`
+    let dynamicContext = contextCache.get(cacheKey)
+    
+    if (!dynamicContext) {
+      console.log('📊 Loading dynamic context for page:', page)
+      dynamicContext = await loadPageContext(page, userId, userType)
+      contextCache.set(cacheKey, dynamicContext)
+    } else {
+      console.log('📊 Using cached context for page:', page)
+    }
+    
+    // 페이지 컨텍스트 구성 (정적 + 동적 데이터 통합)
     const pageContext = {
       page,
       artwork,
       exhibition: context.exhibition,
+      dynamicData: dynamicContext, // 실시간 DB 데이터
       userBehavior: {
         pageVisitCount: userBehavior.pageVisitCount || 1,
         timeOnPage: userBehavior.timeOnPage || 0,

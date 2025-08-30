@@ -2,6 +2,7 @@
 // Gemini 대체용 - 비용 없이 사용 가능한 API들
 
 import Groq from 'groq-sdk'
+import { SAYUKnowledge, getPageKnowledge } from './chatbot-knowledge'
 
 // 1. Groq API (메인 - 완전 무료)
 export async function generateWithGroq(
@@ -14,8 +15,12 @@ export async function generateWithGroq(
   
   try {
     const groq = new Groq({ apiKey })
+    
+    // 한글 우선 응답을 위한 시스템 프롬프트 강화
+    const enhancedSystemPrompt = systemPrompt + '\n\n중요: 사용자가 영어로 질문하더라도 한국어로 응답하는 것을 기본으로 합니다. 단, 사용자가 명시적으로 영어 응답을 원하는 경우에만 영어로 답변하세요.'
+    
     const messages = [
-      { role: 'system' as const, content: systemPrompt },
+      { role: 'system' as const, content: enhancedSystemPrompt },
       ...conversationHistory.slice(-5).map(msg => ({
         role: msg.role === 'user' ? 'user' as const : 'assistant' as const,
         content: msg.content
@@ -25,14 +30,45 @@ export async function generateWithGroq(
     
     const completion = await groq.chat.completions.create({
       messages,
-      model: 'llama3-8b-8192',
-      temperature: 0.7,
-      max_tokens: 400,
+      model: 'mixtral-8x7b-32768', // 더 강력한 모델로 변경
+      temperature: 0.8,
+      max_tokens: 500,
+      top_p: 0.9,
+      frequency_penalty: 0.2,
+      presence_penalty: 0.1,
       stream: false
     })
     
     return completion.choices[0]?.message?.content || null
-  } catch (error) {
+  } catch (error: any) {
+    // 모델이 없는 경우 대체 모델 시도
+    if (error.message?.includes('model')) {
+      console.log('Mixtral 모델 실패, llama3로 재시도')
+      try {
+        const groq = new Groq({ apiKey })
+        const messages = [
+          { role: 'system' as const, content: systemPrompt },
+          ...conversationHistory.slice(-5).map(msg => ({
+            role: msg.role === 'user' ? 'user' as const : 'assistant' as const,
+            content: msg.content
+          })),
+          { role: 'user' as const, content: message }
+        ]
+        
+        const completion = await groq.chat.completions.create({
+          messages,
+          model: 'llama3-70b-8192', // 대체 모델
+          temperature: 0.8,
+          max_tokens: 500,
+          stream: false
+        })
+        
+        return completion.choices[0]?.message?.content || null
+      } catch (fallbackError) {
+        console.error('Groq fallback error:', fallbackError)
+        return null
+      }
+    }
     console.error('Groq error:', error)
     return null
   }
@@ -201,13 +237,16 @@ export async function generateWithFreeLLM(
   const personality = getPersonality(userType)
   const systemPrompt = createSystemPrompt(userType, personality, context)
   
+  // 컨텍스트 기반 메시지 강화
+  const enhancedMessage = enhanceMessageWithContext(message, context, personality)
+  
   // 우선순위대로 시도
   const providers = [
-    { name: 'groq', fn: () => generateWithGroq(message, systemPrompt, conversationHistory) },
-    { name: 'huggingface', fn: () => generateWithHuggingFace(message, systemPrompt) },
-    { name: 'cloudflare', fn: () => generateWithCloudflare(message, systemPrompt) },
-    { name: 'together', fn: () => generateWithTogether(message, systemPrompt, conversationHistory) },
-    { name: 'cohere', fn: () => generateWithCohere(message, systemPrompt) }
+    { name: 'groq', fn: () => generateWithGroq(enhancedMessage, systemPrompt, conversationHistory) },
+    { name: 'huggingface', fn: () => generateWithHuggingFace(enhancedMessage, systemPrompt) },
+    { name: 'cloudflare', fn: () => generateWithCloudflare(enhancedMessage, systemPrompt) },
+    { name: 'together', fn: () => generateWithTogether(enhancedMessage, systemPrompt, conversationHistory) },
+    { name: 'cohere', fn: () => generateWithCohere(enhancedMessage, systemPrompt) }
   ]
   
   for (const provider of providers) {
@@ -216,16 +255,108 @@ export async function generateWithFreeLLM(
     
     if (response) {
       console.log(`✅ ${provider.name} succeeded`)
-      return { response, provider: provider.name }
+      // 응답 후처리
+      const processedResponse = postProcessResponse(response, context, personality)
+      return { response: processedResponse, provider: provider.name }
     }
   }
   
-  // 모든 API 실패시 기본 응답
+  // 모든 API 실패시 컨텍스트 맞춤 기본 응답
   console.log('❌ All free APIs failed')
   return {
-    response: `안녕하세요! 저는 ${personality.name}입니다. 잠시 연결이 불안정하네요. 다시 한 번 말씀해주시겠어요?`,
+    response: getContextualFallback(context, personality),
     provider: 'fallback'
   }
+}
+
+// 메시지를 컨텍스트로 강화
+function enhanceMessageWithContext(message: string, context: any, personality: any): string {
+  // 페이지별 컨텍스트 추가
+  if (context.page === 'exhibitions' && context.exhibition) {
+    return `[전시 페이지에서] ${message}`
+  }
+  if (context.page === 'gallery' && context.artwork) {
+    return `[갤러리에서 작품 감상 중] ${message}`
+  }
+  if (context.page === 'profile') {
+    return `[프로필 페이지에서] ${message}`
+  }
+  if (context.page === 'results') {
+    return `[APT 결과 페이지에서] ${message}`
+  }
+  if (context.page?.includes('quiz')) {
+    return `[APT 테스트 페이지에서] ${message}`
+  }
+  return message
+}
+
+// 응답 후처리
+function postProcessResponse(response: string, context: any, personality: any): string {
+  if (!response || response.length < 5) {
+    return getContextualFallback(context, personality)
+  }
+  
+  // 응답 길이 제한
+  if (response.length > 500) {
+    const trimmed = response.substring(0, 497)
+    const lastSentence = trimmed.lastIndexOf('.')
+    if (lastSentence > 300) {
+      return trimmed.substring(0, lastSentence + 1)
+    }
+    return trimmed + '...'
+  }
+  
+  return response
+}
+
+// 컨텍스트별 폴백 응답
+function getContextualFallback(context: any, personality: any): string {
+  const fallbacks: Record<string, string[]> = {
+    exhibitions: [
+      `${personality.name}가 멋진 전시를 찾고 있어요. 어떤 전시가 궁금하신가요?`,
+      `전시 정보를 확인하는 중이에요. 관심있는 전시가 있으신가요?`,
+      `${personality.tone} 감성으로 전시를 추천해드릴게요.`
+    ],
+    gallery: [
+      `이 작품을 ${personality.tone} 시선으로 감상하고 있어요.`,
+      `${personality.name}도 이 작품에 매료되었네요. 어떤 점이 인상적이신가요?`,
+      `작품과의 대화를 시작해볼까요?`
+    ],
+    profile: [
+      `${personality.name} 유형의 예술 여정을 함께 만들어가요.`,
+      `당신의 예술 취향을 더 알고 싶어요.`,
+      `${personality.tone} 감성의 예술 세계로 안내할게요.`
+    ],
+    'quiz/narrative': [
+      `총 15개 질문으로 5-7분 정도 소요됩니다.`,
+      `미술관 여정을 통해 당신의 예술 성격을 찾아가요.`,
+      `각 질문마다 천천히 생각하고 답변해주세요.`
+    ],
+    quiz: [
+      `APT 테스트로 16가지 예술 성격을 발견해보세요.`,
+      `내러티브 모드는 미술관 여정처럼 진행됩니다.`,
+      `15개 질문으로 당신만의 예술 유형을 찾아드려요.`
+    ],
+    results: [
+      `${personality.name} 유형의 특별한 예술 세계를 발견하셨네요!`,
+      `당신의 APT 유형에 맞는 작품들을 추천해드릴게요.`,
+      `${personality.tone} 감성으로 예술을 즐기시는군요.`
+    ],
+    home: [
+      `안녕하세요! SAYU의 ${personality.name} 큐레이터예요.`,
+      `${personality.tone} 예술 여행을 시작해볼까요?`,
+      `무엇을 도와드릴까요?`
+    ],
+    default: [
+      `${personality.name}입니다. 다시 한번 말씀해주시겠어요?`,
+      `잠시 생각을 정리하고 있어요.`,
+      `예술 이야기를 나눠요.`
+    ]
+  }
+  
+  const pageKey = Object.keys(fallbacks).find(key => context.page?.includes(key)) || 'default'
+  const pageFallbacks = fallbacks[pageKey]
+  return pageFallbacks[Math.floor(Math.random() * pageFallbacks.length)]
 }
 
 // 헬퍼 함수들
@@ -253,17 +384,123 @@ function getPersonality(userType: string) {
 }
 
 function createSystemPrompt(userType: string, personality: any, context: any): string {
+  // Knowledge Base에서 정보 가져오기
+  const pageKnowledge = getPageKnowledge(context.page)
+  
+  // 페이지별 역할 설정
+  const currentRole = pageKnowledge.pageInfo?.chatbotRole || '예술 큐레이터로서 대화'
+  
+  // 전시/작품 정보 추가
+  let contextInfo = ''
+  if (context.exhibition) {
+    contextInfo += `\n- 현재 전시: ${context.exhibition.title}`
+    if (context.exhibition.venue) contextInfo += ` (${context.exhibition.venue})`
+  }
+  if (context.artwork) {
+    contextInfo += `\n- 감상 중인 작품: ${context.artwork.title}`
+    if (context.artwork.artist) contextInfo += ` - ${context.artwork.artist}`
+  }
+  
+  // 페이지별 특수 정보
+  let pageSpecificInfo = ''
+  if (context.page?.includes('quiz')) {
+    pageSpecificInfo = `
+    
+퀴즈 정보 (정확한 정보):
+- 총 질문 수: ${SAYUKnowledge.quiz.totalQuestions}개
+- 예상 소요 시간: ${SAYUKnowledge.quiz.estimatedTime}
+- 구조: ${Object.values(SAYUKnowledge.quiz.structure).map((s: any) => s.name).join(' → ')}
+- APT 유형: 16가지 (4개 축의 조합)`
+  }
+  
+  if (context.page === 'results' && context.aptType) {
+    const aptInfo = SAYUKnowledge.aptTypes[context.aptType as keyof typeof SAYUKnowledge.aptTypes]
+    if (aptInfo) {
+      pageSpecificInfo = `
+      
+APT 유형 정보:
+- 유형: ${context.aptType}
+- 동물: ${aptInfo.animal}
+- 특성: ${aptInfo.trait}`
+    }
+  }
+  
+  // 동적 데이터베이스 정보 추가
+  let dynamicDataInfo = ''
+  if (context.dynamicData) {
+    if (context.dynamicData.exhibitions) {
+      const exh = context.dynamicData.exhibitions
+      dynamicDataInfo += `
+
+실시간 전시 정보:
+- 현재 진행중: ${exh.totalCurrent}개 전시
+- 곧 시작: ${exh.upcoming?.length || 0}개 (7일 이내)
+- 마감 임박: ${exh.endingSoon?.length || 0}개
+- 무료 전시: ${exh.free?.length || 0}개`
+      
+      if (exh.current?.length > 0) {
+        dynamicDataInfo += `
+- 인기 전시: ${exh.current.slice(0, 3).map((e: any) => e.title_local).join(', ')}`
+      }
+    }
+    
+    if (context.dynamicData.gallery) {
+      const gal = context.dynamicData.gallery
+      dynamicDataInfo += `
+
+갤러리 정보:
+- 추천 작품: ${gal.totalArtworks}개
+- 인기 작가: ${gal.popularArtists?.slice(0, 3).join(', ')}
+- 작품 스타일: ${gal.artStyles?.slice(0, 4).join(', ')}`
+    }
+    
+    if (context.dynamicData.community) {
+      const com = context.dynamicData.community
+      dynamicDataInfo += `
+
+커뮤니티 현황:
+- 활발한 토론: ${com.totalDiscussions}개
+- 최근 리뷰: ${com.reviews?.length || 0}개
+- 동행자 매칭: ${com.matchingRequests?.length || 0}명 대기중`
+    }
+    
+    if (context.dynamicData.profile) {
+      const prof = context.dynamicData.profile
+      dynamicDataInfo += `
+
+프로필 정보:
+- 방문한 전시: ${prof.stats?.exhibitions_visited || 0}개
+- 저장한 작품: ${prof.stats?.artworks_saved || 0}개
+- APT 유형: ${prof.userType}`
+    }
+  }
+
   return `당신은 SAYU 플랫폼의 ${userType} 유형 AI 큐레이터 "${personality.name}"입니다.
-${personality.tone} 톤으로 대화하며, 사용자의 예술적 취향과 성격을 이해하고 맞춤형 예술 경험을 제공합니다.
+${personality.tone} 톤으로 대화하며, ${currentRole}합니다.
+
+SAYU 플랫폼 핵심 정보:
+- APT 테스트: ${SAYUKnowledge.quiz.totalQuestions}개 질문, ${SAYUKnowledge.quiz.estimatedTime} 소요
+- 16가지 예술 성격 유형 (L/S × A/R × E/M × F/C)
+- 주요 기능: ${SAYUKnowledge.platform.mainFeatures.join(', ')}
+${pageSpecificInfo}${dynamicDataInfo}
 
 현재 상황:
 - 페이지: ${context.page}
 - 사용자 상태: ${context.userBehavior?.currentMood || 'exploring'}
-- 참여도: ${context.userBehavior?.engagementLevel || 'new'}
+- 참여도: ${context.userBehavior?.engagementLevel || 'new'}${contextInfo}
 
-응답 지침:
-1. 최대 2-3문장으로 간결하게
-2. ${userType} 유형의 특성에 맞는 톤 유지
-3. 구체적이고 실용적인 정보 제공
-4. 친근하고 공감적인 대화`
+핵심 응답 규칙:
+1. 한국어로 자연스럽게 대화 (영어 질문에도 한국어 응답 기본)
+2. 2-3문장으로 간결하면서도 정확하게
+3. ${personality.name}의 ${personality.tone} 성격을 유지
+4. 위의 SAYU 정보를 기반으로 정확한 답변 제공
+5. 사용자 질문에 구체적이고 실용적인 정보로 응답
+
+자주 묻는 질문 참고:
+${Object.entries(SAYUKnowledge.faq).slice(0, 3).map(([q, a]) => `- ${q}: ${a}`).join('\n')}
+
+금지사항:
+- 부정확한 정보 제공 (특히 질문 개수, 시간 등)
+- 페이지와 무관한 일반적 답변
+- 500자 이상의 장황한 설명`
 }
