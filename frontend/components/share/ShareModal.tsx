@@ -104,21 +104,70 @@ Discover your art personality too!`;
 
   const handleSaveImage = async () => {
     // Use full-size card for capture
-    const elementToCapture = fullSizeShareCardRef.current || shareCardRef.current;
+    const elementToCapture = fullSizeShareCardRef.current;
     if (!elementToCapture) return;
 
     try {
       // Dynamic import to reduce initial bundle size
       const { default: html2canvas } = await import('html2canvas');
       
-      // html2canvas 설정 개선 - 파일 크기 최적화
+      // 캡처를 위해 임시로 요소를 보이게 하기
+      const parent = elementToCapture.parentElement;
+      if (!parent) return;
+      
+      // 원래 스타일 저장
+      const originalStyle = parent.style.cssText;
+      
+      // 화면에 렌더링하기 위해 위치 조정
+      parent.style.cssText = `
+        position: fixed !important;
+        left: 0 !important;
+        top: 0 !important;
+        z-index: 99999 !important;
+        opacity: 1 !important;
+        pointer-events: none !important;
+        visibility: visible !important;
+      `;
+      
+      // 렌더링 대기
+      await new Promise(resolve => setTimeout(resolve, 200));
+      
+      // html2canvas 옵션 최적화
       const canvas = await html2canvas(elementToCapture, {
-        scale: 1.5, // 파일 크기를 줄이기 위해 scale 감소
-        backgroundColor: '#000000', // 투명 대신 검은색 배경
+        scale: 1,
+        backgroundColor: null,
         useCORS: true,
         allowTaint: true,
-        logging: false
+        logging: false,
+        imageTimeout: 30000,
+        windowWidth: elementToCapture.scrollWidth,
+        windowHeight: elementToCapture.scrollHeight,
+        onclone: (clonedDoc, element) => {
+          // 클론된 요소의 스타일 보정
+          const clonedEl = clonedDoc.getElementById(element.id) || clonedDoc.querySelector('[data-share-card]');
+          if (clonedEl) {
+            // 모든 자식 요소들의 position 값 보정
+            const allElements = clonedEl.querySelectorAll('*');
+            allElements.forEach(el => {
+              const htmlEl = el as HTMLElement;
+              const computedStyle = window.getComputedStyle(htmlEl);
+              
+              // position absolute/relative 요소들의 위치 고정
+              if (computedStyle.position === 'absolute' || computedStyle.position === 'relative') {
+                htmlEl.style.position = computedStyle.position;
+                htmlEl.style.top = computedStyle.top;
+                htmlEl.style.left = computedStyle.left;
+                htmlEl.style.right = computedStyle.right;
+                htmlEl.style.bottom = computedStyle.bottom;
+                htmlEl.style.transform = computedStyle.transform;
+              }
+            });
+          }
+        }
       });
+      
+      // 원래 스타일로 복원
+      parent.style.cssText = originalStyle;
       
       // 모바일 체크
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -592,12 +641,15 @@ Discover your art personality too!`;
                     shareFormat === 'feed' ? 'w-[180px] h-[180px]' :
                     'w-[180px] h-[225px]'
                   }`}
-                  style={{
-                    backgroundImage: `url(${masterpiece.imageUrl})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  }}
                 >
+                  {/* Background image as img tag for better capture */}
+                  <img 
+                    src={masterpiece.imageUrl}
+                    alt="Background"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    crossOrigin="anonymous"
+                  />
+                  
                   {/* Dark overlay for text readability */}
                   <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
                   
@@ -826,24 +878,8 @@ Discover your art personality too!`;
                 {language === 'ko' ? '공유 방법' : 'Share Options'}
               </h3>
               
-              {/* Platform Buttons */}
+              {/* Platform Buttons - 순서 변경: 이미지 저장과 링크 복사를 1열로 */}
               <div className="grid grid-cols-2 gap-3 mb-4">
-                <button
-                  onClick={handleInstagramShare}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all"
-                >
-                  <Instagram className="w-5 h-5" />
-                  <span>{language === 'ko' ? '인스타그램' : 'Instagram'}</span>
-                </button>
-                
-                <button
-                  onClick={handleFacebookShare}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-blue-700 text-white hover:bg-blue-800 transition-all"
-                >
-                  <Facebook className="w-5 h-5" />
-                  <span>{language === 'ko' ? '페이스북' : 'Facebook'}</span>
-                </button>
-                
                 <button
                   onClick={handleSaveImage}
                   className="flex items-center gap-3 p-4 rounded-xl bg-green-500 text-white hover:bg-green-600 transition-all"
@@ -864,6 +900,22 @@ Discover your art personality too!`;
                     }
                   </span>
                 </button>
+                
+                <button
+                  onClick={handleInstagramShare}
+                  className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all"
+                >
+                  <Instagram className="w-5 h-5" />
+                  <span>{language === 'ko' ? '인스타그램' : 'Instagram'}</span>
+                </button>
+                
+                <button
+                  onClick={handleFacebookShare}
+                  className="flex items-center gap-3 p-4 rounded-xl bg-blue-700 text-white hover:bg-blue-800 transition-all"
+                >
+                  <Facebook className="w-5 h-5" />
+                  <span>{language === 'ko' ? '페이스북' : 'Facebook'}</span>
+                </button>
               </div>
             </div>
 
@@ -879,33 +931,60 @@ Discover your art personality too!`;
         </motion.div>
         
         {/* Hidden full-size share cards for actual download */}
-        <div className="absolute -left-[9999px] -top-[9999px] pointer-events-none">
+        <div className="fixed" style={{ left: '-9999px', top: '-9999px', pointerEvents: 'none' }}>
           <div
             ref={fullSizeShareCardRef}
-            className={`overflow-hidden shadow-xl relative ${
+            data-share-card="true"
+            className={`relative ${
               shareFormat === 'story' ? 'w-[1080px] h-[1920px]' :
               shareFormat === 'feed' ? 'w-[1080px] h-[1080px]' :
               'w-[1080px] h-[1350px]'
             }`}
             style={{
-              backgroundImage: `url(${masterpiece.imageUrl})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
+              backgroundColor: '#000000',
+              overflow: 'hidden'
             }}
           >
-            {/* Dark overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/90" />
+            {/* Background image as img tag for better capture */}
+            <img 
+              src={masterpiece.imageUrl}
+              alt="Background"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }}
+              crossOrigin="anonymous"
+            />
             
-            <div className={`relative z-10 h-full text-white flex flex-col ${
-              shareFormat === 'story' ? 'p-20 pt-32' : 
-              shareFormat === 'feed' ? 'p-16' : 'p-16'
-            }`}>
+            {/* Dark overlay for text readability */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.9))'
+            }} />
+            
+            <div style={{
+              position: 'relative',
+              zIndex: 10,
+              height: '100%',
+              color: 'white',
+              display: 'flex',
+              flexDirection: 'column',
+              padding: shareFormat === 'story' ? '128px 80px 80px' : '64px',
+            }}>
               {shareFormat === 'story' ? (
                 <>
                   {/* Story format - 세로 레이아웃 */}
-                  <div className="flex flex-col items-center text-center">
-                    {/* 동물 캐릭터 - 약간 크기 증가 */}
-                    <div className="mb-8 scale-[6] mt-10">
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                    {/* 동물 캐릭터 */}
+                    <div style={{ marginBottom: '32px', marginTop: '40px', transform: 'scale(6)' }}>
                       <PersonalityIconFixed
                         type={personalityType}
                         size="small"
@@ -913,50 +992,88 @@ Discover your art personality too!`;
                       />
                     </div>
                     
-                    {/* LRMC - 위치 아래로 조정 */}
-                    <div className="font-black text-[100px] leading-none mb-6 mt-12" style={{ 
+                    {/* LRMC */}
+                    <div style={{ 
+                      fontWeight: 900,
+                      fontSize: '100px',
+                      lineHeight: 1,
+                      marginBottom: '24px',
+                      marginTop: '48px',
                       textShadow: '4px 4px 10px rgba(0,0,0,0.9)',
                       letterSpacing: '8px'
                     }}>
                       {personalityType}
                     </div>
                     
-                    {/* 체계적 연구자 - 위치 아래로 */}
-                    <div className="font-bold text-6xl mb-8" style={{ 
+                    {/* 체계적 연구자 */}
+                    <div style={{ 
+                      fontWeight: 700,
+                      fontSize: '60px',
+                      marginBottom: '32px',
                       textShadow: '3px 3px 8px rgba(0,0,0,0.8)' 
                     }}>
                       {language === 'ko' && personality?.title_ko ? personality.title_ko : personality?.title}
                     </div>
                     
-                    {/* 부제목 - 위치 아래로 */}
-                    <div className="italic text-3xl leading-tight px-12 mb-20 opacity-90 whitespace-nowrap" style={{ 
+                    {/* 부제목 */}
+                    <div style={{ 
+                      fontStyle: 'italic',
+                      fontSize: '30px',
+                      lineHeight: 1.2,
+                      padding: '0 48px',
+                      marginBottom: '80px',
+                      opacity: 0.9,
                       textShadow: '2px 2px 6px rgba(0,0,0,0.8)',
-                      maxWidth: '90%',
-                      fontSize: 'clamp(1.5rem, 3vw, 3rem)'
+                      maxWidth: '90%'
                     }}>
                       "{language === 'ko' ? (personality?.subtitle_ko || personality?.subtitle || '') : (personality?.subtitle || '')}"
                     </div>
                   </div>
                   
                   {/* 중간 섹션 - 추천 전시와 함께 갈 유형 */}
-                  <div className="flex-1 flex flex-col justify-center items-center space-y-8">
-                    {/* 추천 전시 - 가운데 정렬 */}
-                    <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-8 w-full max-w-4xl text-center">
-                      <div className="text-4xl mb-3">✨ {language === 'ko' ? '추천 전시' : 'Recommended'}</div>
-                      <div className="text-3xl font-medium">{exhibitionRec}</div>
+                  <div style={{ 
+                    flex: 1, 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    justifyContent: 'center', 
+                    alignItems: 'center',
+                    gap: '32px'
+                  }}>
+                    {/* 추천 전시 */}
+                    <div style={{
+                      backgroundColor: 'rgba(255,255,255,0.15)',
+                      borderRadius: '16px',
+                      padding: '32px',
+                      width: '100%',
+                      maxWidth: '1024px',
+                      textAlign: 'center'
+                    }}>
+                      <div style={{ fontSize: '40px', marginBottom: '12px' }}>
+                        ✨ {language === 'ko' ? '추천 전시' : 'Recommended'}
+                      </div>
+                      <div style={{ fontSize: '30px', fontWeight: 500 }}>{exhibitionRec}</div>
                       {exhibitionMuseum && (
-                        <div className="text-2xl opacity-80 mt-2">{exhibitionMuseum}</div>
+                        <div style={{ fontSize: '24px', opacity: 0.8, marginTop: '8px' }}>{exhibitionMuseum}</div>
                       )}
                     </div>
                     
                     {/* 함께 가면 좋은 유형 */}
-                    <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-8 w-full max-w-4xl text-center">
-                      <div className="text-4xl mb-4">🤝 {language === 'ko' ? '함께 가면 좋은 유형' : 'Good Matches'}</div>
-                      <div className="flex justify-center gap-10">
+                    <div style={{
+                      backgroundColor: 'rgba(255,255,255,0.15)',
+                      borderRadius: '16px',
+                      padding: '32px',
+                      width: '100%',
+                      maxWidth: '1024px',
+                      textAlign: 'center'
+                    }}>
+                      <div style={{ fontSize: '40px', marginBottom: '16px' }}>
+                        🤝 {language === 'ko' ? '함께 가면 좋은 유형' : 'Good Matches'}
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'center', gap: '40px' }}>
                         {goodMatches.map((match, idx) => (
-                          <div key={idx} className="text-center">
-                            <div className="text-6xl mb-4">{match.emoji}</div>
-                            <div className="text-2xl">
+                          <div key={idx} style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '60px', marginBottom: '16px' }}>{match.emoji}</div>
+                            <div style={{ fontSize: '24px' }}>
                               {language === 'ko' ? match.name_ko : match.name}
                             </div>
                           </div>
@@ -965,21 +1082,30 @@ Discover your art personality too!`;
                     </div>
                   </div>
                   
-                  {/* 하단 섹션 - 위치 위로, 크기 증가 */}
-                  <div className="text-center space-y-4 pb-10">
-                    <div className="text-2xl italic opacity-60 mb-4 -mt-4">
+                  {/* 하단 섹션 */}
+                  <div style={{ textAlign: 'center', paddingBottom: '40px' }}>
+                    <div style={{ 
+                      fontSize: '24px',
+                      fontStyle: 'italic',
+                      opacity: 0.6,
+                      marginBottom: '16px'
+                    }}>
                       {language === 'ko' 
                         ? `${masterpiece.title_ko} - ${masterpiece.artist_ko}`
                         : `${masterpiece.title} - ${masterpiece.artist}`
                       }
                     </div>
-                    <div className="text-6xl font-bold" style={{ 
-                      textShadow: '3px 3px 8px rgba(0,0,0,0.9)' 
+                    <div style={{ 
+                      fontSize: '60px',
+                      fontWeight: 700,
+                      textShadow: '3px 3px 8px rgba(0,0,0,0.9)',
+                      marginBottom: '12px'
                     }}>
                       {language === 'ko' ? '나만의 예술 성격 발견하기' : 'Discover Your Art Personality'}
                     </div>
-                    <div className="text-5xl mt-3" style={{ 
-                      fontFamily: 'var(--font-cormorant), Georgia, serif',
+                    <div style={{ 
+                      fontSize: '50px',
+                      fontFamily: 'Georgia, serif',
                       letterSpacing: '0.3em',
                       fontWeight: 300
                     }}>

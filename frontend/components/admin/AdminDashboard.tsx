@@ -16,13 +16,15 @@ import {
   Search,
   Filter,
   Download,
-  MessageSquare
+  MessageSquare,
+  FileSearch
 } from 'lucide-react';
 
 import { SubmissionsList } from './SubmissionsList';
 import { DashboardStats } from './DashboardStats';
 import { ReportsList } from './ReportsList';
 import { ExhibitionManager } from './ExhibitionManager';
+import { ExhibitionParser } from './ExhibitionParser';
 import { FeedbackManager } from './FeedbackManager';
 
 interface DashboardData {
@@ -43,7 +45,7 @@ interface DashboardData {
   monthlyStats: any;
 }
 
-type ActiveTab = 'overview' | 'submissions' | 'exhibitions' | 'reports' | 'feedback' | 'settings';
+type ActiveTab = 'overview' | 'submissions' | 'exhibitions' | 'parser' | 'reports' | 'feedback' | 'settings';
 
 export function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
@@ -82,6 +84,7 @@ export function AdminDashboard() {
     { id: 'overview', label: '대시보드', icon: BarChart3 },
     { id: 'submissions', label: '제출 검토', icon: FileText },
     { id: 'exhibitions', label: '전시 관리', icon: Eye },
+    { id: 'parser', label: '전시 파서', icon: FileSearch },
     { id: 'reports', label: '신고 처리', icon: AlertTriangle },
     { id: 'feedback', label: '피드백 관리', icon: MessageSquare }
   ];
@@ -208,6 +211,10 @@ export function AdminDashboard() {
               
               {activeTab === 'exhibitions' && (
                 <ExhibitionManager onUpdate={fetchDashboardData} />
+              )}
+              
+              {activeTab === 'parser' && (
+                <ExhibitionParser />
               )}
               
               {activeTab === 'reports' && (
