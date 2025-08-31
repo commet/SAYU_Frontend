@@ -1,0 +1,6 @@
+title_ko,title_en,venue_name,start_date,end_date,description_ko,description_en,curator,genre,exhibition_type,ticket_price_adult,ticket_price_student,poster_url,website_url
+김현식 개인전,Kim Hyun-sik Solo Exhibition,갤러리현대,2024-03-01,2024-03-30,현대미술가 김현식의 개인전,Solo exhibition by contemporary artist Kim Hyun-sik,박미진,contemporary,solo,15000,10000,https://example.com/poster1.jpg,https://example.com
+혼합전시,Mixed Exhibition,국립현대미술관,2024-04-01,2024-05-31,다양한 작가들의 혼합전시,Mixed exhibition featuring various artists,이수정,contemporary,group,20000,15000,,
+조각 특별전,Special Sculpture Exhibition,서울시립미술관,2024-06-01,2024-07-15,현대 조각 작품들의 특별전시,Special exhibition of contemporary sculptures,김동현,sculpture,special,12000,8000,,https://sculpture-exhibition.com
+사진 비엔날레,Photography Biennale,아트센터 나비,2024-08-15,2024-10-30,국제 사진 비엔날레,International Photography Biennale,최영희,photography,biennale,18000,12000,https://example.com/photo-poster.jpg,https://photo-biennale.org
+미디어 아트 페스티벌,Media Art Festival,DDP 디자인박물관,2024-09-01,2024-11-15,디지털 미디어 아트 작품 전시,Exhibition of digital media artworks,정민수,media,special,25000,18000,https://example.com/media-poster.jpg,https://media-festival.com

@@ -16,8 +16,15 @@ export async function generateWithGroq(
   try {
     const groq = new Groq({ apiKey })
     
-    // 한글 우선 응답을 위한 시스템 프롬프트 강화
-    const enhancedSystemPrompt = systemPrompt + '\n\n중요: 사용자가 영어로 질문하더라도 한국어로 응답하는 것을 기본으로 합니다. 단, 사용자가 명시적으로 영어 응답을 원하는 경우에만 영어로 답변하세요.'
+    // 한글 전용 응답을 위한 시스템 프롬프트 강화
+    const enhancedSystemPrompt = `${systemPrompt}
+
+핵심 규칙:
+1. 반드시 한국어로만 응답하세요. 절대 영어, 중국어, 일본어 등 다른 언어를 섞지 마세요.
+2. 모든 응답은 순수한 한국어로 작성되어야 합니다.
+3. 외래어는 한글로 표기하세요 (예: "exhibition" → "전시회", "art" → "예술").
+4. 사용자가 영어로 질문해도 한국어로 답변하세요.
+5. You must respond ONLY in Korean language. Never mix other languages.`
     
     const messages = [
       { role: 'system' as const, content: enhancedSystemPrompt },
@@ -46,8 +53,14 @@ export async function generateWithGroq(
       console.log('Mixtral 모델 실패, llama3로 재시도')
       try {
         const groq = new Groq({ apiKey })
+        
+        // 대체 모델에서도 한국어 강제
+        const koreanEnforcedPrompt = `${systemPrompt}
+
+반드시 한국어로만 응답하세요. 다른 언어를 절대 섞지 마세요.`
+        
         const messages = [
-          { role: 'system' as const, content: systemPrompt },
+          { role: 'system' as const, content: koreanEnforcedPrompt },
           ...conversationHistory.slice(-5).map(msg => ({
             role: msg.role === 'user' ? 'user' as const : 'assistant' as const,
             content: msg.content
@@ -489,11 +502,16 @@ ${pageSpecificInfo}${dynamicDataInfo}
 - 사용자 상태: ${context.userBehavior?.currentMood || 'exploring'}
 - 참여도: ${context.userBehavior?.engagementLevel || 'new'}${contextInfo}
 
-핵심 응답 규칙:
-1. 한국어로 자연스럽게 대화 (영어 질문에도 한국어 응답 기본)
-2. 2-3문장으로 간결하면서도 정확하게
-3. ${personality.name}의 ${personality.tone} 성격을 유지
-4. 위의 SAYU 정보를 기반으로 정확한 답변 제공
+언어 규칙 (매우 중요):
+1. 반드시 한국어로만 응답하세요. 영어, 중국어, 일본어 등 다른 언어를 절대 섞지 마세요.
+2. 모든 응답은 순수한 한국어로 작성하세요.
+3. 사용자가 영어로 질문해도 한국어로 답변하세요.
+4. 외래어는 한글로 표기하세요.
+
+응답 스타일:
+1. 2-3문장으로 간결하면서도 정확하게
+2. ${personality.name}의 ${personality.tone} 성격을 유지
+3. 위의 SAYU 정보를 기반으로 정확한 답변 제공
 5. 사용자 질문에 구체적이고 실용적인 정보로 응답
 
 자주 묻는 질문 참고:

@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { ArtworkCard } from '@/components/emotional/EmotionalCard';
-import { Heart, Sparkles, Map, Share2, Palette, User, Zap, Target, Sprout, ArrowRight } from 'lucide-react';
+import { Heart, Sparkles, Map, Share2, Palette, User, Zap, Target, Sprout, ArrowRight, MapPin } from 'lucide-react';
 import { personalityDescriptions } from '@/data/personality-descriptions';
 import { getAnimalByType } from '@/data/personality-animals';
 import PersonalityIconFixed from '@/components/PersonalityIconFixed';
@@ -13,12 +13,14 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useAnimalCursor } from '@/contexts/AnimalCursorContext';
 import { useAuth } from '@/hooks/useAuth';
 import ShareModal from '@/components/share/ShareModal';
+import SocialLoginModal from '@/components/SocialLoginModal';
 import ProfileIDCard from '@/components/profile/ProfileIDCard';
 import FeedbackButton from '@/components/feedback/FeedbackButton';
 import { useArtworksByArtist } from '@/lib/artvee-api';
 import { getBestAvailableArtists, PERSONALITY_ART_STYLES, type AvailableArtist } from '@/data/available-artists-2025';
 import { FormattedEssence } from '@/components/ui/FormattedEssence';
 import { PersonalityAxes } from '@/components/results/PersonalityAxes';
+import LRMCResultCard from '@/components/results/LRMCResultCard';
 
 interface QuizResults {
   personalityType: string;
@@ -39,6 +41,7 @@ function ResultsContent() {
   const [sayuType, setSayuType] = useState<SAYUType | null>(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showProfileCard, setShowProfileCard] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [activeTab, setActiveTab] = useState<'strengths' | 'challenges' | 'growth'>('strengths');
   
   // 2025 매칭 시스템 - 실제 사용 가능한 작가들과 작품
@@ -232,6 +235,9 @@ function ResultsContent() {
     });
   };
 
+  // LRMC type now uses the standard result page like all other types
+  // LRMCResultCard is only for share preview
+
   return (
     <div className="min-h-screen bg-slate-900">
       {/* Navigation Header */}
@@ -362,7 +368,180 @@ function ResultsContent() {
         </motion.div>
       </section>
 
-      {/* 섹션 4: 페르소나 세부 설명 (탭 구조) - 상세 설명이 여기로 이동됨 */}
+      {/* 섹션 4: Connection/추천 파트 - 상단으로 이동 */}
+      <section className="max-w-4xl mx-auto px-4 py-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2 }}
+        >
+          {/* 당신과 연결된 아티스트 섹션 */}
+          <div className="mb-8">
+            <h2 className="text-xl sm:text-2xl font-serif font-bold text-center text-white mb-4">
+              {language === 'ko' ? '당신과 연결된 아티스트' : 'Artists Connected to You'}
+            </h2>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4">
+              {artistArtworks.slice(0, 2).map((artistMatch: any, index: number) => {
+                const isMainMatch = artistMatch.matchType === 'primary';
+                const matchLabels = {
+                  primary: language === 'ko' ? '최고 매칭' : 'Perfect Match',
+                  secondary: language === 'ko' ? '조화로운 매칭' : 'Harmonious Match', 
+                  tertiary: language === 'ko' ? '흥미로운 발견' : 'Interesting Discovery'
+                };
+                
+                const description = language === 'ko' 
+                  ? `${artistMatch.style} 작가로 ${artistMatch.workCount}점의 작품이 컬렉션에 있습니다. ${artistMatch.notableWorks.slice(0,2).join(', ')} 등으로 유명합니다.`
+                  : `${artistMatch.style} artist with ${artistMatch.workCount} works in our collection. Known for ${artistMatch.notableWorks.slice(0,2).join(', ')} and more.`;
+                
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.3 + index * 0.1 }}
+                  >
+                    <ArtworkCard
+                      image={artistMatch.imageUrl}
+                      title={artistMatch.artworkTitle}
+                      artist={artistMatch.artist}
+                      year={artistMatch.year}
+                      style={artistMatch.style}
+                      subtitle={language === 'ko' ? artistMatch.subtitle_ko : artistMatch.subtitle}
+                      description={description}
+                      matchLabel={matchLabels[artistMatch.matchType as keyof typeof matchLabels]}
+                      matchScore={artistMatch.matchScore}
+                      isMainMatch={isMainMatch}
+                      language={language}
+                    />
+                  </motion.div>
+                );
+              })}
+            </div>
+            
+            {/* 더 많은 작품 탐색하기 버튼 */}
+            <div className="text-center">
+              <button
+                onClick={() => {
+                  if (!user) {
+                    setShowLoginModal(true);
+                  } else {
+                    router.push('/artists');
+                  }
+                }}
+                className="inline-flex items-center gap-2 px-5 py-2 bg-purple-600/20 border border-purple-600 text-purple-400 rounded-lg hover:bg-purple-600/30 transition-colors text-sm"
+              >
+                <Palette size={18} />
+                <span>{language === 'ko' ? '더 많은 작품 탐색하기' : 'Explore More Artworks'}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* 당신과 연결된 전시회 섹션 */}
+          <div>
+            <h2 className="text-xl sm:text-2xl font-serif font-bold text-center text-white mb-4">
+              {language === 'ko' ? '당신의 유형에 맞는 전시회' : 'Exhibitions for Your Type'}
+            </h2>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4">
+              {/* 전시회 카드 1 */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.5 }}
+                className="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-purple-600 transition-all"
+              >
+                <div className="h-32 bg-gradient-to-br from-purple-600/20 to-pink-600/20 flex items-center justify-center">
+                  <div className="text-5xl">🎨</div>
+                </div>
+                <div className="p-3">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="font-semibold text-white text-base">
+                      {language === 'ko' ? '현대미술의 거장들' : 'Masters of Contemporary Art'}
+                    </h3>
+                    <span className="px-2 py-1 bg-green-600/20 text-green-400 text-xs rounded-full">
+                      {language === 'ko' ? '진행중' : 'Ongoing'}
+                    </span>
+                  </div>
+                  <p className="text-gray-400 text-xs mb-2">
+                    {language === 'ko' ? '국립현대미술관 서울' : 'MMCA Seoul'}
+                  </p>
+                  <p className="text-gray-300 text-xs mb-2 line-clamp-2">
+                    {language === 'ko' 
+                      ? '당신의 성향과 완벽하게 매칭되는 현대미술 전시입니다.'
+                      : 'A contemporary art exhibition perfectly matched to your preferences.'}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-500">
+                      2025.08.01 - 2025.10.31
+                    </span>
+                    <button className="text-purple-400 hover:text-purple-300 text-sm font-medium">
+                      {language === 'ko' ? '자세히 보기' : 'View Details'}
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+              
+              {/* 전시회 카드 2 */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.6 }}
+                className="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-purple-600 transition-all"
+              >
+                <div className="h-32 bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center">
+                  <div className="text-5xl">🏛️</div>
+                </div>
+                <div className="p-3">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="font-semibold text-white text-base">
+                      {language === 'ko' ? '빛과 공간의 예술' : 'Art of Light and Space'}
+                    </h3>
+                    <span className="px-2 py-1 bg-blue-600/20 text-blue-400 text-xs rounded-full">
+                      {language === 'ko' ? '예정' : 'Upcoming'}
+                    </span>
+                  </div>
+                  <p className="text-gray-400 text-xs mb-2">
+                    {language === 'ko' ? '리움미술관' : 'Leeum Museum'}
+                  </p>
+                  <p className="text-gray-300 text-xs mb-2 line-clamp-2">
+                    {language === 'ko' 
+                      ? '공간과 빛을 활용한 설치미술 전시로 새로운 영감을 제공합니다.'
+                      : 'An installation art exhibition utilizing space and light for new inspiration.'}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-500">
+                      2025.09.15 - 2025.12.30
+                    </span>
+                    <button className="text-purple-400 hover:text-purple-300 text-sm font-medium">
+                      {language === 'ko' ? '자세히 보기' : 'View Details'}
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+            
+            {/* 맞춤 전시회 추천받기 버튼 */}
+            <div className="text-center">
+              <button
+                onClick={() => {
+                  if (!user) {
+                    setShowLoginModal(true);
+                  } else {
+                    router.push('/exhibitions');
+                  }
+                }}
+                className="inline-flex items-center gap-2 px-5 py-2 bg-blue-600/20 border border-blue-600 text-blue-400 rounded-lg hover:bg-blue-600/30 transition-colors text-sm"
+              >
+                <MapPin size={18} />
+                <span>{language === 'ko' ? '맞춤 전시회 추천받기' : 'Get Exhibition Recommendations'}</span>
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* 섹션 5: 페르소나 세부 설명 (탭 구조) - 하단으로 이동 */}
       <section className="max-w-4xl mx-auto px-2 sm:px-4 py-2">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -378,7 +557,7 @@ function ResultsContent() {
               </h3>
               <FormattedEssence 
                 text={language === 'ko' && personality.essence_ko ? personality.essence_ko : personality.essence}
-                className="text-sm"
+                className="text-xs leading-relaxed"
               />
             </div>
           </div>
@@ -537,7 +716,7 @@ function ResultsContent() {
         </motion.div>
       </section>
 
-      {/* 섹션 5: Daily Life 확장 (1줄) */}
+      {/* 섹션 6: Daily Life 확장 (1줄) */}
       <section className="max-w-4xl mx-auto px-4 py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -556,20 +735,20 @@ function ResultsContent() {
         </motion.div>
       </section>
 
-      {/* 섹션 6: Connection/추천 파트 */}
-      <section className="max-w-4xl mx-auto px-4 py-4">
+      {/* 섹션 7: 추가 아티스트 추천 (선택적 표시) */}
+      <section className="max-w-4xl mx-auto px-4 py-4" style={{ display: 'none' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.6 }}
         >
           <h2 className="text-2xl sm:text-3xl font-serif font-bold text-center text-white mb-6 sm:mb-8">
-            {language === 'ko' ? '당신과 연결된 아티스트' : 'Artists Connected to You'}
+            {language === 'ko' ? '추가 추천 아티스트' : 'More Artist Recommendations'}
           </h2>
           
-          {/* 당신의 스타일과 맞는 작가들 */}
+          {/* 추가 아티스트 (나머지 1개) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
-            {artistArtworks.map((artistMatch: any, index: number) => {
+            {artistArtworks.slice(2).map((artistMatch: any, index: number) => {
               const isMainMatch = artistMatch.matchType === 'primary';
               const matchLabels = {
                 primary: language === 'ko' ? '최고 매칭' : 'Perfect Match',
@@ -773,6 +952,16 @@ function ResultsContent() {
         userName="SAYU Explorer"
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
+      />
+
+      <SocialLoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onSuccess={() => {
+          setShowLoginModal(false);
+          // 로그인 성공 후 리다이렉트는 사용자가 클릭했던 버튼에 따라 다르게 처리 가능
+        }}
+        language={language}
       />
 
       {showProfileCard && (

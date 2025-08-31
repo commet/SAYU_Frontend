@@ -147,12 +147,17 @@ export default function LoginPage() {
             Google로 로그인
           </Button>
 
-          <p className="mt-6 text-center text-sm text-muted-foreground">
-            계정이 없으신가요?{' '}
-            <Link href="/auth/signup" className="font-medium text-primary hover:underline">
-              회원가입
+          <div className="mt-6 p-4 bg-gradient-to-r from-gray-100 to-blue-50 dark:from-gray-800/50 dark:to-blue-900/20 rounded-lg border border-gray-300 dark:border-gray-600">
+            <p className="text-center text-sm font-medium text-gray-700 dark:text-gray-200">
+              아직 계정이 없으신가요?
+            </p>
+            <Link 
+              href="/auth/signup" 
+              className="mt-2 block w-full text-center bg-gradient-to-r from-gray-700 to-blue-600 text-white font-bold py-2.5 px-4 rounded-lg hover:from-gray-800 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg"
+            >
+              ✨ 10초 간단 회원가입 →
             </Link>
-          </p>
+          </div>
         </CardContent>
       </Card>
     </div>

@@ -257,21 +257,23 @@ function LoginContent() {
               </ModernButton>
             </motion.div>
 
-            {/* Sign Up Link - moved here */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+            {/* Sign Up Link - Enhanced */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25 }}
-              className="text-center text-sm text-gray-300"
+              className="mt-4 p-4 bg-gradient-to-r from-gray-800/60 to-blue-900/40 rounded-xl border border-gray-600/50 backdrop-blur-sm"
             >
-              {language === 'ko' ? '아직 계정이 없으신가요? ' : "Don't have an account? "}
-              <Link
-                href="/register"
-                className="font-medium text-white hover:text-gray-200 transition-colors"
+              <p className="text-center text-sm font-medium text-gray-200 mb-2">
+                {language === 'ko' ? '아직 계정이 없으신가요?' : "Don't have an account?"}
+              </p>
+              <Link 
+                href="/register" 
+                className="block w-full text-center bg-gradient-to-r from-gray-600 to-blue-600 text-white font-bold py-2.5 px-4 rounded-lg hover:from-gray-700 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
               >
-                {language === 'ko' ? '10초 간단 회원가입' : 'Quick Sign up'}
+                ✨ {language === 'ko' ? '10초 간단 회원가입 →' : 'Quick Sign up →'}
               </Link>
-            </motion.p>
+            </motion.div>
           </motion.form>
 
           {/* Divider */}
@@ -295,8 +297,8 @@ function LoginContent() {
           >
             <SocialLoginButton provider="instagram" />
             <SocialLoginButton provider="google" />
-            <SocialLoginButton provider="kakao" />
             <SocialLoginButton provider="discord" />
+            <SocialLoginButton provider="kakao" />
           </motion.div>
 
           {/* Sign Up Link - moved after login button */}

@@ -17,7 +17,8 @@ import {
   Filter,
   Download,
   MessageSquare,
-  FileSearch
+  FileSearch,
+  Upload
 } from 'lucide-react';
 
 import { SubmissionsList } from './SubmissionsList';
@@ -25,6 +26,7 @@ import { DashboardStats } from './DashboardStats';
 import { ReportsList } from './ReportsList';
 import { ExhibitionManager } from './ExhibitionManager';
 import { ExhibitionParser } from './ExhibitionParser';
+import { BulkUpdateManager } from './BulkUpdateManager';
 import { FeedbackManager } from './FeedbackManager';
 
 interface DashboardData {
@@ -45,7 +47,7 @@ interface DashboardData {
   monthlyStats: any;
 }
 
-type ActiveTab = 'overview' | 'submissions' | 'exhibitions' | 'parser' | 'reports' | 'feedback' | 'settings';
+type ActiveTab = 'overview' | 'submissions' | 'exhibitions' | 'parser' | 'natural-import' | 'bulk-update' | 'reports' | 'feedback' | 'settings';
 
 export function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
@@ -85,6 +87,8 @@ export function AdminDashboard() {
     { id: 'submissions', label: '제출 검토', icon: FileText },
     { id: 'exhibitions', label: '전시 관리', icon: Eye },
     { id: 'parser', label: '전시 파서', icon: FileSearch },
+    { id: 'natural-import', label: '자연어 임포트', icon: Upload },
+    { id: 'bulk-update', label: '일괄 업데이트', icon: RefreshCw },
     { id: 'reports', label: '신고 처리', icon: AlertTriangle },
     { id: 'feedback', label: '피드백 관리', icon: MessageSquare }
   ];
@@ -215,6 +219,28 @@ export function AdminDashboard() {
               
               {activeTab === 'parser' && (
                 <ExhibitionParser />
+              )}
+              
+              {activeTab === 'natural-import' && (
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <h2 className="text-2xl font-bold text-white mb-4">자연어 전시 임포트</h2>
+                    <p className="text-gray-300 mb-6">
+                      전시 홈페이지 텍스트를 붙여넣으면 자동으로 파싱하여 데이터베이스에 저장합니다.
+                    </p>
+                    <button
+                      onClick={() => window.open('/admin/exhibitions/natural-import', '_blank')}
+                      className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                    >
+                      <Upload className="mr-2 h-5 w-5" />
+                      자연어 임포트 페이지 열기
+                    </button>
+                  </div>
+                </div>
+              )}
+              
+              {activeTab === 'bulk-update' && (
+                <BulkUpdateManager />
               )}
               
               {activeTab === 'reports' && (

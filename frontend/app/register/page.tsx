@@ -406,8 +406,8 @@ function RegisterContent() {
           >
             <SocialLoginButton provider="instagram" />
             <SocialLoginButton provider="google" />
-            <SocialLoginButton provider="kakao" />
             <SocialLoginButton provider="discord" />
+            <SocialLoginButton provider="kakao" />
           </motion.div>
 
           {/* Sign In Link */}

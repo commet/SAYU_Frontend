@@ -50,13 +50,6 @@ export default function ArtistsPage() {
     loadData();
   }, []);
 
-  // Update artists with current follow status
-  useEffect(() => {
-    setArtists(prev => prev.map(artist => ({
-      ...artist,
-      isFollowing: isFollowing(artist.id)
-    })));
-  }, [isFollowing]);
 
   const handleFollow = async (artistId: string) => {
     try {
@@ -226,7 +219,10 @@ export default function ArtistsPage() {
           transition={{ delay: 0.6 }}
         >
           <ArtistsGrid
-            artists={artists}
+            artists={artists.map(artist => ({
+              ...artist,
+              isFollowing: isFollowing(artist.id)
+            }))}
             onFollow={handleFollow}
             onUnfollow={handleUnfollow}
             isLoading={followLoading}

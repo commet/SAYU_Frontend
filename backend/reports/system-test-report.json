@@ -1,0 +1,134 @@
+{
+  "timestamp": "2025-08-31T11:21:00.643Z",
+  "summary": {
+    "passed": 9,
+    "failed": 6,
+    "warnings": 2,
+    "successRate": 53
+  },
+  "details": [
+    {
+      "category": "DATABASE",
+      "test": "Supabase connection",
+      "passed": false,
+      "details": "Invalid API key",
+      "timestamp": "2025-08-31T11:21:00.456Z"
+    },
+    {
+      "category": "CONFIG",
+      "test": "Required: NEXT_PUBLIC_SUPABASE_URL",
+      "passed": true,
+      "details": "Present",
+      "timestamp": "2025-08-31T11:21:00.458Z"
+    },
+    {
+      "category": "CONFIG",
+      "test": "Required: SUPABASE_SERVICE_ROLE_KEY",
+      "passed": true,
+      "details": "Present",
+      "timestamp": "2025-08-31T11:21:00.458Z"
+    },
+    {
+      "category": "CONFIG",
+      "test": "Optional: CULTURE_API_KEY",
+      "passed": "warning",
+      "details": "Missing - some features unavailable",
+      "timestamp": "2025-08-31T11:21:00.458Z"
+    },
+    {
+      "category": "CONFIG",
+      "test": "Optional: SEOUL_API_KEY",
+      "passed": "warning",
+      "details": "Missing - some features unavailable",
+      "timestamp": "2025-08-31T11:21:00.458Z"
+    },
+    {
+      "category": "CONFIG",
+      "test": "Optional: NAVER_CLIENT_ID",
+      "passed": true,
+      "details": "Present",
+      "timestamp": "2025-08-31T11:21:00.458Z"
+    },
+    {
+      "category": "CONFIG",
+      "test": "Optional: NAVER_CLIENT_SECRET",
+      "passed": true,
+      "details": "Present",
+      "timestamp": "2025-08-31T11:21:00.458Z"
+    },
+    {
+      "category": "SCHEMA",
+      "test": "Exhibitions table structure",
+      "passed": false,
+      "details": "Invalid API key",
+      "timestamp": "2025-08-31T11:21:00.519Z"
+    },
+    {
+      "category": "DATA",
+      "test": "Exhibition count",
+      "passed": false,
+      "details": "null exhibitions in database",
+      "timestamp": "2025-08-31T11:21:00.535Z"
+    },
+    {
+      "category": "APT",
+      "test": "Valid APT types",
+      "passed": false,
+      "details": "0 exhibitions with valid APT",
+      "timestamp": "2025-08-31T11:21:00.614Z"
+    },
+    {
+      "category": "APT",
+      "test": "APT coverage",
+      "passed": false,
+      "details": "undefined exhibitions have APT recommendations",
+      "timestamp": "2025-08-31T11:21:00.614Z"
+    },
+    {
+      "category": "PROCESSING",
+      "test": "Date parsing",
+      "passed": true,
+      "details": "3/3 dates parsed correctly",
+      "timestamp": "2025-08-31T11:21:00.615Z"
+    },
+    {
+      "category": "PROCESSING",
+      "test": "APT generation",
+      "passed": true,
+      "details": "Generated 4 APT recommendations",
+      "timestamp": "2025-08-31T11:21:00.615Z"
+    },
+    {
+      "category": "PROCESSING",
+      "test": "Venue matching",
+      "passed": true,
+      "details": "Venue matching algorithm working",
+      "timestamp": "2025-08-31T11:21:00.615Z"
+    },
+    {
+      "category": "PERFORMANCE",
+      "test": "Query speed",
+      "passed": true,
+      "details": "Query took 27ms",
+      "timestamp": "2025-08-31T11:21:00.642Z"
+    },
+    {
+      "category": "PERFORMANCE",
+      "test": "Data volume",
+      "passed": false,
+      "details": "Retrieved 0 records",
+      "timestamp": "2025-08-31T11:21:00.642Z"
+    },
+    {
+      "category": "PERFORMANCE",
+      "test": "Memory usage",
+      "passed": true,
+      "details": "Using 13MB heap memory",
+      "timestamp": "2025-08-31T11:21:00.642Z"
+    }
+  ],
+  "environment": {
+    "nodeVersion": "v22.15.0",
+    "platform": "win32"
+  }
+}

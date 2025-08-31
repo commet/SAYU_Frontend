@@ -69,14 +69,14 @@ export default function FloatingNav() {
   
   const getIcon = (iconType: string) => {
     switch (iconType) {
-      case 'home': return <Home className="w-5 h-5" />;
-      case 'sparkles': return <Sparkles className="w-5 h-5" />;
-      case 'users': return <Users className="w-5 h-5" />;
-      case 'user': return <User className="w-5 h-5" />;
-      case 'zap': return <Zap className="w-5 h-5" />;
-      case 'dashboard': return <LayoutDashboard className="w-5 h-5" />;
-      case 'calendar': return <Calendar className="w-5 h-5" />;
-      case 'collection': return <GalleryVerticalEnd className="w-5 h-5" />;
+      case 'home': return <Home className="w-5 h-5 text-current" />;
+      case 'sparkles': return <Sparkles className="w-5 h-5 text-current" />;
+      case 'users': return <Users className="w-5 h-5 text-current" />;
+      case 'user': return <User className="w-5 h-5 text-current" />;
+      case 'zap': return <Zap className="w-5 h-5 text-current" />;
+      case 'dashboard': return <LayoutDashboard className="w-5 h-5 text-current" />;
+      case 'calendar': return <Calendar className="w-5 h-5 text-current" />;
+      case 'collection': return <GalleryVerticalEnd className="w-5 h-5 text-current" />;
       default: return null;
     }
   };
@@ -276,8 +276,8 @@ export default function FloatingNav() {
                     }}
                     className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
                       isActive 
-                        ? 'bg-gray-700 text-white' 
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                        ? 'bg-gray-700/80 text-white' 
+                        : 'text-gray-100 hover:bg-gray-700/60 hover:text-white'
                     } ${isDisabled ? 'opacity-50 hover:opacity-70' : ''}`}
                     whileHover={!isDisabled ? { scale: 1.05 } : {}}
                     whileTap={!isDisabled ? { scale: 0.95 } : {}}
@@ -307,8 +307,8 @@ export default function FloatingNav() {
                             }}
                             className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
                               pathname === child.path
-                                ? 'bg-gray-700 text-white'
-                                : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                                ? 'bg-gray-700/80 text-white'
+                                : 'text-gray-100 hover:bg-gray-700/60 hover:text-white'
                             }`}
                             whileHover={{ x: 4 }}
                           >
@@ -584,10 +584,10 @@ export default function FloatingNav() {
                             w-full flex items-center gap-3 px-4 py-3 rounded-xl
                             transition-all duration-300 text-left
                             ${isActive 
-                              ? 'bg-white/20 text-white' 
+                              ? 'bg-white/30 text-white' 
                               : isDisabled
-                                ? 'text-gray-500 opacity-70 hover:opacity-100'
-                                : 'text-white/80 hover:bg-white/10'
+                                ? 'text-gray-400 opacity-70 hover:opacity-100'
+                                : 'text-white hover:bg-white/20 hover:text-white'
                             }
                           `}
                           whileHover={!isDisabled ? { x: 4 } : {}}
@@ -624,8 +624,8 @@ export default function FloatingNav() {
                                     w-full flex items-center gap-3 px-3 py-2 rounded-lg
                                     transition-all duration-300 text-left text-sm
                                     ${pathname === child.path
-                                      ? 'bg-white/10 text-white'
-                                      : 'text-white/70 hover:bg-white/5 hover:text-white'
+                                      ? 'bg-white/20 text-white'
+                                      : 'text-white/90 hover:bg-white/10 hover:text-white'
                                     }
                                   `}
                                   whileHover={{ x: 2 }}
